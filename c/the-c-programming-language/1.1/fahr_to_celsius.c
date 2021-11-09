@@ -3,12 +3,12 @@
 // 打印摄氏和华氏度转换
 int main()
 {
-  float fahr, celsius;
 
   float lower = 0;
   float upper = 300;
   float step = 20;
 
+  float fahr, celsius;
   fahr = lower;
 
   printf("fahr celsius\n");
