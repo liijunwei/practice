@@ -4,6 +4,9 @@
 int main(){
   long nc = 0;
 
+  printf("please enter chars, `ctrl+d` to exit\n");
+  printf("\n");
+
   while(getchar() != EOF){
     ++nc;
   }
