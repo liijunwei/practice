@@ -6,10 +6,7 @@
 
 int main(){
   int c;
-
-  int char_space_count = 0;
-  int char_tab_count = 0;
-  int char_newline_count = 0;
+  int n1 = 0;
 
   printf("please enter chars, `ctrl+d` to exit\n");
 
