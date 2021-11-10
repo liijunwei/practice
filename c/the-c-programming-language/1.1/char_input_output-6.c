@@ -6,9 +6,7 @@ int main(){
   printf("\n");
 
   double nc;
-  for(nc = 0; getchar() != EOF; ++nc){
-    ;
-  }
+  for(nc = 0; getchar() != EOF; ++nc){}
 
   printf("char count is %.0f\n", nc);
 }
