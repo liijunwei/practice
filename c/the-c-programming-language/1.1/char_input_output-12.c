@@ -29,10 +29,7 @@ int main(){
       printf("\\\\");
     }
 
-    if(c != CONST_CHAR_TAB       &&
-       c != CONST_CHAR_BACKSPACE &&
-       c != CONST_CHAR_SLASH
-       ){
+    if(c != CONST_CHAR_TAB && c != CONST_CHAR_BACKSPACE && c != CONST_CHAR_SLASH){
       putchar(c);
     }
   }
