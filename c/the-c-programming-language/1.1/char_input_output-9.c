@@ -1,18 +1,31 @@
 #include <stdio.h>
 
-#define CONST_CHAR_SPACE   ' '
-#define CONST_CHAR_TAB     '\t'
-#define CONST_CHAR_NEWLINE '\n'
+#define CONST_CHAR_SPACE ' '
 
 // 将输入复制到输出, 并将其中连续的多个空格用一个空格代替
 
-// 步骤.1 识别出连续的多个空格
-// 步骤.2 遇到连续的空格时, 输出空, 或者不输出
+// 变量.1 char          是/不是 ' '
+// 变量.2 space_counter 是/不是 0
+// 两两组合, 四种情况
+
 int main(){
   int c;
   printf("please enter chars, `ctrl+d` to exit\n");
 
+  int space_counter = 0;
+
   while((c = getchar()) != EOF){
-    putchar(c);
+    if(c != CONST_CHAR_SPACE){
+      space_counter = 0;
+      putchar(c);
+    }
+
+    if(c == CONST_CHAR_SPACE && space_counter == 0){
+      putchar(c);
+      space_counter += 1;
+    } else {
+      // do nothing
+    }
+
   }
 }
