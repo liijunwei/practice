@@ -2,5 +2,5 @@
 
 int main(){
   char c = getchar();
-  printf(c)
+  printf("char is %c", c);
 }
