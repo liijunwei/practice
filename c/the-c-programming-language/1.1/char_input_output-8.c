@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#define CONST_CHAR_SPACE    ' '
-#define CONST_CHAR_TAB      '\t'
-#define CONST_CHAR_NEW_LINE '\n'
+#define CONST_CHAR_SPACE   ' '
+#define CONST_CHAR_TAB     '\t'
+#define CONST_CHAR_NEWLINE '\n'
 
 int main(){
   int c;
@@ -10,7 +10,7 @@ int main(){
 
   int char_space_count = 0;
   int char_tab_count = 0;
-  int char_new_line_count = 0;
+  int char_newline_count = 0;
 
   printf("please enter chars, `ctrl+d` to exit\n");
 
@@ -23,13 +23,13 @@ int main(){
       ++char_tab_count;
     }
 
-    if(c == CONST_CHAR_NEW_LINE){
-      ++char_new_line_count;
+    if(c == CONST_CHAR_NEWLINE){
+      ++char_newline_count;
     }
   }
 
   printf("\n");
   printf("space chars count is: %d\n", char_space_count);
   printf("tab chars count is: %d\n", char_tab_count);
-  printf("new_line chars count is: %d\n", char_new_line_count);
+  printf("newline chars count is: %d\n", char_newline_count);
 }
