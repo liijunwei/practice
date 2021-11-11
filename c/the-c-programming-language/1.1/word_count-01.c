@@ -33,6 +33,9 @@ int main(){
       state = CONST_IN;
       ++num_word;
     }
+    else{
+      // do nothing
+    }
   }
 
   printf("num_line: %d num_word: %d num_char: %d \n", num_line, num_word, num_char);
