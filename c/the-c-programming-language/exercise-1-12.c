@@ -17,13 +17,11 @@ int main(){
   printf("please enter chars, `ctrl+d` to exit\n");
 
   while((c = getchar()) != EOF){
-    if(c == CONST_CHAR_NEWLINE){
-      putchar(c);
-    }
-
-    if(c == CONST_CHAR_SPACE || c == CONST_CHAR_TAB){
-      state = CONST_OUT;
-      printf("\n");
+    if(c == CONST_CHAR_SPACE || c == CONST_CHAR_NEWLINE || c == CONST_CHAR_TAB){
+      if(state == CONST_IN){
+        putchar(CONST_CHAR_NEWLINE);
+        state = CONST_OUT;
+      }
     }
     else if(state == CONST_OUT){
       state = CONST_IN;
