@@ -10,6 +10,23 @@
 // 单词长度为 5 的有 5 个
 // 单词长度为 6 的有 8 个
 
+#define MAX_WORD_LENGTH 15
+#define ARRAY_SIZE 15
+
 int main(){
 
+  int i;
+  int c;
+  int word_length[MAX_WORD_LENGTH];
+
+  printf("Array Initializing...\n");
+  for(i = 0; i < MAX_WORD_LENGTH; ++i){
+    word_length[i] = 0;
+  }
+  printf("Array Initialized!\n");
+  printf("please enter chars, `ctrl+d` to exit\n");
+
+  while((c = getchar()) != EOF){
+    putchar(c);
+  }
 }
