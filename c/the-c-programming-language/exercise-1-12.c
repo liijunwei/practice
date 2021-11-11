@@ -8,6 +8,8 @@
 #define CONST_CHAR_SPACE     ' '
 
 
+// 编写程序, 以每行一个单词的形式打印其输入
+
 int main(){
   int c;
   int state = CONST_OUT;
