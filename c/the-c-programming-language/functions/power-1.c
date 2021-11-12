@@ -13,6 +13,13 @@ int main(){
 }
 
 // 求底数 base 的 n次幂; 其中n >= 0
-int powe(base, int n){
+int power(base, n){
+  int i;
+  int p = 1;
 
+  for(i = 1; i <= n; ++i){
+    p = p * base;
+  }
+
+  return p;
 }
