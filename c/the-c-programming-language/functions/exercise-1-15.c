@@ -1,14 +1,9 @@
 #include <stdio.h>
 
-void fahr2celsius();
 float celsius(float fahr);
 
 // 使用函数重新编写 温度转换程序
 int main(){
-  fahr2celsius();
-}
-
-void fahr2celsius(){
   float lower = 0;
   float upper = 300;
   float step  = 20;
