@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+// implicit declaration of function 'celsius' is invalid in C99
 float celsius(float fahr);
 
 // 使用函数重新编写 温度转换程序
