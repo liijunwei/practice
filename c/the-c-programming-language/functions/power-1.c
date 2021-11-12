@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int power(int m, int n);
+// 函数原型里的参数名是可选的
+int power(int, int);
 
 int main(){
   int i;
