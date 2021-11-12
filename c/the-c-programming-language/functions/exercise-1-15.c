@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 void fahr2celsius();
+float celsius(float fahr);
 
 // 使用函数重新编写 温度转换程序
 int main(){
@@ -10,16 +11,17 @@ int main(){
 void fahr2celsius(){
   float lower = 0;
   float upper = 300;
-  float step = 20;
+  float step  = 20;
 
-  float fahr, celsius;
-  fahr = lower;
+  float fahr  = lower;
 
   printf("fahr celsius\n");
-
   while(fahr <= upper) {
-    celsius = (5.0 / 9.0) * (fahr - 32);
-    printf("%3.0f %6.1f\n", fahr, celsius);
+    printf("%3.0f %6.1f\n", fahr, celsius(fahr));
     fahr += step;
   }
+}
+
+float celsius(float fahr){
+  return ((5.0 / 9.0) * (fahr - 32));
 }
