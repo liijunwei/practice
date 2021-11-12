@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 const (
-	_ = iota
+	_      = iota
 	monday = 1 << iota
 	tuesday
 	_
