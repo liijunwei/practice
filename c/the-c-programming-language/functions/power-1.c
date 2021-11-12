@@ -12,4 +12,7 @@ int main(){
   return 0;
 }
 
-int powe())))))))))))))))))))))))))))))
+// 求底数 base 的 n次幂; 其中n >= 0
+int powe(base, int n){
+
+}
