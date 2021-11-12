@@ -8,7 +8,7 @@ const (
 	wednesday
 )
 
-// gofmt -w main.go
+// gofmt -w const-enum-iota-1.go
 func main() {
 	fmt.Println("monday    ", monday)
 	fmt.Println("tuesday   ", tuesday)

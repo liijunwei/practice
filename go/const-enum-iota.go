@@ -3,12 +3,12 @@ package main
 import "fmt"
 
 const (
-	monday = 0
-	tuesday = 1
+	monday    = 0
+	tuesday   = 1
 	wednesday = 2
 )
 
-// gofmt -w main.go
+// gofmt -w const-enum-iota.go
 func main() {
 	fmt.Println("monday    ", monday)
 	fmt.Println("tuesday   ", tuesday)
