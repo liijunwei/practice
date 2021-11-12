@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 // 函数原型里的参数名是可选的
+// 但是合适的参数名能起到很好的说明作用, 所以我们在函数原型里, 总是指明参数名
 int power(int, int);
 
 int main(){
