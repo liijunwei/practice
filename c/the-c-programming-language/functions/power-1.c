@@ -5,10 +5,11 @@ int power(int m, int n);
 int main(){
   int i;
 
-  printf("power 2^power 3^power\n");
+  printf("power | 2^power | 3^power\n");
+  printf("------|---------|--------\n");
 
   for(i = 0; i < 10; ++i){
-    printf("%3d\t%3d\t%3d\t\n", i, power(2, i), power(-3, i));
+    printf("%3d   |   %3d   |  %3d\n", i, power(2, i), power(-3, i));
   }
 
   return 0;
