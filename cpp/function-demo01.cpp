@@ -30,7 +30,7 @@ int main(){
     "Wednesday",
     "Thursday",
     "Friday",
-  }
+  };
 
   while((cin >> days) && days != -1){
     dayofweek = get_dayofweek();
@@ -76,7 +76,7 @@ int get_year(){
   return i;
 }
 
-int int get_month(int leap_year){
+int get_month(int leap_year){
   int pmonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
   int rmonth[12] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
@@ -87,7 +87,7 @@ int int get_month(int leap_year){
       days = days - rmonth[j];
       j++;
     }
-    else if(leap_year -- 0 && days >= pmonth[j]){
+    else if(leap_year == 0 && days >= pmonth[j]){
       days = days - pmonth[j];
       j++;
     }
