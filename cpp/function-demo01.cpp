@@ -80,6 +80,10 @@ int get_dayofweek(){
   return days % 7;
 }
 
+int get_leap_year(int y){
+  return (y % 4 == 0 && y % 100 != 0 || y % 400 == 0);
+}
+
 int get_year(){
   int i = 2000;
   int leap_year;
@@ -126,6 +130,3 @@ int get_month(int leap_year){
   return ++j;
 }
 
-int get_leap_year(int y){
-  return (y % 4 == 0 && y % 100 != 0 || y % 400 == 0);
-}
