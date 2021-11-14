@@ -2,6 +2,14 @@
 
 using namespace std;
 
+/*
+全局变量 破坏了函数的 相对独立性
+全局变量 增加了函数之间的 耦合性
+全局变量 使得函数之间的 交互不够清晰
+
+建议: 在非必要的情况下, 不使用全局变量
+*/
+
 int days;
 int get_dayofweek();
 int get_year();
