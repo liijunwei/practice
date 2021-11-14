@@ -41,7 +41,7 @@ int days;
 int get_dayofweek();
 int get_year();
 int get_month(int leap_year);
-int get_day();
+int get_days();
 int get_is_leap_year(int y);
 
 int main(){
@@ -62,6 +62,8 @@ int main(){
     "Friday",
   };
 
+  cout << "Please type in days passed 2000-01-01: ";
+
   while((cin >> days) && days != -1){
     dayofweek = get_dayofweek();
     year      = get_year();
@@ -69,7 +71,8 @@ int main(){
     month     = get_month(leap_year);
     days      = get_days();
 
-    cout << year  << "-"
+    cout << "Reault is: "
+         << year  << "-"
          << month << "-"
          << days  << "-"
          << week[dayofweek] << endl;
