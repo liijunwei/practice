@@ -8,7 +8,8 @@ void convert_to_binary(int n);
 
 int main(){
   convert_to_binary(40);
-
+  cout << endl;
+  convert_to_binary(61);
   cout << endl;
   return 0;
 }
