@@ -2,6 +2,11 @@
 
 using namespace std;
 
+// variable.1 `excel_number` in global scope
+// variable.2 `socre`        in excel_count function
+// variable.3 `score`        in main function
+// variable.4 `i`            in for loop
+
 int excel_number = 0;
 
 void excel_count(float socre);
