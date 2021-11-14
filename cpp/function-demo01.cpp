@@ -28,6 +28,14 @@ using namespace std;
   输出最后一行是-1, 不必处理
 */
 
+/*
+  思路:
+
+  1. 算出星期几
+  2. 减掉每年的天数 -> year
+  3. 减掉每月的天数 -> month
+*/
+
 int days;
 int get_dayofweek();
 int get_year();
