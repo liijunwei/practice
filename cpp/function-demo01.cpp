@@ -34,6 +34,7 @@ using namespace std;
   1. 算出星期几
   2. 减掉每年的天数 -> year
   3. 减掉每月的天数 -> month
+  4.                -> day
 */
 
 int days;
