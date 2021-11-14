@@ -37,6 +37,8 @@ using namespace std;
   4.                -> day
 */
 
+// TODO 使用局部变量 做重构
+
 int days;
 int get_dayofweek();
 int get_year();
