@@ -28,14 +28,14 @@ int main(){
   return 0;
 }
 
-void move(int n, char from, char via, char to){ /* 最终目标: 将 n个盘子 从 from 经过 via 移动到 to */
+void move(int n, char from, char via, char to){ /* Ultimate goal: Move n disks from 'A` via 'B' to 'C */
   if(n == 1){
     cout << "Move disk from " << from << " to " << to << endl;
   }
   else{
-    move(n - 1, from, to, via); /* 将 (n-1)个盘子 从 from 经过 to 移动到 via */
+    move(n - 1, from, to, via); /* Move (n-1) disks from 'A' via 'C' to 'B' */
     cout << "Move disk from " << from << " to " << to << endl;
-    move(n - 1, via, from, to); /* 将 (n-1)个盘子 从 via 经过 from 移动到 to */
+    move(n - 1, via, from, to); /* Move (n-1) disks from 'B' via 'A' to 'C' */
   }
 
 }
