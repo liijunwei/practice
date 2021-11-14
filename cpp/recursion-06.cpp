@@ -13,6 +13,7 @@ move(n, a, b, c)     // move n   disks from a to c via b    (target)
 
 */
 
+// 将 N 个盘子, 从 A 经过 B 移动到 C
 void move(int n, char x, char y, char z);
 
 int main(){
