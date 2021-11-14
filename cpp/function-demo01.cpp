@@ -110,18 +110,18 @@ int get_year(){
 }
 
 int get_month(int leap_year){
-  int pmonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-  int rmonth[12] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  int plain_year_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  int leap_year_month[12]  = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
   int j = 0;
 
   while(true){
-    if(leap_year == 1 && days >= rmonth[j]){
-      days = days - rmonth[j];
+    if(leap_year == 1 && days >= leap_year_month[j]){
+      days = days - leap_year_month[j];
       j++;
     }
-    else if(leap_year == 0 && days >= pmonth[j]){
-      days = days - pmonth[j];
+    else if(leap_year == 0 && days >= plain_year_month[j]){
+      days = days - plain_year_month[j];
       j++;
     }
     else{
