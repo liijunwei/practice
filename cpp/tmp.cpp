@@ -21,6 +21,7 @@ int main(){
   cout << "get_leap_year(2400) " << get_leap_year(2400) << endl;
 
 
+  cout << "get_dayofweek(0) " << get_dayofweek(0) << endl;
   cout << "get_dayofweek(1) " << get_dayofweek(1) << endl;
   cout << "get_dayofweek(2) " << get_dayofweek(2) << endl;
 

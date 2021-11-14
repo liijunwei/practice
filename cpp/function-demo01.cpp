@@ -50,6 +50,8 @@ int main(){
   int leap_year;
 
   char week[7][10] = {
+    // (2000-01-01 - 2000-01-01) % 7 = 0 => Sat, 01 Jan 2000
+    // (2000-01-02 - 2000-01-01) % 7 = 1 => Sun, 02 Jan 2000
     "Saturday",
     "Sunday",
     "Monday",
