@@ -11,6 +11,7 @@ int main(){
   cout << "Before exchange value: " << m << " " << n << endl;
   exchange(&m, &n);
   cout << "After exchange value: " << m << " " << n << endl;
+  cout << endl;
 
   return 0;
 }
