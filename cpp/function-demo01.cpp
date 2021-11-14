@@ -15,13 +15,13 @@ int main(){
   int leap_year;
 
   char week[7][10] = {
+    "Saturday",
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday",
-    "Sunday"
   }
 
   while((cin >> days) && days != -1){
