@@ -3,7 +3,7 @@
 using namespace std;
 
 /*
-汉诺塔
+Tower of Hanoi
 move(n, a, b, c)     // move n   disks from a to c via b    (target)
   move(n-1, a, c, b) // move n-1 disks from a to b via c    (step 1)
                      // move 1   disk  from a to c directly (step 2)
