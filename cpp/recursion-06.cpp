@@ -13,14 +13,14 @@ move(n, a, b, c)     // move n   disks from a to c via b    (target)
 
 */
 
-void convert_to_binary(int n);
+void move(int n, char x, char y, char z);
 
 int main(){
 
   return 0;
 }
 
-void convert_to_binary(int n){
+void move(int n, char x, char y, char z){
 
 
 }
