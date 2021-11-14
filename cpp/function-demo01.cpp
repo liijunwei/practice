@@ -41,6 +41,7 @@ int days;
 int get_dayofweek();
 int get_year();
 int get_month(int leap_year);
+int get_day();
 int get_is_leap_year(int y);
 
 int main(){
@@ -66,6 +67,7 @@ int main(){
     year      = get_year();
     leap_year = get_is_leap_year(year);
     month     = get_month(leap_year);
+    days      = get_days();
 
     cout << year  << "-"
          << month << "-"
@@ -132,3 +134,7 @@ int get_month(int leap_year){
   return ++j;
 }
 
+int get_days(){
+  days += 1;
+  return days;
+}
