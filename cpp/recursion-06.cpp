@@ -29,14 +29,14 @@ int main(){
   return 0;
 }
 
-void move(int n, char from, char via, char to){
+void move(int n, char from, char via, char to){ /* 最终目标: 将 n个盘子 从 from 经过 via 移动到 to */
   if(n == 1){
     cout << "把一个盘子从 " << from << " 移动到 " << to << endl;
   }
   else{
-    move(n - 1, from, to, via);
+    move(n - 1, from, to, via); /* 将 (n-1)个盘子 从 from 经过 to 移动到 via */
     cout << "把一个盘子从 " << from << " 移动到 " << to << endl;
-    move(n - 1, via, from, to);
+    move(n - 1, via, from, to); /* 将 (n-1)个盘子 从 via 经过 from 移动到 to */
   }
 
 }
