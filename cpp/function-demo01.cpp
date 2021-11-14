@@ -42,10 +42,7 @@ int main(){
 }
 
 int get_dayofweek(){
-  int dayofweek;
-  dayofweek = days % 7;
-
-  return dayofweek
+  return days % 7;
 }
 
 int get_year(){
@@ -66,7 +63,6 @@ int get_year(){
     else{
       break;
     }
-
   }
 
   return i;
