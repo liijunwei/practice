@@ -41,7 +41,7 @@ int days;
 int get_dayofweek();
 int get_year();
 int get_month(int leap_year);
-int get_leap_year(int y);
+int get_is_leap_year(int y);
 
 int main(){
   int year;
@@ -62,7 +62,7 @@ int main(){
   while((cin >> days) && days != -1){
     dayofweek = get_dayofweek();
     year      = get_year();
-    leap_year = get_leap_year(year);
+    leap_year = get_is_leap_year(year);
     month     = get_month(leap_year);
 
     cout << year  << "-"
@@ -80,15 +80,15 @@ int get_dayofweek(){
   return days % 7;
 }
 
-int get_leap_year(int y){
-  return (y % 4 == 0 && y % 100 != 0 || y % 400 == 0);
+int get_is_leap_year(int y){
+  return (y % 4 == 0 && (y % 100 != 0 || y % 400 == 0));
 }
 
 int get_year(){
   int i = 2000;
   int leap_year;
   while(true){
-    leap_year = get_leap_year(i);
+    leap_year = get_is_leap_year(i);
     if(leap_year == 1 && days >= 366){
       days = days - 366;
       i++;
