@@ -9,10 +9,10 @@ int main(){
 
   *p = 100;
 
-  cout << "*p++ " << *p++ << endl;
-  cout << "*p   " << *p << endl;
-  cout << "*p-- " << *p-- << endl;
-  cout << "*--p " << *--p << endl;
+  cout << "*p++ " << *p++ << endl; // 100
+  cout << "*p   " << *p << endl;   // 5
+  cout << "*p-- " << *p-- << endl; // 5
+  cout << "*--p " << *--p << endl; // 3
 
   cout << endl;
   return 0;
