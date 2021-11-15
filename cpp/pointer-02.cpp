@@ -7,8 +7,8 @@ int main(){
   int b = 0;
   int temp;
 
-  int *p1 = NULL;
-  int *p2 = NULL;
+  int *p1 = NULL; // 为指针变量赋初值
+  int *p2 = NULL; // 为指针变量赋初值
 
   cin >> a >> b;
   p1 = &a;
