@@ -16,6 +16,7 @@ int main(){
   cout << "*p:   " << *p << endl;
   cout << "*p++: " << *p++ << endl;
   cout << "*p++: " << *p++ << endl;
+  cout << "*p:   " << *p << endl;
 
   cout << endl;
   return 0;
