@@ -13,7 +13,7 @@ int main(){
   cout << "a:    " << a << endl;
   cout << "p:    " << p << endl;
   cout << "*p:   " << *p << endl;
-  cout << "*p++: " << *p++ << endl;
+  cout << "*p++: " << *p++ << endl; // 先试用p, 再 ++
   cout << "*p++: " << *p++ << endl;
   cout << "*p:   " << *p << endl;
 
