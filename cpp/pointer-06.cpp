@@ -27,6 +27,8 @@ void iterate_with_index(){
 }
 
 // TODO 没看懂, 没打印对
+// https://www.bilibili.com/video/BV1bs41197KN?p=87
+// 08:27
 void iterate_with_pointer(){
   cout << "iterate_with_pointer: ";
 
