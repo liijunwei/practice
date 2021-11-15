@@ -8,10 +8,9 @@ int main(){
   int a[5] = {10, 11, 12, 13, 14};
 
   int *p = NULL;
-  cout << "a:    " << a << endl;
-
   p = a;
 
+  cout << "a:    " << a << endl;
   cout << "p:    " << p << endl;
   cout << "*p:   " << *p << endl;
   cout << "*p++: " << *p++ << endl;
