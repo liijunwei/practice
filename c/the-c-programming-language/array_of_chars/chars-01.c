@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define MAXLINE 1000
+#define MAXLINE 3
 
 // page 21
 
@@ -44,7 +44,11 @@ int custom_getline(char line[], int maxline){
     ++i;
   }
 
-  line[i] = '\n';
+  line[i] = '\0';
+
+  for(i = 0; line[i] != '\0'; i++){
+    printf("%c", line[i]);
+  }
 
   return i;
 }
