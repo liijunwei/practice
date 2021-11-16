@@ -35,7 +35,7 @@ int custom_getline(char line[], int maxline){
   int c;
   int i;
 
-  for(i = 0; (i < maxline && (c = getchar() != EOF) && c != '\n'); ++i){
+  for(i = 0; (i < maxline && (c = getchar()) != EOF && c != '\n'); ++i){
     line[i] = c;
   }
 
