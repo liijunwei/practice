@@ -29,6 +29,13 @@ int main(){
   cout << "p[12] " << p[12] << endl;
   cout << "p[13] " << p[13] << endl;
   cout << "p[14] " << p[14] << endl;
+  cout << endl;
+
+  cout << "p + 0 " << p + 0 << " &a[0] " << &a[0] << endl;
+  cout << "p + 1 " << p + 1 << " &a[1] " << &a[1] << endl;
+  cout << "p + 2 " << p + 2 << " &a[2] " << &a[2] << endl;
+  cout << "p + 3 " << p + 3 << " &a[3] " << &a[3] << endl;
+  cout << "p + 4 " << p + 4 << " &a[4] " << &a[4] << endl;
 
   cout << endl;
   return 0;
