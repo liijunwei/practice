@@ -8,14 +8,10 @@ int main(){
 
   int *p = &a[3];
 
-  cout << "a " << a << endl;
-  cout << "p " << p << endl;
-  cout << "*p " << *p << endl;
-  cout << "*p++ " << *p++ << endl;
   cout << "*p " << *p << endl;
 
   *p = 100;
-  cout << a[3] << endl;
+  cout << "a[3] " << a[3] << endl;
 
   cout << endl;
   return 0;
