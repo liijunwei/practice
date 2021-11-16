@@ -1,6 +1,8 @@
 #include <stdio.h>
 
-#define MAXLINE 15
+#define MAXLINE 1000
+
+// page 21
 
 // 将一行读入s中, 并返回其长度
 int custom_getline(char line[], int maxline);
