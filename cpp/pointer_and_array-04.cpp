@@ -13,9 +13,7 @@ int main(){
   cout << "a[4] " << a[4] << endl;
   cout << endl;
 
-  int *p = NULL;
-  p = a;
-
+  int *p = a;
   cout << "p[0] " << p[0] << endl;
   cout << "p[1] " << p[1] << endl;
   cout << "p[2] " << p[2] << endl;
