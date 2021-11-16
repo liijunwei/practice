@@ -35,12 +35,12 @@ int main(){
   int demo = 7;
   int *ppp = &demo;
 
-  cout << ppp << endl;;
-  cout << *ppp << endl;;
-  cout << &*ppp << endl;;
-  cout << *&*ppp << endl;;
-  cout << &*&*ppp << endl;;
-  cout << *&*&*ppp << endl;;
+  cout << ppp << endl;
+  cout << *ppp << endl;
+  cout << &*ppp << endl;
+  cout << *&*ppp << endl;
+  cout << &*&*ppp << endl;
+  cout << *&*&*ppp << endl;
   cout << endl;
   return 0;
 }
