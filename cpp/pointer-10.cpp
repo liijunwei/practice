@@ -4,8 +4,8 @@ using namespace std;
 
 // https://www.bilibili.com/video/BV1bs41197KN?p=85
 int main(){
-  int n = 0;
-  int *p = &n;
+  short n = 0;
+  short *p = &n;
 
   cout << p << endl;
   p++;
