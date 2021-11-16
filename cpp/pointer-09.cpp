@@ -11,13 +11,20 @@ int main(){
   double *pc = c;
 
   // 每次 ++ 操作, 地址增加4个字节
-  cout << "pa " << pa++ << endl;
-  cout << "pa " << pa++ << endl;
-  cout << "pa " << pa++ << endl;
-  cout << "pa " << pa++ << endl;
+  cout << "pa Value is   " << *pa  << endl;
+  cout << "pa Pointer is " << pa++ << endl;
+  cout << "pa Value is   " << *pa  << endl;
+  cout << "pa Pointer is " << pa++ << endl;
+  cout << "pa Value is   " << *pa  << endl;
+  cout << "pa Pointer is " << pa++ << endl;
+  cout << "pa Value is   " << *pa  << endl;
+  cout << "pa Pointer is " << pa++ << endl;
+  cout << "pa Value is   " << *pa  << endl;
+  cout << "pa Pointer is " << pa   << endl;
   cout << endl;
 
   // 每次 ++ 操作, 地址增加8个字节
+  cout << "pc " << pc++ << endl;
   cout << "pc " << pc++ << endl;
   cout << "pc " << pc++ << endl;
   cout << "pc " << pc++ << endl;
