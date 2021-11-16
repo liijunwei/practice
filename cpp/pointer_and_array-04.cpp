@@ -19,6 +19,12 @@ int main(){
   cout << "p[2] " << p[2] << endl;
   cout << "p[3] " << p[3] << endl;
   cout << "p[4] " << p[4] << endl;
+  cout << "p[5] " << p[5] << endl;
+  cout << "p[6] " << p[6] << endl;
+  cout << "p[7] " << p[7] << endl;
+  cout << "p[8] " << p[8] << endl;
+  cout << "p[9] " << p[9] << endl;
+  cout << "p[10] " << p[10] << endl;
 
   cout << endl;
   return 0;
