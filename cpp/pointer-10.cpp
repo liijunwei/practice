@@ -2,6 +2,13 @@
 
 using namespace std;
 
+/*
+1. 什么是指针
+2. 什么是指针变量
+3. *pointer 的含义
+4. pointer++ 的含义
+*/
+
 void demo_short();
 void demo_int();
 void demo_float();
