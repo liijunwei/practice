@@ -7,19 +7,22 @@ using namespace std;
 // reverse elements in an array
 
 int main(){
-  int a[5] = {1, 2, 3, 4, 5};
-
+  int a[3];
   int *p = NULL;
   int *q = NULL;
   int temp;
 
-  for(p = a, q = a + 4; p < q; p++, q--){
+  for(p = a; p < a + 3; p++){
+    cin >> *p;
+  }
+
+  for(p = a, q = a + 2; p < q; p++, q--){
     temp = *p;
     *p = *q;
     *q = temp;
   }
 
-  for(p = a; p < a + 5; p++){
+  for(p = a; p < a + 3; p++){
     cout << setw(3) << *p;
   }
 
