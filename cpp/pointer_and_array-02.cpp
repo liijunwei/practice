@@ -8,7 +8,7 @@ using namespace std;
 
 */
 
-// https://www.bilibili.com/video/BV1bs41197KN?p=86&spm_id_from=pageDriver
+// https://www.bilibili.com/video/BV1bs41197KN?p=86
 int main(){
   int a[5] = {10, 11, 12, 13, 14};
   cout << "a     " << a << endl;
