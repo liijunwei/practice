@@ -25,6 +25,10 @@ int main(){
   cout << "p[8] " << p[8] << endl;
   cout << "p[9] " << p[9] << endl;
   cout << "p[10] " << p[10] << endl;
+  cout << "p[11] " << p[11] << endl;
+  cout << "p[12] " << p[12] << endl;
+  cout << "p[13] " << p[13] << endl;
+  cout << "p[14] " << p[14] << endl;
 
   cout << endl;
   return 0;
