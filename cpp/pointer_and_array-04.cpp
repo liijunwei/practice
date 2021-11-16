@@ -3,6 +3,8 @@
 using namespace std;
 
 // https://www.bilibili.com/video/BV1bs41197KN?p=87
+
+// 利用指针变量引用数组元素
 int main(){
   int a[5] = {10, 11, 12, 13, 14};
 
