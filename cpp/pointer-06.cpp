@@ -27,21 +27,15 @@ void iterate_with_index(){
   cout << endl;
 }
 
-// TODO 没看懂, 没打印对
 // https://www.bilibili.com/video/BV1bs41197KN?p=87&t=507.9
 void iterate_with_pointer(){
   cout << "iterate_with_pointer: ";
 
-  int a[10];
-  int i;
+  int a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int *p = a;
 
-  for(i = 0; i < 10; i++){
-    cin >> *p++;
-  }
-
-  for(p--; p >= a;){
-    cout << setw(3) << *p-- << " ";
+  for(int i = 9; i >= 0; i--){
+    cout << setw(3) << p[i] << " ";
   }
 
   cout << endl;
