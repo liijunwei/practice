@@ -6,6 +6,7 @@ using namespace std;
 void iterate_with_index();
 void iterate_with_pointer();
 
+// g++ pointer-06.cpp && ./a.out
 int main(){
   iterate_with_index();
   iterate_with_pointer();
@@ -31,11 +32,16 @@ void iterate_with_index(){
 void iterate_with_pointer(){
   cout << "iterate_with_pointer: ";
 
-  int a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  int a[10];
+  int i;
   int *p = a;
 
+  for(i = 0; i < 10; i++){
+    cin >> *p++;
+  }
+
   for(p--; p >= a;){
-    cout << setw(3) << *p++ << " ";
+    cout << setw(3) << *p-- << " ";
   }
 
   cout << endl;
