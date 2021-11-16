@@ -4,14 +4,15 @@ using namespace std;
 
 int main(){
   int a[5] = {1, 2, 3, 4, 5};
-  char c[5] = {'a', 'b', 'c', 'd', 'e'};
+  double c[5] = {1.111, 2.111, 3.111, 4.111, 5.111};
 
   int *pa = a;
-  char *pc = c;
+  double *pc = c;
 
   cout << "pa " << pa++ << endl;
   cout << "pa " << pa++ << endl;
   cout << "pa " << pa++ << endl;
+  cout << endl;
 
   cout << "pc " << pc++ << endl;
   cout << "pc " << pc++ << endl;
