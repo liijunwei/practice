@@ -7,7 +7,6 @@ int main(){
   int a[5] = {1, 2, 3, 4, 5};
 
   int *p = &a[3];
-
   cout << "*p " << *p << endl;
 
   *p = 100;
