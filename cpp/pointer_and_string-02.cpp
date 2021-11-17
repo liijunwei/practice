@@ -24,6 +24,13 @@ int main(){
   cout << pc << endl;
   cout << endl;
 
+  cout << static_cast<void*>(c) << endl;
+  cout << static_cast<void*>(pc) << endl;
+  cout << static_cast<void*>(++pc) << endl;
+  cout << static_cast<void*>(++pc) << endl;
+  cout << static_cast<void*>(++pc) << endl;
+  cout << endl;
+
   cout << endl;
   return 0;
 }
