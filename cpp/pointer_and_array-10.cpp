@@ -33,17 +33,15 @@ int main(){
   cout << __LINE__ << "  &a[0] + 1 = " << &a[0] + 1 << endl;
   cout << endl;
 
-  // a[1] 是 1维数组的名字
-  cout << __LINE__ << "  a[1] = " << a[1] << endl;
-  cout << __LINE__ << "  &a[1] = " << &a[1] << endl;
-  cout << __LINE__ << "  *(a + 1) = " << *(a + 1) << endl;
+  cout << __LINE__ << "  *a = " << *a << endl;
+  cout << __LINE__ << "  a[0] = " << a[0] << endl;
+  cout << __LINE__ << "  &a[0][0] = " << &a[0][0] << endl;
   cout << endl;
 
   cout << __LINE__ << "  *a + 1 = " << *a + 1 << endl;
+  cout << __LINE__ << "  a[0] + 1 = " << a[0] + 1 << endl;
+  cout << __LINE__ << "  &a[0][0] + 1 = " << &a[0][0] + 1 << endl;
   cout << endl;
-
-  cout << __LINE__ << "  &a = " << &a << endl;
-  cout << __LINE__ << "  &a + 1 = " << &a + 1 << endl;
 
   cout << endl;
   return 0;
