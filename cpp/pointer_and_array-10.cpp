@@ -43,6 +43,11 @@ int main(){
   cout << __LINE__ << "  &a[0][0] + 1 = " << &a[0][0] + 1 << endl;
   cout << endl;
 
+  cout << __LINE__ << "  a[1] = " << a[1] << endl;
+  cout << __LINE__ << "  &a[1] = " << &a[1] << endl;
+  cout << __LINE__ << "  *(a + 1) = " << *(a + 1) << endl;
+  cout << endl;
+
   cout << endl;
   return 0;
 }
