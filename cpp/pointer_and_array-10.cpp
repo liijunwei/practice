@@ -48,6 +48,10 @@ int main(){
   cout << __LINE__ << "  *(a + 1) = " << *(a + 1) << endl;
   cout << endl;
 
+  cout << __LINE__ << "  &a = " << &a << endl;
+  cout << __LINE__ << "  &a + 1 = " << &a + 1 << endl;
+  cout << endl;
+
   cout << endl;
   return 0;
 }
