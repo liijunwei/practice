@@ -5,6 +5,9 @@ using namespace std;
 
 // 数组名作为函数参数
 
+// 数组名相当于指向数组第一个元素的指针
+// 数组名相当于指向数组第一个元素的指针
+
 void sum(int *p, int n){
   int total = 0;
   for(int i = 0; i < n; i++, p++){
