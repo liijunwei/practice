@@ -7,9 +7,8 @@ using namespace std;
 
 void sum(int *p, int n){
   int total = 0;
-  for(int i = 0; i < n; i++){
+  for(int i = 0; i < n; i++, p++){
     total += *p;
-    p++;
   }
 
   cout << "total " << total << endl;
