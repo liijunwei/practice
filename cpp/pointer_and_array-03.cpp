@@ -14,6 +14,9 @@ int main(){
   p = a;
   q = a;
 
+  cout << "     " << q[3] << endl;
+  cout << "     " << q[4] << endl;
+
   cout << "p    " << p    << endl;
   cout << "*p   " << *p   << endl;
   cout << "     " << *p++ << endl;
