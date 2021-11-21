@@ -8,7 +8,6 @@ using namespace std;
 // 数组名相当于指向数组第一个元素的指针
 // 数组名相当于指向数组第一个元素的指针
 
-// TODO not clear
 int maxvalue(int (*p)[4]){
   int max = p[0][0];
 
