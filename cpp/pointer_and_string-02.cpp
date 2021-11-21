@@ -31,6 +31,22 @@ int main(){
   cout << static_cast<void*>(++pc) << endl;
   cout << endl;
 
+  char d[100] = "nihao xiaoli";
+  char *pd = d;
+  cout << d << endl;
+  cout << pd << endl;
+
+  cout << static_cast<void*>(d) << endl;
+  cout << static_cast<void*>(pd) << endl;
+  cout << static_cast<void*>(++pd) << endl;
+  cout << static_cast<void*>(++pd) << endl;
+  cout << static_cast<void*>(++pd) << endl;
+  cout << static_cast<void*>(++pd) << endl;
+  cout << static_cast<void*>(++pd) << endl;
+  cout << static_cast<void*>(++pd) << endl;
+  cout << static_cast<void*>(++pd) << endl;
+  cout << endl;
+
   cout << endl;
   return 0;
 }
