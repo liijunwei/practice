@@ -6,6 +6,7 @@ using namespace std;
 1. 数组名代表数组首元素的地址(数组名相当于指向数组第一个元素的指针)
 2. 数组名a不是变量, 不能给a赋值
 
+数组名a相当于指向第一个元素a[0]的指针
 */
 
 // https://www.bilibili.com/video/BV1bs41197KN?p=86
