@@ -1,7 +1,6 @@
 #include <iostream>
 
 using namespace std;
-// https://www.bilibili.com/video/BV1bs41197KN?p=92
 
 /*
   Q: 如何定义一个 指向 "包含4个int型元素的一维数组"的指针变量?
@@ -11,6 +10,8 @@ using namespace std;
   (*p)[0], (*p)[1], (*p)[2], (*p)[3]
 */
 
+// https://www.bilibili.com/video/BV1bs41197KN?p=92
+// "希望大家 听得明白, 学得愉快"
 int main(){
   int a[3][4] = {
     {1, 3,    5,  7},
