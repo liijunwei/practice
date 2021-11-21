@@ -8,9 +8,9 @@ using namespace std;
 // 如何 "限制" 指针实参的功能?
 int sum(const int array[], int n){
   int total = 0;
-
   for(int i = 0; i < n; i++){
-    total += *array++;
+    total += *array;
+    array++;
   }
 
   return total;
