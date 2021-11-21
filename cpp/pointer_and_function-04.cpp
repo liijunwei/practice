@@ -19,7 +19,17 @@ int sum(int array[], int n){
 int main(){
   int a[12] = {1, 3, 5, 7, 9, 11, 13, 15, 2, 4, 6, 8};
 
-  cout << "The sum is: " << sum(a, 12);
+  cout << "Before using sum, a: ";
+  for(int i = 0; i < 12; i++){
+    cout << a[i] << " ";
+  }
+
+  cout << endl << "The sum is: " << sum(a, 12) << endl;
+
+  cout << "After using sum, a:  ";
+  for(int i = 0; i < 12; i++){
+    cout << a[i] << " ";
+  }
 
   cout << endl;
   return 0;
