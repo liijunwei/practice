@@ -6,6 +6,10 @@ int main(){
   char buffer[10] = "ABC";
   const char *pc;
 
+  // Important note:
+  // we can assign "hello" to pointer pc
+  // but we cannot change "hello" by pc, cause "hello" is stored as constant
+  // we're not allowed to change a constant.
   pc = "hello";
   cout << __LINE__ << " " << pc << endl;
   pc++;
