@@ -47,6 +47,15 @@ int main(){
   cout << static_cast<void*>(++pd) << endl;
   cout << endl;
 
+  char e[100] = "nihao xiaoli";
+  char *pe = e;
+  cout << e[0] << endl;
+  cout << e[1] << endl;
+  cout << e[2] << endl;
+  cout << pe[0] << endl;
+  cout << pe[1] << endl;
+  cout << pe[2] << endl;
+
   cout << endl;
   return 0;
 }
