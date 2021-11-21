@@ -14,7 +14,7 @@ void sum_v1(int *p, int n){
     total += *p++;
   }
 
-  cout << __LINE__ << " Total: " << total << endl;
+  cout << __LINE__ << " " << __func__ << " Total: " << total << endl;
 }
 
 void sum_v2(int *p, int n){
@@ -24,7 +24,7 @@ void sum_v2(int *p, int n){
     p++;
   }
 
-  cout << __LINE__ << " Total: " << total << endl;
+  cout << __LINE__ << " " << __func__ << " Total: " << total << endl;
 }
 
 void sum_v3(int *p, int n){
@@ -33,7 +33,7 @@ void sum_v3(int *p, int n){
     total += *p;
   }
 
-  cout << __LINE__ << " Total: " << total << endl;
+  cout << __LINE__ << " " << __func__ << " Total: " << total << endl;
 }
 
 int main(){
