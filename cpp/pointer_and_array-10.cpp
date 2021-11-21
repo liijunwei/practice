@@ -4,10 +4,8 @@ using namespace std;
 
 
 /*
-  TODO
-
   二维数组名的含义(需要反复看几遍, 多花点时间理解)
-  https://www.bilibili.com/video/BV1bs41197KN?p=90
+  https://www.bilibili.com/video/BV1bs41197KN?p=91
 
   三条规律
 
@@ -33,19 +31,12 @@ int main(){
   cout << __LINE__ << "  &a[0] + 1 = " << &a[0] + 1 << endl;
   cout << endl;
 
-  cout << __LINE__ << "  *a = " << *a << endl;
-  cout << __LINE__ << "  a[0] = " << a[0] << endl;
-  cout << __LINE__ << "  &a[0][0] = " << &a[0][0] << endl;
-  cout << endl;
-
-  cout << __LINE__ << "  *a + 1 = " << *a + 1 << endl;
-  cout << __LINE__ << "  a[0] + 1 = " << a[0] + 1 << endl;
-  cout << __LINE__ << "  &a[0][0] + 1 = " << &a[0][0] + 1 << endl;
-  cout << endl;
-
   cout << __LINE__ << "  a[1] = " << a[1] << endl;
   cout << __LINE__ << "  &a[1] = " << &a[1] << endl;
   cout << __LINE__ << "  *(a + 1) = " << *(a + 1) << endl;
+  cout << endl;
+
+  cout << __LINE__ << "  *a + 1 = " << *a + 1 << endl;
   cout << endl;
 
   cout << __LINE__ << "  &a = " << &a << endl;
