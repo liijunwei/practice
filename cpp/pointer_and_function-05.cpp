@@ -6,6 +6,7 @@ using namespace std;
 // 需要注意, 这个sum函数, 除了做求和这件事外, 还修改了数组内元素的值!!
 
 // 如何 "限制" 指针实参的功能?
+// 使用 指向符合常量的指针
 int sum(const int array[], int n){
   int total = 0;
   for(int i = 0; i < n; i++){
