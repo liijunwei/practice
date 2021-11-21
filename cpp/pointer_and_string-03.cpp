@@ -7,7 +7,7 @@ int main(){
   const char *pc;
 
   // Important note:
-  // we can assign "hello" to pointer pc
+  // we can assign "hello" to pointer pc(So pc points to "hello")
   // but we cannot change "hello" by pc, cause "hello" is stored as constant
   // we're not allowed to change a constant.
   pc = "hello";
