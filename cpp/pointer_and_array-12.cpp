@@ -4,7 +4,7 @@ using namespace std;
 // https://www.bilibili.com/video/BV1bs41197KN?p=92
 
 /*
-  Q: 如何定义一个 指向 "包含4个int型元素的一位数组"的指针变量?
+  Q: 如何定义一个 指向 "包含4个int型元素的一维数组"的指针变量?
 
   A: int (*p)[4]
 
