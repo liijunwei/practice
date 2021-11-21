@@ -24,10 +24,11 @@ int main(){
 
   p = a;
 
+  cout << "请输入 i, j" << endl;
   cin >> i >> j; // i < 3 代表行号, j < 4 代表列号
 
-  cout << *(*(p + i) + j) << endl;
-  cout << p[i][j] << endl;
+  cout << "*(*(p + i) + j) : " << *(*(p + i) + j) << endl;
+  cout << "等价于  p[i][j] : " << p[i][j] << endl;
 
   cout << endl;
   return 0;
