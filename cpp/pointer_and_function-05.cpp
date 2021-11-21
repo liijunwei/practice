@@ -7,12 +7,13 @@ using namespace std;
 
 // 如何 "限制" 指针实参的功能?
 int sum(const int array[], int n){
-  for(int i = 0; i < n - 1; i++){
-    *(array + 1) = *array + *(array + 1); // pointer_and_function-05.cpp:11:18: error: read-only variable is not assignable
-    array++;
+  int total = 0;
+
+  for(int i = 0; i < n; i++){
+    total += *array++;
   }
 
-  return *array;
+  return total;
 }
 
 int main(){
