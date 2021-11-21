@@ -15,7 +15,6 @@ using namespace std;
 
 int main(){
   int a[5] = {10, 11, 12, 13, 14};
-  // int a[3] = {10, 11, 12};
 
   cout << __LINE__ << " " << a << endl;        // 指向a[0]
   cout << __LINE__ << " " << (a + 1) << endl;  // 指向a[1]
