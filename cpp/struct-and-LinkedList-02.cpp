@@ -13,7 +13,7 @@ int main(){
   SpaceTraveler rick1 = {137, "Rick Sanchez"};
 
   SpaceTraveler rick2;
-  rick2 = rick1;
+  rick2 = rick1; // copy value, 内存空间里, 变为两份
 
   rick1.id = 20210000 + rick2.id;
 
