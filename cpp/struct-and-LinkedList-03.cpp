@@ -18,7 +18,7 @@ void renew(SpaceTraveler st){
   cout << setw(10) << st.id << " " << st.name << endl;
 }
 
-// 结构体变量作为函数的参数
+// 结构体变量作为函数的参数, 相当于 Copy一份给函数, 和数组名作为函数参数是不同的
 int main(){
   SpaceTraveler rick = {137, "Rick Sanchez"};
 
