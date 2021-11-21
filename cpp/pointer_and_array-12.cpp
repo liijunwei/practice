@@ -3,8 +3,14 @@
 using namespace std;
 // https://www.bilibili.com/video/BV1bs41197KN?p=92
 
-// TODO
-// 没看懂
+/*
+  Q: 如何定义一个 指向 "包含4个int型元素的一位数组"的指针变量?
+
+  A: int (*p)[4]
+
+  (*p)[0], (*p)[1], (*p)[2], (*p)[3]
+*/
+
 int main(){
   int a[3][4] = {
     {1, 3,    5,  7},
