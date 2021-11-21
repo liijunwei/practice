@@ -55,6 +55,12 @@ int main(){
   cout << pe[0] << endl;
   cout << pe[1] << endl;
   cout << pe[2] << endl;
+  cout << endl;
+
+  char *pf = "This is a string";
+  cout << pf[0] << endl;
+  cout << pf[1] << endl;
+  cout << pf[2] << endl;
 
   cout << endl;
   return 0;
