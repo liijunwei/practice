@@ -13,7 +13,7 @@ int main(){
 
   p = a;
   q = a;
-
+  
   cout << "     " << q[3] << endl;
   cout << "     " << q[4] << endl;
 
