@@ -4,7 +4,7 @@ using namespace std;
 
 int main(){
   char buffer[10] = "ABC";
-  char *pc;
+  const char *pc;
 
   pc = "hello";
   cout << __LINE__ << " " << pc << endl;
