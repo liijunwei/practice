@@ -3,6 +3,8 @@
 using namespace std;
 // https://www.bilibili.com/video/BV1bs41197KN?p=95
 
+// Q: 只能返回全局变量的地址吗?
+// A: 当然不是, 接下来学习 static 关键字
 int value1 = 20;
 int value2 = 30;
 
