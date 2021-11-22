@@ -26,6 +26,11 @@ int main(){
 
   SpaceTraveler *one = &stupid_face;
   cout << setw(10) << (*one).id << " " << (*one).name << endl;
+  cout << endl;
+
+  cout << setw(17) << "等价于: " << endl;
+  cout << setw(10) << one->id << " " << one->name << endl; // -> 指向运算符
+  cout << endl;
 
   cout << endl;
   return 0;
