@@ -3,6 +3,10 @@
 using namespace std;
 // https://www.bilibili.com/video/BV1bs41197KN?p=99
 
+/*
+    结构体数据类型的特性 与 普通数据类型的特性 是一致的
+*/
+
 struct SpaceTraveler{
   int id;
   char name[20];
