@@ -30,7 +30,12 @@ int main(){
   temp->id = 1;
   temp->next = new Node;
   temp = temp->next;
+  temp->id = 2;
 
+  temp->next = new Node;
+  temp = temp->next;
+  temp->id = 3;
+  temp->next = NULL;
 
   cout << endl;
   return 0;
