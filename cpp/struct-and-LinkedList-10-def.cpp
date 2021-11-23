@@ -59,8 +59,22 @@ Node *newNode(int id){
   return temp;
 }
 
+Node *createLinkedListFromArray(int array[4]){
+  Node *head = NULL;
+  Node *temp = NULL;
+  head = newNode(array[0]);
+  temp = head;
+
+  for(int i = 1; i < 4; i++){
+    temp->next = newNode(array[i]);
+    temp = temp->next;
+  }
+
+  return head;
+}
+
 Node *createLinkedListDemo(){
-  struct Node *head = NULL;
+  Node *head = NULL;
   head = newNode(1);
   head->next = newNode(2);
   head->next->next = newNode(3);
