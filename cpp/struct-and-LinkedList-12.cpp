@@ -39,7 +39,7 @@ Node *deleteMiddleNode(Node *p){
 // 1 2 3 4 5 0
 // 1 2 3 4 5
 int main(){
-  Node *list01 = createLinkedList();
+  Node *list01 = createLinkedListManually();
   cout << endl;
   traverseLinkedList(list01);
 

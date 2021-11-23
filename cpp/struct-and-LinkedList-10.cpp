@@ -18,7 +18,7 @@ head = new Node;
 */
 
 int main(){
-  Node *list01 = createLinkedList();
+  Node *list01 = createLinkedListManually();
   cout << endl;
   traverseLinkedList(list01);
 

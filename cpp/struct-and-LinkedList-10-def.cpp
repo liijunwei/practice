@@ -5,7 +5,7 @@ struct Node{
   Node *next;
 };
 
-Node *createLinkedList(){
+Node *createLinkedListManually(){
   Node *head = NULL;
   Node *temp = NULL;
   int id = 0;

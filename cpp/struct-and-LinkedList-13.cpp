@@ -7,7 +7,7 @@
 // 删除链表元素(tail)
 // 删除链表元素(middle)
 
-Node *deleteMiddleNode(Node *head){
+Node *deleteMiddleNode(Node *head, int id){
   if(head == NULL){
     return NULL;
   }
@@ -18,21 +18,33 @@ Node *deleteMiddleNode(Node *head){
   }
 
   Node *temp = NULL;
+  Node *follow = NULL;
   temp = head;
+  follow = head;
 
-  
+  while(temp->id != id){
+    follow = temp;
+    temp = temp->next;
+  }
 
+  if(temp == NULL){
+    cout << "Node with id " << id << " not found.\n";
+  }
+  else{
+    follow->next = temp->next;
+    delete temp;
+  }
 
-
-  return NULL;
+  return head;
 }
 
+// Segmentation fault is a specific kind of error caused by accessing memory that “does not belong to you.”
 int main(){
-  Node *list01 = createLinkedList();
+  Node *list01 = createLinkedListManually();
   cout << endl;
   traverseLinkedList(list01);
 
-  list01 = deleteMiddleNode(list01);
+  list01 = deleteMiddleNode(list01, 2);
   traverseLinkedList(list01);
 
   cout << endl;
