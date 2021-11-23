@@ -12,11 +12,6 @@ Node *deleteMiddleNode(Node *head, int id){
     return NULL;
   }
 
-  if(head->next == NULL){
-    delete head;
-    return NULL;
-  }
-
   Node *temp = NULL;
   Node *prev = NULL;
   temp = head;
