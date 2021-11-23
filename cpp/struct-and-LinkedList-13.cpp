@@ -43,6 +43,7 @@ int main(){
   Node *list01 = createLinkedListDemo();
   traverseLinkedList(list01);
 
+  // "66574 segmentation fault  ./a.out"
   list01 = deleteMiddleNode(list01, 20);
   traverseLinkedList(list01);
 
