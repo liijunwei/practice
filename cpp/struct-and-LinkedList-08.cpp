@@ -48,7 +48,17 @@ int main(){
       flag = 0;
       j = 0;
       for(int i = 0; i < n; i++){
+        if(students[i].birthMonth == m && students[i].birthDay == d){
+          count[++j] = i;
+          flag++;
+        }
+      }
 
+      if(flag > 1){
+        cout << m << " " << d << " ";
+        for(k = 1; k <= j; k++){
+          cout << students[count[k]].id << " " << endl;
+        }
       }
     }
   }
