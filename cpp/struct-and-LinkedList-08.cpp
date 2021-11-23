@@ -44,17 +44,12 @@ int main(){
   int i;
   int j;
   int k;
-  int n;
   int flag;
   int count[100] = {0};
 
-  // cout << "how many students? ";
-  // cin >> n;
-  n = 11;
-
-  // for(int i = 0; i < n; i++){
-  //   cin >> students[i].id >> students[i].birthMonth >> students[i].birthDay;
-  // }
+  int n = 11;
+  cout << n << " students" << endl;
+  cout << endl;
 
   for(int m = 1; m <= 12; m++){
     for(int d = 1; d <= 31; d++){
