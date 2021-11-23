@@ -54,9 +54,10 @@ Node *create(){
 
 void printList(Node *traverse) {
    while(traverse != NULL) {
-    cout << traverse->id << endl;
+    cout << traverse->id << " ";
     traverse = traverse->next;
    }
+   cout << endl;
 }
 
 // 链表
