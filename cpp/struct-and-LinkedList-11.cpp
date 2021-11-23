@@ -7,15 +7,15 @@
 // 删除链表元素(tail)
 // 删除链表元素(middle)
 
-Node *deleteHeadNode(Node *p){
+Node *deleteHeadNode(Node *head){
   Node *temp = NULL;
-  temp = p;
-  p = p->next;
+  temp = head;
+  head = head->next;
   delete temp;
-  return p;
+  return head;
 }
 
-Node *deleteTailNode(Node *p){
+Node *deleteTailNode(Node *head){
 
 }
 
