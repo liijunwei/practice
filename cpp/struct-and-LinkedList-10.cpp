@@ -1,6 +1,6 @@
 #include <iostream>
+#include "struct-and-LinkedList-10-def.cpp"
 
-using namespace std;
 // https://www.bilibili.com/video/BV1bs41197KN?p=100
 /*
 链表可以动态得创建
@@ -16,58 +16,13 @@ using namespace std;
 Node *head;
 head = new Node;
 */
-struct Node{
-  int id;
-  Node *next;
-};
 
-Node *create(){
-  Node *head = NULL;
-  Node *temp = NULL;
-  int id = 0;
-  int n = 0;
-
-  head = new Node;
-  temp = head;
-
-  cout << n+1 << " please enter node id: ";
-  cin >> id;
-
-  while(id != -1){
-    n++;
-    temp->id = id;
-    temp->next = new Node;
-    temp = temp->next;
-
-    cout << n+1 << " please enter node id: ";
-    cin >> id;
-  }
-
-  if(n == 0){
-    head = NULL;
-  } else {
-    temp->next = NULL;
-  }
-
-  return head;
-}
-
-void printList(Node *traverse) {
-  cout << "Traverse and print the linked list: " << endl;
-
-  while(traverse != NULL) {
-  cout << traverse->id << " ";
-  traverse = traverse->next;
-  }
-  cout << endl;
-}
-
-// 链表
 int main(){
-  Node *list01 = create();
+  Node *list01 = createLinkedList();
   cout << endl;
-  printList(list01);
+  traverseLinkedList(list01);
 
   cout << endl;
   return 0;
 }
+
