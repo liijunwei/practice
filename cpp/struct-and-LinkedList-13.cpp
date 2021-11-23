@@ -34,8 +34,8 @@ Node *deleteMiddleNode(Node *head, int id){
 
 // Segmentation fault is a specific kind of error caused by accessing memory that “does not belong to you.”
 int main(){
-  // Node *list01 = createLinkedListDemo();
-  Node *list01 = createLinkedListManually();
+  Node *list01 = createLinkedListDemo();
+  // Node *list01 = createLinkedListManually();
   traverseLinkedList(list01);
 
   // "66574 segmentation fault  ./a.out"
