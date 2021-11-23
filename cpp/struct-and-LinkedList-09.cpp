@@ -27,9 +27,9 @@ int main(){
   head = new Node;
 
   Node *temp = head;
-
-
-
+  temp->id = 1;
+  temp->next = new Node;
+  temp = temp->next;
 
 
   cout << endl;
