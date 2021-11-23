@@ -35,7 +35,7 @@ Node *deleteMiddleNode(Node *p){
   return NULL;
 }
 
-// TODO 这个0怎么处理???
+// OK 这个0怎么处理???
 // 1 2 3 4 5 0
 // 1 2 3 4 5
 int main(){
