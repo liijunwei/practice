@@ -11,15 +11,25 @@ using namespace std;
 
     int *p = new int[4];
     delete []p;
+
+**动态地**建立链表节点
+Node *head;
+head = new Node;
 */
 struct Node{
-  head
-  data
-  next
-}
+  int id;
+  Node *next;
+};
 
 // 链表
 int main(){
+  Node *head;
+  head = new Node;
+
+  Node *temp = head;
+
+
+
 
 
   cout << endl;
