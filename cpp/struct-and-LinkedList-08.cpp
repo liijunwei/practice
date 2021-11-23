@@ -28,6 +28,7 @@ struct Student{
 };
 
 int main(){
+  Student students[100] = {};
 
 
   cout << endl;
