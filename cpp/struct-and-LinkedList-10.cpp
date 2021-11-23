@@ -22,8 +22,8 @@ struct Node{
 };
 
 Node *create(){
-  Node *head;
-  Node *temp;
+  Node *head = NULL;
+  Node *temp = NULL;
   int num = 0;
   int n = 0;
 
@@ -53,17 +53,19 @@ Node *create(){
 }
 
 void printList(Node *traverse) {
-   while(traverse != NULL) {
-    cout << traverse->id << " ";
-    traverse = traverse->next;
-   }
-   cout << endl;
+  cout << "Traverse and print the linked list: " << endl;
+
+  while(traverse != NULL) {
+  cout << traverse->id << " ";
+  traverse = traverse->next;
+  }
+  cout << endl;
 }
 
 // 链表
 int main(){
   Node *list01 = create();
-
+  cout << endl;
   printList(list01);
 
   cout << endl;
