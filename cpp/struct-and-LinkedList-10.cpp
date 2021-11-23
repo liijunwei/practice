@@ -24,23 +24,23 @@ struct Node{
 Node *create(){
   Node *head = NULL;
   Node *temp = NULL;
-  int num = 0;
+  int id = 0;
   int n = 0;
 
   head = new Node;
   temp = head;
 
   cout << n+1 << " please enter node id: ";
-  cin >> num;
+  cin >> id;
 
-  while(num != -1){
+  while(id != -1){
     n++;
-    temp->id = num;
+    temp->id = id;
     temp->next = new Node;
     temp = temp->next;
 
     cout << n+1 << " please enter node id: ";
-    cin >> num;
+    cin >> id;
   }
 
   if(n == 0){
