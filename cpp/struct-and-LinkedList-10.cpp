@@ -30,7 +30,7 @@ Node *create(){
   head = new Node;
   temp = head;
 
-  cout << "please enter node id: ";
+  cout << n+1 << " please enter node id: ";
   cin >> num;
 
   while(num != -1){
@@ -39,7 +39,7 @@ Node *create(){
     temp->next = new Node;
     temp = temp->next;
 
-    cout << "please enter node id: ";
+    cout << n+1 << " please enter node id: ";
     cin >> num;
   }
 
