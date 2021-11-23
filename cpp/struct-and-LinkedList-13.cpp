@@ -40,11 +40,10 @@ Node *deleteMiddleNode(Node *head, int id){
 
 // Segmentation fault is a specific kind of error caused by accessing memory that “does not belong to you.”
 int main(){
-  Node *list01 = createLinkedListManually();
-  cout << endl;
+  Node *list01 = createLinkedListDemo();
   traverseLinkedList(list01);
 
-  list01 = deleteMiddleNode(list01, 2);
+  list01 = deleteMiddleNode(list01, 20);
   traverseLinkedList(list01);
 
   cout << endl;
