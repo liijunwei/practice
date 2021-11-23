@@ -22,7 +22,7 @@ Node *deleteMiddleNode(Node *head, int id){
   }
 
   if(temp == NULL){
-    cout << "Node with id " << id << " not found.\n";
+    cout << "Node with id [" << id << "] not found.\n";
   }
   else{
     prev->next = temp->next;
@@ -34,11 +34,13 @@ Node *deleteMiddleNode(Node *head, int id){
 
 // Segmentation fault is a specific kind of error caused by accessing memory that “does not belong to you.”
 int main(){
-  Node *list01 = createLinkedListDemo();
+  // Node *list01 = createLinkedListDemo();
   // Node *list01 = createLinkedListManually();
+
+  int a[4] = {1, 2, 3, 4};
+  Node *list01 = createLinkedListFromArray(a);
   traverseLinkedList(list01);
 
-  // "66574 segmentation fault  ./a.out"
   list01 = deleteMiddleNode(list01, 20);
   traverseLinkedList(list01);
 
