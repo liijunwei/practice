@@ -18,12 +18,12 @@ Node *deleteMiddleNode(Node *head, int id){
   }
 
   Node *temp = NULL;
-  Node *follow = NULL;
+  Node *prev = NULL;
   temp = head;
-  follow = head;
+  prev = head;
 
   while(temp->id != id){
-    follow = temp;
+    prev = temp;
     temp = temp->next;
   }
 
@@ -31,7 +31,7 @@ Node *deleteMiddleNode(Node *head, int id){
     cout << "Node with id " << id << " not found.\n";
   }
   else{
-    follow->next = temp->next;
+    prev->next = temp->next;
     delete temp;
   }
 

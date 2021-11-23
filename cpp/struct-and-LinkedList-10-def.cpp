@@ -8,12 +8,12 @@ struct Node{
 Node *createLinkedListManually(){
   Node *head = NULL;
   Node *temp = NULL;
-  Node *follow = NULL;
+  Node *prev = NULL;
   int id = 0;
   int n = 0;
 
   head = new Node;
-  follow = head;
+  prev = head;
   temp = head;
 
   cout << n+1 << " please enter node id: ";
@@ -23,7 +23,7 @@ Node *createLinkedListManually(){
     n++;
     temp->id = id;
     temp->next = new Node;
-    follow = temp;
+    prev = temp;
     temp = temp->next;
 
     cout << n+1 << " please enter node id: ";
@@ -33,7 +33,7 @@ Node *createLinkedListManually(){
   if(n == 0){
     head = NULL;
   } else {
-    follow->next = NULL;
+    prev->next = NULL;
     delete temp;
   }
 
