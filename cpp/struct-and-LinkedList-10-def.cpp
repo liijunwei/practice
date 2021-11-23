@@ -37,11 +37,15 @@ Node *createLinkedList(){
 }
 
 void traverseLinkedList(Node *head) {
-  cout << "Traverse and print the linked list: " << endl;
+  if(head == NULL){
+    cout << "Null head passed in..." << endl;
+    return void();
+  }
 
+  cout << "Traverse and print the linked list: " << endl;
   while(head != NULL) {
-    cout << head->id << " ";
+    cout << head->id << " -> ";
     head = head->next;
   }
-  cout << endl;
+  cout << "NULL\n";
 }

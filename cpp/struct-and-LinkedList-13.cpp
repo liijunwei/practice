@@ -7,16 +7,24 @@
 // 删除链表元素(tail)
 // 删除链表元素(middle)
 
-Node *deleteHeadNode(Node *head){
+Node *deleteMiddleNode(Node *head){
   if(head == NULL){
+    return NULL;
+  }
+
+  if(head->next == NULL){
+    delete head;
     return NULL;
   }
 
   Node *temp = NULL;
   temp = head;
-  head = head->next;
-  delete temp;
-  return head;
+
+  
+
+
+
+  return NULL;
 }
 
 int main(){
@@ -24,7 +32,7 @@ int main(){
   cout << endl;
   traverseLinkedList(list01);
 
-  list01 = deleteHeadNode(list01);
+  list01 = deleteMiddleNode(list01);
   traverseLinkedList(list01);
 
   cout << endl;
