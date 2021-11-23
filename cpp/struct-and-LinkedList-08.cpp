@@ -28,7 +28,19 @@ struct Student{
 };
 
 int main(){
-  Student students[100] = {};
+  Student students[100] = {
+    {"001", 2, 3},
+    {"002", 4, 1},
+    {"003", 5, 2},
+    {"004", 9, 5},
+    {"005", 10, 1},
+    {"006", 12, 3},
+    {"007", 10, 31},
+    {"008", 6, 28},
+    {"009", 8, 28},
+    {"010", 8, 28},
+    {"011", 5, 2},
+  };
   int i;
   int j;
   int k;
@@ -36,12 +48,13 @@ int main(){
   int flag;
   int count[100] = {0};
 
-  cout << "how many students? ";
-  cin >> n;
+  // cout << "how many students? ";
+  // cin >> n;
+  n = 11;
 
-  for(int i = 0; i < n; i++){
-    cin >> students[i].id >> students[i].birthMonth >> students[i].birthDay;
-  }
+  // for(int i = 0; i < n; i++){
+  //   cin >> students[i].id >> students[i].birthMonth >> students[i].birthDay;
+  // }
 
   for(int m = 1; m <= 12; m++){
     for(int d = 1; d <= 31; d++){
