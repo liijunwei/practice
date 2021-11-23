@@ -15,9 +15,8 @@ Node *deleteMiddleNode(Node *head, int id){
   Node *temp = NULL;
   Node *prev = NULL;
   temp = head;
-  prev = head;
 
-  while(temp->id != id){
+  while(temp != NULL && temp->id != id){
     prev = temp;
     temp = temp->next;
   }
