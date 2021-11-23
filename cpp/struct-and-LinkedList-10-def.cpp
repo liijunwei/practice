@@ -14,7 +14,7 @@ Node *createLinkedListManually(){
   head = new Node;
   temp = head;
 
-  cout << n+1 << " please enter node id: ";
+  cout << "Please enter node id: \n";
   cin >> id;
 
   while(id != -1){
@@ -23,7 +23,6 @@ Node *createLinkedListManually(){
     temp->next = new Node;
     temp = temp->next;
 
-    cout << n+1 << " please enter node id: ";
     cin >> id;
   }
 
