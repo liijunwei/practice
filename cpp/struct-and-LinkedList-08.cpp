@@ -70,8 +70,9 @@ int main(){
       if(flag > 1){
         cout << m << " " << d << " ";
         for(k = 1; k <= j; k++){
-          cout << students[count[k]].id << " " << endl;
+          cout << students[count[k]].id << " ";
         }
+        cout << endl;
       }
     }
   }
