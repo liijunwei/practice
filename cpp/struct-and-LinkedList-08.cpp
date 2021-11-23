@@ -29,7 +29,29 @@ struct Student{
 
 int main(){
   Student students[100] = {};
+  int i;
+  int j;
+  int k;
+  int n;
+  int flag;
+  int count[100] = {0};
 
+  cout << "how many students? ";
+  cin >> n;
+
+  for(int i = 0; i < n; i++){
+    cin >> students[i].id >> students[i].birthMonth >> students[i].birthDay;
+  }
+
+  for(int m = 1; m <= 12; m++){
+    for(int d = 1; d <= 31; d++){
+      flag = 0;
+      j = 0;
+      for(int i = 0; i < n; i++){
+
+      }
+    }
+  }
 
   cout << endl;
   return 0;
