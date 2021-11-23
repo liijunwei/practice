@@ -56,6 +56,7 @@ int main(){
       flag = 0;
       j = 0;
       for(int i = 0; i < n; i++){
+        // TODO 这部分没看懂
         if(students[i].birthMonth == m && students[i].birthDay == d){
           count[++j] = i;
           flag++;
