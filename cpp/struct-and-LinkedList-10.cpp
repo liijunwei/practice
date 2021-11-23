@@ -52,9 +52,18 @@ Node *create(){
   return head;
 }
 
+void printList(Node *traverse) {
+   while(traverse != NULL) {
+    cout << traverse->id << endl;
+    traverse = traverse->next;
+   }
+}
+
 // 链表
 int main(){
   Node *list01 = create();
+
+  printList(list01);
 
   cout << endl;
   return 0;
