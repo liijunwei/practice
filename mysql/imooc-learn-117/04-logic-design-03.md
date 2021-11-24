@@ -1,6 +1,4 @@
-https://www.imooc.com/video/1915
-
-### 第一范式(1NF)
+### [第一范式(1NF)](https://www.imooc.com/video/1915)
 
 定义: 数据库表中的所有字段都是单一属性, 不可再分的
 
@@ -8,4 +6,5 @@ https://www.imooc.com/video/1915
 
 换句话说: 第一范式要求数据库中的表都是二维表(我理解都是一维表...  = = )
 
+### [第二范式(2NF)](https://www.imooc.com/video/1916)
 
