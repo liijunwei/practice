@@ -29,12 +29,20 @@ varchar(20)   |'1978-03-01'
 
 > 数据库当前最大的瓶颈是 磁盘IO
 
-#### char 与 varchar 如何选择
-
 https://www.imooc.com/video/1937
+
+#### char 与 varchar 如何选择
 
 + 原则.1 如果列中要存储的数据长度差不多是一致的, 则应该考虑用char; 否则应考虑用varchar
 
 + 原则.2 如果列中最大数据长度小于50-Byte, 则一般考虑用char;
 
 + 原则.3 一般不宜定义大于50-Byte的char类型列
+
+#### decimal 与 float 如何选择
+
++ 原则.1 decimal适用于存储精确数据, float用于存储非精确数据; 精确数据只能用decimal类型
+
++ 原则.2 float的存储空间开销一般比decimal小, 非精确数据优先选择float类型
+
+
