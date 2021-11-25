@@ -10,10 +10,10 @@
 
 ### [选择哪种数据库?](https://www.imooc.com/video/1908)
 
-DBMS        | free?
-------------|---------------------
-Oracle      | 商用数据库, 收费
-SQLServer   | 商用数据库, 收费
-MySQL       | 开源, 免费
-PostgreSQL  | 开源, 免费
+DBMS        | free?                | OS       | programming-language |Projects
+------------|----------------------|----------|----------------------|--------------------
+Oracle      | 商用数据库, 收费     |win+linux | others               |Enterprise-Projects
+SQLServer   | 商用数据库, 收费     |win       | `.NET`               |Enterprise-Projects
+MySQL       | 开源, 免费           |win+linux | others               |Internet-Projects
+PostgreSQL  | 开源, 免费           |win+linux | others               |Internet-Projects
 
