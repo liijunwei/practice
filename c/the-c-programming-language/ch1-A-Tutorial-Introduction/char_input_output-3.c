@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+// page 11
 // 验证表达式 getchar() != EOF 的值是 0 还是 1
 int main(){
   int c;
