@@ -1,7 +1,7 @@
 #include <stdio.h>
 
+// page 12
 int main(){
-
   printf("please enter chars, `ctrl+d` to exit\n");
   printf("\n");
 
