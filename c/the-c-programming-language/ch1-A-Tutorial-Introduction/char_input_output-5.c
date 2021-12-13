@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+// page 12
 // 对字符进行计数
 int main(){
   long nc = 0;
