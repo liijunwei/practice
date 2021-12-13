@@ -5,6 +5,8 @@ int custom_getline(char line[], int lim);
 void copy(char to[], char from[]);
 
 // TODO use gdb to debug
+// page 29
+// 打印最长的输出行
 
 int main(){
   int len;
