@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+// page 13 练习1-8
+
 #define CONST_CHAR_SPACE   ' '
 #define CONST_CHAR_TAB     '\t'
 #define CONST_CHAR_NEWLINE '\n'

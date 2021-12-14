@@ -5,6 +5,8 @@
 #define CONST_CHAR_BACKSPACE '\b'
 #define CONST_CHAR_SLASH     '\\'
 
+// page 13 练习1-10
+
 // 将输入复制到输出, 并将其中 的制表符替换为 \t, 回退符替换为 \b, 反斜杠替换为 \\
 // 这样就可以将制表符和回退符以可见的形式显示出来
 
