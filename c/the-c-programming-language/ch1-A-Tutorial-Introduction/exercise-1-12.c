@@ -7,6 +7,11 @@
 #define CONST_CHAR_NEWLINE   '\n'
 #define CONST_CHAR_SPACE     ' '
 
+// page 15 练习1-12
+
+// 情景1 是否为空格
+// 情景2 是否在单词内
+// 两两组合, 4种情况
 
 // 编写程序, 以每行一个单词的形式打印其输入
 
