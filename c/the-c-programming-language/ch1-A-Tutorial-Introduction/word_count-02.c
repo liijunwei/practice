@@ -7,6 +7,10 @@
 #define CONST_CHAR_NEWLINE   '\n'
 #define CONST_CHAR_SPACE     ' '
 
+// page 15 练习1-11
+
+// TODO 如何用程序测试?(assert)
+
 // 统计输入的 行数/单词数/字符数
 
 /*

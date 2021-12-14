@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+// page 21
 #define CONST_IN  1 // 在单词内
 #define CONST_OUT 0 // 在单词外
 
