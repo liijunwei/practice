@@ -32,12 +32,17 @@ int main(){
     }
   }
 
-  printf("dights = ");
+  printf("dight      = ");
+  for(i = 0; i < ARRAY_SIZE; ++i){
+    printf(" %d", i);
+  }
+  printf("\n");
 
+  printf("dightcount = ");
   for(i = 0; i < ARRAY_SIZE; ++i){
     printf(" %d", ndight[i]);
   }
 
-  printf(", white space = %d, other = %d\n", nwhite, nother);
+  printf("\nwhite space = %d\nother = %d\n", nwhite, nother);
 
 }
