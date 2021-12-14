@@ -3,6 +3,9 @@
 // implicit declaration of function 'celsius' is invalid in C99
 float celsius(float fahr);
 
+// page 19
+
+// 对比: ch0-Introduction/fahr_to_celsius.c
 // 使用函数重新编写 温度转换程序
 int main(){
   float lower = 0;
