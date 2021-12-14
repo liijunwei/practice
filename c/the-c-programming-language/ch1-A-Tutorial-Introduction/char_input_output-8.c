@@ -28,7 +28,7 @@ int main(){
   }
 
   printf("\n");
-  printf("space chars count is: %d\n", char_space_count);
-  printf("tab chars count is: %d\n", char_tab_count);
-  printf("newline chars count is: %d\n", char_newline_count);
+  printf("spaces:   %d\n", char_space_count);
+  printf("tabs:     %d\n", char_tab_count);
+  printf("newlines: %d\n", char_newline_count);
 }
