@@ -18,6 +18,7 @@ int main(){
   while((len = custom_getline(line, MAXLINE)) > 0){
     if(len > max){
       max = len;
+      printf("copying maxline.....\n");
       custom_copy(longest, line);
     }
   }
