@@ -7,8 +7,11 @@
 // 假设制表符终止位的位置是固定的, 比如每个n列就会出现一个制表符终止位, n应该为变量还是符号常量呢?
 
 #define TABING 8 // tab increment size
+// #define VISIABLE_CHAR ' '
+#define VISIABLE_CHAR '*'
 
-// TODO 如何检查程序的正确性?
+// OK 如何检查程序的正确性?
+// 将空格 ' ' 换为其他可视的符号即可, 比如 '*'
 
 // replace tabs with the proper number of blanks
 int main(){
@@ -20,7 +23,7 @@ int main(){
     if(c == '\t'){
       nb = TABING - (pos - 1) % TABING;
       while(nb > 0){
-        putchar(' ');
+        putchar(VISIABLE_CHAR);
         ++pos;
         --nb;
       }
