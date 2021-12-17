@@ -11,6 +11,10 @@
 
 // TODO 没明白
 
+/*
+程序的主要想法是: 找出全部空格, 变量pos每递增到
+*/
+
 #define TABING 8 // tab increment size
 #define CHAR_BLANK 'b' // ' '
 #define CHAR_TAB   't' // '\t'
