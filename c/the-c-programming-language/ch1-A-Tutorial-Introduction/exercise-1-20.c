@@ -8,6 +8,8 @@
 
 #define TABING 8 // tab increment size
 
+// TODO 如何检查程序的正确性?
+
 // replace tabs with the proper number of blanks
 int main(){
   int c;
