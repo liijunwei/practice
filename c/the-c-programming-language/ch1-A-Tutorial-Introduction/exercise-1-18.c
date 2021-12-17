@@ -5,6 +5,8 @@
 
 // 编写程序, 删除每个输入行末尾的空格及制表符, 并删除完全是空格的行
 
+// TODO 如何验证程序的正确性?
+
 int custom_getline(char s[], int limit);
 int remove_blank(char s[]);
 #define LENTH_MAX 1000
