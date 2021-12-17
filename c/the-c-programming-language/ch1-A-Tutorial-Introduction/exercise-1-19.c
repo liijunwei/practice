@@ -55,6 +55,7 @@ void custom_reverse(char s[]){
 
   j = 0;
   while(j < i){
+    // 字符串内, 首尾相互交换, 首部步进, 尾部步退, 精巧
     temp = s[j]; // swap the characters
     s[j] = s[i];
     s[i] = temp;
