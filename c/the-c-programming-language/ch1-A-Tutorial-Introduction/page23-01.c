@@ -13,6 +13,12 @@ void custom_copy(void);
 
 // 注释掉 extern 的行, 是等效的
 
+/*
+  某些情况下, extern 可以省略
+  在源文件中, 如果外部变量的定义出现在使用它的函数之前, 那么在那个函数中就没有必要使用extern声明
+  在通常做法中, 所有的外部变量都声明在文件的开始出, 这样就可以省去extern声明
+*/
+
 int main(){
   int len;
   extern int max;
