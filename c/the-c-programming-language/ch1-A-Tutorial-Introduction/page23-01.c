@@ -11,6 +11,8 @@ char longest[LENTH_MAX]; // 最长的行
 int custom_getline(void);
 void custom_copy(void);
 
+// 注释掉 extern 的行, 是等效的
+
 int main(){
   int len;
   extern int max;
