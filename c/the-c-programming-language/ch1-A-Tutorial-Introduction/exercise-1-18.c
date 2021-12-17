@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 // page 22
 
@@ -39,6 +40,7 @@ int custom_getline(char s[], int limit){
 }
 
 int remove_blank(char s[]){
+  printf("string length is %ld\n", strlen(s));
   int i = 0;
   while(s[i] != '\n'){
     ++i; // find new line character
@@ -58,6 +60,7 @@ int remove_blank(char s[]){
   }
 
   printf("line->\n %sreturns %d\n", s, i);
+  printf("string length is %ld\n", strlen(s));
   return i;
 }
 
