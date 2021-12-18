@@ -5,7 +5,13 @@
     + double 双精度浮点型
 
 + 此外可以在基本数据类型前面加限定符
-    + short
-    + long
+    + short 通常为16位
+    + long  通常为32位
+    + int   可以为 16位或者32位
+```c
+short int a;
+long int b
 
+// 这种情况下, int 可以省略
+```
 
