@@ -49,25 +49,24 @@ int main(){
       search(c);
     }
 
-    // 没明白这段在干嘛...
     if(brace < 0){
-      printf("Unbalanced braces\n");
+      printf("Unbalanced braces -> {}\n");
       brace = 0;
     } else if(brack < 0){
-      printf("Unbalanced brackets\n");
+      printf("Unbalanced brackets -> []\n");
       brack = 0;
     } else if(paren < 0){
-      printf("Unbalanced parentheses\n");
+      printf("Unbalanced parentheses -> ()\n");
       paren = 0;
     }
   }
 
   if(brace > 0){
-    printf("Unbalanced braces\n");
+    printf("Unbalanced braces -> {}\n");
   } else if(brack > 0){
-    printf("Unbalanced brackets\n");
+    printf("Unbalanced brackets -> []\n");
   } else if(paren > 0){
-    printf("Unbalanced parentheses\n");
+    printf("Unbalanced parentheses -> ()\n");
   }
 
   return 0;
