@@ -94,6 +94,7 @@ void in_comment(void){
   }
 }
 
+// search for redimentary syntax errors
 void search(int c){
   extern int brace;
   extern int brack;
