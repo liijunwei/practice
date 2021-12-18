@@ -12,10 +12,13 @@ void rcomment(int c);
 void in_comment(void);
 void echo_quote(int c);
 
+// remove all comments from a valid c program
 int main(){
-  rcomment(1);
-  in_comment();
-  echo_quote(1);
+  int c;
+  int d;
+  while((c = getchar()) != EOF){
+    rcomment(c);
+  }
 
   return 0;
 }
