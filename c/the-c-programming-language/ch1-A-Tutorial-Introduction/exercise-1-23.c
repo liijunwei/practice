@@ -8,7 +8,27 @@
 在C语言程序中，注释不允许嵌套
 */
 
+void rcomment(int c);
+void in_comment(void);
+void echo_quote(int c);
+
 int main(){
+  rcomment(1);
+  in_comment();
+  echo_quote(1);
 
   return 0;
 }
+
+void rcomment(int c){
+
+}
+
+void in_comment(void){
+
+}
+
+void echo_quote(int c){
+
+}
+
