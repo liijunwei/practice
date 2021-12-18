@@ -15,3 +15,11 @@ long int b
 // 这种情况下, int 可以省略
 ```
 
++ 类型长度的限制
+    + short/int至少为16位
+    + long至少为32位
+    + short不得长于int, int不得长于long
+
++ 类型限定符 signed/unsigned 可以用于限定char类型或者任意整型
+
++ 相关的类型长度定义参考: <limits.h> <float.h>
