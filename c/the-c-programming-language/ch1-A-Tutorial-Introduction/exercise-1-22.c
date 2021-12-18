@@ -23,6 +23,7 @@ int main(){
 
   while((c = getchar()) != EOF){
     line[pos] = c;
+
     if(c == '\t'){
       pos = exptab(pos); // expand tab character
     } else if(c == '\n'){
@@ -50,8 +51,16 @@ int new_pos(int pos){
   return 0;
 }
 
+// print line until pos column
 void print_line(int pos){
+  for(int i = 0; i < pos; ++i){
+    putchar(line[i]);
+  }
 
+  // any chars printed?
+  if(pos > 0){
+    putchar('\n');
+  }
 }
 
 
