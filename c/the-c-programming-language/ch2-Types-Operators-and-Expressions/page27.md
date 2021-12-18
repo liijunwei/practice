@@ -23,3 +23,5 @@ long int b
 + 类型限定符 signed/unsigned 可以用于限定char类型或者任意整型
 
 + 相关的类型长度定义参考: <limits.h> <float.h>
+
++ ANSI C标准规定, 各种类型的取值范围必须在头文件 <limits.h> 中定义
