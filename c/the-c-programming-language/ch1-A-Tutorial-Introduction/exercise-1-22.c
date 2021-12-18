@@ -16,11 +16,24 @@ int find_blank(int pos);
 int new_pos(int pos);
 void print_line(int pos);
 
+// fold long input lines into two or more shorter lines
 int main(){
-  exptab(1);
-  find_blank(1);
-  new_pos(1);
-  print_line(1);
+  int c;
+  int pos = 0; // position in the line
+
+  while((c = getchar()) != EOF){
+    line[pos] = c;
+    if(c == '\t'){
+      pos = exptab(pos); // expand tab character
+    } else if(c == '\n'){
+      print_line(pos); // print current input line
+      pos = 0;
+    } else if(++pos > MAXCOL){
+      pos = find_blank(pos);
+      print_line(pos);
+      pos = new_pos(pos);
+    }
+  }
 
   return 0;
 }
