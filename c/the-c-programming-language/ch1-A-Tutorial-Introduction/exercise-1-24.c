@@ -49,6 +49,7 @@ int main(){
       search(c);
     }
 
+    // 没明白这段在干嘛...
     if(brace < 0){
       printf("Unbalanced braces\n");
       brace = 0;
