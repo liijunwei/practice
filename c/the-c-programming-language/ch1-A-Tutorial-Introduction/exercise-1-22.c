@@ -39,11 +39,23 @@ int main(){
   return 0;
 }
 
+// expand tab into blanks
 int exptab(int pos){
-  return 0;
+  line[pos] = ' '; //tab is at least one blank
+  for(++pos; (pos < MAXCOL) && (pos % TABING != 0); ++pos){
+    line[pos] = ' ';
+  }
+
+  if(pos < MAXCOL){ // room left in current line
+    return pos;
+  } else{           // current line if full
+    print_line(pos);
+    return 0;       // reest current position
+  }
 }
 
 int find_blank(int pos){
+
   return 0;
 }
 
