@@ -44,6 +44,13 @@ void solu_1(){
 }
 
 // TODO 没懂...
+/*
++ 先把数字0的各个二进制位全转为1 (~0)
++ 然后将结构转为 unsigned char 类型 (unsigned char) ~0
++ 再把结果右移一位以清除符号位 (unsigned char) ~0 >> 1
++ 最后, 把它转为char类型 (char)((unsigned char) ~0 >> 1)
++ 得到signed类型的字符的最大值
+*/
 void solu_2(){
   printf("Signed Types(%s)\n\n", __func__);
   printf("signed char min   = %d\n", -(char)((unsigned char) ~0 >> 1));
