@@ -71,7 +71,20 @@ int find_blank(int pos){
 
 // rearrange line with new position
 int new_pos(int pos){
-  return 0;
+  int i;
+  int j;
+
+  if(pos <= 0 || pos >= MAXCOL){ // nothing to rearrange
+    return 0;
+  } else{
+    i = 0;
+    for(j = pos; j < MAXCOL; ++j){
+      line[i] = line[j];
+      ++i;
+    }
+
+    return i; // new position in line
+  }
 }
 
 // print line until pos column
