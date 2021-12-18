@@ -7,6 +7,8 @@
 要保证程序能够智能地处理输入行很长以及在指定的列前没有空格或制表符的情况
 */
 
+// TODO 如何验证程序的正确性
+
 #define MAXCOL 10 // maximum column of input
 #define TABING 8  // tab increment size
 
