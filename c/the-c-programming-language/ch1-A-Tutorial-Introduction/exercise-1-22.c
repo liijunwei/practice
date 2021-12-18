@@ -54,11 +54,22 @@ int exptab(int pos){
   }
 }
 
+// find blank's position
 int find_blank(int pos){
+  while(pos > 0 && line[pos] != ' '){
+    --pos;
+  }
+
+  if(pos == 0){     // no blank in the line?
+    return MAXCOL;
+  } else{           // at least one blank
+    return pos + 1; // position after the blank
+  }
 
   return 0;
 }
 
+// rearrange line with new position
 int new_pos(int pos){
   return 0;
 }
