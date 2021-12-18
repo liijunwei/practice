@@ -20,6 +20,7 @@ int main(int argc, char const *argv[])
   return 0;
 }
 
+// refer to: https://code.woboq.org/userspace/glibc/include/limits.h.html
 void solu_1(){
   printf("Signed Types\n===============\n");
   printf("signed char min  = %d\n", SCHAR_MIN);

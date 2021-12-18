@@ -25,3 +25,4 @@ long int b
 + 相关的类型长度定义参考: <limits.h> <float.h>
 
 + ANSI C标准规定, 各种类型的取值范围必须在头文件 <limits.h> 中定义
+    + https://code.woboq.org/userspace/glibc/include/limits.h.html
