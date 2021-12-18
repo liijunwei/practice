@@ -43,6 +43,7 @@ void solu_1(){
   printf("unsigned long max  = %lu\n", ULONG_MAX);
 }
 
+// TODO 没懂...
 void solu_2(){
   printf("Signed Types(%s)\n\n", __func__);
   printf("signed char min   = %d\n", -(char)((unsigned char) ~0 >> 1));
