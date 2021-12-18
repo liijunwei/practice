@@ -16,6 +16,7 @@
 test use sentence:
 --------------------
 today is a wonderful day isn't it?
+TODO 输出很怪, 没看明白...
 */
 
 /*
@@ -38,7 +39,7 @@ newpos调整输入行, 把从位置pos开始的字符复制到下一个输出行
 char line[MAXCOL];
 int exptab(int pos);
 int find_blank(int pos);
-int new_pos(int pos);
+int newpos(int pos);
 void print_line(int pos);
 
 // fold long input lines into two or more shorter lines
@@ -57,7 +58,7 @@ int main(){
     } else if(++pos > MAXCOL){
       pos = find_blank(pos);
       print_line(pos);
-      pos = new_pos(pos);
+      pos = newpos(pos);
     }
   }
 
@@ -90,12 +91,10 @@ int find_blank(int pos){
   } else{           // at least one blank
     return pos + 1; // position after the blank
   }
-
-  return 0;
 }
 
 // rearrange line with new position
-int new_pos(int pos){
+int newpos(int pos){
   int i;
   int j;
 
