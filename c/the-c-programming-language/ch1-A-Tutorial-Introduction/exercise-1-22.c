@@ -12,6 +12,29 @@
 #define MAXCOL 10 // maximum column of input
 #define TABING 8  // tab increment size
 
+/*
+test use sentence:
+--------------------
+today is a wonderful day isn't it?
+*/
+
+/*
+MAXCOL 指定了输入行的折行位置, 即输入行的第n列
+pos 指定了程序在问本行中的当前位置
+程序将在输入行的每一处第n列之前对该输入行拆行
+
+这个程序把制表符扩展为空格; 没遇到一个换行符就把此前的输入文本打印出来;
+每当变量pos值达到MAXCOL时, 就对输入行进行"折叠"
+
+find_blank从输入行的pos出开始倒退着寻找一个空格(目的是 保持折行的单词完整);
+如果找到了一个空格, 就返回紧跟着空格符后面的那个位置的下标; 如果没找到空格, 就返回MAXCOL
+
+print_line 打印输出从位置0到pos-1之间的字符
+
+newpos调整输入行, 把从位置pos开始的字符复制到下一个输出行的开始, 然后再返回pos的新值
+
+*/
+
 char line[MAXCOL];
 int exptab(int pos);
 int find_blank(int pos);
