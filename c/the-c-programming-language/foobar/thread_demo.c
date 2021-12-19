@@ -12,6 +12,7 @@ void *entry_point(void *value){
 
 int main(int argc, char const *argv[])
 {
+  // `man pthread_create` for help
   pthread_t thread;
 
   printf("hello from the 1st thread :D\n");
