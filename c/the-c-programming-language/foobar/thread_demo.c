@@ -4,6 +4,9 @@
 void *entry_point(void *value){
   printf("hello from the 2nd thread :)\n");
 
+  int *num = (int *)value;
+  printf("the value of value is %d\n", *num);
+
   return NULL;
 }
 
