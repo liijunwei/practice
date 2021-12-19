@@ -13,3 +13,7 @@ tuto02: clean
 	gcc tuto02.c -o a.out `pkg-config --cflags gtk4` `pkg-config --libs gtk4`
 	./a.out
 
+tuto03: clean
+	gcc tuto03.c -o a.out `pkg-config --cflags gtk4` `pkg-config --libs gtk4`
+	./a.out
+
