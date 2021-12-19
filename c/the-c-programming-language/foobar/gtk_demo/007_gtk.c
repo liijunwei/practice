@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 
+// https://www.youtube.com/watch?v=ajNvsv1ka4I&list=PLlcnQQJK8SUg4C8syQ63d6o44dzt_vFls&index=8
+// https://docs.gtk.org/gtk4/getting_started.html
+
 static GtkWidget *number1;
 static GtkWidget *number2;
 static GtkWidget *result;
