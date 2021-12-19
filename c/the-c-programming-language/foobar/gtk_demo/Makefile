@@ -5,3 +5,6 @@ all: clean
 clean:
 	rm -rf a.out
 
+tuto01: clean
+	gcc tuto01.c -o a.out `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
+	./a.out
