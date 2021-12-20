@@ -32,13 +32,13 @@ int main(){
 
 char *fizzbuzz(int num){
   if(is_fizz_buzz(num) == 1){
-    return("fizz buzz");
+    return "fizz buzz";
   }
   else if(is_fizz(num) == 1){
-    return("fizz");
+    return "fizz";
   }
   else if(is_buzz(num) == 1){
-    return("buzz");
+    return "buzz";
   }
   else{
     sprintf(str_buffer, "%d", num);
