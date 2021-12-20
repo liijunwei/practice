@@ -1,5 +1,6 @@
 #include <stdio.h>
-
+#include <assert.h>
+#include <string.h>
 
 /*
 https://en.wikipedia.org/wiki/Fizz_buzz
@@ -18,9 +19,13 @@ int is_buzz(int num);
 char str_buffer[5];
 
 int main(){
-  for(int i = 1; i <= 100; i++){
-    printf("%s\n", fizzbuzz(i));
-  }
+  assert(strcmp("1",         fizzbuzz(1))   == 0);
+  assert(strcmp("2",         fizzbuzz(2))   == 0);
+  assert(strcmp("fizz",      fizzbuzz(3))   == 0);
+  assert(strcmp("4",         fizzbuzz(4))   == 0);
+  assert(strcmp("buzz",      fizzbuzz(5))   == 0);
+  assert(strcmp("fizz",      fizzbuzz(6))   == 0);
+  assert(strcmp("fizz buzz", fizzbuzz(15))  == 0);
 
   return 0;
 }
