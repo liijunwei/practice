@@ -11,31 +11,33 @@ For example, a typical round of fizz buzz would start as follows:
 1, 2, Fizz, 4, Buzz, Fizz, 7, 8, Fizz, Buzz, 11, Fizz, 13, 14, Fizz Buzz, 16, 17, Fizz, 19, Buzz, Fizz, 22, 23, Fizz, Buzz, 26, Fizz, 28, 29, Fizz Buzz, 31, 32, Fizz, 34, Buzz, Fizz, ...
 */
 
-void fizzbuzz(int num);
+char *fizzbuzz(int num);
 int is_fizz_buzz(int num);
 int is_fizz(int num);
 int is_buzz(int num);
+char str_buffer[5];
 
 int main(){
   for(int i = 1; i <= 100; i++){
-    fizzbuzz(i);
+    printf("%s\n", fizzbuzz(i));
   }
 
   return 0;
 }
 
-void fizzbuzz(int num){
+char *fizzbuzz(int num){
   if(is_fizz_buzz(num) == 1){
-    printf("%d fizz buzz\n", num);
+    return("fizz buzz");
   }
   else if(is_fizz(num) == 1){
-    printf("%d fizz\n", num);
+    return("fizz");
   }
   else if(is_buzz(num) == 1){
-    printf("%d buzz\n", num);
+    return("buzz");
   }
   else{
-    printf("%d %d\n", num, num);
+    sprintf(str_buffer, "%d", num);
+    return str_buffer;
   }
 }
 
