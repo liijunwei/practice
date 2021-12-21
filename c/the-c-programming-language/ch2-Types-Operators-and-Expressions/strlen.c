@@ -2,6 +2,9 @@
 
 // page 30
 
+// https://code.woboq.org/userspace/glibc/string/strlen.c.html
+// 有这么复杂...?
+
 int custom_strlen(const char s[]){
   int i = 0;
 
