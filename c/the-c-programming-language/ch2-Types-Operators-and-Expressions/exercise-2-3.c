@@ -14,8 +14,17 @@ int custom_htoi(const char s[]){
   int flag = 1;
   int n = 0;
   int hexdigit;
+  int i = 0;
 
-  for(int i = 0; flag == 1; i++){
+  if(s[i] == '0'){
+    ++i;
+
+    if(tolower(s[i]) == 'x'){
+      ++i;
+    }
+  }
+
+  for(; flag == 1; i++){
     if(s[i] >= '0' && s[i] <= '9'){
       hexdigit = s[i] - '0';
     } else if(tolower(s[i]) >= 'a' && tolower(s[i]) <= 'f'){
@@ -35,7 +44,11 @@ int custom_htoi(const char s[]){
 int main(int argc, char const *argv[])
 {
   printf("assertion started...\n");
-  assert(custom_htoi("1a") == 26);
+
+  assert(custom_htoi("0x1a") == 26);
+  assert(custom_htoi("0X1A") == 26);
+  assert(custom_htoi("0XFA129") == 1024297);
+  assert(custom_htoi("FA129") == 1024297);
 
   printf("assertion pass!\n");
   return 0;
