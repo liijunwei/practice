@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+// page 37
+
 // 从字符串s中删除字符c
 void squeeze(char s[], int c){
   int i = 0;
