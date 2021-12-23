@@ -17,8 +17,13 @@ void squeeze(char s1[], char s2[]){
       ;
     }
 
+    // s2[j] == '\0' 和上面for循环里的 s2[j] != '\0' 条件是矛盾的
+    // 即 要么执行for循环, 要么执行这个if条件
     if(s2[j] == '\0'){
       s1[k] = s1[i];
+      printf("k: %d s1[k]: %c\n", k, s1[k]);
+      printf("i: %d s1[i]: %c\n", i, s1[i]);
+
       k++;
     }
   }
@@ -30,7 +35,7 @@ void squeeze(char s1[], char s2[]){
 int main(int argc, char const *argv[])
 {
   char str1[10] = "hello";
-  char str2[10] = "he";
+  char str2[10] = "eo";
   printf("str1: %s\n", str1);
   printf("str2: %s\n", str2);
 
