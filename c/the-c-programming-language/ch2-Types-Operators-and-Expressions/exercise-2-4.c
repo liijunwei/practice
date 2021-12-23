@@ -8,11 +8,11 @@ page 39
 */
 
 void squeeze(char s1[], char s2[]){
-  int i = 0;
+  int i;
   int j;
-  int k = 0;
+  int k;
 
-  for(; s1[i] != '\0'; i++){
+  for(i = 0, k = 0; s1[i] != '\0'; i++){
     for(j = 0; s2[j] != '\0' && s1[i] != s2[j]; j++){
       ;
     }
@@ -30,7 +30,7 @@ void squeeze(char s1[], char s2[]){
 int main(int argc, char const *argv[])
 {
   char str1[10] = "hello";
-  char str2[10] = "abc";
+  char str2[10] = "he";
   printf("str1: %s\n", str1);
   printf("str2: %s\n", str2);
 
