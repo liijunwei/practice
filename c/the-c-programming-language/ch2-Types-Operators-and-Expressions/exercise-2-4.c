@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 /*
-page 39
+page 38
 
 参考: ch2-Types-Operators-and-Expressions/squeeze_demo.c
 重新编写函数 squeeze(char s1[], char s2[]) ，将字符串s1中任何与字符串s2中字符匹配的字符都删除
