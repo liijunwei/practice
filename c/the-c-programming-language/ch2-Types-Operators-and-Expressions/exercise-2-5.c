@@ -7,6 +7,8 @@ page 38
 如果s1中不包含s2中的字符, 则返回-1(标准库函数strpbrk具有同样的\n功能, 但它返回的是指向该位置的指针)
 */
 
+#define CHAR_NOT_FOUND -1
+
 int any(char s1[], char s2[]){
   int i;
   int j;
@@ -19,7 +21,7 @@ int any(char s1[], char s2[]){
     }
   }
 
-  return -1;
+  return CHAR_NOT_FOUND;
 }
 
 int main(int argc, char const *argv[])
@@ -27,7 +29,11 @@ int main(int argc, char const *argv[])
   char str1[10] = "hello";
   char str2[10] = "o";
 
-  printf("%d\n", any(str1, str2));
+  printf("%d\n", any(str1, "p"));
+  printf("%d\n", any(str1, "o"));
+  printf("%d\n", any(str1, "ol"));
+  printf("%d\n", any(str1, "lol"));
+  printf("%d\n", any(str1, "hi"));
 
   return 0;
 }
