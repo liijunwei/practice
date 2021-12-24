@@ -17,7 +17,7 @@ int any(char s1[], char s2[]){
     }
 
     if(s2[j] == '\0'){
-      // return -1;
+      // do nothing
     }
 
     if(s2[j] == s1[i]){
