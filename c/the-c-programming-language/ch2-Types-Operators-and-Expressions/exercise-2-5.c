@@ -8,14 +8,31 @@ page 38
 */
 
 int any(char s1[], char s2[]){
+  int i;
+  int j;
+  int k;
 
-  return 0;
+  for(i = 0, k = 0; s1[i] != '\0'; i++){
+    for(j = 0; s2[j] != '\0' && s1[i] != s2[j]; j++){
+      ;
+    }
+
+    if(s2[j] == '\0'){
+      // return -1;
+    }
+
+    if(s2[j] == s1[i]){
+      return i;
+    }
+  }
+
+  return -1;
 }
 
 int main(int argc, char const *argv[])
 {
   char str1[10] = "hello";
-  char str2[10] = "eo";
+  char str2[10] = "o";
 
   printf("%d\n", any(str1, str2));
 
