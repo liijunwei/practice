@@ -10,22 +10,22 @@ page 40
 */
 
 unsigned invert(unsigned x, int p, int n){
-
-  return 100;
+  int tmp = ~(~0 << n) << (p - n + 1);
+  return x ^ tmp;
 }
 
 // generate sample data
 // --------------------
 // toBinary 78   => 01001110
 // toBinary 89   => 01011001
-// toBinary 657  => 00101001 0001
-// toBinary 8779 => 1000 10010 01011
+// toBinary 657  => 001010010001
+// toBinary 8779 => 10001001001011
 int main(int argc, char const *argv[])
 {
-  assert(100 == invert(78, 5, 2));
-  assert(100 == invert(78, 5, 2));
-  assert(100 == invert(8779, 9, 5));
-  assert(100 == invert(8779, 9, 5));
+  assert(126 == invert(78, 5, 2)); // 01111110
+  assert(62  == invert(78, 6, 3)); // 00111110
+  assert(369 == invert(657, 9, 5)); // 000101110001
+  assert(9675 == invert(8779, 10, 4)); // 10010111001011
   printf("PASS.\n");
 
   return 0;
