@@ -24,12 +24,14 @@ unsigned setbits(unsigned x, int p, int n, int y){
 // toBinary 78   => 01001110
 // toBinary 89   => 01011001
 // toBinary 657  => 00101001 0001
-// toBinary 8779 => 10001001001011
+// toBinary 8779 => 1000 10010 01011
 int main(int argc, char const *argv[])
 {
 
   assert(94  == setbits(78, 5, 2, 89));   // 01011110
   assert(126 == setbits(78, 5, 2, 8779)); // 01111110
+  assert(9003 == setbits(8779, 9, 5, 89)); // 10001100101011
+  assert(8651 == setbits(8779, 9, 5, 78)); // 10000111001011
   printf("PASS.\n");
   return 0;
 }
