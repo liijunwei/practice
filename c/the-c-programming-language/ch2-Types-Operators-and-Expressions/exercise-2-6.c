@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 
 /*
 page 40
@@ -11,8 +12,24 @@ page 40
 3. x | y
 */
 
+unsigned setbits(unsigned x, int p, int n, int y){
+  int tmpx = x & ~(~(~0 << n) << (p - n + 1));
+  int tmpy = (y & ~(~0 << n)) << (p - n + 1);
+
+  return tmpx | tmpy;
+}
+
+// generate sample data
+// --------------------
+// toBinary 78   => 01001110
+// toBinary 89   => 01011001
+// toBinary 657  => 00101001 0001
+// toBinary 8779 => 10001001001011
 int main(int argc, char const *argv[])
 {
 
+  assert(94  == setbits(78, 5, 2, 89));   // 01011110
+  assert(126 == setbits(78, 5, 2, 8779)); // 01111110
+  printf("PASS.\n");
   return 0;
 }
