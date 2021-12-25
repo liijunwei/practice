@@ -5,10 +5,13 @@
 page 40
 */
 
+// 统计其整型参数的值为1的二进制位的个数
 int bitcount(unsigned x) {
   int b;
   for (b = 0; x != 0; x >>= 1) {
-    b++;
+    if(x & 01){
+      b++;
+    }
   }
 
   return b;
@@ -22,10 +25,10 @@ int bitcount(unsigned x) {
 // toBinary 8779 => 10001001001011
 int main(int argc, char const *argv[])
 {
-  assert(7 == bitcount(78));
-  assert(7 == bitcount(89));
-  assert(10 == bitcount(657));
-  assert(14 == bitcount(8779));
+  assert(4 == bitcount(78));
+  assert(4 == bitcount(89));
+  assert(4 == bitcount(657));
+  assert(6 == bitcount(8779));
   printf("PASS.\n");
 
   return 0;
