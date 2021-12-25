@@ -19,6 +19,7 @@ int bitlen(unsigned d) {
   return len;
 }
 
+// not clear
 unsigned rightrot_v2(unsigned x, int n){
   int len = bitlen(x);
   int rbits; // rightmost bit
