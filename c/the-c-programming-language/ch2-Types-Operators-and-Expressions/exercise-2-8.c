@@ -21,10 +21,10 @@ unsigned rightrot(unsigned x, int n){
 // toBinary 8779 => 10001001001011
 int main(int argc, char const *argv[])
 {
-  assert(100 == rightrot(78, 5));
-  assert(100 == rightrot(78, 6));
-  assert(100 == rightrot(657, 9));
-  assert(100 == rightrot(8779, 10));
+  assert(147 == rightrot(78, 2)); // 10010011
+  assert(43 == rightrot(89, 3)); // 00101011
+  assert(1161 == rightrot(657, 9)); // 010010001001
+  assert(9400 == rightrot(8779, 10)); // 10010010111000
   printf("PASS.\n");
 
   return 0;
