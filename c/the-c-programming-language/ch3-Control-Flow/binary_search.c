@@ -1,14 +1,17 @@
 #include <stdio.h>
 #include <assert.h>
 
+// page 47
+
 #define ARR_SIZE 6
+
 int binsearch(int x, int v[], int n){
   int low = 0;
   int mid;
   int high = n -1;
 
   while(low <= high){
-    mid = (low + high) / 2;
+    mid = (low + high) >> 1;
 
     if(x < v[mid]){
       high = mid - 1;
