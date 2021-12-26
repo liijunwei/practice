@@ -27,10 +27,17 @@ binsearch_v1 costs: 0.781838
 binsearch_v2 costs: 0.844247
 
 说明减少一次循环没啥意义嘛?
+
+又试了一下 修改 get_mid 的实现, 改为位计算 会快很多
 */
 
 #define ARR_SIZE 6
 #define TEST_ROUNDS 10000000
+
+int get_mid(int l, int h){
+  return (l + h) >> 1;
+  // return (l + h) / 2;
+}
 
 int binsearch_v1(int x, int v[], int n){
   int low = 0;
@@ -38,7 +45,7 @@ int binsearch_v1(int x, int v[], int n){
   int high = n -1;
 
   while(low <= high){
-    mid = (low + high) >> 1;
+    mid = get_mid(low, high);
 
     if(x < v[mid]){
       high = mid - 1;
@@ -54,8 +61,8 @@ int binsearch_v1(int x, int v[], int n){
 
 int binsearch_v2(int x, int v[], int n){
   int low = 0;
-  int high = n -1;
-  int mid = (low + high) >> 1;
+  int high = n - 1;
+  int mid = get_mid(low, high);
 
   while(low <= high && x != v[mid]){
     if(x < v[mid]){
@@ -63,7 +70,7 @@ int binsearch_v2(int x, int v[], int n){
     } else {
       low = mid + 1;
     }
-    mid = (low + high) >> 1;
+    mid = get_mid(low, high);
   }
 
   return (x == v[mid]) ? mid : -1;
