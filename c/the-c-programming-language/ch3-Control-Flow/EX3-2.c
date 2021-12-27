@@ -9,6 +9,7 @@ page 49
 
 */
 
+// t 复制到 s
 void escape(char s[], char t[]){
   int i;
   int j;
@@ -33,8 +34,31 @@ void escape(char s[], char t[]){
   s[j] = '\0';
 }
 
+// t 复制到 s
 void unescape(char s[], char  t[]){
+  int i;
+  int j;
 
+  for(i = 0, j = 0; t[i] != '\0'; i++){
+    if(t[i] != '\\'){
+      s[j++] = t[i];
+    } else {
+      switch(t[++i]){
+        case 'n':
+          s[j++] = '\n';
+          break;
+        case 't':
+          s[j++] = '\t';
+          break;
+        default:
+          s[j++] = '\\';
+          s[j++] = t[i];
+          break;
+      }
+    }
+  }
+
+  s[j] = '\0';
 }
 
 int main(int argc, char const *argv[])
@@ -45,6 +69,10 @@ int main(int argc, char const *argv[])
   char str_to[100];
   escape(str_to, str_from);
   printf("str_to -> %s\n", str_to);
+
+  char unescaped_str[100];
+  unescape(unescaped_str, str_to);
+  printf("unescaped_str -> %s\n", unescaped_str);
 
   return 0;
 }
