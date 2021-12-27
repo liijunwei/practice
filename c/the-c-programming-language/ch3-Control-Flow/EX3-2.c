@@ -9,16 +9,42 @@ page 49
 
 */
 
-void escape(s[], t[]){
+void escape(char s[], char t[]){
+  int i;
+  int j;
 
+  for(i = 0, j = 0; t[i] != '\0'; i++){
+    switch(t[i]){
+      putchar(t[i]);
+      case '\n':
+        s[j++] = '\\';
+        s[j++] = 'n';
+        break;
+      case '\t':
+        s[j++] = '\\';
+        s[j++] = 't';
+        break;
+      default:
+        s[j++] = t[i];
+        break;
+    }
+  }
+
+  s[j] = '\0';
 }
 
-void unescape(s[], t[]){
+void unescape(char s[], char  t[]){
 
 }
 
 int main(int argc, char const *argv[])
 {
+  char str_from[10] = {'h', 'e', 'l', '\t', '\n', '1', 'o', '!', '\0'};
+  printf("str_from -> %s\n", str_from);
+
+  char str_to[100];
+  escape(str_to, str_from);
+  printf("str_to -> %s\n", str_to);
 
   return 0;
 }
