@@ -7,8 +7,18 @@ page 52
 该函数可以处理大小写字母和数字，并可以处理a-b-c、a-z0-9与a-z等类似的情况。作为前导和尾随的字符原样复制
 */
 
+void expand(const char s1[], char s2[]){
+
+}
+
 int main(int argc, char const *argv[])
 {
+  char s1[] = "1-3a-dX-Z";
+  printf("s1 -> %s\n", s1);
+  char s2[100];
+
+  expand(s1, s2);
+  printf("s2 -> %s\n", s2);
 
   return 0;
 }
