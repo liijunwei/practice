@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 // page 52
 
@@ -41,11 +42,18 @@ void itoa(int n, char s[]){
 
 int main(int argc, char const *argv[])
 {
-  int a = 65;
   char buffer[100];
 
-  itoa(a, buffer);
-  printf("%s\n", buffer);
+  itoa(99, buffer);
+  assert(strcmp("99", buffer) == 0);
+
+  itoa(-100, buffer);
+  assert(strcmp("-100", buffer) == 0);
+
+  itoa(0, buffer);
+  assert(strcmp("0", buffer) == 0);
+
+  printf("PASS.\n");
 
   return 0;
 }
