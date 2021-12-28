@@ -8,7 +8,22 @@ page 52
 */
 
 void expand(const char s1[], char s2[]){
+  char c;
+  int i = 0;
+  int j = 0;
 
+  while((c = s1[i++]) != '\0'){
+    if(s1[i] == '-' && s1[i+1] >= c){
+      i++;
+      while(c < s1[i]){
+        s2[j++] = c++;
+      }
+    } else {
+      s2[j++] = c;
+    }
+  }
+
+  s2[j] = '\0';
 }
 
 int main(int argc, char const *argv[])
