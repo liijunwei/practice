@@ -29,7 +29,7 @@ void expand(const char s1[], char s2[]){
 
 int main(int argc, char const *argv[])
 {
-  char s1[] = "1-9a-fX-Z";
+  char s1[] = "1-9a-fX-Zopqrst";
   printf("s1 -> %s\n", s1);
   char s2[100];
 
