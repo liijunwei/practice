@@ -1,7 +1,9 @@
+require 'pry'
+
 module Printable
-  def print
-    puts "#{__LINE__} #{__method__}"
-  end
+  # def print
+  #   puts "#{__LINE__} #{__method__}"
+  # end
 
   def prepare_cover
     puts "#{__LINE__} #{__method__}"
@@ -12,6 +14,7 @@ module Document
   def print_to_screen
     prepare_cover
     format_for_screen
+    # binding.pry
     print
   end
 
@@ -19,9 +22,9 @@ module Document
     puts "#{__LINE__} #{__method__}"
   end
 
-  def print
-    puts "#{__LINE__} #{__method__}"
-  end
+  # def print
+  #   puts "#{__LINE__} #{__method__}"
+  # end
 end
 
 class Book
