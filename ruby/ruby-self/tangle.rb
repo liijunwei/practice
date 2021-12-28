@@ -25,8 +25,8 @@ module Document
 end
 
 class Book
-  include Document
   include Printable
+  include Document
 end
 
 Book.new.print_to_screen
