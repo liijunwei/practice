@@ -12,7 +12,8 @@ void expand(const char s1[], char s2[]){
   int i = 0;
   int j = 0;
 
-  while((c = s1[i++]) != '\0'){
+  while((c = s1[i]) != '\0'){
+    i++;
     if(s1[i] == '-' && s1[i+1] >= c){
       i++;
       while(c < s1[i]){
@@ -28,7 +29,7 @@ void expand(const char s1[], char s2[]){
 
 int main(int argc, char const *argv[])
 {
-  char s1[] = "1-3a-dX-Z";
+  char s1[] = "1-9a-fX-Z";
   printf("s1 -> %s\n", s1);
   char s2[100];
 
