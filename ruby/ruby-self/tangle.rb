@@ -29,5 +29,6 @@ class Book
   include Document
 end
 
-Book.new.print_to_screen
+book = Book.new
+book.print_to_screen
 # puts Book.ancestors
