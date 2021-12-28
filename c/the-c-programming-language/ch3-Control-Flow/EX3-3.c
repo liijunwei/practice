@@ -29,7 +29,8 @@ void expand(const char s1[], char s2[]){
 
 int main(int argc, char const *argv[])
 {
-  char s1[] = "1-9a-fX-Zopqrst";
+  char s1[] = "0-9a-zA-Z";
+  // char s1[] = "A-a"; // ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`a which is unexpected
   printf("s1 -> %s\n", s1);
   char s2[100];
 
