@@ -70,6 +70,15 @@ int main(int argc, char const *argv[])
   itob(15, buffer, 7);
   assert(strcmp("21", buffer) == 0);
 
+  itob(2021, buffer, 12);
+  assert(strcmp("1205", buffer) == 0);
+
+  itob(2021, buffer, 13);
+  assert(strcmp("bc6", buffer) == 0);
+
+  itob(2022, buffer, 17);
+  assert(strcmp("6gg", buffer) == 0);
+
   printf("PASS.\n");
   return 0;
 }
