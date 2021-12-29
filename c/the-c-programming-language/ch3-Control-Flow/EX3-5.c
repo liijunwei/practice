@@ -67,6 +67,9 @@ int main(int argc, char const *argv[])
   itob(15, buffer, 16);
   assert(strcmp("f", buffer) == 0);
 
+  itob(15, buffer, 7);
+  assert(strcmp("21", buffer) == 0);
+
   printf("PASS.\n");
   return 0;
 }
