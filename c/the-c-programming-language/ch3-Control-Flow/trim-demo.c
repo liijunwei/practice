@@ -25,9 +25,21 @@ int trim(char s[]){
 
 int main(int argc, char const *argv[])
 {
-  char str[100] = "hello \n 20211230 \t :D";
+  char str1[100] = "hello";
+  assert(4 == trim(str1));
 
-  assert(100 == trim(str));
+  char str2[100] = "helloooo\t";
+  assert(7 == trim(str2));
+
+  char str3[100] = "";
+  assert(-1 == trim(str3));
+
+  char str4[100] = "\t";
+  assert(-1 == trim(str4));
+
+  char str5[100] = "\n\n  ";
+  assert(-1 == trim(str5));
+
   printf("PASS.\n");
 
   return 0;
