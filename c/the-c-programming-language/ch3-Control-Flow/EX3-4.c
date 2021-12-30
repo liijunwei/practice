@@ -62,6 +62,9 @@ int main(int argc, char const *argv[])
   itoa(-2147483648, buffer);
   assert(strcmp("-2147483648", buffer) == 0);
 
+  itoa(998, buffer);
+  assert(strcmp("998", buffer) == 0);
+
   printf("PASS.\n");
   return 0;
 }
