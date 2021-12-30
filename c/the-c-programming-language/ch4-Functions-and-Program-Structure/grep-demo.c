@@ -10,6 +10,7 @@ Re-mould it nearer to the Heart's Desire!
 
 #define MAXLINE 1000 // 输入行的最大长度
 
+// 将行保存到s中, 并返回该行的行数
 int custom_getline(char s[], int max){
   int c;
   int i;
@@ -28,6 +29,7 @@ int custom_getline(char s[], int max){
   return i;
 }
 
+// 返回t在s中的位置, 若未找到则返回-1
 // s -> source
 // t -> searchTarget
 int strindex(char s[], char t[]){
