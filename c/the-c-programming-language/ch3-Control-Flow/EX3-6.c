@@ -63,6 +63,9 @@ int main(int argc, char const *argv[])
   itoa(2021, buffer,  11);
   assert(strcmp("       2021", buffer) == 0);
 
+  itoa(0, buffer,  11);
+  assert(strcmp("          0", buffer) == 0);
+
   printf("PASS.\n");
   return 0;
 }
