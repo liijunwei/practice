@@ -58,10 +58,11 @@ int main(int argc, char const *argv[])
 {
   char line[MAXLINE];
   int found = 0;
+  int index;
 
   while(custom_getline(line, MAXLINE) > 0){
-    if(strindex(line, pattern) >= 0){
-      printf("%s", line);
+    if((index = strindex(line, pattern)) >= 0){
+      printf("%s(index: %d)\n", line, index);
       found++;
     }
   }
