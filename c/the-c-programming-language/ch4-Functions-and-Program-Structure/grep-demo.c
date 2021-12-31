@@ -13,10 +13,11 @@ Re-mould it nearer to the Heart's Desire!
 // 将行保存到s中, 并返回该行的行数
 int custom_getline(char s[], int max){
   int c;
-  int i;
+  int i = 0;
 
-  for(i = 0; i < max - 1 && (c = getchar()) != EOF && c != '\n'; ++i){
+  while(--max > 0 && (c = getchar()) != EOF && c != '\n'){
     s[i] = c;
+    i++;
   }
 
   if(c == '\n'){
