@@ -33,6 +33,7 @@ int custom_getline(char s[], int max){
 // 返回t在s中的位置, 若未找到则返回-1
 // s -> source
 // t -> searchTarget
+// TODO 看明白了, 多看几次, 熟悉一下这种思路
 int strindex(char s[], char t[]){
   int i;
   int j;
