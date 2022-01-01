@@ -9,13 +9,6 @@ page 63
 使用逆波兰表达式代替普通的中缀表示法
 */
 
-#define MAXOP  100
-#define NUMBER '0'
-
-int getop(char s[]);
-void push(double d);
-double pop(void);
-
 #define MAXVAL 100 // 栈val的最大深度
 int sp = 0; // 下一个空闲栈的位置
 double val[MAXVAL]; // 值栈
@@ -56,6 +49,8 @@ void ungetch(int c){
   }
 }
 
+#define NUMBER '0'
+
 int getop(char s[]){
   int i;
   int c;
@@ -92,6 +87,8 @@ int getop(char s[]){
 
   return NUMBER;
 }
+
+#define MAXOP  100
 
 int main(int argc, char const *argv[])
 {
