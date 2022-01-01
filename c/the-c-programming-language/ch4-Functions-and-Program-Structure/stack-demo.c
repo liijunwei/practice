@@ -26,11 +26,22 @@ void push(double f){
 // 弹出并返回栈顶的值
 double pop(void){
   if(sp > 0) {
-    return val[--sp];
+    int tmp_sp = --sp;
+    printf("从栈中弹出元素: %f\n", val[tmp_sp]);
+    val[sp] = 0.0;
+    return val[sp];
   } else {
     printf("Error: stack empty\n");
     return 0.0;
   }
+}
+
+void print_stack(){
+  for(int i = MAXVAL - 1; i >= 0; i--){
+    printf("%f\n", val[i]);
+  }
+
+  printf("\n");
 }
 
 int main(int argc, char const *argv[])
@@ -40,11 +51,24 @@ int main(int argc, char const *argv[])
   push(3);
   push(4);
   push(5);
-  push(6);
+  // push(6);
 
-  for(int i = MAXVAL - 1; i >= 0; i--){
-    printf("%f\n", val[i]);
-  }
+  print_stack();
+
+  pop();
+  print_stack();
+
+  pop();
+  print_stack();
+
+  // pop();
+  // print_stack();
+
+  // pop();
+  // print_stack();
+
+  // pop();
+  // print_stack();
 
   return 0;
 }
