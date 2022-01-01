@@ -6,7 +6,7 @@
 page 62
 
 对 atof 函数进行扩充, 使他可以处理形如 123.45e-6 的科学表示法
-其中, 浮点数后肯恩工会紧跟一个e或E以及一个指数(可能有正负号)
+其中, 浮点数后可能会紧跟一个e或E以及一个指数(可能有正负号)
 */
 
 // 把字符串s转换为相应的双精度浮点数
@@ -80,6 +80,9 @@ int main(int argc, char const *argv[])
 
   char str3[100] = "10e3";
   assert(10000 == atof(str3));
+
+  char str4[100] = "10E-3";
+  assert(0.01 == atof(str4));
 
   return 0;
 }
