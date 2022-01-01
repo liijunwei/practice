@@ -45,8 +45,14 @@ double atof(char s[]){
 
 int main(int argc, char const *argv[])
 {
-  char str[100] = "3.14159265354";
-  assert(3.14159265354 == atof(str));
+  char str1[100] = "3.14159265354"; // PI
+  assert(3.14159265354 == atof(str1));
+
+  char str2[100] = "1.4142135623730951"; // Sqrt(2)
+  assert(1.4142135623730951 == atof(str2));
+
+  char str3[100] = "0.6931471805599453"; // log(2)
+  assert(0.6931471805599453 == atof(str3));
 
   printf("PASS.");
   return 0;
