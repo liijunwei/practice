@@ -4,11 +4,11 @@ function run(){
   gcc -g $filename
   echo "========================"
   echo "ExitCode(Compile): $?"
-  echo "========================"
+  echo "=========START=========="
   echo
   ./a.out
   echo
-  echo "========================"
+  echo "=========PASS==========="
   echo "ExitCode(Execute): $?"
   echo "========================"
   echo
