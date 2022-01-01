@@ -10,7 +10,7 @@ page 60
 */
 
 // 把字符串s转换为相应的双精度浮点数
-double atof(char s[]){
+double atof(const char s[]){
   double val;
   double power;
 
