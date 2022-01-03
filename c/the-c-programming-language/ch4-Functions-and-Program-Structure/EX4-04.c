@@ -43,6 +43,11 @@ double pop(void){
 }
 
 void print_stack(){
+  if(sp <= 0){
+    printf("error: stack empty\n");
+    return;
+  }
+
   for(int i = MAXVAL - 1; i >= 0; i--){
     printf("%f\n", val[i]);
   }
@@ -85,23 +90,23 @@ void swap_top_two(){
   }
 }
 
-    // + 清空栈
-
+// 清空栈
+void clear_stack(){
+  sp = 0;
+}
 
 int main(int argc, char const *argv[])
 {
   push(1);
   push(2);
   push(3);
-  push(4);
   // duplicate_top();
   push(6);
   peek();
   swap_top_two();
-
   print_stack();
+  clear_stack();
 
-  pop();
   print_stack();
 
   return 0;
