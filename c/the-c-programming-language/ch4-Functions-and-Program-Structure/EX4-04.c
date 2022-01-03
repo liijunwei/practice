@@ -70,7 +70,21 @@ void duplicate_top(){
   }
 }
 
-    // + 交换栈顶两个元素的值
+void swap(){
+  double temp = val[sp - 1];
+  val[sp - 1] = val[sp - 2];
+  val[sp - 2] = temp;
+}
+
+// 交换栈顶两个元素的值
+void swap_top_two(){
+  if(sp > 1){
+    swap();
+  } else {
+    printf("error: stack has less than two elements\n");
+  }
+}
+
     // + 清空栈
 
 
@@ -80,8 +94,10 @@ int main(int argc, char const *argv[])
   push(2);
   push(3);
   push(4);
-  duplicate_top();
+  // duplicate_top();
+  push(6);
   peek();
+  swap_top_two();
 
   print_stack();
 
