@@ -11,3 +11,5 @@ https://www.oreilly.com/library/view/c-programming-language/9780133086249/
 https://github.com/mathsyouth/the-c-programming-language-solutions
 https://github.com/fool2fish/the-c-programming-language-exercise-answers
 
+https://blog.csdn.net/yangjingdong2008/category_11359327.html
+
