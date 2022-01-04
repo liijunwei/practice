@@ -8,7 +8,7 @@ Chapter 1 explores how to decide if code is "good enough." This chapter uses met
 
 Chapter 2 is a primer for Test-Driven Development (TDD), which is used to find Shameless Green. This chapter is concerned with deciding what to test, and with creating tests that happily tolerate changes to the underlying code.
 
-# Who Should Read This Book 9
+# Who Should Read This Book
 
 Chapter 3 introduces a new requirement (six-pack), which leads to a discussion of how to decide where to start when changing code. This chapter examines the Open/Closed Principle, and then explores code smells. The chapter then defines a simple set of Flocking Rules which guide a step-by- step refactoring of code.
 
@@ -18,4 +18,3 @@ Chapter 5 inventories the existing code for smells, chooses the most prominent o
 
 Chapter 6 is not yet available. This chapter performs a miracle which not only removes all conditionals, but also allows you to finally implement the new six-pack requirement without altering any existing code.
 
-# Why should read this book
