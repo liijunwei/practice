@@ -8,6 +8,7 @@
 int main(int argc, char const *argv[])
 {
   printf("%f\n", fmod(10.1, 3));
+  printf("%f\n", M_PI);
 
   return 0;
 }
