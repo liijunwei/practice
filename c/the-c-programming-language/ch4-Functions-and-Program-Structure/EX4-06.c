@@ -192,6 +192,7 @@ int main(int argc, char const *argv[])
         break;
       default:
         if(type >= 'A' && type <= 'Z'){
+          printf("Pushing %d\n", (type - 'A'));
           push(variable[type - 'A']);
         } else if(type == 'v') {
           push(v);
