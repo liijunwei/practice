@@ -81,7 +81,7 @@ int getop(char s[]){
     }
   }
 
-  s[i] = '\n';
+  s[i] = '\0';
 
   if(c != EOF) {
     ungetch(c);
