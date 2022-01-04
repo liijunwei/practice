@@ -181,14 +181,13 @@ int main(int argc, char const *argv[])
         break;
       case '=':
         pop();
-        if(var > 'A' && var <= 'Z'){
+        if(var >= 'A' && var <= 'Z'){
           variable[var - 'A'] = pop();
         } else {
           printf("Error: no variable name\n");
         }
         break;
       case '\n':
-        v = pop();
         printf("Result:\t%.8g\n", pop());
         break;
       default:
@@ -203,6 +202,7 @@ int main(int argc, char const *argv[])
     }
 
     var = type;
+    // printf("Info var is %c\n", var);
   }
 
   return 0;
