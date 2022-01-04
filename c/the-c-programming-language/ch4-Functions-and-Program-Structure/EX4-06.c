@@ -141,6 +141,10 @@ int main(int argc, char const *argv[])
   double variable[26];
   char s[MAXOP];
 
+  for(i = 0; i < 26; i++){
+    variable[i] = 0.0;
+  }
+
   while((type = getop(s)) != EOF){
     switch(type){
       case NUMBER:
