@@ -201,6 +201,8 @@ int main(int argc, char const *argv[])
         }
         break;
     }
+
+    var = type;
   }
 
   return 0;
