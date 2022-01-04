@@ -188,6 +188,7 @@ int main(int argc, char const *argv[])
         }
         break;
       case '\n':
+        v = pop();
         printf("Result:\t%.8g\n", pop());
         break;
       default:
