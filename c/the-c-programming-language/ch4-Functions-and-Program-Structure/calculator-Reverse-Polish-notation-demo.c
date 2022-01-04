@@ -35,7 +35,7 @@ double pop(void){
 
 #define BUFSIZE 100
 char buf[BUFSIZE];
-int bufp = 0;
+int bufp = 0; // buf中下一空闲的位置
 
 int getch(void){
   return (bufp > 0) ? buf[--bufp] : getchar();
