@@ -18,3 +18,4 @@ Chapter 5 inventories the existing code for smells, chooses the most prominent o
 
 Chapter 6 is not yet available. This chapter performs a miracle which not only removes all conditionals, but also allows you to finally implement the new six-pack requirement without altering any existing code.
 
+# Why should read this book
