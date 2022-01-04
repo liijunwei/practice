@@ -179,6 +179,14 @@ int main(int argc, char const *argv[])
       case NAME:
         mathfunc(s);
         break;
+      case '=':
+        pop();
+        if(var > 'A' && var <= 'Z'){
+          variable[var - 'A'] = pop();
+        } else {
+          printf("Error: no variable name\n");
+        }
+        break;
       case '\n':
         printf("Result:\t%.8g\n", pop());
         break;
