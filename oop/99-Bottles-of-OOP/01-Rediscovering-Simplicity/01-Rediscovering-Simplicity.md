@@ -1,0 +1,24 @@
++ Complexity seems both natural and inevitable;
+
++ Where you once optimized code for understandability, you now focus on its changeability. Your code is less concrete but more abstract—you’ve made it initially harder to understand in hopes that it will ultimately be easier to maintain.
+
++ This is the basic promise of Object-Oriented Design (OOD): that if you’re willing to accept increases in the complexity of your code along some dimensions, you’ll be rewarded with decreases in complexity along others. OOD doesn’t claim to be free; it merely asserts that its benefits outweigh its costs.
+
++ Design decisions inevitably involve trade-offs.
+
++ DRY is a great idea, but that doesn’t mean it’s free. The price you pay for DRYing out code is that the invoker of the new method no longer knows the result, only the message it should send.
+
++ Did you divide one large class into many small ones? You can now reuse the new classes independently of one another, but it’s no longer obvious how they fit together for the original case.
+
++ The examples above change code by increasing its level of abstraction.
+
++ Injecting a dependency transforms the receiver into something that depends on an abstract role rather than a concrete class.
+
++ Each of these design choices has costs, and it only makes sense to pay these costs if you also accrue some offsetting benefits. Design is thus about picking the right abstractions.
+
++ Unfortunately, abstractions are hard, and even with the best of intentions, it’s easy to get them wrong.
+
++ You can’t create the right abstraction until you fully understand the code, but the existence of the wrong abstraction may prevent you from ever doing so. This suggests that you should not reach for abstractions, but instead, you should resist them until they absolutely insist upon being created.
+
++ This book is about finding the right abstraction. This first chapter starts by peeling away the fog of complexity and defining what it means to write simple code.
+
