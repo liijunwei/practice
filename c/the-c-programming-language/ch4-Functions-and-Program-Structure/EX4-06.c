@@ -131,6 +131,18 @@ int getop(char s[]){
 
 #define MAXOP  100
 
+/*
+4 A =
+variable[0] 0.000000
+Error: stack empty
+Result: 0
+5 A *
+variable[0] 4.000000
+Result: 20
+
+
+*/
+
 int main(int argc, char const *argv[])
 {
   int type;
@@ -188,12 +200,16 @@ int main(int argc, char const *argv[])
         }
         break;
       case '\n':
-        printf("Result:\t%.8g\n", pop());
+        v = pop();
+        printf("Result:\t%.8g\n", v);
         break;
       default:
+        printf("type: %c\n", type);
+
+        // TODO Error: unknown command v
         if(type >= 'A' && type <= 'Z'){
-          printf("Pushing %d\n", (type - 'A'));
           push(variable[type - 'A']);
+          printf("variable[%d] %f\n", (type - 'A'), (variable[type - 'A']));
         } else if(type == 'v') {
           push(v);
         } else {
