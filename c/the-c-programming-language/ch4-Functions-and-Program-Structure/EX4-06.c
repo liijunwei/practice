@@ -192,7 +192,13 @@ int main(int argc, char const *argv[])
         printf("Result:\t%.8g\n", pop());
         break;
       default:
-        printf("Error: unknown command %s\n", s);
+        if(type >= 'A' && type <= 'Z'){
+          push(variable[type - 'A']);
+        } else if(type == 'v') {
+          push(v);
+        } else {
+          printf("Error: unknown command %s\n", s);
+        }
         break;
     }
   }
