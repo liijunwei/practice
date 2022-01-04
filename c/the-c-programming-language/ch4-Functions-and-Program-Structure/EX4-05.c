@@ -70,6 +70,7 @@ void mathfunc(char s[]){
 #define NUMBER '0' // a number was found
 #define NAME   'n' // a name was found
 
+// 获取下一操作符/操作数
 int getop(char s[]){
   int i;
   int c;
