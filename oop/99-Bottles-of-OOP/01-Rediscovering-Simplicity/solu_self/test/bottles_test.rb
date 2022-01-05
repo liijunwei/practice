@@ -3,6 +3,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/bottles'
 
+# ruby test/bottles_test.rb
 class BottlesTest < Minitest::Test
   def test_the_whole_song
     expected = <<-SONG
