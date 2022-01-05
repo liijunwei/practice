@@ -3,6 +3,8 @@ class Bottles
     song_part1 + song_part2
   end
 
+  private
+
   def song_part1
     lyric = ""
 
