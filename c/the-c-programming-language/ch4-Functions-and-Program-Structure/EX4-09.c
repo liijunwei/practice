@@ -41,7 +41,9 @@ int main(int argc, char const *argv[])
   ungetch(EOF);
 
   int c;
-  while((c = getch()) != EOF){
+
+  while(bufp > 0){
+    c = getch();
     putchar(c);
   }
 
