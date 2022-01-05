@@ -1,5 +1,8 @@
 Recommended by YimingChen https://yiming.dev/blog/2017/12/08/book-review-99-bottles-of-oop/
 
++ github repo
+    + git@github.com:sandimetz/1st_99bottles_ruby.git
+
 # What This Book Is About
 
 This book is about writing cost-effective, maintainable, and pleasing code.
