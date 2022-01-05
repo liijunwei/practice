@@ -1,3 +1,6 @@
+# This code is hard to understand because it is inconsistent and duplicative,
+# and because it contains hidden concepts that it does not name.
+
 class Bottles
   def song
     verses(99, 0)
