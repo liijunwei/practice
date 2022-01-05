@@ -2,7 +2,7 @@ class Bottles
   def song
     lyric_p1 = ""
 
-    99.downto(2) do |number|
+    99.downto(3) do |number|
       lyric_p1 += <<~EOF
 #{number} bottles of beer on the wall, #{number} bottles of beer.
 Take one down and pass it around, #{number - 1} bottles of beer on the wall.
@@ -11,6 +11,9 @@ Take one down and pass it around, #{number - 1} bottles of beer on the wall.
     end
 
     lyric_p2 = <<-SONG
+2 bottles of beer on the wall, 2 bottles of beer.
+Take one down and pass it around, 1 bottle of beer on the wall.
+
 1 bottle of beer on the wall, 1 bottle of beer.
 Take it down and pass it around, no more bottles of beer on the wall.
 
