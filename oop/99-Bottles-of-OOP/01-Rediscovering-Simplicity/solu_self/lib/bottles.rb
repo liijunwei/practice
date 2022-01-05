@@ -1,12 +1,9 @@
 class Bottles
   def song
-    lyric_p1 = song_first_part
-    lyric_p2 = song_second_part
-
-    return lyric_p1 + lyric_p2
+    song_part1 + song_part2
   end
 
-  def song_first_part
+  def song_part1
     lyric = ""
 
     99.downto(3) do |number|
@@ -20,7 +17,7 @@ Take one down and pass it around, #{number - 1} bottles of beer on the wall.
     return lyric
   end
 
-  def song_second_part
+  def song_part2
     lyric = <<-SONG
 2 bottles of beer on the wall, 2 bottles of beer.
 Take one down and pass it around, 1 bottle of beer on the wall.
