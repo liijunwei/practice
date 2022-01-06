@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "./calc.h"
 
 #define BUFSIZE 100
 

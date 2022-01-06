@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "calc.h"
+#include "./calc.h"
 
 #define MAXVAL 100 // 栈val的最大深度
 
