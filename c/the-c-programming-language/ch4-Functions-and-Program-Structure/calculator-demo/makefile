@@ -1,7 +1,5 @@
-name = calc-demo
-
 all:
-	gcc main.c getch.c getop.c stack.c
+	gcc -g main.c getch.c getop.c stack.c
 	./a.out
 
 clean:
