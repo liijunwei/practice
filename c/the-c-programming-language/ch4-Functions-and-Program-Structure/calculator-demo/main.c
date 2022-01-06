@@ -6,7 +6,7 @@
 #define MAXOP 100
 
 // page 70
-// TODO 代码分到了多个文件里, 怎么编译?
+// make
 
 int main(int argc, char const *argv[])
 {
