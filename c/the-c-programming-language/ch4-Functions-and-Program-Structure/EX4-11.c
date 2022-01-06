@@ -46,7 +46,7 @@ int getch(void){
 int getop(char s[]){
   int i;
   int c;
-  static int lastc = 0;
+  static int lastc = 0; // here
 
   if(lastc == 0){
     c = getch();
@@ -56,7 +56,7 @@ int getop(char s[]){
   }
 
   while((s[0] = c) == ' ' || c == '\t'){
-    c = getch();
+    c = getch(); // here
   }
 
   s[1] = '\0';
@@ -82,7 +82,7 @@ int getop(char s[]){
   s[i] = '\0';
 
   if(c != EOF) {
-    lastc = c;
+    lastc = c; // here
   }
 
   return NUMBER;
