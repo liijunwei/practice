@@ -28,6 +28,8 @@ void printd(int n){
 int main(int argc, char const *argv[])
 {
   printd(998);
+  printf("\n");
+  printd(-10086);
 
   return 0;
 }
