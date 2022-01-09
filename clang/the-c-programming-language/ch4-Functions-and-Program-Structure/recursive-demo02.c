@@ -24,7 +24,7 @@ void qsort(int v[], int left, int right){
     return;
   }
 
-  swap(v, left, (left + right) / 2);
+  swap(v, left, (left + right) / 2); // 划分子集
   last = left;
 
   for(i = left + 1; i <= right; i++){
