@@ -39,7 +39,7 @@ void qsort(int v[], int left, int right){
 }
 
 
-void printarr(int v[], arr_size){
+void printarr(int v[], int arr_size){
   for(int i = 0; i < arr_size; i++){
     printf("%d ", v[i]);
   }
@@ -54,7 +54,7 @@ int main(int argc, char const *argv[])
   int a[ARR_SIZE] = {9, 1, 2, 4, 3};
   printarr(a, ARR_SIZE);
 
-  qsort(a, 0, 4);
+  qsort(a, 0, ARR_SIZE - 1);
   printarr(a, ARR_SIZE);
 
   return 0;
