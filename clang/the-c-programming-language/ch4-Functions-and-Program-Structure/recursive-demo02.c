@@ -4,8 +4,13 @@
 page 74
 
 快速排序算法
-TODO
 */
+
+void swap(int v[], int i, int j){
+  int temp = v[i];
+  v[i] = v[j];
+  v[j] = temp;
+}
 
 void qsort(int v[], int left, int right){
   int i;
@@ -29,28 +34,24 @@ void qsort(int v[], int left, int right){
   qsort(v, left + 1, right);
 }
 
-void swap(int v[], int i, int j){
-  int temp;
-  temp = v[i];
-  v[i] = v[j];
-  v[j] = temp;
-}
 
-void printarr(int v[]){
-  for(int i = 0; i < ((int)sizeof(v)/(int)sizeof(v[0])); i++){
+void printarr(int v[], arr_size){
+  for(int i = 0; i < arr_size; i++){
     printf("%d ", v[i]);
   }
 
   printf("\n");
 }
 
+#define ARR_SIZE 5
+
 int main(int argc, char const *argv[])
 {
-  int a[5] = {9, 1, 2, 4, 3};
-  printarr(a);
+  int a[ARR_SIZE] = {9, 1, 2, 4, 3};
+  printarr(a, ARR_SIZE);
 
   qsort(a, 0, 4);
-  printarr(a);
+  printarr(a, ARR_SIZE);
 
   return 0;
 }
