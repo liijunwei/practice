@@ -9,26 +9,35 @@ page 75
 
 */
 
-void reverse(char s[]){
+void __reverser(char s[], int i, int len){
   int c;
-  int i;
   int j;
 
-  for(i = 0, j = strlen(s) - 1; i < j; i++, j--){
+  j = len - (i + 1);
+
+  if(i < j){
     c = s[i];
     s[i] = s[j];
     s[j] = c;
+    __reverser(s, ++i, len);
   }
 }
 
-#define ARR_SIZE 10
+void reverse(char s[]){
+  __reverser(s, 0, strlen(s));
+}
+
+#define ARR_SIZE 100
 
 int main(int argc, char const *argv[])
 {
-  char str[ARR_SIZE] = "abcdefg";
+  char str1[ARR_SIZE] = "abcdefg";
+  reverse(str1);
+  assert(strcmp("gfedcba", str1) == 0);
 
-  reverse(str);
-  assert(strcmp("gfedcba", str) == 0);
+  char str2[ARR_SIZE] = "dlrowolleh";
+  reverse(str2);
+  assert(strcmp("helloworld", str2) == 0);
 
   return 0;
 }
