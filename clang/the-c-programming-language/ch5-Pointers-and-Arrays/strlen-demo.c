@@ -7,6 +7,7 @@ page 85
 求字符串的长度
 */
 
+// 在函数定义中, 形参 char s[] <=> char *s
 int custom_strlen(const char *s){
   int n;
 
