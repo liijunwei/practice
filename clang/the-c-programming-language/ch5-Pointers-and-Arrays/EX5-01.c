@@ -11,7 +11,8 @@ ch5-Pointers-and-Arrays/getint-demo.c
 上面的例子中,如果符号 '+' '-' 后面紧跟的不是数字, getint函数会把符号视为数字0的有效表达式
 修改该函数,将这种+ - 符号重新协会到输入流中
 
-TODO 还是不太明白 getch ungetch 输入流 "压回" 是什么意思...
+OK 还是不太明白 getch ungetch 输入流 "压回" 是什么意思...
+TODO 没明白为什么后面紧跟的不是数字的时候, 后面的数字被视为0
 
 */
 
@@ -32,7 +33,7 @@ int getint(int *pn){
   }
 
   sign = (c == '-') ? -1 : 1;
-  if(c == '+' || c == '-'){
+  if(c == '+' || c == '-'){ // only run once if the input is appropriate
     d = c; // remember sign char
     if(!isdigit(c = getch())){
       if(c != EOF){
