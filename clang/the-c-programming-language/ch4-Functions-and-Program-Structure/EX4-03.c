@@ -3,6 +3,8 @@
 #include <ctype.h>
 #include <math.h> /* for fomod */
 
+#include "../common-utils/getch-ungetch.c"
+
 /*
 page 67
 
@@ -35,22 +37,6 @@ double pop(void){
   } else {
     printf("Error: stack empty\n");
     return 0.0;
-  }
-}
-
-#define BUFSIZE 100
-char buf[BUFSIZE];
-int bufp = 0;
-
-int getch(void){
-  return (bufp > 0) ? buf[--bufp] : getchar();
-}
-
-void ungetch(int c){
-  if(bufp >= BUFSIZE) {
-    printf("Ungetch, too many characters\n");
-  } else {
-    buf[bufp++] = c;
   }
 }
 
