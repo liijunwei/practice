@@ -13,3 +13,5 @@ https://github.com/fool2fish/the-c-programming-language-exercise-answers
 
 https://blog.csdn.net/yangjingdong2008/category_11359327.html
 
+https://github.com/Heatwave/The-C-Programming-Language-2nd-Edition
+
