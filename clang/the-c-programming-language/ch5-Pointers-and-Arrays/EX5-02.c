@@ -46,6 +46,8 @@ int getfloat(float *pn){
     power *= 10.0;
   }
 
+  // 1.1 = 11 * 1 / 10
+  // -3.14 = 314 * (-1) / 100
   *pn = (*pn) * sign / power;
 
   if(c != EOF){
