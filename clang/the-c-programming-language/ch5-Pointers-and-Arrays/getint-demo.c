@@ -12,7 +12,7 @@ EOF可以用任何值表示, 当然也可用一个输入的整数表示
 TODO not clear
 */
 
-#define ARR_SIZE 3
+#define ARR_SIZE 10
 #define BUFSIZE  100
 
 char buf[BUFSIZE];
@@ -75,6 +75,10 @@ int main(int argc, char const *argv[])
 {
   int n;
   int array[ARR_SIZE];
+
+  for (n = 0; n < ARR_SIZE; n++){
+    array[n] = 0;
+  }
 
   for(n = 0; n < ARR_SIZE && getint(&array[n]) != EOF; n++){
     ;
