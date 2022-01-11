@@ -11,3 +11,10 @@ void print_char_array(char a[], int array_size){
   }
   printf("\n");
 }
+
+void print_float_array(float a[], int array_size){
+  for(int i = 0; i < array_size; i++){
+    printf("%f ", a[i]);
+  }
+  printf("\n");
+}
