@@ -7,7 +7,7 @@ page 85
 求字符串的长度
 */
 
-int custom_strlen(char *s){
+int custom_strlen(const char *s){
   int n;
 
   for(n = 0; *s != '\0'; s++){
