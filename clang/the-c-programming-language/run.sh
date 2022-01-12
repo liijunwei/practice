@@ -2,7 +2,13 @@
 function run(){
   local filename=$1
   gcc -g $filename
-  echo "ExitCode(Compile): $?"
+  local exitcode_compile=$?
+
   ./a.out
-  echo "ExitCode(Execute): $?"
+  local exitcode_execute=$?
+
+  echo
+  echo "-----------------"
+  echo "compile result: $exitcode_compile"
+  echo "execute result: $exitcode_execute"
 }
