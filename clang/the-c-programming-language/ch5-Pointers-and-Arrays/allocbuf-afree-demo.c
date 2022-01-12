@@ -32,8 +32,11 @@ void afree(char *p){
 int main(int argc, char const *argv[])
 {
 
-  char *demo = alloc(100);
-  afree(demo);
+  char *demo1 = alloc(100);
+  afree(demo1);
+
+  char *demo2 = alloc(ALLOCSIZE + 1);
+  afree(demo2);
 
   return 0;
 }
