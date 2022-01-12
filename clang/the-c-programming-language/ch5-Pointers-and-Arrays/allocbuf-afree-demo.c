@@ -16,7 +16,7 @@ char *alloc(int n){
   if(allocbuf + ALLOCSIZE - allocp >= n){ // 有足够的空闲空间
     allocp += n;
     printf("allocating memory: %d\n", n);
-    return allocp - n; // TODO 这一行没懂
+    return allocp - n; // 明白了: allocp 这个指针在向右移动了n个单位后, 到了新的位置, 返回一个新的位置(指针), 表示分配好的这n个单位内存空间
   } else {
     printf("memory not enough\n");
     return 0;
