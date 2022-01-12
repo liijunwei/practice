@@ -3,7 +3,6 @@ function run(){
   local filename=$1
   gcc -g $filename
   echo "ExitCode(Compile): $?"
-  echo
   ./a.out
   echo "ExitCode(Execute): $?"
 }
