@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 
 /*
 page 90
@@ -19,11 +20,9 @@ int main(int argc, char const *argv[])
   char strbuf[100];
   char *strptr = "99 bottles of oop";
 
-  printf("strbuf: %s\n", strbuf);
-  printf("strptr: %s\n", strptr);
-
+  printf("strbuf(before): %s\n", strbuf);
   custom_strcpy(strbuf, strptr);
-  printf("strbuf: %s\n", strbuf);
+  printf("strbuf(after): %s\n", strbuf);
 
   return 0;
 }
