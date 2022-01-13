@@ -22,7 +22,12 @@ int main(int argc, char const *argv[])
 {
   // 下面两个定义之间有很大的区别:
 
-  char amessage[] = "now is the time"; // 定义一个数组
+  /**
+   * 定义一个数组
+   * amessage 仅仅是一个一维数组, 数组内的单个元素可以被修改, 但ameessage始终指向同一个存储位置
+   */
+  char amessage[] = "now is the time";
+
   char *pmessage = "now is the time";  // 定义一个指针
 
 
