@@ -27,6 +27,11 @@ int main(int argc, char const *argv[])
    * amessage 仅仅是一个一维数组, 数组内的单个元素可以被修改, 但ameessage始终指向同一个存储位置
    */
   char amessage[] = "now is the time";
+  printf("amessage: %s\n", amessage);
+  amessage[0] = 'N';
+  amessage[1] = 'O';
+  amessage[2] = 'W';
+  printf("amessage: %s\n", amessage);
 
   /**
    * 定义一个指针
