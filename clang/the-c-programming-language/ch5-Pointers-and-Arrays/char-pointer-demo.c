@@ -32,6 +32,7 @@ int main(int argc, char const *argv[])
   amessage[1] = 'O';
   amessage[2] = 'W';
   printf("amessage: %s\n", amessage);
+  // amessage = "hold you piupiu"; // error: array type 'char [16]' is not assignable
 
   printf("\n");
 
