@@ -1,12 +1,13 @@
 #include <stdio.h>
 
 /*
-page 90
+page 91
 
 */
 
 // 将指针t指向的字符串复制到指针s指向的位置(使用数组下标实现)
 void custom_strcpy(char *s, const char *t){
+  // 一元运算符 */& 的优先级比算术运算符高
   while((*s++ = *t++) != '\0'){
     ;
   }
