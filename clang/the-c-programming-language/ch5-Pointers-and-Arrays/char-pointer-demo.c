@@ -43,7 +43,14 @@ int main(int argc, char const *argv[])
    */
   char *pmessage = "now is the time";
   printf("pmessage: %s\n", pmessage);
+  putchar(pmessage[0]);
+  putchar(pmessage[1]);
+  putchar(pmessage[2]);
+  putchar(pmessage[3]);
+  putchar(pmessage[4]);
   // pmessage[0] = 'N'; // exit(138): It indicates that a program was aborted (received SIGBUS)
+
+  printf("\n");
 
   pmessage = "You are my sunshine.";
   printf("pmessage: %s\n", pmessage);
