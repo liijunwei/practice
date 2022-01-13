@@ -1,17 +1,28 @@
 #include <stdio.h>
+#include <assert.h>
 
 /*
 page 90
 
 */
 
-// 将指针t指向的字符串复制到指针s指向的位置(使用指针实现)
-void strcpy(char *s, char *t){
-
+// 将指针t指向的字符串复制到指针s指向的位置(使用数组下标实现)
+void custom_strcpy(char *s, const char *t){
+  while((*s = *t) != '\0'){
+    s++;
+    t++;
+  }
 }
 
 int main(int argc, char const *argv[])
 {
+  char strbuf[100];
+  char *strptr = "99 bottles of oop";
+
+  printf("strbuf(before): %s\n", strbuf);
+
+  custom_strcpy(strbuf, strptr);
+  printf("strbuf(after): %s\n", strbuf);
 
   return 0;
 }

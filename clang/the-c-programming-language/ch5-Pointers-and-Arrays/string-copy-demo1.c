@@ -21,6 +21,7 @@ int main(int argc, char const *argv[])
   char *strptr = "99 bottles of oop";
 
   printf("strbuf(before): %s\n", strbuf);
+
   custom_strcpy(strbuf, strptr);
   printf("strbuf(after): %s\n", strbuf);
 
