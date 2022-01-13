@@ -16,12 +16,15 @@ page 89
 
   将把一个指向该字符数组的指针赋值给pmessage; 该过程并没有字符串的复制, 只涉及到指针的操作
 
-
-
 */
 
 int main(int argc, char const *argv[])
 {
+  // 下面两个定义之间有很大的区别:
+
+  char amessage[] = "now is the time"; // 定义一个数组
+  char *pmessage = "now is the time";  // 定义一个指针
+
 
   return 0;
 }
