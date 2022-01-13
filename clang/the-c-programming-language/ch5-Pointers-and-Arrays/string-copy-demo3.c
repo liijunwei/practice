@@ -7,10 +7,8 @@ page 90
 
 // 将指针t指向的字符串复制到指针s指向的位置(使用数组下标实现)
 void custom_strcpy(char *s, const char *t){
-  int i = 0;
-
-  while((s[i] = t[i]) != '\0'){
-    i++;
+  while((*s++ = *t++) != '\0'){
+    ;
   }
 }
 
