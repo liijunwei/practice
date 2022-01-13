@@ -11,6 +11,12 @@ void custom_strcpy(char *s, const char *t){
   while((*s++ = *t++) != '\0'){
     ;
   }
+
+  // 可以进一步简化:
+  // TODO 没看懂 "表达式 和 \0 的比较是多余的, 因为只需要判断表达式的值是否为0即可" ????
+  // while(*s++ = *t++){
+  //   ;
+  // }
 }
 
 int main(int argc, char const *argv[])
