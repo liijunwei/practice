@@ -33,13 +33,19 @@ int main(int argc, char const *argv[])
   amessage[2] = 'W';
   printf("amessage: %s\n", amessage);
 
+  printf("\n");
+
   /**
    * 定义一个指针
    * pmessage 是一个指针, 其初值指向一个字符串常量, 之后它可以被修改以指向其他地址
    * 但是如果试图修改字符串的内容, 结果是没有定义的
    */
   char *pmessage = "now is the time";
+  printf("pmessage: %s\n", pmessage);
+  // pmessage[0] = 'N'; // exit(138): It indicates that a program was aborted (received SIGBUS)
 
+  pmessage = "You are my sunshine.";
+  printf("pmessage: %s\n", pmessage);
 
   return 0;
 }
