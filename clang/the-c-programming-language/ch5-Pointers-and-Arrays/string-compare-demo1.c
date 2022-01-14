@@ -18,23 +18,17 @@ int custom_strcmp(char *s, const char *t){
   return s[i] - t[i];
 }
 
+void format_and_print(char *s, char *t){
+  printf("[%s] |\t [%s] -> %d\n", s, t, custom_strcmp(s, t));
+}
+
 int main(int argc, char const *argv[])
 {
-  char *s1 = "abc";
-  char *t1 = "abd";
-  printf("compare result: %d\n", custom_strcmp(s1, t1));
-
-  char *s2 = "abd";
-  char *t2 = "abc";
-  printf("compare result: %d\n", custom_strcmp(s2, t2));
-
-  char *s3 = "abc";
-  char *t3 = "abc";
-  printf("compare result: %d\n", custom_strcmp(s3, t3));
-
-  char *s4 = "abc";
-  char *t4 = "acc";
-  printf("compare result: %d\n", custom_strcmp(s4, t4));
+  format_and_print("abc", "abd");
+  format_and_print("abd", "abc");
+  format_and_print("abc", "abc");
+  format_and_print("abc", "acc");
+  format_and_print("abc", "abcd");
 
   return 0;
 }
