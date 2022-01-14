@@ -15,6 +15,7 @@ int custom_strcmp(char *s, const char *t){
     }
   }
 
+  // printf("i = %d s[i] = %d t[i] = %d \n", i, s[i], t[i]);
   return s[i] - t[i];
 }
 
@@ -28,7 +29,7 @@ int main(int argc, char const *argv[])
   format_and_print("abd", "abc");
   format_and_print("abc", "abc");
   format_and_print("abc", "acc");
-  format_and_print("abc", "abcd");
+  format_and_print("abc", "abcd"); // TODO 为什么这种情况结果为-100, i.e. 为什么 没有进入 `if(s[i] == '\0')` 分支???
 
   return 0;
 }
