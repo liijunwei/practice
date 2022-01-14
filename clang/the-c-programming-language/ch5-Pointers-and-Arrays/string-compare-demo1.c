@@ -32,5 +32,9 @@ int main(int argc, char const *argv[])
   char *t3 = "abc";
   printf("compare result: %d\n", custom_strcmp(s3, t3));
 
+  char *s4 = "abc";
+  char *t4 = "acc";
+  printf("compare result: %d\n", custom_strcmp(s4, t4));
+
   return 0;
 }
