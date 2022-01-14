@@ -9,6 +9,6 @@ function run(){
 
   echo
   echo "-----------------"
-  echo "compile result: $exitcode_compile"
-  echo "execute result: $exitcode_execute"
+  echo "compile result: $exitcode_compile" # TODO add filename info
+  echo "execute result: $exitcode_execute" # TODO add filename info
 }
