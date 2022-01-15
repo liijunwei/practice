@@ -1,8 +1,16 @@
 #include <stdio.h>
 
 /*
-page xx
+page 92
 
+采用指针而非数组的索引方式改写前面章节和练习中的某些程序
+getline
+atoi
+itoa
+reverse
+strindex
+getop
+...
 
 */
 
