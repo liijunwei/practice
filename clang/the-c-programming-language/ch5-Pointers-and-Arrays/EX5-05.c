@@ -61,5 +61,19 @@ int main(int argc, char const *argv[])
   custom_strncpy(sample1, "Roses are red", 13);
   assert(strcmp(sample1, "Roses are red") == 0);
 
+  char sample2[100] = "Roses are red";
+  custom_strncat(sample2, " Mud is fun", 0);
+  assert(strcmp(sample2, "Roses are red") == 0);
+
+  char sample3[100] = "Roses are red";
+  custom_strncat(sample3, " Mud is fun", 4);
+  assert(strcmp(sample3, "Roses are red Mud") == 0);
+
+  char sample4[100] = "Roses are red";
+  custom_strncat(sample4, " Mud is fun", 11);
+  assert(strcmp(sample4, "Roses are red Mud is fun") == 0);
+
+
+
   return 0;
 }
