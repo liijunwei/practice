@@ -10,14 +10,28 @@ page 92
 */
 
 int strend(char *s, char *t){
-  int len_s = strlen(s);
-  int len_t = strlen(t);
+  char *begin_s = s;
+  char *begin_t = t;
 
-  if(len_t == 0 || (len_t > len_s)){
-    return 0;
+  for(; *s != '\0'; s++){
+    ;
   }
 
-  return 1;
+  for(; *t != '\0'; t++){
+    ;
+  }
+
+  for(; *s == *t; s--, t--){
+    if(t == begin_t || s == begin_s){
+      break;
+    }
+  }
+
+  if(*s == *t && t == begin_t && *s != '\0'){
+    return 1;
+  } else {
+    return 0;
+  }
 }
 
 int main(int argc, char const *argv[])
@@ -25,7 +39,10 @@ int main(int argc, char const *argv[])
 
   char str[100] = "Hello";
 
+  assert(1 == strend(str, "Hello"));
   assert(1 == strend(str, "llo"));
+  assert(1 == strend(str, "o"));
+  assert(0 == strend(str, "hei"));
   assert(0 == strend(str, "Helloooo"));
   assert(0 == strend(str, ""));
 
