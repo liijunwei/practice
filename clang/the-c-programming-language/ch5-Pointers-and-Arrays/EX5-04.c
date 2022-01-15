@@ -40,14 +40,17 @@ int strend_v2(char *s, char *t) {
   int len_s = strlen(s);
   int len_t = strlen(t);
 
-  if (len_t == 0 || len_s < len_t){
+  if(len_t == 0 || len_s < len_t){
     return 0;
   }
 
-  while (len_t > 1) {
-    if (*(t + len_t--) != *(s + len_s--)) {
+  while(len_t > 1) {
+    if(*(t + len_t) != *(s + len_s)) {
       return 0;
     }
+
+    len_t--;
+    len_s--;
   }
 
   return 1;
