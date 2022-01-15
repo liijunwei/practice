@@ -44,19 +44,22 @@ int custom_strncmp(char *s, char *t, int n){
 
 int main(int argc, char const *argv[])
 {
-  char str[100];
+  char sample1[100];
 
-  custom_strncpy(str, "Roses are red", 1);
-  assert(strcmp(str, "R") == 0);
+  custom_strncpy(sample1, "Roses are red", 0);
+  assert(strcmp(sample1, "") == 0);
 
-  custom_strncpy(str, "Roses are red", 5);
-  assert(strcmp(str, "Roses") == 0);
+  custom_strncpy(sample1, "Roses are red", 1);
+  assert(strcmp(sample1, "R") == 0);
 
-  custom_strncpy(str, "Roses are red", 6);
-  assert(strcmp(str, "Roses ") == 0);
+  custom_strncpy(sample1, "Roses are red", 5);
+  assert(strcmp(sample1, "Roses") == 0);
 
-  custom_strncpy(str, "Roses are red", 13);
-  assert(strcmp(str, "Roses are red") == 0);
+  custom_strncpy(sample1, "Roses are red", 6);
+  assert(strcmp(sample1, "Roses ") == 0);
+
+  custom_strncpy(sample1, "Roses are red", 13);
+  assert(strcmp(sample1, "Roses are red") == 0);
 
   return 0;
 }
