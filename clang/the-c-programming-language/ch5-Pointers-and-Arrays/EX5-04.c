@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 /*
 page 92
@@ -9,6 +10,12 @@ page 92
 */
 
 int strend(char *s, char *t){
+  int len_s = strlen(s);
+  int len_t = strlen(t);
+
+  if(len_t == 0 || (len_t > len_s)){
+    return 0;
+  }
 
   return 1;
 }
@@ -19,6 +26,8 @@ int main(int argc, char const *argv[])
   char str[100] = "Hello";
 
   assert(1 == strend(str, "llo"));
+  assert(0 == strend(str, "Helloooo"));
+  assert(0 == strend(str, ""));
 
   return 0;
 }
