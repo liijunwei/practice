@@ -38,12 +38,14 @@ int strend_v1(char *s, char *t){
 // https://github.com/fool2fish/the-c-programming-language-exercise-answers/blob/master/ch05/5-4-strend/strend.c
 int strend_v2(char *s, char *t) {
   int len_s = strlen(s);
-  int lent = strlen(t);
+  int len_t = strlen(t);
 
-  if (!lent || len_s < lent) return 0;
+  if (len_t == 0 || len_s < len_t){
+    return 0;
+  }
 
-  while (lent > 1) {
-    if (*(t + lent--) != *(s + len_s--)) {
+  while (len_t > 1) {
+    if (*(t + len_t--) != *(s + len_s--)) {
       return 0;
     }
   }
