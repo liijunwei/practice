@@ -73,7 +73,11 @@ int main(int argc, char const *argv[])
   custom_strncat(sample4, " Mud is fun", 11);
   assert(strcmp(sample4, "Roses are red Mud is fun") == 0);
 
-
+  assert(custom_strncmp("ABCDEFG", "ABC", 0) == 0);
+  assert(custom_strncmp("ABCDEFG", "ABC", 1) == 0);
+  assert(custom_strncmp("ABCDEFG", "ABC", 2) == 0);
+  assert(custom_strncmp("ABCDEFG", "ABC", 3) == 0);
+  assert(custom_strncmp("ABCDEFG", "BC", 2) == -1);
 
   return 0;
 }
