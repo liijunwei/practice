@@ -9,7 +9,8 @@ page 92
 
 */
 
-int strend(char *s, char *t){
+// TODO 没看懂...
+int strend_v1(char *s, char *t){
   char *begin_s = s;
   char *begin_t = t;
 
@@ -34,17 +35,40 @@ int strend(char *s, char *t){
   }
 }
 
+// https://github.com/fool2fish/the-c-programming-language-exercise-answers/blob/master/ch05/5-4-strend/strend.c
+int strend_v2(char *s, char *t) {
+  int len_s = strlen(s);
+  int lent = strlen(t);
+
+  if (!lent || len_s < lent) return 0;
+
+  while (lent > 1) {
+    if (*(t + lent--) != *(s + len_s--)) {
+      return 0;
+    }
+  }
+
+  return 1;
+}
+
 int main(int argc, char const *argv[])
 {
 
   char str[100] = "Hello";
 
-  assert(1 == strend(str, "Hello"));
-  assert(1 == strend(str, "llo"));
-  assert(1 == strend(str, "o"));
-  assert(0 == strend(str, "hei"));
-  assert(0 == strend(str, "Helloooo"));
-  assert(0 == strend(str, ""));
+  assert(1 == strend_v1(str, "Hello"));
+  assert(1 == strend_v1(str, "llo"));
+  assert(1 == strend_v1(str, "o"));
+  assert(0 == strend_v1(str, "hei"));
+  assert(0 == strend_v1(str, "Helloooo"));
+  assert(0 == strend_v1(str, ""));
+
+  assert(1 == strend_v2(str, "Hello"));
+  assert(1 == strend_v2(str, "llo"));
+  assert(1 == strend_v2(str, "o"));
+  assert(0 == strend_v2(str, "hei"));
+  assert(0 == strend_v2(str, "Helloooo"));
+  assert(0 == strend_v2(str, ""));
 
   return 0;
 }
