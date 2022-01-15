@@ -46,6 +46,9 @@ int main(int argc, char const *argv[])
 {
   char str[100];
 
+  custom_strncpy(str, "Roses are red", 1);
+  assert(strcmp(str, "R") == 0);
+
   custom_strncpy(str, "Roses are red", 5);
   assert(strcmp(str, "Roses") == 0);
 
