@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 
 /*
 page 92
@@ -7,8 +8,17 @@ page 92
 
 */
 
+int strend(char *s, char *t){
+
+  return 1;
+}
+
 int main(int argc, char const *argv[])
 {
+
+  char str[100] = "Hello";
+
+  assert(1 == strend(str, "llo"));
 
   return 0;
 }
