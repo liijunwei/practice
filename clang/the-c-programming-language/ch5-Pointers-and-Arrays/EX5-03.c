@@ -14,9 +14,8 @@ void custom_strcat(char s[], char t[]){
     s++;
   }
 
-  while((*s = *t) != '\0'){
-    s++;
-    t++;
+  while((*s++ = *t++) != '\0'){
+    ;
   }
 }
 
