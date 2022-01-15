@@ -78,6 +78,8 @@ int main(int argc, char const *argv[])
   assert(custom_strncmp("ABCDEFG", "ABC", 2) == 0);
   assert(custom_strncmp("ABCDEFG", "ABC", 3) == 0);
   assert(custom_strncmp("ABCDEFG", "BC", 2) == -1);
+  assert(custom_strncmp("ABCDEFG", "ABB", 2) == 0);
+  assert(custom_strncmp("ABCDEFG", "ABB", 3) == 1);
 
   return 0;
 }
