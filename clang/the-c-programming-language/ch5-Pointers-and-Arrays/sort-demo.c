@@ -13,6 +13,7 @@ int readlines(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
 void qsort(char *lineptr[], int left, int right);
 
+// TODO 没全看懂...
 // 对输入的文本行进行排序
 int main(int argc, char const *argv[])
 {
