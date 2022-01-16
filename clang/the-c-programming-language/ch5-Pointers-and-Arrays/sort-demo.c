@@ -29,7 +29,22 @@ int main(int argc, char const *argv[])
 }
 
 #define MAXLEN 1000 // 每个输入行的最大长度
-char *alloc(int);
+
+#define ALLOCSIZE 10000 // 可用空间大小
+static char allocbuf[ALLOCSIZE]; // alloc使用的存储区
+static char *allocp = allocbuf;  // 下一空闲位置
+
+// 返回指向n个字符的指针(ch5-Pointers-and-Arrays/allocbuf-afree-demo.c)
+char *alloc(int n){
+  if(allocbuf + ALLOCSIZE - allocp >= n){ // 有足够的空闲空间
+    allocp += n;
+    // printf("allocating memory: %d\n", n);
+    return allocp - n; // 明白了: allocp 这个指针在向右移动了n个单位后, 到了新的位置, 返回一个新的位置(指针), 表示分配好的这n个单位内存空间
+  } else {
+    printf("memory not enough(%d > %d)\n", n, ALLOCSIZE);
+    return NULL; // c语言保证, 0永远不是有效的数据地址, 因此可以用做没有足够空间的标识
+  }
+}
 
 int custom_getline(char s[], int max){
   int c;
