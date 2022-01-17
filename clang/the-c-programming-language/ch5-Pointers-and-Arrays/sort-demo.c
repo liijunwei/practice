@@ -31,7 +31,7 @@ int main(int argc, char const *argv[])
 
 #define MAXLEN 1000 // 每个输入行的最大长度
 
-#define ALLOCSIZE 10 // 可用空间大小
+#define ALLOCSIZE 10000 // 可用空间大小
 static char allocbuf[ALLOCSIZE]; // alloc使用的存储区
 static char *allocp = allocbuf;  // 下一空闲位置
 
