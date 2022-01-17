@@ -65,7 +65,6 @@ int custom_getline(char s[], int max){
   return i;
 }
 
-// 读取该输入行
 int readlines(char *lineptr[], int maxlines){
   int len;
   int nlines;
