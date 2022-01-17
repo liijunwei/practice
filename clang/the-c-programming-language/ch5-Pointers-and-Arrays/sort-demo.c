@@ -10,7 +10,7 @@ page 93
 
 char *lineptr[MAXLINES];
 int readlines(char *lineptr[], int nlines);
-void writelines(char *lineptr[], int nlines);
+void printlines(char *lineptr[], int nlines);
 void qsort(char *lineptr[], int left, int right);
 
 // TODO 没全看懂...
@@ -21,7 +21,7 @@ int main(int argc, char const *argv[])
 
   if((nlines = readlines(lineptr, MAXLINES)) >= 0){
     qsort(lineptr, 0, nlines - 1);
-    writelines(lineptr, nlines);
+    printlines(lineptr, nlines);
     return 0;
   } else {
     printf("error: input too big to sort\n");
@@ -86,7 +86,7 @@ int readlines(char *lineptr[], int maxlines){
   return nlines;
 }
 
-void writelines(char *lineptr[], int nlines){
+void printlines(char *lineptr[], int nlines){
   int i;
 
   for(i = 0; i < nlines; i++){
