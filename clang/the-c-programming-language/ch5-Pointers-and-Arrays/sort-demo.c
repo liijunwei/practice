@@ -78,7 +78,7 @@ int readlines(char *lineptr[], int maxlines){
       return -1;
     } else {
       line[len - 1] = '\0'; // 把 '\n' 替换为 '\0'
-      strcpy(p, line);
+      strcpy(p, line); // char* strcpy( char* dest, const char* src );
       lineptr[nlines++] = p;
     }
   }
