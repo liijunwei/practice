@@ -100,6 +100,7 @@ void swap(char *v[], int i, int j){
   v[j] = temp;
 }
 
+// TODO not clear
 void qsort(char *v[], int left, int right){
   int i;
   int last;
