@@ -112,7 +112,7 @@ void qsort(char *v[], int left, int right){
   last = left;
 
   for(i = left + 1; i <= right; i++){
-    if(strcmp(v[i], v[left]) < 0){
+    if(strcmp(v[i], v[left]) < 0){ // asc
       swap(v, ++last, i);
     }
   }
