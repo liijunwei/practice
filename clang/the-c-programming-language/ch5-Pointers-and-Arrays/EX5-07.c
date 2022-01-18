@@ -18,7 +18,7 @@ int readlines(char *lineptr[], char *linestor, int maxlines);
 void printlines(char *lineptr[], int nlines);
 void qsort(char *lineptr[], int left, int right);
 
-// gcc -g ch5-Pointers-and-Arrays/EX5-07.c && cat ch5-Pointers-and-Arrays/tmp.md | ./a.out
+// gcc -g ch5-Pointers-and-Arrays/EX5-07.c && ./a.out < ch5-Pointers-and-Arrays/tmp.md
 // 对输入的文本行进行排序
 int main(int argc, char const *argv[])
 {
