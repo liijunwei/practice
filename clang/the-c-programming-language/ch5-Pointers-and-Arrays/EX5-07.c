@@ -10,6 +10,7 @@ ch5-Pointers-and-Arrays/sort-demo.c
 
 */
 
+// gcc -g ch5-Pointers-and-Arrays/EX5-07.c && cat ch5-Pointers-and-Arrays/tmp.md | ./a.out
 int main(int argc, char const *argv[])
 {
 
