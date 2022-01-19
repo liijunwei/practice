@@ -13,10 +13,20 @@ page 99
 
 最简单的例子是程序 echo
 echo hello, world
+
+按照C语言的约定, argv[0]的值是启动该程序的程序名, 因此argc的值至少为1
+如果argc的只为1, 则说明程序名后面没有命令行参数
 */
 
 int main(int argc, char const *argv[])
 {
-  /* code */
+  printf("argc: %d\n", argc);
+  printf("argv[0]: %s\n", argv[0]);
+  printf("argv[1]: %s\n", argv[1]);
+  printf("argv[2]: %s\n", argv[2]);
+  printf("argv[3]: %s\n", argv[3]);
+  printf("argv[4]: %s\n", argv[4]);
+  printf("argv[5]: %s\n", argv[5]);
+
   return 0;
 }
