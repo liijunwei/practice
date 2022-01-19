@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 
 /*
 page 95
@@ -38,6 +39,10 @@ void month_day(int year, int yearday, int *pmonth, int *pday){
 
 int main(int argc, char const *argv[])
 {
+
+  assert(day_of_year(2022, 1, 1) == 1);
+  assert(day_of_year(2022, 1, 19) == 19);
+  assert(day_of_year(2021, 12, 30) == 365);
 
   return 0;
 }
