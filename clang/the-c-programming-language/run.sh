@@ -3,8 +3,9 @@ function run(){
   local filename=$1
   gcc -g $filename
   local exitcode_compile=$?
+  local params=$@
 
-  ./a.out
+  ./a.out ${params/$filename}
   local exitcode_execute=$?
 
   echo

@@ -21,6 +21,7 @@ ANSI标准要求argv[argc]的值必须为一个空指针
 */
 
 // gcc -g ch5-Pointers-and-Arrays/echo-demo.c -o echo-demo && ./echo-demo hello, world
+// run ch5-Pointers-and-Arrays/echo-demo.c hello world
 int main(int argc, char const *argv[])
 {
   printf("argc: %d\n", argc);
