@@ -51,5 +51,9 @@ int main(int argc, char const *argv[])
   assert(month == 1);
   assert(day == 1);
 
+  month_day(2022, 32, &month, &day);
+  assert(month == 2);
+  assert(day == 1);
+
   return 0;
 }
