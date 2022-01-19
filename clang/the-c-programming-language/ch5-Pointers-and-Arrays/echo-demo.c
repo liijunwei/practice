@@ -20,6 +20,7 @@ echo hello, world
 ANSI标准要求argv[argc]的值必须为一个空指针
 */
 
+// gcc -g ch5-Pointers-and-Arrays/echo-demo.c -o echo-demo && ./echo-demo hello, world
 int main(int argc, char const *argv[])
 {
   printf("argc: %d\n", argc);
@@ -30,6 +31,15 @@ int main(int argc, char const *argv[])
   printf("argv[4]: %s\n", argv[4]);
   printf("argv[5]: %s\n", argv[5]);
   printf("argv[argc]: %s\n", argv[argc]);
+  printf("==============================================\n\n");
+
+  int i;
+  for(i = 1; i < argc; i++){
+    char *seperator = (i < argc - 1) ? " " : "";
+    printf("%s%s", argv[i], seperator);
+  }
+
+  printf("\n");
 
   return 0;
 }
