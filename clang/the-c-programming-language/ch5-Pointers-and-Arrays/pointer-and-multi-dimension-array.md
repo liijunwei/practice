@@ -24,4 +24,13 @@ int *b[10];
 尽管前面的讨论中都是借助于整型进行讨论, **但到目前为止, 指针数组最频繁的用处是存放具有不同长度的字符串**
 
 
+demo
+
+```c
+char *name[] = {"Illegal month", "Jan", "Feb", "Mar"};
+char aname[][15] = {"Illegal month", "Jan", "Feb", "Mar"};
+
+*name 和 aname的存储方式是不同的
+```
+
 
