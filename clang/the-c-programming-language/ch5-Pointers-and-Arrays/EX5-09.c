@@ -52,7 +52,7 @@ void month_day(int year, int yearday, int *pmonth, int *pday){
 
   int month = p - *(daytab + leap);
 
-  if(month > 12 && yearday > daytab[leap][12]){
+  if(month > 12 && yearday > daytab[leap][12]){ // TODO not clear
     *pmonth = -1;
     *pday = -1;
   } else {
