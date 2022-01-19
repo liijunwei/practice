@@ -50,12 +50,13 @@ void month_day(int year, int yearday, int *pmonth, int *pday){
     yearday -= *p;
   }
 
+  int month = p - *(daytab + leap);
 
-  if(p - *(daytab + leap) > 12 && yearday > daytab[leap][12]){
+  if(month > 12 && yearday > daytab[leap][12]){
     *pmonth = -1;
     *pday = -1;
   } else {
-    *pmonth = p - *(daytab + leap);
+    *pmonth = month;
     *pday = yearday;
   }
 
