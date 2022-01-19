@@ -28,7 +28,8 @@ int day_of_year(int year, int month, int day){
   p = daytab[leap];
 
   while(--month){
-    day += *++p;
+    p++;
+    day += *p; // */& 的优先级比算术运算符高(page 80)
   }
 
   return day;
