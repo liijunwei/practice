@@ -16,6 +16,8 @@ echo hello, world
 
 按照C语言的约定, argv[0]的值是启动该程序的程序名, 因此argc的值至少为1
 如果argc的只为1, 则说明程序名后面没有命令行参数
+
+ANSI标准要求argv[argc]的值必须为一个空指针
 */
 
 int main(int argc, char const *argv[])
@@ -27,6 +29,7 @@ int main(int argc, char const *argv[])
   printf("argv[3]: %s\n", argv[3]);
   printf("argv[4]: %s\n", argv[4]);
   printf("argv[5]: %s\n", argv[5]);
+  printf("argv[argc]: %s\n", argv[argc]);
 
   return 0;
 }
