@@ -50,8 +50,15 @@ void month_day(int year, int yearday, int *pmonth, int *pday){
     yearday -= *p;
   }
 
-  *pmonth = p - *(daytab + leap);
-  *pday = yearday;
+
+  if(p - *(daytab + leap) > 12 && yearday > daytab[leap][12]){
+    *pmonth = -1;
+    *pday = -1;
+  } else {
+    *pmonth = p - *(daytab + leap);
+    *pday = yearday;
+  }
+
 }
 
 int main(int argc, char const *argv[])
@@ -78,13 +85,13 @@ int main(int argc, char const *argv[])
   assert(month == 2);
   assert(day == 1);
 
-  // month_day(-999, 32, &month, &day);
-  // assert(month == -1);
-  // assert(day ==-1);
+  month_day(-999, 32, &month, &day);
+  assert(month == -1);
+  assert(day ==-1);
 
-  // month_day(2022, 999, &month, &day);
-  // assert(month == -1);
-  // assert(day ==-1);
+  month_day(2022, 999, &month, &day);
+  assert(month == -1);
+  assert(day ==-1);
 
   return 0;
 }
