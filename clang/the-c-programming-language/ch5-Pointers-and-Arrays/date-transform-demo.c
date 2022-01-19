@@ -44,5 +44,12 @@ int main(int argc, char const *argv[])
   assert(day_of_year(2022, 1, 19) == 19);
   assert(day_of_year(2021, 12, 30) == 365);
 
+  int month;
+  int day;
+
+  month_day(2022, 1, &month, &day);
+  assert(month == 1);
+  assert(day == 1);
+
   return 0;
 }
