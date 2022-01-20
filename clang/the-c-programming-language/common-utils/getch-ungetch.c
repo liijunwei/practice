@@ -1,4 +1,8 @@
-#define BUFSIZE 10
+#define BUFSIZE 100
+#include <ctype.h>
+#include <string.h>
+
+#define NUMBER '0' // signal that a number was found
 
 char buf[BUFSIZE];
 int bufp = 0; // buf中下一空闲的位置
@@ -15,4 +19,51 @@ void ungetch(int c){
   } else {
     buf[bufp++] = c;
   }
+}
+
+void ungets(char s[]){
+  int len = strlen(s);
+
+  while(len > 0){
+    --len;
+    ungetch(s[len]);
+  }
+}
+
+
+int getop(char s[]){
+  int i;
+  int c;
+
+  while((s[0] = c = getch()) == ' ' || c == '\t'){
+    ;
+  }
+
+  s[1] = '\0';
+  if(!isdigit(c) && c != '.') {
+    return c; // 不是数
+  }
+
+  i = 0;
+  if(isdigit(c)) {
+    // 整数部分
+    while(isdigit(s[++i] = c = getch())){
+      ;
+    }
+  }
+
+  if(c == '.') {
+    // 小数部分
+    while(isdigit(s[++i] = c = getch())){
+      ;
+    }
+  }
+
+  s[i] = '\0';
+
+  if(c != EOF) {
+    ungetch(c);
+  }
+
+  return NUMBER;
 }
