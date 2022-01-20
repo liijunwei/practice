@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h> // atof
+
+#include "../common-utils/stack.c" // push/pop
+#include "../common-utils/getch-ungetch.c" // getch/ungetch/getop/ungets
 
 /*
 page 102
@@ -8,8 +12,58 @@ page 102
 
 */
 
-int main(int argc, char const *argv[])
+#define MAXOP 100  // max size of operand or operator
+
+/*
+./a.out 2 3 4 + +
+Result: 9
+
+* 号在命令行里得转义(吗)
+./a.out 2 3 4 + \*
+Result: 14
+*/
+
+// reverse polish calculator; uses command line
+int main(int argc, char *argv[])
 {
+  char s[MAXOP];
+  double op2;
+
+  while(--argc > 0){
+    ungets(" ");
+    ungets(*++argv);
+    switch(getop(s)){
+      case NUMBER:
+        push(atof(s));
+        break;
+      case '+':
+        push(pop() + pop());
+        break;
+      case '*':
+        push(pop() * pop());
+        break;
+      case '-':
+        op2 = pop();
+        push(pop() - op2);
+        break;
+      case '/':
+        op2 = pop();
+        if(op2 != 0.0){
+          push(pop() / op2);
+        } else {
+          printf("Error: zero devisor\n");
+        }
+        break;
+      case '\n':
+        printf("Result:\t%.8g\n", pop());
+        break;
+      default:
+        printf("Error: unknown command %s\n", s);
+        break;
+    }
+  }
+
+  printf("Result: %.8g\n", pop());
 
   return 0;
 }
