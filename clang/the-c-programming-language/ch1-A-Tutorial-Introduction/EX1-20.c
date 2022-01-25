@@ -7,7 +7,6 @@
 // 假设制表符终止位的位置是固定的, 比如每个n列就会出现一个制表符终止位, n应该为变量还是符号常量呢?
 
 #define TABING 8 // tab increment size
-// #define VISIABLE_CHAR ' '
 #define VISIABLE_CHAR '*'
 
 // OK 如何检查程序的正确性?
