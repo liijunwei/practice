@@ -38,15 +38,15 @@ int main(){
         putchar(CHAR_TAB); // print tabs
       }
 
-      if(c == 't'){
-        nb = 0;
+      if(c == '\t'){
+        nb = 0; // forget the blanks
       } else {
         for(; nb > 0; --nb){
           putchar(CHAR_BLANK);
         }
       }
 
-      putchar(c);
+      putchar(c); // normal chars
 
       if(c == '\n'){
         pos = 0;
