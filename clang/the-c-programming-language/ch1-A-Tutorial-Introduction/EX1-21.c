@@ -28,10 +28,10 @@ int main(){
   for(pos = 1; (c = getchar()) != EOF; ++pos){
     if(c == ' '){
       if(pos % TABING != 0){
-        ++nb;
+        ++nb;   // increment number of blanks
       } else {
-        nb = 0;
-        ++nt;
+        nb = 0; // reset number of blanks
+        ++nt;   // one more tab
       }
     } else {
       for(; nt > 0; --nt){
