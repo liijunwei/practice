@@ -11,7 +11,7 @@
 
 */
 
-// TODO 没明白(这个代码写得实在难懂)
+// TODO 暂时不求甚解...
 
 #define TABING 8 // tab increment size
 #define CHAR_BLANK '_' // ' '
