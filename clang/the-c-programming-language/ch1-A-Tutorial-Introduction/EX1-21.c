@@ -14,8 +14,8 @@
 // TODO 没明白(这个代码写得实在难懂)
 
 #define TABING 8 // tab increment size
-#define CHAR_BLANK 'b' // ' '
-#define CHAR_TAB   't' // '\t'
+#define CHAR_BLANK '_' // ' '
+#define CHAR_TAB   '*' // '\t'
 
 // replace strings of blanks with tabs and blanks
 int main(){
