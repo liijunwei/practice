@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <string.h>
-
 #include "../common-utils/getline.c"
 
 // page 25
@@ -24,6 +22,7 @@ int main(){
   char s[MAXLINE];
   char t[MAXLINE * TABING];
 
+  printf("Note: for the sake of clarity, all tabs will be replaced with '%c'.\n", VISIABLE_CHAR);
   while(custom_getline(s, MAXLINE) > 0) {
     detab(s, t);
     printf("%s\n", t);
