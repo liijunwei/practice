@@ -13,8 +13,36 @@ TODO 过...
 
 */
 
+#define MAXLINE  100
+#define TABING   8
+#define YES      1
+#define NO       0
+#define CHAR_TAB '*' // '\t'
+
+void settab(int argc, char const *argv[], char *tab);
+void entab(char *tab);
+int tabpos(int pos, char *tab);
+
+// replace strings of blanks with tabs
 int main(int argc, char const *argv[])
 {
+  char tab[MAXLINE + 1];
+
+  settab(argc, argv, tab); // initialize tab stops
+  entab(tab);              // replace blanks with tab
+
+  return 0;
+}
+
+void settab(int argc, char const *argv[], char *tab){
+
+}
+
+void entab(char *tab){
+
+}
+
+int tabpos(int pos, char *tab){
 
   return 0;
 }
