@@ -35,7 +35,7 @@ int main(){
       }
     } else {
       for(; nt > 0; --nt){
-        putchar(CHAR_TAB);
+        putchar(CHAR_TAB); // print tabs
       }
 
       if(c == 't'){
