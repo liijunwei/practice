@@ -23,15 +23,15 @@ int main(){
       nb = TABING - (pos - 1) % TABING;
       while(nb > 0){
         putchar(VISIABLE_CHAR);
-        ++pos;
-        --nb;
+        pos++;
+        nb--;
       }
     } else if(c == '\n'){
       putchar(c);
       pos = 1;
     } else {
       putchar(c);
-      ++pos;
+      pos++;
     }
   }
 
