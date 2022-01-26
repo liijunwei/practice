@@ -26,6 +26,8 @@ void entab(char *tab);
 void detab(char *tab);
 int tabpos(int pos, char *tab);
 
+// ./a.out 1 2 3 4 7
+
 // replace strings of blanks with tabs
 int main(int argc, char const *argv[])
 {
