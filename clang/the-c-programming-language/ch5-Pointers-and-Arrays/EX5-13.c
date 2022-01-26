@@ -21,6 +21,7 @@ page 102
 
 void error(char *s);
 
+// gcc ch5-Pointers-and-Arrays/EX5-13.c && ./a.out < ch1-A-Tutorial-Introduction/input.txt
 // print last n lines of the input
 int main(int argc, char const *argv[])
 {
@@ -35,6 +36,8 @@ int main(int argc, char const *argv[])
   int len;
   int n;
   int nlines;
+
+  printf("argc: %d (*++argv)[0]: %c\n", argc, (*++argv)[0]);
 
   if(argc == 1) {
     n = DEFAULT_LINES;
