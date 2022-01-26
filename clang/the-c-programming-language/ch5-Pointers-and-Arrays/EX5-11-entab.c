@@ -108,11 +108,7 @@ void entab(char *tab){
 
 // determine if pos is at a tab stop
 int tabpos(int pos, char *tab){
-  if(pos > MAXLINE){
-    return YES;
-  } else {
-    return tab[pos];
-  }
+  return pos > MAXLINE ? YES : tab[pos];
 }
 
 void detab(char *tab){
