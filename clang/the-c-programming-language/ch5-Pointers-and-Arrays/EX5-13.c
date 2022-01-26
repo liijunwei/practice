@@ -22,6 +22,8 @@ page 102
 void error(char *s);
 
 // gcc ch5-Pointers-and-Arrays/EX5-13.c && ./a.out < ch1-A-Tutorial-Introduction/input.txt
+// gcc ch5-Pointers-and-Arrays/EX5-13.c && ./a.out -4 < ch1-A-Tutorial-Introduction/input.txt
+// gcc ch5-Pointers-and-Arrays/EX5-13.c && cat ch1-A-Tutorial-Introduction/input.txt | ./a.out -2
 // print last n lines of the input
 int main(int argc, char const *argv[])
 {
@@ -37,12 +39,10 @@ int main(int argc, char const *argv[])
   int n;
   int nlines;
 
-  printf("argc: %d (*++argv)[0]: %c\n", argc, (*++argv)[0]);
-
   if(argc == 1) {
     n = DEFAULT_LINES;
   } else if(argc == 2 && (*++argv)[0] == '-') {
-    n = atoi(argv[1] + 1);
+    n = atoi(argv[0] + 1);
   } else {
     error("usage: tail [-n]");
   }
