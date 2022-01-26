@@ -28,10 +28,10 @@ void error(char *s);
 int main(int argc, char const *argv[])
 {
   char *p;
-  char *buf;
-  char *bufend;
-  char line[MAXLEN];
-  char *lineptr[LINES];
+  char *buf;            /* pointer to large buffer */
+  char *bufend;         /* end of the buffer       */
+  char line[MAXLEN];    /* current input line      */
+  char *lineptr[LINES]; /* pointers to lines read  */
   int first;
   int i;
   int last;
@@ -47,7 +47,7 @@ int main(int argc, char const *argv[])
     error("usage: tail [-n]");
   }
 
-  if(n < 1 || n > LINES) {
+  if(n < 1 || n > LINES) { /* unreasonable value for n */
     n = LINES;
   }
 
@@ -60,19 +60,19 @@ int main(int argc, char const *argv[])
   }
 
   bufend = buf + LINES * MAXLEN;
-  last = 0;
-  nlines = 0;
+  last = 0;   /* index of last line read */
+  nlines = 0; /* number of lines read    */
 
   while((len = custom_getline(line, MAXLEN)) > 0) {
     if(p + len + 1 >= bufend) {
-      p = buf;
+      p = buf; /* buffer wrap around */
     }
 
     lineptr[last] = p;
     strcpy(lineptr[last], line);
 
     if(++last >= LINES) {
-      last = 0;
+      last = 0; /* ptrs to buffer wrap around */
     }
 
     p += len + 1;
@@ -80,7 +80,7 @@ int main(int argc, char const *argv[])
   }
 
   if(n > nlines) {
-    n = nlines;
+    n = nlines; /* lines more than limit? */
   }
 
   first = last - n;
