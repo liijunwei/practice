@@ -96,10 +96,8 @@ int main(int argc, char const *argv[])
   return 0;
 }
 
-
 // print error message and quit
 void error(char *s){
   printf("%s\n", s);
   exit(1);
 }
-
