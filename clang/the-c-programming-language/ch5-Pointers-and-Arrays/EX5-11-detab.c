@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
   char tab[MAXLINE + 1];
 
   settab(argc, argv, tab); // initialize tab stops
-  detab(tab);              // replace blanks with tab
+  detab(tab);              // replace tab with blanks
 
   return 0;
 }
