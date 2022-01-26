@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "../common-utils/getline.c"
 
 /*
 page 102
@@ -11,8 +15,88 @@ page 102
 
 */
 
+#define DEFAULT_LINES 10  // default number of lines to print
+#define LINES         100 // max number of lines to print
+#define MAXLEN        10  // max length of an input line
+
+void error(char *s);
+
+// print last n lines of the input
 int main(int argc, char const *argv[])
 {
+  char *p;
+  char *buf;
+  char *bufend;
+  char line[MAXLEN];
+  char *lineptr[LINES];
+  int first;
+  int i;
+  int last;
+  int len;
+  int n;
+  int nlines;
+
+  if(argc == 1) {
+    n = DEFAULT_LINES;
+  } else if(argc == 2 && (*++argv)[0] == '-') {
+    n = atoi(argv[1] + 1);
+  } else {
+    error("usage: tail [-n]");
+  }
+
+  if(n < 1 || n > LINES) {
+    n = LINES;
+  }
+
+  for(i = 0; i < LINES; i++) {
+    lineptr[i] = NULL;
+  }
+
+  if((p = buf = malloc(LINES * MAXLEN)) == NULL) {
+    error("tail: cannot allocate buf");
+  }
+
+  bufend = buf + LINES * MAXLEN;
+  last = 0;
+  nlines = 0;
+
+  while((len = custom_getline(line, MAXLEN)) > 0) {
+    if(p + len + 1 >= bufend) {
+      p = buf;
+    }
+
+    lineptr[last] = p;
+    strcpy(lineptr[last], line);
+
+    if(++last >= LINES) {
+      last = 0;
+    }
+
+    p += len + 1;
+    nlines++;
+  }
+
+  if(n > nlines) {
+    n = nlines;
+  }
+
+  first = last - n;
+
+  if(first < 0) {
+    first += LINES;
+  }
+
+  for(i = first; n-- > 0; i = (i + 1) % LINES) {
+    printf("%s", lineptr[i]);
+  }
 
   return 0;
 }
+
+
+// print error message and quit
+void error(char *s){
+  printf("%s\n", s);
+  exit(1);
+}
+
