@@ -14,6 +14,8 @@ page 102
 
 由于排序算法和比较/交换操作无关, 因此, 通过在排序算法中调用不同的比较和交换函数, 便可以实现按照不同的标准排序
 
+TODO ch5-Pointers-and-Arrays/sort-demo2.c:42:83: warning: pointer type mismatch ('int (*)(char *, char *)' and 'int (*)(const char *, const char *)') [-Wpointer-type-mismatch]
+
 */
 
 #define MAXLINES 5000 // 进行排序的最大文本行数
