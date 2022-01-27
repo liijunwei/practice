@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../common-utils/getline.c"
+
 /*
 page 102
 
@@ -63,25 +65,6 @@ char *alloc(int n){
     printf("memory not enough(%d > %d)\n", n, ALLOCSIZE);
     return NULL; // c语言保证, 0永远不是有效的数据地址, 因此可以用做没有足够空间的标识
   }
-}
-
-int custom_getline(char s[], int max){
-  int c;
-  int i = 0;
-
-  while(--max > 0 && (c = getchar()) != EOF && c != '\n'){
-    s[i] = c;
-    i++;
-  }
-
-  if(c == '\n'){
-    s[i] = c;
-    ++i;
-  }
-
-  s[i] = '\0';
-
-  return i;
 }
 
 int readlines(char *lineptr[], int maxlines){
