@@ -21,7 +21,7 @@ page 102
 char *lineptr[MAXLINES];
 int readlines(char *lineptr[], int nlines);
 void printlines(char *lineptr[], int nlines);
-void qsort(void *lineptr[], int left, int right, int (*comp)(void *a, void *b));
+void custom_qsort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
 int numcmp(char *s1, char *s2);
 
 // gcc -g ch5-Pointers-and-Arrays/sort-demo2.c && cat ch5-Pointers-and-Arrays/tmp.md | ./a.out
@@ -37,7 +37,7 @@ int main(int argc, char const *argv[])
   }
 
   if((nlines = readlines(lineptr, MAXLINES)) >= 0){
-    qsort((void **)lineptr, 0, nlines - 1, (int (*)(void*, void*))(numeric ? numcmp : strcmp));
+    custom_qsort((void **)lineptr, 0, nlines - 1, (int (*)(void*, void*))(numeric ? numcmp : strcmp));
     printlines(lineptr, nlines);
     return 0;
   } else {
@@ -119,7 +119,7 @@ void swap(void *v[], int i, int j){
 
 // TODO not clear
 // 以递增顺序对v[left]...v[right]进行排序
-void qsort(void *v[], int left, int right, int (*comp)(void *, void *)) {
+void custom_qsort(void *v[], int left, int right, int (*comp)(void *, void *)) {
   int i;
   int last;
 
@@ -137,8 +137,8 @@ void qsort(void *v[], int left, int right, int (*comp)(void *, void *)) {
   }
 
   swap(v, left, last);
-  qsort(v, left, last - 1, comp);
-  qsort(v, last + 1, right, comp);
+  custom_qsort(v, left, last - 1, comp);
+  custom_qsort(v, last + 1, right, comp);
 }
 
 int numcmp(char *s1, char *s2) {
