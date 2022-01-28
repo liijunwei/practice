@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
 /*
 page 105
@@ -7,6 +9,11 @@ page 105
 例如: 比较a和A时认为他们相等
 
 */
+
+#define NUMERIC 1
+#define DECR    2   /* sort in decreasing order */
+#define FOLD    4   /* fold upper and lower cases */
+#define LINES   100 /* max number of lines to be sorted */
 
 int main(int argc, char const *argv[])
 {
