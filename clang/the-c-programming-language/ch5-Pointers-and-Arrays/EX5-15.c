@@ -21,16 +21,14 @@ page 105
 #define LINES   100 /* max number of lines to be sorted */
 
 int charcmp(char *, char *);
-void custom_qsort(char *v[], int left, int right, int (*comp)(void *, void *));
+void custom_qsort(void *v[], int left, int right, int (*comp)(void *, void *));
 void printlines(char *lineptr[], int nlines, int order);
 
 static char option = 0;
 
 // cat ch5-Pointers-and-Arrays/sample-input.md | sort
 // gcc -g ch5-Pointers-and-Arrays/EX5-15.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out
-// gcc -g ch5-Pointers-and-Arrays/EX5-15.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -n
-// gcc -g ch5-Pointers-and-Arrays/EX5-15.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -r
-// gcc -g ch5-Pointers-and-Arrays/EX5-15.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -nr
+// gcc -g ch5-Pointers-and-Arrays/EX5-15.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -fnr
 
 /* sort input lines */
 int main(int argc, char const *argv[])
