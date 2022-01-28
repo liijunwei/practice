@@ -60,5 +60,31 @@ int charcmp(char *s, char *t) {
   return tolower(*s) - tolower(*t);
 }
 
+void swap(void *v[], int i, int j){
+  void *temp = v[i];
+  v[i] = v[j];
+  v[j] = temp;
+}
 
+void custom_qsort(void *v[], int left, int right, int (*comp)(void *, void *)) {
+  int i;
+  int last;
+
+  if(left >= right){ // 如果数组元素的个数小于2, 则返回
+    return;
+  }
+
+  swap(v, left, (left + right) / 2);
+  last = left;
+
+  for(i = left + 1; i <= right; i++){
+    if((*comp)(v[i], v[left]) < 0){ // asc
+      swap(v, ++last, i);
+    }
+  }
+
+  swap(v, left, last);
+  custom_qsort(v, left, last - 1, comp);
+  custom_qsort(v, last + 1, right, comp);
+}
 
