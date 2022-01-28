@@ -1,6 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
+#include "../common-utils/getline.c"
 
 /*
 page 105
@@ -42,5 +45,6 @@ int charcmp(char *s, char *t) {
 
   return tolower(*s) - tolower(*t);
 }
+
 
 
