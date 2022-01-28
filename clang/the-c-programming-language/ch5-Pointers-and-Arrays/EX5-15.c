@@ -1,12 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
-#include "../common-utils/getline.c"
-#include "../common-utils/readlines.c"
-#include "../common-utils/numcmp.c"
-
 /*
 page 105
 
@@ -15,6 +6,15 @@ page 105
 
 TODO 和 ch5-Pointers-and-Arrays/EX5-14.c 一起搞懂
 */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#include "../common-utils/getline.c"
+#include "../common-utils/readlines.c"
+#include "../common-utils/numcmp.c"
 
 #define NUMERIC 1
 #define DECR    2   /* sort in decreasing order */

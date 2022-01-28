@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "../common-utils/getline.c"
-
 /*
 page 105
 
@@ -12,6 +6,12 @@ page 105
 
 TODO 没懂
 */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "../common-utils/getline.c"
 
 #define NUMERIC 1   /* numeric sort */
 #define DECR    2   /* sort in decreasing order */
