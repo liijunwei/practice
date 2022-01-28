@@ -15,6 +15,15 @@ page 105
 #define FOLD    4   /* fold upper and lower cases */
 #define LINES   100 /* max number of lines to be sorted */
 
+int charcmp(char *, char *);
+int numcmp(char *, char *);
+int readlines(char *, char *);
+void custom_qsort(char *v[], int left, int right, int (*comp)(void *, void *));
+void printlines(char *lineptr[], int nlines, int order);
+
+static char option = 0;
+
+/* sort input lines */
 int main(int argc, char const *argv[])
 {
 
