@@ -26,11 +26,61 @@ void printlines(char *lineptr[], int nlines, int order);
 
 static char option = 0;
 
+// cat ch5-Pointers-and-Arrays/sample-input.md | sort
+// gcc -g ch5-Pointers-and-Arrays/EX5-15.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out
+// gcc -g ch5-Pointers-and-Arrays/EX5-15.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -n
+// gcc -g ch5-Pointers-and-Arrays/EX5-15.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -r
+// gcc -g ch5-Pointers-and-Arrays/EX5-15.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -nr
+
 /* sort input lines */
 int main(int argc, char const *argv[])
 {
+  char *lineptr[LINES];
+  int nlines;
+  int c;
+  int rc = 0;
 
-  return 0;
+  while(--argc > 0 && (*++argv)[0] == '-') {
+    while((c = *++argv[0]) > 0) {
+      switch(c) {
+        case 'f': /* fold upper and lower cases */
+          option |= FOLD;
+          break;
+        case 'n':
+          option |= NUMERIC;
+          break;
+        case 'r':
+          option |= DECR;
+          break;
+        default:
+          printf("Sort: illegal option %c\n", c);
+          argc = 1;
+          rc = -1;
+          break;
+      }
+    }
+  }
+
+  if(argc) {
+    printf("Usage: sort -fnr\n");
+  } else {
+    if((nlines = readlines(lineptr, LINES)) > 0) {
+      if(option & NUMERIC) {
+        custom_qsort((void **)lineptr, 0, nlines - 1, (int(*)(void *, void *)) numcmp);
+      } else if(option & FOLD) {
+        custom_qsort((void **)lineptr, 0, nlines - 1, (int(*)(void *, void *)) charcmp);
+      } else {
+        custom_qsort((void **)lineptr, 0, nlines - 1, (int(*)(void *, void *)) strcmp);
+      }
+
+      printlines(lineptr, nlines, option & DECR);
+    } else {
+      printf("input too big to sort\n");
+      rc = -1;
+    }
+  }
+
+  return rc;
 }
 
 void printlines(char *lineptr[], int nlines, int decr) {
