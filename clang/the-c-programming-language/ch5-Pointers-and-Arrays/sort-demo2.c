@@ -28,8 +28,8 @@ void printlines(char *lineptr[], int nlines);
 void custom_qsort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
 int numcmp(char *s1, char *s2);
 
-// gcc -g ch5-Pointers-and-Arrays/sort-demo2.c && cat ch5-Pointers-and-Arrays/tmp.md | ./a.out
-// gcc -g ch5-Pointers-and-Arrays/sort-demo2.c && cat ch5-Pointers-and-Arrays/tmp.md | ./a.out -n
+// gcc -g ch5-Pointers-and-Arrays/sort-demo2.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out
+// gcc -g ch5-Pointers-and-Arrays/sort-demo2.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -n
 // 对输入的文本行进行排序
 int main(int argc, char const *argv[])
 {

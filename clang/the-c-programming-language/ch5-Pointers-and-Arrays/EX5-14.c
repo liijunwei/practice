@@ -26,10 +26,10 @@ static char option = 0;
 
 // gcc -g ch5-Pointers-and-Arrays/EX5-14.c
 //
-// cat ch5-Pointers-and-Arrays/tmp.md | ./a.out
-// cat ch5-Pointers-and-Arrays/tmp.md | ./a.out -n
-// cat ch5-Pointers-and-Arrays/tmp.md | ./a.out -r
-// cat ch5-Pointers-and-Arrays/tmp.md | ./a.out -nr
+// cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out
+// cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -n
+// cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -r
+// cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -nr
 int main(int argc, char const *argv[])
 {
   char *lineptr[LINES];
