@@ -21,7 +21,6 @@ page 105
 #define LINES   100 /* max number of lines to be sorted */
 
 int charcmp(char *, char *);
-int numcmp(char *, char *);
 void custom_qsort(char *v[], int left, int right, int (*comp)(void *, void *));
 void printlines(char *lineptr[], int nlines, int order);
 

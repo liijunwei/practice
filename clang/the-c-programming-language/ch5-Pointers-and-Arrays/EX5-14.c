@@ -10,7 +10,6 @@ page 105
 修改排序程序, 是他能处理-r参数
 该参数表明 以递减方式排序, 要保证-n和-r能够组合在一起使用
 
-TODO 排序没生效
 TODO 没懂
 */
 
@@ -25,6 +24,7 @@ void printlines(char *lineptr[], int nlines, int decr);
 
 static char option = 0;
 
+// cat ch5-Pointers-and-Arrays/sample-input.md | sort
 // gcc -g ch5-Pointers-and-Arrays/EX5-14.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out
 // gcc -g ch5-Pointers-and-Arrays/EX5-14.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -n
 // gcc -g ch5-Pointers-and-Arrays/EX5-14.c && cat ch5-Pointers-and-Arrays/sample-input.md | ./a.out -r
@@ -59,9 +59,9 @@ int main(int argc, char const *argv[])
   } else {
     if((nlines = readlines(lineptr, LINES)) > 0) {
       if(option & NUMERIC) {
-        qsort((void **)lineptr, 0, nlines - 1, (int(*)(void *, void *)) numcmp);
+        custom_qsort((void **)lineptr, 0, nlines - 1, (int(*)(void *, void *)) numcmp);
       } else {
-        qsort((void **)lineptr, 0, nlines - 1, (int(*)(void *, void *)) strcmp);
+        custom_qsort((void **)lineptr, 0, nlines - 1, (int(*)(void *, void *)) strcmp);
       }
 
       printlines(lineptr, nlines, option & DECR);
@@ -141,3 +141,32 @@ int numcmp(char *s1, char *s2) {
     return 0;
   }
 }
+
+void swap(void *v[], int i, int j){
+  void *temp = v[i];
+  v[i] = v[j];
+  v[j] = temp;
+}
+
+void custom_qsort(void *v[], int left, int right, int (*comp)(void *, void *)) {
+  int i;
+  int last;
+
+  if(left >= right){ // 如果数组元素的个数小于2, 则返回
+    return;
+  }
+
+  swap(v, left, (left + right) / 2);
+  last = left;
+
+  for(i = left + 1; i <= right; i++){
+    if((*comp)(v[i], v[left]) < 0){ // asc
+      swap(v, ++last, i);
+    }
+  }
+
+  swap(v, left, last);
+  custom_qsort(v, left, last - 1, comp);
+  custom_qsort(v, last + 1, right, comp);
+}
+
