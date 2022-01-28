@@ -13,6 +13,7 @@ page 105
 增加-f选项, 使得排序过程不考虑字母大小写之间的区别
 例如: 比较a和A时认为他们相等
 
+TODO 和 ch5-Pointers-and-Arrays/EX5-14.c 一起搞懂
 */
 
 #define NUMERIC 1
