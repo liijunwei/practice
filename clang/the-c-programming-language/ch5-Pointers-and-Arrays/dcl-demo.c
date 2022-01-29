@@ -9,6 +9,14 @@ page 107
 #include <string.h>
 #include <ctype.h>
 
+#define MAXTOKEN 100
+
+enum {
+  NAME,
+  PARENS,
+  BRACKETS
+};
+
 void dcl();
 void dirdcl();
 int gettoken();
@@ -41,3 +49,4 @@ void dirdcl() {
 int gettoken() {
   return 1;
 }
+
