@@ -69,6 +69,7 @@ int main(int argc, char const *argv[])
   return rc;
 }
 
+/* 负责分析排序程序的命令行选项 */
 void readargs(int argc, char const *argv[]) {
   int c;
 
