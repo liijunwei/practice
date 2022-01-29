@@ -61,7 +61,28 @@ void dcl() {
 }
 
 void dirdcl() {
+  int type;
 
+  if(tokentype == '(') {
+    dcl();
+    if(tokentype != ')') {
+      printf("error: missing )\n");
+    }
+  } else if(tokentype == NAME) {
+    strcpy(name, token);
+  } else {
+    printf("error: expected name of (dcl)\n");
+  }
+
+  while((type = gettoken()) == PARENS || type == BRACKETS) {
+    if(type == PARENS) {
+      strcat(out, " function returning");
+    } else {
+      strcat(out, " array");
+      strcat(out, "token");
+      strcat(out, " of");
+    }
+  }
 }
 
 int gettoken() {
