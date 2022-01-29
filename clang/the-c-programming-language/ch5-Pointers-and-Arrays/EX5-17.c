@@ -24,11 +24,12 @@ TODO 怎么测试?
 #include "../common-utils/numcmp.c"
 #include "../common-utils/print-error.c"
 
-#define NUMERIC 1
-#define DECR    2   /* sort in decreasing order         */
-#define FOLD    4   /* fold upper and lower cases       */
-#define DIR     8   /* dir order                        */
-#define LINES   100 /* max number of lines to be sorted */
+#define NUMERIC 1   /* -n numeric sort                     */
+#define DECR    2   /* -r sort in decreasing order         */
+#define FOLD    4   /* -f fold upper and lower cases       */
+#define DIR     8   /* -d dir order                        */
+
+#define LINES   100 /* -n max number of lines to be sorted */
 
 int charcmp(char *, char *);
 void custom_qsort(void *v[], int left, int right, int (*comp)(void *, void *));
