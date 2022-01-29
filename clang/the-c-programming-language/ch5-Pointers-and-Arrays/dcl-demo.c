@@ -21,8 +21,13 @@ void dcl();
 void dirdcl();
 int gettoken();
 
+int tokentype;
+char token[MAXTOKEN];
+char name[MAXTOKEN];
+char datatype[MAXTOKEN];
 char out[1000];
 
+/* 将声明转为文字描述 */
 int main(int argc, char const *argv[])
 {
   /* code */
