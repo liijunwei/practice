@@ -118,7 +118,5 @@ int gettoken() {
   } else {
     return tokentype = c;
   }
-
-  return 1;
 }
 
