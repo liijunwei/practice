@@ -3,6 +3,7 @@ page 107
 
 根据声明符的语法对声明进行分析
 
+TODO 补充注释
 */
 
 #include <stdio.h>
@@ -28,6 +29,11 @@ char token[MAXTOKEN];
 char name[MAXTOKEN];
 char datatype[MAXTOKEN];
 char out[1000];
+
+// echo "int a();"   | ./a.out
+// echo "int *a()"   | ./a.out
+// echo "int (*a)()" | ./a.out
+// echo "(*pfap[])()" | ./a.out # ???
 
 /* 将声明转为文字描述 */
 int main(int argc, char const *argv[])
