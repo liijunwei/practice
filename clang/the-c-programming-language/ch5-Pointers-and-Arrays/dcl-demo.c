@@ -53,6 +53,7 @@ int main(int argc, char const *argv[])
   return 0;
 }
 
+// dcl 和 dirdcl 相互递归调用
 void dcl() {
   int ns;
   for(ns = 0; gettoken() == '*';) {
