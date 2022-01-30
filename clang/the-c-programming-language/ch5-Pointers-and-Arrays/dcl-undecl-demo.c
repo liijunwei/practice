@@ -37,7 +37,7 @@ int main(int argc, char const *argv[])
   char temp[MAXTOKEN];
 
   while(gettoken() != EOF) {
-    strcat(out, token);
+    strcpy(out, token);
 
     while((type = gettoken()) != '\n') {
       if(type == PARENS || type == BRACKETS) {
