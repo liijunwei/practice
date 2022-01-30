@@ -4,16 +4,12 @@ set -e
 
 check() {
   expected="$1"
-  # shift
   actual="$2"
 
   if [ "$expected" == "$actual" ]; then
     echo "ok"
   else
-    echo "not ok"
-    echo "==================="
-    echo "expected: $expected"
-    echo "actual:   $actual"
+    echo "not ok, expected: \"$expected\", got: \"$actual\""
   fi
 }
 
@@ -30,6 +26,8 @@ check 'int *daytab[13]' "$(echo 'daytab [13] * int' | ./new)"
 
 check 'char (*x)' "$(echo 'x * char' | ./old)"
 check 'char *x' "$(echo 'x * char' | ./new)"
+
+check 'char *x' "$(echo 'x * char1' | ./new)"
 
 rm -rf old
 rm -rf new
