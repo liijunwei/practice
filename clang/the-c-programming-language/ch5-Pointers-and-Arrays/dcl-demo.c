@@ -95,7 +95,7 @@ void dirdcl() {
       strcat(out, " function returning");
     } else {
       strcat(out, " array");
-      strcat(out, "token");
+      strcat(out, token);
       strcat(out, " of");
     }
   }
