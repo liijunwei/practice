@@ -41,6 +41,7 @@ char datatype[MAXTOKEN];
 char out[1000];
 
 /* 将声明转为文字描述 */
+/* 核心为两个函数: dcl和dirdcl */
 int main(int argc, char const *argv[])
 {
   while(gettoken() != EOF) {
