@@ -27,8 +27,7 @@ char token[MAXTOKEN];
 char out[1000];
 int prevtoken;
 
-// gcc ch5-Pointers-and-Arrays/dcl-undecl-demo.c && echo "x * char" | ./a.out
-// gcc ch5-Pointers-and-Arrays/EX5-19.c &&          echo "x * char" | ./a.out
+// bash ch5-Pointers-and-Arrays/EX5-19-test.sh
 
 /* undecl: convert word description to declaration */
 int main(int argc, char const *argv[])
