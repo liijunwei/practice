@@ -94,6 +94,7 @@ void dirdcl() {
   }
 }
 
+/* 跳过空格和制表符 */
 int gettoken() {
   int c;
   char *p = token;
