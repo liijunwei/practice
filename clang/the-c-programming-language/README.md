@@ -15,3 +15,4 @@ https://blog.csdn.net/yangjingdong2008/category_11359327.html
 
 https://github.com/Heatwave/The-C-Programming-Language-2nd-Edition
 
+https://github.com/gerrard00/the-c-programming-language
