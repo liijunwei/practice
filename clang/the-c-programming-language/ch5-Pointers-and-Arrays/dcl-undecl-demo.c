@@ -3,7 +3,6 @@ page 109
 
 根据声明符的语法对声明进行分析
 
-TODO 补充注释
 */
 
 #include <stdio.h>
@@ -24,11 +23,7 @@ int tokentype;
 char token[MAXTOKEN];
 char out[1000];
 
-// x is a function returning a pointer to an array of pointers to functions returning char
-// <=>
-// f () * [] * () char
-// test:
-// ch5-Pointers-and-Arrays/dcl-undecl-demo-test.sh
+// bash ch5-Pointers-and-Arrays/dcl-undecl-demo-test.sh
 
 /* undecl 函数, 将文字描述转换为声明 */
 int main(int argc, char const *argv[])
