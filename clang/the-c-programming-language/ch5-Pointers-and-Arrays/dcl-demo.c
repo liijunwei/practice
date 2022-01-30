@@ -4,6 +4,16 @@ page 107
 根据声明符的语法对声明进行分析
 
 TODO 补充注释
+
+测试方法:
+page 105
+echo "char **argv"       | ./a.out
+echo "int (*daytab)[13]" | ./a.out
+echo "int *daytab[13]"   | ./a.out
+echo "void *comp()"      | ./a.out
+echo "void (*comp)()"    | ./a.out
+echo "(*(*x())[])()"     | ./a.out # TODO
+echo "(*(*x[3])())[5]"   | ./a.out # TODO
 */
 
 #include <stdio.h>
@@ -29,11 +39,6 @@ char token[MAXTOKEN];
 char name[MAXTOKEN];
 char datatype[MAXTOKEN];
 char out[1000];
-
-// echo "int a();"   | ./a.out
-// echo "int *a()"   | ./a.out
-// echo "int (*a)()" | ./a.out
-// echo "(*pfap[])()" | ./a.out # ???
 
 /* 将声明转为文字描述 */
 int main(int argc, char const *argv[])
