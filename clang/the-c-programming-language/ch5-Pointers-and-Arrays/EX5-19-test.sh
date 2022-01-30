@@ -41,5 +41,11 @@ check 'char *x' ./new << EOF
 x * char
 EOF
 
+demo=$(./new << EOF
+x * char
+EOF
+)
+
+echo $demo
 rm -rf old
 rm -rf new
