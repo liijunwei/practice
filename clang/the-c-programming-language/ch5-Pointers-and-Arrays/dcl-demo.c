@@ -63,14 +63,15 @@ int main(int argc, char const *argv[])
 // dcl 和 dirdcl 相互递归调用
 void dcl() {
   int ns;
-  for(ns = 0; gettoken() == '*';) {
+  for(ns = 0; gettoken() == '*'; ) {
     ns++;
   }
 
   dirdcl();
 
-  while(ns-- > 0) {
+  while(ns > 0) {
     strcat(out, " pointer to");
+    ns--;
   }
 }
 
