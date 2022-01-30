@@ -34,19 +34,18 @@ enum {
 void dcl();
 void dirdcl();
 int gettoken();
-
-int tokentype;
-char token[MAXTOKEN];
-char name[MAXTOKEN];
-char datatype[MAXTOKEN];
-char out[1000];
+int tokentype;           /* 最后一个记号的类型    */
+char token[MAXTOKEN];    /* 最后一个记号字符串    */
+char name[MAXTOKEN];     /* 标识符名              */
+char datatype[MAXTOKEN]; /* 数据类型为char/int 等 */
+char out[1000];          /* 输出串                */
 
 /* 将声明转为文字描述 */
 /* 核心为两个函数: dcl和dirdcl */
 /* 递归下降语法分析 */
 int main(int argc, char const *argv[])
 {
-  while(gettoken() != EOF) {
+  while(gettoken() != EOF) { /* 该行的第一个记号是数据类型 */
     strcpy(datatype, token);
     out[0] = '\0';
     dcl();
@@ -55,7 +54,7 @@ int main(int argc, char const *argv[])
       error("Syntax error\n");
     }
 
-    printf("%s %s %s\n", name, out, datatype);
+    printf("%s: %s %s\n", name, out, datatype);
   }
 
   return 0;
