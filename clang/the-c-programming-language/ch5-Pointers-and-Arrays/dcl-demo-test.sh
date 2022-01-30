@@ -5,5 +5,5 @@ echo "int (*daytab)[13]" | ./a.out
 echo "int *daytab[13]"   | ./a.out
 echo "void *comp()"      | ./a.out
 echo "void (*comp)()"    | ./a.out
-echo "(*(*x())[])()"     | ./a.out # TODO
-echo "(*(*x[3])())[5]"   | ./a.out # TODO
+echo "char (*(*x())[])()"   | ./a.out
+echo "char (*(*x[3])())[5]" | ./a.out
