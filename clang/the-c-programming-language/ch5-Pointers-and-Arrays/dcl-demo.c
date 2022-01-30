@@ -21,6 +21,7 @@ echo "(*(*x[3])())[5]"   | ./a.out # TODO
 #include <ctype.h>
 
 #include "../common-utils/getch-ungetch.c"
+#include "../common-utils/print-error.c"
 
 #define MAXTOKEN 100
 
@@ -51,7 +52,7 @@ int main(int argc, char const *argv[])
     dcl();
 
     if(tokentype != '\n') {
-      printf("Syntax error\n");
+      error("Syntax error\n");
     }
 
     printf("%s %s %s\n", name, out, datatype);
@@ -81,12 +82,12 @@ void dirdcl() {
   if(tokentype == '(') {
     dcl();
     if(tokentype != ')') {
-      printf("error: missing )\n");
+      error("error: missing )\n");
     }
   } else if(tokentype == NAME) {
     strcpy(name, token);
   } else {
-    printf("error: expected name of (dcl)\n");
+    error("error: expected name of (dcl)\n");
   }
 
   while((type = gettoken()) == PARENS || type == BRACKETS) {
