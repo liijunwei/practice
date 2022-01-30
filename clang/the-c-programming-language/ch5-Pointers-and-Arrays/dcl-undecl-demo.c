@@ -24,6 +24,10 @@ int tokentype;
 char token[MAXTOKEN];
 char out[1000];
 
+// x is a function returning a pointer to an array of pointers to functions returning char
+// <=>
+// f () * [] * () char
+
 // gcc ch5-Pointers-and-Arrays/dcl-undecl-demo.c && echo "f () * [] * () char" | ./a.out
 
 /* undecl 函数, 将文字描述转换为声明 */
