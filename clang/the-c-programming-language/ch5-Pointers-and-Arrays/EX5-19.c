@@ -67,6 +67,11 @@ int gettoken() {
   int c;
   char *p = token;
 
+  if(prevtoken == YES) {
+    prevtoken = NO;
+    return tokentype;
+  }
+
   while((c = getch()) == ' ' || c == '\t') {
     ;
   }
@@ -80,14 +85,14 @@ int gettoken() {
       return tokentype = '(';
     }
   } else if(c == '[') {
-    for(*p++ = c; (*p++ = getch()) != ']';) {
+    for(*p++ = c; (*p++ = getch()) != ']'; ) {
       ;
     }
 
     *p = '\0';
     return tokentype = BRACKETS;
   } else if(isalpha(c)) {
-    for(*p++ = c; isalnum(c = getch());) {
+    for(*p++ = c; isalnum(c = getch()); ) {
       *p++ = c;
     }
     *p = '\0';
