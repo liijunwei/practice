@@ -6,9 +6,6 @@ page 113
 
 #include <stdio.h>
 
-#define XMAX 10
-#define YMAX 10
-
 struct point {
   int x;
   int y;
@@ -34,12 +31,6 @@ struct point addpoint(struct point p1, struct point p2) {
   p1.y += p2.y;
 
   return p1;
-}
-
-// 如果点p在矩形r内, 返回1, 否则返回0
-int ptinrect(struct point p, struct rect r) {
-  return p.x >= r.pt1.x && p.x < r.pt2.x
-      && p.y >= r.pt1.y && p.y < r.pt2.y;
 }
 
 #define min(a, b) ((a) < (b) ? (a): (b))
