@@ -41,8 +41,6 @@ int main(int argc, char const *argv[])
   int n;
   char word[MAXWORD];
 
-  printf("NKEYS %lu\n", NKEYS);
-
   while(getword(word, MAXWORD) != EOF) {
     if(isalpha(word[0])) {
       if((n = binsearch(word, keytab, NKEYS)) >= 0) {
