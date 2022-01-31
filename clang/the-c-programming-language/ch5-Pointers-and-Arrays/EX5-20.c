@@ -153,7 +153,7 @@ int typespec() {
   };
 
   char *pt = token;
-  if(bsearch(&pt, types, sizeof(types)/sizeof(char *)), sizeof(char *), compare == NULL) {
+  if(bsearch(&pt, types, sizeof(types)/sizeof(char *), sizeof(char *), compare) == NULL) {
     return NO;
   } else {
     return YES;
@@ -167,7 +167,7 @@ int typeequal() {
   };
 
   char *pt = token;
-  if(bsearch(&pt, typeq, sizeof(typeq)/sizeof(char *)), sizeof(char *), compare == NULL) {
+  if(bsearch(&pt, typeq, sizeof(typeq)/sizeof(char *), sizeof(char *), compare) == NULL) {
     return NO;
   } else {
     return YES;
