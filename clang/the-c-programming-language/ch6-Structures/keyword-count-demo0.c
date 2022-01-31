@@ -5,6 +5,7 @@ page 116
 
 isalpha 是否为字母
 isalnum 是否为字母或数字
+sizeof is an operator
 */
 
 #include <stdio.h>
