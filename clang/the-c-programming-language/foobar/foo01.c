@@ -4,6 +4,8 @@ int foo(){
   return 'B' - 'A' + 10;
 }
 
+void *(*comp)(int *, char *, int (*fnc)());
+
 int main(int argc, char const *argv[])
 {
   printf("%d\n\n", foo());

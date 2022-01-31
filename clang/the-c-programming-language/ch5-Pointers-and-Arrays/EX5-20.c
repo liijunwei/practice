@@ -98,7 +98,7 @@ void dirdcl() {
     } else if(type == '(') {
       strcat(out, " function expecting");
       parmdcl();
-      strcat(out, " end returning");
+      strcat(out, " and returning");
     } else {
       strcat(out, " array");
       strcat(out, token);
