@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
   struct point *pp;
 
   pp = &origin;
-  printf("origin is (%d, %d)\n", (*pp).x, (*pp).y);
+  printf("origin is (%d, %d)\n", (*pp).x, (*pp).y); /* (*pp).x 里的括号是必须的, 因为运算符'.'的优先级高于'*' */
 
   return 0;
 }
