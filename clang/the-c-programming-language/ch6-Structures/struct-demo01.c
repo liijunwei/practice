@@ -22,6 +22,10 @@ void print_point(Point point) {
   printf("x: %d y: %d\n", point.x, point.y);
 }
 
+void print_point1(struct point1 point) {
+  printf("x: %d y: %d\n", point.x, point.y);
+}
+
 int main(int argc, char const *argv[])
 {
   a.x = 1;
@@ -35,6 +39,9 @@ int main(int argc, char const *argv[])
   c.x = 88;
   c.y = 99;
   print_point(c);
+
+  struct point1 d = {100, 200};
+  print_point1(d);
 
   return 0;
 }
