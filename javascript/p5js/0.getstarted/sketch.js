@@ -1,4 +1,3 @@
-
 let w;
 let columns;
 let rows;
@@ -7,7 +6,7 @@ let next;
 
 function setup() {
   createCanvas(720, 400);
-  w = 20;
+  w = 10;
   // Calculate columns and rows
   columns = floor(width / w);
   rows = floor(height / w);
