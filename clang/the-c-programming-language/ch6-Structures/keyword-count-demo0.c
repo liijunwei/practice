@@ -25,7 +25,7 @@ struct key {
   {"while",    0},
 };
 
-#define NKEYS   11 /* keytab中关键字的个数 */
+#define NKEYS   (sizeof(keytab) / sizeof(struct key)) /* keytab中关键字的个数 */
 #define MAXWORD 100
 
 int getword(char *, int);
@@ -35,6 +35,8 @@ int main(int argc, char const *argv[])
 {
   int n;
   char word[MAXWORD];
+
+  printf("NKEYS %lu\n", NKEYS);
 
   while(getword(word, MAXWORD) != EOF) {
     if(isalpha(word[0])) {
