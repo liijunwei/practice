@@ -43,6 +43,7 @@ char datatype[MAXTOKEN]; /* 数据类型为char/int 等 */
 char out[1000];          /* 输出串                */
 int prevtoken;
 
+// bash ch5-Pointers-and-Arrays/EX5-20-test.sh
 int main(int argc, char const *argv[])
 {
   while(gettoken() != EOF) { /* 该行的第一个记号是数据类型 */

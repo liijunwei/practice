@@ -25,5 +25,5 @@ check 'echo "char (*(*x())[])()"   | ./a.out' 'x:  function returning pointer to
 check 'echo "char (*(*x[3])())[5]" | ./a.out' 'x:  array[3] of pointer to function returning pointer to array[5] of char'
 
 check 'echo "void *(*comp)(int *, char *, int (*fnc)())" | ./a.out' 'comp:  pointer to function expecting pointer to int, pointer to char, pointer to function returning int and returning pointer to void'
-# TODO
-check 'echo "char const demo" | ./a.out' 'x:  array[3] of pointer to function returning pointer to array[5] of char'
+
+check 'echo "static char demo" | ./a.out' 'TODO'
