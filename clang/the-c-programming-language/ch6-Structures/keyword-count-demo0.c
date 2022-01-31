@@ -2,11 +2,16 @@
 page 116
 
 统计输入中各个C语言关键字出现的次数
+
+isalpha 是否为字母
+isalnum 是否为字母或数字
 */
 
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+
+#include "../common-utils/getch-ungetch.c"
 
 struct key {
   char *word;
@@ -28,7 +33,7 @@ struct key {
 #define NKEYS   (sizeof(keytab) / sizeof(struct key)) /* keytab中关键字的个数 */
 #define MAXWORD 100
 
-int getword(char *, int);
+int getword(char *word, int limit);
 int binsearch(char *word, struct key tab[], int n);
 
 int main(int argc, char const *argv[])
@@ -56,8 +61,32 @@ int main(int argc, char const *argv[])
 }
 
 /* 每调用一次该函数, 将读入一个单词, 并将其复制到名字为该函数的第一个参数的数组中 */
-int getword(char *, int) {
+int getword(char *word, int limit) {
+  int c;
+  char *w = word;
 
+  while(isspace(c = getch())) {
+    ;
+  }
+
+  if(c != EOF) {
+    *w++ = c;
+  }
+
+  if(!isalpha(c)) {
+    *w = '\0';
+    return c;
+  }
+
+  for( ; --limit > 0; w++) {
+    if(!isalnum(*w = getch())) {
+      ungetch(*w);
+      break;
+    }
+  }
+
+  *w = '\0';
+  return word[0];
 }
 
 int binsearch(char *word, struct key tab[], int n) {
