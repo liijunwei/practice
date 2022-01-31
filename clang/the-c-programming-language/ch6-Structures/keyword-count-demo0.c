@@ -60,6 +60,7 @@ int main(int argc, char const *argv[])
   return 0;
 }
 
+/* TODO 没看懂... */
 /* 每调用一次该函数, 将读入一个单词, 并将其复制到名字为该函数的第一个参数的数组中 */
 int getword(char *word, int limit) {
   int c;
