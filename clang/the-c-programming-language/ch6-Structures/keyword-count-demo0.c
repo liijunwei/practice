@@ -36,6 +36,7 @@ struct key {
 int getword(char *word, int limit);
 int binsearch(char *word, struct key tab[], int n);
 
+// bash ch6-Structures/keyword-count-test.sh
 int main(int argc, char const *argv[])
 {
   int n;
