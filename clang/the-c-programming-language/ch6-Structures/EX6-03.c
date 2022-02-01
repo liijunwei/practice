@@ -77,4 +77,26 @@ void treeprint(struct tnode *p) {
   }
 }
 
+// identify word as a noise word
+int noiseword(char *w) {
+  static char *nw[] = {
+    "a",
+    "an",
+    "and",
+    "are",
+    "in",
+    "is",
+    "of",
+    "or",
+    "that",
+    "the",
+    "this",
+    "to",
+  };
+
+
+  return 1;
+}
+
+
 
