@@ -22,8 +22,9 @@ struct tnode {
 };
 
 #define MAXWORD 100
+// 问题: 用enum代替会有问题吗
 #define YES 1
-#define NO 0
+#define NO  0
 
 struct tnode *addtreex(struct tnode *, char *, int , int *);
 void treeprint(struct tnode *);
