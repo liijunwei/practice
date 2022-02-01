@@ -8,6 +8,16 @@ page 125
 */
 
 #include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+struct tnode {
+  char *word;
+  int match;
+  struct tnode *left;
+  struct tnode *right;
+};
 
 int main(int argc, char const *argv[])
 {
