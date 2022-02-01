@@ -27,6 +27,8 @@ struct tnode *address(struct tnode *, char *, int , int *);
 void treeprint(struct tnode *);
 int getword(char *, int);
 
+/* print in alphabetic order each group of variable names */
+/* identical in the first num characters (default 6) */
 int main(int argc, char const *argv[])
 {
 
