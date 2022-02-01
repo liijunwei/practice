@@ -94,8 +94,23 @@ int noiseword(char *w) {
     "to",
   };
 
+  int cond;
+  int mid;
+  int low = 0;
+  int high = sizeof(nw) / sizeof(char *) - 1;
 
-  return 1;
+  while(low <= high) {
+    mid = (low + high) / 2;
+    if((cond = strcmp(w, nw[mid])) < 0) {
+      high = mid - 1;
+    } else if (cond > 0) {
+      low = mid + 1;
+    } else {
+      return mid;
+    }
+  }
+
+  return -1;
 }
 
 
