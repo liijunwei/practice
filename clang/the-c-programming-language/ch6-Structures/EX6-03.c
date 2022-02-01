@@ -19,6 +19,13 @@ struct linklist {
   struct linklist *ptr;
 };
 
+struct tnode {
+  char *word;             /* pointer to the text */
+  struct linklist *lines; /* line numbers        */
+  struct tnode *left;     /* left child          */
+  struct tnode *right;    /* right child         */
+};
+
 int main(int argc, char const *argv[])
 {
 
