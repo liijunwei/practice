@@ -42,6 +42,7 @@ struct tnode *talloc() {
   return (struct tnode *) malloc(sizeof(struct tnode));
 }
 
+// make a linked list node
 struct linklist *lalloc() {
   return (struct linklist *) malloc(sizeof(struct linklist));
 }
@@ -61,4 +62,19 @@ void addln(struct tnode *p, int linenum) {
     temp->ptr->ptr = NULL;
   }
 }
+
+void treeprint(struct tnode *p) {
+  struct linklist *temp;
+
+  if(p != NULL) {
+    treeprint(p->left);
+    printf("%10s: ", p->word);
+    for(temp = p->lines; temp != NULL; temp = temp->ptr) {
+      printf("%4d ", temp->lnum);
+    }
+    printf("\n");
+    treeprint(p->right);
+  }
+}
+
 
