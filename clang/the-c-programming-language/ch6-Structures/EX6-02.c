@@ -30,13 +30,7 @@ struct tnode *addtreex(struct tnode *, char *, int , int *);
 void treeprint(struct tnode *);
 int getword(char *, int);
 
-// gcc ch6-Structures/EX6-02.c && cat ch6-Structures/EX6-02.c | ./a.out
-// gcc ch6-Structures/EX6-02.c && cat ch6-Structures/EX6-02.c | ./a.out -3
-// gcc ch6-Structures/EX6-02.c && cat ch6-Structures/EX6-02.c | ./a.out -4
-// gcc ch6-Structures/EX6-02.c && cat ch6-Structures/EX6-02.c | ./a.out -8
-// gcc ch6-Structures/EX6-02.c && cat ch6-Structures/EX6-02.c | ./a.out -9
-// gcc ch6-Structures/EX6-02.c && cat ch6-Structures/EX6-02.c | ./a.out -10
-
+/* bash ch6-Structures/EX6-02-test.sh */
 /* print in alphabetic order each group of variable names */
 /* identical in the first num characters (default 6) */
 int main(int argc, char const *argv[])
