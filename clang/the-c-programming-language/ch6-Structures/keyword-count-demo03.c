@@ -18,6 +18,7 @@ now is the time for all good men to come the aid of their party
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "../common-utils/getch-ungetch.c"
 
@@ -34,6 +35,8 @@ struct tnode {         /* tree node       */
 struct tnode *address(struct tnode *p, char *w);
 void treeprint(struct tnode *p);
 int getword(char *, int);
+
+// gcc ch6-Structures/keyword-count-demo03.c && echo "now is the time for all good men to come the aid of their party" | ./a.out
 
 // 统计单词出现的频率
 int main(int argc, char const *argv[])
@@ -55,8 +58,7 @@ int main(int argc, char const *argv[])
 }
 
 struct tnode *talloc() {
-
-  return NULL;
+  return (struct tnode *) malloc(sizeof(struct tnode));
 }
 
 // TODO
