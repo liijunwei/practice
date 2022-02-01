@@ -30,6 +30,12 @@ struct tnode {         /* tree node       */
   /* 但是上面的声明是合法的: left/right 指针的声明是指向tnode的指针, 而不是tnode实例本身 */
 };
 
+#define MAXWORD 100
+struct tnode *address(struct tnode *, char *);
+void treeprint(struct tnode *);
+int getword(char *, int);
+
+// 统计单词出现的频率
 int main(int argc, char const *argv[])
 {
 
