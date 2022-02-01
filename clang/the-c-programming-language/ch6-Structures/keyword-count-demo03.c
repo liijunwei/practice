@@ -26,6 +26,8 @@ struct tnode {         /* tree node       */
   int count;           /* word count      */
   struct tnode *left;  /* left tree node  */
   struct tnode *right; /* right tree node */
+  /* 一个包含其自身实例的结构是非法的 */
+  /* 但是上面的声明是合法的: left/right 指针的声明是指向tnode的指针, 而不是tnode实例本身 */
 };
 
 int main(int argc, char const *argv[])
