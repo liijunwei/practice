@@ -61,15 +61,23 @@ struct tnode *talloc() {
   return (struct tnode *) malloc(sizeof(struct tnode));
 }
 
-// TODO
-// char *strdup(char *w);
+char *custom_strdup(char *s) {
+  char *p;
+
+  p = (char *) malloc(strlen(s) + 1);
+  if(p != NULL) {
+    strcpy(p, s);
+  }
+
+  return p;
+}
 
 struct tnode *address(struct tnode *p, char *w) {
   int cond;
 
   if(p == NULL) {
     p = talloc();
-    p->word = strdup(w);
+    p->word = custom_strdup(w);
     p->count = 1;
     p->left = NULL;
     p->right = NULL;
