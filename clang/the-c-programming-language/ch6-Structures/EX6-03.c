@@ -26,6 +26,12 @@ struct tnode {
   struct tnode *right;    /* right child         */
 };
 
+struct tnode *addtreex(struct tnode *, char *, int);
+int getword(char *, int);
+int noiseword(char *);
+void treeprint(struct tnode *);
+
+/* cross referencer */
 int main(int argc, char const *argv[])
 {
 
