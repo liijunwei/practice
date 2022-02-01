@@ -1,5 +1,7 @@
 # echo $HOME/practice/c/the-c-programming-language/run.sh >> $HOME/.zshrc
 function run(){
+  git add .
+
   local filename=$1
   gcc -g $filename
   local exitcode_compile=$?
