@@ -42,11 +42,18 @@ int main(int argc, char const *argv[])
 
   root = NULL;
   while(getword(word, MAXWORD) != EOF) {
-
+    if(isalpha(word[0]) && noiseword(word) == -1) {
+      root = addtreex(root, word, linenum);
+    } else if(word[0] == '\n') {
+      linenum++;
+    }
   }
+
+  treeprint(root);
 
   return 0;
 }
+
 
 int getword(char *word, int limit) {
   int c;
@@ -149,6 +156,30 @@ int noiseword(char *w) {
   }
 
   return -1;
+}
+
+
+// add a node with w, at or below p
+struct tnode *addtreex(struct tnode *p, char *w, int linenum) {
+  int cond;
+
+  if(p == NULL) {
+    p = talloc();
+    p->word = strdup(w);
+    p->lines = lalloc();
+    p->lines->lnum = linenum;
+    p->lines->ptr = NULL;
+    p->left = NULL;
+    p->right = NULL;
+  } else if((cond = strcmp(w, p->word)) == 0) {
+    addln(p, linenum);
+  } else if(cond < 0) {
+    p->left = addtreex(p->left, w, linenum);
+  } else {
+    p->right = addtreex(p->right, w, linenum);
+  }
+
+  return p;
 }
 
 
