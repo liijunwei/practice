@@ -24,6 +24,7 @@ struct tnode {
 };
 
 #define MAXWORD 100
+#define DEFAULT_NUM 6
 enum {NO, YES};
 
 struct tnode *addtreex(struct tnode *, char *, int , int *);
@@ -40,7 +41,7 @@ int main(int argc, char const *argv[])
   int found = NO;
   int num;
 
-  num = (--argc && (*++argv)[0] == '-') ? atoi(argv[0] + 1) : 6;
+  num = (--argc && (*++argv)[0] == '-') ? atoi(argv[0] + 1) : DEFAULT_NUM;
   root = NULL;
 
   while(getword(word, MAXWORD) != EOF) {
