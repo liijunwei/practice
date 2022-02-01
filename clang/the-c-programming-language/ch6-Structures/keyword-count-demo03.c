@@ -32,7 +32,7 @@ struct tnode {         /* tree node       */
 };
 
 #define MAXWORD 100
-struct tnode *address(struct tnode *p, char *w);
+struct tnode *addtreex(struct tnode *p, char *w);
 void treeprint(struct tnode *p);
 int getword(char *, int);
 
@@ -48,7 +48,7 @@ int main(int argc, char const *argv[])
 
   while(getword(word, MAXWORD) != EOF) {
     if(isalpha(word[0])) {
-      root = address(root, word);
+      root = addtreex(root, word);
     }
   }
 
@@ -72,7 +72,7 @@ char *custom_strdup(char *s) {
   return p;
 }
 
-struct tnode *address(struct tnode *p, char *w) {
+struct tnode *addtreex(struct tnode *p, char *w) {
   int cond;
 
   if(p == NULL) {
@@ -84,9 +84,9 @@ struct tnode *address(struct tnode *p, char *w) {
   } else if((cond = strcmp(w, p->word)) == 0) {
     p->count++;
   } else if(cond < 0) {
-    p->left = address(p->left, w);
+    p->left = addtreex(p->left, w);
   } else {
-    p->right = address(p->right, w);
+    p->right = addtreex(p->right, w);
   }
 
   return p;
