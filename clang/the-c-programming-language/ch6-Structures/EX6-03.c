@@ -11,6 +11,8 @@ page 125
 #include <string.h>
 #include <stdlib.h>
 
+#include "../common-utils/getch-ungetch.c"
+
 #define MAXWORD 100
 
 /* linked list of line numbers */
@@ -34,8 +36,44 @@ void treeprint(struct tnode *);
 /* cross referencer */
 int main(int argc, char const *argv[])
 {
+  struct tnode *root;
+  char word[MAXWORD];
+  int linenum = 1;
+
+  root = NULL;
+  while(getword(word, MAXWORD) != EOF) {
+
+  }
 
   return 0;
+}
+
+int getword(char *word, int limit) {
+  int c;
+  char *w = word;
+
+  while(isspace(c = getch())) {
+    ;
+  }
+
+  if(c != EOF) {
+    *w++ = c;
+  }
+
+  if(!isalpha(c)) {
+    *w = '\0';
+    return c;
+  }
+
+  for( ; --limit > 0; w++) {
+    if(!isalnum(*w = getch())) {
+      ungetch(*w);
+      break;
+    }
+  }
+
+  *w = '\0';
+  return word[0];
 }
 
 struct tnode *talloc() {
