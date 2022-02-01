@@ -7,6 +7,17 @@ page 125
 */
 
 #include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAXWORD 100
+
+/* linked list of line numbers */
+struct linklist {
+  int lnum;
+  struct linklist *ptr;
+};
 
 int main(int argc, char const *argv[])
 {
