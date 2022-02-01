@@ -19,6 +19,14 @@ struct tnode {
   struct tnode *right;
 };
 
+#define MAXWORD 100
+#define YES 1
+#define NO 0
+
+struct tnode *address(struct tnode *, char *, int , int *);
+void treeprint(struct tnode *);
+int getword(char *, int);
+
 int main(int argc, char const *argv[])
 {
 
