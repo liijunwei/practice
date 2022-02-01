@@ -37,3 +37,12 @@ int main(int argc, char const *argv[])
 
   return 0;
 }
+
+struct tnode *talloc() {
+  return (struct tnode *) malloc(sizeof(struct tnode));
+}
+
+struct linklist *lalloc() {
+  return (struct linklist *) malloc(sizeof(struct linklist));
+}
+
