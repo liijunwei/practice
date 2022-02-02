@@ -7,6 +7,11 @@ page 125
 */
 
 #include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+#include "../common-utils/getch-ungetch.c"
 
 int main(int argc, char const *argv[])
 {
