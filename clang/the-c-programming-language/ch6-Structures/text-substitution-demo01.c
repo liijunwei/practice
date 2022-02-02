@@ -32,10 +32,15 @@ struct nlist *lookup(char *s);
 
 static struct nlist *hashtable[HASHSIZE];
 struct nlist *install(char *name, char *defn);
+void hashtable_dump(struct nlist *hashtable[]);
 
 int main(int argc, char const *argv[])
 {
   // TODO how to test this program?
+  install("date", "20220202");
+
+  hashtable_dump(hashtable);
+
   return 0;
 }
 
@@ -88,4 +93,11 @@ struct nlist *install(char *name, char *defn) {
 
   return np;
 }
+
+void hashtable_dump(struct nlist *hashtable[]) {
+  // TODO
+
+}
+
+
 
