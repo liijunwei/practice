@@ -79,7 +79,10 @@ int getword(char *word, int limit) {
   int d;
   char *w = word;
 
-  while(isspace(c = getch())) {
+  /* there you are!!!         */
+  /* thanks "Gerrard Lindsay" */
+  /* https://github.com/gerrard00/the-c-programming-language/blob/master/getword.c */
+  while(isspace(c = getch()) && c != '\n') {
     ;
   }
 
