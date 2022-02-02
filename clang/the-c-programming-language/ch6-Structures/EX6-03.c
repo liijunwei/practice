@@ -44,12 +44,9 @@ int main(int argc, char const *argv[])
 
   root = NULL;
   while(getword(word, MAXWORD) != EOF) {
-    // printf("linenum: %d\n", linenum);
-    // printf("word[0]: %c\n", word[0]);
     if(isalpha(word[0]) && noiseword(word) == -1) {
       root = addtreex(root, word, linenum);
     } else if(word[0] == '\n') {
-      printf("linenum: incre....\n");
       linenum++;
     }
   }
@@ -118,7 +115,6 @@ int getword(char *word, int limit) {
 
 
   *w = '\0';
-  printf("---> word: %s\n", word);
   return c;
 }
 
