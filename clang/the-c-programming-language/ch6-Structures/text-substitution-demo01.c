@@ -16,6 +16,7 @@ lookup(s)函数在表中查找s, 若找到, 则返回指向该处的指针, 否�
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 /* linked list */
 struct nlist {
@@ -30,6 +31,7 @@ unsigned int hash(char *s);
 struct nlist *lookup(char *s);
 
 static struct nlist *hashtable[HASHSIZE];
+struct nlist *install(char *name, char *defn);
 
 int main(int argc, char const *argv[])
 {
@@ -59,5 +61,30 @@ struct nlist *lookup(char *s) {
   }
 
   return NULL;
+}
+
+struct nlist *install(char *name, char *defn) {
+  struct nlist *np;
+  unsigned int hashval;
+
+  if ((np = lookup(name)) == NULL) {
+    np = (struct nlist *) malloc(sizeof(*np));
+    if (np == NULL || (np->name = strdup(name)) == NULL) {
+      return NULL;
+    }
+
+    hashval = hash(name);
+    np->next = hashtable[hashval];
+    hashtable[hashval] = np;
+  } else {
+    /* 释放前一个defn */
+    free((void *) np->defn);
+  }
+
+  if ((np->defn = strdup(defn)) == NULL) {
+    return NULL;
+  }
+
+  return np;
 }
 
