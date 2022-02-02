@@ -11,6 +11,12 @@ cat ch6-Structures/EX6-04.sample.md | ./word-freq
 exitcode_execute=$?
 echo
 
+echo "file: ch6-Structures/EX6-04.c"
+echo "==========================================="
+cat ch6-Structures/EX6-04.c | ./word-freq
+exitcode_execute=$?
+echo
+
 rm word-freq
 
 echo
