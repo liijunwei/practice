@@ -1,4 +1,4 @@
-# echo $HOME/practice/c/the-c-programming-language/run.sh >> $HOME/.zshrc
+# echo $HOME/practice/clang/the-c-programming-language/run.sh >> $HOME/.zshrc
 function run(){
   git add .
 
