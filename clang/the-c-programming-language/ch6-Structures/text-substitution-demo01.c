@@ -33,15 +33,25 @@ struct nlist *lookup(char *s);
 static struct nlist *hashtable[HASHSIZE];
 struct nlist *install(char *name, char *defn);
 void hashtable_dump();
+void print_struct(struct nlist *l);
 
 int main(int argc, char const *argv[])
 {
   // TODO how to test this program?
-  install("date", "20220202");
+  print_struct(install("date", "20220202"));
+  print_struct(install("weather", "sunny"));
+  print_struct(install("food", "noodles"));
 
+  printf("\n");
   hashtable_dump();
 
   return 0;
+}
+
+void print_struct(struct nlist *l) {
+  printf("name: %s\n", l->name);
+  printf("defn: %s\n", l->defn);
+  printf("=======================\n");
 }
 
 /* simple hash algorithm */
