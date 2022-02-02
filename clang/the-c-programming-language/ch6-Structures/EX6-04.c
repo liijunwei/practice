@@ -31,6 +31,7 @@ void treestore(struct tnode *);
 struct tnode *list[NDISTNCT]; /* pointer to tree nodes */
 int ntn = 0;                  /* number of tree nodes  */
 
+/* print distinct words sorted in decreasing order of frequency */
 int main(int argc, char const *argv[])
 {
 
