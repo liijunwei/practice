@@ -37,3 +37,16 @@ int main(int argc, char const *argv[])
 
   return 0;
 }
+
+/* store in list[] pointers to tree nodes */
+void treestore(struct tnode *p) {
+  if (p != NULL) {
+    treestore(p->left);
+    if (ntn < NDISTNCT) {
+      list[ntn] = p;
+      ntn++;
+    }
+    treestore(p->right);
+  }
+}
+
