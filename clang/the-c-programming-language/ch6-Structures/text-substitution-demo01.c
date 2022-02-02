@@ -35,7 +35,7 @@ struct nlist *install(char *name, char *defn);
 
 int main(int argc, char const *argv[])
 {
-
+  // TODO how to test this program?
   return 0;
 }
 
