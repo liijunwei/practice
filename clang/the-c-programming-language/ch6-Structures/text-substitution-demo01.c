@@ -15,6 +15,7 @@ lookup(s)函数在表中查找s, 若找到, 则返回指向该处的指针, 否�
 */
 
 #include <stdio.h>
+#include <string.h>
 
 /* linked list */
 struct nlist {
@@ -26,6 +27,7 @@ struct nlist {
 #define HASHSIZE 101
 
 unsigned int hash(char *s);
+struct nlist *lookup(char *s);
 
 static struct nlist *hashtable[HASHSIZE];
 
@@ -44,5 +46,17 @@ unsigned int hash(char *s) {
   }
 
   return hashval % HASHSIZE;
+}
+
+struct nlist *lookup(char *s) {
+  struct nlist *np;
+
+  for (np = hashtable[hash(s)]; np != NULL; np = np->next) {
+    if (strcmp(s, np->name) == 0) {
+      return np;
+    }
+  }
+
+  return NULL;
 }
 
