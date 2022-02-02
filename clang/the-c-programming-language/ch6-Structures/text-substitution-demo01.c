@@ -23,8 +23,26 @@ struct nlist {
   char *defn;          /* real text                 */
 };
 
+#define HASHSIZE 101
+
+unsigned int hash(char *s);
+
+static struct nlist *hashtable[HASHSIZE];
+
 int main(int argc, char const *argv[])
 {
 
   return 0;
 }
+
+/* simple hash algorithm */
+unsigned int hash(char *s) {
+  unsigned int hashval;
+
+  for (hashval = 0; *s != '\0'; s++) {
+    hashval = *s + 31 * hashval;
+  }
+
+  return hashval % HASHSIZE;
+}
+
