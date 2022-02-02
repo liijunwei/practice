@@ -5,9 +5,9 @@ git add .
 gcc -o word-freq ch6-Structures/EX6-04.c
 exitcode_compile=$?
 
-echo "file: ch6-Structures/EX6-03.sample.md"
+echo "file: ch6-Structures/EX6-04.sample.md"
 echo "==========================================="
-cat ch6-Structures/EX6-03.sample.md | ./word-freq
+cat ch6-Structures/EX6-04.sample.md | ./word-freq
 exitcode_execute=$?
 echo
 
