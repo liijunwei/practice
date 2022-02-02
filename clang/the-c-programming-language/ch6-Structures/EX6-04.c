@@ -13,6 +13,21 @@ page 125
 
 #include "../common-utils/getch-ungetch.c"
 
+#define MAXWORD  100
+#define NDISTNCT 1000
+
+struct tnode {
+  char *word; /* pointer to the text   */
+  int count;  /* number of occurrences */
+  struct tnode *left;
+  struct tnode *right;
+};
+
+struct tnode *addtreex(struct tnode *, char *, int);
+int getword(char *, int);
+int noiseword(char *);
+void treeprint(struct tnode *);
+
 int main(int argc, char const *argv[])
 {
 
