@@ -23,10 +23,13 @@ struct tnode {
   struct tnode *right;
 };
 
-struct tnode *addtreex(struct tnode *, char *, int);
+struct tnode *addtree(struct tnode *, char *);
 int getword(char *, int);
-int noiseword(char *);
-void treeprint(struct tnode *);
+void sortlist();
+void treestore(struct tnode *);
+
+struct tnode *list[NDISTNCT]; /* pointer to tree nodes */
+int ntn = 0;                  /* number of tree nodes  */
 
 int main(int argc, char const *argv[])
 {
