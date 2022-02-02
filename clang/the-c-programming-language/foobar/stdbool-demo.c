@@ -5,6 +5,8 @@
 
 // gcc foobar/stdbool-demo.c && ./a.out demo
 // gcc foobar/stdbool-demo.c && ./a.out demo1
+// run foobar/stdbool-demo.c demo
+// run foobar/stdbool-demo.c demo1
 
 int main(int argc, char const *argv[])
 {
