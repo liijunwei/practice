@@ -1,10 +1,14 @@
 #include <stdio.h>
 // https://www.runoob.com/w3cnote/c-bool-true-false.html
 #include <stdbool.h>
+#include <string.h>
 
-int main(void)
+// gcc foobar/stdbool-demo.c && ./a.out demo
+// gcc foobar/stdbool-demo.c && ./a.out demo1
+
+int main(int argc, char const *argv[])
 {
-    bool flag = true;
+    bool flag = strcmp(argv[1], "demo") == 0 ? true : false;
 
     if(flag) {
       printf("flag is true");
