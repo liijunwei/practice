@@ -17,6 +17,7 @@ lookup(s)函数在表中查找s, 若找到, 则返回指向该处的指针, 否�
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 
 /* linked list */
 struct nlist {
@@ -33,25 +34,22 @@ struct nlist *lookup(char *s);
 static struct nlist *hashtable[HASHSIZE]; /* 指针表/指针的数组 */
 struct nlist *install(char *name, char *defn);
 void hashtable_dump();
-void print_struct(struct nlist *l);
 
 int main(int argc, char const *argv[])
 {
-  // TODO how to test this program?
-  print_struct(install("date", "20220202"));
-  print_struct(install("weather", "sunny"));
-  print_struct(install("food", "noodles"));
+  assert(lookup("date") == NULL);
+  assert(lookup("age") == NULL);
 
-  printf("\n");
+  install("date", "20220202");
+  install("weather", "sunny");
+  install("food", "noodles");
+
+  assert(strcmp(lookup("date")->defn, "20220202") == 0);
+  assert(strcmp(lookup("weather")->defn, "sunny") == 0);
+  assert(strcmp(lookup("food")->defn, "noodles") == 0);
+
   hashtable_dump();
-
   return 0;
-}
-
-void print_struct(struct nlist *l) {
-  printf("name: %s\n", l->name);
-  printf("defn: %s\n", l->defn);
-  printf("=======================\n");
 }
 
 /* simple hash algorithm */
@@ -106,9 +104,12 @@ struct nlist *install(char *name, char *defn) {
 }
 
 void hashtable_dump() {
+  printf("hashtable_dump:\n");
+  printf("=====================\n");
+
   for (int i = 0; i < HASHSIZE; i++) {
     for (struct nlist *current = hashtable[i]; current != NULL; current = current->next) {
-      printf("%10s%10s\n", current->name, current->defn);
+      printf("%10s:%10s\n", current->name, current->defn);
     }
   }
 
