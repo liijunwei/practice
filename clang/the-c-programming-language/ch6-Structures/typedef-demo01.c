@@ -1,7 +1,7 @@
 /*
 page 127
 
-typedef中声明的类型在变量名的位置出现, 而不是紧接在关键字typedef
+typedef中声明的类型在变量名的位置出现, 而不是紧接在关键字typedef之后
 
 */
 
