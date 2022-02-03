@@ -122,7 +122,7 @@ void getdef() {
     skipblanks();
 
     if (!isalpha(getword(name, MAXWORD))) {
-      error(dir[0], __LINE__, "getdef: non-alpha - name expected");
+      error(name[0], __LINE__, "getdef: non-alpha - name expected");
     } else {
       skipblanks();
 
@@ -144,7 +144,7 @@ void getdef() {
     skipblanks();
 
     if(!isalpha(getword(name, MAXWORD))) {
-      error(dir[0], __LINE__, "getdef: non-alpha in undef");
+      error(name[0], __LINE__, "getdef: non-alpha in undef");
     } else {
       undef(name);
     }
