@@ -37,15 +37,7 @@ void skipblanks();
 /* simple version of #define processor */
 int main(int argc, char const *argv[])
 {
-  printf("before:\n=======================\n");
-  install("date", "20220202");
-  install("weather", "sunny");
-  install("food", "noodles");
-  hashtable_dump();
-
-  undef("food");
-  printf("after:\n=======================\n");
-  hashtable_dump();
+  // TODO how to test ?
 
   return 0;
 }
