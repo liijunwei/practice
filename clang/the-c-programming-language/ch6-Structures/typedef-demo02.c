@@ -11,12 +11,12 @@ ch6-Structures/keyword-count-demo03.c
 
 typedef struct tnode *Treeptr;
 
-struct tnode {   /* tree node       */
+typedef struct tnode {
   char *word;    /* pointer to word */
   int count;     /* word count      */
   Treeptr left;  /* left tree node  */
   Treeptr right; /* right tree node */
-};
+} TreeNode;
 
 #define MAXWORD 100
 Treeptr addtreex(Treeptr p, char *w);
@@ -50,7 +50,7 @@ int main(int argc, char const *argv[])
 }
 
 Treeptr talloc() {
-  return (Treeptr ) malloc(sizeof(struct tnode));
+  return (Treeptr ) malloc(sizeof(TreeNode));
 }
 
 Treeptr addtreex(Treeptr p, char *w) {
