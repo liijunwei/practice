@@ -32,6 +32,7 @@ void getdef();
 void error(int, int, char *);
 int getword(char *, int);
 void skipblanks();
+void printtable();
 
 /* simple version of #define processor */
 int main(int argc, char const *argv[])
@@ -40,6 +41,8 @@ int main(int argc, char const *argv[])
 
   char word[MAXWORD];
   struct nlist *p;
+
+  install("name", "lijunwei");
 
   while (getword(word, MAXWORD) != EOF) {
     if (strcmp(word, "#") == 0) {            /* begining of directive */
@@ -53,6 +56,7 @@ int main(int argc, char const *argv[])
     }
   }
 
+  printtable();
   return 0;
 }
 
@@ -237,5 +241,17 @@ void undef(char *s) {
     free((void *) np->defn);
     free((void *) np); /* free allocated structure */
   }
+}
+
+void printtable() {
+  for(int i = 0; i < HASHSIZE; i++) {
+    for(struct nlist *current = hashtable[i];
+        current != NULL; current = current->next) {
+
+      printf("%s\t\t%s\n", current->name, current->defn);
+    }
+  }
+
+  printf("\n");
 }
 
