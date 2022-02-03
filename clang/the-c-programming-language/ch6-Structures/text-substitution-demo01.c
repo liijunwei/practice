@@ -22,7 +22,7 @@ lookup(s)函数在表中查找s, 若找到, 则返回指向该处的指针, 否�
 struct nlist {
   struct nlist *next; /* pointer to next node       */
   char *name;         /* defined name to substitute */
-  char *defn;          /* real text                 */
+  char *defn;         /* real text                 */
 };
 
 #define HASHSIZE 101
