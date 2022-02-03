@@ -8,6 +8,7 @@ ch6-Structures/text-substitution-demo01.c
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 
 struct nlist {
   struct nlist *next; /* pointer to next node       */
@@ -22,20 +23,30 @@ struct nlist *lookup(char *s);
 
 static struct nlist *hashtable[HASHSIZE];
 struct nlist *install(char *name, char *defn);
-void hashtable_dump();
 void undef(char *s);
 
 int main(int argc, char const *argv[])
 {
-  printf("before:\n=======================\n");
+  assert(lookup("date") == NULL);
+  assert(lookup("age") == NULL);
+  assert(lookup("food") == NULL);
+
   install("date", "20220202");
   install("weather", "sunny");
   install("food", "noodles");
-  hashtable_dump();
+
+  assert(strcmp(lookup("date")->defn, "20220202") == 0);
+  assert(strcmp(lookup("weather")->defn, "sunny") == 0);
+  assert(strcmp(lookup("food")->defn, "noodles") == 0);
+
+  undef("date");
+  assert(lookup("date") == NULL);
+
+  undef("weather");
+  assert(lookup("weather") == NULL);
 
   undef("food");
-  printf("after:\n=======================\n");
-  hashtable_dump();
+  assert(lookup("food") == NULL);
 
   return 0;
 }
@@ -88,21 +99,10 @@ struct nlist *install(char *name, char *defn) {
   return np;
 }
 
-void hashtable_dump() {
-  for (int i = 0; i < HASHSIZE; i++) {
-    for (struct nlist *current = hashtable[i]; current != NULL; current = current->next) {
-      printf("%10s:%10s\n", current->name, current->defn);
-    }
-  }
-
-  printf("\n");
-}
-
 /* remove a name and definition from the table */
 void undef(char *s) {
   unsigned int hashval;
 
-  printf("undefine %s from hashtable\n", s);
   struct nlist *prev;
   struct nlist *np;
 
