@@ -42,13 +42,13 @@ int main(int argc, char const *argv[])
   struct nlist *p;
 
   while (getword(word, MAXWORD) != EOF) {
-    if (strcmp(word, "#") == 0) {
+    if (strcmp(word, "#") == 0) {            /* begining of directive */
       getdef();
-    } else if (!isalpha(word[0])) {
+    } else if (!isalpha(word[0])) {          /* cannot be defined */
       printf("%s", word);
-    } else if ((p = lookup(word)) == NULL) {
+    } else if ((p = lookup(word)) == NULL) { /* not defined */
       printf("%s", word);
-    } else {
+    } else {                                 /* push definition */
       ungets(p->defn);
     }
   }
