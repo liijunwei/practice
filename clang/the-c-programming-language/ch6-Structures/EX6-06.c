@@ -27,10 +27,9 @@ struct nlist *lookup(char *s);
 
 static struct nlist *hashtable[HASHSIZE];
 struct nlist *install(char *name, char *defn);
-void hashtable_dump();
 void undef(char *s);
 void getdef();
-void error(int, char *);
+void error(int, int, char *);
 int getword(char *, int);
 void skipblanks();
 
@@ -39,22 +38,22 @@ int main(int argc, char const *argv[])
 {
   // TODO how to test ?
 
+  char word[MAXWORD];
+
+  getdef();
+
+  // install("date", "20220202");
+  // install("weather", "sunny");
+  // install("food", "noodles");
+
+  // assert(strcmp(lookup("date")->defn, "20220202") == 0);
+  // assert(strcmp(lookup("weather")->defn, "sunny") == 0);
+  // assert(strcmp(lookup("food")->defn, "noodles") == 0);
+
+  // undef("date");
+  // assert(lookup("date") == NULL);
+
   return 0;
-}
-
-int comment() {
-  int c;
-  while((c = getch()) != EOF) {
-    if(c == '*') {
-      if((c = getch()) == '/') {
-        break;
-      } else {
-        ungetch(c);
-      }
-    }
-  }
-
-  return c;
 }
 
 /* get next word or character from input */
@@ -89,12 +88,6 @@ int getword(char *word, int limit) {
         break;
       }
     }
-  } else if(c == '/') {
-    if((d = getch()) == '#') {
-      c = comment();
-    } else {
-      ungetch(d);
-    }
   }
 
   *w = '\0';
@@ -102,8 +95,8 @@ int getword(char *word, int limit) {
 }
 
 /* print error message and skip the rest of the line */
-void error(int c, char *s) {
-  printf("error: %s\n", s);
+void error(int c, int linenum, char *s) {
+  printf("error at line(%d): %s\n", linenum, s);
   while (c != EOF && c != '\n') {
     c = getch();
   }
@@ -120,12 +113,12 @@ void getdef() {
   skipblanks();
 
   if (!isalpha(getword(dir, MAXWORD))) {
-    error(dir[0], "getdef: expecting a directive after #");
+    error(dir[0], __LINE__, "getdef: expecting a directive after #");
   } else if (strcmp(dir, "define") == 0) {
     skipblanks();
 
     if (!isalpha(getword(name, MAXWORD))) {
-      error(dir[0], "getdef: non-alpha - name expected");
+      error(dir[0], __LINE__, "getdef: non-alpha - name expected");
     } else {
       skipblanks();
 
@@ -138,7 +131,7 @@ void getdef() {
       def[i] = '\0';
 
       if (i <= 0) { /* no definition */
-        error('\n', "getdef: incomplete define");
+        error('\n', __LINE__, "getdef: incomplete define");
       } else {
         install(name, def);
       }
@@ -147,12 +140,12 @@ void getdef() {
     skipblanks();
 
     if(!isalpha(getword(name, MAXWORD))) {
-      error(dir[0], "getdef: non-alpha in undef");
+      error(dir[0], __LINE__, "getdef: non-alpha in undef");
     } else {
       undef(name);
     }
   } else {
-    error(dir[0], "getdef: expecting a directive after #");
+    error(dir[0], __LINE__, "getdef: expecting a directive after #");
   }
 }
 
@@ -212,16 +205,6 @@ struct nlist *install(char *name, char *defn) {
   }
 
   return np;
-}
-
-void hashtable_dump() {
-  for (int i = 0; i < HASHSIZE; i++) {
-    for (struct nlist *current = hashtable[i]; current != NULL; current = current->next) {
-      printf("%10s:%10s\n", current->name, current->defn);
-    }
-  }
-
-  printf("\n");
 }
 
 /* remove a name and definition from the table */
