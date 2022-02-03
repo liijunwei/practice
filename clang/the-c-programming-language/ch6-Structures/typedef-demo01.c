@@ -5,8 +5,10 @@ page 127
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef int Length;
+typedef char * String;
 
 int main(int argc, char const *argv[])
 {
@@ -20,6 +22,11 @@ int main(int argc, char const *argv[])
   printf("%d\n", *lenths[0]);
   printf("%d\n", *lenths[1]);
   printf("%d\n", *lenths[2]);
+
+  String p;
+  p = (String) malloc(100);
+  p = "nihao";
+  printf("%s\n", p);
 
   return 0;
 }
