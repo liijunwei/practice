@@ -8,3 +8,8 @@ echo "pointer to struct"
 gcc ch6-Structures/keyword-count-demo02.c
 cat ch6-Structures/keyword-count-sample.md | ./a.out
 
+echo
+echo "word freq"
+gcc ch6-Structures/keyword-count-demo03.c
+echo "now is the time for all good men to come the aid of their party" | ./a.out
+

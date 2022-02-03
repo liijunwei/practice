@@ -36,7 +36,7 @@ struct tnode *addtreex(struct tnode *p, char *w);
 void treeprint(struct tnode *p);
 int getword(char *, int);
 
-// gcc ch6-Structures/keyword-count-demo03.c && echo "now is the time for all good men to come the aid of their party" | ./a.out
+// bash ch6-Structures/keyword-count-test.sh
 
 // 统计单词出现的频率
 int main(int argc, char const *argv[])
