@@ -30,7 +30,7 @@ struct nlist {
 unsigned int hash(char *s);
 struct nlist *lookup(char *s);
 
-static struct nlist *hashtable[HASHSIZE]; /* 指针表/指针数组 */
+static struct nlist *hashtable[HASHSIZE]; /* 指针表/指针的数组 */
 struct nlist *install(char *name, char *defn);
 void hashtable_dump();
 void print_struct(struct nlist *l);
