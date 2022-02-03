@@ -79,6 +79,7 @@ struct nlist *lookup(char *s) {
   return NULL;
 }
 
+/* 将(name, defn) 加入到hashtable中 */
 struct nlist *install(char *name, char *defn) {
   struct nlist *np;
   unsigned int hashval;
