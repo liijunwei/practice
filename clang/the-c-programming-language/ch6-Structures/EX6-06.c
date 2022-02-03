@@ -4,6 +4,8 @@ page 127
 以本节(6.6 表查找)介绍的函数为基础, 编写一个适合C语言程序使用的#define处理器的简单版本(即无参数的情况)
 你会发现getch和ungetch函数非常有用
 
+TODO 没看懂, 怎么测试呢
+
 */
 
 #include <stdio.h>
@@ -33,6 +35,9 @@ void error(int, int, char *);
 int getword(char *, int);
 void skipblanks();
 void printtable();
+void printinfo(int linenum, char *s) {
+  printf("line(%d) -> %s\n", linenum, s);
+}
 
 /* simple version of #define processor */
 int main(int argc, char const *argv[])
@@ -45,6 +50,7 @@ int main(int argc, char const *argv[])
   install("name", "lijunwei");
 
   while (getword(word, MAXWORD) != EOF) {
+    printinfo(__LINE__, word);
     if (strcmp(word, "#") == 0) {            /* begining of directive */
       getdef();
     } else if (!isalpha(word[0])) {          /* cannot be defined */
