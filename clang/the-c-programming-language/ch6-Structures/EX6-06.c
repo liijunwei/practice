@@ -39,19 +39,19 @@ int main(int argc, char const *argv[])
   // TODO how to test ?
 
   char word[MAXWORD];
+  struct nlist *p;
 
-  getdef();
-
-  // install("date", "20220202");
-  // install("weather", "sunny");
-  // install("food", "noodles");
-
-  // assert(strcmp(lookup("date")->defn, "20220202") == 0);
-  // assert(strcmp(lookup("weather")->defn, "sunny") == 0);
-  // assert(strcmp(lookup("food")->defn, "noodles") == 0);
-
-  // undef("date");
-  // assert(lookup("date") == NULL);
+  while (getword(word, MAXWORD) != EOF) {
+    if (strcmp(word, "#") == 0) {
+      getdef();
+    } else if (!isalpha(word[0])) {
+      printf("%s", word);
+    } else if ((p = lookup(word)) == NULL) {
+      printf("%s", word);
+    } else {
+      ungets(p->defn);
+    }
+  }
 
   return 0;
 }
