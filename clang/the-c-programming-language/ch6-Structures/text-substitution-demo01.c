@@ -85,7 +85,7 @@ struct nlist *install(char *name, char *defn) {
 
   if ((np = lookup(name)) == NULL) {
     np = (struct nlist *) malloc(sizeof(*np));
-    if (np == NULL || (np->name = strdup(name)) == NULL) {
+    if (np == NULL || (np->name = strdup(name)) == NULL) { /* TODO 什么意思? */
       return NULL;
     }
 
