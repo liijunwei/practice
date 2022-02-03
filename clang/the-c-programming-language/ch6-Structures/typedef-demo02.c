@@ -12,18 +12,20 @@ ch6-Structures/keyword-count-demo03.c
 
 #include "../common-utils/getch-ungetch.c"
 
+typedef struct tnode *Treeptr;
+
 struct tnode {         /* tree node       */
   char *word;          /* pointer to word */
   int count;           /* word count      */
-  struct tnode *left;  /* left tree node  */
-  struct tnode *right; /* right tree node */
+  Treeptr left;  /* left tree node  */
+  Treeptr right; /* right tree node */
   /* 一个包含其自身实例的结构是非法的 */
   /* 但是上面的声明是合法的: left/right 指针的声明是指向tnode的指针, 而不是tnode实例本身 */
 };
 
 #define MAXWORD 100
-struct tnode *addtreex(struct tnode *p, char *w);
-void treeprint(struct tnode *p);
+Treeptr addtreex(Treeptr p, char *w);
+void treeprint(Treeptr p);
 int getword(char *, int);
 
 // bash ch6-Structures/keyword-count-test.sh
@@ -31,7 +33,7 @@ int getword(char *, int);
 // 统计单词出现的频率
 int main(int argc, char const *argv[])
 {
-  struct tnode *root;
+  Treeptr root;
   char word[MAXWORD];
 
   root = NULL;
@@ -47,8 +49,8 @@ int main(int argc, char const *argv[])
   return 0;
 }
 
-struct tnode *talloc() {
-  return (struct tnode *) malloc(sizeof(struct tnode));
+Treeptr talloc() {
+  return (Treeptr ) malloc(sizeof(struct tnode));
 }
 
 char *custom_strdup(char *s) {
@@ -62,7 +64,7 @@ char *custom_strdup(char *s) {
   return p;
 }
 
-struct tnode *addtreex(struct tnode *p, char *w) {
+Treeptr addtreex(Treeptr p, char *w) {
   int cond;
 
   if(p == NULL) {
@@ -111,12 +113,11 @@ int getword(char *word, int limit) {
 }
 
 // 打印树p
-void treeprint(struct tnode *p) {
+void treeprint(Treeptr p) {
   if(p != NULL) {
     treeprint(p->left);
     printf("%4d %s\n", p->count, p->word);
     treeprint(p->right);
   }
 }
-
 
