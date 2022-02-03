@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iomanip>
 
 using namespace std;
 
@@ -23,7 +22,7 @@ int main(){
   }
 
   for(p = a; p < a + 3; p++){
-    cout << setw(3) << *p;
+    cout << " " << *p;
   }
 
   cout << endl;
