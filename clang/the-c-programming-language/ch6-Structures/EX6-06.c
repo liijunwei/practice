@@ -23,10 +23,10 @@ struct nlist {
 #define MAXWORD  100
 
 unsigned int hash(char *s);
-struct nlist *lookup(char *s);
-
 static struct nlist *hashtable[HASHSIZE];
 struct nlist *install(char *name, char *defn);
+struct nlist *lookup(char *s);
+
 void undef(char *s);
 void getdef();
 void error(int, int, char *);
