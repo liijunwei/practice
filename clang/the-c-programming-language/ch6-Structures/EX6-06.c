@@ -70,7 +70,7 @@ int getword(char *word, int limit) {
     *w++ = c;
   }
 
-  if(isalpha(c) || c == '_' | c == '#') {
+  if(isalpha(c) || c == '_' || c == '#') {
     for( ; --limit > 0; w++) {
       if(!isalnum(*w = getch()) && *w != '_') {
         ungetch(*w);
