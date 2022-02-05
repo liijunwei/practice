@@ -27,7 +27,10 @@ va_list类型用于声明一个变量, 该变量将依次引用各参数. 在函
 void minprintf(char *fmt, ...);
 
 int main(int argc, char const *argv[]) {
-
+  minprintf("two person laughing | %d\n", 466666);
+  minprintf("constant            | %f\n", 3.14159265354);
+  minprintf("say hello to        | %s\n", "Jef");
+  minprintf("random string       | %abc\n", "laksdjflkj");
 
   return 0;
 }
