@@ -20,8 +20,8 @@ int main(int argc, char const *argv[]) {
   minprintf("unsigned int(X)        | %X\n", 776);
   minprintf("unsigned int(u)        | %u\n", 666);
   minprintf("unsigned int(o)        | %o\n", 111);
-  minprintf("constant               | %f\n", 3.14159265354);
-  minprintf("say hello to           | %s\n", "Jef");
+  minprintf("constant(f)            | %f\n", 3.14159265354);
+  minprintf("say hello to(s)        | %s\n", "Jef");
   minprintf("random string          | %abc\n", "laksdjflkj");
 
   return 0;
