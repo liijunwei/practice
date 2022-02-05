@@ -31,6 +31,19 @@ int main(int argc, char const *argv[]) {
   return 0;
 }
 
+/* 带有可变参数表的简化的printf函数 */
 void minprintf(char *fmt, ...) {
+  va_list ap; /* 依次指向每个无名参数 */
+  char *p;
+  char *sval;
+  int ival;
+  double dval;
 
+  va_start(ap, fmt); /* 将ap指向第一个无名参数 */
+
+  for (p = fmt; *p; p++) {
+
+  }
+
+  va_end(ap); /* 结束时的清理工作 */
 }
