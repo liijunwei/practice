@@ -35,15 +35,15 @@ int main(int argc, char const *argv[]) {
   return 0;
 }
 
-/* 带有可变参数表的简化的printf函数 */
+/* minimal printf with variable argument list */
 void minprintf(char *fmt, ...) {
-  va_list ap; /* 依次指向每个无名参数 */
+  va_list ap; /* points to each unnamed argument */
   char *p;
   char *sval;
   int ival;
   double dval;
 
-  va_start(ap, fmt); /* 将ap指向第一个无名参数 */
+  va_start(ap, fmt); /* make ap point to first unnamed argument */
 
   for (p = fmt; *p; p++) {
     if (*p != '%') {
@@ -72,5 +72,5 @@ void minprintf(char *fmt, ...) {
 
   }
 
-  va_end(ap); /* 结束时的清理工作 */
+  va_end(ap); /* clean up */
 }
