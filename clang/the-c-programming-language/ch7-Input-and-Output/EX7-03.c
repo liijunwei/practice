@@ -1,6 +1,7 @@
 /*
-page xx
+page 137
 
+改写minprintf函数, 使他能完成printf的更多功能
 
 */
 
