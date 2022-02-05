@@ -21,10 +21,16 @@ va_list类型用于声明一个变量, 该变量将依次引用各参数. 在函
 
 */
 
-#include <stdio.h>
+#include <stdarg.h>
+
+void minprintf(char *fmt, ...);
 
 int main(int argc, char const *argv[]) {
 
 
   return 0;
+}
+
+void minprintf(char *fmt, ...) {
+
 }
