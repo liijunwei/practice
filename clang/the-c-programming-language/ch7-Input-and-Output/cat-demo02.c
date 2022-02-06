@@ -11,6 +11,7 @@ cat程序的功能不完善, 问题在于 如果因某种原因导致其中的�
 
 Q: exit(0) 和 return 0 有什么区别?
 A: 在主函数main里, return expr <=> exit(expr); 但是使用函数exit有一个优点, 他可以从其他函数中调用
+  foobar/foo04.c
 */
 
 #include <stdio.h>
