@@ -21,6 +21,7 @@ ref:
 int sp = 0;         // 下一个空闲栈的位置
 double val[MAXVAL]; // 值栈
 
+// TODO not clear...
 /* get next operator or numeric operend */
 int getop(char s[]) {
   char c;
