@@ -14,6 +14,16 @@ int fputs(char *line, FILE *fp)
 #include <stdio.h>
 
 int main(int argc, char const *argv[]) {
+  FILE *fp;
+  fp = fopen("./ch7-Input-and-Output/file-access-demo05.c", "r");
+
+  char line[100];
+
+  while (fgets(line, 100, fp) != NULL) {
+    printf("%s", line);
+  }
+
+  fclose(fp);
 
   return 0;
 }
