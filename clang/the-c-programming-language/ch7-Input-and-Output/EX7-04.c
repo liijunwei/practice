@@ -3,6 +3,9 @@ page 140
 
 类似于 EX7-03的minscanf, 编写一个scanf函数的简化版本
 
+ref:
+  ch7-Input-and-Output/EX7-03.c
+  ch7-Input-and-Output/scanf-demo01.c
 */
 
 #include <stdio.h>
