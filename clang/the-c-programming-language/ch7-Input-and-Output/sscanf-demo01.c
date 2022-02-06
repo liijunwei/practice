@@ -1,5 +1,5 @@
 /*
-page 137
+page 138
 
 输入函数scanf对应输入函数printf, 他在与后者相反的方向上提供同样的转换功能
 `int scanf(char *fmt, ...)`
