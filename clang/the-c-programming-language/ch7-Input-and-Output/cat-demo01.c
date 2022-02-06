@@ -14,6 +14,7 @@ int fprintf(FILE *fp, char *fmt, ...)
 
 void filecopy(FILE *ifp, FILE *ofp);
 
+// gcc ch7-Input-and-Output/cat-demo01.c && ./a.out 0.goal.md README.md demo.c
 /* 连接多个文件(V1) */
 int main(int argc, char const *argv[]) {
   FILE *fp;
