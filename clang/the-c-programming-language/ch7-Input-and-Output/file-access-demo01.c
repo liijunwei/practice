@@ -3,6 +3,10 @@ page 141
 
 stdio.h中定义了结构FILE
 
+man 3 getc
+man 3 fopen
+man 3 fclose
+man 3 putchar
 */
 
 #include <stdio.h>
