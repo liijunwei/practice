@@ -10,3 +10,25 @@ Process.getrlimit(:NOFILE)
 => [65535, 65535] # Linux xiaoli 4.15.0-117-generic #118-Ubuntu SMP Fri Sep 4 20:02:41 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
++ Soft Limits vs. Hard Limits#
+    + If you’re interested in changing the limits at a system-wide level then start by having a look at sysctl(8).
+    + `man 8 sysctl`
+
+
++ Note that exceeding the soft limit will raise `Errno::EMFILE`
+
+```ruby
+# The maximum number of simultaneous processes
+# allowed for the current user.
+Process.getrlimit(:NPROC)
+
+# The largest size file that may be created.
+Process.getrlimit(:FSIZE)
+
+# The maximum size of the stack segment of the
+# process.
+Process.getrlimit(:STACK)
+```
+
++ Ruby’s `Process.getrlimit` and `Process.setrlimit` map to `getrlimit(2)` and `setrlimit(2)`, respectively.
+
