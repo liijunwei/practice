@@ -9,6 +9,8 @@
 # bash ch7-Input-and-Output/EX7-07-debug.sh "MAXLINE"
 # bash ch7-Input-and-Output/EX7-07-debug.sh main
 
+# 第5行()左右的东西导致的问题
+
 keyword=$1
 
 echo "expected"
