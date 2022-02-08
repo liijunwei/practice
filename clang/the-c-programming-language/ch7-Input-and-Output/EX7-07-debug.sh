@@ -10,11 +10,11 @@
 # bash ch7-Input-and-Output/EX7-07-debug.sh main
 
 # 第5行()左右的东西导致的问题
+# 原因: line[MAXLINE] 里的 MAXLINE 大小过小, 第5行占用了 173字节, line里最长装100, 所以这一行被当做了两行, 所以从第5行以后每行都加了1
 
 keyword=$1
 
 echo "expected"
-# ag "$keyword" ch7-Input-and-Output/EX7-07.c
 grep -nr "$keyword" ch7-Input-and-Output/EX7-07.c
 echo
 
