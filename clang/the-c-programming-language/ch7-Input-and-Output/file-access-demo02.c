@@ -12,7 +12,7 @@ int main(int argc, char const *argv[]) {
   fp = fopen("./ch7-Input-and-Output/file-access-demo01.c", "r");
 
   FILE *fpcopy;
-  fpcopy = fopen("./ch7-Input-and-Output/file-access-demo01-copy.c", "w");
+  fpcopy = fopen("./ch7-Input-and-Output/tmp.c", "w");
 
   int c;
 

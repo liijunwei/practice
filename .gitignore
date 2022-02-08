@@ -50,8 +50,8 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-tmp/*
-tmp.md
 *.rdb
-clang/the-c-programming-language/ch7-Input-and-Output/file-access-demo01-copy.c
-tmp.sh
+
+tmp/*
+tmp.*
+
