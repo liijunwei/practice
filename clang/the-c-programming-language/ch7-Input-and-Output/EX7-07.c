@@ -77,11 +77,11 @@ void fpat(FILE *fp, char const *fname, char *pattern, int except, int number) {
 
     if ((strstr(line, pattern) != NULL) != except) {
       if (*fname) {
-        printf("%s - ", fname);
+        printf("%s:", fname);
       }
 
       if (number) {
-        printf("%ld - ", lineno);
+        printf("%ld:", lineno);
       }
 
       printf("%s", line);
