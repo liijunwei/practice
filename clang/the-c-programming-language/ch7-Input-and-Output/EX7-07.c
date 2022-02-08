@@ -6,7 +6,7 @@ ch5-Pointers-and-Arrays/grep-demo2.c
 当发现一个匹配行时, 是否应该将相应的文件名打印出来?
 
 OK fixbug: off by one
-    line buffer size not enough: 173 > 100
+    line buffer size not enough: 175 > 100
     solution: `#define MAXLINE 100` -> `#define MAXLINE 175`
 */
 
