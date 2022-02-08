@@ -31,3 +31,7 @@ echo
 echo "find MAXLINE"
 ./a.out -n MAXLINE ch7-Input-and-Output/EX7-07.c
 echo
+
+echo "find 修改第5章的模式查找程序"
+./a.out -n "修改第5章的模式查找程序" ch7-Input-and-Output/EX7-07.c ch7-Input-and-Output/EX7-07-debug.sh
+echo

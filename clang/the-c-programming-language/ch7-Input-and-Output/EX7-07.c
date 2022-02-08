@@ -14,7 +14,7 @@ OK fixbug: off by one
 #include <string.h>
 #include <stdlib.h>
 
-#define MAXLINE 175
+#define MAXLINE 300
 
 void fpat(FILE *fp, char const *fname, char *pattern, int except, int number);
 
