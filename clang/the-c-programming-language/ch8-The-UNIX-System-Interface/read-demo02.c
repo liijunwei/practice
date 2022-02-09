@@ -16,7 +16,7 @@ int c_getchar() {
   return (read(fd_stdin, &c, 1) == 1) ? (unsigned char) c : EOF;
 }
 
-
+// gcc ch8-The-UNIX-System-Interface/read-demo02.c && echo "morning" | ./a.out
 int main(int argc, char const *argv[]) {
   char c;
 
