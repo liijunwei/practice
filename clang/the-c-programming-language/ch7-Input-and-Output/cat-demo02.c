@@ -16,6 +16,7 @@ A: 在主函数main里, return expr <=> exit(expr); 但是使用函数exit有一
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void filecopy(FILE *ifp, FILE *ofp);
 
@@ -23,6 +24,8 @@ void filecopy(FILE *ifp, FILE *ofp);
 // gcc ch7-Input-and-Output/cat-demo02.c && ./a.out demo.ccc # ERROR
 /* 连接多个文件(V2) */
 int main(int argc, char const *argv[]) {
+  clock_t start_time = clock();
+
   FILE *fp;
   char const *progname = argv[0];
 
@@ -43,6 +46,9 @@ int main(int argc, char const *argv[]) {
   if (ferror(stdout)) {
     fprintf(stderr, "%s: error writing stdout\n", progname);
   }
+
+  double elapsed_time = (double)(clock() - start_time) / CLOCKS_PER_SEC;
+  printf("Done in %f seconds\n", elapsed_time);
 
   exit(0);
 }
