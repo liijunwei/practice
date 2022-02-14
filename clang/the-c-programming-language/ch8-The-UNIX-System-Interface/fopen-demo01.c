@@ -38,6 +38,9 @@ int _flushbuf(int a, FILE *fp);
 #define ferror(p) (((p)->flag & _ERR) != 0)
 #define fileno(p) ((p)->fd)
 
+#define getc(p) (--(p)->cnt >= 0 \
+              ? (unsigned char) *(p)->ptr++ : _fillbuf(p))
+
 int main(int argc, char const *argv[]) {
 
 
