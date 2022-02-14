@@ -127,9 +127,38 @@ int _fillbuf(FILE *fp) {
   return (unsigned char) *fp->ptr++;
 }
 
-int _flushbuf(int a, FILE *fp) {
+int _flushbuf(int x, FILE *fp) {
+  unsigned int nc;
+  int bufsize;
 
-  return 0;
+  if (fp < _iob || fp >= _iob + OPEN_MAX) {
+    return EOF;
+  }
+
+  if ((fp->flag & (_WRITE | _ERR)) != _WRITE) {
+    return EOF;
+  }
+
+  bufsize = (fp->flag & _UNBUF) ? 1 : BUFSIZ;
+
+  if (fp->base == NULL) {
+    if ((fp->base = (char *) malloc(bufsize)) == NULL) {
+      fp->flag |= _ERR;
+      return EOF;
+    }
+  } else {
+    nc = fp->ptr - fp->base;
+    if (write(fp->fd, fp->base, nc) != nc) {
+      fp->flag |= _ERR;
+      return EOF;
+    }
+  }
+
+  fp->ptr = fp->base;
+  *fp->ptr++ = (char) x;
+  fp->cnt = bufsize - 1;
+
+  return x;
 }
 
 FILE _iob[OPEN_MAX] = {
