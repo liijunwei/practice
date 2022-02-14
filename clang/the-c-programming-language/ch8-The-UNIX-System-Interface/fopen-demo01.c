@@ -167,8 +167,48 @@ FILE _iob[OPEN_MAX] = {
   {0, (char *) 0, (char *) 0, (_WRITE | _UNBUF), 2}, /* stderr */
 };
 
+int fflush(FILE *fp) {
+  int rc = 0;
+
+  if (fp < _iob || fp >= _iob + OPEN_MAX) {
+    return EOF;
+  }
+
+  if (fp->flag & _WRITE) {
+    rc = _flushbuf(0, fp);
+  }
+
+  fp->ptr = fp->base;
+  fp->cnt = (fp->flag & _UNBUF) ? 1 : BUFSIZ;
+
+  return rc;
+}
+
+int fclose(FILE *fp) {
+  int rc;
+
+  if ((rc = fflush(fp)) != EOF) {
+    free(fp->base);
+    fp->ptr = NULL;
+    fp->cnt = 0;
+    fp->base = NULL;
+    fp->flag &= (_READ | _WRITE);
+  }
+
+  return rc;
+}
+
 int main(int argc, char const *argv[]) {
+  FILE *fp;
+  fp = custom_fopen("/Users/lijunwei/practice/clang/the-c-programming-language/ch8-The-UNIX-System-Interface/fopen-demo01.c", "r");
+
   int c;
+
+  while ((c = getc(fp)) != EOF) {
+    putchar(c);
+  }
+
+  fclose(fp);
 
   return 0;
 }
