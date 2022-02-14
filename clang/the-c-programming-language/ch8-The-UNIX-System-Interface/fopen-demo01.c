@@ -4,10 +4,10 @@ page 155
 man 3 fopen
 */
 
-// #include <unistd.h>
+#include <unistd.h>
 #include <fcntl.h>
+#include <stdlib.h>
 
-#define NULL     0
 #define EOF      (-1)
 #define BUFSIZ   1024
 #define OPEN_MAX 20 /* 一次最多可打开的文件数 */
@@ -20,11 +20,7 @@ typedef struct _iobuf { /* 只供标准库中其他函数使用的名字以下�
   int fd;     /* 文件描述符       */
 } FILE;
 
-extern FILE _iob[OPEN_MAX] = {
-  {0, (char *) 0, (char *) 0, _READ,             0}, /* stdin  */
-  {0, (char *) 0, (char *) 0, _WRITE,            1}, /* stdout */
-  {0, (char *) 0, (char *) 0, (_WRITE | _UNBUF), 2}, /* stderr */
-};
+extern FILE _iob[OPEN_MAX];
 
 #define stdin  (&_iob[0])
 #define stdout (&_iob[1])
@@ -56,7 +52,7 @@ int _flushbuf(int a, FILE *fp);
 
 #define PERMS 0666
 
-FILE *fopen(char *name, char *mode) {
+FILE *custom_fopen(char *name, char *mode) {
   int fd;
   FILE *fp;
 
@@ -136,6 +132,11 @@ int _flushbuf(int a, FILE *fp) {
   return 0;
 }
 
+FILE _iob[OPEN_MAX] = {
+  {0, (char *) 0, (char *) 0, _READ,             0}, /* stdin  */
+  {0, (char *) 0, (char *) 0, _WRITE,            1}, /* stdout */
+  {0, (char *) 0, (char *) 0, (_WRITE | _UNBUF), 2}, /* stderr */
+};
 
 int main(int argc, char const *argv[]) {
   int c;
