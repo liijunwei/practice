@@ -31,6 +31,13 @@ enum _flags {
   _ERR   = 020, /* 该文件发生错误     */
 };
 
+int _fillbuf(FILE *fp);
+int _flushbuf(int a, FILE *fp);
+
+#define feof(p)   (((p)->flag & _EOF) != 0)
+#define ferror(p) (((p)->flag & _ERR) != 0)
+#define fileno(p) ((p)->fd)
+
 int main(int argc, char const *argv[]) {
 
 
