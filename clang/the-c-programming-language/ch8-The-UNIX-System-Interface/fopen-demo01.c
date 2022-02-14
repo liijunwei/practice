@@ -41,6 +41,12 @@ int _flushbuf(int a, FILE *fp);
 #define getc(p) (--(p)->cnt >= 0 \
               ? (unsigned char) *(p)->ptr++ : _fillbuf(p))
 
+#define putc(x, p) (--(p)->cnt >= 0 \
+              ? *(p)->ptr++ = (x) : _flushbuf((x), p))
+
+#define getchar() getc(stdin)
+#define putchar(x) putc((x), stdout)
+
 int main(int argc, char const *argv[]) {
 
 
