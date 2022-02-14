@@ -4,6 +4,9 @@ page 155
 man 3 fopen
 */
 
+// #include <unistd.h>
+#include <fcntl.h>
+
 #define NULL     0
 #define EOF      (-1)
 #define BUFSIZ   1024
@@ -47,8 +50,10 @@ int _flushbuf(int a, FILE *fp);
 #define getchar() getc(stdin)
 #define putchar(x) putc((x), stdout)
 
-int main(int argc, char const *argv[]) {
 
+
+int main(int argc, char const *argv[]) {
+  int c;
 
   return 0;
 }
