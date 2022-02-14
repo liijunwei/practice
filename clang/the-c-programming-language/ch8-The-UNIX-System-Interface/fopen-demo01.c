@@ -201,9 +201,10 @@ int fclose(FILE *fp) {
   return rc;
 }
 
+// run ch8-The-UNIX-System-Interface/fopen-demo01.c
 int main(int argc, char const *argv[]) {
   FILE *fp;
-  fp = custom_fopen("/Users/lijunwei/practice/clang/the-c-programming-language/ch8-The-UNIX-System-Interface/fopen-demo01.c", "r");
+  fp = custom_fopen("./ch8-The-UNIX-System-Interface/fopen-demo01.c", "r");
 
   int c;
 
