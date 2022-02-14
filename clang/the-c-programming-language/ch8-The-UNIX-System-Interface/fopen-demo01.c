@@ -17,6 +17,20 @@ typedef struct _iobuf { /* 只供标准库中其他函数使用的名字以下�
   int fd;     /* 文件描述符       */
 } FILE;
 
+extern FILE _iob[OPEN_MAX];
+
+#define stdin  (&_iob[0])
+#define stdout (&_iob[1])
+#define stderr (&_iob[2])
+
+enum _flags {
+  _READ  = 01,  /* 以读的方式打开文件 */
+  _WRITE = 02,  /* 以写的方式打开文件 */
+  _UNBUF = 04,  /* 不对文件进行缓冲   */
+  _EOF   = 010, /* 已到文件的末尾     */
+  _ERR   = 020, /* 该文件发生错误     */
+};
+
 int main(int argc, char const *argv[]) {
 
 
