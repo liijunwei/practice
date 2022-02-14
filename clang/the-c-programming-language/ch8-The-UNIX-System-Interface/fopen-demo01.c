@@ -127,6 +127,7 @@ int _fillbuf(FILE *fp) {
   return (unsigned char) *fp->ptr++;
 }
 
+/* EX8-03 */
 int _flushbuf(int x, FILE *fp) {
   unsigned int nc;
   int bufsize;
@@ -167,6 +168,7 @@ FILE _iob[OPEN_MAX] = {
   {0, (char *) 0, (char *) 0, (_WRITE | _UNBUF), 2}, /* stderr */
 };
 
+/* EX8-03 */
 int fflush(FILE *fp) {
   int rc = 0;
 
@@ -184,6 +186,7 @@ int fflush(FILE *fp) {
   return rc;
 }
 
+/* EX8-03 */
 int fclose(FILE *fp) {
   int rc;
 
