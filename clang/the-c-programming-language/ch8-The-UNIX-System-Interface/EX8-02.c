@@ -13,11 +13,20 @@ ch8-The-UNIX-System-Interface/fopen-demo01.c
 #define BUFSIZ   1024
 #define OPEN_MAX 20 /* 一次最多可打开的文件数 */
 
+struct flag_field {
+  unsigned int is_read:  1;
+  unsigned int is_write: 1;
+  unsigned int is_unbuf: 1;
+  unsigned int is_buf:   1;
+  unsigned int is_eof:   1;
+  unsigned int is_err:   1;
+};
+
 typedef struct _iobuf { /* 只供标准库中其他函数使用的名字以下划线开始 */
   int cnt;    /* 剩余的字符数     */
   char *ptr;  /* 下一个字符的位置 */
   char *base; /* 缓冲区的位置     */
-  int flag;   /* 文件访问模式     */
+  struct flag_field flag;   /* 文件访问模式     */
   int fd;     /* 文件描述符       */
 } FILE;
 
@@ -96,7 +105,7 @@ FILE *custom_fopen(char *name, char *mode) {
   fp->flag.is_eof = 0;
   fp->flag.is_err = 0;
 
-  if (*mode = 'r') {
+  if (*mode == 'r') {
     fp->flag.is_read = 1;
     fp->flag.is_write = 0;
   } else {
@@ -110,11 +119,11 @@ FILE *custom_fopen(char *name, char *mode) {
 int _fillbuf(FILE *fp) {
   int bufsize;
 
-  if ((fp->flag & (_READ | _EOF | _ERR)) != _READ) {
+  if (fp->flag.is_read == 0 || fp->flag.is_eof == 1 || fp->flag.is_err == 1) {
     return EOF;
   }
 
-  bufsize = (fp->flag & _UNBUF) ? 1 : BUFSIZ;
+  bufsize = (fp->flag.is_unbuf == 1) ? 1 : BUFSIZ;
 
   if (fp->base == NULL) {
     if ((fp->base = (char *) malloc(bufsize)) == NULL) {
@@ -127,9 +136,9 @@ int _fillbuf(FILE *fp) {
 
   if (--fp->cnt < 0) {
     if (fp->cnt == -1) {
-      fp->flag |= _EOF;
+      fp->flag.is_eof = 1;
     } else {
-      fp->flag |= _ERR;
+      fp->flag.is_err = 1;
     }
 
     fp->cnt = 0;
