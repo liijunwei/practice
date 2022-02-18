@@ -3,6 +3,8 @@ page 157
 
 ch8-The-UNIX-System-Interface/fopen-demo01.c
 用字段代替显式的按位操作, 重写fopen和_fillbuf函数; 比较相应代码的程度和执行速度
+
+TODO unclear
 */
 
 #include <unistd.h>
