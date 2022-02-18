@@ -53,6 +53,7 @@ int _flushbuf(int a, FILE *fp);
 
 #define PERMS 0666
 
+/* open file, return file ptr */
 FILE *custom_fopen(char *name, char *mode) {
   int fd;
   FILE *fp;
@@ -62,7 +63,7 @@ FILE *custom_fopen(char *name, char *mode) {
   }
 
   for (fp = _iob; fp < _iob + OPEN_MAX; fp++) {
-    if ((fp->flag & (_READ | _WRITE)) == 0) {
+    if (fp->flag.is_read == 0 && fp->flag.is_write == 0) {
       break;
     }
   }
@@ -90,7 +91,18 @@ FILE *custom_fopen(char *name, char *mode) {
   fp->fd = fd;
   fp->cnt = 0;
   fp->base = NULL;
-  fp->flag = (*mode == 'r') ? _READ : _WRITE;
+  fp->flag.is_unbuf = 0;
+  fp->flag.is_buf = 1;
+  fp->flag.is_eof = 0;
+  fp->flag.is_err = 0;
+
+  if (*mode = 'r') {
+    fp->flag.is_read = 1;
+    fp->flag.is_write = 0;
+  } else {
+    fp->flag.is_read = 0;
+    fp->flag.is_write = 1;
+  }
 
   return fp;
 }
