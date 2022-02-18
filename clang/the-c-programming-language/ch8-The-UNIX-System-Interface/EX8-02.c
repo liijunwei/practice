@@ -158,21 +158,21 @@ int _flushbuf(int x, FILE *fp) {
     return EOF;
   }
 
-  if ((fp->flag & (_WRITE | _ERR)) != _WRITE) {
+  if (fp->flag.is_eof == 1) {
     return EOF;
   }
 
-  bufsize = (fp->flag & _UNBUF) ? 1 : BUFSIZ;
+  bufsize = (fp->flag.is_unbuf) ? 1 : BUFSIZ;
 
   if (fp->base == NULL) {
     if ((fp->base = (char *) malloc(bufsize)) == NULL) {
-      fp->flag |= _ERR;
+      fp->flag.is_err = 1;
       return EOF;
     }
   } else {
     nc = fp->ptr - fp->base;
     if (write(fp->fd, fp->base, nc) != nc) {
-      fp->flag |= _ERR;
+      fp->flag.is_err = 1;
       return EOF;
     }
   }
@@ -185,9 +185,9 @@ int _flushbuf(int x, FILE *fp) {
 }
 
 FILE _iob[OPEN_MAX] = {
-  {0, (char *) 0, (char *) 0, _READ,             0}, /* stdin  */
-  {0, (char *) 0, (char *) 0, _WRITE,            1}, /* stdout */
-  {0, (char *) 0, (char *) 0, (_WRITE | _UNBUF), 2}, /* stderr */
+  {0, (char *) 0, (char *) 0, {1, 0, 0, 0, 0, 0}, 0}, /* stdin  */
+  {0, (char *) 0, (char *) 0, {0, 1, 0, 0, 0, 0}, 1}, /* stdout */
+  {0, (char *) 0, (char *) 0, {0, 1, 1, 0, 0, 0}, 2}, /* stderr */
 };
 
 /* EX8-03 */
@@ -198,12 +198,12 @@ int fflush(FILE *fp) {
     return EOF;
   }
 
-  if (fp->flag & _WRITE) {
+  if (fp->flag.is_write == 1) {
     rc = _flushbuf(0, fp);
   }
 
   fp->ptr = fp->base;
-  fp->cnt = (fp->flag & _UNBUF) ? 1 : BUFSIZ;
+  fp->cnt = (fp->flag.is_unbuf == 1) ? 1 : BUFSIZ;
 
   return rc;
 }
@@ -217,7 +217,8 @@ int fclose(FILE *fp) {
     fp->ptr = NULL;
     fp->cnt = 0;
     fp->base = NULL;
-    fp->flag &= (_READ | _WRITE);
+    fp->flag.is_read = 1;
+    fp->flag.is_write = 1;
   }
 
   return rc;
@@ -226,7 +227,7 @@ int fclose(FILE *fp) {
 // run ch8-The-UNIX-System-Interface/EX8-02.c
 int main(int argc, char const *argv[]) {
   FILE *fp;
-  fp = custom_fopen("./ch8-The-UNIX-System-Interface/fopen-demo01.c", "r");
+  fp = custom_fopen("./ch8-The-UNIX-System-Interface/EX8-02.c", "r");
 
   int c;
 
