@@ -18,10 +18,10 @@ pool = ConnectionPool.new(size: 5, timeout: 5) {
 }
 
 result = pool.with { |conn|
-  conn.query("SELECT * FROM reasons limit 10")
+  conn.query("SELECT sleep(5);")
 }
 
-binding.pry
+# binding.pry
 puts result.to_a
 
 
