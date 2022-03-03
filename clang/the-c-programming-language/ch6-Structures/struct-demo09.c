@@ -7,6 +7,8 @@ struct point1 {
 
 void print_point1(struct point1 *ps) {
   printf("x: %d y: %d sum: %d\n", ps->x, ps->y, ps->x + ps->y);
+  printf("===========\n");
+  printf("x: %d y: %d sum: %d\n", (*ps).x, (*ps).y, (*ps).x + (*ps).y);
 }
 
 int main(int argc, char const *argv[])
