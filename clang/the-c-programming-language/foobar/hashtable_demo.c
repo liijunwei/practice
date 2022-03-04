@@ -43,7 +43,7 @@ entry_t *ht_pair(const char *key, const char *value) {
     entry->value = malloc(strlen(value) + 1);
 
     // copy the key and value in place
-    strcpy(entry->key, key);
+    strcpy(entry->key, key); /* man 3 strcpy */
     strcpy(entry->value, value);
 
     // next starts out null but may be set later on
