@@ -71,7 +71,7 @@ int getword(char *word, int limit) {
   }
 
   if (c != EOF) {
-    *w++ = c;
+    *w++ = c; /* * 和 & 的优先级高于算数运算符, 因此这里等价于 (*w) = c; w++ */
   }
 
   if (!isalpha(c)) {
