@@ -19,6 +19,7 @@ typedef struct {
     entry_t **entries;
 } ht_t;
 
+/* calculate hash number */
 unsigned int hash(const char *key) {
     unsigned long int value = 0;
     unsigned int i = 0;
