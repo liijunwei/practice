@@ -36,6 +36,7 @@ unsigned int hash(const char *key) {
     return value;
 }
 
+/* allocate an node and assign key/value */
 entry_t *ht_pair(const char *key, const char *value) {
     // allocate the entry
     entry_t *entry = malloc(sizeof(entry_t) * 1);
