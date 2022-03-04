@@ -1,7 +1,7 @@
-#define BUFSIZE 100
 #include <ctype.h>
 #include <string.h>
 
+#define BUFSIZE 100
 #define NUMBER '0' // signal that a number was found
 
 char buf[BUFSIZE];

@@ -61,26 +61,26 @@ int main(int argc, char const *argv[])
 }
 
 /* TODO 没看懂... */
-/* 每调用一次该函数, 将读入一个单词, 并将其复制到名字为该函数的第一个参数的数组中 */
+/* 每调用一次该函数, 将读入一个单词, 并将其复制到 word 中 */
 int getword(char *word, int limit) {
   int c;
   char *w = word;
 
-  while(isspace(c = getch()) && c != '\n') {
+  while (isspace(c = getch()) && c != '\n') {
     ;
   }
 
-  if(c != EOF) {
+  if (c != EOF) {
     *w++ = c;
   }
 
-  if(!isalpha(c)) {
+  if (!isalpha(c)) {
     *w = '\0';
     return c;
   }
 
-  for( ; --limit > 0; w++) {
-    if(!isalnum(*w = getch())) {
+  for (; --limit > 0; w++) {
+    if (!isalnum(*w = getch())) {
       ungetch(*w);
       break;
     }
