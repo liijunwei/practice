@@ -90,6 +90,7 @@ int getword(char *word, int limit) {
   return word[0];
 }
 
+/* 注意: 关键字列表必须按升序存储在keytab里 */
 int binsearch(char *word, struct key tab[], int n) {
   int low = 0;
   int mid;
