@@ -7,7 +7,7 @@
 // https://github.com/engineer-man/youtube/tree/master/077
 
 // change the TABLE_SIZE and have fun
-#define TABLE_SIZE 20000
+#define TABLE_SIZE 3
 
 typedef struct entry_t {
     char *key;
