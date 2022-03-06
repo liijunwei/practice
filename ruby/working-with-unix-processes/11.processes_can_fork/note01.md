@@ -16,6 +16,8 @@ https://workingwithruby.com/wwup/forking/
     + The call to fork returns near-instantly so we now have 3 processes with each using 500MB of memory
     + Perfect for when you want to have multiple instances of your application loaded in memory at the same time. Because only one process needs to load the app and forking is fast, this method is faster than loading the app 3 times in separate instances.
 
++ The child process inherits any open file descriptors from the parent at the time of the fork(2). It’s given the same map of file descriptor numbers that the parent process has. In this way the two processes can share open files, sockets, etc.
+
 + See the next chapter for a discussion of **copy-on-write**(TODO) and how it affects memory when forking.
 
 ```ruby
