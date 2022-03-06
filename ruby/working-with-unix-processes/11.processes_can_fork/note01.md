@@ -29,7 +29,7 @@ end
 ```
 
 + It’s no mystery what’s happening here
-    + One call to the fork method actually returns twice
+    + **One call to the fork method actually returns twice**
     + Remember that fork creates a new process
     + So it returns once in the calling process (parent) and once in the newly created process (child)
     + In the child process fork returns nil. Since nil is falsy it executes the code in the else block.
@@ -39,15 +39,26 @@ end
 puts "parent process pid is #{Process.pid}"
 
 if fork
-  puts "entered the if block from #{Process.pid}"
+  puts "entered the if block from #{Process.pid}"   # executed by the parent process
 else
-  puts "entered the else block from #{Process.pid}"
+  puts "entered the else block from #{Process.pid}" # executed by the child process
+                                                    # In the child process fork returns nil
 end
 ```
 
 + This concept is illustrated nicely by simply printing the return value of a fork call.
 ```ruby
+# in parent process: fork returns pid of child process
+# in child process:  fork returns nil
 puts fork
 ```
+
++ man 2 fork
+```
+RETURN VALUES
+     Upon successful completion, fork() returns a value of 0 to the child process and returns the process ID of the child process to the parent process.
+     Otherwise, a value of -1 is returned to the parent process, no child process is created, and the global variable errno is set to indicate the error.
+```
+
 
 
