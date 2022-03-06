@@ -60,5 +60,17 @@ RETURN VALUES
      Otherwise, a value of -1 is returned to the parent process, no child process is created, and the global variable errno is set to indicate the error.
 ```
 
++ fork(2) creates a new process that's a copy of the old process.
+
++ When you pass a block to the fork method that block will be executed in the new child process, while the parent process simply skips over it.
+
++ The child process exits when it’s done executing the block. It does not continue along the same code path as the parent.
+
++ Ruby’s Kernel#fork maps to fork(2).
+
+
+
+
+
 
 
