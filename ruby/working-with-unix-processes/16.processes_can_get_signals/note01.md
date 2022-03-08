@@ -134,5 +134,25 @@ The signals SIGKILL and SIGSTOP cannot be trapped, blocked, or ignored.
     + These are signals whose action is meant specifically to be defined by your process.
     + We’ll see shortly that we’re free to redefine any of the signal actions that we please, but those two signals are meant for your use.
 
++ Redefining Signals
+```ruby
+puts Process.pid
+trap(:INT) { print "Na na na, you can't get me" }
+sleep # so that we have time to send it a signal
 
+Process.kill(:INT, <pid of first session>)
+# ctrl+c won't work either
+
+Process.kill(:TERM, <pid of first session>)
+Process.kill(:KILL, <pid of first session>)
+```
+
++ Ignoring Signals
+```ruby
+puts Process.pid
+trap(:INT, "IGNORE")
+sleep # so th
+
+Process.kill(:INT, <pid of first session>)
+```
 
