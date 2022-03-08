@@ -1,5 +1,7 @@
 https://workingwithruby.com/wwup/signals/
 
++ TODO read this part again
+
 Confusing
 
 + In the last chapter we looked at Process.wait. It provides a nice way for a parent process to keep tabs on its child processes. However Not every parent has the luxury of waiting around on their children all day.
@@ -127,4 +129,10 @@ SIGTTOU   | 22,22,27   | Stop     |  tty output for background process
 
 
 The signals SIGKILL and SIGSTOP cannot be trapped, blocked, or ignored.
+
++ It’s interesting to note the SIGUSR1 and SIGUSR2 signals.
+    + These are signals whose action is meant specifically to be defined by your process.
+    + We’ll see shortly that we’re free to redefine any of the signal actions that we please, but those two signals are meant for your use.
+
+
 
