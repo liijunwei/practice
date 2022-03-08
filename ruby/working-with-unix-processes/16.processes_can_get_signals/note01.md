@@ -156,3 +156,56 @@ sleep # so th
 Process.kill(:INT, <pid of first session>)
 ```
 
++ It’s good to keep in mind that trapping a signal is a bit **like using a global variable**, you might be overwriting something that some other code depends on. And unlike global variables signal handlers can’t be namespaced.
+
++ There is a way to preserve handlers defined by other Ruby code, so that your signal handler won’t trample any other ones that are already defined.
+```ruby
+trap(:INT) { puts 'This is the first signal handler' }
+
+old_handler = trap(:INT) {
+  old_handler.call
+  puts 'This is the second handler'
+  exit
+}
+sleep 5 # so that we have time to send it a signal
+```
+
+```ruby
+system_handler = trap(:INT) {
+  puts 'about to exit!'
+  system_handler.call
+}
+sleep 5 # so that we have time to send it a signal
+```
+
++ In terms of **best practices** your code probably shouldn't define any signal handlers, unless it's a server.
++ It's very rare that library code should trap a signal.
+
+```ruby
+# The 'friendly' method of trapping a signal.
+
+old_handler = trap(:QUIT) {
+  # do some cleanup
+  puts 'All done!'
+
+  old_handler.call if old_handler.respond_to?(:call)
+}
+```
+
++ This violates the expectations of ......
+
++ Whether or not you decide to preserve previously defined signal handlers is up to you, **just make sure you know why you’re doing it**.
+
++ Your process can receive a signal anytime. That’s the beauty of them! They’re asynchronous.
+
++ With signals, any process can communicate with any other process on the system, so long as it knows its pid.
+
++ This makes signals a very powerful communication tool.
+
++ It’s common to send signals from the shell using kill(1).
+
++ And for the most part it will be the human users who are sending signals rather than automated programs.
+
++ Ruby’s Process.kill maps to kill(2), Kernel#trap maps roughly to sigaction(2). signal(7) is also useful.
+
+
