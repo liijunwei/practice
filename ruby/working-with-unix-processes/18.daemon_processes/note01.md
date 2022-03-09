@@ -13,7 +13,9 @@
 ```ruby
 def daemonize_app
   if RUBY_VERSION < "1.9"
-    exit if fork
+    exit if fork # makes use of the return value of the fork method
+                 # As always, the return value will be truth-y for the parent and false-y for the child
+                 # This means that the parent process will exit, and as we know, orphaned child processes carry on as normal.
     Process.setsid
     exit if fork
     Dir.chdir "/"
@@ -28,7 +30,11 @@ end
 
 + [MRI source for Process.daemon](https://github.com/ruby/ruby/blob/c852d76f46a68e28200f0c3f68c8c67879e79c86/process.c#L4817-4860)
 
++ The ppid of orphaned processes is always 1. This is the only process that the kernel can be sure is active at all times.
 
-
++ Calling Process.setsid does three things:(TODO understand this well)
+    1. The process becomes a session leader of a new session
+    2. The process becomes the process group leader of a new process group
+    3. The process has no controlling terminal
 
 
