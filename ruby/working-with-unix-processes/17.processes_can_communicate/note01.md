@@ -1,6 +1,7 @@
 # [Processes Can Communicate](https://workingwithruby.com/wwup/ipc/)
 
 + This is part of a whole field of study called Inter-process communication(进程间通信)(IPC for short).
+    + IPC implies communication between processes running on the **same** machine.
 
 + There are many different ways to do IPC, here covers two commonly useful methods
     + pipes
@@ -67,7 +68,55 @@ end
 + Streams VS Messages
     + When I say stream I mean that when writing and reading data to a pipe **there’s no concept of beginning and end**.
 
++ Here’s a slightly more complex version of the pipe example where the child process actually waits for the parent to tell it what to work on, then it reports back to the parent once it’s finished the work:
+```ruby
+require 'socket'
 
+child_socket, parent_socket = Socket.pair(:UNIX, :DGRAM, 0)
+maxlen = 1000
+
+fork do
+  parent_socket.close
+
+  4.times do
+    instruction = child_socket.recv(maxlen)
+    child_socket.send("#{instruction} accomplished!", 0)
+  end
+end
+child_socket.close
+
+2.times do
+  parent_socket.send("Heavy lifting", 0)
+end
+2.times do
+  parent_socket.send("Feather lifting", 0)
+end
+
+4.times do
+  $stdout.puts parent_socket.recv(maxlen)
+end
+```
+
++ So whereas pipes provide uni-directional communication, a socket pair provides bi-directional communication. The parent socket can both read and write to the child socket, and vice versa.
+
++ Remote IPC?
+    + ipc -> communication between processes running on the same machine
+    + communicate via TCP sockets
+    + communicate via RPC(remote procedure call)
+    + ZeroMQ
+    + ...
+
++ Both pipes and socket pairs are useful abstractions for communicating between processes.
++ They’re fast and easy.
++ **They’re often used as a communication channel instead of a more brute force approach such as a shared database or log file.**
+
++ As for which method to use: it depends on your needs. Keep in mind that pipes are uni-directional and socket pairs are bi-directional when weighing your decision.
+
++ System Calls
+    + IO.pipe     maps to pipe(2)
+    + Socket.pair maps to socketpair(2)
+    + Socket.recv maps to recv(2)
+    + Socket.send maps to send(2).
 
 
 
