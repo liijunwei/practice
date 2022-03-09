@@ -37,4 +37,42 @@ end
     2. The process becomes the process group leader of a new process group
     3. The process has no controlling terminal
 
++ Process groups and session groups are all about job control.
+    + By ‘job control’ I’m referring to the way that processes are handled by the terminal.
+
+```ruby
+puts Process.getpgrp
+puts Process.pid
+```
+
++ Typically the process group id will be the same as the pid of the process group leader.
++ The process group leader is the ‘originating’ process of a terminal command.
+    + ie. If you start an irb process at the terminal it will become the group leader of a new process group. Any child processes that it creates will be made part of the same process group
+
++ Try out the following example to see that process groups are inherited.
+```ruby
+puts Process.pid
+puts Process.getpgrp
+
+fork {
+  puts Process.pid
+  puts Process.getpgrp
+}
+```
+
++ Child processes are not given special treatment by the kernel.
++ Exit a parent process and the child will continue on.
++ This is the behaviour when a parent process exits, but the behaviour is a bit different when the parent process is being controlled by a terminal and is killed by a signal.
+
++ The terminal receives the signal and forwards it on to any process in the foreground process group.
++ In this case, both the Ruby script and the long-running shell command would part of the same process group, so they would both be killed by the same signal.
+
++ A session group is one level of abstraction higher up, a collection of process groups.
+```bash
+git log | grep shipped | less
+```
+
+
+
+
 
