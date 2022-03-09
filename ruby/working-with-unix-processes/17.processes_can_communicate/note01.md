@@ -38,6 +38,26 @@ reader, writer = IO.pipe
 reader.write("Trying to get the reader to write something") # will raise an IOError
 ```
 
-+ TODO https://workingwithruby.com/wwup/ipc/#sharing-pipes
++ when a process fork a child, open resources are shared or copied to its child process.
++ Pipes are considered a resource, they get their own file descriptors and everything, so they are shared with child processes.
 
++ Here’s a simple example of using a pipe to communicate between a parent and child process.
+```ruby
+# (reader writer) x (parent child) = 4 endpoints
+# we need to close two of them to(unused ends of pipe) so as not to interfere with EOF being sent
+reader, writer = IO.pipe
 
+fork do
+  reader.close # child process use pipe's writer endpoint
+
+  10.times do
+    # heavy lifting
+    writer.puts "Another one bites the dust"
+  end
+end
+
+writer.close # parent process use pipe's reader endpoint
+while message = reader.gets
+  $stdout.puts message
+end
+```
