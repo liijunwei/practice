@@ -61,3 +61,13 @@ while message = reader.gets
   $stdout.puts message
 end
 ```
+
++ Since the ends of the pipe are IO objects we can call any IO methods on them, not just #read and #write.
+
++ Streams VS Messages
+    + When I say stream I mean that when writing and reading data to a pipe **there’s no concept of beginning and end**.
+
+
+
+
+
