@@ -45,7 +45,7 @@ puts Process.getpgrp
 puts Process.pid
 ```
 
-+ Typically the process group id will be the same as the pid of the process group leader.
++ Typically the **process group** id will be the same as the pid of the process group leader.
 + The process group leader is the ‘originating’ process of a terminal command.
     + ie. If you start an irb process at the terminal it will become the group leader of a new process group. Any child processes that it creates will be made part of the same process group
 
@@ -67,11 +67,32 @@ fork {
 + The terminal receives the signal and forwards it on to any process in the foreground process group.
 + In this case, both the Ruby script and the long-running shell command would part of the same process group, so they would both be killed by the same signal.
 
-+ A session group is one level of abstraction higher up, a collection of process groups.
++ A **session group** is one level of abstraction higher up, a collection of process groups.
 ```bash
 git log | grep shipped | less
+
+# Even though these commands are not part of the same process group one Ctrl-C will kill them all.
+# These commands are part of the same session group.
+# Each invocation from the shell gets its own session group.
+# An invocation may be a single command or a string of commands joined by pipes.
 ```
 
++ Again, your terminal handles session groups in a special way:
+    + sending a signal to the session leader will forward that signal to all the process groups in that session
+    + which will forward it to all the processes in those process groups
+
++ we want to be fully detached from a terminal.
+    + `Process.setsid` will make this forked process the leader of a new process group and a new session group.
+    + Note that `Process.setsid` will fail in a process that is already a process group leader, **it can only be run from child processes.**
+
++ If you think you want to create a daemon process you should ask yourself one basic question:
+    + Does this process need to stay responsive forever?
+    + If the answer is no,  then you probably want to look at a cron job or background job system.
+    + If the answer is yes, then you probably have a good candidate for a daemon process.
+
++ system calls
+    + Process.setsid  -> setsid(2)
+    + Process.getpgrp -> getpgrp(2)
 
 
 
