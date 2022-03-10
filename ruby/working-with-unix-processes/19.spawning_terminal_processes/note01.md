@@ -41,5 +41,7 @@ exec 'python', '-c', python_code, {hosts.fileno => hosts}
 + Arguments to exec
     + Pass a string to exec and it will actually start up a shell process and pass the string to the shell to interpret.
     + Pass an array and it will skip the shell and set up the array directly as the ARGV to the new process.
+    + **Generally you want to avoid passing a string unless you really need to. Pass an array where possible.**
 
++ TODO https://workingwithruby.com/wwup/spawning/#kernelsystem
 
