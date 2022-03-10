@@ -19,3 +19,5 @@
 + If your program depends on the output from the execve(2) call you can use the tools you learned in previous chapters to handle that.
     + `Process.wait` will ensure that your program waits for the child process to finish whatever it’s doing so you can get the result back.
 
++ TODO [File descriptors and exec](https://workingwithruby.com/wwup/spawning/#file-descriptors-and-exec)
+
