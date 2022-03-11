@@ -62,6 +62,24 @@ Process.spawn({'RAILS_ENV' => 'test'}, 'rails server')
 Process.spawn('ls', '--zz', STDERR => STDOUT)
 ```
 
++ `Process.spawn` is a bit different than the others in that **it is non-blocking**.
+```ruby
+# Do it the blocking way
+system 'sleep 5'
+
+# Do it the non-blocking way
+Process.spawn 'sleep 5'
+
+# Do it the blocking way with Process.spawn
+# Notice that it returns the pid of the child process
+pid = Process.spawn 'sleep 5'
+Process.waitpid(pid)
+```
+
++ The last example in this code block is a really great example of the flexibility of Unix programming.
+    + In previous chapters we talked a lot about Process.wait, but it was always in the context of forking and then running some Ruby code.
+    + You can see from this example that the kernel cares not what you are doing in your process, it will always work the same.
+    + **consistency**
 
 
 
