@@ -43,5 +43,26 @@ exec 'python', '-c', python_code, {hosts.fileno => hosts}
     + Pass an array and it will skip the shell and set up the array directly as the ARGV to the new process.
     + **Generally you want to avoid passing a string unless you really need to. Pass an array where possible.**
 
-+ TODO https://workingwithruby.com/wwup/spawning/#kernelsystem
+```bash
+The return value of Kernel#system reflects the exit code of the terminal command in the most basic way.
+
+Kernel#` works slightly differently. The value returned is the STDOUT of the terminal program collected into a String.
+
+Kernel#` and %x[] do the exact same thing.
+```
+
++ Process.spawn
+```ruby
+# This call will start up the 'rails server' process with the
+# RAILS_ENV environment variable set to 'test'.
+Process.spawn({'RAILS_ENV' => 'test'}, 'rails server')
+
+# This call will merge STDERR with STDOUT for the duration
+# of the 'ls --help' program.
+Process.spawn('ls', '--zz', STDERR => STDOUT)
+```
+
+
+
+
 
