@@ -129,6 +129,21 @@ Open3.popen3('ls', '-uhh', :err => :out) { |stdin, stdout, stderr|
 }
 ```
 
++ One drawback to all of these methods is that they rely on fork(2).
+    + What’s wrong with that? Imagine this scenario:
+    + You have a big Ruby app that is using hundreds of MB of memory.
+    + You need to shell out. If you use any of the methods above you’ll incur the cost of forking.
+
++ When you fork(2) the process the kernel doesn’t know that you’re about to transform that process with an exec(2). You may be forking in order to run Ruby code, in which case you’ll need to have all of the memory available.
+
++ It’s good to keep in mind that fork(2) has a cost, and sometimes it can be a performance bottleneck.
++ Question: What if you need to shell out a lot and don’t want to incur the cost of fork(2)?
+    + There are some native Unix system calls for spawning processes without the overhead of fork(2).
+    + Unfortunately they don’t have support in the Ruby language core library.
+    + However, there is a Rubygem that provides a Ruby interface to these system calls.
+    + The posix-spawn project provides access to posix_spawn(2), which is available on most Unix systems.
+
+
 
 
 
