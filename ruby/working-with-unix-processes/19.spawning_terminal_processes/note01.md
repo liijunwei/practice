@@ -141,9 +141,18 @@ Open3.popen3('ls', '-uhh', :err => :out) { |stdin, stdout, stderr|
     + There are some native Unix system calls for spawning processes without the overhead of fork(2).
     + Unfortunately they don’t have support in the Ruby language core library.
     + However, there is a Rubygem that provides a Ruby interface to these system calls.
-    + The posix-spawn project provides access to posix_spawn(2), which is available on most Unix systems.
+    + The [posix-spawn](https://github.com/rtomayko/posix-spawn/) project provides access to posix_spawn(2), which is available on most Unix systems.
 
++ At a basic level posix_spawn(2) is a subset of fork(2).
 
++ Recall the two discerning(挑剔的) attributes of a new child process from fork(2):
+    1. it gets an exact copy of everything that the parent process had in memory
+    2. it gets a copy of all the file descriptors that the parent process had open.
+    + posix_spawn(2) preserves #2, but not #1. That’s the big difference between the two.
 
-
++ system calls
+    + Kernel#system maps to system(3)
+    + Kernel#exec   maps to execve(2)
+    + IO.popen      maps to popen(3)
+    + posix-spawn   uses    posix_spawn(2)
 
