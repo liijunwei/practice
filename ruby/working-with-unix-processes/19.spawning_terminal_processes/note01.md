@@ -81,6 +81,6 @@ Process.waitpid(pid)
     + You can see from this example that the kernel cares not what you are doing in your process, it will always work the same.
     + **consistency**
 
-
++ [Process.spawn](http://www.ruby-doc.org/core-1.9.3/Process.html#method-c-spawn) takes many options that allow you to control the behaviour of the child process.
 
 
