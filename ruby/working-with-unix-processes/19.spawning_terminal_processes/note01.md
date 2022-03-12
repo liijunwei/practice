@@ -110,6 +110,25 @@ IO.popen('less', 'w') { |stream|
 }
 ```
 
++ `Open3` allows simultaneous access to the STDIN, STDOUT, and STDERR of a spawned process.
++ Open3 acts like a more flexible version of IO.popen, for those times when you need it.
+```ruby
+# This is available as part of the standard library.
+require 'open3'
+
+Open3.popen3('grep', 'data') { |stdin, stdout, stderr|
+  stdin.puts "some\ndata"
+  stdin.close
+  puts stdout.read
+}
+
+# Open3 will use Process.spawn when available. Options can be passed to
+# Process.spawn like so:
+Open3.popen3('ls', '-uhh', :err => :out) { |stdin, stdout, stderr|
+  puts stdout.read
+}
+```
+
 
 
 
