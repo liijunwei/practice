@@ -84,3 +84,32 @@ Process.waitpid(pid)
 + [Process.spawn](http://www.ruby-doc.org/core-1.9.3/Process.html#method-c-spawn) takes many options that allow you to control the behaviour of the child process.
 
 
++ IO.popen
+    + whenever usees this to write crontab
+```ruby
+# This example will return a file descriptor (IO object). Reading from it
+# will return what was printed to STDOUT from the shell command.
+IO.popen('ls')
+```
++ The most common usage for IO.popen is an implementation of Unix pipes in pure Ruby.
+
++ That’s where the ‘p’ comes from in popen.
+
++ Underneath it’s still doing the fork+exec, but it’s also setting up a pipe to communicate with the spawned process.
+
++ That pipe is passed as the block argument in the block form of IO.popen.
+
+```ruby
+# An IO object is passed into the block. In this case we open the stream
+# for writing, so the stream is set to the STDIN of the spawned process.
+#
+# If we open the stream for reading (the default) then
+# the stream is set to the STDOUT of the spawned process.
+IO.popen('less', 'w') { |stream|
+  stream.puts "some\ndata"
+}
+```
+
+
+
+
