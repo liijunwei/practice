@@ -47,6 +47,14 @@ ps aux|grep demo
 
 + Due to numerous issues with Ruby’s GC (naive approach, disk fragmentation) it is rare that the VM is able to release a block of memory back to the kernel. So the memory usage of a Ruby process is likely to grow over time, but not to shrink. Now Resque’s approach begins to make sense!
     + 但是因为ruby的gc不好用, 没法使用gc把用后的内存完整释放, 所以ruby进程的内存使用率会不停的升高
+    + 此时resque 的 模型就有用了
+    + parent process 只负责分发任务
+    + worker process 执行任务, 执行完以后进程退出
+    + 此时parent process 继续执行, 并且内存里还是只有很少的信息, 不存在使用了大量内存之后不释放的问题
+
+
+
+
 
 
 
