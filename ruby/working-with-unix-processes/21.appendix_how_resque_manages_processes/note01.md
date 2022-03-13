@@ -12,4 +12,6 @@
 
 [lib/resque/worker.rb@perform_with_fork](https://github.com/resque/resque/blob/9e5324c65f6bd123819e63f2c365492f7516fd46/lib/resque/worker.rb#L907)
 
++ word: dissect 解剖
+
 

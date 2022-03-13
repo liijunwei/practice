@@ -4,7 +4,7 @@ https://workingwithruby.com/wwup/forking/
 
 + `man 2 fork`
 + The fork(2) system call allows a running process to create new process programmatically.
-    + This new process is an exact copy of the original process except for the following(**go read manpage**):
+    + This new process is an **exact copy of the original process except for the following**(**go read manpage**):
 
 + When forking, the process that initiates the fork(2) is called the `parent`, and the newly created process is called the `child`.
 
