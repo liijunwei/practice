@@ -53,10 +53,16 @@ ps aux|grep demo
     + 此时parent process 继续执行, 并且内存里还是只有很少的信息, 不存在使用了大量内存之后不释放的问题
         + "So each time after a job is performed by Resque you end up back at a clean slate in terms of memory usage. This means that memory usage may spike when jobs are being worked on, but it should always come back to that nice baseline."
 
+## [Rescue Introduction](https://github.com/resque/resque#introduction)
+
+Resque is heavily inspired by DelayedJob (which rocks) and comprises three parts(读源码时的思路):
+
++ A Ruby library for creating, querying, and processing jobs
++ A Rake task for starting a worker which processes jobs
++ A Sinatra app for monitoring queues, jobs, and workers.
 
 
-
-
++ [`lib/resque/worker.rb@work` is the main workhorse method. Called on a Worker instance, it begins the worker life cycle.](https://github.com/resque/resque/blob/9e5324c65f6bd123819e63f2c365492f7516fd46/lib/resque/worker.rb#L233)
 
 
 
