@@ -18,3 +18,5 @@ git clone git://yhbt.net/unicorn.git
     + It uses the master-worker pattern we mentioned in the chapter on forking.
 
 + TODO explore unicorn source code
+    + subl $HOME/OuterGitRepo/unicorn
+
