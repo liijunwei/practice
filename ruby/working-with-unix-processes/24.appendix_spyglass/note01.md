@@ -29,5 +29,8 @@ spyglass -h # for help
 + 当`Spyglass::Lookout`发现有连接进来时, 它会fork出一个`Spyglass::Master`去处理请求
 + fork后, `Spyglass::Lookout`会wait阻塞(???没看明白)
 
++ Spyglass::Master is responsible for preloading the Rack application and forking/babysitting worker processes.
++ The real work is done in Spyglass::Worker
+
 
 
