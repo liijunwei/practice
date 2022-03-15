@@ -27,3 +27,12 @@
 + A socket is opened, then the process waits for connections on that socket.
 + The connection is handled, closed, and the loop starts over again.
 
++ Preforking servers use a different workflow to let the kernel balance heavy load across the socket.
+
++ Thanks to the way fork(2) works, when the master process forks worker processes **each worker process gets a copy of the open socket**.
+
++ Kernel ensures that one, and only one, process can accept each individual connection.
++ Even under heavy load the kernel ensures that the load is balanced and that only one process handles each connection.
+
+
+
