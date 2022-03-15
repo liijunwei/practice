@@ -1,5 +1,7 @@
 # [Appendix: Spyglass](https://workingwithruby.com/wwup/spyglass/)
 
++ code here: http://github.com/d-bot/spyglass.git
+
 + Spyglass project was written specifically to showcase Unix programming concepts.
 
 ## [Spyglass' Architecture](https://workingwithruby.com/wwup/spyglass/#spyglass-architecture)
