@@ -34,5 +34,14 @@
 + Kernel ensures that one, and only one, process can accept each individual connection.
 + Even under heavy load the kernel ensures that the load is balanced and that only one process handles each connection.
 
+## [Basic Example of a Preforking Server](https://workingwithruby.com/wwup/prefork/#basic-example-of-a-preforking-server)
 
+[code snippet](./basic_preforking_server_demo.rb)
+
+You can consume it with something like nc(1) or telnet(1) to see it in action.
+
+``` bash
+nc localhost 8080
+telnet localhost 8080
+```
 
