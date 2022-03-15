@@ -45,3 +45,7 @@ nc localhost 8080
 telnet localhost 8080
 ```
 
++ `Process.waitall` is simply a convenience method around Process.wait.
++ It runs a loop waiting for all child processes to exit and returns an array of process statuses.
++ Useful when you don't actually want to do anything with the process status info, it just waits for the children to exit.
+
