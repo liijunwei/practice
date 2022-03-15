@@ -19,6 +19,7 @@ wpids = []
 5.times {
   wpids << fork do
     loop {
+      puts "#{Time.now} listening..."
       connection = socket.accept
       connection.puts 'Hello Readers!'
       connection.close
