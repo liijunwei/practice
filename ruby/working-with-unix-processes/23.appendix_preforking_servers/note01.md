@@ -14,5 +14,16 @@
     + A: [Ruby Enterprise Edition](https://rvm.io/interpreters/ree)
     + REE builds on top of MRI Rubies, versions 1.8.X and later, to deliver an enhanced interpreter with many performance and memory optimizations, including common patch-sets such as MBARI.
 
+## he Very Basics of Sockets(complex topic)
 
++ Sockets are at the very core of networking.
+
++ Using a socket involves multiple steps:
+    1. A socket is opened and binds to a unique port
+    2. A connection is accepted on that socket using accept(2)
+    3. Data can be read from this connection, written to the connection, and ultimately the connection is closed. The socket stays open, but the connection is closed.
+
++ Typically this would happen in the same process.
++ A socket is opened, then the process waits for connections on that socket.
++ The connection is handled, closed, and the loop starts over again.
 
