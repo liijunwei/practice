@@ -1,5 +1,9 @@
 Recommended by YimingChen https://yiming.dev/blog/2017/12/08/book-review-99-bottles-of-oop/
 
+```bash
+tig oop/99-Bottles-of-OOP/
+```
+
 + github repo
     + git@github.com:sandimetz/1st_99bottles_ruby.git
 
