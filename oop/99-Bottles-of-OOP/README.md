@@ -31,3 +31,9 @@ You cannot make informed decisions about the value of new ideas unless you thoro
 
 Therefore, if you are a veteran, it’s best to adopt the novice mindset before reading on. Set aside prior beliefs, and dedicate yourself to what follows. While reading, resist the urge to resist. Read the entire book, work the problems, and only then decide whether to integrate these ideas into your daily practice.
 
+# How to read this book
+
+The chapters build upon one another, and so should be read in order. While isolated sections may be useful, the whole is more than the sum of its parts. The ideas gain power in relation to one another.
+
+To get the most from the book, work the code samples as you read along. With active participation you’ll learn more, understand better, and retain longer. While reading has value, doing has more.
+
