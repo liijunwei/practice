@@ -37,3 +37,15 @@ The chapters build upon one another, and so should be read in order. While isola
 
 To get the most from the book, work the code samples as you read along. With active participation you’ll learn more, understand better, and retain longer. While reading has value, doing has more.
 
+# [Code Example ](https://github.com/sandimetz/1st_99bottles_ruby)
+
+The code is available in the 99bottles repository on GitHub, **which contains a branch for each chapter**.
+
+```bash
+git clone git@github.com:sandimetz/1st_99bottles_ruby.git
+cd 1st_99bottles_ruby
+tig --all
+git bransh -a | cat
+```
+
+
