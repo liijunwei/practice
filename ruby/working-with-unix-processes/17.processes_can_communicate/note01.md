@@ -30,6 +30,7 @@ puts reader.read
     + So long as the writer is still open the reader might see more data, so it waits.
     + By closing the writer before reading it puts an EOF on the pipe so the reader stops reading after it gets the initial data.
 
+如果不关闭writer, reader认为还会有数据从管道传过来, 直到遇到EOF才会停止
 
 + Pipes Are One-Way Only
     + The reader can only read
@@ -39,8 +40,13 @@ reader, writer = IO.pipe
 reader.write("Trying to get the reader to write something") # will raise an IOError
 ```
 
+管道是单向的, reader只能读, writer只能写
+
 + when a process fork a child, open resources are shared or copied to its child process.
 + Pipes are considered a resource, they get their own file descriptors and everything, so they are shared with child processes.
+
+进程A fork出 进程B后, A的**资源**会和B进行共享
+管道也是一种资源, 因此, 管道可以和子进程进行共享, 因此能用来进行父子进程间的通信
 
 + Here’s a simple example of using a pipe to communicate between a parent and child process.
 ```ruby
@@ -62,6 +68,11 @@ while message = reader.gets
   $stdout.puts message
 end
 ```
+
+父进程有两个管道的端点
+子进程也有两个管道的端点(因为是fork出的, 被复制了, 但是指向的资源实际上是一样的)
+
+其中, 因为父进程只需要读, 子进程只需要写(即子进程通过管道给父进程发消息), 所以把父进程的writer端点和子进程的reader端点关闭了
 
 + Since the ends of the pipe are IO objects we can call any IO methods on them, not just #read and #write.
 
