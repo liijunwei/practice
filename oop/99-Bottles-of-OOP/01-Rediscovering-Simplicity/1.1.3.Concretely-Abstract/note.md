@@ -68,6 +68,11 @@
 
 一定要注意抽象的层次, 抽象的度
 
++ Therefore, one lesson to be gleaned from this solution is that you should name methods after the concept they represent rather than how they currently behave.
+
+方法命名时, 应该依据它所代表的概念, 而不是它的行为
+
+
 
 
 
