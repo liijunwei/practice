@@ -33,5 +33,8 @@
 
 但是DRY带来的好处是 它使得代码更易于修改
 
-+ TODO page 29
++ The Don’t Repeat Yourself principle, like all principles of object-oriented design, is completely true.
++ However, despite that fact that the code above is DRY, there are many ways in which it’s expensive to change.
 
+"不要重复" 原则和其他面向对象设计一样, 是[正确]的.
+但是尽管这种实现方式是DRY的, 但是它仍然很难于修改, 因为它做得太过了
