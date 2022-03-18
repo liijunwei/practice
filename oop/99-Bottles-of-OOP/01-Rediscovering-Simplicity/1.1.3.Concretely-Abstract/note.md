@@ -38,3 +38,33 @@
 
 "不要重复" 原则和其他面向对象设计一样, 是[正确]的.
 但是尽管这种实现方式是DRY的, 但是它仍然很难于修改, 因为它做得太过了
+
+当需要把 "beer" 换为其他的实体时, 虽然只需要把 `beer` 方法的内容替换了就可以(因为是DRY的)
+但是, 如果只替换方法的内容, 会发现方法名会变得非常奇怪
+因为这些方法和`beer`有很深的绑定关系
+
+应该做的是把beer的概念提取出来, 抽象一层
+
+`the word "beverage" is one level of abstraction higher than "beer." `
+例如: 饮料就是beer的抽象
+
++ The fault here, however, lies not with the DRY principle, but with the names of the methods.
+
+这里出现的问题不再有DRY, 而在于方法的命名
+
++ Unfortunately, when you name a method after its current implementation, you can never change that internal implementation without ruining the method name.
+
+如果方法的命名依赖于它的实现, 那么就没法只改变实现 并且不修改方法名(就能清晰表达含义)
+
++ You should name methods not after what they do, but after what they mean, what they represent in the context of your domain.
+
+方法的命名不应该以他们做了什么命名, 而应该以他们的含义命名, 以他们代表的上下文来命名
+
++ Naming the method at this slightly higher level of abstraction isolates the code from changes in the implementation details.
+
+为方法命名时, 稍微把抽象层次提高一点, 可以把代码的改动和他的具体实现隔离开
+
+
+
+
+
