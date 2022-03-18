@@ -72,6 +72,13 @@
 
 方法命名时, 应该依据它所代表的概念, 而不是它的行为
 
++ Many methods in this code represent the wrong abstractions.
+
+方法定义的抽象粒度不合适, 也会让代码改变变得困难
+
+
+
+
 
 
 
