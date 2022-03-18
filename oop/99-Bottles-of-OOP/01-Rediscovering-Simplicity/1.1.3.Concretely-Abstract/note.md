@@ -64,6 +64,10 @@
 
 为方法命名时, 稍微把抽象层次提高一点, 可以把代码的改动和他的具体实现隔离开
 
++ However, in Concretely Abstract, this force is overcome by the high cost of dealing with methods that are named at the **wrong level of abstraction**. These method names raise the cost of change.
+
+一定要注意抽象的层次, 抽象的度
+
 
 
 
