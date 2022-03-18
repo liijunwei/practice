@@ -1,6 +1,4 @@
-# practice
-
-Programming Language Practices
+# Practice
 
 This repo means nothing but my programming practices and book reading notes.
 
