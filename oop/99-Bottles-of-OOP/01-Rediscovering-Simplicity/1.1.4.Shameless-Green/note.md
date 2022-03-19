@@ -27,3 +27,11 @@
 
 + Most programmers have a powerful urge to do more, but sometimes it’s best to stop right here.
 
++ When you DRY out duplication or create a method to name a bit of code, you add levels of indirection that make it more abstract. In theory these abstractions make code easier to understand and change, but in practice they often achieve the opposite. One of the biggest challenges of design is knowing when to stop, and deciding well requires making judgments about code.
+
+当通过抽象出方法去除冗余代码时, 你实际上向代码里注入了"间接性", 增加了代码的抽象程度
+
+适度的抽象理应使得代码更易读, 更易改变, 但实际上却往往达到了相反的效果
+
+设计的一个挑战就是: 知道什么时候该停止
+
