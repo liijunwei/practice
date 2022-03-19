@@ -18,5 +18,5 @@
 
 + The problem with these definitions is that although they accurately describe how good code looks once it’s written, **they give no help with achieving this state, and provide little guidance for choosing between competing solutions. The attributes they use to describe good code are qualitative, not quantitative.**
 
-
+TODO page 35
 
