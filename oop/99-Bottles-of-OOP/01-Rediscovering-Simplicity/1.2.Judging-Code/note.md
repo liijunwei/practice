@@ -16,5 +16,7 @@
 
 + **Any pile of code can be made to work; good code not only works, but is also simple, understandable, expressive and changeable.**
 
++ The problem with these definitions is that although they accurately describe how good code looks once it’s written, **they give no help with achieving this state, and provide little guidance for choosing between competing solutions. The attributes they use to describe good code are qualitative, not quantitative.**
+
 
 
