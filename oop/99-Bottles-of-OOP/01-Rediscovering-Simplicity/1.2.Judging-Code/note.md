@@ -8,3 +8,13 @@
 
 + Answering the question "What makes code good?" thus requires defining goodness in concrete and actionable ways. This is harder than one might think.
 
+> I like my code to be elegant and efficient.
+
+> Clean code is full of crisp abstractions
+
+> Clean code was written by someone who cares.
+
++ **Any pile of code can be made to work; good code not only works, but is also simple, understandable, expressive and changeable.**
+
+
+
