@@ -13,3 +13,6 @@ class Bottles
 end
 ```
 
++ While it may seem pointless to write an obviously temporary and transitional bit of code, this is **the essence of TDD**.
+
+
