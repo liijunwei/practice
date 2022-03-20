@@ -22,3 +22,16 @@
 
 代码的质量应该多用指标工具去检测
 
++ As programmers grow, they get better at solving challenging problems, and become comfortable with complexity.
++ This higher level of comfort sometimes leads to the belief that complexity is inevitable, as if it’s the natural, inescapable state of all finished code.
++ However, there’s something beyond complexity --- a higher level of simplicity.
++ **Infinitely experienced programmers do not write infinitely complex code; they write code that’s blindingly simple.**
+
+复杂 是可以避免的
+
+"更高层次的简洁" 是 "复杂" 下一阶段, 或者目标
+
+有经验的程序员不会写出很复杂难懂的代码, 他们会把代码变得很简单, 清晰易懂, 同时能解决问题
+
+
+
