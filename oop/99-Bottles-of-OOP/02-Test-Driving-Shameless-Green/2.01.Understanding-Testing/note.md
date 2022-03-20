@@ -14,5 +14,18 @@ Write the code to make the test pass. Test runners commonly display passing test
 3. Make it right. 编写实现的代码, 让测试通过
 Each time you return to green, you can refactor any code into a better shape, confident that it remains correct if the tests continue to pass.
 
++ In Test-Driven Development by Example, Kent Beck describes this as the **Red/Green/Refactor cycle** and calls it "the TDD mantra."
 
+> Quick green excuses all sins.
+
++ Green means safety.
++ Green indicates that, at least as evidenced by the tests at hand, you understand the problem.
++ Green is the wall at your back that lets you move forward with confidence.
++ Getting to green quickly simplifies all that follows.
+
++ This chapter concentrates on creating the tests and writing simple code to pass them. Future chapters refactor the resulting code to improve the design.
+
+本章会专注于写出测试用例并写出简单的实现让测试通过
+
+之后的章节会做代码重构和设计的优化
 
