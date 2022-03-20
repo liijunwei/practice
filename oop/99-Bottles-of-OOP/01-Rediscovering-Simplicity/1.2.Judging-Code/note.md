@@ -45,6 +45,26 @@
 
 "Shameless Green"不怀疑"DRY"的价值, 但是它认为暂时的代码冗余是廉价的, 并且可以接受, 它认为这比太早做出不合适的抽象要好得多
 
++ Writing Shameless Green is fast, and the resulting code might be "good enough."
++ Most programmers find it embarrassingly duplicative, and the code is certainly not very object-oriented.
++ However, if nothing ever changes, the most cost-effective strategy is to deploy this code and walk away.
+
+写出"Shameless Green"的代码不需要花很长时间, 很多精力, 就能达到足够好的效果
+
+但是很多程序员觉得代码重复, 没有用"面向对象"的方法 有点儿可耻的
+
+但是, 如果没有任何(需求)的变化, 那么 最具性价比的代码就是把代码部署好, 然后再也不动它了
+(心理上的)
+
++ The challenge comes when a change request arrives. Code that’s good enough when nothing ever changes may well be code that’s not good enough when things do.
+
+当需求变化时，挑战就来了。当什么都没有改变时就足够好的代码 很可能是 当事情发生时还不够好的代码。
+
+
+
+
+
+
 
 
 
