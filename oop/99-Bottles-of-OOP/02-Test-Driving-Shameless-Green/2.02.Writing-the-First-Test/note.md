@@ -4,3 +4,12 @@
 
 此时面对的问题还是一大块, 很模糊, 需要把问题拆解到能都开始行动的粒度
 
++ Ruby programmers by convention use _ for the name of an unused argument. This argument is unused, at least at this moment, so _ is a reasonable name for now.
+```ruby
+class Bottles
+  def verse(_)
+
+  end
+end
+```
+
