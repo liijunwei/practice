@@ -33,5 +33,7 @@
 
 有经验的程序员不会写出很复杂难懂的代码, 他们会把代码变得很简单, 清晰易懂, 同时能解决问题
 
++ **Shameless Green is defined as the solution which quickly reaches green while prioritizing understandability over changeability.**
 
+"Shameless Green"的解决方案是那种 能快速实现解决方案, 并且平衡了易读性/易于改变特性的 的方案
 
