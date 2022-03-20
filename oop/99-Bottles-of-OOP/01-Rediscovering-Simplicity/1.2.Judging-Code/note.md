@@ -37,3 +37,14 @@
 
 "Shameless Green"的解决方案是那种 能快速实现解决方案, 并且平衡了易读性/易于改变特性的 的方案
 
++ It uses tests to drive comprehension, and patiently accumulates concrete examples while awaiting insight into underlying abstractions.
+
+"Shameless Green"的解决方案使用测试驱动达到让代码易于理解的目的, 然后耐心的积累实际经验, 直到有一天认识到隐藏在代码背后的抽象(???)
+
++ It doesn’t dispute that DRY is good, rather it believes that it is cheaper to manage temporary duplication than to recover from incorrect abstractions.
+
+"Shameless Green"不怀疑"DRY"的价值, 但是它认为暂时的代码冗余是廉价的, 并且可以接受, 它认为这比太早做出不合适的抽象要好得多
+
+
+
+
