@@ -30,4 +30,7 @@
     暂时容忍代码的冗余是可接受的
     容忍一定程度的冗余 好过 做出错误的抽象
 
++ Writing Shameless Green means optimizing for understandability, not changeability, and patiently tolerating duplication if doing so will help reveal the underlying abstraction.
 
+"Shameless Green"的编码方式 意味着 目标是写出 为易于理解的代码, 不是一开始就指向易于修改;
+接受一定程度的冗余, 等到对问题的理解加深, 会慢慢揭露隐藏在问题下的抽象, 那时候在做出抽象, 可能更合适
