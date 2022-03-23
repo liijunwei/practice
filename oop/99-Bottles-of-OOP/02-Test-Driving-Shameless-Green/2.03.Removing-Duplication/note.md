@@ -9,3 +9,11 @@
 新的测试用例需要检查一些和第一个用例不太一样的地方, 这种检查一般能让第一个用例失效
 
 
++ TDD requires that you pass tests by writing simple code.
+
+使用TDD时, 需要能写一些简单的代码, 让测试能够通过
+
++ However, most programming problems have many solutions, and it’s not always clear which one is simplest.
+
+很多的问题会有很多的解决方案, 找出最简单的方案并不容易
+
