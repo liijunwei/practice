@@ -17,3 +17,7 @@
 
 很多的问题会有很多的解决方案, 找出最简单的方案并不容易
 
++ This conditional adds a new execution path through the code, and additional execution paths increase complexity.
+
+如果仅仅通过加一个判断, 使得测试通过了, 乍看起来好像很简单, 实际上代码的复杂度提升了, 并且它能处理的情况也很有限
+
