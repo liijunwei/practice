@@ -1,0 +1,8 @@
+require 'rake/testtask'
+
+# cd oop/99-Bottles-of-OOP/02-Test-Driving-Shameless-Green && rvm use 2.5.1 && rake
+task default: "test"
+
+Rake::TestTask.new do |task|
+ task.pattern = 'test/*_test.rb'
+end
