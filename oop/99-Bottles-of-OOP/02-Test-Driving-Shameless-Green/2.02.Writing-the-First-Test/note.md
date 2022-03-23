@@ -15,4 +15,27 @@ end
 
 + While it may seem pointless to write an obviously temporary and transitional bit of code, this is **the essence of TDD**.
 
++ Although this code passes the test, it clearly doesn’t solve the entire problem.
+
+第一个测试能通过了, 但是这并不能解决整个99-bottles的问题
+
++ As a matter of fact, writing a second test will break it. While it may seem pointless to write an obviously temporary and transitional bit of code, this is the essence of TDD.
+
+再写一个测试用例就会让整个测试崩溃
+
+虽然看起来第一步让测试通过没什么意义, 但这正是TDD的核心所在 --- 每次前进一点, 保证每次的进步都是正确的
+
++ You as the writer of tests know that the verse method must eventually take the value of its argument into account, but you as the writer of code must act in ignorance of this fact.
+
++ When doing TDD, you toggle between wearing two hats.
+
+使用TDD时, 要在两种状态之间切换
+
++ While in the "writing tests" hat, you keep your eye on the big picture and work your way forward with the overall plan in mind.
+
+当在"写测试"的状态时, 需要着眼于全局, 测试的范围要覆盖全面
+
++ When in the "writing code" hat, you pretend to know nothing other than the requirements specified by the tests at hand.
+
+当在"写具体实现"的状态时, 要忽略一切干扰, 聚焦于把眼前的需求实现好
 
