@@ -8,7 +8,6 @@ class BottlesTest < Minitest::Test
     "99 bottles of beer.\n" +
     "Take one down and pass it around, " +
     "98 bottles of beer on the wall.\n"
-
     assert_equal expected, Bottles.new.verse(99)
   end
 
@@ -18,7 +17,6 @@ class BottlesTest < Minitest::Test
     "3 bottles of beer.\n" +
     "Take one down and pass it around, " +
     "2 bottles of beer on the wall.\n"
-
     assert_equal expected, Bottles.new.verse(3)
   end
 
@@ -35,7 +33,7 @@ class BottlesTest < Minitest::Test
     expected =
     "1 bottle of beer on the wall, " +
     "1 bottle of beer.\n" +
-    "Take one down and pass it around, " +
+    "Take it down and pass it around, " +
     "no more bottles of beer on the wall.\n"
     assert_equal expected, Bottles.new.verse(1)
   end
@@ -43,8 +41,8 @@ class BottlesTest < Minitest::Test
   def test_verse_0
     expected =
     "No more bottles of beer on the wall, " +
-    "No more bottles of beer.\n" +
-    "Go to the store and bug some more, " +
+    "no more bottles of beer.\n" +
+    "Go to the store and buy some more, " +
     "99 bottles of beer on the wall.\n"
     assert_equal expected, Bottles.new.verse(0)
   end
@@ -72,13 +70,19 @@ class BottlesTest < Minitest::Test
    "\n" +
    "1 bottle of beer on the wall, " +
    "1 bottle of beer.\n" +
-   "Take one down and pass it around, " +
+   "Take it down and pass it around, " +
    "no more bottles of beer on the wall.\n" +
    "\n" +
    "No more bottles of beer on the wall, " +
-   "No more bottles of beer.\n" +
-   "Go to the store and bug some more, " +
+   "no more bottles of beer.\n" +
+   "Go to the store and buy some more, " +
    "99 bottles of beer on the wall.\n"
     assert_equal expected, Bottles.new.verses(2, 0)
+  end
+
+  def test_the_whole_song
+    filepath = File.expand_path(".", '../whole-lyric.md')
+    expected = File.read(filepath)
+    assert_equal expected, Bottles.new.song
   end
 end
