@@ -1,6 +1,20 @@
 + Kent Beck explains the difference between intention and implementation.
     + The distinction between intention and implementation [...] allows you to understand a computation first in essence and later, if necessary, in detail(Implementation Patterns (p. 69) Kent Beck)
 
+TODO 啥意思?
+
 + Here `song` is the intention, and `verse(99, 0)` is the implementation.
 + There’s a big difference between wanting the lyrics for a range of verses, and wanting the lyrics for the entire song.
+
+song方法是意图
+verse(99, 0)方法是具体的实现
+
++ Bottles now produces that correct output,and it’s tempting to walk away at this point.
++ However, doing so transfers the burden of keeping this code running to some poor downstream programmer, one who has far less understanding of the problem than you do right now.
+
+"shameless green"解法得到的代码已经能正确工作了, 这时候很容易会有"这种代码已经够好了"的感觉
+
+然后, 如果就这样不再去优化这个段代码, 就是把维护代码的负担转移给了其他使用这段代码的人了, 他可能对这个问题(实现)了解很少, 并不知道为什么要这么做
+
+下一节将会把测试补充全, 通过测试来揭示这段代码的意图
 
