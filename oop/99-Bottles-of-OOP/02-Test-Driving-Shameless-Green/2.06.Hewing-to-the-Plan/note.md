@@ -21,4 +21,5 @@
 
 + Intention- revealing code is built from the accumulation of such thoughtful acts.
 
-+ TODO page 54
++ With the end in sight, the cost of finishing the horizontal path is low. Once it’s complete, you’ll have an example of every different kind of verse, and therefore maximal information about the problem.
+
