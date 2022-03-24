@@ -1,6 +1,5 @@
 require 'rake/testtask'
 
-# rvm use 2.7.2 && rake
 task default: "test"
 
 Rake::TestTask.new do |task|
