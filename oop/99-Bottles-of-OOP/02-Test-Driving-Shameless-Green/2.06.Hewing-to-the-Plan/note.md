@@ -1,1 +1,17 @@
-TODO page 61
++ As you’ve seen, when working towards Shameless Green, it makes sense sometimes to eliminate duplication and other times to retain it.
+
+在靠近"Shameless Green"目标的路上, 有时候需要去除代码冗余, 有时候需要容忍代码的冗余
+
++ Shameless Green solution is optimized to be straightforward and intention- revealing, and it doesn’t much concern itself with changeability or future maintenance.
+
+"Shameless Green"目的是 不断优化已有代码, 让代码变得能清晰的传达它的意图, 能一点一点揭露出问题的本质; 不对代码的可变性或者代码的可维护性做过多的考虑
+
++ The goal is to use green to maximize your understanding of the problem and to unearth all available information before committing to abstractions.
+
+使用"Shameless Green"的目标是 加深对问题的理解, 在获取足够信息前, 尽量不去做抽象(不合适的抽象 有害)
+
++ You should complete the entire horizontal path before indulging in any vertical digressions.
+
+第一步应该是先让测试通过, 然后再去做其他优化(优先级可能更低)
+
+
