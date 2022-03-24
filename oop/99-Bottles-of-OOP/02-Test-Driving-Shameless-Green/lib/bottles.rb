@@ -1,8 +1,6 @@
 class Bottles
-  def verses(_, _)
-    verse(99) +
-    "\n" +
-    verse(98)
+  def verses(starting, ending)
+    starting.downto(ending).map {|num| verse(num)}.join("\n")
   end
 
   def verse(number)
