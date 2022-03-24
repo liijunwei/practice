@@ -14,4 +14,11 @@
 
 第一步应该是先让测试通过, 然后再去做其他优化(优先级可能更低)
 
++ Use of if / elsif implies that each subsequent condition varies in a meaningful way.
++ In contrast, use of case implies that every condition checks for equality against an explicit value.
 
++ In the 99 Bottles case above, the conditions are fundamentally the same.
+
++ Intention- revealing code is built from the accumulation of such thoughtful acts.
+
++ TODO page 54
