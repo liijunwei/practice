@@ -1,0 +1,57 @@
++ Testing, done well, speeds development and lowers costs.
+
+如果TDD里的测试实践得当的话, 可以加快开发速度, 降低成本
+
++ Unfortunately it’s also true that flawed tests slow you down and cost you money.
+
+但同样, 如果做得不好, TDD会降低开发速度, 并且成本很高
+
++ It is worth the effort, therefore, to get good at testing.
+
+花精力掌握写好的测试用例时值得的
+
++ TDD can prevent costly guesses, but only if you commit to writing code in small steps.
+
+怎么理解?
+
++ Tests can make it safe and easy to refactor, but only if they are carefully de-coupled from the current code.
+
+测试能够让重构变得简单/安全
+
+但是前提是测试用例和代码之间没有太多耦合
+
++ Good tests not only tell a story, but they lead, step by step, to a well-organized solution.
+
+好的测试用例不仅能帮助理解代码
+
+还能一步一步把代码引向好的解决方案
+
++ The tests written in this chapter give rise (assuming proper restraint on the part of the programmer) to Shameless Green.
+
+**give rise to ...**
+
+本章中编写的测试(假设程序员有适当的限制)产生了Shameless Green的解决方案
+
++ The Shameless Green solution is neither clever nor extensible.
+
+Shameless Green的解决方案既不够"聪明", 扩展性也不是很好
+
++ Its value lies in the fact that the code is easy to understand, and cheap to write. If nothing ever changes, this solution is quite certainly good enough.
+
+但是它的价值是 这样的代码容易理解, 并且很容易就能写出来
+
+如果没有什么改动, 大可以把这个代码部署好一直让它运行下去(不再修改)
+
+**Good Enough**
+
++ Things get more interesting only if something needs to change.
+
+只有当情况发生变化时, 代码需要响应的做出扩展, 这时候有趣的变化才会发生
+
++ So, on to Chapter 3, which introduces a new requirement, and forces you to make some hard decisions about the code.
+
+第三章将为Bottles引入新的需求
+
+新的需求会迫使反思代码, 做出选择
+
+
