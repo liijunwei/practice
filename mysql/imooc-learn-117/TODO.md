@@ -12,7 +12,7 @@
 + [x] [05-physical-design-03.md](./05-physical-design-03.md)
 + [x] [05-physical-design-04.md](./05-physical-design-04.md)
 + [x] [05-physical-design-05.md](./05-physical-design-05.md)
-+ [ ] [06-database-maintenance-01.md](./06-database-maintenance-01.md)
-+ [ ] [06-database-maintenance-02.md](./06-database-maintenance-02.md)
++ [x] [06-database-maintenance-01.md](./06-database-maintenance-01.md)
++ [x] [06-database-maintenance-02.md](./06-database-maintenance-02.md)
 
 
