@@ -34,14 +34,21 @@
 + 问题: 如何查询订单信息?
 
 ```sql
-SELECT b.用户名, b.电话, b.地址, a.订单ID, SUM(c.商品价格 * c.商品数量) as 订单价格
+SELECT b.用户名, b.电话, b.地址, a.订单ID, SUM(c.商品价格 * c.商品数量) AS 订单价格
 FROM 订单表 a
-INNER JOIN 用户表 b
-ON a.用户ID = b.用户ID
+INNER JOIN 用户表 b ON a.用户ID = b.用户ID
 GROUP BY b.用户名, b.电话, b.地址, a.订单ID
 ```
 
 + 问题: 如何查询订单详情?
+
+```sql
+SELECT b.用户名, b.电话, b.地址, a.订单ID, SUM(c.商品单价 * c.商品数量) AS 订单价格, c.商品价格
+FROM 订单表 a
+INNER JOIN 用户表 b ON a.用户ID = b.用户ID
+INNER JOIN 订单商品表 c ON c.订单ID = b.订单ID
+INNER JOIN 商品表 d ON d.商品ID = c.商品ID
+```
 
 #### 示例.反范式化的设计
 
