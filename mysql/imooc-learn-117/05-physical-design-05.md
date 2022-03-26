@@ -2,7 +2,7 @@
 
 + 定义: 所谓反范式化(针对范式化而言)就是为了性能和读取效率的考虑, 而适当的对第三范式的要求进行违反, 而允许存在少量的数据冗余, 即用空间换时间
 
-#### 示例.符合范式化的设计
+#### [示例.符合范式化的设计](./05-physical-design-05-符合范式.sql)
 
 [**util for create schema: mockaroo**](https://mockaroo.com/)
 
@@ -59,7 +59,7 @@ INNER JOIN 订单商品表 c ON c.订单ID = b.订单ID
 INNER JOIN 商品表 d ON d.商品ID = c.商品ID
 ```
 
-#### 示例.反范式化的设计
+#### [示例.反范式化的设计](./05-physical-design-05-反范式改动.sql)
 
 + 用户表
     + 用户ID
