@@ -1,5 +1,7 @@
 # Practice
 
+> [Work consistently, but don’t overwork yourself.](http://blog.thefirehoseproject.com/posts/learn-to-code-and-be-self-reliant/)
+
 This repo means nothing but my programming practices and book reading notes.
 
 ```bash
