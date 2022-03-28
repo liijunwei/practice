@@ -73,3 +73,13 @@ def verse(number)
 end
 ```
 
++ The verse case statement initially contained four branches, and in the code above the number of branches has ballooned to six.
+
+最初case的分支只有4个, 并且里面还有不少的代码冗余, 那时候还尚可接受
+
+这种实现方式一下让分支膨胀到了6个
+
++ This is unacceptable. Conditionals breed, and now that this one has started reproducing, you must do something to stop it.
+
+这种修改代码的方式不能让人满意, 需要想办法遏制这种趋势
+
