@@ -67,6 +67,16 @@ B.抽象不应该依赖于具体, 具体应该依赖于抽象
 
 话虽如此(Yes), 但是如何达到这种效果确实需要认真学习的(But How?!)
 
++ When faced with this situation, be guided by the following flowchart.
+
+当不知道该怎么做时, 参照下面的流程图 一步步接近目标
+
+![](./Open-Closed-Flowchart.png)
+
+
+
+
+
 
 
 
