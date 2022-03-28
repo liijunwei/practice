@@ -74,7 +74,26 @@ B.抽象不应该依赖于具体, 具体应该依赖于抽象
 ![](./Open-Closed-Flowchart.png)
 
 
++ As per the above flowchart, first ask yourself if the existing code is already open to the new requirement. If so, your job is simply to write the new code.
 
+"当前代码是否符合了开闭原则?"
+
++ Ask if you know how to alter the existing code to make it open to the new requirement.
+
+"你知道怎么把代码变得对扩展开放吗?"
+
++ However, the sad truth is that the answer to both of those questions is often "no."
++ The existing code isn’t open to the new requirement, and you have no idea how to make it so.
+
+通常来说, 这两个答案都是否定的
+
+此时代码不对扩展开放, 也不知道该怎么修改代码, 让他变得开放
+
++ At this point "code smells" come to the rescue. If you can identify smells in code, you isolate flaws and correct them one by one.
+
+这时候, 需要关注代码的坏味道(Code Smells)
+
+如果你能识别出这些code smells, 你就能一个个把他们处理掉(利用APM/Sonar等工具)
 
 
 
