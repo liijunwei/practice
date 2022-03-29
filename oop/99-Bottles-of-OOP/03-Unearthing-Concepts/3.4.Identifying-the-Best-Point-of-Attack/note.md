@@ -39,6 +39,13 @@ end
 
 先来处理冗余的代码
 
++ Before undertaking(进行/承诺/保证) this refactoring, it must be admitted that there is no direct connection between removing the duplication, and succeeding in making the code open to the six-pack requirement.
+
+在进行重构前, 得先意识到(承认)"删除冗余代码"和"使得代码对应扩展开放"之间没有必然(直接)的练习
+
++ That, however, is the beauty of this technique. You don’t have to know how to solve the whole problem in advance. The plan is to nibble away, one code smell at a time, in faith that the path to openness will be revealed.
+
+这也正是这项技术的美妙之处
 
 
 
