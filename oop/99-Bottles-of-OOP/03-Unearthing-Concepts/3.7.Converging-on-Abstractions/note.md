@@ -28,5 +28,15 @@
 
 > The focus here is encapsulating the concept that varies, a theme of many design patterns.
 
++ Difference holds the key to understanding.
 
+差异是理解代码的关键
+
++ If two concrete examples represent the same abstraction and they contain a difference, that difference must represent a smaller abstraction within the larger one.
+
+如果两个实体代表了相同的抽象, 并且他们包含了差异, 那么这些差异一定代表了更高层次的抽象
+
++ If you can name the difference, you’ve identified that smaller abstraction.
+
+如果你能识别出这些差异, 你就能识别出这些(小的)抽象
 
