@@ -10,3 +10,9 @@
 
     + 以一种修改代码, 但同时不修改代码外部行为的方式 来优化代码的内部结构
 
+重构是一种 以修改代码但同时不修改代码的外部行为的方式优化代码内部结构以有优化整个软件系统的过程
+
++ In short, refactoring alters the arrangement of code without changing its behavior.
+
+简单来说: 重构会修改代码的排列, 但是不修改代码的行为
+
