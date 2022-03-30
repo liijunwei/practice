@@ -47,4 +47,8 @@
 
 **测试用例里面, 断言实现细节(事情如何完成)，而不是断言结果(实际发生的事情), 是造成这种问题的主要原因**
 
++ When in this situation, there’s no alternative other than to improve the tests before embarking upon a refactoring.
+
+这种情况下, 应该先着眼于修改测试用例, 再去重构
+
 
