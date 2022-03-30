@@ -16,5 +16,17 @@
 
 然而, 尽管相同性更容易识别, 但差异性更有用, 因为它具有更多意义
 
++ The "Gang of Four"
+    + Erich Gamma
+    + Richard Helm
+    + Ralph Johnson
+    + John Vlissides
+    +
+    + their joint authorship of [Design Patterns: Elements of Reusable Object-Oriented Software](https://www.amazon.com/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612)
+
++ This influential book describes **twenty-three patterns or solutions to common OO programming problems** and it explains this process thusly:
+
+> The focus here is encapsulating the concept that varies, a theme of many design patterns.
+
 
 
