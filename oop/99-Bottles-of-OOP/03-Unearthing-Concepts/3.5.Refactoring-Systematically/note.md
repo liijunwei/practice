@@ -51,4 +51,13 @@
 
 这种情况下, 应该先着眼于修改测试用例, 再去重构
 
++ Tests are the wall at your back. Successful refactorings lean on green. Therefore, you should never change tests during a refactoring.
+
+重构时, 应该放心得把后背交给测试用例, 用例一定得靠谱才能保证重构顺利进行
+
+因此重构过程中, 一定不能去修改测试用例(???有点懵 TODO)
+
++ If your tests are flawed such that they interfere with refactoring, improve them first, and then refactor.
+
+如果发现测试用例有缺陷, 影响了重构, 那么应该先停下来优化测试用例, 然后再去做重构
 
