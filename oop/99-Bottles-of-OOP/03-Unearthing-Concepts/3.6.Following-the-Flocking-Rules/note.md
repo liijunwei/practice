@@ -82,3 +82,13 @@
 
 凝聚: 转向平均位置
 
++ Thus, complex behavior emerges from the repeated application of simple rules.
+
+复杂的行为由一系列简单/重复的原则的应用组合而来
+
++ In the same way that the rules in this sidebar allow birds to flock, the "Flocking Rules" for code allow abstractions to appear.
+
+(???)
+
++ To see a beautiful example of flocking in action, watch [Steven Strogatz’s The Science of Sync TED talk](https://www.youtube.com/watch?t=196&v=IiXaZGZqpVI&feature=youtu.be).
+
