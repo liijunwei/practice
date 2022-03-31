@@ -129,6 +129,33 @@ when 2 # ...
 
 如果你把抽象出的方法命名为"bottle", 那么一定是错的, 因为bottle是以它的实现命名的, 并没有做出抽象
 
++ Within the context of the song, "bottle/bottles" does not represent pluralization.
+
++ There are two pieces of information that can help in the struggle for a name. One is a general rule and the other is the new requirement.
+
+有两条信息能帮助你做出命名的选择:
+
++ First, the new requirement. Recall that the impetus for this refactoring was the need to say "six-pack" instead of "bottle/bottles" when there are 6 bottles. The string "six-pack" is one more concrete example of the underlying abstraction. This suggests that if you name the method "bottle," you will regret this decision in short order.
+
+1. 新的需求
+
+新需求是在一定条件下把bottle替换为"six-pacs", 不是替换为"bottle/bottles"
+
+"six-pack"是潜在抽象的 具体的例子
+
+它暗示了, 如果你用"bottle"命名, 就错了
+
++ The general rule is that the name of a thing should be one level of abstraction higher than the thing itself. The strings "bottle/bottles/six-pack" are instances of some category, and the task is to name that category and to do so using language of the domain.
+
+2. 通用的法则
+
+通用的法则是: 命名的时候, 名字应该做出高于某个对象**一层**的抽象
+
+"bottle/bottles/six-pack"都是某类事物的实例
+
+在此基础上上升一层, 会是什么?
+
+
 
 
 
