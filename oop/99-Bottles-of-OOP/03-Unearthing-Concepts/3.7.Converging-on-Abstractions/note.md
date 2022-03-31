@@ -90,5 +90,24 @@
 
 如果你在完成将两个case合二为一之前, 开始修改其他部分, 那么你就是偏离了一条成熟的道路, 然后误入歧途
 
++ While it can be useful to interleave horizontal and vertical work, it’s best to finish the current journey when the terminus of the horizontal path is in sight.
 
+在水平路径上努力是最有效的
+
+```bash
+cd $HOME/OuterGitRepo/1st_99bottles_ruby && git checkout chapter-3
+```
+
++ don’t discount the value of solving easy problems.
+
++ After making the above change (and running the tests between each, of course), the remaining difference is "bottle/bottles" on the last line:
+
+```ruby
+when 2 # ...
+"#{number-1} bottle of beer on the wall.\n" else
+# ...
+"#{number-1} bottles of beer on the wall.\n" end
+```
+
++ This is the first interesting difference. Now you must decide what this difference means.
 
