@@ -167,12 +167,26 @@ Number   | xxx?
 
 这里的xxx是什么比较合适呢?
 
++ It might seem as if "Unit" would be a good header.
+
+很容易会想到一个命名: "unit"
+
++ Although it’s true that every example is some kind of unit, there are two problems with this name.
+
+虽然Unit可以, 但是它并不合适, 它有这两个问题
+
++ First, it’s too abstract. Unit is not one level of abstraction higher than the examples, it’s many. There are plenty of good naming alternatives on the continuum between "bottle" and "unit."
+
+1. 它太抽象了, 不是"one level of abstraction higher than the thing itself", 比它合适的命名还有很多
+
++ Next, unit is not in the language of the domain. The name you choose will be the name you use in conversations with your customers.
 
 
+2. "unit"不是这个领域的语言; 选择的名字, 是要和客户进行沟通的
 
++ **Naming things after domain concepts improves communication between you and the folks who pay the bills. Only good can come of this.**
 
-
-
+以领域概念命名可以改善你和顾客之间的沟通, 这只能带来好处。
 
 
 
