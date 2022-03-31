@@ -111,3 +111,12 @@ when 2 # ...
 
 + This is the first interesting difference. Now you must decide what this difference means.
 
+## 3.7.3. Naming Concepts
+
++ The goal of the current refactoring is to find a way to express that more abstract verse.
+
+当前重构的目标是在找到一个能表达上面的差异的一种抽象
+
+
+
+
