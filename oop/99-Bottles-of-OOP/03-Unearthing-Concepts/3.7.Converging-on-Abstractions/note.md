@@ -123,6 +123,16 @@ when 2 # ...
 
 需要从 bottles 和 bottle 中提取出一个概念
 
++ "bottle" is not underlying the concept. If you call the method "bottle" you are naming it after its current implementation, and you’ve already seen how that can go badly wrong.
+
+前面的例子已经说明过, "bottle"不是一个潜在的概念
+
+如果你把抽象出的方法命名为"bottle", 那么一定是错的, 因为bottle是以它的实现命名的, 并没有做出抽象
+
+
+
+
+
 
 
 
