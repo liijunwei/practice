@@ -155,6 +155,20 @@ when 2 # ...
 
 在此基础上上升一层, 会是什么?
 
++ One way to identify the category is to imagine the concrete examples as rows and columns in a spreadsheet.
+
+辅助方法: 列一个下面这样的表格
+
+Number   | xxx?
+---------|----------
+  1      | bottle
+  6      | six-pack
+  n      | bottles
+
+这里的xxx是什么比较合适呢?
+
+
+
 
 
 
