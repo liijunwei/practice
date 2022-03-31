@@ -188,6 +188,19 @@ Number   | xxx?
 
 以领域概念命名可以改善你和顾客之间的沟通, 这只能带来好处。
 
++ When you’re struggling to find a good name but have only a few concrete instances to guide you, it can be illuminating(富于启发性的) to imagine other things that would also be in the same category.
+
+当你在为命名苦恼的时候, 可以让一些具体的实例指引你
+
+想象其他同样属于同一范畴的事物也会很有启发性
+
++ For example, if the song were about wine, the wine might come in a carafe. Juice sometimes comes in small boxes. Soft drinks come in cans.
+
+例如: 如果这首歌是关于"葡萄酒"的, 葡萄酒是carafe(一种饮料瓶)装的; 果汁是盒装的; 软饮料(???)是罐装的
+
+
+
+
 
 
 
