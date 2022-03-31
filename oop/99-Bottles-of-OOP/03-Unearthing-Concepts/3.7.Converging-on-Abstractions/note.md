@@ -198,6 +198,21 @@ Number   | xxx?
 
 例如: 如果这首歌是关于"葡萄酒"的, 葡萄酒是carafe(一种饮料瓶)装的; 果汁是盒装的; 软饮料(???)是罐装的
 
++ If you were to ask your users, "What kind of thing is a bottle?," they wouldn’t reply "It’s a unit."
+
+如果你问其他人, "瓶子是什么东西？", 人们不会回答"是单位"
+
++ Instead they might call it the container. In the context of 99 Bottles, container is a good name for this concept. Container is meaningful, understandable, and unambiguous.
+
+人们更可能回到 "瓶子是容器(container)"
+
+在这个领域里, **container是一个好名字**
+
+因为它有意义, 易于理解, 领域相关, 毫不含糊
+
+
+
+
 
 
 
