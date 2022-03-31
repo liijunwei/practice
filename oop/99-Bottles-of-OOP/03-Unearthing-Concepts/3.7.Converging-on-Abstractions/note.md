@@ -44,5 +44,51 @@
 
 好消息是 系统地应用重构的法则 能将差异转换为相同, 能将问题分解为它的组成部分
 
++ The even better news is that this happens automatically.
+
+更好的是, 这个过程是自动发生的(??)
+
++ You don’t have to identify the underlying abstractions in advance of refactoring. If you merely write the code dictated by the rules, the abstractions will follow.
+
+你不必在开始重构之前就能准确分辨出底层的抽象
+
+如果你按照这些法则去写代码, 这些抽象会自动浮现出来
+
++ The habit of believing that you understand the abstraction, and of jumping to an invented solution, is deeply ingrained. Programmers study a problem, decide on a solution, and then implement it. Solutions are crafted by intention.(????)
+
+"相信自己理解了问题的抽象并直接实现了解决方案" 这种习惯已经根深蒂固了
+
+程序员了解一个问题, 确定方案, 然后实现方案, 解决方案是由目的决定的(怎么翻译呢?)
+
++ If this describes your entire past experience, you may find the following code surprising. It takes many small, iterative steps, and results in a solution that is discovered by refactoring.
+
+如果上面的话描述了你过去的经历, 你可能会觉得之后的代码会很让你吃惊
+
+写这些代码的时候, 每次只做一点改动, 但是最终的解决方案是通过不断做小的重构得到的
+
+> **First identify the things that are most alike**
+
+选两个最相似的分支, 然后集中注意力把他们变成一样的
+
+`case 1` 和 `case 2`(page 102) 唯一真正的区别是`bottle` 和 `bottles`
+
+## 3.7.2. Simplifying Hard Problems
+
+> **Next task is to make them identical.**
+
++ It’s important to focus on this specific goal without succumbing to the temptations of tangents.
+
+当前, 最重要是专注于这个特定目标; 不要分心
+
++ Think of the process of turning these two lines into one as being on a horizontal path.
+
+将这两条线合二为一的过程 可以看作是在水平路径上
+
+在这条路径上的时候, 要抵御向垂直方向分析的诱惑(**目标以外皆为诱惑**)
+
++ If you begin making changes to other parts of the code before you completely combine the 2 and else cases, you step off a well-trod path into a woods so dark and sinister that you might never return.
+
+如果你在完成将两个case合二为一之前, 开始修改其他部分, 那么你就是偏离了一条成熟的道路, 然后误入歧途
+
 
 
