@@ -40,7 +40,9 @@
 
 如果你能识别出这些差异, 你就能识别出这些(小的)抽象
 
-TODO page102
++ The good news is that a systematic application of the rules of refactoring converts difference to sameness, decomposing a problem into its constituent parts.
+
+好消息是 系统地应用重构的法则 能将差异转换为相同, 能将问题分解为它的组成部分
 
 
 
