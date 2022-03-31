@@ -117,6 +117,12 @@ when 2 # ...
 
 当前重构的目标是在找到一个能表达上面的差异的一种抽象
 
++ To make these two lines the same, you must name this concept, create a method named after the concept, and replace the two differences with a common message send.
+
+为了让上面的两行变为一行, 需要给差异命名, 然后把它抽象为一个方法, 用这个方法替换那个差异
+
+
+
 
 
 
