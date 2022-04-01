@@ -284,6 +284,24 @@ Number   | xxx?
 
 > The `bus factor` is a measurement of the risk resulting from information and capabilities not being shared among team members, derived from the phrase "in case they get hit by a bus".
 
++ As a reminder, here again are the Flocking Rules and corollaries(推论):
+
+作为提醒，这里再次列出了`Flocking Rules`和其推论：
+
+1. Select the things that are most alike.
+2. Find the smallest difference between them.
+3. Make the simplest change to remove that difference:
+    a. parse the new code
+    b. parse and execute it
+    c. parse, execute and use its result
+    d. delete unused code
+
++ As you’re following the rules:
+    + As you’re following the rules:
+    + In general, change only one line at a time. Run the tests after every change.
+    + If you go red, undo and make a better change.
+
+
 
 
 
