@@ -212,6 +212,36 @@ Number   | xxx?
 
 ## 3.7.4. Making Methodical Transformations
 
+进行有条不紊的转变
+
++ Now that you’ve decided to create a container method, it’s time to alter the code.
+
+既然决定了要定义一个`container`方法, 准备开始修改代码
+
++ It’s tempting to make all of the necessary changes in one fell swoop.
+
+这时候, 倾向于一下做出所有的改变时很有诱惑力(正常)的想法(思路)
+
++ Doing so requires adding a new method and invoking it in two places.
+
+但是这样需要做两件事: 1. 增加新方法 2. 将两处字符串替换为该方法
+
+*步子太大了*, 因为如果一下做这么多改变, 会增加很多行的代码
+
++ But wait. Notice that the above change adds seven new lines of code, changes two existing ones, and alters code in three separate places.
+
+上面提到的改动涉及很多行代码
+
++ Any of these changes could introduce errors, which you would then be obliged to understand and correct.
+
+每行改动都可能引入错误, 你必须理解并纠正这些错误
+
++ This small example stands in for the much bigger real-life problem where, in the process of implementing a new feature, you add many lines of code, change many others, and then run the tests, only to **be confronted with a ocean of red**.
+
+这个例子扩大了说就是真实的问题, 在实现需求时, 做了很多改动, 增加了很多行代码, 然后运行测试, 发现一片红色的测试不通过的提醒
+
+
+
 
 
 
