@@ -240,6 +240,18 @@ Number   | xxx?
 
 这个例子扩大了说就是真实的问题, 在实现需求时, 做了很多改动, 增加了很多行代码, 然后运行测试, 发现一片红色的测试不通过的提醒
 
++ Real world problems are big. Real code has bugs. Real tests are often tightly coupled to current implementations.
+
+真实世界的问题会很大(复杂), 真实世界的代码会有bug, 真实世界的测试常常紧密地和具体实现耦合
+
++ If you simultaneously change many things and something breaks, you’re forced to understand everything in order to fix anything.
+
+如果同事修改很多处代码, 然后有地方测试不通过, 为了修复这个问题, 你就必须一下子完全掌握所有这些改动(mind burden)
+
++ You could end up chasing after red, with increasing desperation, before eventually discarding all of the changes and beginning anew.
+
+最终很可能会越来越绝望地debug, 修复测试不通过的问题(修了一个, 另一个又冒出来...), 最终放弃所有的改动, 从头开始
+
 
 
 
