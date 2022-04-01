@@ -327,4 +327,11 @@ end
 
 + The refactoring rules prohibit you from making both of these changes at once, so you must choose one or the other.
 
++ The act of adding a new branch to the conditional while executing only the previously existing code is a mini-example of the **Open/Closed Principle**.
+
++ You can think of this change as making the container method open to a new requirement—enabling it to occasionally return the word "bottle."
+
++ This splits the change into several small steps, which makes it easier to debug any errors.
+
+
 
