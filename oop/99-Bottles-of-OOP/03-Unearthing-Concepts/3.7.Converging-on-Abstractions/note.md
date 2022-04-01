@@ -268,13 +268,21 @@ Number   | xxx?
 
 如果测试通过了, 可以放心的继续进行进一步重构
 
++ Formal refactoring confers two additional benefits.
 
+正规的重构带来了另外两个好处
 
++ First, because no change breaks the tests, the code can be deployed to production at any intermediate point. This allows you to avoid accumulating a large set of changes and suffering through a painful merge.
 
+首先是 因为改动都没有让测试失败, 这部分改动的代码能够在任何合适的时间部署到生产环境
 
+这个可以避免积累大量代码改动，避免合并代码带来的痛苦
 
++ Next, code that runs properly even in the midst of a long refactoring increases the bus factor. This contributes to a higher likelihood of project success even if you, personally, were to meet an untimely end.
 
+其次是 即使在长时间的重构过程中也能正常运行的代码会增加`bus factor`, 这有助于提高项目成功的可能性
 
+> The `bus factor` is a measurement of the risk resulting from information and capabilities not being shared among team members, derived from the phrase "in case they get hit by a bus".
 
 
 
