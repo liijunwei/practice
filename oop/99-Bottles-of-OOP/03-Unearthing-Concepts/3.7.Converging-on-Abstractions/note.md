@@ -305,9 +305,26 @@ Number   | xxx?
 cd $HOME/OuterGitRepo/1st_99bottles_ruby && git checkout chapter-3 && tig
 ```
 
++ From now on, it goes without saying that you should run the tests after every change.
 
++ The goal is to make changes on one line at a time, but this situation seems to require that you change both the sender and the receiver simultaneously.
 
+## 3.7.5 Refactoring Gradually
 
++ In his book Refactoring to Patterns, Joshua Kerievsky talks about "Gradual Cutover Refactoring," a strategy for keeping the code in a **releasable state**, gradually switching over a small number of pieces at a time.
 
++ The trick here, as you may already have guessed, is to begin by adding an optional argument that supplies its own default, as shown below:
+
+```ruby
+def container(number=:FIXME)
+  "bottles"
+end
+```
+
++ This default(FIXME) is a temporary shim whose purpose is to enable a step-by-step refactoring.
+
++ Once the refactor is complete, the default should be removed. Setting it to a value like :FIXME will help you remember to do this clean-up.
+
++ The refactoring rules prohibit you from making both of these changes at once, so you must choose one or the other.
 
 
