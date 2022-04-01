@@ -252,6 +252,21 @@ Number   | xxx?
 
 最终很可能会越来越绝望地debug, 修复测试不通过的问题(修了一个, 另一个又冒出来...), 最终放弃所有的改动, 从头开始
 
++ Making a slew of simultaneous changes is not refactoring—it’s rehacktoring.
+
+同时进行大量更改不是重构, 而是重新打包
+
++ It would be much better to make a series of tiny changes and run the tests after each.
+
+最好是进行一系列微小的更改, 并在每次更改后运行测试
+
++ If the tests fail, you know the exact change that caused the failure, and can undo back to green and make a better change.
+
+如果测试没通过, 可以很容易发现是哪个改动导致的; 定位和处理起来会很简单
+
++ If the tests pass, you know that the current code works, even if the refactoring is only partially complete.
+
+如果测试通过了, 可以放心的继续进行进一步重构
 
 
 
