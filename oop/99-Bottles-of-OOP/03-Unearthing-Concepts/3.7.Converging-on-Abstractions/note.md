@@ -301,7 +301,9 @@ Number   | xxx?
     + In general, change only one line at a time. Run the tests after every change.
     + If you go red, undo and make a better change.
 
-
+```bash
+cd $HOME/OuterGitRepo/1st_99bottles_ruby && git checkout chapter-3 && tig
+```
 
 
 
