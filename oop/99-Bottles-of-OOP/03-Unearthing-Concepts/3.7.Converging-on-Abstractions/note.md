@@ -387,6 +387,21 @@ end
 
 每次代码改动后, 都应该执行测试用例, 所以如果改动引入了缺陷, 修复过程是很简单的
 
++ The lengthy description above may have led you to fear that working in this fashion would be unbearably slow.
+
+上面那一大串的描述, 可能让你感觉这种方法真麻烦, 真慢, 好难
+
++ Take another look. As you can see, there’s not much code, and with practice, writing it becomes very fast.
+
+但是, 再看一眼, 你会发现代码其实并不多, 经过练习, 用这种方式写代码会变得很快
+
++ The small amount of time lost to making incremental changes is more than recouped by avoiding lengthy and frustrating debugging sessions.
+
+用这种渐进是的方式写代码, 会损失一点时间, 但是能剩下大量的debug的时间, 是很值得的
+
++ This style of coding is not only fast, it’s also stress-free.
+
+这种编码方式不仅快, 而且能减少你同时考虑的事情, 减少压力(mental stress)
 
 
 
