@@ -16,3 +16,15 @@
 
 然后, 添加新代码, 扩展新功能
 
++ Sometimes the first step, refactoring to openness, requires such a large leap that it is not obvious how to achieve it.
+
+很多时候, "把现有代码重构为对新需求的扩展开放的状态" 需要做很多工作, 以至于目标过大, 而不知道该从那里开始(常见问题)
+
++ In that case, be guided by code smells.
+
+这种情况下, 应该先消除"Code Smell"
+
++ Improve code by identifying and removing smells and have faith that as the code improves, a path to openness will appear.
+
+通过识别并消除"Code Smell"的方法来改进代码, 并且随着代码的改进, 一条通向"把现有代码重构为对新需求的扩展开放的状态"的道路会渐渐浮现
+
