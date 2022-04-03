@@ -2,7 +2,6 @@ https://workingwithruby.com/wwup/intro/
 
 ## Review Progress
 
-- [ ] 00.unix_processes
 - [ ] 01.introduction
 - [ ] 02.primer
 - [ ] 03.processes_have_ids
