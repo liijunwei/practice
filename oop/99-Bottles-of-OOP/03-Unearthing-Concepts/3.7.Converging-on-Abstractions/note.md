@@ -364,3 +364,22 @@ def container(number)
 end
 ```
 
++ The key actions of horizontal refactoring
+    01. identified `verse 2` and `else` as the most similar cases
+    02. workded from left to right
+    03. changed `verse 2` case to replace hasd coded `2` with `#{number}`(twice)
+    04. changed `verse 2` case to replace hard coded `1` with `#{number}`
+    05. identified "bottle" and "bottles" as the next difference
+    06. choose container for the name of the concept represented by this difference
+    07. created emtpty `container` method
+    08. changed `container` to return "bottles"
+    09. changed `verse else` caseto send `container` in place of "bottles"
+    10. changed `container` to take `number` argument with default `:FIXME`
+    11. added conditional logic to `container` to return "bottle" or "bottles" based on `number`
+    12. changed `verse else` case to pass `number-1` to `container`
+    13. changed `verse 2` case to send `container(number-1)` in place of "bottle"
+    14. deleted `verse 2` case
+    15. deleted `container :FIXME number` argument default
+
+
+
