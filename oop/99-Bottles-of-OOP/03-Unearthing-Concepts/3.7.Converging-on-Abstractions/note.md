@@ -381,5 +381,12 @@ end
     14. deleted `verse 2` case
     15. deleted `container :FIXME number` argument default
 
++ Of these 15 steps, 12 involve changes to code. The tests run after every change, so it is trivial to fix newly-introduced flaws.
+
+上面的这15个步骤中有12个有代码改动
+
+每次代码改动后, 都应该执行测试用例, 所以如果改动引入了缺陷, 修复过程是很简单的
+
+
 
 
