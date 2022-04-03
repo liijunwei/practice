@@ -417,3 +417,12 @@ end
 
 如果你发现一次改动太多, 出现了太多的未通过测试的用例, 那么就可以说明应该一次少做一些改动
 
++ There are plenty of hard problems in programming, but this isn’t one of them.
+
+编程过程中有很多很多的困难(问题), 但是这(小的改动, 多运行测试)不是
+
++ Real refactoring is comfortingly predictable, and saves brainpower for peskier challenges.
+
+真正的重构有着让人欣慰的可预测性, 并且它能为更加棘手(困难/有挑战)的问题节省了脑力
+
+
