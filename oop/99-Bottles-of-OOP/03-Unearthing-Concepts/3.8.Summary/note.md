@@ -28,3 +28,19 @@
 
 通过识别并消除"Code Smell"的方法来改进代码, 并且随着代码的改进, 一条通向"把现有代码重构为对新需求的扩展开放的状态"的道路会渐渐浮现
 
++ Making existing code open to a new requirement often requires identifying and naming abstractions.
+
+"把现有代码重构为对新需求的扩展开放的状态"通常需要识别并为做出的抽象命名
+
++ The Flocking Rules concentrate on turning difference into sameness, and thus are useful tools for unearthing abstractions.
+
+[`Flocking Rules`和其推论](../3.7.Converging-on-Abstractions/note.md#374-making-methodical-tran)专注于将差异转化为相同, 因此是挖掘抽象的有用工具
+
++ However, now that you’ve learned how to use the flocking rules to identify abstractions, resolving the differences in the 1 and 0 cases will go much faster.
+
++ So, on to Chapter 4, and more extracting of abstractions.
+
+第四章里还有更多`抽象`相关的内容
+
+
+
