@@ -403,5 +403,17 @@ end
 
 这种编码方式不仅快, 而且能减少你同时考虑的事情, 减少压力(mental stress)
 
++ This first refactoring was deliberately performed using the smallest possible steps.
 
+书上的例子是专门用"最小的改动步骤"来举例的
+
++ Once you learn to work at this level of granularity, you can later combine steps if circumstances allow.
+
+一旦你适应了(学会了)在这个粒度级别上工作, 并且条件允许的话, 你以后可以把这些步骤合并, 或者每次"步子"大一些
+
++ Let red be your guide. If you take a giant step and the tests begin to fail, undo and fall back to making smaller changes.
+
+让没有通过的测试用了(red ones)指导你的"步子"大小
+
+如果你发现一次改动太多, 出现了太多的未通过测试的用例, 那么就可以说明应该一次少做一些改动
 
