@@ -36,5 +36,15 @@
 
 这两个项目带我进入了用ruby进行unix编程的大门
 
-+ 
++ After getting a deeper understanding of how they were working I was able to diagnose issues faster and with greater understanding, as well as debug pesky problems that didn’t make sense when looking at the application code by itself.
+
+在对他们的原理有了更深入的了解后, 我能够更快更深入的排查和定位到问题
+
+在对那些看起来恼人并且难以排查的问题上, 也有了更多经验
+
++ I even started coming up with new, faster, more efficient solutions to the problems I was solving that used the techniques I was learning from these projects. Alright, enough about me. Let’s go down the rabbit hole.
+
+我甚至能够使用所学的知识开发出更高效的解决方案
+
+开搞
 
