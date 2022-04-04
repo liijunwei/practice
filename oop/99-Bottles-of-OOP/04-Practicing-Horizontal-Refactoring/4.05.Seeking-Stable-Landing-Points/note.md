@@ -40,4 +40,10 @@ end
 
 + These methods are incredibly consistent, and this did not happen by accident --- they’re a direct result of the refactoring rules.
 
++ The rules lead to consistent code, and **consistency matters deeply**.
 
++ First, it makes code easy to understand.
+
++ **Code is read many more times than it is written**, so anything that increases understandability lowers costs.
+
++ Next, and just as important, **consistent code enables future refactorings.**
