@@ -28,3 +28,18 @@ page 128
 
 为概念命名, 创建一个方法, 然后把不同的地方替换为同一方法
 
++ To help you name the new concept, remember the "what would the column header be?" technique. The following table shows a sampling of numbers and associated values:
+
+Number | XXX?
+-------|--------
+99     | '99'
+50     | '50'
+1      | '1'
+0      | 'no more'
+
+(Number to XXX Column Header)
+
++ When creating an abstraction, first describe its responsibility as you understand it at this moment, then choose a name which reflects that responsibility.
+
++ The effort you put into selecting good names right now pays off by making it easier to recognize perfect names later.
+
