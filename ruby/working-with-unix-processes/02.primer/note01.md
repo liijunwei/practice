@@ -25,3 +25,23 @@ unix编程1970年就存在了
 聪明的程序员已经用他们解决了很多困难的问题, 使用时长超过了40年
 
 并且这些技巧很可能再有40年不会有变化
+
+## Harness the Power!
+
+驾驭力量
+
++ I’ll warn you now, the concepts and techniques described in this book can bring you great power.
+
+这些概念和技巧将赋予你强大的力量
+
++ With this power you can create new software, understand complex software that is already out there, even use this knowledge to advance your career to the next level.
+
+使用这份力量, 你可以创建新的软件, 理解已有的复杂软件, 甚至使用他们帮助你的职业进阶
+
++ Just remember, with great power comes great responsibility.
+
+能力越大, 责任越大
+
++ Read on and I’ll tell you everything you need to know to gain the power and avoid the pitfalls.
+
+继续读吧, 我会将你所需要的所有知识都传授给你, 并且帮你避开陷阱
