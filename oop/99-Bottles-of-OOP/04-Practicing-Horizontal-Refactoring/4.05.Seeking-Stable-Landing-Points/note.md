@@ -47,3 +47,6 @@ end
 + **Code is read many more times than it is written**, so anything that increases understandability lowers costs.
 
 + Next, and just as important, **consistent code enables future refactorings.**
+
++  If you follow the rules of refactoring, you’ll quickly pass over the slippery places, and arrive at stable, consistent resting points.
+
