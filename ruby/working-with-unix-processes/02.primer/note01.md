@@ -45,3 +45,6 @@ unix编程1970年就存在了
 + Read on and I’ll tell you everything you need to know to gain the power and avoid the pitfalls.
 
 继续读吧, 我会将你所需要的所有知识都传授给你, 并且帮你避开陷阱
+
++ TODO https://workingwithruby.com/wwup/primer/#overview
+
