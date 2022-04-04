@@ -46,6 +46,10 @@ class Bottles
   end
 
   def quantity(number = :FIXME)
-    "no more"
+    if number == 0
+      "no more"
+    else
+      number
+    end
   end
 end
