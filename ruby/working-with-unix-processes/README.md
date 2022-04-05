@@ -3,7 +3,7 @@ https://workingwithruby.com/wwup/intro/
 ## Review Progress
 
 - [x] 01.introduction
-- [ ] 02.primer
+- [x] 02.primer
 - [ ] 03.processes_have_ids
 - [ ] 04.processes_have_parents
 - [ ] 05.processes_have_file_descriptors
