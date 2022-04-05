@@ -94,9 +94,15 @@ kernel是电脑硬件上的一个软件
 
 系统调用使得你的用户态程序可以通过内核与硬件进行交互
 
+## manpages
 
+```bash
+man man
+```
 
-
++ The manpages for the system call api are a great resource in two situations:
+    1. you’re a C programmer who wants to know how to invoke a given system call, or
+    2. you’re trying to figure out the purpose of a given system call
 
 
 
