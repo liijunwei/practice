@@ -68,3 +68,45 @@ kernel是电脑硬件上的一个软件
 
 由于kernel功能很强大, 应用程序不能直接使用内核的功能; 因此所有和内核的交互, 都由系统调用完成
 
++ The system call interface connects the kernel to userland. It defines the interactions that are allowed between your program and the computer hardware.
+
+系统调用将用户态和内核态链接起来
+
+系统调用定义了应用程序和电脑硬件之间的交互
+
++ Userland is where all of your programs run.
+
+用户态是所有应用程序运行的地方
+
++ You can do a lot in your userland programs without ever making use of a system call: do mathematics, string operations, control flow with logical statements.
+
+只在用户空间, 不使用系统调用也能做很多事, 例如 做算数计算/字符串操作/控制逻辑等
+
++ But I’d go as far as saying that if you want your programs to do anything interesting then you’ll need to involve the kernel via system calls.
+
+但是仅仅在用户空间, 不借助系统调用进入内核空间, 电脑能做的事是有限的
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
