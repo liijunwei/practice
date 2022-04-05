@@ -104,13 +104,25 @@ man man
     1. you’re a C programmer who wants to know how to invoke a given system call, or
     2. you’re trying to figure out the purpose of a given system call
 
+```bash
+man 2 getpid
+man 3 malloc
+man find # same as man 1 find
+```
 
+## Processes: The Atoms of Unix
 
+进程: unix的原子
 
++ Processes are the building blocks of a Unix system. Why? Because any code that is executed happens inside a process.
 
+进程是 Unix 系统的构建块
 
+因为执行的任何代码都发生在进程内部
 
++ Things start to get interesting when you realize that one process can spawn and manage many others.
 
+一个进程可以启动或者管理其他进程
 
 
 
