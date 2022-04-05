@@ -46,5 +46,25 @@ unix编程1970年就存在了
 
 继续读吧, 我会将你所需要的所有知识都传授给你, 并且帮你避开陷阱
 
-+ TODO https://workingwithruby.com/wwup/primer/#overview
+## System Calls
+
++ To understand system calls first requires a quick explanation of the components of a Unix system, specifically userland vs. the kernel.
+
+为了理解系统调用, 需要首先了解unix系统改动组成部分中的两个: 用户态(userland) 和 内核态(kernel)
+
++ The kernel of your Unix system sits atop the hardware of your computer.
+
+kernel是电脑硬件上的一个软件
+
++ It’s a middleman for any interactions that need to happen with the hardware.
+
+和硬件的交互需要先经过kernel这个中间人
+
++ This includes things like writing/reading from the filesystem, sending data over the network, allocating memory, or playing audio over the speakers.
+
+和硬件的交互包含 文件系统的读写/通过网卡收发数据/内存分配/播放音频和视频等
+
++ Given its power, programs are not allowed direct access to the kernel. Any communication is done via system calls.
+
+由于kernel功能很强大, 应用程序不能直接使用内核的功能; 因此所有和内核的交互, 都由系统调用完成
 
