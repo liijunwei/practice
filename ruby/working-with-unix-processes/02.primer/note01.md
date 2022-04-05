@@ -86,8 +86,13 @@ kernel是电脑硬件上的一个软件
 
 但是仅仅在用户空间, 不借助系统调用进入内核空间, 电脑能做的事是有限的
 
++ If you were a C programmer this stuff would probably be second nature to you. System calls are at the heart of C programming.
 
+系统调用时C语言的核心
 
++ The takeaway here is that system calls allow your user-space programs to interact indirectly with the hardware of your computer, via the kernel.
+
+系统调用使得你的用户态程序可以通过内核与硬件进行交互
 
 
 
