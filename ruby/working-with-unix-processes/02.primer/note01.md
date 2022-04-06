@@ -86,6 +86,8 @@ kernel是电脑硬件上的一个软件
 
 但是仅仅在用户空间, 不借助系统调用进入内核空间, 电脑能做的事是有限的
 
+[程序 = 计算 + 系统调用](https://www.bilibili.com/video/BV12L4y1379V?t=2931.0)
+
 + If you were a C programmer this stuff would probably be second nature to you. System calls are at the heart of C programming.
 
 系统调用时C语言的核心
