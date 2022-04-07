@@ -25,3 +25,14 @@
 + The first step is therefore to name the category in which these two phrase are concrete examples.
 
 
++ Until now, you’ve been doing this refactoring in the smallest possible steps. As a reminder, those steps are:
+    + Define a method for the concept. 识别概念, 方法命名
+    + Alter it to return one of the differences. 实现方法
+    + Replace that difference with a message send. 用方法替换不同之处
+    + Add the number argument to the new method, with appropriate default. 为方法增加默认值
+    + Implement the conditional. 为方法增加判断
+    + Pass the number argument from the current sender. 为方法传参
+    + Send the message from the other branch, this time including the number argument. 为方法传参
+    + Clean up. 清理代码
+
+
