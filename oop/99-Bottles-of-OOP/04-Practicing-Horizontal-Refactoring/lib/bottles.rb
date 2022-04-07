@@ -8,18 +8,10 @@ class Bottles
   end
 
   def verse(number)
-    case number
-    when 0
-      "#{quantity(number).capitalize} #{container(number)} of beer on the wall, " +
-      "#{quantity(number)} #{container(number)} of beer.\n" +
-      "#{action(number)}, " +
-      "#{quantity(successor(number))} #{container(number-1)} of beer on the wall.\n"
-    else
-      "#{quantity(number).capitalize} #{container(number)} of beer on the wall, " +
-      "#{quantity(number)} #{container(number)} of beer.\n" +
-      "#{action(number)}, " +
-      "#{quantity(successor(number))} #{container(number-1)} of beer on the wall.\n"
-    end
+    "#{quantity(number).capitalize} #{container(number)} of beer on the wall, " +
+    "#{quantity(number)} #{container(number)} of beer.\n" +
+    "#{action(number)}, " +
+    "#{quantity(successor(number))} #{container(number-1)} of beer on the wall.\n"
   end
 
   def container(number)
