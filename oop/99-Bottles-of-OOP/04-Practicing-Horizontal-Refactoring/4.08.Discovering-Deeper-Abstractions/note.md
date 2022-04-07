@@ -37,6 +37,7 @@
 + If you had perfect understanding, you’d write perfect applications.
 + Mostly, however, you’re stumbling around, suffering from insufficient information, seeing problems through a glass, darkly.
 
+如果你对问题有全面/完整的理解, 那么你能写出完美的应用
 
-
+但是, 多数时候, 你都是在跌跌撞撞的/信息不足的情况下, 透过黑色的玻璃镜看问题
 
