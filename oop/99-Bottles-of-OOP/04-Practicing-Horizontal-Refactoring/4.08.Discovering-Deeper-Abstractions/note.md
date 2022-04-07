@@ -24,3 +24,19 @@
 + However, just because the tests pass doesn’t mean that the abstraction is correct.
 
 测试通过不意味着做出了正确的抽象
+
++ Ask yourself these two questions:
+    1. What is the responsibility of the quantity method?
+    2. Isthereawaytomakethefourthphrasesmorealike,evenifnotyet identical?
+
+
++ There’s something subtle about the difference above, such that the underlying concept is not immediately obvious.
+
++ And this, unfortunately, is a constant of programming life.
+
++ If you had perfect understanding, you’d write perfect applications.
++ Mostly, however, you’re stumbling around, suffering from insufficient information, seeing problems through a glass, darkly.
+
+
+
+
