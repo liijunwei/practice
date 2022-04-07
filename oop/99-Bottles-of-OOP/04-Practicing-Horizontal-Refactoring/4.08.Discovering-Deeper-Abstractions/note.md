@@ -105,4 +105,7 @@ Incrementing nonalphanumerics uses the underlying character set’s collating se
 9.succ   # => 10
 ```
 
++ Successor is important, and separating it from quantity gives both methods a **single responsibility.**
+
+
 
