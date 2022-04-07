@@ -7,3 +7,17 @@
 接下来的这一节将会把最后两个case合并了(通过挖掘概念实现)
 
 这么做是为了说明"Flocking Rules"挖掘意外抽象的深层力量
+
+```ruby
+  def verse(number)
+    case number
+    when 0
+      # ...
+      "99 #{container(number-1)} of beer on the wall.\n"
+    else
+      # ...
+      "#{quantity(number-1)} #{container(number-1)} of beer on the wall.\n"
+    end
+  end
+```
+
