@@ -33,3 +33,8 @@
 
 每种鸭子类型的API实现都应该能替换另一种
 
++ Liskov prohibits you from doing anything that would force the sender of a message to test the returned result in order to know how to behave.
+
+里氏替换原则禁止你做出任何会迫使消息发送者通过测试以了解对象其行为的事情
+
+
