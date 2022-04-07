@@ -41,3 +41,21 @@
 
 但是, 多数时候, 你都是在跌跌撞撞的/信息不足的情况下, 透过黑色的玻璃镜看问题
 
++ When you’re confused, don’t try to solve the entire problem straightaway.
+
+当感到困惑的时候, 不要试图一下解决所有问题
+
++ The more confused you are, the more important it is to nibble.
+
+越是感到困惑时, 越需要细嚼慢咽
+
++ You already know that it becomes easier to see how things are different if you make them more alike.
+
+如果你能让代码里的case变得更加相似, 你就能更容易地看出他们之间的不同之处
+
++ Instead of trying to understand everything at once, simply search for a way to make line 5 above look more like line 8 (even if not identical), using existing code.
+
+不要妄想一下子理解所有内容
+
+一步一步思考
+
