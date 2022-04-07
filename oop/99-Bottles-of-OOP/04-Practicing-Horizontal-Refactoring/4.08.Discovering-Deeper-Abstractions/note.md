@@ -62,3 +62,30 @@
 + If you just realized that you can make these lines a little bit more alike by passing the 99 into quantity , you’ve got it.
 
 
+```ruby
+  def verse(number)
+    case number
+    when 0
+      # ...
+      "#{quantity(99)} #{container(number-1)} of beer on the wall.\n"
+    else
+      # ...
+      "#{quantity(number-1)} #{container(number-1)} of beer on the wall.\n"
+    end
+  end
+```
+
++ Having made these lines as similar as possible, it is now obvious that:
+
+```ruby
+"99"
+```
+
+must represent the same concept as:
+
+```ruby
+number-1
+```
+
++ **As always, you must name this concept, create a method, and send the message in place of the difference.**
+
