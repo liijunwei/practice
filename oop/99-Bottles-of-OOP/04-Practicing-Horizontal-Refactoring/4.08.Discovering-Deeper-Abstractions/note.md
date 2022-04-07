@@ -21,3 +21,6 @@
   end
 ```
 
++ However, just because the tests pass doesn’t mean that the abstraction is correct.
+
+测试通过不意味着做出了正确的抽象
