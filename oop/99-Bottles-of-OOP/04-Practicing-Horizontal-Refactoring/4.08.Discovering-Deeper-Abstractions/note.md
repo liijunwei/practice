@@ -89,3 +89,20 @@ number-1
 
 + **As always, you must name this concept, create a method, and send the message in place of the difference.**
 
++ TODO 看明白 `String#succ` 方法是什么意思
+```
+Returns the successor to str.
+
+The successor is calculated by incrementing characters starting from the rightmost alphanumeric (or the rightmost character if there are no alphanumerics) in the string.
+
+Incrementing a digit always results in another digit, and incrementing a letter results in another letter of the same case.
+
+Incrementing nonalphanumerics uses the underlying character set’s collating sequence.
+```
+
+```ruby
+"a".succ # => "b"
+9.succ   # => 10
+```
+
+
