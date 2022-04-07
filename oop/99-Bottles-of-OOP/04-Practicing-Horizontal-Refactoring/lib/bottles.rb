@@ -54,6 +54,7 @@ class Bottles
     end
   end
 
+  # TODO: too abstract to understand
   def successor(number)
     if number == 0
       99
