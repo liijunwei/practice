@@ -23,4 +23,13 @@
 
 根据定义, 子类就是它们父类的加上扩展功能, 所以这种替换应该总是有效的
 
++ The Liskov Substitution Principle also applies to duck types.
+
+里氏替换原则也适用于鸭子类型
+
++ When relying on duck types, every object that asserts that it plays the duck’s role must completely implement the duck’s API. Duck types should be substitutable for one another.
+
+当依赖于鸭子类型时, 每个实例都应该断定那个充当鸭子类型角色的实例已经实现了对应的鸭子类型API
+
+每种鸭子类型的API实现都应该能替换另一种
 
