@@ -20,3 +20,18 @@
 + Proper refactoring allows you to explore a problem domain safely.
 
 正确的重构能让你对问题的探索变得容易和安全
+
++ You’ve now completed one refactoring, and the resulting code is not yet open to the six-pack requirement.
+
++ The current code, although not open to the new requirement, is improved.
+
+当前代码虽然还没有符合开闭原则, 但是毫无疑问代码质量已经有了提升
+
++ Therefore, have faith, and iterate. This means you must continue to be guided by code smells, and doing so requires that you identify the smells in the current code.
+
+所以打起精神来, 对代码进行迭代吧
+
+这意味着你必须持续的消除代码里的code smell, 通过这种方式优化代码, 迭代地对代码进行重构
+
+
+
