@@ -1,1 +1,2 @@
-TODO page 167
++ Code should be open for extension and closed for modification.
+
