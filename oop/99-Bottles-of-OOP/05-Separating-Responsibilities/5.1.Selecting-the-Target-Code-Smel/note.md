@@ -33,5 +33,12 @@
 
 这意味着你必须持续的消除代码里的code smell, 通过这种方式优化代码, 迭代地对代码进行重构
 
+## 5.1.1. Identifying Patterns in Code
+
++ One way to get better at identifying smells is to practice describing the characteristics of code.
+
+一个练习识别code smell的方法是: 多去练习描述某段代码的特征
+
+
 
 
