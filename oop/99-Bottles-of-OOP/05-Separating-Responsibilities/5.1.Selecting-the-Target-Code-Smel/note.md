@@ -182,7 +182,13 @@ end
 然而, 测试通过了并不能保证当前实现时问题的最佳表达
 
 
+## 5.1.4. Insisting Upon Messages
 
++ As an OO practitioner, when you see a conditional, the hairs on your neck should stand up.
+
++ Its very presence ought to offend your sensibilities. You should feel entitled to send messages to objects, and look for a way to write code that allows you to do so.
+
++ Manageable OO applications consist of pools of small objects that collaborate to accomplish tasks.
 
 
 
