@@ -39,6 +39,18 @@
 
 一个练习识别code smell的方法是: 多去练习描述某段代码的特征
 
++ The following questions draw attention to a number of interesting characteristics of the code as it’s written so far:
+
+这几个问题能引发你对代码几个有趣的特点的思考
+
+1. Do any method shave the same shape ?
+2. Do any methods take anargument of the same name ?
+3. Do arguments of the same name always mean the same thing ?
+4. If you were to add the private keyword to this class, where would it go ?
+5. If you were going to break this class into two pieces, where’s the dividing line ?
+
+
+
 
 
 
