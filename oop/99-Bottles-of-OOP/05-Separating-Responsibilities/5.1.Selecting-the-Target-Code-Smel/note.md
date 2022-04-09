@@ -117,7 +117,13 @@ end
 
 不必要的变体使得方法的结构看起来好像不一样(实际上是类似的)
 
++ Programmers naturally assume that difference exists for a reason, but here there isn’t one.
 
+程序员一般会认为差异存在是有原因的, 但是并没有(TODO 这句话是指 这种具体的实现里没有, 还是说普遍都没有呢?)
+
++ Superfluous difference raises the cost of reading code, and increases the difficulty of future refactorings.
+
+多余的差异会增加读代码的成本, 并会增加重构的难度
 
 
 
