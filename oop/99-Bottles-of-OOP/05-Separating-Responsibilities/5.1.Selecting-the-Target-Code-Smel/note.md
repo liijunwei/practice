@@ -63,6 +63,27 @@ TODO ???
 
 如果你要把这段代码拆分为两部分, 怎么来分隔呢?
 
++ For those methods created by the Flocking Rules ( container , quantity , action , pronoun and successor , hereafter referred to as the "flocked five"):
+
+对于那些通过应用"Flocking Rules"法则提取出的方法
+
+6. Do the tests in the conditionals have anything in common?
+
+条件句中的测试有什么共同点吗？(???)
+
+7. How many branches do the conditionals have?
+
+条件中有多少分支?
+
+8. Do the methods contain any code other than the conditional?
+
+方法中除了条件以外, 还有其他代码吗
+
+9. Does each method depend more on the argument that got passed, or on the class as a whole?
+
+这些方法更依赖与传入的参数还是更依赖于这整个类(整体)
+
+
 
 
 
