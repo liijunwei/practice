@@ -155,9 +155,23 @@ end
 
 但是得注意, 上面说的"同名"指的是"同一概念", 不是完全相同的参数名
 
++ In an ideal world, each different concept would have its own unique, precise name, and there would be no ambiguity.
 
+理想情况下, 所有不同的概念都有一个唯一/准确的名字, 这个名字没有任何模糊不清的地方
 
++ Unfortunately, real world code often fails to meet this ideal.
 
+不幸的是, 真实世界往往达不到这种状态
+
++ In long-lived applications, the same concept might go by several different names, or, as in this case, different concepts might hide behind a single name.
+
+对于一个长时间运行的应用来说, 同一概念可能有不同的名字, 或者不同的概念(竟然)有相同的名字
+
++ These naming mistakes make it harder to notice underlying code smells, and now that you’re looking for patterns in the code, you must examine the arguments and clarify the abstractions that they represent.
+
+这些错误的命名使得注意到隐藏的抽象变得困难, 使得发现CodeSmell变得困哪
+
+现在你必须仔细观察这段代码里方法的参数, 把方法代表的抽象理清
 
 
 
