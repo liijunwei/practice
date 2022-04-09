@@ -194,9 +194,9 @@ end
 
 代码在努力追求无知(知道的更少), 而保持无知需要最小化依赖性
 
++ The existing code is imploring you to create that smarter object.
 
-
-
+现有代码正在恳求你创建更合适的对象
 
 
 
