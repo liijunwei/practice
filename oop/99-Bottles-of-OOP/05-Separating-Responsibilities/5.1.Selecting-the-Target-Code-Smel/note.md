@@ -83,6 +83,12 @@ TODO ???
 
 这些方法更依赖与传入的参数还是更依赖于这整个类(整体)
 
++ The remainder of this section examines the above questions. If any didn’t occur to you, look back at the code and try to answer them before proceeding.
+
+把这些问题当做"checklist", 思考时先试着回答这些问题
+
+
+
 
 
 
