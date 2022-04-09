@@ -127,9 +127,9 @@ end
 
 + [The Squint Test](page-173)
 
++ **Instead of leaning back and squinting, it’s acceptable to zoom out in your text editor until you can no longer read the code, but can still see its shape and color.**
 
-
-
+看代码的轮廓/外形/大致结构, 不陷入细节
 
 
 
