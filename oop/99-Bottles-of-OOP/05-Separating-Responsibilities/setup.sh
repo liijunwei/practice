@@ -1,6 +1,6 @@
 section_titles=(
 5.1.Selecting-the-Target-Code-Smel
-5.2.Extracting-Clases
+5.2.Extracting-Classes
 5.3.Apreciating-Imutability
 5.4.Asuming-Fast-Enough
 5.5.Creating-BotleNumbers
