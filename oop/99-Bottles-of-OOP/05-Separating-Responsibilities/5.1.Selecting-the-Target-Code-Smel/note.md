@@ -43,13 +43,25 @@
 
 这几个问题能引发你对代码几个有趣的特点的思考
 
-1. Do any method shave the same shape ?
+1. Do any methods have the same shape ?
+
+这些方法的结构一样吗?
+
 2. Do any methods take anargument of the same name ?
+
+这些方法接收的参数名一样吗
+
 3. Do arguments of the same name always mean the same thing ?
+
+方法的参数名一样的时候, 他们的含义相同吗
+
 4. If you were to add the private keyword to this class, where would it go ?
+
+TODO ???
+
 5. If you were going to break this class into two pieces, where’s the dividing line ?
 
-
+如果你要把这段代码拆分为两部分, 怎么来分隔呢?
 
 
 
