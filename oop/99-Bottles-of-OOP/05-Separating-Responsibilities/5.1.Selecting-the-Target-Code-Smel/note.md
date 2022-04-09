@@ -87,6 +87,74 @@ TODO ???
 
 把这些问题当做"checklist", 思考时先试着回答这些问题
 
+## 5.1.2. Spotting Common Qualities
+
++ Various Conditional Forms
+
+```ruby
+# verbose conditional
+def container(number)
+  if number == 1
+    "bottle"
+  else
+    "bottles"
+  end
+end
+
+# guard clause
+def quantity(number)
+  return "no more" if number == 0
+  return number.to_s
+end
+
+# ternary expression
+def pronoun(number)
+  number == 1 ? "it" : "one"
+end
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
