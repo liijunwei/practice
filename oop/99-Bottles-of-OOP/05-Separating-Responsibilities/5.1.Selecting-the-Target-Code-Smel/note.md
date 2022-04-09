@@ -190,7 +190,9 @@ end
 
 + Manageable OO applications consist of pools of small objects that collaborate to accomplish tasks.
 
++ Code is striving for ignorance, and preserving ignorance requires minimizing dependencies.
 
+代码在努力追求无知(知道的更少), 而保持无知需要最小化依赖性
 
 
 
