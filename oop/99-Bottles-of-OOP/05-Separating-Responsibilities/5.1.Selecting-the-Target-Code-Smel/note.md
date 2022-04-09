@@ -149,9 +149,11 @@ end
 `verse`方法和"the flocked five"方法的参数虽然都叫 number, 但是这个参数表达的概念是不同的
 
 + Having multiple methods that take the same argument is a code smell.
++ It’s important, however, to recognize that here the term "same" means same concept, not identical name.
 
 多个方法接收一个同名参数是一种CodeSmell
 
+但是得注意, 上面说的"同名"指的是"同一概念", 不是完全相同的参数名
 
 
 
