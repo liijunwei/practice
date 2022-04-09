@@ -113,6 +113,9 @@ def pronoun(number)
 end
 ```
 
++ This unnecessary variation makes the methods appear to be different when they are actually very much the same.
+
+不必要的变体使得方法的结构看起来好像不一样(实际上是类似的)
 
 
 
