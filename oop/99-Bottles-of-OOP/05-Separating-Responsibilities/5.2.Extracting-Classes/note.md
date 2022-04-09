@@ -14,5 +14,41 @@ String Fixnum Integer Array Hash 等 就是 "基本数据类型"
 
 其结果就是: 代码里把基本数据类型传来传去, 并且为这些基本数据类型赋予行为
 
++ The cure for Primitive Obsession is to create a new class to use in place of the primitive. For this operation, the refactoring recipe is Extract Class.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
