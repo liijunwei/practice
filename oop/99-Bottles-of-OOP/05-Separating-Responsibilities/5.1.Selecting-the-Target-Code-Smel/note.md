@@ -144,7 +144,9 @@ end
 
 + This happens because each verse knows about two different numbers of bottles. Verse 37, for example, begins with 37 bottles of beer, and ends with 36.
 
++ The verse method and the flocked five methods use the same argument name to represent different concepts.
 
+`verse`方法和"the flocked five"方法的参数虽然都叫 number, 但是这个参数表达的概念是不同的
 
 
 
