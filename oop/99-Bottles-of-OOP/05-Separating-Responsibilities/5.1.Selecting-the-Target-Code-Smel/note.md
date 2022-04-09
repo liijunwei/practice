@@ -177,10 +177,9 @@ end
 
 经过仔细的鉴别, 会发现, "number" 这个参数, 在`verse`方法里, 表示的概念是诗句的编号, 在`the flocked five methods`里, 表示的是第几个瓶子
 
++ However, having tests that pass doesn’t guarantee the best expression of code, and this is a case where your choice of operator affects future costs.
 
-
-
-
+然而, 测试通过了并不能保证当前实现时问题的最佳表达
 
 
 
