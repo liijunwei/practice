@@ -1,9 +1,18 @@
 + Each item above acts like a vote, and these votes combine to point to Primitive Obsession as the dominant code smell.
 
-前面每个问题的答案都像一张选票, 这些选票结合起来表明 对原始类型的痴迷
+前面每个问题的答案都像一张选票, 这些选票结合起来表明 对"基本数据类型"的痴迷
 
 + Built-in data classes like String , Fixnum , Integer ( Fixnum 's superclass), Array , and Hash are examples of "primitives."
 
-例如 String Fixnum Integer Array Hash 等 内置类型就是 "原始类型"的例子
+String Fixnum Integer Array Hash 等 就是 "基本数据类型"
+
++ **Primitive Obsession is when you use one of these data classes to represent a concept in your domain.**
+
+"对原始类型的痴迷"意思是: 使用了那些基本数据类型代表你领域问题里的一个概念
+
++ Obsessing on a primitive results in code that passes built-in types around, and supplies behavior for them.
+
+其结果就是: 代码里把基本数据类型传来传去, 并且为这些基本数据类型赋予行为
+
 
 
