@@ -173,6 +173,9 @@ end
 
 现在你必须仔细观察这段代码里方法的参数, 把方法代表的抽象理清
 
++ **Having examined the use of number in Bottles , it’s now clear that this argument represents a verse number to verse , but a bottle number to the flocked five methods.**
+
+经过仔细的鉴别, 会发现, "number" 这个参数, 在`verse`方法里, 表示的概念是诗句的编号, 在`the flocked five methods`里, 表示的是第几个瓶子
 
 
 
