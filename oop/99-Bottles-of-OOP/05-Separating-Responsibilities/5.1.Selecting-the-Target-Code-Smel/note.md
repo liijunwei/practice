@@ -131,9 +131,18 @@ end
 
 看代码的轮廓/外形/大致结构, 不陷入细节
 
+```ruby
+def verse(number)
+  "#{quantity(number).capitalize} #{container(number)} of beer on the wall, " +
+  "#{quantity(number)} #{container(number)} of beer.\n" +
+  "#{action(number)}, " +
+  "#{quantity(successor(number))} #{container(successor(number))} of beer on the wall.\n"
+end
+```
 
++ Notice that line 2 above invokes container with number , while line 6 invokes container with successor(number) . Within every verse, container is invoked twice, on two different values.
 
-
++ This happens because each verse knows about two different numbers of bottles. Verse 37, for example, begins with 37 bottles of beer, and ends with 36.
 
 
 
