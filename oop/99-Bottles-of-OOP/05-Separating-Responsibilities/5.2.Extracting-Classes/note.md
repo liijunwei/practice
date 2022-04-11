@@ -68,6 +68,9 @@ the process of changing code was subdivided into four steps.
 
 verse方法里的number和其他方法里的number是不同的概念
 
++ As mentioned earlier, the recipe being followed here was inspired by one from Martin Fowler. The "official" Extract Class recipe begins by linking the old class to the new. Then, one at a time, the recipe moves fields, and then methods, of interest. In contrast, the example above starts with Fowlers final step, and combines all of the method moves within a single change.
+
+提取类的思路是: 每次提取一小部分, 然后运行测试, 保证每次的改动都是测试通过的
 
 
 
