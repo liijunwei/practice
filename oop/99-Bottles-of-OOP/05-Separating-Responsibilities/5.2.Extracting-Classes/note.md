@@ -56,7 +56,13 @@ OOP的好处之一是, 它能让你为概念抽象出对应的类
 
 + This section extracts a new class named BottleNumber from the existing code.
 
+the process of changing code was subdivided into four steps.
+1. parse the new code
+2. parse and execute it
+3. parse, execute and use its result
+4. delete unused code
 
++ Start the class extraction by creating an empty BottleNumber class,asshownbelow:
 
 
 
