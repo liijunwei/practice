@@ -36,6 +36,9 @@ OOP的好处之一是, 它能让你为概念抽象出对应的类
 
 可建模的想法通常隐藏在其他对象之间的交互中
 
++ Embodying these concepts into discrete classes separates responsibilities and makes the overall application easier to understand, test, and change.
+
+
 
 
 
