@@ -52,7 +52,9 @@ OOP的好处之一是, 它能让你为概念抽象出对应的类
 
 + As always, you can revisit this decision if things change later.
 
+## 5.2.3. Extracting BottleNumber
 
++ This section extracts a new class named BottleNumber from the existing code.
 
 
 
