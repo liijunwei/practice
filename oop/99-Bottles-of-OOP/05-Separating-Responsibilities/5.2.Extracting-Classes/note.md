@@ -114,5 +114,8 @@ The error message indicates that some caller is still passing a parameter to pro
 
 This means step 2 isn’t complete; i.e. some sender has not been fixed.
 
++ The lesson here is that the process works, and that encountering errors while following it suggests that a closer look at the code is in order. A great benefit of these refactoring techniques is that you can accomplish quite a bit while thinking very little.
+
+
 
 
