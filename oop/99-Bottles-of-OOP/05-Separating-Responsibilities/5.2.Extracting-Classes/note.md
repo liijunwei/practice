@@ -72,7 +72,9 @@ verse方法里的number和其他方法里的number是不同的概念
 
 提取类的思路是: 每次提取一小部分, 然后运行测试, 保证每次的改动都是测试通过的
 
++ First, fully connect BottleNumber to Bottles . Once that’s complete, you can return and improve the methods in BottleNumber .
 
+先用 BottleNumber 类把Bottle里的代码替换掉
 
 
 
