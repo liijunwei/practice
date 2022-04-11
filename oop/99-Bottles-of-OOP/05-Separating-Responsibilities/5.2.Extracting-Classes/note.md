@@ -22,6 +22,9 @@ String Fixnum Integer Array Hash 等 就是 "基本数据类型"
 
 ## 5.2.1. Modeling Abstractions
 
++ This new class does not represent a kind of bottle: it represents a kind of number.
+
+
 
 
 
