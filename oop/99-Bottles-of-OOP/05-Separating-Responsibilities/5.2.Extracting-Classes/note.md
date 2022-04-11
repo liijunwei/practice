@@ -96,9 +96,11 @@ verse方法里的number和其他方法里的number是不同的概念
 
 要提醒自己, 每次做少量的改动, 然后运行测试, 是一种"最佳实践", 需要多多练习, 形成这种习惯
 
+## 5.2.5. Trusting the Process
 
++  If you adhere to a recipe and tests start failing, it’s likely that there’s something about the problem that you don’t yet understand.
 
-
+SO TRUE
 
 
 
