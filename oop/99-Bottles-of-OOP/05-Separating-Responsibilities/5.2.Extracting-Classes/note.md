@@ -44,7 +44,9 @@ OOP的好处之一是, 它能让你为概念抽象出对应的类
 
 + BottleNumber is more concrete. ContainerNumber is more abstract.
 
++ The tie-breaker here is that the "name things at one higher level of abstraction" rule applies more to methods than to classes.
 
+"name things at one higher level of abstraction" 这个规则, 和类(class)相比, 它更适合于方法(method)
 
 
 
