@@ -90,6 +90,12 @@ verse方法里的number和其他方法里的number是不同的概念
 
 这些"smarter objects"知道基本数据类型对应的值和他们的行为
 
++ Because the new BottleNumber class holds the right number, the methods in BottleNumber don’tneedtotakeanargument,andinvokersofthesemethods could be relieved of their obligation to pass a parameter.
+
++ Keep in mind that is a multi-line change. Some problems are so simple that it’s easiest just leap in and make such a change, but others are so complex that it isn’t feasible to fix everything at once.
+
+要提醒自己, 每次做少量的改动, 然后运行测试, 是一种"最佳实践", 需要多多练习, 形成这种习惯
+
 
 
 
