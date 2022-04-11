@@ -38,6 +38,7 @@ OOP的好处之一是, 它能让你为概念抽象出对应的类
 
 + Embodying these concepts into discrete classes separates responsibilities and makes the overall application easier to understand, test, and change.
 
++ The two most obvious choices are BottleNumber , or ContainerNumber.
 
 
 
@@ -68,4 +69,4 @@ OOP的好处之一是, 它能让你为概念抽象出对应的类
 
 
 
-
+®
