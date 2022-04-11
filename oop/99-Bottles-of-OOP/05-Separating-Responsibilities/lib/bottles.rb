@@ -79,7 +79,6 @@ class Bottles
     BottleNumber.new(number).action(number)
   end
 
-  # TODO: too abstract to understand
   def successor(number)
     BottleNumber.new(number).successor(number)
   end

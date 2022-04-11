@@ -76,6 +76,9 @@ verse方法里的number和其他方法里的number是不同的概念
 
 先用 BottleNumber 类把Bottle里的代码替换掉
 
++ Repeat the above procedure for each of the methods copied from the Bottles class. This is an extremely mechanical, wonderfully boring, and deeply comforting refactoring process.
+
+这种重构方式, 安全/简单/容易/舒服...
 
 
 
