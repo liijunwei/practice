@@ -80,7 +80,7 @@ verse方法里的number和其他方法里的number是不同的概念
 
 这种重构方式, 安全/简单/容易/舒服...
 
-
+## 5.2.4. Removing Arguments
 
 
 
