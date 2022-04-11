@@ -24,10 +24,17 @@ String Fixnum Integer Array Hash 等 就是 "基本数据类型"
 
 + This new class does not represent a kind of bottle: it represents a kind of number.
 
+用来替代"原始数据类型"的类, 不是一类"瓶子", 而是一类数字
+
 + A bottle is a thing, while a number is an idea. It’s easy to imagine creating objects that stand in for things, but the power of OO is that it lets you model ideas.
 
+"瓶子"是一类事物, 而数字是一类概念
 
+OOP的好处之一是, 它能让你为概念抽象出对应的类
 
++ Model-able ideas often lie dormant in the interactions between other objects.
+
+可建模的想法通常隐藏在其他对象之间的交互中
 
 
 
