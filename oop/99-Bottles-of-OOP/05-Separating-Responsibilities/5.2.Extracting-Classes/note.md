@@ -48,6 +48,10 @@ OOP的好处之一是, 它能让你为概念抽象出对应的类
 
 "name things at one higher level of abstraction" 这个规则, 和类(class)相比, 它更适合于方法(method)
 
++ The rule about naming can thus be amended: while you should continue to name methods after what they mean, classes can be named after what they are.
+
++ As always, you can revisit this decision if things change later.
+
 
 
 
