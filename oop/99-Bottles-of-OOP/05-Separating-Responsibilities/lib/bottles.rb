@@ -64,11 +64,11 @@ class Bottles
   end
 
   def container(number)
-    BottleNumber.new(number).container(number)
+    BottleNumber.new(number).container
   end
 
   def pronoun(number)
-    BottleNumber.new(number).pronoun(number)
+    BottleNumber.new(number).pronoun
   end
 
   def quantity(number)
