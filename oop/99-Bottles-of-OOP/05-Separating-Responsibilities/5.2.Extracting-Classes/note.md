@@ -40,6 +40,10 @@ OOP的好处之一是, 它能让你为概念抽象出对应的类
 
 + The two most obvious choices are BottleNumber , or ContainerNumber.
 
+## 5.2.2. Naming Classes
+
++ BottleNumber is more concrete. ContainerNumber is more abstract.
+
 
 
 
