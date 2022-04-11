@@ -82,12 +82,13 @@ verse方法里的number和其他方法里的number是不同的概念
 
 ## 5.2.4. Removing Arguments
 
++ The point of the Primitive Obsession/Extract Class refactoring is to create a smarter object to stand in for the primitive.
 
+使用类替代原始数据类型的要点就是 使用它们(class/object)代替原始数据类型发送消息
 
++ This smarter object, by definition, knows both the value of the primitive and its associated behavior.
 
-
-
-
+这些"smarter objects"知道基本数据类型对应的值和他们的行为
 
 
 
