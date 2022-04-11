@@ -24,6 +24,8 @@ String Fixnum Integer Array Hash 等 就是 "基本数据类型"
 
 + This new class does not represent a kind of bottle: it represents a kind of number.
 
++ A bottle is a thing, while a number is an idea. It’s easy to imagine creating objects that stand in for things, but the power of OO is that it lets you model ideas.
+
 
 
 
