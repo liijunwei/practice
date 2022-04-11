@@ -76,10 +76,10 @@ class Bottles
   end
 
   def action(number)
-    BottleNumber.new(number).action(number)
+    BottleNumber.new(number).action
   end
 
   def successor(number)
-    BottleNumber.new(number).successor(number)
+    BottleNumber.new(number).successor
   end
 end
