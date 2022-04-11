@@ -102,8 +102,17 @@ verse方法里的number和其他方法里的number是不同的概念
 
 SO TRUE
 
++ Recall the steps needed to remove parameters:
+
+1. Alter the method definition to change the argument name, and provide a default.
+2. Change every sender of  the message toremove the parameter.
+3. Delete the argument from the method definition.
+
+**The failure appeared after step 3.**
+
+The error message indicates that some caller is still passing a parameter to pronoun.
+
+This means step 2 isn’t complete; i.e. some sender has not been fixed.
 
 
 
-
-®
