@@ -64,7 +64,9 @@ the process of changing code was subdivided into four steps.
 
 + Start the class extraction by creating an empty BottleNumber class,asshownbelow:
 
++ Remember that the verse method should not be extracted. Even though its argument is also named number , in this case the argument represents a verse number, not a bottle number.
 
+verse方法里的number和其他方法里的number是不同的概念
 
 
 
