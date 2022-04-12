@@ -3,3 +3,8 @@
 mutate即改变
 
 状态(state)是"某事物在特定时间的特定状态"
+
++ The real world is pervaded(弥漫) by this idea--—what exists, will change.
+
+真实世界中弥漫着这样一种观念：凡存在的东西都会改变
+
