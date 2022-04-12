@@ -8,3 +8,7 @@ mutate即改变
 
 真实世界中弥漫着这样一种观念：凡存在的东西都会改变
 
++ Human agreement about the necessity and rightness of change is reflected in the choice of the word variable for use within computer programming languages.
+
+人们对改变的"必要性"和"正确性"的共识反映在计算机编程语言中变量这个词的选择上(???)
+
