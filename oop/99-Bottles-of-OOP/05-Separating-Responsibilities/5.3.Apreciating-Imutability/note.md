@@ -24,5 +24,8 @@ mutate即改变
 
 无论面向对象的思想看起来有多么的直观和自然, "可变性"都不是一个绝对的需求
 
++ It is perfectly possible (as programmers of functional languages will happily inform you) to construct applications from immutable objects, meaning objects that do not change.
+
+使用不可变的对象也能构造出很好的应用(函数式编程)
 
 
