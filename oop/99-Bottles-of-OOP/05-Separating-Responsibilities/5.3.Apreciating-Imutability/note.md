@@ -50,5 +50,13 @@ mutate即改变
 
 不可变对象的最大好处之一是: 他们很容易理解和推理
 
++ Because they are easy to reason about, immutable objects are also easy to test.
+
+由于不可变对象很容易推理, 对他们进行测试会变得容易
+
+
+
+
+
 
 
