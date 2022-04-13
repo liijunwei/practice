@@ -74,8 +74,11 @@ mutate即改变
 
 这时候两种选择: 1. 修改实例变量number的值, 以适应99和98; 2. 创建一个新的对象, 专门表示98
 
++ **If you lean towards mutating the existing BottleNumber rather than making another, it’s possible that you are biased against creating new objects.**
 
+如果你倾向于改变现有对象的状态而不是创建一个新对象的话, 那么很可能你是对创建新对象有偏见
 
++ **This bias is often unexamined, and has its roots in the assumption that if you routinely create many new objects, your application will be too slow.**
 
-
+这种偏见通常是没有经过仔细检查和反思的, 它的根源在于一种假设: 加入你经常创建很多新的对象, 你的程序会变慢
 
