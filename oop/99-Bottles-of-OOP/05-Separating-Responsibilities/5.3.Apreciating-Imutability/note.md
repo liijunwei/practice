@@ -39,3 +39,10 @@ mutate即改变
 + As the Himalayas rise, you replace your existing copy with a brand new mountain range that’s a tiny bit taller.
 
 如果喜马拉雅山脉升高了, 你会直接用一个稍高一点的全新"喜马拉雅山脉"替代现有的"喜马拉雅山脉"
+
++ Ponder the benefits of working with objects that do not change. What virtue might immutability provide, and what trouble might it avoid?
+
+思考一下 使用不可变的对象有什么好处?
+
+他能提供什么好处? 能避免什么麻烦?
+
