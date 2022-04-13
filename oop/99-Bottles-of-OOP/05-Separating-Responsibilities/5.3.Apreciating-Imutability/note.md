@@ -28,4 +28,14 @@ mutate即改变
 
 使用不可变的对象也能构造出很好的应用(函数式编程)
 
++ Instead of refilling your existing cup, you discard it in favor of a new one that looks identical but is full of coffee.
 
+如果你想要一杯咖啡, 你不需要装满现有的空杯子，而是把空杯子扔掉，换一个看起来一模一样但装满咖啡的新杯子
+
++ Rather than changing yourself to be more fit, you swap yourself for the new, fitter, you.
+
+你不需要改变自己去适应, 你只需要把自己换掉, 换成一个新的"你", 一个更合适的你
+
++ As the Himalayas rise, you replace your existing copy with a brand new mountain range that’s a tiny bit taller.
+
+如果喜马拉雅山脉升高了, 你会直接用一个稍高一点的全新"喜马拉雅山脉"替代现有的"喜马拉雅山脉"
