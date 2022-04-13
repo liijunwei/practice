@@ -58,6 +58,21 @@ mutate即改变
 
 另一个关键的好处是: 不可变对象是线程安全的
 
+多线程导致的问题极难排查和复现, 使用不可变对象, 能够避免这种情况
+
++ Having read this section, look back at the new BottleNumber class in "Listing 5.21: Forward Messages to Smarter Number". The question of mutability applies directly to this new class.
+
+基于上面对可变对象和不可变对象的理解, 回头看看 `BottleNumber` 的实现
+
++ Imagine that you’re holding onto an instance of BottleNumber whose number variable contains the value 99.
+
+想象你有一个 `BottleNumber` 的对象, `#<BottleNumber:0x00007fa224023140 number=99>`
+
++ The verse progresses such that it now needs bottle number 98. Is it better to mutate the value of number in the current instance of BottleNumber, or should that object be discarded in favor of BottleNumber.new(98)?
+
+但是在打印诗句的时候, 每一句既用到了99, 也用到了98
+
+这时候两种选择: 1. 修改实例变量number的值, 以适应99和98; 2. 创建一个新的对象, 专门表示98
 
 
 
