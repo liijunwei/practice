@@ -54,6 +54,10 @@ mutate即改变
 
 由于不可变对象很容易推理, 对他们进行测试会变得容易
 
++ Another key virtue of immutable objects is that they are thread safe.
+
+另一个关键的好处是: 不可变对象是线程安全的
+
 
 
 
