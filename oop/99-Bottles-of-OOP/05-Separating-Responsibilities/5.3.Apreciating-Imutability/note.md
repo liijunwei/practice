@@ -46,3 +46,9 @@ mutate即改变
 
 他能提供什么好处? 能避免什么麻烦?
 
++ One of the best things about immutable objects is that they are easy to understand and reason about.
+
+不可变对象的最大好处之一是: 他们很容易理解和推理
+
+
+
