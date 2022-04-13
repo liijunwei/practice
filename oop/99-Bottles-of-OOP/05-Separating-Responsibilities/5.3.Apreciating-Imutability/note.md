@@ -12,4 +12,17 @@ mutate即改变
 
 人们对改变的"必要性"和"正确性"的共识反映在计算机编程语言中变量这个词的选择上(???)
 
-page 202 or page 140
++ What purpose has a variable other than to vary? Most object-oriented programmers write code that both expects and relies upon object mutation. Objects are constructed, used, mutated, and then used again.
+
+变量存在的目的除了"改变"以外, 还有什么呢?
+
+多数使用面向对象思想编程的程序员写出的代码, 都依赖与实例的变化
+
+实例被创建/使用/改变/重用
+
++ Regardless of how intuitive and natural it may seem, mutation is not an absolute requirement.
+
+无论面向对象的思想看起来有多么的直观和自然, "可变性"都不是一个绝对的需求
+
+
+
