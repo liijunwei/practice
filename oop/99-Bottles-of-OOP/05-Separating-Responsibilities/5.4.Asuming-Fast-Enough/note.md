@@ -60,6 +60,8 @@
 
 如果能准确定位到代码里慢的位置, 就很有可能通过优化代码的方式提升系统高性能(不需要添加缓存)
 
++ Your goal is to optimize for ease of understanding while maintaining performance that’s fast enough.
 
+我们的目标应该定为 提升代码的易读性的同时保证系统性能
 
 
