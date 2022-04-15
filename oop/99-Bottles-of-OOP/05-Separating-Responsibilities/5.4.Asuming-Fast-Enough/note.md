@@ -22,3 +22,8 @@
 + You’ve already read a great deal about naming things, and it’s finally time to discuss caching.
 
 截止目前, 我们已经读了很多关于如何给变量/概念命名的思考, 接下来该讨论缓存相关的问题了
+
++ A cache, in computer science, is a local copy of something stored elsewhere.
+
+计算机科学里, 缓存指的是 对存储在某处的变量的 局部副本(???)
+
