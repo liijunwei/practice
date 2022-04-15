@@ -52,6 +52,13 @@
 
 鉴于前面对缓存(可变性)和不可变性的考虑, 最好的编程策略是: 先写出最简单的代码, 然后度量它的性能(不要提前做出过于复杂, 以为会提升性能的设计)
 
++ Increasing speed may require caching, but many problems can be fixed by substituting more efficient code in specific, narrow places.
+
+提升系统的性能不一定要通过添加缓存的方式实现; 或许优化系统里最慢的部分即可
+
++ Once you understand precisely what’s wrong, it may be possible to fix it without caching at all.
+
+如果能准确定位到代码里慢的位置, 就很有可能通过优化代码的方式提升系统高性能(不需要添加缓存)
 
 
 
