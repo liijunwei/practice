@@ -7,3 +7,10 @@
 1. 首先, 你必须接受(对象不可变)这个想法, 这对许多程序员来说并不是一件小事
 2. 其次, 实现不变性需要创建更多的新对象
 
++ Getting habituated to a new way of thinking need happen only once, so this cost is not a permanent concern;
+
+适应一种新的思维方式只需要发生一次, 它不是个大问题, 或者说它的阻碍并不大
+
++ The ongoing costs of immutability are therefore mostly in the creation of new objects, and that’s the topic of this section.
+
+有问题的可能是接下来的使用"不变性"的持续成本---创建新的对象, 这是本节的主题
