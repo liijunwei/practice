@@ -33,3 +33,10 @@
 
 + sometimes they are true, but not always
 
++ When you send a message and save the result into a variable, you’ve created a simple cache.
++ If the value in your variable becomes obsolete, you must invalidate this cache, either by discarding it, or by resending the message and saving the new result.
+
++ Caching is easy. However, figuring out that a cache needs to be updated can be hard.
+
+为变量添加缓存是容易的, 但是决定缓存何时该被更新则是困难的
+
