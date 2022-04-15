@@ -64,4 +64,14 @@
 
 我们的目标应该定为 提升代码的易读性的同时保证系统性能
 
++ The first solution to any problem should avoid caching, use immutable objects, and treat object creation as free.
+
+拿到问题后, 第一反应应该是避免使用缓存, 应该使用不可变的对象, 并且忽略创建对象的代价
+
++ This results in speedy development of simple code, which leaves plenty of time to identify and correct the real performance problems.
+
+如果一这种思路思考, 结果是我们能很快开发出简单版本的代码, 然后留出很多时间鉴别性能瓶颈,然后针对性能瓶颈进行优化
+
++ Now that this somewhat theoretical discussion is complete, it’s time return to the Bottles class, and apply ideas to actual code.
+
 
