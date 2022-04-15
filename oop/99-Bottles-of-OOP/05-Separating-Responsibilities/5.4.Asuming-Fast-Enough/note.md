@@ -27,3 +27,9 @@
 
 计算机科学里, 缓存指的是 对存储在某处的变量的 局部副本(???)
 
++ cache are expected to:
+    + make applications faster
+    + lower costs
+
++ sometimes they are true, but not always
+
