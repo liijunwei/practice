@@ -40,3 +40,19 @@
 
 为变量添加缓存是容易的, 但是决定缓存何时该被更新则是困难的
 
++ Notice that the costs of caching and mutation are interrelated.
+
+请注意, "缓存变量值"和"改变变量值"的成本是相互关联的
+
++ Outdated caches can be a source of opaque, expensive, and frustrating bugs.
+
+失效(过时)的缓存可能是复杂诡异的bug的来源
+
++ Given this, the best programming strategy is to write the simplest code possible and measure its performance once you’re done.
+
+鉴于前面对缓存(可变性)和不可变性的考虑, 最好的编程策略是: 先写出最简单的代码, 然后度量它的性能(不要提前做出过于复杂, 以为会提升性能的设计)
+
+
+
+
+
