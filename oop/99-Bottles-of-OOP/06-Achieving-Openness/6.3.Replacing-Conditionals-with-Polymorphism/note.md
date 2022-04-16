@@ -40,9 +40,13 @@
 
 + The first step is to do a small refactoring to isolate the creation of bottle numbers in a single method of Bottles.
 
++ These classes are substitutable for one another. When you invoke the factory to get a bottle number, you don’t need to know the class of the returned object.
 
+这些类之间可以相互替换, 当你使用工厂方法获取一个实例的时候, 你不需要关注工厂返回了哪个类的实例
 
++ You merely trust that object to act like a bottle number and to respond to the messages you plan to send.
 
+你只需要信任这个示例的行为是一个瓶子的数量, 并且对你发出的消息有响应就好了
 
 ## 6.3.3. Prevailing with Polymorphism
 
