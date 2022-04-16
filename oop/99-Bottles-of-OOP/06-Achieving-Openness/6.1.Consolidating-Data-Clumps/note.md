@@ -34,8 +34,9 @@
 
 BottleNumber类可以重写`to_s`方法
 
++ The verse method is getting simpler, but it still has more than one responsibility. This problem is reflected by the very structure of the code—the above method contains a blank line.
 
-
+经过重构, `verse`方法已经被简化了很多了... 但是 它仍然有1个以上的职责 --- 看这个方法中间那个空行...🤣
 
 
 
