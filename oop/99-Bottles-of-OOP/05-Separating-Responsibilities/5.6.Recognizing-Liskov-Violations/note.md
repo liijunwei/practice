@@ -37,5 +37,12 @@ end
 >
 > "坚持到底"是在战争或战斗中使用的短语, 意思是不顾任何障碍或批评, 追求目标
 
++ TODO fix the Liskov violation
+
++ You’ve already declared a temporary variable to hold bottle number 99. The current problem can be solved by declaring another variable to hold bottle number 98 and writing some shameless code.
+
+临时方案: 使用一个新的BottleNumber实例, 存储`98`
+
+
 
 
