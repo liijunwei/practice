@@ -14,4 +14,12 @@
 
 处理问题前, 先把code smell消除掉
 
++ Data Clump is officially about data, and is defined as the situation in which several (three or more) data fields routinely occur together.
+
+"Data Clump"是关于数据的官方术语, 意思是: 多个(3+)数据字段通常同时出现的情况
+
++ Having a clump of data usually means you are missing a concept.
+
+代码出现了"data clump"通常意味着你忽略了一个概念(这个概念没被识别出来)
+
 
