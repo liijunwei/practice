@@ -49,3 +49,6 @@ Fowler 提出了几种重构的方法:
 
 ??? TODO
 
++ TODO: Replace Conditional with State/Strategy produces interesting results, and you are encouraged to experiment with that recipe on your own.
+
+
