@@ -24,6 +24,10 @@
 
 这种选择通常包含了条件判断, 但是这种判断应该只存在一处, 并且只存在一处
 
++ Code like this is said to "manufacture" an instance of the right kind of object, and so is commonly referred to as a factory.
+
+这种做出选择(决定类型的代码)的过程, 叫做"制造出"对应的实例, 所以也被叫做"工厂", 第7章将详细介绍工厂
+
 
 ## 6.3.3. Prevailing with Polymorphism
 
