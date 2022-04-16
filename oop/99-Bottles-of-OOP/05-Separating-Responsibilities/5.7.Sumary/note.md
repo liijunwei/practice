@@ -36,3 +36,13 @@ few).
 
 并且还违反了里氏替换原则
 
++ Despite the imperfections listed above, there are ways in which the code is better. There are now two classes, but each has focused responsibilities.
+
+尽管现在的代码还有上面列出的种种问题, 代码的质量总体上说是有提升的
+
+现在我们的应用有两个类, 并且每个类都有明确的职责
+
++ While it’s true that the whole is bigger, each part is easy to understand and reason about.
+
+虽然整体上看代码变多了, 但是每个小的部分都比较容易懂了(可读性提高了)
+
