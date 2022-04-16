@@ -8,4 +8,7 @@ Table of Contents
 # 3. Unearthing Concepts
 # 4. Practicing Horizontal Refactoring
 # 5. Separating Responsibilities
-# 6. Replacing conditiionals with Objects
+# 6. Achieving Openness
+# 7. Manufacturing Intelligence
+# 8. Developing a Programming Aesthetic
+# 9. Reaping the Benefits of Design
