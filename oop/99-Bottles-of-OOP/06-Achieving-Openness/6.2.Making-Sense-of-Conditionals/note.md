@@ -32,3 +32,14 @@ class BottleNumber
 end
 
 ```
+
++ Extracting BottleNumber certainly removed the conditionals from Bottles, but they didn’t disappear: they just moved to the newly extracted class.
+
+抽象出`BottleNumber`类虽然让`Bottles`类里的判断消失了, 代码好像更容易读了, 但是判断最终还是存在, 只是换了个地方
+
++ Fowler offers several curative refactoring recipes. The two main contenders are Replace Conditional with State/Strategy and Replace Conditional with Polymorphism.
+
+Fowler 提出了几种重构的方法:
+1. 用状态/策略 来替换条件判断
+2. 用多态 来替换条件判断
+
