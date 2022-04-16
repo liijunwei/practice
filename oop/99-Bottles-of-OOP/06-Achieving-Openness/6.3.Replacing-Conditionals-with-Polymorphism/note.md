@@ -16,6 +16,13 @@
 
 ## 6.3.2. Manufacturing Objects
 
++ When several classes play a common role, some code, somewhere, must know how to choose the right role-playing class for any specific contingency.
+
+当有多个类扮演同一个角色时, 必须有部分代码知道该选哪个类来完成这件事
+
++ This choosing very often involves a conditional, which should exist in one and only one place.
+
+这种选择通常包含了条件判断, 但是这种判断应该只存在一处, 并且只存在一处
 
 
 ## 6.3.3. Prevailing with Polymorphism
