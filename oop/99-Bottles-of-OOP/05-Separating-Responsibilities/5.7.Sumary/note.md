@@ -18,3 +18,21 @@
     + 数据不可变的优势
     + 延迟性能调整的好处, 不要过早(对性能进行)优化
 
++ The total ABC score score, for example, has gone up again.
+    + `bash oop/99-Bottles-of-OOP/05-Separating-Responsibilities/test_all.sh`
+
+ABC指标检测显示它的结果变得更糟糕了
+
++ Also, there are no unit tests for BottleNumber. It relies entirely on Bottle's tests.
+
+并且新提取出的`BottleNumber`还没被测试覆盖到
+
++ The code still exudes many smells (duplication, conditionals, and temporary field, to name a
+few).
+
+当前代码还有很多code smell没有处理
+
++ And, finally, it commits a Liskov violation in the successor method.
+
+并且还违反了里氏替换原则
+
