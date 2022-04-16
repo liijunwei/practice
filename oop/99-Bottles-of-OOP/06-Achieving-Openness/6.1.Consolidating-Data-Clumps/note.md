@@ -28,6 +28,14 @@
 
 如果两个概念总是出现在一起, 它实际上是一个未被发现的更深层概念的信号, 并且我们应该把那个概念识别出来, 给他命名(提取方法)
 
++ Full-grown Data Clumps are usually removed by extracting a class, but in this small example it makes sense to simply create a new method.
+
++ It’s perfectly acceptable to override this default behavior, and many of your own classes would benefit from a custom to_s implementation.
+
+BottleNumber类可以重写`to_s`方法
+
+
+
 
 
 
