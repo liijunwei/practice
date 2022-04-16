@@ -9,3 +9,12 @@
 + The refactoring created a new class named BottleNumber.
 
 然后从对基本数据类型的依赖里提取出了一个类`BottleNumber`
+
++ This chapter also explored the rewards of modeling abstractions, the trade-offs of caching, the advantages of immutability, and the benefits of deferring performance tuning.
+
++ 本章讨论了这些主题:
+    + 建模是引入适当抽象的好处
+    + 对数据进行缓存的利弊(权衡)
+    + 数据不可变的优势
+    + 延迟性能调整的好处, 不要过早(对性能进行)优化
+
