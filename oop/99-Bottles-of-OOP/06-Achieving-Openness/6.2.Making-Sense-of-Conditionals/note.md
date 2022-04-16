@@ -43,3 +43,9 @@ Fowler 提出了几种重构的方法:
 1. 用状态/策略 来替换条件判断
 2. 用多态 来替换条件判断
 
++ dispersing 分散 疏散
+
++ The Replace Conditional with State/Strategy recipe removes conditionals by dispersing their branches into new, smaller objects, one of which is later selected and plugged back in at runtime. This recipe results in a code arrangement known as composition.
+
+??? TODO
+
