@@ -28,6 +28,13 @@
 
 这种做出选择(决定类型的代码)的过程, 叫做"制造出"对应的实例, 所以也被叫做"工厂", 第7章将详细介绍工厂
 
++ When a factory exists for a role, the factory has sole responsibility for creating objects to play that role.
+
+当存在工厂的时候, 它唯一的职责就是为使用它的人创建合适的对象
+
++ The factory’s purpose is to isolate the names of the concrete classes, and to hide the logic needed to choose the correct one.
+
+工厂的目标就是把具体的类名隔离开, 隐藏选择的逻辑
 
 ## 6.3.3. Prevailing with Polymorphism
 
