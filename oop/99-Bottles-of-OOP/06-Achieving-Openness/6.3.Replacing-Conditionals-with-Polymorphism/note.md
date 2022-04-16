@@ -10,6 +10,9 @@
 
 多态 从定义上来看就是和多个种类的对象有关, 所以在将条件判断的代码转变为过程式代码时, 一定会增加总的类的数量
 
++ The specific logic for 0 needs to be isolated in a class of its own, as does the logic for 1.
++ Also, as these new classes come into existence, some additional code will have to be written to choose the correct class based on the value of number.
+
 
 
 
