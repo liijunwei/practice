@@ -38,6 +38,10 @@ BottleNumber类可以重写`to_s`方法
 
 经过重构, `verse`方法已经被简化了很多了... 但是 它仍然有1个以上的职责 --- 看这个方法中间那个空行...🤣
 
++ Programmers add blank lines to signify changes of topic.
 
+程序员通过添加空行来表示 代码做的事有了改变
+
++ The presence of multiple topics suggests the existence of multiple responsibilities, which makes code harder to understand when reading, and easier to harm when changing.
 
 
