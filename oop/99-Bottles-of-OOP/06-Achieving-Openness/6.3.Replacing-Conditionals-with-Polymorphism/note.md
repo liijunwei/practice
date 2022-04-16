@@ -36,5 +36,13 @@
 
 工厂的目标就是把具体的类名隔离开, 隐藏选择的逻辑
 
++ Now that BottleNumber0 exists, you need a bottle number factory.
+
++ The first step is to do a small refactoring to isolate the creation of bottle numbers in a single method of Bottles.
+
+
+
+
+
 ## 6.3.3. Prevailing with Polymorphism
 
