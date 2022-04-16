@@ -52,11 +52,7 @@ end
 
 class BottleNumber0 < BottleNumber
   def quantity
-    if number == 0
-      "no more"
-    else
-      number.to_s
-    end
+    "no more"
   end
 end
 
