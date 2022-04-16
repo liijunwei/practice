@@ -18,6 +18,9 @@ for dir in ${dirs[@]}; do
   echo "============================"
   rake
   echo
+  find lib -name \*.rb | xargs flog
+  echo
+
   cd $current_dir
 done
 
