@@ -14,9 +14,9 @@
 + Also, as these new classes come into existence, some additional code will have to be written to choose the correct class based on the value of number.
 
 
-
-
 ## 6.3.2. Manufacturing Objects
+
+
 
 ## 6.3.3. Prevailing with Polymorphism
 
