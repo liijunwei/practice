@@ -51,4 +51,13 @@ Fowler 提出了几种重构的方法:
 
 + TODO: Replace Conditional with State/Strategy produces interesting results, and you are encouraged to experiment with that recipe on your own.
 
++ However, Replace Conditional with Polymorphism leads to a code arrangement that’s felicitous for the six-pack problem, and so will be followed in the next section.
+
++ The best way to figure out what will happen if you follow competing recipes is to try it.
+
++ Practice builds intuition. Do it enough, and you’ll seem magical too.
+
+
+
+
 
