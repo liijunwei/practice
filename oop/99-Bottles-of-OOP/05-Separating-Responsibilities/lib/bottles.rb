@@ -37,7 +37,6 @@ class BottleNumber
     end
   end
 
-  # TODO: too abstract to understand
   def successor
     if number == 0
       99
