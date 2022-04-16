@@ -46,3 +46,8 @@ few).
 
 虽然整体上看代码变多了, 但是每个小的部分都比较容易懂了(可读性提高了)
 
++ The code is consistent and regular, and embodies an extremely stable landing point that splendidly enables the next refactoring.
+
+当前代码是一致并且有规律可循的, 它是进行下一步重构的稳定的着陆点
+
+
