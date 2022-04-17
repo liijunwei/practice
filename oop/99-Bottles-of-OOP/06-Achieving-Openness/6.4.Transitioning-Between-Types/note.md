@@ -46,4 +46,10 @@
 
 + Step 1 is to put the factory within successor's reach.
 
++ the "echo chamber" effect
+
+"回音室"效应
+
+
+
 
