@@ -46,7 +46,7 @@
 
 + You merely trust that object to act like a bottle number and to respond to the messages you plan to send.
 
-你只需要信任这个示例的行为是一个瓶子的数量, 并且对你发出的消息有响应就好了
+你只需要信任这个实例的行为是一个瓶子的数量, 并且对你发出的消息有响应就好了
 
 ## 6.3.3. Prevailing with Polymorphism
 
