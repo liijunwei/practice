@@ -39,7 +39,9 @@
 
 但是这时候, successor方法的实现还是返回一个整型数字, 这时候违反了里氏替换原则
 
-
-
++ Alterations are needed in several places. Ultimately:
+    1. The factory should be located such that it is reachable by the successor methods
+    2. the successor methods should invoke the factory
+    3. the verse method should expect successor to return a bottle number
 
 
