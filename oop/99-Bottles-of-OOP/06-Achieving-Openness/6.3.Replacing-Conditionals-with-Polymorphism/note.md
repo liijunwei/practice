@@ -61,4 +61,21 @@ Here’s a list of the recipe’s steps:
     + d. Repeat steps a-c until all methods that switch on the value are dispersed.
 2. Iterate until a subclass exists for every different value upon which you switch.
 
++ The conditional above may be giving you "a sense of deja vu".
+
+上述条件可能会给你一种似曾相识的感觉
+
++ It’s reminiscent of, although not quite identical to, the case statement from the original Shameless Green solution.
+
+这个case语句, 和"shameless green"里的分支很相似
+
++ Think about why this might be as you finish the current refactoring. The similarity will be explored at the end of this section.
+
+思考一下为什么会有相似的感觉
+
+这种相似性会在本节结束时再讨论
+
+
+
+
 
