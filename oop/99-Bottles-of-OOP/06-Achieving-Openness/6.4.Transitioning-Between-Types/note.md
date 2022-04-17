@@ -58,8 +58,8 @@
 
 为了能够每次只做一点修改, 并且测试用例不崩溃, 使用一点技巧: 使得工厂方法同时支持传入数字和传入BottleNumber的实例
 
++ Temporary variables that are used just once can be removed with the Inline Temp refactoring
 
-
-
+只使用一次的临时变量可以通过内联临时重构删除
 
 
