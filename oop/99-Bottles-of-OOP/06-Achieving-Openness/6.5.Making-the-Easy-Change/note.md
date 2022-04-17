@@ -16,3 +16,7 @@
 
 现在引入了新的需求, TDD要求我们先写出会失败的测试用例, 然后开始新增代码, 让测试用例通过
 
++ You have been refactoring under green for many chapters, and now, suddenly, almost abruptly, the outstanding requirement can be met by two one-line methods in a class that has nine total lines of code. It took several refactorings to make the code open, but once so, the six-pack requirement was extraordinarily easy to fulfill.
+    + `tig 3cddfa1ece74e8b18b278224982994ebed4b9d99`
+
+
