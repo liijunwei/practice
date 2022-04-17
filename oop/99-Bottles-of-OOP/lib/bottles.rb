@@ -65,6 +65,9 @@ class BottleNumber1 < BottleNumber
   end
 end
 
+class BottleNumber6 < BottleNumber
+end
+
 class Bottles
   def song
     verses(99, 0)
