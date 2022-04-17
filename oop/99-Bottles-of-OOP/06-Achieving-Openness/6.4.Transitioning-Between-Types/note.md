@@ -11,3 +11,10 @@
 我们有理由认为 一个bottle_numer的实例的successor也具有bottle_number的行为
 
 但是当前的`successor`方法返回了一个integer类型的数字, 显然它并不具有bottle_number的行为
+
++ Liskov violations are insidious, and over time cause increasing harm.
+
+**违反 "氏替换原则" 是阴险的, 随着时间的推移, 违反这个原则所造成的伤害会越来越大**
+
+
+
