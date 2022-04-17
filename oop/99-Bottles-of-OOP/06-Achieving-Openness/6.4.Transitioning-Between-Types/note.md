@@ -50,6 +50,16 @@
 
 "回音室"效应
 
++ The trick to moving forward using one-line changes is to temporarily alter the factory to tolerate both kinds of input.
+
+接下来要重构`successor`方法, 让他调用工厂方法, 返回BottleNumber的实例
+
+但是无论怎么修改, 都会使得测试用例失败
+
+为了能够每次只做一点修改, 并且测试用例不崩溃, 使用一点技巧: 使得工厂方法同时支持传入数字和传入BottleNumber的实例
+
+
+
 
 
 
