@@ -62,4 +62,13 @@
 
 只使用一次的临时变量可以通过内联临时重构删除
 
++ Trustworthy objects are a joy to work with because they always behave as you expect.
+
+值得信赖的实例行为是工作的乐趣, 因为它们总是按照你的期望行事
+
++ Having successfully fixed the problem with successor, it’s time to return to the main issue at hand.
+
+开始处理新需求!
+
+
 
