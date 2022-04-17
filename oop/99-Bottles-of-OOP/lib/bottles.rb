@@ -6,6 +6,8 @@ class BottleNumber
   end
 
   def self.for(number)
+    return number if number.kind_of?(BottleNumber)
+
     case number
     when 0
       BottleNumber0
