@@ -75,7 +75,32 @@ Here’s a list of the recipe’s steps:
 
 这种相似性会在本节结束时再讨论
 
++ This completes the Replace Conditional with Polymorphism refactoring.
 
+提取出两个BottleNumber的子类后, 使用多态替换掉条件判断的重构就完成了
 
++ If introducing polymorphism improved the code, this new version ought to tell an accurate and easily understood story about the domain.
+
+如果通过引入多态提升了代码质量(从flog的结果看是提升了), 那么新版本代码应该能准确的描述了问题,并且很容易懂
+
++ One way to evaluate the story is to revisit the domain questions asked in Chapter 1. The original questions were:
+
+一种检验方法是再次回顾第一章里提出的领域问题:
+
+1. How many verse variants are there?
+
+三种: number 0, number 1, 其他
+
+2. Which verses are most alike? In what way?
+
+2-99
+
+3. Which verses are most different? In what way?
+
+0 和 1
+
+4. What is the rule to determine which verse should be sung next?
+
+`successor`概念
 
 
