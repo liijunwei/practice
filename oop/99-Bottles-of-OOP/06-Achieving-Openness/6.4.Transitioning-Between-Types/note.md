@@ -16,5 +16,23 @@
 
 **违反 "氏替换原则" 是阴险的, 随着时间的推移, 违反这个原则所造成的伤害会越来越大**
 
++ If successor obeyed Liskov, you could substitute the hypothetical code on line 6 below for the code on line 5
+
+```ruby
+  def verse(number)
+    bottle_number      = bottle_number_for(number)
+    next_bottle_number = bottle_number_for(bottle_number.successor)
+    # next_bottle_number = bottle_number.successor
+
+    "#{bottle_number} of beer on the wall, ".capitalize +
+    "#{bottle_number} of beer.\n" +
+    "#{bottle_number.action}, " +
+    "#{next_bottle_number} of beer on the wall.\n"
+  end
+```
+
+如果遵循了里氏替换原则, 那么应该可以用`next_bottle_number = bottle_number.successor` 替换 `next_bottle_number = bottle_number_for(bottle_number.successor)`
+
+
 
 
