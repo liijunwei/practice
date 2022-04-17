@@ -50,3 +50,15 @@
 
 ## 6.3.3. Prevailing with Polymorphism
 
+Here’s a list of the recipe’s steps:
+
+1. Create a subclass to stand in for the value upon which you switch.
+    + a. Copy one method that switches on that value into the subclass.
+    + b. In the subclass, remove everything but the true branch of the conditional.
+        + i. At this point, create a factory if it does not yet exist, and
+        + ii. Add this subclass to the factory if not yet included.
+    + c. In the superclass, remove everything but the false branch of the conditional.
+    + d. Repeat steps a-c until all methods that switch on the value are dispersed.
+2. Iterate until a subclass exists for every different value upon which you switch.
+
+
