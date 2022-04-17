@@ -74,9 +74,10 @@ class Bottles
   end
 
   def bottle_number_for(number)
-    if number == 0
+    case number
+    when 0
       BottleNumber0
-    elsif number == 1
+    when 1
       BottleNumber1
     else
       BottleNumber
