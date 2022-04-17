@@ -81,7 +81,7 @@ class BottlesTest < Minitest::Test
   end
 
   def test_the_whole_song
-    filepath = File.expand_path(".", './whole-lyric.md')
+    filepath = File.expand_path(".", './whole-lyric-six-pack.md')
     expected = File.read(filepath)
     assert_equal expected, Bottles.new.song
   end
