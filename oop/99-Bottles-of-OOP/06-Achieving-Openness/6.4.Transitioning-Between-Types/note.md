@@ -33,6 +33,13 @@
 
 如果遵循了里氏替换原则, 那么应该可以用`next_bottle_number = bottle_number.successor` 替换 `next_bottle_number = bottle_number_for(bottle_number.successor)`
 
+在第四章的时候, 我们用"Flocking Rules"分析后提取出`successor`方法, 那时候它返回数字, 没有问题, 也没有违反里氏替换原则
+
+在第五章的时候, 我们发现对原始数据依赖过多, 然后提取出了"BottleNumber"类, 然后把方法挪入了BottleNumber类里
+
+但是这时候, successor方法的实现还是返回一个整型数字, 这时候违反了里氏替换原则
+
+
 
 
 
