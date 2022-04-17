@@ -10,4 +10,9 @@
 
 里面覆写"quantity"和"container"方法, 然后在工厂里增加一个分支就好了
 
++ At long last, it’s time to write a failing test.
+
+前面所做的重构都是依靠着写好的测试用例完成的
+
+现在引入了新的需求, TDD要求我们先写出会失败的测试用例, 然后开始新增代码, 让测试用例通过
 
