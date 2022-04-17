@@ -44,4 +44,6 @@
     2. the successor methods should invoke the factory
     3. the verse method should expect successor to return a bottle number
 
++ Step 1 is to put the factory within successor's reach.
+
 
