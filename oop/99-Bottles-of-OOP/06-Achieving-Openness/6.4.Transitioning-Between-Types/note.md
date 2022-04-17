@@ -8,4 +8,6 @@
 
 + You have every right to expect the successor of a bottle number to act like a bottle number
 
-我们有理由认为 一个bottle_numer的实例的successor也具有bottle_numer的行为
+我们有理由认为 一个bottle_numer的实例的successor也具有bottle_number的行为
+
+但是当前的`successor`方法返回了一个integer类型的数字, 显然它并不具有bottle_number的行为
