@@ -32,5 +32,14 @@ end
 
 就是使得使用BottleNumber6的地方必须知道内部细节, 破坏了抽象
 
++ Solving the proximate problem by implementing a unique to_s passes today’s tests but misleads future programmers. If you were to override to_s, your code would tell this story:
+    1. BottleNumber6's rule for deriving its string representation differs from that of other bottle numbers, and
+    2. BottleNumber6 has the same quantity and container as its superclass.
+
+如果使用重写to_s方法实现了这个需求, 就是给未来埋坑...
+
+如果使用to_s, 那么这个领域问题的含义就变成了
+1. BottleNumber6的实现和其他的不一致
+2. BottleNumber6的`quantity`和`container`方法的实现由父类继承而来(虽然暂时没用到)
 
 
