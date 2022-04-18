@@ -28,3 +28,10 @@
 
 这种选择往往需要条件判断, 把判断放到工厂里面能让你把这些分支判断隔离到一个地方, 统一管理
 
++ **Thus, factories are where conditionals go to die.** Isolating conditionals in factories loosens the coupling between collaborating objects, which lowers the cost of change.
+
+所以, 工厂是条件判断的终点
+
+在工厂里将条件判断做完能够 降低 消息发送者和具体实现之间的耦合关系, 这样能够降低代码的维护成本
+
+
