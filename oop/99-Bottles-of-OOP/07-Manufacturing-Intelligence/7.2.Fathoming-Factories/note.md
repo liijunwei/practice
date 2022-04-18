@@ -20,5 +20,7 @@
 
 这些知识应该被隐藏在工厂里
 
++ A factory’s responsibility is to manufacture the right object for a given role.
 
+工厂的职责就是为给定的角色创建合适的实例
 
