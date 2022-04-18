@@ -32,3 +32,18 @@ verse2是一种特殊情况, 但是 bottle_number2 不是特殊情况
 1. 判断和选择的理由(相似)
 2. 只知道 每个分支里的BottleNumber, 不知道具体行为(主要的不同)
 
++ Factories don’t know what to do: instead, they know how to choose who does.
+
+工厂不知道该做什么, 它只知道如何选择谁来做什么
+
++ They consolidate the choosing and separate the chosen.
+
+他们把做选择和选择结果的具体后果(行为)区别开了
+
++ Shameless Green was a procedure because it combined these two things;
+
+"Shameless Green"是面向过程的, 因为他把选择和结果绑定在了一起
+
++ The current code is object-oriented because it breaks them apart.
+
+但是当前版本的代码是面向对象的, OOP里最好把选择和行为区分开(面向接口编程)
