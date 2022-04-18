@@ -34,4 +34,15 @@
 
 在工厂里将条件判断做完能够 降低 消息发送者和具体实现之间的耦合关系, 这样能够降低代码的维护成本
 
++ Factories can be implemented in many different ways, but they tend to vary along a few interesting dimensions, each of which involves its own set of trade-offs.
+
+1. The factory can be open to new variants or closed.
+2. The logic that chooses a variant can be owned by the factory or by the variant.
+3. The factory can be responsible for knowing/figuring out which classes are eligible to be manufactured or the variants can *volunteer themselves(what is this)*.
+
+工厂有很多种实现方式, 但是多种实现方式之间的差异往往有这三个权衡的的影子:
+
+1. 工厂能不能对新的扩展开放
+2. 选择具体类的逻辑归工厂所有还是归各个具体实现类所有
+3. 工厂决定选择哪个具体的实现类, 还是具体实现类能够自己决定自己(???)
 
