@@ -7,3 +7,18 @@
 + They know what their collaborators do, but refuse to be aware of how they do it.
 
 消息发送者知道实例会做什么, 但是不需要知道他们是怎么做的, 不需要知道内部的实现
+
++ Message senders aren’t allowed to know the names of the concrete variant classes, nor may they know the logic needed to choose between them.
+
+消息发送这不能知道使用多态的类的变体的名字, 他们也不需要知道怎么在这些变体里做出选择
+
++ Message senders can’t know these things, but of course someone must.
+
+消息发送者不(需要/该)知道这些事, 但是代码里肯定得有地方维护这个知识
+
++ Knowledge of the class names of the variants, and of the logic necessary to choose the correct one, can be hidden in, you guessed it --- factories.
+
+这些知识应该被隐藏在工厂里
+
+
+
