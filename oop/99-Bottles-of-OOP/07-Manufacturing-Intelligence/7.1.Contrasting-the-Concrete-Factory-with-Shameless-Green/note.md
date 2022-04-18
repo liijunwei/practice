@@ -22,3 +22,13 @@ verse2是一种特殊情况, 但是 bottle_number2 不是特殊情况
 + Thus, Shameless Green needs a special case for verse 2 solely because verse 2 contains bottle number 1.
 + This explains the missing branch.
 
+前者(Shameless Green)里的条件判断知道这些事:
+
+1. 判断和选择的理由
+2. 每个分支里的具体行为
+
+后者(`BottleNumber.for`)里的条件判断知道这些事:
+
+1. 判断和选择的理由(相似)
+2. 只知道 每个分支里的BottleNumber, 不知道具体行为(主要的不同)
+
