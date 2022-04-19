@@ -33,3 +33,37 @@
 4. The factory ignores bottle number classes whose names do not follow the convention.
 
 这个工厂会忽略所有没有按照命名规则创建的BottleNumber类
+
++ Given the list of objections, it’s logical to wonder if opening this factory could ever be worthwhile.
+
+考虑到反对意见的清单, 我们有理由怀疑这个工厂是否值得
+
++ Do the benefits of openness justify the cost of this additional complexity?
+
+开放的好处是否证明了这种额外复杂性的代价是合理的？
+
++ The answer, as is true for most questions about object-oriented design, is that it depends.
+
+和多数在使用OOP的解决的其他问题一样, 也是 视情况而定
+
++ If you frequently create new bottle number classes, the cost of repeatedly changing the factory might very well exceed that of making it open.
+
+如果你需要频繁的创建新的类, 以满足新需求, 那么重复修改工厂的代价就会很高, 这时候把它变得"open"就有必要(不必每次修改工厂)
+
++ Conversely, if you never add new bottle number classes, the factory won’t ever change, so there’s no justification for complicating the code.
+
+相反, 如果工厂创建好以后不需要再改变, 那么不就不该考虑这种方法
+
++ Your goal is to minimize costs, and costs are determined by the situation at hand. There’s no hard and fast rule about what’s best. It just depends.
+
+我们的目标是最小化成本, 成本是由具体的情况决定的; 所以没有一个适用所有情况的处理方法, 一切都是视情况而定的...
+
++ A factory’s fundamental job is to manufacture the correct player of a role. Relative to this responsibility, its openness is a trivial concern that can be tweaked over time.
+
+工厂的最核心价值是 创建出合适的对象, 供调用者完成工作;
+
+和这项职责相比, 它是否开放是次要的
+
+
+
+
