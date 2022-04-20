@@ -30,3 +30,15 @@ switch-case的版本很好懂, 但是它不对扩展开放
 其中键值对的版本更加复杂一些: 因为它把数据和算法隔离开了
 
 数据部分放在了Hash(查找表)里面, 算法部分放在了`Hash#[]`里
+
++ The benefit of this separation is that you can now think of the driving data as an entity in itself, separate from the choosing algorithm.
+
+数据和算法隔离的好处是, 你现在可以把数据视为一个整体, 把算法视为一个整体来思考
+
++ The algorithm lives in the code but you can store the data in an external file, or your database, and read it at initialization time. You might even create a nice user interface to update the database. You’ll have to update the database whenever a new class is added, but that’s a small price to pay for being able to change the behavior of your application without altering the actual code.
+
+算法必须放在代码里, 但是数据确实可以隔离到代码外面的, 例如数据库, 在应用初始化的时候进行加载
+
+甚至可以写一个UI界面, 来动态的更新数据库数据
+
+这样, 在新加了类的时候, 只需要修改数据库(里的键值对)就可以了, 不需要修改工厂相关的代码
