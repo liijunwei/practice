@@ -5,3 +5,17 @@
 + This requires that all candidates share some quality or characteristic that allows the factory to identify them.
 
 这要求其他类都有某些性质或者特征, 工厂用它来做出识别
+
+前面实现过这样的动态工厂
+```ruby
+class BottleNumber
+  def self.for(number)
+    begin
+      const_get("BottleNumber#{number}")
+    rescue NameError
+      BottleNumber
+    end.new(number)
+  end
+end
+```
+
