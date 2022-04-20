@@ -23,3 +23,12 @@ end
 
 一致的名字并不是工厂做出识别的唯一特征
 
++ Anything that makes candidates unique will work.
+
+工厂能利用任何使得新类不同的特征做出识别
+
++ The key idea here is that there must be something about the candidate classes that allows them to be located by the factory.
+
+
+
+
