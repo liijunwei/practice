@@ -42,3 +42,8 @@ switch-case的版本很好懂, 但是它不对扩展开放
 甚至可以写一个UI界面, 来动态的更新数据库数据
 
 这样, 在新加了类的时候, 只需要修改数据库(里的键值对)就可以了, 不需要修改工厂相关的代码
+
++ Pay some attention to the colors used in the syntax highlighting, When the colors change constantly it means that the code changes topics a lot.
+
+
+
