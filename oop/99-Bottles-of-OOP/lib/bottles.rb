@@ -6,13 +6,22 @@ class BottleNumber
   end
 
   def self.for(number)
-    [BottleNumber6, BottleNumber1, BottleNumber0, BottleNumber]
-    .find {|candidate| candidate.handle?(number)}.new(number)
+    registry.find {|candidate| candidate.handle?(number)}.new(number)
   end
 
   def self.handle?(number)
     true
   end
+
+  def self.registry
+    @registry ||= []
+  end
+
+  def self.register(candidate)
+    registry.prepend(candidate)
+  end
+
+  BottleNumber.register(self)
 
   def container
     "bottles"
@@ -40,6 +49,8 @@ class BottleNumber
 end
 
 class BottleNumber0 < BottleNumber
+  BottleNumber.register(self)
+
   def self.handle?(number)
     number == 0
   end
@@ -58,6 +69,8 @@ class BottleNumber0 < BottleNumber
 end
 
 class BottleNumber1 < BottleNumber
+  BottleNumber.register(self)
+
   def self.handle?(number)
     number == 1
   end
@@ -72,6 +85,8 @@ class BottleNumber1 < BottleNumber
 end
 
 class BottleNumber6 < BottleNumber
+  BottleNumber.register(self)
+
   def self.handle?(number)
     number == 6
   end
