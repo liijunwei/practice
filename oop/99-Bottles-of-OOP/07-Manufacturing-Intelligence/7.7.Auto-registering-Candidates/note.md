@@ -29,6 +29,8 @@ end
 
 + The key idea here is that there must be something about the candidate classes that allows them to be located by the factory.
 
++ stipulate [ˈstɪpjuleɪt] 规定
 
++ The *inherited hook* merits a bit of explanation.
 
-
+得解释一下继承的hook
