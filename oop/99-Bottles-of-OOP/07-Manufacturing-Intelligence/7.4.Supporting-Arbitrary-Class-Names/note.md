@@ -16,3 +16,14 @@ class BottleNumber
   end
 end
 ```
+
++ The case statement factory is simple and allows arbitrary class names, but is closed. The meta- programmed factory is more complicated and requires a class naming convention, but is open. The key/value factory is similar to the case statement factory in that it allows arbitrary class names, but it’s a bit harder to read.
+
+switch-case的版本很好懂, 但是它不对扩展开放
+
+元编程的版本更加复杂, 但是它能够依赖命名的约定实现对扩展开放
+
+键值对的版本和switch-case的版本类似, 并且它不依赖于命名的约定, 但是不容易读懂
+
+
+
