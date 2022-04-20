@@ -1,1 +1,4 @@
-TODO
++ disperses [dɪˈspɜːrsɪz]  分散
+
+
+
