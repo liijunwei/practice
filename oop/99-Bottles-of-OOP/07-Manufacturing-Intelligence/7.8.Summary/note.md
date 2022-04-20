@@ -2,3 +2,5 @@
 
 原来多态是这么玩的吗
 
++ **Factories are where conditionals go to die.**
+
