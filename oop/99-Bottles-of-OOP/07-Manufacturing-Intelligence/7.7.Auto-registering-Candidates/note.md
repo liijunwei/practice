@@ -49,3 +49,7 @@ ruby里, 一切皆为对象
 
 使用`class`关键字修饰一段代码, 就把这段代码变成了一个更通用的类的实例(object of Class)
 
++ The class of every string is String, and the class of every class is (sorry) Class.
++ Put another way, 'abc' is an instance of the class named String, and BottleNumber is an instance of the class named Class.
+
+
