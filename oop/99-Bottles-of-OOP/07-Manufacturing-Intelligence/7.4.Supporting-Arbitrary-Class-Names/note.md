@@ -45,5 +45,20 @@ switch-case的版本很好懂, 但是它不对扩展开放
 
 + Pay some attention to the colors used in the syntax highlighting, When the colors change constantly it means that the code changes topics a lot.
 
++ Procedures are often characterized by many changes of color. Even if you are completely unfamiliar with this code, you can guess that the case statement factory is a procedure simply by looking at the alternating colors in the syntax highlighting.
+
+过程式的代码通常能从代码着色上看出有很多主题变化
+
+即使你完全不熟悉这段代码, 你也能通过颜色变化看出switch-case版本的工厂是过程式的
+
++ Code that is more object-oriented tends to group like things together, with fewer changes of topic. This results in more consistent colors as in the key/value factory.
+
+OO的代码倾向于将相似的事情放在意思, 减少主题的转变
+
+结果就是代码着色(语法高亮)看起来更加一致
+
+
+
+
 
 
