@@ -19,3 +19,7 @@ class BottleNumber
 end
 ```
 
++ Common names aren’t the only thing that can enable the factory to find candidate classes.
+
+一致的名字并不是工厂做出识别的唯一特征
+
