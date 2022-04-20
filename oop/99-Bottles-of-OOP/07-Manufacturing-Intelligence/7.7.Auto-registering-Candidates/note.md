@@ -34,3 +34,18 @@ end
 + The *inherited hook* merits a bit of explanation.
 
 得解释一下继承的hook
+
+类实例化后, 称为一个对象(类的实例)
+
+但是类本身也是一个更加通用的类的实例
+
++ This makes sense if you think about it in an "everything is just an object" kind of way.
+
+ruby里, 一切皆为对象
+
++ Just as putting quotes around text creates an object that acts like a string, using the class keyword creates an object that acts like a class.
+
+就像 你给文本加上引号后, 它就变成了字符串的对象
+
+使用`class`关键字修饰一段代码, 就把这段代码变成了一个更通用的类的实例(object of Class)
+
