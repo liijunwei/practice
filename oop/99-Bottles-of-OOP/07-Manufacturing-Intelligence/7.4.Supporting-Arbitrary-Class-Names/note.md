@@ -25,5 +25,8 @@ switch-case的版本很好懂, 但是它不对扩展开放
 
 键值对的版本和switch-case的版本类似, 并且它不依赖于命名的约定, 但是不容易读懂
 
++ This key/value version is slightly more complicated because the data has been separated from the algorithm. In this example, the "this⇒that" bits (the data) have been grouped together in one place (the hash) and the "if" bits (the algorithm) moved to another (the [] lookup logic).
 
+其中键值对的版本更加复杂一些: 因为它把数据和算法隔离开了
 
+数据部分放在了Hash(查找表)里面, 算法部分放在了`Hash#[]`里
