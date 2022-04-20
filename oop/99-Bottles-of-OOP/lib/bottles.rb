@@ -23,6 +23,10 @@ class BottleNumber
 
   BottleNumber.register(self)
 
+  def self.inherited(candidate)
+    register(candidate)
+  end
+
   def container
     "bottles"
   end
@@ -49,8 +53,6 @@ class BottleNumber
 end
 
 class BottleNumber0 < BottleNumber
-  BottleNumber.register(self)
-
   def self.handle?(number)
     number == 0
   end
@@ -69,8 +71,6 @@ class BottleNumber0 < BottleNumber
 end
 
 class BottleNumber1 < BottleNumber
-  BottleNumber.register(self)
-
   def self.handle?(number)
     number == 1
   end
@@ -85,8 +85,6 @@ class BottleNumber1 < BottleNumber
 end
 
 class BottleNumber6 < BottleNumber
-  BottleNumber.register(self)
-
   def self.handle?(number)
     number == 6
   end
