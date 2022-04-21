@@ -17,3 +17,7 @@
 + The opportunity cost of improving existing code is that you can’t simultaneously attend to other urgent things.
 
 由于机会成本, 你把时间活在了重构以提高代码质量上, 那么就不能去做其他更重要的事了
+
++ Code smells and refactoring recipes represent the distilled judgement of many deeply experienced OO practitioners.
+
+code smell 和 重构的方法代表了很多经验丰富的面向对象实践者的精髓的判断
