@@ -30,4 +30,11 @@ code smell 和 重构的方法代表了很多经验丰富的面向对象实践�
 
 他们对代码的正确性产生了一种感觉, 一种"审美", 这种审美在代码还处于混乱和不确定状态的时候指导着他们的决策
 
++ As you have probably long since realized, the 99 Bottles problem is more nuanced than it initially appears.
+
+你可能意识到了, "99瓶酒" 的问题比他看起来精妙(微妙)得多
+
++ Songs like "99 Bottles" are great for teaching deep lessons about dealing with complexity.
+
+这种歌非常适合教授关于处理复杂行的深刻课程
 
