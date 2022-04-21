@@ -42,3 +42,5 @@ code smell 和 重构的方法代表了很多经验丰富的面向对象实践�
 
 + **The current implementation tells is that all verses are alike in an abstract way, and that bottle numbers vary within each verse.**
 
++ **New requirement: Your customer wants other songs that are similar to "99 Bottles" but contain different lyrics.**
+
