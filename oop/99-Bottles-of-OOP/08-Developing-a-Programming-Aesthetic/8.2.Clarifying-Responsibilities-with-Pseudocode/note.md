@@ -20,4 +20,12 @@ have no idea
 
 自相矛盾的时, 当面对下一步该做什么的不确定性时, 有时深叹一口气, 忽略你所学的一切, 加一个条件, 把需求实现了往往是有助于进展的
 
++ This conditional’s purpose is to supply more information about the problem, and writing it can clarify what needs to change.
 
+先写下来, 先实现了功能, 能够为理解问题提供更多的信息
+
+当了解到的信息增多以后, 那里需要做改变就变得清晰了
+
++ Once you understand what should change, you can discard the conditional and write better code.
+
+当你理解了问题后, 你就可以逐渐把条件判断去掉了
