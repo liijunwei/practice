@@ -40,3 +40,5 @@ code smell 和 重构的方法代表了很多经验丰富的面向对象实践�
 
 + it’s simultaneously simple enough to learn from and hard enough to make the lessons useful.
 
++ **The current implementation tells is that all verses are alike in an abstract way, and that bottle numbers vary within each verse.**
+
