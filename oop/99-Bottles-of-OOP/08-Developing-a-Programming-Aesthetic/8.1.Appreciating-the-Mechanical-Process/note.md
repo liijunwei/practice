@@ -1,6 +1,6 @@
 + Developing a Programming Aesthetic
 
-培养编程美学(???)
+培养编程美学(???) 审美/品味
 
 + The process has been both prescriptive and proscriptive; the refactoring recipes tell you what to do while at the same time forbidding you from wandering off to tinker on tangental shiny things.
 
