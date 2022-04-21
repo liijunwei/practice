@@ -4,6 +4,8 @@ Recommended by [YimingChen](https://yiming.dev/blog/2017/12/08/book-review-99-bo
 tig oop/99-Bottles-of-OOP/
 ```
 
+[1500 implementations in various programming languages](https://www.99-bottles-of-beer.net/)
+
 # Setup
 
 ## install dependencies
