@@ -29,3 +29,5 @@ have no idea
 + Once you understand what should change, you can discard the conditional and write better code.
 
 当你理解了问题后, 你就可以逐渐把条件判断去掉了
+
++ the conditional’s mere presence helps clarify what needs to be done.
