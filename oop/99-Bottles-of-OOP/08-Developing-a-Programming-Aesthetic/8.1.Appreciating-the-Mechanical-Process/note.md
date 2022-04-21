@@ -21,3 +21,13 @@
 + Code smells and refactoring recipes represent the distilled judgement of many deeply experienced OO practitioners.
 
 code smell 和 重构的方法代表了很多经验丰富的面向对象实践者的精髓的判断
+
++ Close attention to ultimate outcomes led them to develop a sense of what to actively do (or diligently avoid) in present code to preclude future pain.
+
+对最终代码的密切关注使经验丰富的程序员意识到应该关注什么方面, 应该怎么做, 做什么 才能避免以后的痛苦
+
++ They developed a feeling, an "aesthetic", about the rightness of code, and this aesthetic guided their decisions in times of confusion and uncertainty.
+
+他们对代码的正确性产生了一种感觉, 一种"审美", 这种审美在代码还处于混乱和不确定状态的时候指导着他们的决策
+
+
