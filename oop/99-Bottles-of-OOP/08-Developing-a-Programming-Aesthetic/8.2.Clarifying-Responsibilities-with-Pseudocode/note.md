@@ -16,4 +16,8 @@ have no idea
 
 have no idea
 
++ Paradoxically, when faced with uncertainty about what to do next, it can sometimes help to sigh deeply, ignore everything you’ve learned, and just write a new conditional.
+
+自相矛盾的时, 当面对下一步该做什么的不确定性时, 有时深叹一口气, 忽略你所学的一切, 加一个条件, 把需求实现了往往是有助于进展的
+
 
