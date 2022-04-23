@@ -6,7 +6,7 @@ https://workingwithruby.com/wwup/intro/
 - [x] 02.primer
 - [x] 03.processes_have_ids
 - [x] 04.processes_have_parents
-- [ ] 05.processes_have_file_descriptors
+- [x] 05.processes_have_file_descriptors
 - [ ] 06.processes_have_resource_limits
 - [ ] 07.processes_have_an_environment
 - [ ] 08.processes_have_arguments
