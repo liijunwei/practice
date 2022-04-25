@@ -1,7 +1,13 @@
 https://workingwithruby.com/wwup/rlimits/
 
++ fact: open resources are represented by file descriptors
+
+进程使用中的资源是用文件描述符表示的
+
 + Q: how many file descriptors can one process have?
     + The answer depends on your system configuration, but the important point is there are some resource limits imposed on a process by the kernel.
+
+每个进程能打开的文件描述符的数量是有限制的, 限制来自于内核
 
 ```ruby
 # getrlimit(resource) → [cur_limit, max_limit]
