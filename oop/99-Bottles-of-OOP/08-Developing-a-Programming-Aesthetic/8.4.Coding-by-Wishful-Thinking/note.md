@@ -6,4 +6,6 @@
 
 与伪代码和TDD一样, 通过"wishful thinking"方式进行编码, 可以让您以低代价勾勒出软件设计思想
 
++ Think about this from the message sender’s point of view: What does Bottles want from BottleVerse?
+
 
