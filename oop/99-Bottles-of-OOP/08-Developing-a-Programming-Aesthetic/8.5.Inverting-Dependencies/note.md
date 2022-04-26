@@ -63,4 +63,13 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 
 + Bottles can produce as many different songs as you have different verse templates, without itself changing.
 
++ Here’s the process used to create the verse template role:
+    1. Identify the code you want to vary.
+    2. Name the underlying concept.
+    3. Extract the identified code into its own class.
+    4. Inject this new role-playing object back into the object from which it was extracted.
+    5. Forward messages from the original class to the injected object.
+
+意识到 verse_template 
+
 
