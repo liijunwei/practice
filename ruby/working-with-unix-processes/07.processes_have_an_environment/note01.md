@@ -30,6 +30,8 @@ ENV.class
 
 + Environment variables are often used as a generic way to accept input into a command-line program
 
+环境变量通常用作 接收命令行程序输入 的通用方法
+
 + Using environment variables is often less overhead than explicitly parsing command line options.
 
 + System Calls
