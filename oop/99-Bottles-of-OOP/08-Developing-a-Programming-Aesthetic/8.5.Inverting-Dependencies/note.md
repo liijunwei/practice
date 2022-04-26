@@ -2,11 +2,17 @@
 
 + Recall that the impetus behind extracting BottleVerse was the need to produce songs with other lyrics.
 
-回想我们从Bottles类里面抽取出BottleVerse类的动机是 满足生产不同的shi
+回想我们从Bottles类里面抽取出BottleVerse类的动机是 满足为不同诗句产生不同歌词的需求
 
 + Despite having completed the extraction, you can’t yet fulfill this vary-the-verse requirement.
 
+尽管目前已经实现了提取出新的类, 但是现在还是满足不了新需求
+
 + Why not? Because Bottles is currently stuck to BottleVerse. You have extracted the class, but not yet inverted the dependency.
+
+为什么不行呢? 因为Bottles类现在被固定在了BottleVerse上(Hardcoded)
+
+
 
 + The Dependency Inversion Principle (DIP) contributes the 'D' in the SOLID acronym and can be defined as "depend on abstractions, not concretions."
 
