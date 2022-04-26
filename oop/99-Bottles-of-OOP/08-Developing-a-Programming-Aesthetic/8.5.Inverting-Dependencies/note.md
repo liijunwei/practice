@@ -41,8 +41,9 @@ Bottles依赖于BottleVerse相关类的两部分
 
 + Bottles doesn’t have to know the concrete class name BottleVerse, this name could easily be passed into Bottles from the outside.
 
-Bottles类不需要知道
+Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关其他方式注入到Bottle类中
 
 + Doing so not only reduces the number of dependencies inside of Bottles, but it also opens Bottles to an entire universe of existing and potential lyrics providers.
 
+这么做不仅可以减少Bottles内部的依赖, 并且使得Bottles变得对扩展开放
 
