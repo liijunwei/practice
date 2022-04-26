@@ -70,13 +70,15 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
     4. Inject this new role-playing object back into the object from which it was extracted.
     5. Forward messages from the original class to the injected object.
 
-意识到 verse_template 这个角色的过程(发现思路)
-
+发现 verse_template 这个角色的过程:
 1. 识别出产生不同之处的代码
 2. 为概念命名
 3. 将相同部分提取成单独的类
 4. 将不同的template通过依赖注入的方式加入到单独的类里
-5. 
+5. 将信息从原来的类转发给注入的实例
+
+
+
 
 
 
