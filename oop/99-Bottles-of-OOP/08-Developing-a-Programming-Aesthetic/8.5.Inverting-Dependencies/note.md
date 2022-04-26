@@ -20,4 +20,9 @@
 
 ## 8.5.1. Injecting Dependencies
 
++ It’s time to loosen the coupling between Bottles and BottleVerse.
+
++ Bottles depends on(has knowledge about) two different BottleVerse-related things:
+    1. a concretion, that is, the name of the BottleVerse class, and
+    2. an abstraction, namely, the idea that there’s an object that can provide a verse.
 
