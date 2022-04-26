@@ -8,19 +8,16 @@ https://workingwithruby.com/wwup/env/
 
 每个进程从他的父进程里继承环境变量
 
-+ They are set by a parent process and inherited by its child processes.
++ **They are set by a parent process and inherited by its child processes.**
 
 这些环境变量从父进程里继承而来, 并且会传递给它自己的子进程
 
 + Environment variables are per-process and are global to each process.
 
-这些环境变量
+这些环境变量是每个进程的变量, 对每个进程都是全局变量
 
 + Environment variables are key-value pairs that hold data for a process.
 
-+ Every process inherits environment variables from its parent.
-
-+ **They are set by a parent process and inherited by its child processes.**
 
 + Environment variables are per-process and are global to each process.
 
