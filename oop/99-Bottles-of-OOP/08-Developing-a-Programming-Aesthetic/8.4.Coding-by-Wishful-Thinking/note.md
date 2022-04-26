@@ -8,4 +8,10 @@
 
 + Think about this from the message sender’s point of view: What does Bottles want from BottleVerse?
 
++ Coding by wishing thinking led to the discovery of a more intention-revealing interface for BottleVerse.
+
++ If you plug BottleVerse into Bottles and tests fail, the rules of refactoring say you must undo and fix the offending code.
+
++ If you can’t immediately fix the problem, either drop back and use the original technique that takes smaller steps, or TDD the new BottleVerse.
+
 
