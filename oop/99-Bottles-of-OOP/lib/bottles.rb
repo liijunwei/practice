@@ -116,6 +116,8 @@ class BottleVerse
 end
 
 class Bottles
+  attr_reader :verse_template
+
   def song
     verses(99, 0)
   end
