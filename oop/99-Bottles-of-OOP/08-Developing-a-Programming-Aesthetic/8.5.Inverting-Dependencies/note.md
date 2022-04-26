@@ -77,6 +77,10 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 4. 将不同的template通过依赖注入的方式加入到单独的类里
 5. 将信息从原来的类转发给注入的实例
 
++ This process can be summarized in a few words: Isolate the behavior you want to vary.
+
+上述过程可以用一句简单的话概括: 将你想要改变的行为隔离开
+
 
 
 
