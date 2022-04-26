@@ -49,8 +49,10 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 
 + You can think of classes that provide lyrics as playing a common role.
 
-可以将产生诗句的类视为
+可以将产生诗句的类视为充当某种角色
 
 + Roles need names, and this role could reasonably be named verse template.
+
+这种角色我们给它起名为 "verse_template"
 
 
