@@ -103,6 +103,9 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 
 所以 原来 依赖于具体实现, 现在依赖于抽象概念, 依赖被翻转了
 
++ [Dependency Inversion Principle(DIP) from Wikipedia](https://en.wikipedia.org/wiki/Dependency_inversion_principle)
+    + High-level modules should not import anything from low-level modules. Both should depend on abstractions (e.g., interfaces).
+    + Abstractions should not depend on details. Details (concrete implementations) should depend on abstractions.
 
 
 
