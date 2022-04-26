@@ -2,6 +2,8 @@ https://workingwithruby.com/wwup/env/
 
 + Environment, in this sense, refers to what’s known as `environment variables`
 
+对进程来说, "环境"指的是环境变量
+
 + Environment variables are key-value pairs that hold data for a process.
 
 + Every process inherits environment variables from its parent.
