@@ -18,7 +18,6 @@ https://workingwithruby.com/wwup/env/
 
 + Environment variables are key-value pairs that hold data for a process.
 
-
 + Environment variables are per-process and are global to each process.
 
 ```ruby

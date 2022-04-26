@@ -13,3 +13,9 @@ tig cpp/
 tig clang/the-c-programming-language/
 tig ruby/working-with-unix-processes/
 ```
+
+## [auto commit](https://www.markusdosch.com/2020/07/git-auto-commit-push-every-couple-of-minutes/)
+
+```bash
+watch -n 60 "git pull && (git ls-files --modified --others --exclude-standard | grep . > /dev/null) && { git add . ; git commit -m 'Commit automatically by watch.' ; git push; }"
+```
