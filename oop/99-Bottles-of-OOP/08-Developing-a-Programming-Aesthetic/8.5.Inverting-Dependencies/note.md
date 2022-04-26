@@ -26,3 +26,8 @@
     1. a concretion, that is, the name of the BottleVerse class, and
     2. an abstraction, namely, the idea that there’s an object that can provide a verse.
 
+
+
++ Knowing the abstraction is required.
++ Knowing about the concretion, on the other hand, is completely avoidable.
+
