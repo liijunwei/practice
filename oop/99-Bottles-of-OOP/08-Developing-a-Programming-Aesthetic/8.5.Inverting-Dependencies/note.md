@@ -89,6 +89,8 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 
 + It’s now possible to fulfill the current requirement by creating and injecting a new class that plays this role.
 
+## 8.5.3. Grappling with Inversion
+
 
 
 
