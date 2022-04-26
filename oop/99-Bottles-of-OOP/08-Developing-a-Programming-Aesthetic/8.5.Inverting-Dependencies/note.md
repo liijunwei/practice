@@ -33,7 +33,16 @@ Bottles依赖于BottleVerse相关类的两部分
 
 + Knowing the abstraction is required.
 
-其中对抽象知识部分的依赖是不可避免的
+其中对抽象知识部分的依赖是必要且不可避免的
 
 + Knowing about the concretion, on the other hand, is completely avoidable.
+
+但是对具体实现细节的依赖确实可以避免的
+
++ Bottles doesn’t have to know the concrete class name BottleVerse, this name could easily be passed into Bottles from the outside.
+
+Bottles类不需要知道
+
++ Doing so not only reduces the number of dependencies inside of Bottles, but it also opens Bottles to an entire universe of existing and potential lyrics providers.
+
 
