@@ -12,7 +12,8 @@
 
 为什么不行呢? 因为Bottles类现在被固定在了BottleVerse上(Hardcoded)
 
-
+我们只抽取了类, 但是没有反转依赖关系
 
 + The Dependency Inversion Principle (DIP) contributes the 'D' in the SOLID acronym and can be defined as "depend on abstractions, not concretions."
 
+依赖反转原则是说 我们的代码应该依赖于抽象, 而不应该依赖于具体的实现
