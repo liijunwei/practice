@@ -95,8 +95,13 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 
 理解Dependency Inversion Principle (DIP)的关键在于 要意识到 我们的代码应该依赖于抽象, 而不是依赖于具体的实现
 
++ Where Bottles once had a dependency on the BottleVerse concretion, it now has a dependency on the verse template abstraction. Thus the original dependency has been inverted.
 
+例如 之前 Bottles 依赖于 具体的实现类BottleVerse
 
+在提取出 `verse_template` 概念后, Bottles 不在依赖于具体的实现类了, 它现在依赖于名为 verse_template 的抽象概念
+
+所以 原来 依赖于具体实现, 现在依赖于抽象概念, 依赖被翻转了
 
 
 
