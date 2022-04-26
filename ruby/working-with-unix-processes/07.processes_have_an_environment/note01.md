@@ -34,6 +34,8 @@ ENV.class
 
 + Using environment variables is often less overhead than explicitly parsing command line options.
 
+使用环境变量通常比显式解析命令行选项的开销更小
+
 + System Calls
     + man 3 setenv
     + man 3 getenv
