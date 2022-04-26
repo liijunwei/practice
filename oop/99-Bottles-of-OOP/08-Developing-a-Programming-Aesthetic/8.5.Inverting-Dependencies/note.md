@@ -57,6 +57,10 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 
 + Question: when injecting collaborators, should you inject classes or instances of those classes?
 
+## 8.5.2. Isolating Variants
 
++ Bottles now thinks of itself as interacting with a player of the verse template role rather than a kind of the BottleVerse type.
+
++ Bottles can produce as many different songs as you have different verse templates, without itself changing.
 
 
