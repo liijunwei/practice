@@ -107,7 +107,14 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
     + High-level modules should not import anything from low-level modules. Both should depend on abstractions (e.g., interfaces).
     + Abstractions should not depend on details. Details (concrete implementations) should depend on abstractions.
 
++ In this definition module means an encapsulated, named unit of functionality in a program.
 
+上述的 `module` 指的是封装, 一段实现了具体功能的代码段
+
++ Bottles is thus the highest-level module in the code.
++ The entire public API is currently defined in Bottles.
++ Every other class was created by extracting behavior from the high-level module Bottles.
++ These extracted classes represent lower-level modules.
 
 
 
