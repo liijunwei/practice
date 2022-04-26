@@ -26,8 +26,14 @@
     1. a concretion, that is, the name of the BottleVerse class, and
     2. an abstraction, namely, the idea that there’s an object that can provide a verse.
 
+Bottles依赖于BottleVerse相关类的两部分
 
+1. 类的具体的实现
+2. 抽象的某个类的实例 能够产生诗句
 
 + Knowing the abstraction is required.
+
+其中对抽象知识部分的依赖是不可避免的
+
 + Knowing about the concretion, on the other hand, is completely avoidable.
 
