@@ -17,3 +17,7 @@
 + The Dependency Inversion Principle (DIP) contributes the 'D' in the SOLID acronym and can be defined as "depend on abstractions, not concretions."
 
 依赖反转原则是说 我们的代码应该依赖于抽象, 而不应该依赖于具体的实现
+
+## 8.5.1. Injecting Dependencies
+
+
