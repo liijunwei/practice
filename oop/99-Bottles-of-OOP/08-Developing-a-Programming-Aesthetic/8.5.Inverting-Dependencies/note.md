@@ -91,6 +91,9 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 
 ## 8.5.3. Grappling with Inversion
 
++ The key to understanding the principle is to recognize that your code should depend on abstractions.
+
+理解Dependency Inversion Principle (DIP)的关键在于 要意识到 我们的代码应该依赖于抽象, 而不是依赖于具体的实现
 
 
 
