@@ -47,3 +47,10 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 
 这么做不仅可以减少Bottles内部的依赖, 并且使得Bottles变得对扩展开放
 
++ You can think of classes that provide lyrics as playing a common role.
+
+可以将产生诗句的类视为
+
++ Roles need names, and this role could reasonably be named verse template.
+
+
