@@ -6,7 +6,7 @@ https://workingwithruby.com/wwup/env/
 
 + Every process inherits environment variables from its parent.
 
-每个进程从他的父进程里集成
+每个进程从他的父进程里继承环境变量
 
 + They are set by a parent process and inherited by its child processes.
 
