@@ -85,7 +85,9 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 
 面向对象最基本的一个概念就是 要把想要改变的行为给隔离开
 
++ Isolating the bottles variant of the verse template opens your code to the possibility of other variants.
 
++ It’s now possible to fulfill the current requirement by creating and injecting a new class that plays this role.
 
 
 
