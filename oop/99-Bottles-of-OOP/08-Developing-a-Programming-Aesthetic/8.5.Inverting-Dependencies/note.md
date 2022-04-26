@@ -79,7 +79,15 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 
 + This process can be summarized in a few words: Isolate the behavior you want to vary.
 
-上述过程可以用一句简单的话概括: 将你想要改变的行为隔离开
+上述过程可以用一句简单的话概括: 将你想要改变的行为隔离开(???)
+
++ One of the most fundamental concepts in OO is to isolate the behavior you want to vary.
+
+面向对象最基本的一个概念就是 要把想要改变的行为给隔离开
+
+
+
+
 
 
 
