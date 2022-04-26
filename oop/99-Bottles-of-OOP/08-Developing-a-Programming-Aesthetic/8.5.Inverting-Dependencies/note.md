@@ -55,4 +55,8 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 
 这种角色我们给它起名为 "verse_template"
 
++ Question: when injecting collaborators, should you inject classes or instances of those classes?
+
+
+
 
