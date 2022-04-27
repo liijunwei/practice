@@ -118,5 +118,5 @@ end
     + objects that are passed in as arguments to the method
     + objects that are directly available to self
 
-迪米特法则指明, 在一个方法里, 消息之能发送给 这个方法的参数的
+迪米特法则指明, 在一个方法里, 消息之能发送给 作为这个方法的参数的对象; 或者 调用这个方法的实例(self)
 
