@@ -105,4 +105,4 @@ end
 
 + The [Object-Oriented Programming: An Objective Sense of Style](https://www2.ccs.neu.edu/research/demeter/papers/law-of-demeter/oopsla88-law-of-demeter.pdf) whitepaper defines the law as follows:
 
-> For all class
+> For all classes C and for all methods M attatched to C, all objects to which M sends a message must be 
