@@ -73,3 +73,11 @@ end
 
 + This tight coupling across many objects introduces two serious problems which are then blithely lobbed into the future.
 
+许多对象之间的这种紧密耦合引入了两个严重的问题, 这些问题如果不及时处理, 那么就是给未来埋坑
+
++ First, arranging the code in this way interferes with your ability to use Foo in new and unexpected contexts.
+
+
+
+
+
