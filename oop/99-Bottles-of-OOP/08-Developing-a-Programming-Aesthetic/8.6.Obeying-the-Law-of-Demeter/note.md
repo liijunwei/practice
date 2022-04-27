@@ -79,5 +79,17 @@ end
 
 首先, 这种组织代码的方式 干扰你以后在其他地方使用`Foo`的能力
 
-+ These consequences become obvious when you attempt to reuse Foo. Tests serve many purposes, one of which is to reveal how easy it is to reuse code. Tightly-coupled code is difficult to test. Tightly-coupled objects require adding lots of context, all of which must be provided in order to run any test.
++ These consequences become obvious when you attempt to reuse Foo.
+
+当你想要复用`Foo`的时候, 这些后果就会变得很明显
+
++ Tests serve many purposes, one of which is to reveal how easy it is to reuse code. Tightly-coupled code is difficult to test.
+
+测试有很多目的, 其一就是揭示出复用这些代码的难度
+
+紧密耦合的代码很难测试
+
++ Tightly-coupled objects require adding lots of context, all of which must be provided in order to run any test.
+
+紧密耦合的代码需要增加很多的上下文, 这些上下文的存在是正常运行测试的必要条件
 
