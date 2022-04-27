@@ -99,4 +99,10 @@ end
 
 + Secondly, satisfying a requirement by chaining messages together allows you to make code work without figuring out what the objects actually want.
 
++ It’s time to have a look at the Demeter’s formal definition.
+
+该仔细看看迪米特法则到底讲了什么了
+
++ The Object-Oriented Programming: An Objective Sense of Style whitepaper defines the law as follows:
+
 
