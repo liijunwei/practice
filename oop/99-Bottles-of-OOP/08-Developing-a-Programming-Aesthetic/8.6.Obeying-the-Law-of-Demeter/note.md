@@ -110,6 +110,13 @@ end
     2. The instace variable classes of C
 (Objects created by M, or by functions or methods which M calls, and objects in global variables are considered as arguments of M)
 
++ The above is a marvel of succinct precision but its very terseness makes it difficult to understand.
 
+上面这句话简洁精确, 令人惊叹, 但它的简洁让人难以理解
 
++ The Law of Demeter says that from within a method, messages should be sent only to:
+    + objects that are passed in as arguments to the method
+    + objects that are directly available to self
+
+迪米特法则指明, 在一个方法里, 消息之能发送给 这个方法的参数的
 
