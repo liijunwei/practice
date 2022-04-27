@@ -49,6 +49,15 @@ class Foo
 end
 ```
 
-Foo 首先将 `pet`消息发送给了 `best_friend`, 因为Foo知道 `best_firedn` 的存在, 所以`best_firedn`是直接的协作者, 发送消息后, fan'hui'le'ge
+`Foo` 首先将 `pet`消息发送给了 `best_friend`, 因为Foo知道 `best_firedn` 的存在, 所以`best_firedn`是直接的协作者, 发送消息后, 返回了一个`Pet`的实例
+
+目前为止没问题
+
+接下来, `Foo`给`pet`实例发送了`preferred_toy`消息, 注意
+
+这时, 要求`Foo`了解或者说依赖于`Toy`类
+
+
+
 
 
