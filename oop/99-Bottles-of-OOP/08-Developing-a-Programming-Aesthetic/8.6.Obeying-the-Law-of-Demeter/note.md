@@ -103,6 +103,6 @@ end
 
 该仔细看看迪米特法则到底讲了什么了
 
-+ The Object-Oriented Programming: An Objective Sense of Style whitepaper defines the law as follows:
++ The [Object-Oriented Programming: An Objective Sense of Style](https://www2.ccs.neu.edu/research/demeter/papers/law-of-demeter/oopsla88-law-of-demeter.pdf) whitepaper defines the law as follows:
 
-
+> For all class
