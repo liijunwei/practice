@@ -123,4 +123,13 @@ end
 ```ruby
 'AbCdE'.reverse.gsub(/C/, "!").downcase.chop # -> "ed!b"
 ```
+The example above contains many dots but **is not a Demeter violation** because each intermediate message returns an object that conforms to the same API.
+
++ The Law of Demeter effectively restricts the list of other objects to which an object may send a message.
+
+迪米特法则有效地限制了 其他对象发送的消息
+
++ Its purpose is to reduce the coupling between objects.
+
+最终的目的是减少对象之间的耦合
 
