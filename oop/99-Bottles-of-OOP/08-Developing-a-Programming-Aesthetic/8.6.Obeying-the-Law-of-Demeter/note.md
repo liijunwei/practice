@@ -148,3 +148,37 @@ The example above contains many dots but **is not a Demeter violation** because 
 + One obvious way to cure message chains is by introducing message forwarding,[19] a technique often referred to in casual conversation as delegation.
 
 一种明显的处理方法是: 引入方法转发
+
+对上面的例子来说, 就是让Friend转发其他对象的方法
+
+```ruby
+class Friend
+  def durability_of_preferred_toy_of_pet
+    pet.durability_of_preferred_toy
+  end
+end
+
+class Pet
+  def durability_of_preferred_toy
+    preferred_toy.durability
+  end
+end
+
+class Toy
+  def durability
+    1.hour
+  end
+end
+
+# Foo now only sends messages to best_friend
+class Foo
+  def durability_of_preferred_toy_of_best_friends_pet
+    best_friend.durability_of_preferred_toy_of_pet
+  end
+end
+```
+
++ The code in each method above obeys the Law of Demeter by sending messages only to direct collaborators.
+
+
+
