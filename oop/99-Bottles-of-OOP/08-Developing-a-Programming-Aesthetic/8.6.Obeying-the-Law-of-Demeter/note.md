@@ -49,11 +49,15 @@ class Foo
 end
 ```
 
-`Foo` 首先将 `pet`消息发送给了 `best_friend`, 因为Foo知道 `best_firedn` 的存在, 所以`best_firedn`是直接的协作者, 发送消息后, 返回了一个`Pet`的实例
+![Figure 8.3: Violating the Law of Demeter](./Xnip2022-04-27_09-18-55.png)
+
+`Foo` 首先将 `pet`消息发送给了 `best_friend`, 因为Foo知道 `best_firedn` 的存在, 所以`Friend`是直接的协作者, 发送消息后, 返回了一个`Pet`的实例
 
 目前为止没问题
 
-接下来, `Foo`给`pet`实例发送了`preferred_toy`消息, 注意
+接下来, `Foo`给`pet`实例发送了`preferred_toy`消息, 注意: `Pet` 不是`Foo`的直接协作者
+
+`Pet`是`Friend`的直接写作者
 
 这时, 要求`Foo`了解或者说依赖于`Toy`类
 
