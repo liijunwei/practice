@@ -116,6 +116,14 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 + Every other class was created by extracting behavior from the high-level module Bottles.
 + These extracted classes represent lower-level modules.
 
++ rephrased 重新措辞/换个说法说/改变词句
 
++ In terms of the current code, the official Dependency Inversion Principle definition can be rephrased as:
+    1. High-level modules like Bottles should not depend on lower-level modules like BottleVerse. Each should depend on abstractions.
+    2. Bottles should not depend on concrete details like the name of the BottleVerse class. Bottles should instead depend on an object that polymorphically generates song verses.
 
+用现有代码来理解依赖倒置原则
+
+1. 高层模块(Bottles)不应该依赖于底层的模块(BottleVerse), 他俩都应该依赖于抽象
+2. Bottles 不应该依赖于
 
