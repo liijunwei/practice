@@ -125,5 +125,7 @@ Bottles类不需要知道BottleVerse的具体实现, 它可以很容易的通关
 用现有代码来理解依赖倒置原则
 
 1. 高层模块(Bottles)不应该依赖于底层的模块(BottleVerse), 他俩都应该依赖于抽象
-2. Bottles 不应该依赖于
+2. Bottles 不应该依赖于具体的实现(例如 BottleVerse的名字), Bottles应该依赖于能够通过多态生成不同诗句的类实例
+
+
 
