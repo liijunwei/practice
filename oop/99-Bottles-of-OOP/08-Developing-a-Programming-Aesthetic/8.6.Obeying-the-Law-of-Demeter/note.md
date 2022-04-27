@@ -57,9 +57,11 @@ end
 
 接下来, `Foo`给`pet`实例发送了`preferred_toy`消息, 注意: `Pet` 不是`Foo`的直接协作者
 
-`Pet`是`Friend`的直接写作者
+`Pet`是`Friend`的直接协作者
 
-这时, 要求`Foo`了解或者说依赖于`Toy`类
+它的意思是: `Foo`依赖了`Friend`的直接协作者, 依赖了自己协作者的协作者
+
+接下来这个过程又重复了一次: `Foo`给`Toy`的实例发送了`durability`消息, 发送这条消息, 要求`Foo`了解`Toy`的api, 即
 
 
 
