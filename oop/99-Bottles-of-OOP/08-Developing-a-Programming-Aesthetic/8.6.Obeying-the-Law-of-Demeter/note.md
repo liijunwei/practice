@@ -32,3 +32,14 @@ end
 
 警惕多余的依赖, 并以极端偏见消除它们
 
++ [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter)
+    + In its general form, the LoD is a specific case of loose coupling.
+    +
+    + Each unit should have only limited knowledge about other units: only units "closely" related to the current unit.
+    + Each unit should only talk to its friends; don't talk to strangers.
+    + Only talk to your immediate friends.
+
+迪米特法则, 是松耦合的一种特例
+
+
+
