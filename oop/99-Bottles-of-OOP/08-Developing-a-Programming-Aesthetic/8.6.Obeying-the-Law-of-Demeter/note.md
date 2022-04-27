@@ -93,3 +93,10 @@ end
 
 紧密耦合的代码需要增加很多的上下文, 这些上下文的存在是正常运行测试的必要条件
 
++ An object that’s hard to test is attempting to warn you that it will be difficult to reuse.
+
+如果某个对象很难测试, 那么他也会很难以重用
+
++ Secondly, satisfying a requirement by chaining messages together allows you to make code work without figuring out what the objects actually want.
+
+
