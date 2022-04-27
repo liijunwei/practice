@@ -3,6 +3,8 @@
 + Lines that contain many dots might violate the Law of Demeter (LoD).
 + This section defines that law, determines where it applies, explores the consequences of ignoring it, and explains how to fix violations.
 
+## 8.6.1. Understanding the Law
+
 + Listing 8.19: Verse Method Contains Many Dependencies
 ```ruby
 class Bottles
@@ -140,3 +142,9 @@ The example above contains many dots but **is not a Demeter violation** because 
 + Objects may only send messages to direct collaborators.
 
 对象应该只给和他直接先关的对象发送消息
+
+## 8.6.2. Curing Demeter Violations
+
++ One obvious way to cure message chains is by introducing message forwarding,[19] a technique often referred to in casual conversation as delegation.
+
+一种明显的处理方法是: 引入方法转发
