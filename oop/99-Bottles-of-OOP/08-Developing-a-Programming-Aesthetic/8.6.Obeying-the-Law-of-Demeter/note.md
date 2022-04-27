@@ -77,7 +77,7 @@ end
 
 + First, arranging the code in this way interferes with your ability to use Foo in new and unexpected contexts.
 
+首先, 这种组织代码的方式 干扰你以后在其他地方使用`Foo`的能力
 
-
-
++ These consequences become obvious when you attempt to reuse Foo. Tests serve many purposes, one of which is to reveal how easy it is to reuse code. Tightly-coupled code is difficult to test. Tightly-coupled objects require adding lots of context, all of which must be provided in order to run any test.
 
