@@ -12,5 +12,23 @@ class Bottles
   end
 end
 ```
-On line 4 above the verse method knows:
+
++ the verse method knows:
+    + that verse_template responds to new
+    + that new expects an argument
+    + that the argument to new must be a number
+    + that the object returned from new(number) responds to the message lyrics that lyrics returns the actual lyrics of interest
+
++ **This list enumerates many things that Bottles knows about but doesn’t control, which means they’re dependencies**
++ Dependencies are vulnerabilities
+
+依赖 是 脆弱性的来源
+
++ Dependencies can’t be avoided but should certainly be minimized.
+
+应用程序无法避免依赖, 但是 应该尽量减少依赖
+
++ Be alert for superfluous dependencies and remove them with extreme prejudice.
+
+警惕多余的依赖, 并以极端偏见消除它们
 
