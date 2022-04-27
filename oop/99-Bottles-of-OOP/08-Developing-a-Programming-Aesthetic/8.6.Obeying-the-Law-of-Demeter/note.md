@@ -32,7 +32,7 @@ end
 
 警惕多余的依赖, 并以极端偏见消除它们
 
-+ [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter)
++ [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter) (TODO unclear)
     + In its general form, the LoD is a specific case of loose coupling.
     +
     + Each unit should have only limited knowledge about other units: only units "closely" related to the current unit.
