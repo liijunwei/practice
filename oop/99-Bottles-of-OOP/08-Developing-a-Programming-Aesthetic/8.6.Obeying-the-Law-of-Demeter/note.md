@@ -180,5 +180,11 @@ end
 
 + The code in each method above obeys the Law of Demeter by sending messages only to direct collaborators.
 
++ Adding these forwarding messages makes Foo easier to test, which means it will be easier to reuse.
+
++ Here’s an updated visualization:
+
+![Figure 8.4: LoD Violation Cured With Forwarding](./Xnip2022-04-27_22-20-44.png)
+
 
 
