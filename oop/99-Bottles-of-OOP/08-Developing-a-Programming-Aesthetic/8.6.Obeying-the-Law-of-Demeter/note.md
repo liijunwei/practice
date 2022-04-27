@@ -61,9 +61,15 @@ end
 
 它的意思是: `Foo`依赖了`Friend`的直接协作者, 依赖了自己协作者的协作者
 
-接下来这个过程又重复了一次: `Foo`给`Toy`的实例发送了`durability`消息, 发送这条消息, 要求`Foo`了解`Toy`的api, 即
+接下来这个过程又重复了一次: `Foo`给`Toy`的实例发送了`durability`消息, 发送这条消息, 要求`Foo`了解`Toy`的api, 即 `Foo`依赖了`Pet`的直接协作者, 依赖了自己协作者的协作者的协作者
 
++ The underlying code looks innocuous but the diagram makes it inescapably obvious that you can’t have a Foo unless you can provide it with a Friend who has a Pet who has a Toy.
 
+代码看起来无害, 但图表表明, 除非你能把Foo提供给一个有宠物和玩具的朋友, 否则你不能拥有Foo(???)
 
++ The code may produce the correct output at this moment, but will not age well.
 
+这段代码或许现在能正常工作, 但它的寿命注定不会长
+
++ This tight coupling across many objects introduces two serious problems which are then blithely lobbed into the future.
 
