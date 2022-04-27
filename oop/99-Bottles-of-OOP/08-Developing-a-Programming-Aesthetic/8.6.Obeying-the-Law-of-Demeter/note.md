@@ -105,4 +105,11 @@ end
 
 + The [Object-Oriented Programming: An Objective Sense of Style](https://www2.ccs.neu.edu/research/demeter/papers/law-of-demeter/oopsla88-law-of-demeter.pdf) whitepaper defines the law as follows:
 
-> For all classes C and for all methods M attatched to C, all objects to which M sends a message must be 
++ For all classes C and for all methods M attatched to C, all objects to which M sends a message must be instances of classes associated with the following classes:
+    1. The argument classes of M(including C)
+    2. The instace variable classes of C
+(Objects created by M, or by functions or methods which M calls, and objects in global variables are considered as arguments of M)
+
+
+
+
