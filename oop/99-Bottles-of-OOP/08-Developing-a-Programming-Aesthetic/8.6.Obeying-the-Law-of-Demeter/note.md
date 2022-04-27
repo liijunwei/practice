@@ -133,3 +133,10 @@ The example above contains many dots but **is not a Demeter violation** because 
 
 最终的目的是减少对象之间的耦合
 
++ From the message-senders point of view, an object may talk to its neighbors but not to its neighbor’s neighbors.
+
+从消息发送者的角度看, 一个对象应该和他的"邻居"(直接相关的对象)沟通, 不该和他"邻居的邻居"沟通
+
++ Objects may only send messages to direct collaborators.
+
+对象应该只给和他直接先关的对象发送消息
