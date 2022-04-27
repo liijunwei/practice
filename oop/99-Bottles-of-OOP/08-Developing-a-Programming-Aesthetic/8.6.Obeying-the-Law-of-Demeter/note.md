@@ -49,3 +49,6 @@ class Foo
 end
 ```
 
+Foo 首先将 `pet`消息发送给了 `best_friend`, 因为Foo知道 `best_firedn` 的存在, 所以`best_firedn`是直接的协作者, 发送消息后, fan'hui'le'ge
+
+
