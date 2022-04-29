@@ -187,4 +187,46 @@ end
 ![Figure 8.4: LoD Violation Cured With Forwarding](./Xnip2022-04-27_22-20-44.png)
 
 
++ The trick to honoring the Law while simultaneously avoiding encoding the names of existing objects into the names of the forwarding messages is to *think about design from the message senders point of view.*
+
+![Figure 8.5: LoD Violation Cured With Abstraction](./Xnip2022-04-29_08-57-20.png)
+
++ As far as Foo is concerned, no other objects exist.
+
++ Once you decide on this new message name, fixing the code is as simple as changing Foo to send it and Friend to implement it
+
+
+```ruby
+class Friend
+  def playdate_time_limit
+    pet.durability_of_preferred_toy
+  end
+end
+
+class Pet
+  def durability_of_preferred_toy
+    preferred_toy.durability
+  end
+end
+
+class Toy
+  def durability
+    1.hour
+  end
+end
+
+# Foo now asks for what it wants instead of making assumptions about its collaborators' collaborators.
+class Foo
+  def playdate_time_limit
+    best_friend.playdate_time_limit
+  end
+end
+```
+
++ Now that Foo is talking only to a direct collaborator instead poking around in distant objects, it more easily tolerates unexpected change.
+
++ Foo's behavior has expanded without Foo itself changing at all.
+
++ These two changes, injecting the best_friend dependency and sending a message named after what Foo wants, permit Foo to seamlessly collaborate with new objects and tolerate unexpected change.
+
 
