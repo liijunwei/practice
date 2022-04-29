@@ -105,6 +105,10 @@ class BottleVerse
     @number = number
   end
 
+  def self.lyrics(number)
+    new(number).lyrics
+  end
+
   def lyrics
     bottle_number = BottleNumber.for(number)
 
@@ -131,6 +135,6 @@ class Bottles
   end
 
   def verse(number)
-    verse_template.new(number).lyrics
+    verse_template.lyrics(number)
   end
 end
