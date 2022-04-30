@@ -103,6 +103,7 @@ class BottleVerse
 
   def initialize(number)
     @number = number
+    @bottle_number = number
   end
 
   def self.lyrics(number)
