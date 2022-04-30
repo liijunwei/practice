@@ -29,5 +29,7 @@ end
 
 + leeway [ˈliːweɪ] 自由活动的空间, 回旋余地
 
++ This last bit is easy if you’re willing to change everything at once, but since this example stands in for bigger, real-world problems, it’s worth practicing how to fix these names with smaller changes.
+
 
 
