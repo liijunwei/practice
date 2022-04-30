@@ -35,7 +35,7 @@ end
 
 + The rule gets broken here because in this case it is not possible to inject an instance of BottleVerse.
 
-上面的例子里违背了迪米特法则, 因为这种情况下只能注入一个类, 没法注入一个实例
+上面的例子里违背了迪米特法则, 因为这种情况下只能注入一个类, 没法注入一个实例(TODO unclear)
 
 + It’s long past time for these extracted classes to have their own tests.
 
