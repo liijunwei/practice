@@ -99,7 +99,7 @@ class BottleNumber6 < BottleNumber
 end
 
 class BottleVerse
-  attr_reader :number
+  attr_reader :number, :bottle_number
 
   def initialize(number)
     @number = number
