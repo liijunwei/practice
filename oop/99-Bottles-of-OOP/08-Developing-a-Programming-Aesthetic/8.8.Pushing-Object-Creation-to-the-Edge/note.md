@@ -31,5 +31,11 @@ end
 
 + This last bit is easy if you’re willing to change everything at once, but since this example stands in for bigger, real-world problems, it’s worth practicing how to fix these names with smaller changes.
 
+真实世界的问题比这个例子复杂, 重构时尽量步子小一点, 用正确的方法来做这件事
+
++ Instead of being restricted to one-line changes, refactoring permits one-undo changes. The broadened one-undo rule allows you to use the find/replace feature of your text editor to make many changes at once.
+
+无需一定把自己限定在"一次只能修改一行"里面, 需要注意的是, 要做那种 "如果出错了, 可以很快会退回去, 然后重新开始"的状态
+
 
 
