@@ -27,3 +27,7 @@ end
     1. resist giving instance methods knowledge of concrete class names, and
     2. seek opportunities to move the object creation towards the edges of the application.
 
++ leeway [ˈliːweɪ] 自由活动的空间, 回旋余地
+
+
+
