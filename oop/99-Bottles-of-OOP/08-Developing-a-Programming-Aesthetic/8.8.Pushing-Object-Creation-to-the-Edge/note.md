@@ -19,6 +19,8 @@ end
     2. `lyrics`方法里包含了一个空行; "Blank Line code smell" 提示我们, 这个方法里可能包含了多于一个职责, 违背了单一职责原则
     3. `lyrics`方法里只包含了一处对`number`的引用
 
++ Well-designed object-oriented applications consist of loosely-coupled objects that rely on polymorphism to vary behavior.
 
+设计良好的面向对象程序由一系列松耦合的对象组成, 这些对象依赖于多态来产生各种各样的行为
 
 
