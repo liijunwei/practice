@@ -23,4 +23,7 @@ end
 
 设计良好的面向对象程序由一系列松耦合的对象组成, 这些对象依赖于多态来产生各种各样的行为
 
++ Experienced object-oriented programmers know that applications most easily adapt to the unknown future if they:(TODO unclear)
+    1. resist giving instance methods knowledge of concrete class names, and
+    2. seek opportunities to move the object creation towards the edges of the application.
 
