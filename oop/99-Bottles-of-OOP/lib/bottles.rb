@@ -101,8 +101,8 @@ end
 class BottleVerse
   attr_reader :number, :bottle_number
 
-  def initialize(number)
-    @bottle_number = number
+  def initialize(bottle_number)
+    @bottle_number = bottle_number
   end
 
   def self.lyrics(number)
