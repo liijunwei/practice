@@ -12,6 +12,11 @@
 
 + This section explores these ideas by examining the Bottles class and its remaining tests with an eye towards reducing their context.
 
-本节通过探索
+本节通过检查`Bottles`类和它剩下的测试用例来探索这些想法, 希望能减少`Bottles`的上下文
+
+## 9.3.1. Examining Bottles' Responsibilities
+
+
+
 
 
