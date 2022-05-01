@@ -107,8 +107,8 @@
 
 + Tests should give you the freedom to improve code, not glue you to its current implementation. When they constrain rather than liberate, ask if they’re worthwhile, and consider omitting them.
 
+写测试的目的是让你能更轻松地提升代码质量, 而不是把你的代码固定在现有实现方法上面
 
-
-
+当写出的测试没能让你提升代码质量变得容易的时候, 要考虑不为他们写测试(当他们约束而不是解放时, 询问他们是否值得, 并考虑忽略他们)
 
 
