@@ -39,7 +39,10 @@
         + In such cases the solution is not to write complicated tests that overcome tight coupling, but rather to loosen the coupling so that you can write simple tests.
         + The most cost- effective time to intervene in tightly coupled code is right now, before new requirements cause you to to start reusing these objects.
 
+提升测试代码质量能完成两件事
 
+1. 降低软件的总成本
+    + 测试用例应该能帮助理解软件; 提升测试代码的质量, 能使得用例代码"表达出"一个更加
 
 
 
