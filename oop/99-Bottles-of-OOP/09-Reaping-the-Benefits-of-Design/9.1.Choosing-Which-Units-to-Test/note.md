@@ -111,4 +111,13 @@
 
 当写出的测试没能让你提升代码质量变得容易的时候, 要考虑不为他们写测试(当他们约束而不是解放时, 询问他们是否值得, 并考虑忽略他们)
 
++ The tipping point for deciding how to test is visibility. (TODO unclear)
+    + BottleVerse has assumed personal responsibility for supplying itself with BottleNumbers.
+    + BottleNumbers do not get created and injected from the outside, but instead, BottleVerse knows about them inside itself.
+    + The dependency between BottleVerse and BottleNumber is not visible to outside observers.
+
+决定如何测试的临界点是可见性
+
+`BottleVerse`认为
+
 
