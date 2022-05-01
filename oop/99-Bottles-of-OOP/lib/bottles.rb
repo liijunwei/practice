@@ -98,6 +98,7 @@ class BottleNumber6 < BottleNumber
   end
 end
 
+# BottleVerse Implements an Algorithm
 class BottleVerse
   attr_reader :bottle_number
 
