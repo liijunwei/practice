@@ -75,4 +75,13 @@
 
 当测试表现出可证实的行为时, 测试是最有价值的(??? TODO unclear)
 
+## 9.1.2. Foregoing(前述 ???) Tests
+
++ You should plan to write a unit test for every class, and you are entitled to expect to see a unit test for every class in someone else’s code.
+
+应该为每个类写单元测试
+
+
+
+
 
