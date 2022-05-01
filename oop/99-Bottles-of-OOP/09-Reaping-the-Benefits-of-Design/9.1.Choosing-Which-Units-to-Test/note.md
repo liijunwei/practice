@@ -61,6 +61,16 @@
 
 单元测试的目的是 测试某个类的公共API
 
++ Unit tests ought not test collaborators.
+
+单元测试不应该测试和某个类协作的其他类
+
++ Integration tests are intended to prove that groups of objects collaborate correctly; they show that an entire chain of behavior works. This is exactly what these Bottles tests do.
+
+集成测试意在证明一组对象一起工作, 行为符合预期
+
+集成测试辨明这个流程运行无误, 这是当前`Bottles`的测试用例所完成的事
+
 
 
 
