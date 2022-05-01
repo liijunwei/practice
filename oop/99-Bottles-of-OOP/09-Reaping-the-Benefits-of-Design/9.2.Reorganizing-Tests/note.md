@@ -18,6 +18,11 @@ move tests from `BottlesTest` to `BottleVerseTest`
 
 + Even so, here is where writing tests first really shines. It’s far better to struggle with a test that you don’t understand than to write code that you don’t understand.
 
-写测试代码的闪光之处在于: 
+写测试代码的闪光之处在于: 写出让人看不明白的测试代码 要比 写出让人看不明白的应用程序的代码要好得多
 
 + Tests force you to clarify your intentions because they make explicit assertions. Code has no such pressure, and can be left a confusing mess forever.
+
+因为测试代码(用例)迫使你澄清你的意图, 因为每个测试用例里面都要做出明确的断言
+
+应用程序的代码则没有这种压力, 他们即使意图不清, 难于理解, 可能也不会被关注到, 因为他们
+
