@@ -29,7 +29,9 @@
 
 ## 9.1.1. Contrasting(对比) Unit and Integration Tests
 
-
++ Improving the tests will accomplish two things
+    + First, this will reduce costs. Tests that tell the right story make it easier for future readers to understand the code. Improving the story will save you money forever.
+    + Next, updating the tests will lay bare the consequences of the code’s design.
 
 
 
