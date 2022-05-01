@@ -97,9 +97,13 @@
 
 + It cannot be emphasized strongly enough that most classes deserve their own explicit unit tests. This should be your default point of view.
 
++ If you subscribe to the principle that applications should have 100% test coverage, you might need to reexamine your definition of that rule.
 
+如果你同意应用程序应该具有100%测试覆盖率的原则, 你可能需要重新检查你对这条规则的定义
 
++ Perhaps it means "100% of the code should be exercised during unit tests," rather than "100% of the public methods should have their own personal tests."
 
+或许它指的是100%的代码在单元测试阶段都在测试时被执行过, 不是指 
 
 
 
