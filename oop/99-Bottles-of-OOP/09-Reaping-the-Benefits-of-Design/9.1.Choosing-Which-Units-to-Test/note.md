@@ -126,9 +126,12 @@
 
 + It’s so invisible to outside observers that it may as well not exist.
 
++ In summary, BottleNumbers are:
+    + small
+    + simple
+    + invisible from outside of BottleVerse
+    + used in no context other than BottleVerse
 
-
-
-
+综上, 可以暂时把`BottleNumbers`看成`BottleVerse`的一部分, 只需为`BottleVerse`做单元测试, 不需要单独为`BottleNumbers`做单元测试
 
 
