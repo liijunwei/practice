@@ -142,3 +142,11 @@
 
 要用良好的判断能力, 对每个类的公共API创建单元测试
 
+同时也要确保 所有的测试都是有效的, 必要的; 如果非必要, 要把它们清理掉
+
++ While all code needs to be tested, some tests aren’t worth writing.
+
+虽然所有代码都需要被测试, 但是有些测试代码却是不值得写的
+
+
+
