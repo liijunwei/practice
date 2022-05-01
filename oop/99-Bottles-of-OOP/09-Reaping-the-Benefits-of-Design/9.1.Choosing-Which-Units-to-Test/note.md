@@ -103,7 +103,11 @@
 
 + Perhaps it means "100% of the code should be exercised during unit tests," rather than "100% of the public methods should have their own personal tests."
 
-或许它指的是100%的代码在单元测试阶段都在测试时被执行过, 不是指 
+或许它指的是100%的代码在单元测试阶段都在测试时被执行过, 不是指 每个公共方法都有自己的单元测试
+
++ Tests should give you the freedom to improve code, not glue you to its current implementation. When they constrain rather than liberate, ask if they’re worthwhile, and consider omitting them.
+
+
 
 
 
