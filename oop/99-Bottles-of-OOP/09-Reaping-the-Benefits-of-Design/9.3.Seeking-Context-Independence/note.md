@@ -39,8 +39,8 @@ end
 ```
 
 + Take a fresh look at this code and describe what it does. Classes should be named after what they are: what is this?
+    + **This is a CountdownSong.**
 
++ parochial [pəˈroʊkiəl] 只关心本地区的;教区的;堂区的;地方观念的
 
-
-
-
+Bottles is parochial and useful in one specific case. CountdownSong is generic and useful in many cases. 
