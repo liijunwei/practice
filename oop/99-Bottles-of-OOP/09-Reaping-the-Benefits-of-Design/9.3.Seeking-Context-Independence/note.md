@@ -48,4 +48,9 @@ end
 
 + Bottles can be renamed to CountdownSong with a straightforward refactoring.
 
+## 9.3.2. Purifying Tests With Fakes
+
+TODO page 256
+
+
 
