@@ -30,8 +30,14 @@
 ## 9.1.1. Contrasting(对比) Unit and Integration Tests
 
 + Improving the tests will accomplish two things
-    + First, this will reduce costs. Tests that tell the right story make it easier for future readers to understand the code. Improving the story will save you money forever.
+    + First, this will reduce costs.
+        + Tests that tell the right story make it easier for future readers to understand the code.
+        + **Improving the story will save you money forever.**
     + Next, updating the tests will lay bare the consequences of the code’s design.
+        + It should be easy to create simple, intention-revealing tests.
+        + When it’s not, the chief problem is often too much coupling.
+        + In such cases the solution is not to write complicated tests that overcome tight coupling, but rather to loosen the coupling so that you can write simple tests.
+        + The most cost- effective time to intervene in tightly coupled code is right now, before new requirements cause you to to start reusing these objects.
 
 
 
