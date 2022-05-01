@@ -83,9 +83,18 @@
 
 + Integration tests are important, but they serve a different purpose than unit tests.
 
-+ Integration tests are great at proving the correctness of the collaboration between groups of objects.
+集成测试的目的和单元测试不同
 
-+ They demonstrate the overall operation of all or a subset of your application. Because they cover a lot of ground, they’re often slow.
++ Integration tests are great at proving the correctness of the collaboration between groups of objects. They demonstrate the overall operation of all or a subset of your application.
+
+集成测试的突出优点是 他能证明一系列对象协作时的行为是符合预期的(正确的)
+
++ Because they cover a lot of ground, they’re often slow.
+
+集成测试的覆盖面很广, 运行他们的成本会更高, 速度会更慢
+
+
+
 
 
 
