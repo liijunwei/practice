@@ -26,5 +26,9 @@ move tests from `BottlesTest` to `BottleVerseTest`
 
 应用程序的代码则没有这种压力, 他们即使意图不清, 难于理解, 可能也不会被关注到, 因为他们可能永远不需要被改动(因此无需被彻底理解)
 
++ The test_the_first_verse/test_another_verse tests exist to show that the lyrics of verses from 99 through 3 follow a similar rule, but nothing about their names gives any hint of this rule’s existence. 
 
++ The bodies of the tests are fine—the problem is in their names.
+
++ These vague names were perfectly acceptable when they were the best you could do, but now you know more and can do better. It’s time to improve the story.
 
