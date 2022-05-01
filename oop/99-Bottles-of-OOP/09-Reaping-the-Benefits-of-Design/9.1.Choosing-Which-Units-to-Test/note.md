@@ -118,6 +118,17 @@
 
 决定如何测试的临界点是可见性
 
-`BottleVerse`认为
+`BottleVerse`认为使用`BottleNumbers`是它自己的事
+
+`BottleVerse`没有要求外界将`BottleNumbers`注入进来, 它自己知道该怎么使用它
+
+`BottleVerse`对`BottleNumbers`的依赖关系对外界来说是不可见的
+
++ It’s so invisible to outside observers that it may as well not exist.
+
+
+
+
+
 
 
