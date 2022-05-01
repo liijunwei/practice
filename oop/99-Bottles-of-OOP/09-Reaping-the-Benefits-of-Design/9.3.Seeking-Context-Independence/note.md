@@ -16,6 +16,30 @@
 
 ## 9.3.1. Examining Bottles' Responsibilities
 
+```ruby
+class Bottles
+  attr_reader :verse_template
+
+  def initialize(verse_template: BottleVerse)
+    @verse_template = verse_template
+  end
+
+  def song
+    verses(99, 0)
+  end
+
+  def verses(starting, ending)
+    starting.downto(ending).map {|num| verse(num)}.join("\n")
+  end
+
+  def verse(number)
+    verse_template.lyrics(number)
+  end
+end
+```
+
++ Take a fresh look at this code and describe what it does. Classes should be named after what they are: what is this?
+
 
 
 
