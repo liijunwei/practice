@@ -138,4 +138,7 @@
 
 当类变得更加复杂时, `BottleNumber`可能在其他地方被引用, 这时候需要重新审视这个`暂时不为它做单元测试`的决定
 
++ Use good judgement. Be extremely biased towards creating a unit test for every method in every class’s public API. But make sure that all tests justify their existence and eliminate those that don’t.
+
+要用良好的判断能力, 对每个类的公共API创建单元测试
 
