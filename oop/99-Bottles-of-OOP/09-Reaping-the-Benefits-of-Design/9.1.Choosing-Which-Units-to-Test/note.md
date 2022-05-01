@@ -53,6 +53,13 @@
 
 写测试用例的过程中, 你能发现所有被忽视掉的紧耦合, 修复起来会比较容易
 
++ Bottles' tests started out as unit tests but have become integration tests.
+
+针对`Bottles`写的测试用例, 最开始是单元测试, 后来不断提取出新的类, 它变成了集成测试
+
++ Unit tests are meant to test the public API of a single class.
+
+单元测试的目的是 测试某个类的公共API
 
 
 
