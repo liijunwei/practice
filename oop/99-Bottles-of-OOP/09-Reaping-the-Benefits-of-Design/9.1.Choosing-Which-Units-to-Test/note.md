@@ -81,6 +81,12 @@
 
 应该为每个类写单元测试
 
++ Integration tests are important, but they serve a different purpose than unit tests.
+
++ Integration tests are great at proving the correctness of the collaboration between groups of objects.
+
++ They demonstrate the overall operation of all or a subset of your application. Because they cover a lot of ground, they’re often slow.
+
 
 
 
