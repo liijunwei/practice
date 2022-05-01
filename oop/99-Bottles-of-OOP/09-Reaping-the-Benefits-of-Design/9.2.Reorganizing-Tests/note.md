@@ -32,3 +32,15 @@ move tests from `BottlesTest` to `BottleVerseTest`
 
 + These vague names were perfectly acceptable when they were the best you could do, but now you know more and can do better. It’s time to improve the story.
 
++ The names of these two tests should convey the following:
+    + this is a verse test
+    + a rule exists
+    + it applies to most verses
+    + it involves a range
+    + one test is for the upper bound
+    + the other test is for the lower bound
+
++ Names like `test_verse_general_rule_upper_bound` and `test_verse_general_rule_lower_bound` perfectly satisfy these constraints.
+
+
+
