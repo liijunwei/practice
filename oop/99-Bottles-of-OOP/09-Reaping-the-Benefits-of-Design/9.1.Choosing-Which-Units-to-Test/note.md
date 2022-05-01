@@ -51,9 +51,7 @@
 
 + The good news is that writing tests will uncover every bit of overlooked tight coupling and immediately reward you for fixing it.
 
-写测试用例的过程中, 你能发现
-
-好消息是，编写测试将发现所有被忽视的紧密耦合，并立即奖励您修复它。
+写测试用例的过程中, 你能发现所有被忽视掉的紧耦合, 修复起来会比较容易
 
 
 
