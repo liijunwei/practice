@@ -112,26 +112,30 @@
 当写出的测试没能让你提升代码质量变得容易的时候, 要考虑不为他们写测试(当他们约束而不是解放时, 询问他们是否值得, 并考虑忽略他们)
 
 + The tipping point for deciding how to test is visibility. (TODO unclear)
-    + BottleVerse has assumed personal responsibility for supplying itself with BottleNumbers.
-    + BottleNumbers do not get created and injected from the outside, but instead, BottleVerse knows about them inside itself.
+    + BottleVerse has assumed personal responsibility for supplying itself with BottleNumber.
+    + BottleNumber do not get created and injected from the outside, but instead, BottleVerse knows about them inside itself.
     + The dependency between BottleVerse and BottleNumber is not visible to outside observers.
 
 决定如何测试的临界点是可见性
 
-`BottleVerse`认为使用`BottleNumbers`是它自己的事
+`BottleVerse`认为使用`BottleNumber`是它自己的事
 
-`BottleVerse`没有要求外界将`BottleNumbers`注入进来, 它自己知道该怎么使用它
+`BottleVerse`没有要求外界将`BottleNumber`注入进来, 它自己知道该怎么使用它
 
-`BottleVerse`对`BottleNumbers`的依赖关系对外界来说是不可见的
+`BottleVerse`对`BottleNumber`的依赖关系对外界来说是不可见的
 
 + It’s so invisible to outside observers that it may as well not exist.
 
-+ In summary, BottleNumbers are:
++ In summary, BottleNumber are:
     + small
     + simple
     + invisible from outside of BottleVerse
     + used in no context other than BottleVerse
 
-综上, 可以暂时把`BottleNumbers`看成`BottleVerse`的一部分, 只需为`BottleVerse`做单元测试, 不需要单独为`BottleNumbers`做单元测试
+综上, 可以暂时把`BottleNumber`看成`BottleVerse`的一部分, 只需为`BottleVerse`做单元测试, 不需要单独为`BottleNumber`做单元测试
+
++ If these classes get more complicated, or begin to be used in other contexts, revisit this decision.
+
+当类变得更加复杂时, `BottleNumber`可能在其他地方被引用, 这时候需要重新审视这个`暂时不为它做单元测试`的决定
 
 
