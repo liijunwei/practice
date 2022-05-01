@@ -93,6 +93,8 @@
 
 集成测试的覆盖面很广, 运行他们的成本会更高, 速度会更慢
 
++ In contrast, unit tests are for you, the programmer. They help you write down, communicate the expected behavior of, prevent regression in, and debug smaller units of code.
+
 
 
 
