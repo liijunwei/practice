@@ -14,3 +14,10 @@ move tests from `BottlesTest` to `BottleVerseTest`
 
 ## 9.2.2. Revealing Intent
 
++ The problem is circular. You can’t write tests until you understand the problem, but you can’t understand the problem without writing some tests. No wonder it’s hard to get started.
+
++ Even so, here is where writing tests first really shines. It’s far better to struggle with a test that you don’t understand than to write code that you don’t understand.
+
+写测试代码的闪光之处在于: 
+
++ Tests force you to clarify your intentions because they make explicit assertions. Code has no such pressure, and can be left a confusing mess forever.
