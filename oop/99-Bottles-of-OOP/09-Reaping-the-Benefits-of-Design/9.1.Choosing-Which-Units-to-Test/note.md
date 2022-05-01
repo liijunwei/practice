@@ -71,8 +71,8 @@
 
 集成测试辨明这个流程运行无误, 这是当前`Bottles`的测试用例所完成的事
 
++ Tests are most valuable when they exercise confirmable behavior
 
-
-
+当测试表现出可证实的行为时, 测试是最有价值的(??? TODO unclear)
 
 

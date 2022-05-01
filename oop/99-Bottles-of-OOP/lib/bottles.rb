@@ -80,7 +80,7 @@ class BottleNumber1 < BottleNumber
   end
 
   def pronoun
-    "it"
+    "oops"
   end
 end
 
