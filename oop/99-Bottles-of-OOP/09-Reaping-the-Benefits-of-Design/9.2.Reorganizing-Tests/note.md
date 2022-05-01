@@ -10,3 +10,7 @@
 
 ## 9.2.1. Gathering BottleVerse Tests
 
+move tests from `BottlesTest` to `BottleVerseTest`
+
+## 9.2.2. Revealing Intent
+
