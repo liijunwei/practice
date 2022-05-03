@@ -117,6 +117,11 @@ The `verses(99,0)` above condemns(迫使...接受困境) you to an expectation t
     + In contrast, the idea that the verses method can produce a requested range of descending verses is reflected in upper and lower. This is about the subset of verses to be produced.
     + **These are two different concepts, and giving them different names clarifies the code.**
 
++ **This point cannot be emphasized strongly enough. Tight coupling between objects made testing difficult.**
 
+有一点再怎么强调也不过分: 坚持让写测试变得简单
 
+过紧的耦合使得测试变得很困难
+
++ Instead of succumbing to those flaws and writing verbose, confusing tests, the code was altered to allow you to write better tests.
 
