@@ -109,9 +109,13 @@ end
 
 The `verses(99,0)` above condemns(迫使...接受困境) you to an expectation that lists 100 verses.
 
-+ Since tests are the first reuse of your code, reusability problems are exposed by the tests. 
++ Since tests are the first reuse of your code, reusability problems are exposed by the tests.
 
-
++ Notice that:(`CountdownSong#song` and `CountdownSong#verses`)
+    + In one place, the pair is named max and min, and in the other, upper and lower. This is intentional.
+    + The idea that an entire countdown song has a fixed number of verses is embodied in max and min. This is about the song.
+    + In contrast, the idea that the verses method can produce a requested range of descending verses is reflected in upper and lower. This is about the subset of verses to be produced.
+    + **These are two different concepts, and giving them different names clarifies the code.**
 
 
 
