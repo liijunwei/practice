@@ -54,7 +54,9 @@ end
 
 + Tests should explain the essence of a class.
 
++ design patterns: named, re-usable solutions to common software problems
 
++ Since pattern names are so meaningful, it can be tempting to stick them in class names.
 
 
 
