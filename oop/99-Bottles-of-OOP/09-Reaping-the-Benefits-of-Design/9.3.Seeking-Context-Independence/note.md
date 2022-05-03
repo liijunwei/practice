@@ -64,10 +64,12 @@ end
 
 +  As long as you have tests to prove that every verse is correct, you don’t need to test verses against more than one range. If verses works with one, it will work with all.
 
++ Using VerseFake greatly simplified the verse and verses tests.
 
++ The fake enhances the story of CountdownSong rather than distracting from it, as did the old expectations with their obsolete "99 Bottles" context.
 
++ A glance at these two tests makes it clear that CountdownSong has nothing to do with "99 Bottles", but instead, it’s about counting down.
 
-
-
+## 9.3.4. Profiting from Loose Coupling
 
 
