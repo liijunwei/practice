@@ -19,6 +19,8 @@ class CountdownSongTest < Minitest::Test
     assert_equal expected, CountdownSong.new(verse_template: VerseFake).verses(99, 97)
   end
 
+  # TODO 没看懂 page 265 讲的 为什么不需要测试这 2,1,0 这几个特殊的
+  # 因为对CountdownSong来说, 他不知道, 或者说他不关心有没有特殊的情况吗?
   def test_a_few_verses
     expected =
    "2 bottles of beer on the wall, " +
