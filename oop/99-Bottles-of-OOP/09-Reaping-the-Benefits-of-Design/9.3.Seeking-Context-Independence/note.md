@@ -52,6 +52,14 @@ end
 
 + It’s a given that tests should prove that code works. But they have other purposes too, one of which is to explain the domain to the reader.
 
++ Tests should explain the essence of a class.
+
+
+
+
+
+
+
 
 
 
