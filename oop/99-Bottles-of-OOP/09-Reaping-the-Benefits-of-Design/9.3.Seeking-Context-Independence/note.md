@@ -50,7 +50,9 @@ end
 
 ## 9.3.2. Purifying Tests With Fakes
 
-TODO page 256
++ It’s a given that tests should prove that code works. But they have other purposes too, one of which is to explain the domain to the reader.
+
+
 
 
 
