@@ -101,3 +101,14 @@ class CountdownSongTest < Minitest::Test
 
 ## 9.3.4. Profiting from Loose Coupling
 
+```ruby
+def song
+  verses(99,0)
+end
+```
+
+
+
+
+
+
