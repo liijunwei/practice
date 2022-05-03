@@ -119,9 +119,16 @@ The `verses(99,0)` above condemns(迫使...接受困境) you to an expectation t
 
 + **This point cannot be emphasized strongly enough. Tight coupling between objects made testing difficult.**
 
-有一点再怎么强调也不过分: 坚持让写测试变得简单
+有一点再怎么强调也不过分: 坚持让写测试变得简单 迫使你去提升代码质量
 
 过紧的耦合使得测试变得很困难
 
 + Instead of succumbing to those flaws and writing verbose, confusing tests, the code was altered to allow you to write better tests.
 
+代码没有屈服于这些缺陷, 编写冗长、混乱的测试, 而是经过了修改, 以允许你编写更好的测试
+
++ **Insisting on simple tests improved both the tests and the code.**
+
++ It ought to be easy to reuse objects.
+
++ Tests are a form of reuse. Making code easy to test therefore serves the greater purpose of making it easy to reuse. This pays off now and forevermore.
