@@ -49,9 +49,12 @@ ruby作为动态语言的优势和问题
 
 对小团队来说, 使用第一条就够了
 
-如果第一条bu
+如果第一条不能解决问题, 那么使用第二条就好了
 
+多数条件下, 第二条就够用了, 不用使用麻烦的3/4/5
 
-+ RSpec testers use shared example groups to verify roles. In Minitest, you can verify roles using normal Ruby modules.
+如果你发现团队里即使用了很大的努力, 还是没法避免运行时的问题, 这样 团队选择换一种静态语言可能会更好
+
++ RSpec testers use [shared example groups](https://relishapp.com/rspec/rspec-core/v/2-0/docs/example-groups/shared-example-group) to verify roles. In Minitest, you can verify roles using normal Ruby modules.
 
 
