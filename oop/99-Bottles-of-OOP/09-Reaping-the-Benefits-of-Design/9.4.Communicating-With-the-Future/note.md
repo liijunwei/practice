@@ -29,8 +29,14 @@
 
 ## 9.4.2. Verifying Roles
 
++ Ruby is dynamically typed and doesn’t have syntax to support interfaces.
+    + opportunities: easy to create and use polymorphic duck types
+    + You may do anything without constraint, including sending messages to objects that don’t understand them and suffering run-time failures.
 
+ruby作为动态语言的优势和问题
 
+优势: 灵活, 很容易使用duck type实现多态, 代码好写好读
 
+劣势: 过于灵活, 容易出错
 
 
