@@ -17,9 +17,20 @@
 
 + Style is one kind of signal, but there are others.
     + This test uses prime numbers to signal arbitrariness.
+    + The 500 used in test_verse is so ridiculously large that it already signals that any number, even a big one, will do.
 
 + **Once you start thinking about sending signals, opportunities abound.**
 
 + Weirich used do...end to warn that the enclosed block had side-effects, and {...} to assure that it did not. Readers of his code remain grateful for these signals.
+
++ Signals offer a cheap way to add valuable information to code.
+    + Look for opportunities to develop and use them.
+    + Even if your team consists only of you, the information imparted by a signal will be useful to your future self.
+
+## 9.4.2. Verifying Roles
+
+
+
+
 
 
