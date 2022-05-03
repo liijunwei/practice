@@ -131,8 +131,8 @@ class CountdownSong
     verses(max, min)
   end
 
-  def verses(starting, ending)
-    starting.downto(ending).map {|num| verse(num)}.join("\n")
+  def verses(upper, lower)
+    upper.downto(lower).map {|num| verse(num)}.join("\n")
   end
 
   def verse(number)
