@@ -26,6 +26,21 @@ class CountdownSongTest < Minitest::Test
   end
 
   def test_the_whole_song
+    expected =
+    "This is verse 47.\n" +
+    "\n" +
+    "This is verse 46.\n" +
+    "\n" +
+    "This is verse 45.\n" +
+    "\n" +
+    "This is verse 44.\n" +
+    "\n" +
+    "This is verse 43.\n"
+
+    assert_equal expected, CountdownSong.new(verse_template: VerseFake, max: 47, min: 43).song
+  end
+
+  def test_the_whole_song
     filepath = File.expand_path(".", "./whole-lyric-six-pack.md")
     expected = File.read(filepath)
     assert_equal expected, CountdownSong.new.song
