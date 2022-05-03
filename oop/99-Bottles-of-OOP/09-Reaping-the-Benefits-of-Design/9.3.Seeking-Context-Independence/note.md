@@ -107,6 +107,10 @@ def song
 end
 ```
 
+The `verses(99,0)` above condemns(迫使...接受困境) you to an expectation that lists 100 verses.
+
++ Since tests are the first reuse of your code, reusability problems are exposed by the tests. 
+
 
 
 
