@@ -36,7 +36,7 @@ class CountdownSongTest < Minitest::Test
   end
 
   def test_the_whole_song
-    filepath = File.expand_path(".", './whole-lyric-six-pack.md')
+    filepath = File.expand_path(".", "./whole-lyric-six-pack.md")
     expected = File.read(filepath)
     assert_equal expected, CountdownSong.new.song
   end
