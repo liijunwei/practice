@@ -60,7 +60,7 @@ end
 
 + Class names should reflect concepts in your domain, not the patterns used to create them.
 
-
+## 9.3.3. Purging Redundant Tests
 
 
 
