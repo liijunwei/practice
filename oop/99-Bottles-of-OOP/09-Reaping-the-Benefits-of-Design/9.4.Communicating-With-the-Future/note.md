@@ -39,4 +39,19 @@ ruby作为动态语言的优势和问题
 
 劣势: 过于灵活, 没有编译器的类型检查, 容易出错
 
+如何应对ruby作为动态语言所面临的挑战呢?
+
++ There are a number of ways to accomplish this. In order of lesser to greater ceremony, the options are as follows, with implications for lyrics:
+    1. Tell everyone to implement the correct API in their role players. Say "Hey, everyone should make their verse template objects respond to lyrics(number)" at regular intervals.
+    2. Programmatically verify that all players of a role respond to messages in that role’s API. Test that each player responds to lyrics.
+    3. Programmatically verify that all players of a role respond to its API, including defining the correct number of parameters. Test that each player responds to lyrics, and that lyrics has one parameter.
+    4. Programmatically verify that all players of a role respond to its API, define the correct number of parameters, receive arguments of the correct types, and return the expected type. Test that each player responds to lyrics(arg), that arg is a number, and that the result is a string.
+
+对小团队来说, 使用第一条就够了
+
+如果第一条bu
+
+
++ RSpec testers use shared example groups to verify roles. In Minitest, you can verify roles using normal Ruby modules.
+
 
