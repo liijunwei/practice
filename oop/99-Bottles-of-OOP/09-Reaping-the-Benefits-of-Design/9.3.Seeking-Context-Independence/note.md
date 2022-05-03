@@ -62,6 +62,9 @@ end
 
 ## 9.3.3. Purging Redundant Tests
 
++  As long as you have tests to prove that every verse is correct, you don’t need to test verses against more than one range. If verses works with one, it will work with all.
+
+
 
 
 
