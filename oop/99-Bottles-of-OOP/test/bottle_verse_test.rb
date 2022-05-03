@@ -1,7 +1,14 @@
 require 'minitest/autorun'
 require_relative '../lib/bottles'
+require_relative './verse_role_test'
 
 class BottleVerseTest < Minitest::Test
+  include VerseRoleTest
+
+  def setup
+    @role_player = BottleVerse
+  end
+
   def test_verse_general_rule_upper_bound
     expected =
     "99 bottles of beer on the wall, " +
