@@ -39,10 +39,4 @@ class CountdownSongTest < Minitest::Test
 
     assert_equal expected, CountdownSong.new(verse_template: VerseFake, max: 47, min: 43).song
   end
-
-  def test_the_whole_song
-    filepath = File.expand_path(".", "./whole-lyric-six-pack.md")
-    expected = File.read(filepath)
-    assert_equal expected, CountdownSong.new.song
-  end
 end
