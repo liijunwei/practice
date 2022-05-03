@@ -22,24 +22,6 @@ class CountdownSongTest < Minitest::Test
   # OK 没看懂 page 265 讲的 为什么不需要测试这 2,1,0 这几个特殊的
   # 因为对CountdownSong来说, 他不知道, 或者说他不关心有没有特殊的情况吗?
   # 对, CountdownSong 里面, 没有特殊情况, 不一样的地方交给 BottleNumber.for 工厂处理了
-  def test_a_few_verses
-    expected =
-   "2 bottles of beer on the wall, " +
-   "2 bottles of beer.\n" +
-   "Take one down and pass it around, " +
-   "1 bottle of beer on the wall.\n" +
-   "\n" +
-   "1 bottle of beer on the wall, " +
-   "1 bottle of beer.\n" +
-   "Take it down and pass it around, " +
-   "no more bottles of beer on the wall.\n" +
-   "\n" +
-   "No more bottles of beer on the wall, " +
-   "no more bottles of beer.\n" +
-   "Go to the store and buy some more, " +
-   "99 bottles of beer on the wall.\n"
-    assert_equal expected, CountdownSong.new.verses(2, 0)
-  end
 
   def test_the_whole_song
     filepath = File.expand_path(".", "./whole-lyric-six-pack.md")
