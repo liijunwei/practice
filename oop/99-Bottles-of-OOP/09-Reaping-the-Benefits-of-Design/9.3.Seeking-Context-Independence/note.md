@@ -58,6 +58,8 @@ end
 
 + Since pattern names are so meaningful, it can be tempting to stick them in class names.
 
++ Class names should reflect concepts in your domain, not the patterns used to create them.
+
 
 
 
