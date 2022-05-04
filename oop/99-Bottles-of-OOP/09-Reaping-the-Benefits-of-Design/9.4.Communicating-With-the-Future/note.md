@@ -65,6 +65,10 @@ ruby作为动态语言的优势和问题
 
 ## 9.4.3. Obliterating Obsolete Context(消除过时的语境)
 
++ CountdownSong retains a few misleading vestiges of "99 Bottles"; it’s finally time to remove them.
+
+
+
 
 
 
