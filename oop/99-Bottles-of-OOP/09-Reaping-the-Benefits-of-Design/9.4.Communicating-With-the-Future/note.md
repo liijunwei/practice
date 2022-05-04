@@ -57,4 +57,25 @@ ruby作为动态语言的优势和问题
 
 + RSpec testers use [shared example groups](https://relishapp.com/rspec/rspec-core/v/2-0/docs/example-groups/shared-example-group) to verify roles. In Minitest, you can verify roles using normal Ruby modules.
 
++ Duck typing is powerful but can be perilous.
+
+鸭子类型很有用, 但是也很危险
+
++ Role tests are a great investment; they cost little but provide tremendous value. If you’re using a dynamically-typed language and leaning on polymorphism and dependency injection, you should write them.
+
+## 9.4.3. Obliterating Obsolete Context
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
