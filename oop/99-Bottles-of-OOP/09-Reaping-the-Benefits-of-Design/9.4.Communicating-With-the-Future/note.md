@@ -63,7 +63,7 @@ ruby作为动态语言的优势和问题
 
 + Role tests are a great investment; they cost little but provide tremendous value. If you’re using a dynamically-typed language and leaning on polymorphism and dependency injection, you should write them.
 
-## 9.4.3. Obliterating Obsolete Context
+## 9.4.3. Obliterating Obsolete Context(消除过时的语境)
 
 
 
