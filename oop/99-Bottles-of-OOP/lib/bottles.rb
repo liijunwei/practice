@@ -100,14 +100,14 @@ end
 
 # BottleVerse Implements an Algorithm
 class BottleVerse
+  def self.lyrics(number)
+    new(BottleNumber.for(number)).lyrics
+  end
+
   attr_reader :bottle_number
 
   def initialize(bottle_number)
     @bottle_number = bottle_number
-  end
-
-  def self.lyrics(number)
-    new(BottleNumber.for(number)).lyrics
   end
 
   def lyrics
