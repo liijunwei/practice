@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require_relative '../lib/bottles'
+require_relative './verse_role_test'
 
 class VerseFake
   def self.lyrics(number)
