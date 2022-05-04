@@ -2,14 +2,6 @@ require 'minitest/autorun'
 require_relative '../lib/bottles'
 require_relative './verse_role_test'
 
-class VerseFakeTest < Minitest::Test
-  include VerseRoleTest
-
-  def setup
-    @role_player = VerseFake
-  end
-end
-
 class BottleVerseTest < Minitest::Test
   include VerseRoleTest
 

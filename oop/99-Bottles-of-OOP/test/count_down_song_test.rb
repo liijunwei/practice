@@ -7,6 +7,14 @@ class VerseFake
   end
 end
 
+class VerseFakeTest < Minitest::Test
+  include VerseRoleTest
+
+  def setup
+    @role_player = VerseFake
+  end
+end
+
 class CountdownSongTest < Minitest::Test
   def test_verse
     expected = "This is verse 500.\n"

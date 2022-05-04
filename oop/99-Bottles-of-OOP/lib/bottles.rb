@@ -1,12 +1,12 @@
 class BottleNumber
+  def self.for(number)
+    registry.find {|candidate| candidate.handle?(number)}.new(number)
+  end
+
   attr_reader :number
 
   def initialize(number)
     @number = number
-  end
-
-  def self.for(number)
-    registry.find {|candidate| candidate.handle?(number)}.new(number)
   end
 
   def self.handle?(number)
