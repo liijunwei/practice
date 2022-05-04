@@ -11,4 +11,4 @@
 + Separating intention from implementation in this way allows you to introduce new variations without altering existing code
     + simply create a new object that responds to the original message with a different implementation.
 
-
++ Listen. **Fixing problems now is not only cheaper than fixing them later, but will improve your code, clarify your tests, and make glad your work.**
