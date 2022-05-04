@@ -67,6 +67,8 @@ ruby作为动态语言的优势和问题
 
 + CountdownSong retains a few misleading vestiges of "99 Bottles"; it’s finally time to remove them.
 
++ In the heat of coding, it can be tempting to skip this final, cleanup pass. But don’t miss this last bit of scrubbing to make the code shine.
+
 
 
 
