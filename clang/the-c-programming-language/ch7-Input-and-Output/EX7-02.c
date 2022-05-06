@@ -5,7 +5,7 @@ page 136
 
 https://www.runoob.com/cprogramming/c-function-iscntrl.html
 C 库函数 void iscntrl(int c) 检查所传的字符是否是控制字符。
-根据标准 ASCII 字符集，控制字符的 ASCII 编码介于 0x00 (NUL) 和 0x1f (US) 之间，以及 0x7f (DEL)，某些平台的特定编译器实现还可以在扩展字符集（0x7f 以上）中定义额外的控制字符。
+根据标准 ASCII 字符集，控制字符的 ASCII 编码介于 0x00 (NUL) 和 0x1f (US) 之间，以及 0x7f (DEL)，某些平台的特定编译器实现还可以在扩展字符集(0x7f 以上中定义额外的控制字符。
 
 TODO not clear
 */
