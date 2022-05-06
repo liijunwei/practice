@@ -10,4 +10,9 @@ https://workingwithruby.com/wwup/argv/
 + ENV isn’t a Hash
 + ARGV is simply an Array
 
++ Use cases for `ARGV`
+    + accepting filenames into program
+    + parsing command line input
+
+
 
