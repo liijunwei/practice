@@ -7,4 +7,7 @@ https://workingwithruby.com/wwup/argv/
 
 + ruby lib: optparse
 
++ ENV isn’t a Hash
++ ARGV is simply an Array
+
 
