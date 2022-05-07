@@ -12,7 +12,7 @@
 
 + [ ] [Codepoints/awesome-codepoints](https://github.com/Codepoints/awesome-codepoints)
 
-+ [ASCII Table](https://www.rapidtables.com/code/text/ascii-table.html) (recommand)
++ [ASCII table](https://www.rapidtables.com/code/text/ascii-table.html) (recommand)
 + [Unicode characters table](https://www.rapidtables.com/code/text/unicode-characters.html)
 
 + Unicode provides a unique number for every character
