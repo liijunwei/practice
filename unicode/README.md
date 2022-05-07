@@ -12,7 +12,8 @@
 
 + [ ] [Codepoints/awesome-codepoints](https://github.com/Codepoints/awesome-codepoints)
 
-+ [ASCII Table](https://www.rapidtables.com/code/text/ascii-table.html)
++ [ASCII Table](https://www.rapidtables.com/code/text/ascii-table.html) (recommand)
++ [ASCII Table](http://www.csc.villanova.edu/~tway/resources/ascii-table.html)
 
 + Unicode provides a unique number for every character
     + Unicode给每个字符提供了一个唯一的数字
