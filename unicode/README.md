@@ -12,6 +12,10 @@
 
 + [ ] [Codepoints/awesome-codepoints](https://github.com/Codepoints/awesome-codepoints)
 
++ [Ruby has Character](https://idiosyncratic-ruby.com/66-ruby-has-character.html)
+
++ [RubyConf 2017: Ten Unicode Characters You Should Know About as a Programmer by Jan Lelis](https://www.youtube.com/watch?v=hlryzsdGtZo)
+
 + [ASCII table](https://www.rapidtables.com/code/text/ascii-table.html) (recommand)
 + [Unicode characters table](https://www.rapidtables.com/code/text/unicode-characters.html)
 
