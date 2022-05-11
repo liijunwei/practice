@@ -18,3 +18,5 @@ define_methods
 p counter
 incr(4)
 p counter
+
+p shared
