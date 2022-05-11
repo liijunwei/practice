@@ -16,3 +16,5 @@ puts $PROGRAM_NAME
 end
 ```
 
++ To see an example of how this is used in a real project read through How Resque Manages Processes in the appendices.
+

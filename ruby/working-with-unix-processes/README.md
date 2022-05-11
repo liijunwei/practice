@@ -10,8 +10,8 @@ https://workingwithruby.com/wwup/intro/
 - [x] 06.processes_have_resource_limits
 - [x] 07.processes_have_an_environment
 - [x] 08.processes_have_arguments
-- [ ] 09.processes_have_names
-- [ ] 10.processes_have_exit_codes
+- [x] 09.processes_have_names
+- [x] 10.processes_have_exit_codes
 - [ ] 11.processes_can_fork
 - [ ] 12.orphaned_processes
 - [ ] 13.processes_are_cow_friendly
