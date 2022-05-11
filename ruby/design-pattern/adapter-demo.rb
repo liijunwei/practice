@@ -21,13 +21,9 @@ class UnfitTarget
 end
 
 # The adapter knows how `UnfitTarget` works
-class UnfitTargetAdapter < Target
-  def initialize(adaptee)
-    @adaptee = adaptee
-  end
-
+class UnfitTargetAdapter < UnfitTarget
   def request
-    @adaptee.special_request
+    special_request
   end
 end
 
@@ -40,8 +36,7 @@ puts client(UnfitTarget.new)
 puts
 
 puts "So I introduce an adapter..."
-wanted_target = UnfitTarget.new
-puts client(UnfitTargetAdapter.new(wanted_target))
+puts client(UnfitTargetAdapter.new)
 puts
 
 
