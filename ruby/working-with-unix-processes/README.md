@@ -12,7 +12,7 @@ https://workingwithruby.com/wwup/intro/
 - [x] 08.processes_have_arguments
 - [x] 09.processes_have_names
 - [x] 10.processes_have_exit_codes
-- [ ] 11.processes_can_fork
+- [x] 11.processes_can_fork
 - [ ] 12.orphaned_processes
 - [ ] 13.processes_are_cow_friendly
 - [ ] 14.processes_can_wait
