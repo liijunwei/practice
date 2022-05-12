@@ -26,7 +26,7 @@ https://workingwithruby.com/wwup/forking/
 
 + Perfect for when you want to have multiple instances of your application loaded in memory at the same time. Because only one process needs to load the app and forking is fast, this method is faster than loading the app 3 times in separate instances.
 
-当你想要多个进程的时候, 使用先启动一个,再让他fork出两个一样的子进程很管用, 因为
+当你想要多个进程的时候, 使用先启动一个,再让他fork出两个一样的子进程很管用, 因为fork很快; 它比同时启动三个进程要快得多
 
 + The child process inherits any open file descriptors from the parent at the time of the fork(2). It’s given the same map of file descriptor numbers that the parent process has. In this way the two processes can share open files, sockets, etc.
 
@@ -41,7 +41,7 @@ end
 ```
 
 + It’s no mystery what’s happening here
-    + **One call to the fork method actually returns twice**
+    + **One call to the fork method actually returns twice** 调用一次fork方法, 会有两次返回: 一次在父进程, 一次在子进程
     + Remember that fork creates a new process
     + So it returns once in the calling process (parent) and once in the newly created process (child)
     + In the child process fork returns nil. Since nil is falsy it executes the code in the else block.
@@ -50,8 +50,8 @@ end
 ```ruby
 puts "parent process pid is #{Process.pid}"
 
-if fork
-  puts "entered the if block from #{Process.pid}"   # executed by the parent process
+if pid = fork
+  puts "entered the if block from #{Process.pid}, new process pid is #{pid}"   # executed by the parent process
 else
   puts "entered the else block from #{Process.pid}" # executed by the child process
                                                     # In the child process fork returns nil
