@@ -60,6 +60,9 @@ RSpec.describe ProcVsLambda do
         expect(subject.proc_adder.call(1, 2, 3)).to eq(3)
         expect(subject.proc_adder.call(3, 1, 2)).to eq(4)
         expect(subject.proc_adder.call(2, 3, 1)).to eq(5)
+        expect(subject.proc_adder.call(1, 2, 3, 99999)).to eq(3)
+        expect(subject.proc_adder.call(3, 1, 2, 99999)).to eq(4)
+        expect(subject.proc_adder.call(2, 3, 1, 99999)).to eq(5)
       end
     end
   end
