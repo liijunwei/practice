@@ -1,6 +1,9 @@
 require 'rspec'
 require 'pry'
 
+# From "Metaprogramming Ruby" chapter 3-5
+# TODO how to reproduce "LocalJumpError" ?
+
 class ProcVsLambda
   def double(calable_object)
     calable_object.call * 2
