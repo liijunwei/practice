@@ -50,11 +50,13 @@ end
 ```ruby
 puts "parent process pid is #{Process.pid}"
 
+# In the parent process fork returns the pid of the newly created child process
 if pid = fork
-  puts "entered the if block from #{Process.pid}, new process pid is #{pid}"   # executed by the parent process
+  puts "entered the if block from #{Process.pid}, new process pid is #{pid}"
 else
-  puts "entered the else block from #{Process.pid}" # executed by the child process
-                                                    # In the child process fork returns nil
+  # executed by the child process
+  # In the child process fork returns nil
+  puts "entered the else block from #{Process.pid}"
 end
 ```
 
