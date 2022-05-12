@@ -67,13 +67,6 @@ end
 puts fork
 ```
 
-+ man 2 fork
-```
-RETURN VALUES
-     Upon successful completion, fork() returns a value of 0 to the child process and returns the process ID of the child process to the parent process.
-     Otherwise, a value of -1 is returned to the parent process, no child process is created, and the global variable errno is set to indicate the error.
-```
-
 + fork(2) creates a new process that's a copy of the old process.
 
 + It’s also possible, and more common in Ruby code, to use fork with a block
@@ -86,8 +79,16 @@ RETURN VALUES
 
 + The child process exits when it’s done executing the block. It does not continue along the same code path as the parent.
 
+块里的代码会在子进程里执行, 并且执行完毕后会退出
+
 + Ruby’s Kernel#fork maps to fork(2).
 
++ man 2 fork
+```
+RETURN VALUES
+     Upon successful completion, fork() returns a value of 0 to the child process and returns the process ID of the child process to the parent process.
+     Otherwise, a value of -1 is returned to the parent process, no child process is created, and the global variable errno is set to indicate the error.
+```
 
 
 
