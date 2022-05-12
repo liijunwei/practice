@@ -23,6 +23,8 @@ abort "Parent process died..."
 + concept: "Daemon processes"
     + long running processes that are intentionally orphaned and meant to stay running forever
 
+
+
 + concept: "communicating with processes that are not attached to a terminal session"
     + through unix signals
 
