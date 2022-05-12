@@ -45,7 +45,9 @@ RSpec.describe ProcVsLambda do
       end
 
       it 'will fail when arguments count mismatch' do
-        expect { subject.lambda_adder.call(1, 2, 3) }.to raise_error ArgumentError
+        expect { subject.lambda_adder.call(1) }.to          raise_error ArgumentError
+        expect { subject.lambda_adder.call(1, 2, 3) }.to    raise_error ArgumentError
+        expect { subject.lambda_adder.call(1, 2, 3, 4) }.to raise_error ArgumentError
       end
     end
 
