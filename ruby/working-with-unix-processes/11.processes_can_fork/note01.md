@@ -10,6 +10,8 @@ https://workingwithruby.com/wwup/forking/
 
 + **The child process inherits a copy of all of the memory in use by the parent process, as well as any open file descriptors belonging to the parent process.**
 
+子进程从父进程的内存里继承了一个完全的副本, 包括已打开的文件的文件描述符
+
 + e.g.
     + The child process inherits a copy of everything that the parent process has in main memory. In this way a process could load up a large codebase
     + Say a Rails app, that occupies 500MB of main memory. Then this process can fork 2 new child processes. Each of these child processes would effectively have their own copy of that codebase loaded in memory.
