@@ -22,9 +22,11 @@ https://workingwithruby.com/wwup/forking/
 
 + The call to fork returns near-instantly so we now have 3 processes with each using 500MB of memory
 
-调用fork产生两个新的进程几乎不花什么时间, 然后你就能获得3个
+调用fork产生两个新的进程几乎不花什么时间, 然后你就能获得3个一样的进程啦
 
 + Perfect for when you want to have multiple instances of your application loaded in memory at the same time. Because only one process needs to load the app and forking is fast, this method is faster than loading the app 3 times in separate instances.
+
+当你想要多个进程的时候, 使用先启动一个,再让他fork出两个一样的子进程很管用, 因为
 
 + The child process inherits any open file descriptors from the parent at the time of the fork(2). It’s given the same map of file descriptor numbers that the parent process has. In this way the two processes can share open files, sockets, etc.
 
