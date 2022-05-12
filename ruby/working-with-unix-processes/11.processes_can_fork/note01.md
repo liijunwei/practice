@@ -76,7 +76,13 @@ RETURN VALUES
 
 + fork(2) creates a new process that's a copy of the old process.
 
++ It’s also possible, and more common in Ruby code, to use fork with a block
+
+在ruby中, 调用fork创建子进程时, 跟常见的方法是和块结合使用
+
 + When you pass a block to the fork method that block will be executed in the new child process, while the parent process simply skips over it.
+
+当fork和块一起使用时, 块里的代码在父进程中会被跳过
 
 + The child process exits when it’s done executing the block. It does not continue along the same code path as the parent.
 
