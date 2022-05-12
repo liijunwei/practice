@@ -23,8 +23,12 @@ abort "Parent process died..."
 + concept: "Daemon processes"
     + long running processes that are intentionally orphaned and meant to stay running forever
 
-
+守护进程是那种长期在机器上运行的进程, 这种进程是启动后故意让它变为"orphaned"的进程(父进程启动它后, 父进程退出, 但是子进程长期允许)
 
 + concept: "communicating with processes that are not attached to a terminal session"
     + through unix signals
+
+怎么和 和没有与命令行直接连接的进程 进行沟通?
+
+通过unix信号来沟通
 
