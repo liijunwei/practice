@@ -12,6 +12,12 @@ https://workingwithruby.com/wwup/cow/
 
 写时复制技术会延迟内存的实际复制时机, 知道需要写入的时候才去复制
 
++ So a parent process and a child process will actually share the same physical data in memory until one of them needs to modify it, at which point the memory will be copied so that proper separation between the two processes can be preserved.
+
+父进程和子进程实际上 在其一需要修改内存之前, 都是共享内存的
+
+有一个需要修改内存的时候, 内存在会被复制和分隔开
+
 ```ruby
 arr = [1,2,3]
 
