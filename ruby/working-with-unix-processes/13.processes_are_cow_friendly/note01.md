@@ -6,9 +6,11 @@ https://workingwithruby.com/wwup/cow/
 
 如果从父进程里物理复制数据可能会产生很大的开销
 
-现代的unix系统采用了 "写时复制"
+现代的unix系统采用了 "写时复制Copy on Write"的技术解决这个问题
 
 + CoW delays the actual copying of memory until it needs to be written.
+
+写时复制技术会延迟内存的实际复制时机, 知道需要写入的时候才去复制
 
 ```ruby
 arr = [1,2,3]
