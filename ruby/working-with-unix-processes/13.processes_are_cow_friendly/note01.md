@@ -4,6 +4,10 @@ https://workingwithruby.com/wwup/cow/
 
 + Physically copying all of that data(fork did this) can be considerable overhead, so modern Unix systems employ something called copy-on-write semantics (CoW) to combat this.
 
+如果从父进程里物理复制数据可能会产生很大的开销
+
+现代的unix系统采用了 "写时复制"
+
 + CoW delays the actual copying of memory until it needs to be written.
 
 ```ruby
