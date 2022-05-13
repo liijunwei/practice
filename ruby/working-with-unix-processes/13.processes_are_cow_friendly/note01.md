@@ -49,3 +49,15 @@ puts "parent: #{arr}"
 
 + MRI's garbage collector uses a 'mark-and-sweep' algorithm.
 
++ If you’re building something, or using tools, that depend heavily on fork(2), you should expect much better memory utilization with MRI 2.0 than with earlier versions.
+
+1.9 版本前的ruby, 没有保留CoW的语义, GC后, 子进程里的所有内存都是"modified"的状态, 会使得内存被实际复制
+
+2.0 及之后的ruby版本保留了CoW语义, 不再会出现GC影响CoW的问题
+
+因此如果 你的应用很依赖fork, 最好使用 >= 2.0 版本 MRI ruby
+
+
+
+
+
