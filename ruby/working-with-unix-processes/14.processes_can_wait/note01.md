@@ -64,7 +64,7 @@ end
     + Process.wait2 returns 2 values: pid, status
 
 ```ruby
-# watch -d -n1 "ruby ruby/working-with-unix-processes/14.processes_can_wait/tmp.rb"
+# watch -d -n1 "ruby tmp.rb"
 
 # We create 5 child processes.
 5.times do
