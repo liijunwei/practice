@@ -10,6 +10,10 @@ event "starting raining..." do
   true
 end
 
+event "you have beed slained" do
+  true
+end
+
 setup do
   puts "#{Time.now} [INFO] Setting up sky"
   @sky_height = 100
