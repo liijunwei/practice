@@ -1,16 +1,7 @@
-def monthly_sales
-  110 # TODO read productoin data from database
+event "an event that always happens" do
+  true
 end
 
-target_sales = 100
-
-# what if we want to share variable in two events?
-
-event "monthly sales are suspicioutly high" do
-  monthly_sales > target_sales
+event "an event that never happens" do
+  false
 end
-
-event "monthly sales are absymally low" do
-  monthly_sales < target_sales
-end
-
