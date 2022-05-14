@@ -16,7 +16,7 @@ end
 
 setup do
   puts "#{Time.now} [INFO] Setting up sky"
-  @sky_height = 100
+  @sky_height = redis.get("sky_height").to_i
 end
 
 setup do

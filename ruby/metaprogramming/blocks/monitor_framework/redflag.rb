@@ -3,6 +3,12 @@
 
 # page 96
 
+require 'redis'
+
+def redis
+  @instance ||= Redis.new
+end
+
 def event(name, &block)
   @events[name] = block
 end
