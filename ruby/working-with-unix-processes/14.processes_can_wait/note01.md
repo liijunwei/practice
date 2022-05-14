@@ -1,5 +1,7 @@
 https://workingwithruby.com/wwup/wait/
 
+## Processes Can Wait
+
 如果父进程先于fork出的子进程退出了, 可能会出现一些奇怪的现象
 
 + "Fire a fork and continue in parent process" scenario is really only suitable for one use case, fire and forget.
@@ -20,6 +22,8 @@ end
 
 # send message to recipient
 ```
+
+## Babysitting
 
 + For most other use cases involving fork(2) you’ll want some way to keep tabs on your child processes.
 
