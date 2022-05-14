@@ -39,6 +39,8 @@ Process.detach(pid)
 
 `Process.detach(pid)`做了一件事: 开出一个线程, 这个线程只做一件事, 那就是等这个被detach的子进程执行完毕
 
+这样能避免内核资源的浪费(unclear)
+
 ```ruby
 # kernel/common/process.rb#L377-395
 def self.detach(pid)
