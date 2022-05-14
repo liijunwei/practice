@@ -7,12 +7,12 @@ event "it's getting closer" do
 end
 
 setup do
-  puts "Setting up sky"
+  puts "#{Time.now} [INFO] Setting up sky"
   @sky_height = 100
 end
 
 setup do
-  puts "Setting up mountains"
+  puts "#{Time.now} [INFO] Setting up mountains"
   @mountains_height = 200
 end
 

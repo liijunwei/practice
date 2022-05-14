@@ -4,7 +4,6 @@
 # page 96
 
 def event(name, &block)
-  # puts "#{Time.now} ALERT: #{name}" if yield
   @events[name] = block
 end
 
@@ -12,12 +11,10 @@ def setup(&block)
   @setups << block
 end
 
-# require 'pry'; binding.pry
-
 script_dir = File.dirname(__FILE__)
 Dir.glob("#{script_dir}/events/*events.rb").each do |file|
   @setups = []
-  @events = []
+  @events = {}
   load file
 
   @events.each_pair do |name, event|
@@ -26,7 +23,7 @@ Dir.glob("#{script_dir}/events/*events.rb").each do |file|
       env.instance_eval &setup
     end
 
-    puts 
+    puts "#{Time.now} [WARN] #{name}" if env.instance_eval &event
   end
 end
 
