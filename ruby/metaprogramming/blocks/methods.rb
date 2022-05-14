@@ -9,7 +9,15 @@ class MyClass
 end
 
 object = MyClass.new(1)
-m = object.method :my_method
-p m.call
+m1 = object.method :my_method
+p m1.call
+
+puts "=" * 30
+
+unbound = m1.unbind
+
+another_object = MyClass.new(2)
+m2 = unbound.bind(another_object)
+p m2.call
 
 
