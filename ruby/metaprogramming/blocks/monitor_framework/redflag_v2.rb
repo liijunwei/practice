@@ -3,19 +3,20 @@
 
 # page 98
 
+# This is too much T.T
+
 require 'redis'
 
 def redis
   @instance ||= Redis.new
 end
 
-
 lambda {
   setups = []
   events = {}
 
   Kernel.send :define_method, :event do |name, &block|
-    @events[name] = block
+    events[name] = block
   end
 
   Kernel.send :define_method, :setup do |&block|
@@ -33,18 +34,15 @@ lambda {
       block.call setup
     end
   end
-
 }.call
 
 script_dir = File.dirname(__FILE__)
 Dir.glob("#{script_dir}/events/*events.rb").each do |file|
-  @setups = []
-  @events = {}
   load file
 
-  @events.each_pair do |name, event_block|
+  each_event do |name, event_block|
     env = Object.new
-    @setups.each do |setup|
+    each_setup do |setup|
       env.instance_eval &setup
     end
 
