@@ -51,7 +51,8 @@ def self.detach(pid)
 end
 ```
 
-+ What Do Zombies Look Like?
+## What Do Zombies Look Like?
+
 ```ruby
 # Create a child process that exits after 1 second.
 pid = fork { sleep 1 }
@@ -62,6 +63,8 @@ puts `ps aux #{pid}`
 
 # Process.wait
 ```
+
+## In The Real World
 
 + So every child process that dies while its parent is still active will be a zombie, if only for a short time.
 
