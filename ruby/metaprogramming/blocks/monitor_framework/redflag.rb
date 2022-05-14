@@ -17,13 +17,13 @@ Dir.glob("#{script_dir}/events/*events.rb").each do |file|
   @events = {}
   load file
 
-  @events.each_pair do |name, event|
+  @events.each_pair do |name, event_block|
     env = Object.new
     @setups.each do |setup|
       env.instance_eval &setup
     end
 
-    puts "#{Time.now} [WARN] #{name}" if env.instance_eval &event
+    puts "#{Time.now} [WARN] #{name}" if env.instance_eval &event_block
   end
 end
 
