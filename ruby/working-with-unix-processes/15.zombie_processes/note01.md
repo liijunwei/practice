@@ -6,7 +6,7 @@ https://workingwithruby.com/wwup/zombies/
 
 + We need to revisit that example and ensure that we clean up that child process appropriately, lest it become a zombie!
 
-> Good Things Come to Those Who wait(2)
+## Good Things Come to Those Who wait(2)
 
 + The kernel will retain the status of exited child processes until the parent process requests that status using Process.wait.
     + If the parent never requests the status then the kernel can never reap that status information
