@@ -68,7 +68,11 @@ puts `ps aux #{pid}`
 
 + So every child process that dies while its parent is still active will be a zombie, if only for a short time.
 
+一个父进程fork出了子进程, 子进程退出后, 但是父进程还没有推出并且还没有用wait收集子进程的信息时, 这个子进程就变成了僵尸进程
+
 + Once the parent process collects the status from the zombie then it effectively disappears, no longer consuming kernel resources.
+
+当父进程把子进程的状态信息用`wait`方法收集了以后, 子进程才会消失
 
 + It’s fairly uncommon to fork child processes in a fire and forget manner, never collecting their status. **If work needs to be offloaded in the background it’s much more common to do that with a dedicated background queueing system.**
 
