@@ -1,8 +1,14 @@
 # run this script every 1 seconds to check all events
 # watch -d -n1 "ruby ruby/metaprogramming/blocks/monitor_framework/redflag.rb"
 
-def event(name)
+# page 96
+
+def event(name, &block)
   puts "#{Time.now} ALERT: #{name}" if yield
+  
+end
+
+def setup
 end
 
 # require 'pry'; binding.pry
