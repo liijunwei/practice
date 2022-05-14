@@ -6,6 +6,10 @@ event "it's getting closer" do
   @sky_height < @mountains_height
 end
 
+event "starting raining..." do
+  true
+end
+
 setup do
   puts "#{Time.now} [INFO] Setting up sky"
   @sky_height = 100
