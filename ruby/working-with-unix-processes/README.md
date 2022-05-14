@@ -14,7 +14,7 @@ https://workingwithruby.com/wwup/intro/
 - [x] 10.processes_have_exit_codes
 - [x] 11.processes_can_fork
 - [x] 12.orphaned_processes
-- [ ] 13.processes_are_cow_friendly
+- [x] 13.processes_are_cow_friendly
 - [ ] 14.processes_can_wait
 - [ ] 15.zombie_processes
 - [ ] 16.processes_can_get_signals
