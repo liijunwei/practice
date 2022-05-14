@@ -1,5 +1,7 @@
 https://workingwithruby.com/wwup/wait/
 
+如果父进程先于fork出的子进程退出了, 可能会出现一些奇怪的现象
+
 + "Fire a fork and continue in parent process" scenario is really only suitable for one use case, fire and forget.
 
 ```ruby
