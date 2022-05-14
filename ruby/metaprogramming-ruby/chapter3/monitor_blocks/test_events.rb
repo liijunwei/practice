@@ -4,6 +4,8 @@ end
 
 target_sales = 100
 
+# what if we want to share variable in two events?
+
 event "monthly sales are suspicioutly high" do
   monthly_sales > target_sales
 end
