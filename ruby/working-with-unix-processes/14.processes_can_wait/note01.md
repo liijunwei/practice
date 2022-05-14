@@ -45,6 +45,8 @@ Process.wait
 abort "Parent process died..."
 ```
 
+## Process.wait and Cousins#
+
 + If you have a parent that’s babysitting more than one child process and you’re using Process.wait, **you need to know which one exited**. For this, you can use the return value.
 
 ```ruby
@@ -62,6 +64,8 @@ end
   puts Process.wait
 end
 ```
+
+## Communicating with Process.wait2
 
 + Process.wait has a cousin called Process.wait2
     + Process.wait  returns 1 value:  pid
@@ -97,6 +101,8 @@ end
 end
 ```
 
+## Waiting for Specific Children#
+
 + Process.wait has two more cousins called Process.waitpid and Process.waitpid2
     + Waiting for Specific Children
     + rather than waiting for any child to exit they only wait for a specific child to exit, specified by pid
@@ -113,6 +119,8 @@ end
 pid, status = Process.waitpid2 favourite
 puts status.exitstatus
 ```
+
+## Race Conditions
 
 + Question: What if I haven’t gotten back around to Process.wait and another process exits? Let’s see:
     + The kernel queues up information about exited processes so that the parent always receives the information in the order that the children exited
