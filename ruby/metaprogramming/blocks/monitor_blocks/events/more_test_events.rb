@@ -1,7 +1,7 @@
-# what if we want to share variable in two events?
+# what if we want to share variable between events?
 
 def monthly_sales
-  110 # TODO read productoin data from database
+  110 # read productoin data from database
 end
 
 target_sales = 100
