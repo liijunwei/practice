@@ -14,6 +14,8 @@ https://workingwithruby.com/wwup/zombies/
 
 + **If you’re not going to wait for a child process to exit using Process.wait (or the technique described in the next chapter) then you need to 'detach' that child process.**
 
+如果父进程不相等子进程执行完毕, 那么父进程应该`detach`那个子进程
+
 ```ruby
 message = 'Good Morning'
 recipient = 'tree@mybackyard.com'
@@ -34,6 +36,8 @@ Process.detach(pid)
 ```
 
 + `Process.detach(pid)` simply spawns a new thread whose sole job is to wait for the child process specified by pid to exit. This ensures that the kernel doesn’t hang on to any status information we don’t need.
+
+`Process.detach(pid)`做了一件事: 开出一个线程, 这个线程只做一件事, 那就是等这个被detach的子进程执行完毕
 
 ```ruby
 # kernel/common/process.rb#L377-395
