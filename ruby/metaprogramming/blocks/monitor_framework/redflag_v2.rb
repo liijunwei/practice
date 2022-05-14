@@ -18,6 +18,22 @@ lambda {
     @events[name] = block
   end
 
+  Kernel.send :define_method, :setup do |&block|
+    setups << block
+  end
+
+  Kernel.send :define_method, :each_event do |&block|
+    events.each_pair do |name, event_block|
+      block.call name, event_block
+    end
+  end
+
+  Kernel.send :define_method, :each_setup do |&block|
+    setups.each do |setup|
+      block.call setup
+    end
+  end
+
 }.call
 
 script_dir = File.dirname(__FILE__)
