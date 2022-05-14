@@ -145,7 +145,13 @@ sleep 5
 puts Process.wait
 ```
 
+如果父进程fork出的子进程很快退出了, 还没执行到父进程的wait命令, 父进程也能正常运行
+
+因为内核把"fork出的进程已退出了"的信息放入了一个队列中, 只要父进程正常运行到wait命令, 就能消费那条消息
+
 + Note that calling any variant of Process.wait when there are no child processes will raise Errno::ECHILD
+
+如果没有没有fork出子进程, 直接调用`Process.wait`, 会抛出异常"No child processes (Errno::ECHILD)"
 
 + It's always a good idea to keep track of how many child processes you have created so you don't encounter this exception.
 
