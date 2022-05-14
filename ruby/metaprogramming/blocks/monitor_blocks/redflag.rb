@@ -1,5 +1,5 @@
 # run this script every 1 seconds to check all events
-# watch -d -n1 "ruby ruby/metaprogramming-ruby/chapter3/monitor_blocks/redflag.rb"
+# watch -d -n1 "ruby ruby/metaprogramming/blocks/monitor_blocks/redflag.rb"
 
 def event(name)
   puts "#{Time.now} ALERT: #{name}" if yield
