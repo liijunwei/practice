@@ -16,7 +16,7 @@ https://workingwithruby.com/wwup/intro/
 - [x] 12.orphaned_processes
 - [x] 13.processes_are_cow_friendly
 - [x] 14.processes_can_wait
-- [ ] 15.zombie_processes
+- [x] 15.zombie_processes
 - [ ] 16.processes_can_get_signals
 - [ ] 17.processes_can_communicate
 - [ ] 18.daemon_processes
