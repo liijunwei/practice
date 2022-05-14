@@ -1,7 +1,11 @@
 # run this script every 5 seconds to detect events
 
+def monthly_
+  
+end
+
 def event(name)
-  puts "ALERT: #{name}" if yield
+  puts "#{Time.now} ALERT: #{name}" if yield
 end
 
 # require 'pry'; binding.pry
