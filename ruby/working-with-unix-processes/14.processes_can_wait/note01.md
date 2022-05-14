@@ -155,6 +155,10 @@ puts Process.wait
 
 + It's always a good idea to keep track of how many child processes you have created so you don't encounter this exception.
 
+最好记录好当前进程开启了多少个子进程, 以避免"Errno::ECHILD"错误
+
+## In the Real World
+
 + The idea of looking in on your child processes is at the core of a common Unix programming pattern
     + babysitting processes
     + master/worker
@@ -163,6 +167,15 @@ puts Process.wait
 + Core of this pattern
     + you have one process that forks several child processes, for concurrency
     + and then spends its time looking after them: making sure they are still responsive, reacting if any of them exit, etc.
+
++ 实例: unicorn服务器
+
+## System Calls
+
+Ruby’s `Process.wait` and cousins map to `waitpid(2)`.
+
+`man 2 waitpid`
+
 
 
 
