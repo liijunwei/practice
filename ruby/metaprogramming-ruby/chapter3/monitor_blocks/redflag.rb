@@ -2,5 +2,7 @@ def event(name)
   puts "ALERT: #{name}" if yield
 end
 
-Dir.glob("*events.rb").each { |file| load file }
+# require 'pry'; binding.pry
+
+Dir.glob("#{File.dirname(__FILE__)}/*events.rb").each { |file| load file }
 
