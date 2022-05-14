@@ -1,9 +1,5 @@
 # run this script every 5 seconds to detect events
 
-def monthly_
-  
-end
-
 def event(name)
   puts "#{Time.now} ALERT: #{name}" if yield
 end
