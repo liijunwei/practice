@@ -121,6 +121,10 @@ end
 
 + So whereas pipes provide uni-directional communication, a socket pair provides bi-directional communication. The parent socket can both read and write to the child socket, and vice versa.
 
+管道提供进程间的单向沟通的方式
+
+socket提供双向沟通方式
+
 + Remote IPC?
     + ipc -> communication between processes running on the same machine
     + communicate via TCP sockets
