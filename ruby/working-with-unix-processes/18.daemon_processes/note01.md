@@ -1,9 +1,5 @@
 # [Daemon Processes](https://workingwithruby.com/wwup/daemons/)
 
-+ Important
-
-+ TODO read again and again
-
 ## The First Process
 
 + There is one daemon process in particular that has special significance for your operating system.
@@ -150,15 +146,17 @@ git log | grep shipped | less
     + `Process.setsid` will make this forked process the leader of a new process group and a new session group.
     + Note that `Process.setsid` will fail in a process that is already a process group leader, **it can only be run from child processes.**
 
+## In the Real World
+
 + If you think you want to create a daemon process you should ask yourself one basic question:
     + Does this process need to stay responsive forever?
     + If the answer is no,  then you probably want to look at a cron job or background job system.
     + If the answer is yes, then you probably have a good candidate for a daemon process.
 
-+ system calls
-    + Process.setsid  -> setsid(2)
-    + Process.getpgrp -> getpgrp(2)
+## system calls
 
++ Process.setsid  -> setsid(2)
++ Process.getpgrp -> getpgrp(2)
 
 
 

@@ -19,7 +19,7 @@ https://workingwithruby.com/wwup/intro/
 - [x] 15.zombie_processes
 - [x] 16.processes_can_get_signals
 - [x] 17.processes_can_communicate
-- [ ] 18.daemon_processes
+- [x] 18.daemon_processes
 - [ ] 19.spawning_terminal_processes
 - [ ] 20.ending
 - [ ] 21.appendix_how_resque_manages_processes
