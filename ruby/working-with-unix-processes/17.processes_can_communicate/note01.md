@@ -34,15 +34,19 @@ puts reader.read
 
 如果不关闭writer, reader认为还会有数据从管道传过来, 直到遇到EOF才会停止
 
-+ Pipes Are One-Way Only
-    + The reader can only read
-    + The writer can only write
+## Pipes Are One-Way Only
+
++ The reader can only read
++ The writer can only write
+
 ```ruby
 reader, writer = IO.pipe
 reader.write("Trying to get the reader to write something") # will raise an IOError
 ```
 
 管道是单向的, reader只能读, writer只能写
+
+## Sharing Pipes
 
 + when a process fork a child, open resources are shared or copied to its child process.
 + Pipes are considered a resource, they get their own file descriptors and everything, so they are shared with child processes.
