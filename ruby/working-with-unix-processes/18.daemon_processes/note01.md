@@ -13,7 +13,11 @@
     + This process has a ppid of 0 and is the ‘grandparent of all processes’.
     + It’s the first one and it has no ancestor. Its pid is 1.
 
+## Creating Your First Daemon Process
+
 + Any process can be made into a daemon process.
+
++ `rack project` as example
 
 ## Diving into Rack
 
