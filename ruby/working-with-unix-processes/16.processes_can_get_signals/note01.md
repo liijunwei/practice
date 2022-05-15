@@ -200,7 +200,11 @@ sleep # so th
 Process.kill(:INT, <pid of first session>)
 ```
 
+## Signal Handlers are Global
+
 + It’s good to keep in mind that trapping a signal is a bit **like using a global variable**, you might be overwriting something that some other code depends on. And unlike global variables signal handlers can’t be namespaced.
+
+要注意: 
 
 + There is a way to preserve handlers defined by other Ruby code, so that your signal handler won’t trample any other ones that are already defined.
 ```ruby
