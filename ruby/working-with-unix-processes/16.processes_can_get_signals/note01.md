@@ -10,6 +10,18 @@ Confusing
 
 然而`Process.wait`是一个阻塞调用, 在子进程死亡前, 他不会返回
 
++ What’s a busy parent to do? Not every parent has the luxury of waiting around on their children all day.
+
+如果父进程很忙碌怎么办(不能接受阻塞怎么办)? 不是所有父进程都有时间等子进程返回的
+
++ There is a solution for the busy parent! And it’s our introduction to Unix signals.
+
+对于忙碌的父进程, 这里有一种解决办法: unix 信号
+
+## Trapping SIGCHLD
+
+拿上一节的例子改造
+
 + man sigaction
     + SIGCHLD
 
