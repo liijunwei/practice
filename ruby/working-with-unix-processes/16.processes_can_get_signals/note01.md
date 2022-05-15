@@ -258,6 +258,9 @@ old_handler = trap(:QUIT) {
 ## When Can’t You Receive Signals?
 
 + Your process can receive a signal anytime. That’s the beauty of them! They’re asynchronous.
++ Your process can be pulled out of a busy for-loop into a signal handler, or even out of a long sleep.
+
+## In the Real World
 
 + With signals, any process can communicate with any other process on the system, so long as it knows its pid.
 
@@ -265,7 +268,9 @@ old_handler = trap(:QUIT) {
 
 + It’s common to send signals from the shell using kill(1).
 
-+ And for the most part it will be the human users who are sending signals rather than automated programs.
++ **And for the most part it will be the human users who are sending signals rather than automated programs.**
+
+## System Calls
 
 + Ruby’s Process.kill maps to kill(2), Kernel#trap maps roughly to sigaction(2). signal(7) is also useful.
 
