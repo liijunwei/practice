@@ -222,15 +222,22 @@ sleep # so that we have time to send it a signal
 # ctrl + c to interrupt
 ```
 
++ can we preserve the system default behaviour?
+    + No, we can’t preserve the system default behaviour with this technique, but we can preserve other Ruby code handlers that have been defined.
+
 ```ruby
 system_handler = trap(:INT) {
   puts 'about to exit!'
   system_handler.call
 }
 sleep # so that we have time to send it a signal
+# ctrl + c to interrupt
 ```
 
 + In terms of **best practices** your code probably shouldn't define any signal handlers, unless it's a server.
+
+如果你的应用程序不是服务器的话, 一般情况下来说, 最佳时间是
+
 + It's very rare that library code should trap a signal.
 
 ```ruby
