@@ -21,9 +21,13 @@ module Document
 end
 
 class Book
-  include Printable
   include Document
+  include Printable
 end
 
 b = Book.new
-b.print_to_screen
+p b.method(:print)
+
+p Book.ancestors # [Book, Printable, Document, Object, Kernel, BasicObject]
+
+
