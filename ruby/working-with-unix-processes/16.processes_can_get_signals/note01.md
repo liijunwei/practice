@@ -6,7 +6,9 @@ Confusing
 
 + In the last chapter we looked at `Process.wait`. It provides a nice way for a parent process to keep tabs on its child processes. However Not every parent has the luxury of waiting around on their children all day.
 
+上一节里讲了`Process.wait`方法; 它提供了从父进程里关注fork出的子进程的方式;
 
+然而`Process.wait`是一个阻塞调用, 在子进程死亡前, 他不会返回
 
 + man sigaction
     + SIGCHLD
