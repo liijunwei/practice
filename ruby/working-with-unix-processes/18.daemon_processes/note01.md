@@ -103,8 +103,16 @@ fork {
 + Exit a parent process and the child will continue on.
 + This is the behaviour when a parent process exits, but the behaviour is a bit different when the parent process is being controlled by a terminal and is killed by a signal.
 
++ Consider for a moment: a Ruby script that shells out to a long-running shell command, eg. a long backup script. What happens if you kill the Ruby script with a Ctrl-C?
+
+
+
++ If you try this out you’ll notice that the long-running backup script is not orphaned, it does not continue on when its parent is killed. We haven’t set up any code to forward the signal from the parent to the child, so how is this done?
+
+
+
 + The terminal receives the signal and forwards it on to any process in the foreground process group.
-+ In this case, both the Ruby script and the long-running shell command would part of the same process group, so they would both be killed by the same signal.
++ **In this case, both the Ruby script and the long-running shell command would part of the same process group, so they would both be killed by the same signal.**
 
 + A **session group** is one level of abstraction higher up, a collection of process groups.
 ```bash
