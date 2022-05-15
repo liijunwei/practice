@@ -25,8 +25,7 @@ Confusing
 + man sigaction
     + SIGCHLD: child status has changed
 
-+ 这个版本有时候没法正常退出, 因为信号量不可靠
-
++ 这个版本**有时候**没法正常退出, 因为信号量不可靠; 改为后面用循环调用`Process.wait`的形式就没问题了
 ```ruby
 child_processes = 3
 dead_processes = 0
