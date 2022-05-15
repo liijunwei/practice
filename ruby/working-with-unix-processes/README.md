@@ -18,7 +18,7 @@ https://workingwithruby.com/wwup/intro/
 - [x] 14.processes_can_wait
 - [x] 15.zombie_processes
 - [x] 16.processes_can_get_signals
-- [ ] 17.processes_can_communicate
+- [x] 17.processes_can_communicate
 - [ ] 18.daemon_processes
 - [ ] 19.spawning_terminal_processes
 - [ ] 20.ending
