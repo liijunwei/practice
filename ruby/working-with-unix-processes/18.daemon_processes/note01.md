@@ -82,7 +82,9 @@ puts Process.pid
     + ie. If you start an irb process at the terminal it will become the group leader of a new process group.
     + Any child processes that it creates will be made part of the same process group.
 
-今晨分组的leader是发起这个进程的
+今晨分组的leader是终端命令的"发起"进程
+
+例如, 我们在命令行里启动了irb, 然后在irb进程里fork出新的进程, 那么irb就是这个它新发起的进程的进程组leader
 
 + Typically the **process group** id will be the same as the pid of the process group leader.
 
