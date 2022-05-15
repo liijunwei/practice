@@ -41,9 +41,13 @@ end
 
 ## Daemonizing a Process, Step by Step
 
+```ruby
+exit if fork
+```
+
 + The ppid of orphaned processes is always 1. This is the only process that the kernel can be sure is active at all times.
 
-+ Calling Process.setsid does three things:(TODO understand this well)
++ Calling `Process.setsid` does three things:(TODO understand this well)
     1. The process becomes a session leader of a new session
     2. The process becomes the process group leader of a new process group
     3. The process has no controlling terminal
