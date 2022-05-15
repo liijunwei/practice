@@ -9,5 +9,5 @@ def add_method_to(a_class)
 end
 
 add_method_to(String)
-"abc".m
+p "abc".m
 
