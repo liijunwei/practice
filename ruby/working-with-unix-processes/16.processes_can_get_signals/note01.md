@@ -210,8 +210,6 @@ Process.kill(:INT, <pid of first session>)
 
 + There is a way to preserve handlers defined by other Ruby code, so that your signal handler won’t trample any other ones that are already defined.
 ```ruby
-puts Process.pid
-
 trap(:INT) { puts 'This is the first signal handler' }
 
 old_handler = trap(:INT) {
@@ -219,7 +217,9 @@ old_handler = trap(:INT) {
   puts 'This is the second handler'
   exit
 }
-sleep 5 # so that we have time to send it a signal
+sleep # so that we have time to send it a signal
+
+# ctrl + c to interrupt
 ```
 
 ```ruby
