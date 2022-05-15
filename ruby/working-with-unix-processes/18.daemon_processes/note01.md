@@ -15,7 +15,10 @@
 
 + Any process can be made into a daemon process.
 
+## Diving into Rack
+
 + rack demo
+
 ```ruby
 def daemonize_app
   if RUBY_VERSION < "1.9"
@@ -35,6 +38,8 @@ end
 ```
 
 + [MRI source for Process.daemon](https://github.com/ruby/ruby/blob/c852d76f46a68e28200f0c3f68c8c67879e79c86/process.c#L4817-4860)
+
+## Daemonizing a Process, Step by Step
 
 + The ppid of orphaned processes is always 1. This is the only process that the kernel can be sure is active at all times.
 
