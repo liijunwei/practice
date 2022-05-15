@@ -10,7 +10,7 @@ class C
   end
 end
 
-# 为啥 ruby 2.6.5 会报错
-# 为啥 ruby 3.1.1 不会报错
+# when ruby version <  2.7 =>  private method `method_private' called(NoMethodError)
+# when ruby version >= 2.7 =>  private method `method_private' called(NoMethodError)
 p C.new.method_public
 
