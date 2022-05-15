@@ -7,3 +7,6 @@ end
 obj = MyClass.new
 
 p obj.my_method(3)
+puts "=" * 30
+
+p obj.send(:my_method, 3)
