@@ -66,7 +66,18 @@ puts Process.getpgrp
 puts Process.pid
 ```
 
++ Each and every process belongs to a group, and each group has a unique integer id.
+
+每个进程都属于一个进程分组, 每个分组都有一个唯一的id
+
++ A process group is just a collection of related processes
+
+一个进程分组就是一组相关的进程
+
 + Typically the **process group** id will be the same as the pid of the process group leader.
+
+一般来说, 进程分组的id和这个进程分组的
+
 + The process group leader is the "originating" process of a terminal command.
     + ie. If you start an irb process at the terminal it will become the group leader of a new process group. Any child processes that it creates will be made part of the same process group
 
