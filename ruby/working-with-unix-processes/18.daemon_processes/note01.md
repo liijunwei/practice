@@ -19,7 +19,7 @@
 
 + `rack project` as example
 
-## Diving into Rack
+## [Diving into Rack](https://github.com/rack/rack/commit/485c92c4adc3dc48491e2a9fd742c01584e36760)
 
 + rack demo
 
