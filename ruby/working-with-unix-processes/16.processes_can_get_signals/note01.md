@@ -67,6 +67,11 @@ end
 
 即 如果你的代码trap了信号量, 同时有一个子进程死亡了, 这时候你的程序有可能收到`CHLD`信号, 也可能收不到这个信号
 
++ To properly handle CHLD you must call `Process.wait` in a loop and look for as many dead child processes as are available, since you may have received multiple CHLD signals since entering the signal handler.
+
+想要处理好`CHLD`信号, 我们循环调用`Process.wait`
+
+
 + Here’s a rewrite of the code snippet from the beginning of this chapter that won’t ‘miss’ any child process deaths:
 
 ```ruby
