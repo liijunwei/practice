@@ -88,10 +88,6 @@ puts Process.pid
 
 + Typically the **process group** id will be the same as the pid of the process group leader.
 
-
-+ The process group leader is the "originating" process of a terminal command.
-    + ie. If you start an irb process at the terminal it will become the group leader of a new process group. Any child processes that it creates will be made part of the same process group
-
 + Try out the following example to see that process groups are inherited.
 ```ruby
 puts Process.pid
