@@ -117,9 +117,11 @@ fork {
 
 + The terminal receives the signal and forwards it on to any process in the foreground process group.
 
-原因是, 终端收到了
+原因是, 终端收到了信号, 并且把这个信号转发给了同一进程分组下的其他进程
 
 + **In this case, both the Ruby script and the long-running shell command would part of the same process group, so they would both be killed by the same signal.**
+
+所以在这种情况下, ruby脚本和备份命令都在同一个进程分组里, 他们都会被杀死
 
 + A **session group** is one level of abstraction higher up, a collection of process groups.
 ```bash
