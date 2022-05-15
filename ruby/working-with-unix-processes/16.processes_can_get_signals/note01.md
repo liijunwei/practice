@@ -20,10 +20,10 @@ Confusing
 
 ## Trapping SIGCHLD
 
-拿上一节的例子改造
+把上一节的例子改造为"一个忙碌的父进程"的例子
 
 + man sigaction
-    + SIGCHLD
+    + SIGCHLD: child status has changed
 
 ```ruby
 child_processes = 3
