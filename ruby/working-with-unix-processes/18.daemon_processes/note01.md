@@ -52,8 +52,10 @@ exit if fork
     2. The process becomes the process group leader of a new process group
     3. The process has no controlling terminal
 
+## Process Groups and Session Groups
+
 + Process groups and session groups are all about job control.
-    + By ‘job control’ I’m referring to the way that processes are handled by the terminal.
++ By "job control" I'm referring to the way that processes are handled by the terminal.
 
 ```ruby
 puts Process.getpgrp
@@ -61,7 +63,7 @@ puts Process.pid
 ```
 
 + Typically the **process group** id will be the same as the pid of the process group leader.
-+ The process group leader is the ‘originating’ process of a terminal command.
++ The process group leader is the "originating" process of a terminal command.
     + ie. If you start an irb process at the terminal it will become the group leader of a new process group. Any child processes that it creates will be made part of the same process group
 
 + Try out the following example to see that process groups are inherited.
