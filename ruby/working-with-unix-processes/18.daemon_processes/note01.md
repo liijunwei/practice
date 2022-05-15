@@ -74,9 +74,18 @@ puts Process.pid
 
 一个进程分组就是一组相关的进程
 
++ Typically the process group id will be the same as the pid of the process group leader.
+
+一般来说, 进程分组的id和这个进程分组的leader(unclear ???)相同
+
++ The process group leader is the "originating" process of a terminal command.
+    + ie. If you start an irb process at the terminal it will become the group leader of a new process group.
+    + Any child processes that it creates will be made part of the same process group.
+
+今晨分组的leader是发起这个进程的
+
 + Typically the **process group** id will be the same as the pid of the process group leader.
 
-一般来说, 进程分组的id和这个进程分组的
 
 + The process group leader is the "originating" process of a terminal command.
     + ie. If you start an irb process at the terminal it will become the group leader of a new process group. Any child processes that it creates will be made part of the same process group
