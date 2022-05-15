@@ -129,6 +129,8 @@ loop do
 end
 ```
 
+## Signals Primer
+
 + Signals are asynchronous communication.
 
 + When a process receives a signal from the kernel it can do one of the following:
