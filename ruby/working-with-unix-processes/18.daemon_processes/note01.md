@@ -105,13 +105,20 @@ fork {
 
 + Consider for a moment: a Ruby script that shells out to a long-running shell command, eg. a long backup script. What happens if you kill the Ruby script with a Ctrl-C?
 
+想象这样一种用法: 用一个ruby脚本shell out一个备份命令; 如果我们把这个ruby脚本杀死了, 那个备份命令, 会退出吗?
 
+```ruby
+`sleep 10`
+```
 
 + If you try this out you’ll notice that the long-running backup script is not orphaned, it does not continue on when its parent is killed. We haven’t set up any code to forward the signal from the parent to the child, so how is this done?
 
-
+试试就会知道, 被ruby脚本shell out出的进程也会一并退出
 
 + The terminal receives the signal and forwards it on to any process in the foreground process group.
+
+原因是, 终端收到了
+
 + **In this case, both the Ruby script and the long-running shell command would part of the same process group, so they would both be killed by the same signal.**
 
 + A **session group** is one level of abstraction higher up, a collection of process groups.
