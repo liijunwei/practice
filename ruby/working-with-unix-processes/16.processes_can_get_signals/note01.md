@@ -144,6 +144,8 @@ end
     + Signals are sent from one process to another process, using the kernel as a middleman.
     + The original purpose of signals was to specify different ways that a process should be killed.
 
+## The Big Picture
+
 + Below is a table showing signals commonly supported on Unix systems.
 
 Signal    | Value      |  Action  | Comment
