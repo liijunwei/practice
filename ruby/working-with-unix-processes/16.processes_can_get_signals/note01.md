@@ -236,7 +236,7 @@ sleep # so that we have time to send it a signal
 
 + In terms of **best practices** your code probably shouldn't define any signal handlers, unless it's a server.
 
-如果你的应用程序不是服务器的话, 一般情况下来说, 最佳时间是
+如果你的应用程序不是服务器的话, 一般情况下来说, 最佳实践是不要在代码里定义信号处理
 
 + It's very rare that library code should trap a signal.
 
@@ -254,6 +254,8 @@ old_handler = trap(:QUIT) {
 + This violates the expectations of ......
 
 + Whether or not you decide to preserve previously defined signal handlers is up to you, **just make sure you know why you’re doing it**.
+
+## When Can’t You Receive Signals?
 
 + Your process can receive a signal anytime. That’s the beauty of them! They’re asynchronous.
 
