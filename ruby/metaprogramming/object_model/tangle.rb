@@ -23,13 +23,11 @@ end
 class Book
   include Document
   include Printable
-
-  p ancestors
 end
 
 b = Book.new
 p b.method(:print)
 
-# p Book.ancestors # [Book, Printable, Document, Object, Kernel, BasicObject]
+p Book.ancestors # [Book, Printable, Document, Object, Kernel, BasicObject]
 
 
