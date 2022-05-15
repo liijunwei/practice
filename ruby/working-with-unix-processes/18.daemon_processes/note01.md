@@ -128,10 +128,19 @@ fork {
 git log | grep shipped | less
 
 # Even though these commands are not part of the same process group one Ctrl-C will kill them all.
+
 # These commands are part of the same session group.
 # Each invocation from the shell gets its own session group.
 # An invocation may be a single command or a string of commands joined by pipes.
 ```
+
++ Like in the above example, a session group may be attached to a terminal.
+
+就和上面的例子一样, 一个session group可能和终端(命令行)连接
+
++ It might also not be attached to any terminal, as in the case of a daemon.
+
+也可能不合终端连接, 比如守护进程(daemon)
 
 + Again, your terminal handles session groups in a special way:
     + sending a signal to the session leader will forward that signal to all the process groups in that session
