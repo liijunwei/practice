@@ -1,10 +1,12 @@
-https://workingwithruby.com/wwup/signals/
+# [Processes Can Get Signals](https://workingwithruby.com/wwup/signals/)
 
 + TODO read this part again
 
 Confusing
 
-+ In the last chapter we looked at Process.wait. It provides a nice way for a parent process to keep tabs on its child processes. However Not every parent has the luxury of waiting around on their children all day.
++ In the last chapter we looked at `Process.wait`. It provides a nice way for a parent process to keep tabs on its child processes. However Not every parent has the luxury of waiting around on their children all day.
+
+
 
 + man sigaction
     + SIGCHLD
