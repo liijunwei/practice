@@ -138,7 +138,9 @@ end
     + perform a specified action
     + perform the default action
 
-+ Technically signals are sent by the kernel
+## Where do Signals Come From?
+
++ Technically signals are sent by the kernel (信号由内核发出)
     + Signals are sent from one process to another process, using the kernel as a middleman.
     + The original purpose of signals was to specify different ways that a process should be killed.
 
