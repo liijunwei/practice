@@ -88,7 +88,7 @@ end
 
 + When I say stream I mean that when writing and reading data to a pipe **there’s no concept of beginning and end**.
 
-"流" 没有开始 和 结束的概念(???)
+当我说"流"时, 我的意思是 当向管道里写入和读取数据时, 没有开始和结束的概念
 
 + Here’s a slightly more complex version of the pipe example where the child process actually waits for the parent to tell it what to work on, then it reports back to the parent once it’s finished the work:
 ```ruby
