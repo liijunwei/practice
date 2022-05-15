@@ -121,16 +121,19 @@ end
 
 + So whereas pipes provide uni-directional communication, a socket pair provides bi-directional communication. The parent socket can both read and write to the child socket, and vice versa.
 
-管道提供进程间的单向沟通的方式
+`pipe`提供进程间的单向沟通的方式
 
-socket提供双向沟通方式
+`socket`提供进程间的双向沟通方式
 
-+ Remote IPC?
-    + ipc -> communication between processes running on the same machine
-    + communicate via TCP sockets
-    + communicate via RPC(remote procedure call)
-    + ZeroMQ
-    + ...
+## Remote IPC?
+
++ ipc -> communication between processes running on the same machine
++ communicate via TCP sockets
++ communicate via RPC(remote procedure call)
++ ZeroMQ
++ ...
+
+## In the Real World
 
 + Both pipes and socket pairs are useful abstractions for communicating between processes.
 + They’re fast and easy.
@@ -138,11 +141,11 @@ socket提供双向沟通方式
 
 + As for which method to use: it depends on your needs. Keep in mind that pipes are uni-directional and socket pairs are bi-directional when weighing your decision.
 
-+ System Calls
-    + IO.pipe     maps to pipe(2)
-    + Socket.pair maps to socketpair(2)
-    + Socket.recv maps to recv(2)
-    + Socket.send maps to send(2).
+## System Calls
 
++ IO.pipe     maps to pipe(2)
++ Socket.pair maps to socketpair(2)
++ Socket.recv maps to recv(2)
++ Socket.send maps to send(2).
 
 
