@@ -77,10 +77,11 @@ end
 Process.wait(-1, Process::WNOHANG)
 ```
 
-`Process::WNOHANG`告诉内核: 如果没有子进程退出了, 不需要阻塞
-
+`Process::WNOHANG`告诉内核: 如果没有子进程退出, 不需要阻塞
 
 + Here’s a rewrite of the code snippet from the beginning of this chapter that won’t ‘miss’ any child process deaths:
+
++ TODO unclear about `$stdout.sync = true`
 
 ```ruby
 child_processes = 3
@@ -111,7 +112,7 @@ trap(:CHLD) do
   # We loop over a **non-blocking Process.wait** to ensure that any dead child
   # processes are accounted for.
   begin
-    while pid = Process.wait(-1, Process::WNOHANG)
+    while pid = Process.wait(-1, Process::WNOHANG) # -1 means Waits for any child process (the default if no pid is given).
       puts pid
       dead_processes += 1
     end
