@@ -7,6 +7,8 @@
     + pipes
     + socket pairs
 
+## Our First Pipe
+
 + A pipe is a uni-directional stream of data(单向的数据流)
 
 ```ruby
