@@ -69,7 +69,15 @@ end
 
 + To properly handle CHLD you must call `Process.wait` in a loop and look for as many dead child processes as are available, since you may have received multiple CHLD signals since entering the signal handler.
 
-想要处理好`CHLD`信号, 我们循环调用`Process.wait`
+想要处理好`CHLD`信号, 我们循环调用`Process.wait`, 以确保已经死亡的子进程资源被回收
+
+但是`Process.wait`是一个阻塞方法, 这种阻塞可以通过给它传入第二个参数来处理
+
+```ruby
+Process.wait(-1, Process::WNOHANG)
+```
+
+`Process::WNOHANG`告诉内核: 如果没有子进程退出了, 不需要阻塞
 
 
 + Here’s a rewrite of the code snippet from the beginning of this chapter that won’t ‘miss’ any child process deaths:
