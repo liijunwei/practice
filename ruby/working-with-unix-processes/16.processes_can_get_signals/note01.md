@@ -58,8 +58,14 @@ loop do
 end
 ```
 
+## SIGCHLD and Concurrency
+
 + Signal delivery is unreliable.
     + By this I mean that if your code is handling a CHLD signal while another child process dies you may or may not receive a second CHLD signal.
+
+信号的派发是不可靠的
+
+即 如果你的代码trap了信号量, 同时有一个子进程死亡了, 这时候你的程序有可能收到`CHLD`信号, 也可能收不到这个信号
 
 + Here’s a rewrite of the code snippet from the beginning of this chapter that won’t ‘miss’ any child process deaths:
 
