@@ -64,6 +64,16 @@ exec 'python', '-c', python_code, {hosts.fileno => hosts}
 
 + **Generally you want to avoid passing a string unless you really need to. Pass an array where possible.**
 
++ Passing a string and running code through the shell can raise security concerns.
+
+直接用字符串shell out, 会有安全风险
+
+## Kernel#system
+
+```ruby
+
+```
+
 ```bash
 The return value of Kernel#system reflects the exit code of the terminal command in the most basic way.
 
