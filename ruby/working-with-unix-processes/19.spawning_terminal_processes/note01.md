@@ -212,11 +212,17 @@ ruby核心库里没有, 不过有一个["posix-spawn project"](https://github.co
 + Recall the two discerning(挑剔的) attributes of a new child process from `fork(2)`:
     1. it gets an exact copy of everything that the parent process had in memory
     2. it gets a copy of all the file descriptors that the parent process had open.
-    + posix_spawn(2) preserves #2, but not #1. That's the big difference between the two.
 
-+ system calls
-    + Kernel#system maps to system(3)
-    + Kernel#exec   maps to `execve(2)`
-    + IO.popen      maps to popen(3)
-    + posix-spawn   uses    posix_spawn(2)
+fork出的进程有两个特点: 1 它有父进程的内存的一个完整拷贝 2 它有父进程打开的所有文件的文件描述符
+
++ posix_spawn(2) preserves #2, but not #1. That's the big difference between the two.
+
+posix_spawn保留了第二点, 忽略了第一点; 这就是它快的原因; 但是它也因此失去了很多灵活性
+
+## system calls
+
++ Kernel#system maps to system(3)
++ Kernel#exec   maps to `execve(2)`
++ IO.popen      maps to popen(3)
++ posix-spawn   uses    posix_spawn(2)
 
