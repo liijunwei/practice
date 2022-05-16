@@ -129,13 +129,18 @@ Process.waitpid(pid)
 
 
 ## IO.popen
-    + whenever usees this to write crontab
+
++ [gem: whenever](https://github.com/javan/whenever) usees this to write crontab
+
 ```ruby
 # This example will return a file descriptor (IO object). Reading from it
 # will return what was printed to STDOUT from the shell command.
 IO.popen('ls')
 ```
-+ The most common usage for IO.popen is an implementation of Unix pipes in pure Ruby.
+
++ The most common usage for `IO.popen` is an implementation of Unix pipes in pure Ruby.
+
+`IO.popen`最常见的用法就是 使用ruby实现unix的管道
 
 + That's where the 'p' comes from in popen.
 
