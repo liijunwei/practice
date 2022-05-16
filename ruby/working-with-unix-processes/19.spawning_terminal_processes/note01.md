@@ -22,12 +22,18 @@
 
 + You can use `fork(2)` to create a new process, then use `execve(2)` to transform that process into anything you like. Your current process is still running just as it was before and you were able to spawn any other process that you want to.
 
-+ If your program depends on the output from the `execve(2)` call you can use the tools you learned in previous chapters to handle that.
-    + `Process.wait` will ensure that your program waits for the child process to finish whatever it’s doing so you can get the result back.
+你可以用`fork(2)`创建出新的进程, 然后用`execve(2)`把新建的进程转换为你想要的进程
 
-+ At the OS level, a call to `execve(2)` doesn’t close any open file descriptors by default.
-    + However, a call to exec in Ruby will close all open file descriptors by default (excluding the standard streams).
-    + This default behaviour of closing file descriptors on exec prevents file descriptor ‘leaks’.
++ If your program depends on the output from the `execve(2)` call you can use the tools you learned in previous chapters to handle that.
+    + `Process.wait` will ensure that your program waits for the child process to finish whatever it's doing so you can get the result back.
+
+## File descriptors and exec
+
++ At the OS level, a call to `execve(2)` doesn't close any open file descriptors by default.
+
++ However, a call to `exec` in Ruby will close all open file descriptors by default (excluding the standard streams).
+
++ This default behaviour of closing file descriptors on exec prevents file descriptor 'leaks'.
 
 + In this example we start up a Ruby program and open the /etc/hosts file.
     + Then we exec a python process and tell it to open the file descriptor number that Ruby received for opening the /etc/hosts file.
@@ -99,9 +105,9 @@ IO.popen('ls')
 ```
 + The most common usage for IO.popen is an implementation of Unix pipes in pure Ruby.
 
-+ That’s where the ‘p’ comes from in popen.
++ That's where the 'p' comes from in popen.
 
-+ Underneath it’s still doing the fork+exec, but it’s also setting up a pipe to communicate with the spawned process.
++ Underneath it's still doing the fork+exec, but it's also setting up a pipe to communicate with the spawned process.
 
 + That pipe is passed as the block argument in the block form of IO.popen.
 
@@ -136,16 +142,16 @@ Open3.popen3('ls', '-uhh', :err => :out) { |stdin, stdout, stderr|
 ```
 
 + One drawback to all of these methods is that they rely on `fork(2)`.
-    + What’s wrong with that? Imagine this scenario:
+    + What's wrong with that? Imagine this scenario:
     + You have a big Ruby app that is using hundreds of MB of memory.
-    + You need to shell out. If you use any of the methods above you’ll incur the cost of forking.
+    + You need to shell out. If you use any of the methods above you'll incur the cost of forking.
 
-+ When you `fork(2)` the process the kernel doesn’t know that you’re about to transform that process with an exec(2). You may be forking in order to run Ruby code, in which case you’ll need to have all of the memory available.
++ When you `fork(2)` the process the kernel doesn't know that you're about to transform that process with an exec(2). You may be forking in order to run Ruby code, in which case you'll need to have all of the memory available.
 
-+ It’s good to keep in mind that `fork(2)` has a cost, and sometimes it can be a performance bottleneck.
-+ Question: What if you need to shell out a lot and don’t want to incur the cost of `fork(2)`?
++ It's good to keep in mind that `fork(2)` has a cost, and sometimes it can be a performance bottleneck.
++ Question: What if you need to shell out a lot and don't want to incur the cost of `fork(2)`?
     + There are some native Unix system calls for spawning processes without the overhead of `fork(2)`.
-    + Unfortunately they don’t have support in the Ruby language core library.
+    + Unfortunately they don't have support in the Ruby language core library.
     + However, there is a Rubygem that provides a Ruby interface to these system calls.
     + The [posix-spawn](https://github.com/rtomayko/posix-spawn/) project provides access to posix_spawn(2), which is available on most Unix systems.
 
@@ -154,7 +160,7 @@ Open3.popen3('ls', '-uhh', :err => :out) { |stdin, stdout, stderr|
 + Recall the two discerning(挑剔的) attributes of a new child process from `fork(2)`:
     1. it gets an exact copy of everything that the parent process had in memory
     2. it gets a copy of all the file descriptors that the parent process had open.
-    + posix_spawn(2) preserves #2, but not #1. That’s the big difference between the two.
+    + posix_spawn(2) preserves #2, but not #1. That's the big difference between the two.
 
 + system calls
     + Kernel#system maps to system(3)
