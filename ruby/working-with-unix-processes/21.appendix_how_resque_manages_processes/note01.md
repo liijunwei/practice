@@ -10,9 +10,9 @@
 
 ## Forking for Memory Management
 
-+ Resque workers employ fork(2) for memory management purposes.
++ Resque workers employ `fork(2)` for memory management purposes.
 
-[lib/resque/worker.rb@perform_with_fork](https://github.com/resque/resque/blob/9e5324c65f6bd123819e63f2c365492f7516fd46/lib/resque/worker.rb#L907)
++ [lib/resque/worker.rb@perform_with_fork](https://github.com/resque/resque/blob/9e5324c65f6bd123819e63f2c365492f7516fd46/lib/resque/worker.rb#L907)
 
 + word: dissect 解剖
 
@@ -37,7 +37,7 @@ ps aux|grep demo
 
 ## Why Bother?
 
-+ Resque uses fork(2) to ensure that the memory usage of its worker processes don't bloat.
++ Resque uses `fork(2)` to ensure that the memory usage of its worker processes don't bloat.
 + Let's review what happens when a Resque worker forks and how that affects the Ruby VM.
 
 + Once the child process is finished with the job it exits, which releases all of its memory back to the OS to clean up. Then the original process can resume, once again with only the application environment loaded.
@@ -50,7 +50,7 @@ ps aux|grep demo
 + Due to numerous issues with Ruby's GC (naive approach, disk fragmentation) it is rare that the VM is able to release a block of memory back to the kernel. So the memory usage of a Ruby process is likely to grow over time, but not to shrink. Now Resque's approach begins to make sense!
     + 但是因为ruby的gc不好用, 没法使用gc把用后的内存完整释放, 所以ruby进程的内存使用率会不停的升高
     + 此时resque 的 模型就有用了
-    + parent process 只负责分发任务("Resque uses fork(2) to ensure that the memory usage of its worker processes don't bloat. ")
+    + parent process 只负责分发任务("Resque uses `fork(2)` to ensure that the memory usage of its worker processes don't bloat. ")
     + worker process 执行任务("This is where memory usage can go awry出错. "), 执行完以后进程退出
     + 此时parent process 继续执行, 并且内存里还是只有很少的信息, 不存在使用了大量内存之后不释放的问题
         + "So each time after a job is performed by Resque you end up back at a clean slate in terms of memory usage. This means that memory usage may spike when jobs are being worked on, but it should always come back to that nice baseline."
