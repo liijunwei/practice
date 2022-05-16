@@ -31,6 +31,8 @@
 
 + At the OS level, a call to `execve(2)` doesn't close any open file descriptors by default.
 
+操作系统层的`execve`调用, 默认不会关闭文件描述符
+
 + However, a call to `exec` in Ruby will close all open file descriptors by default (excluding the standard streams).
 
 + This default behaviour of closing file descriptors on exec prevents file descriptor 'leaks'.
