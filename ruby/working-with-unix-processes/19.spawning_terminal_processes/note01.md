@@ -203,6 +203,10 @@ Open3.popen3('ls', '-uhh', :err => :out) { |stdin, stdout, stderr|
     + However, there is a Rubygem that provides a Ruby interface to these system calls.
     + The [posix-spawn](https://github.com/rtomayko/posix-spawn/) project provides access to posix_spawn(2), which is available on most Unix systems.
 
+如果我们的应用很依赖shell out, 但同时又不想操心fork的代价, 有什么办法吗?
+
+ruby核心库里没有, 不过有一个["posix-spawn project"](https://github.com/rtomayko/posix-spawn)gem或许有用
+
 + At a basic level posix_spawn(2) is a subset of `fork(2)`.
 
 + Recall the two discerning(挑剔的) attributes of a new child process from `fork(2)`:
