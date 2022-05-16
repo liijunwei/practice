@@ -38,6 +38,9 @@ ps aux|grep demo
 ## Why Bother?
 
 + Resque uses `fork(2)` to ensure that the memory usage of its worker processes don't bloat.
+
+Resque使用`fork(2)`来确保其工作进程的内存使用率不会膨胀
+
 + Let's review what happens when a Resque worker forks and how that affects the Ruby VM.
 
 + Once the child process is finished with the job it exits, which releases all of its memory back to the OS to clean up. Then the original process can resume, once again with only the application environment loaded.
