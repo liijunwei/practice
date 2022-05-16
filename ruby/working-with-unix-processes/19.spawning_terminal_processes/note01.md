@@ -163,6 +163,8 @@ IO.popen('less', 'w') { |stream|
 }
 ```
 
+## Open3
+
 + `Open3` allows simultaneous access to the STDIN, STDOUT, and STDERR of a spawned process.
 + Open3 acts like a more flexible version of IO.popen, for those times when you need it.
 ```ruby
