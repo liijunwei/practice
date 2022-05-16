@@ -35,6 +35,8 @@
 
 + However, a call to `exec` in Ruby will close all open file descriptors by default (excluding the standard streams).
 
+但是在ruby里的`exec`调用默认会关闭标准流以外的文件描述符
+
 + This default behaviour of closing file descriptors on exec prevents file descriptor 'leaks'.
 
 + In this example we start up a Ruby program and open the /etc/hosts file.
