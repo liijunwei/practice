@@ -54,10 +54,15 @@ exec 'python', '-c', python_code, {hosts.fileno => hosts}
 
 + Unlike `fork(2)`, `execve(2)` does not share memory with the newly created process.
 
-+ Arguments to exec
-    + Pass a string to exec and it will actually start up a shell process and pass the string to the shell to interpret.
-    + Pass an array and it will skip the shell and set up the array directly as the ARGV to the new process.
-    + **Generally you want to avoid passing a string unless you really need to. Pass an array where possible.**
+和fork不同, execve不和新建的进程共享内存
+
+## Arguments to exec
+
++ Pass a string to exec and it will actually start up a shell process and pass the string to the shell to interpret.
+
++ Pass an array and it will skip the shell and set up the array directly as the ARGV to the new process.
+
++ **Generally you want to avoid passing a string unless you really need to. Pass an array where possible.**
 
 ```bash
 The return value of Kernel#system reflects the exit code of the terminal command in the most basic way.
