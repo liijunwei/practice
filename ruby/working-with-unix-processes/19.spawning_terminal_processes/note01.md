@@ -193,9 +193,10 @@ Open3.popen3('ls', '-uhh', :err => :out) { |stdin, stdout, stderr|
 
 有一点需要注意: 上面提到的这些ruby的功能, 都用到了`fork`, 所以, 在shell out的时候, 内存使用率可能会出问题
 
-+ When you `fork(2)` the process the kernel doesn't know that you're about to transform that process with an exec(2). You may be forking in order to run Ruby code, in which case you'll need to have all of the memory available.
-
 + It's good to keep in mind that `fork(2)` has a cost, and sometimes it can be a performance bottleneck.
+
+要记得`fork`很强大, 但使用它也是有代价的, 有时候它会成为性能瓶颈
+
 + Question: What if you need to shell out a lot and don't want to incur the cost of `fork(2)`?
     + There are some native Unix system calls for spawning processes without the overhead of `fork(2)`.
     + Unfortunately they don't have support in the Ruby language core library.
