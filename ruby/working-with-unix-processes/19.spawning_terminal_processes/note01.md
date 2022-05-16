@@ -144,7 +144,11 @@ IO.popen('ls')
 
 + That's where the 'p' comes from in popen.
 
-+ Underneath it's still doing the fork+exec, but it's also setting up a pipe to communicate with the spawned process.
+这就是`popen`里"p"的来源
+
++ Underneath it's still doing the `fork+exec`, but it's also setting up a pipe to communicate with the spawned process.
+
+`IO.popen`背后还是使用`fork+exec`, 不过它还结合了管道用以和其他进程沟通
 
 + That pipe is passed as the block argument in the block form of IO.popen.
 
