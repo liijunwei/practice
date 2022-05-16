@@ -71,6 +71,25 @@ Resque is heavily inspired by DelayedJob (which rocks) and comprises three parts
 
 + [`lib/resque/worker.rb@work` is the main workhorse method. Called on a Worker instance, it begins the worker life cycle.](https://github.com/resque/resque/blob/9e5324c65f6bd123819e63f2c365492f7516fd46/lib/resque/worker.rb#L233)
 
+### [Rescue demo is fun to play](https://github.com/resque/resque/tree/master/examples/demo)
 
+```bash
+git clone git://github.com/resque/resque.git
 
+cd resque/examples/demo
+
+gem install sinatra
+gem install resque
+gem install mono_logger
+gem install mono_logger
+
+# start server
+rake start
+
+# open web page
+open http://localhost:9292/
+
+# start worker
+QUEUE=default rake resque:work
+```
 

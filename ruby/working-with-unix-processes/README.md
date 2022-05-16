@@ -22,7 +22,7 @@ https://workingwithruby.com/wwup/intro/
 - [x] 18.daemon_processes
 - [x] 19.spawning_terminal_processes
 - [x] 20.ending
-- [ ] 21.appendix_how_resque_manages_processes
+- [x] 21.appendix_how_resque_manages_processes
 - [ ] 22.appendix_how_unicorn_reaps_worker_processes
 - [ ] 23.appendix_preforking_servers
 - [ ] 24.appendix_spyglass
