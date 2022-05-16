@@ -184,10 +184,14 @@ Open3.popen3('ls', '-uhh', :err => :out) { |stdin, stdout, stderr|
 }
 ```
 
+## In the Real World
+
 + One drawback to all of these methods is that they rely on `fork(2)`.
     + What's wrong with that? Imagine this scenario:
     + You have a big Ruby app that is using hundreds of MB of memory.
     + You need to shell out. If you use any of the methods above you'll incur the cost of forking.
+
+有一点需要注意: 上面提到的这些ruby的功能, 都用到了`fork`, 所以, 在shell out的时候, 内存使用率可能会出问题
 
 + When you `fork(2)` the process the kernel doesn't know that you're about to transform that process with an exec(2). You may be forking in order to run Ruby code, in which case you'll need to have all of the memory available.
 
