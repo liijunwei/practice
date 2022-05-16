@@ -39,8 +39,8 @@
 
 + This default behaviour of closing file descriptors on exec prevents file descriptor 'leaks'.
 
-+ In this example we start up a Ruby program and open the /etc/hosts file.
-    + Then we exec a python process and tell it to open the file descriptor number that Ruby received for opening the /etc/hosts file.
++ In this example we start up a Ruby program and open the `/etc/hosts` file.
+    + Then we `exec` a `python` process and tell it to open the file descriptor number that Ruby received for opening the `/etc/hosts` file.
     + You can see that python recognizes this file descriptor (because it was shared via `execve(2)`) and is able to read from it without having to open the file again.
 ```ruby
 hosts = File.open('/etc/hosts')
