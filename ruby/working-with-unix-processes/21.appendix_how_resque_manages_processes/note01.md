@@ -1,5 +1,7 @@
 # [Appendix: How Resque Manages Processes](https://workingwithruby.com/wwup/resque/)
 
++ Ruby job queue, [Resque](https://github.com/resque/resque)
+
 ## The Architecture
 
 > Resque is a Redis-backed library for creating background jobs, placing those jobs on multiple queues, and processing them later.
