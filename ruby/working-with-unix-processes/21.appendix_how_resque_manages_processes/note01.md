@@ -47,6 +47,8 @@ Resque使用`fork(2)`来确保其工作进程的内存使用率不会膨胀
 
 + So each time after a job is performed by Resque you end up back at a clean slate in terms of memory usage. This means that **memory usage may spike when jobs are being worked on**, but it should always come back to that nice baseline.
 
+## Doesn’t the GC clean up for us?
+
 + When the Ruby VM boots up it is allocated a certain block of main memory by the kernel. When it uses up all that it has it needs to ask for another block of main memory from the kernel.
     + ruby vm 启动时会分配一定的内存, 当vm用光了内存后, 需要向内核申请更多内存
 
