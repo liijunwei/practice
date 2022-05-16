@@ -114,9 +114,13 @@ Process.waitpid(pid)
 ```
 
 + The last example in this code block is a really great example of the flexibility of Unix programming.
-    + In previous chapters we talked a lot about Process.wait, but it was always in the context of forking and then running some Ruby code.
-    + You can see from this example that the kernel cares not what you are doing in your process, it will always work the same.
-    + **consistency**
+
++ In previous chapters we talked a lot about Process.wait, but it was always in the context of forking and then running some Ruby code.
+
++ You can see from this example that the kernel cares not what you are doing in your process, it will always work the same.
+
++ **consistency**
+
 
 + [Process.spawn](http://www.ruby-doc.org/core-1.9.3/Process.html#method-c-spawn) takes many options that allow you to control the behaviour of the child process.
 
