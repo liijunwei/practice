@@ -71,9 +71,12 @@ exec 'python', '-c', python_code, {hosts.fileno => hosts}
 ## Kernel#system
 
 ```ruby
-
+system('ls')
+system('ls', '--help')
+system('git log | tail -10')
 ```
 
+## "Kernel#\`"
 ```bash
 The return value of Kernel#system reflects the exit code of the terminal command in the most basic way.
 
@@ -82,7 +85,8 @@ Kernel#` works slightly differently. The value returned is the STDOUT of the ter
 Kernel#` and %x[] do the exact same thing.
 ```
 
-+ Process.spawn
+## Process.spawn
+
 ```ruby
 # This call will start up the 'rails server' process with the
 # RAILS_ENV environment variable set to 'test'.
@@ -92,6 +96,8 @@ Process.spawn({'RAILS_ENV' => 'test'}, 'rails server')
 # of the 'ls --help' program.
 Process.spawn('ls', '--zz', STDERR => STDOUT)
 ```
+
+**TODO** 2022-05-16 09:30:51
 
 + `Process.spawn` is a bit different than the others in that **it is non-blocking**.
 ```ruby
