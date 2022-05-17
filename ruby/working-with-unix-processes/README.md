@@ -24,6 +24,6 @@ https://workingwithruby.com/wwup/intro/
 - [x] 20.ending
 - [x] 21.appendix_how_resque_manages_processes
 - [x] 22.appendix_how_unicorn_reaps_worker_processes
-- [ ] 23.appendix_preforking_servers
+- [x] 23.appendix_preforking_servers
 - [ ] 24.appendix_spyglass
 

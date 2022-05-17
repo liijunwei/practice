@@ -16,8 +16,10 @@ end
 # For keeping track of child process pids.
 wpids = []
 
-5.times {
+5.times { |index|
   wpids << fork do
+    Process.setproctitle("ruby-worker##{index}")
+
     loop {
       puts "#{Time.now} listening..."
       connection = socket.accept
