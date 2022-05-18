@@ -18,7 +18,7 @@ end
 
 obj = MyClass.new
 
- obj.write
+obj.write
 p obj.read
 
 p MyClass.read
