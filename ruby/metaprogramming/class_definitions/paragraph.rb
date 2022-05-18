@@ -26,11 +26,12 @@ class TestParagraph < Test::Unit::TestCase
   end
 
   def test_title?
-    assert_equal "HELLO", @paragraph.upcase
+    assert_equal false, @paragraph.title?
+    assert_equal false, @paragraph.title?
   end
 
-  def test_upcase
-    assert_equal "HELLO", @paragraph.upcase
+  def test_reverse
+    assert_equal "olleH", @paragraph.reverse
   end
 
   def test_upcase
