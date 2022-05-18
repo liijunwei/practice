@@ -26,8 +26,8 @@ class TestParagraph < Test::Unit::TestCase
   end
 
   def test_title?
-    assert_equal false, @paragraph.title?
-    assert_equal false, @paragraph.title?
+    refute @paragraph.title?
+    assert Paragraph.new("WORLD").title?
   end
 
   def test_reverse
