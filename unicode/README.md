@@ -19,6 +19,9 @@
 + [ASCII table](https://www.rapidtables.com/code/text/ascii-table.html) (recommand)
 + [Unicode characters table](https://www.rapidtables.com/code/text/unicode-characters.html)
 
++ [tool: unibits](https://github.com/janlelis/unibits)
++ [tool: uniscribe](https://github.com/janlelis/uniscribe)
+
 + Unicode provides a unique number for every character
     + Unicode给每个字符提供了一个唯一的数字
 
