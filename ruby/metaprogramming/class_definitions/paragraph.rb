@@ -21,11 +21,20 @@ end
 require 'test/unit'
 
 class TestParagraph < Test::Unit::TestCase
-  def test_upcase
-    Loan.instance_eval { @time_class = FakeTime }
-    loan = Loan.new("War and Peace")
+  def setup
+    @paragraph = Paragraph.new("Hello")
+  end
 
-    assert_equal "WAR AND PEACE loaned on 2022-05-18 09:02:28 +0800", loan.to_s
+  def test_title?
+    assert_equal "HELLO", @paragraph.upcase
+  end
+
+  def test_upcase
+    assert_equal "HELLO", @paragraph.upcase
+  end
+
+  def test_upcase
+    assert_equal "HELLO", @paragraph.upcase
   end
 end
 
