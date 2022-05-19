@@ -23,7 +23,7 @@ class Employee < Person
   end
 
   def pay
-    "#{@name} was paied..."
+    "#{name} was paied..."
   end
 end
 
@@ -37,7 +37,7 @@ class NullEmployee < Person
   end
 
   def pay
-    raise "can not pay to a non-exist employee"
+    raise "can not pay to a non-exist employee [#{name}]"
   end
 end
 
@@ -67,7 +67,7 @@ class TestEmployee < Test::Unit::TestCase
 
   def test_pay
     assert_equal "#{@employee.name} was paied...", @employee.pay
-    assert_raise_with_message(RuntimeError, "can not pay to a non-exist employee") { @null_employee.pay }
+    assert_raise_with_message(RuntimeError, "can not pay to a non-exist employee [#{@null_employee.name}]") { @null_employee.pay }
   end
 end
 
