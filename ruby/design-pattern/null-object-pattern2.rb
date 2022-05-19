@@ -1,23 +1,13 @@
 # example from "Agile Software Development, Principles, Patterns, and Practices"
 # chapter 17: null object pattern
 
-class Person
+class Employee
   attr_reader :name
 
   def initialize(name)
     @name = name
   end
 
-  def is_time_to_pay(time)
-    raise "not implemented"
-  end
-
-  def pay
-    raise "not implemented"
-  end
-end
-
-class Employee < Person
   def is_time_to_pay(time)
     time == "2022-05-19 20:51:23 +0800"
   end
@@ -27,7 +17,9 @@ class Employee < Person
   end
 end
 
-class NullEmployee < Person
+class NullEmployee
+  attr_reader :name
+
   def initialize(name)
     @name = name
   end
