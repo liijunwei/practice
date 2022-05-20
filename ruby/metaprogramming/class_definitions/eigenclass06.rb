@@ -19,3 +19,7 @@ class << obj
   end
 end
 
+p obj # #<Object:0x0000000103129068>
+p obj.eigenclass # #<Class:#<Object:0x0000000103129068>>
+p obj.eigenclass.superclass
+
