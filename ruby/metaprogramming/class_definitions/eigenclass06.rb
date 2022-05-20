@@ -11,3 +11,11 @@ end
 
 p "abc".eigenclass # #<Class:#<String:0x000000010be1e6f8>>
 
+obj = Object.new
+
+class << obj
+  def a_singleton_method
+    "obj#a_singleton_method()"
+  end
+end
+
