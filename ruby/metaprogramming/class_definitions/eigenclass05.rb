@@ -20,6 +20,4 @@ end
 
 obj = D.new
 
-p obj.a_method
-
-p "abc".eigenclass # #<Class:#<String:0x000000010be1e6f8>>
+p obj.eigenclass.superclass # D
