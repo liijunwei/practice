@@ -14,8 +14,8 @@ tig clang/the-c-programming-language/
 tig working-with-unix-processes/
 ```
 
-## [auto commit](https://www.markusdosch.com/2020/07/git-auto-commit-push-every-couple-of-minutes/)
+## [auto commit](https://github.com/liijunwei/omz-git/blob/4c85c101e11ef9fd660f4378c8f51ca60b26fbdc/aliases.sh#L19)
 
 ```bash
-watch -n 60 "git pull && (git ls-files --modified --others --exclude-standard | grep . > /dev/null) && { git add . ; git commit -m 'Commit automatically by watch.' ; git push; }"
+alias git-setup-auto-commit="watch -n 120 \"git pull && git add . && git commit -m 'Commit automatically by watch.'\""
 ```
