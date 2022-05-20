@@ -12,10 +12,10 @@ end
 
 require 'rspec'
 
-RSpec.describe "module trouble" do
+RSpec.describe MyClass do
   describe "my_method" do
     it 'raises error' do
-      expect { MyClass.my_method }.to raise_error(NoMethodError)
+      expect { described_class.my_method }.to raise_error(NoMethodError)
     end
   end
 end

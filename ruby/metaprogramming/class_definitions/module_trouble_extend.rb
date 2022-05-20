@@ -12,10 +12,14 @@ end
 
 require 'rspec'
 
-RSpec.describe "module trouble" do
+RSpec.describe MyClass do
   describe "my_method" do
+    let(:obj) { Object.new }
+
     it 'works' do
-      expect(MyClass.my_method).to eq("hello")
+      expect(described_class.my_method).to eq("hello")
     end
   end
+
+
 end
