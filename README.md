@@ -11,7 +11,7 @@ tig mysql/mysql-crash-cource
 tig mysql/imooc-learn-117/
 tig cpp/
 tig clang/the-c-programming-language/
-tig ruby/working-with-unix-processes/
+tig working-with-unix-processes/
 ```
 
 ## [auto commit](https://www.markusdosch.com/2020/07/git-auto-commit-push-every-couple-of-minutes/)
