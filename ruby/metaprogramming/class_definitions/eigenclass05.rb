@@ -21,3 +21,14 @@ end
 obj = D.new
 
 p obj.eigenclass.superclass # D
+
+```
+     Object
+
+     C
+
+     D
+
+obj     #obj(obj的eigenclass)
+
+```
