@@ -1,20 +1,15 @@
 # page 118
 
-class MyClass
-  def my_method
+obj = Object.new
+
+eigenclass =
+  class << obj
+    self
   end
+
+p eigenclass
+p eigenclass.class
+
+def obj.my_singleton_method
 end
-
-obj = MyClass.new
-
-class << obj
-  # 这里是eigenclass的作用域
-  puts "in eigenclass scope"
-end
-
-obj1 = Object.new
-eigenclass = class << obj
-  self
-end
-
 
