@@ -7,3 +7,5 @@ class MyClass
   end
 end
 
+MyClass.c = "It works"
+p MyClass.c
