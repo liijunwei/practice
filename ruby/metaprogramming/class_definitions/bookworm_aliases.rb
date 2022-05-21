@@ -1,6 +1,10 @@
+# page 135
+
+require 'timeout'
+
 class Amazon
   def reviews_of(book)
-    sleep 3 # mock slow response
+    sleep 2 # mock slow response
 
     ["good", "bad"] * 11
   end
@@ -10,15 +14,9 @@ class Amazon
   alias :old_reviews_of :reviews_of
 
   def reviews_of(book)
-    start      = Time.now
-    result     = old_reviews_of(book)
-    time_taken = Time.now - start
-    if time_taken > 2
-      raise "reviews_of() took more than #{time_taken} seconds"
-    end
-    result
-  rescue => e
-    puts "#{e.class} #{e.message}"
+    Timeout.timeout(1) { old_reviews_of(book) }
+  rescue Timeout::Error => e
+    warn "#{e.class} #{e.message}"
     []
   end
 end
