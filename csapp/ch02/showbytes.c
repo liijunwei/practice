@@ -39,5 +39,7 @@ void test_show_bytes(int val) {
 int main(int argc, char const *argv[]) {
   test_show_bytes(12345);
 
+  show_int(3510593);
+  show_float(3510593.0);
   return 0;
 }
