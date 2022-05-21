@@ -20,8 +20,14 @@ void show_float(float x) {
   show_bytes((byte_pointer) &x, sizeof(float));
 }
 
-void show_float(float x) {
-  show_bytes((byte_pointer) &x, sizeof(float));
+void show_pointer(void *x) {
+  show_bytes((byte_pointer) &x, sizeof(void *));
+}
+
+void test_show_bytes(int val) {
+  int ival = val;
+  float fval = (float) ival;
+  
 }
 
 // gcc csapp/ch02/showbytes.c && ./a.out
