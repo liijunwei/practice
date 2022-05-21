@@ -1,7 +1,11 @@
 # page 132
 
+# Around Alias 环绕别名
+
+# 思路:
+# 先给方法命名一个别名, 然后重新定义它
 class String
-  alias :real_length :length
+  alias :real_length :length # 注意这个得放在方法定义的前面
 
   def length
     real_length > 5 ? "long" : "short"
