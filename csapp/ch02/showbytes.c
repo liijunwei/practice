@@ -27,14 +27,17 @@ void show_pointer(void *x) {
 void test_show_bytes(int val) {
   int ival = val;
   float fval = (float) ival;
-  
+  int *pval = &ival;
+
+  show_int(ival);
+  show_float(fval);
+  show_pointer(pval);
+  printf("\n");
 }
 
 // gcc csapp/ch02/showbytes.c && ./a.out
 int main(int argc, char const *argv[]) {
-  show_int(1);
-  show_int(2);
-  show_int(3);
+  test_show_bytes(12345);
 
   return 0;
 }
