@@ -17,6 +17,9 @@
 + [RubyConf 2017: Ten Unicode Characters You Should Know About as a Programmer by Jan Lelis](https://www.youtube.com/watch?v=hlryzsdGtZo)
 
 + [ASCII table](https://www.rapidtables.com/code/text/ascii-table.html) (recommand)
+
++ `man ascii`
+
 + [Unicode characters table](https://www.rapidtables.com/code/text/unicode-characters.html)
 
 + [tool: unibits](https://github.com/janlelis/unibits)
