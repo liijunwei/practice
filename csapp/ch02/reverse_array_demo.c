@@ -8,7 +8,6 @@ void inplace_swap(int *x, int *y) {
   *y = *x ^ *y;
 }
 
-// swap head and tail element of an array
 void reverse_array(int a[], int count) {
   int first;
   int last;
@@ -32,8 +31,6 @@ int main(int argc, char const *argv[])
   print_array(a, 4);
   reverse_array(a, 4);
   print_array(a, 4);
-
-
 
   return 0;
 }
