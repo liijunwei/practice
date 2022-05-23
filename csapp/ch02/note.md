@@ -65,6 +65,9 @@ Geroage Boole
 二进制值是计算机 编码/存储/操作 信息的核心
 
 
+## 2.1.7 C语言中的位级运算
+
++ 确定一个wei'jibiaodashi
 
 
 
