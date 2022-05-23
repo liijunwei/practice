@@ -25,9 +25,9 @@ void print_array(int a[], int count) {
   printf("\n");
 }
 
+const int count = 3;
 int main(int argc, char const *argv[])
 {
-  int count = 3;
   // int a[4] = {1, 2, 3, 4};
   int a[count] = {1, 2, 3};
   print_array(a, count);
