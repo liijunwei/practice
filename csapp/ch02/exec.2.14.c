@@ -7,8 +7,8 @@ int main(int argc, char const *argv[])
 
   printf("%x\n", x & y);
   printf("%x\n", x | y);
-  printf("%x\n", ~x | ~y);
-  printf("%x\n", ~x | !y);
+  printf("%x\n", ~x | ~y); // ???
+  printf("%x\n", ~x | !y); // ???
 
 
   return 0;
