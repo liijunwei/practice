@@ -9,7 +9,6 @@ void inplace_swap(int *x, int *y) {
 }
 
 void reverse_array(int a[], int count) {
-  int count = n = sizeof(a) / sizeof(int)
   int first;
   int last;
 
@@ -19,7 +18,6 @@ void reverse_array(int a[], int count) {
 }
 
 void print_array(int a[], int count) {
-  int count = n = sizeof(a) / sizeof(int)
   for (int i = 0; i < count; i ++) {
     printf("%d ", a[i]);
   }
@@ -29,11 +27,12 @@ void print_array(int a[], int count) {
 
 int main(int argc, char const *argv[])
 {
-  int a[4] = {1, 2, 3, 4};
-  // int a[3] = {1, 2, 3};
-  print_array(a, 4);
-  reverse_array(a, 4);
-  print_array(a, 4);
+  int count = 3;
+  // int a[4] = {1, 2, 3, 4};
+  int a[count] = {1, 2, 3};
+  print_array(a, count);
+  reverse_array(a, count);
+  print_array(a, count);
 
   return 0;
 }
