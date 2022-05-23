@@ -18,9 +18,21 @@ void reverse_array(int a[], int count) {
   }
 }
 
+void print_array(int a[], int count) {
+  for (int i = 0; i < count; i ++) {
+    printf("%d ", a[i]);
+  }
+
+  printf("\n");
+}
+
 int main(int argc, char const *argv[])
 {
   int a[4] = {1, 2, 3, 4};
+  print_array(a, 4);
+  reverse_array(a, 4);
+  print_array(a, 4);
+
 
 
   return 0;
