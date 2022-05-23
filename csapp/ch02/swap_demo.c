@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <assert.h>
 
+// XOR的属性: 对于任意位向量a, 有 a^a = 0 (与自身做XOR运算)
+
 // page 38
 void inplace_swap(int *x, int *y) {
   *y = *x ^ *y;
