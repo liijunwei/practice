@@ -15,9 +15,13 @@ int main(int argc, char const *argv[])
   int a = 10;
   int b = 20;
 
-  assert(a == 10); assert(b == 20);
+  assert(a == 10);
+  assert(b == 20);
+
   inplace_swap(&a, &b);
-  assert(a == 20); assert(b == 10);
+
+  assert(a == 20);
+  assert(b == 10);
 
   printf("PASS.\n");
 

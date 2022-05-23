@@ -8,20 +8,20 @@ void inplace_swap(int *x, int *y) {
   *y = *x ^ *y;
 }
 
+// swap head and tail element of an array
 void reverse_array(int a[], int count) {
-  int first
+  int first;
+  int last;
+
+  for (first = 0, last = count - 1; first <= last; first++, last--) {
+    inplace_swap(&a[first], &a[last]);
+  }
 }
 
 int main(int argc, char const *argv[])
 {
-  int a = 10;
-  int b = 20;
+  int a[4] = {1, 2, 3, 4};
 
-  assert(a == 10); assert(b == 20);
-  inplace_swap(&a, &b);
-  assert(a == 20); assert(b == 10);
-
-  printf("PASS.\n");
 
   return 0;
 }
