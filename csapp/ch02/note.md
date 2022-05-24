@@ -116,4 +116,10 @@ unclear
 
 + B2T binary to two's-complement
 
++ 有符号数的表示方法
+    + 补码
+    + 反码 OIne's
+    + 原码
+
+
 
