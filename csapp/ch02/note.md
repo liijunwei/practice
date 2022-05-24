@@ -118,8 +118,11 @@ unclear
 
 + 有符号数的表示方法
     + 补码
-    + 反码 OIne's
-    + 原码
+    + 反码 One's Complement
+    + 原码 Sign-Magnitude
+
+
+
 
 
 
