@@ -112,6 +112,8 @@ unclear
 + (函数与反函数)
 
 
+## 2.2.3 补码编码
 
++ B2T binary to two's-complement
 
 
