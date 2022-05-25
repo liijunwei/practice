@@ -126,6 +126,8 @@ unclear
 
 page 48
 
++ csapp/ch02/type_cast.c
+
 + 强制类型转换的结果保持位值不变, 只是改变了解释这些位的方式
 
 
