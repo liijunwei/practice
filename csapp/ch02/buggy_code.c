@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+// page 58
 float sum_elements(float a[], unsigned length) {
   float result = 0;
 
@@ -10,10 +11,12 @@ float sum_elements(float a[], unsigned length) {
   return result;
 }
 
+// where is the bug?
+
 int main(int argc, char const *argv[])
 {
 
-  float arr[0] = {};
+  float arr[] = {};
 
   unsigned length = 0;
 
