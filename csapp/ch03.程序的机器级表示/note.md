@@ -51,5 +51,8 @@ page 113
 
 csapp/ch03.程序的机器级表示/mstore.c
 
+```bash
+practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -S mstore.c && cat mstore.s
 
+```
 
