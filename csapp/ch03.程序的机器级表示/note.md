@@ -65,4 +65,23 @@ practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -o prog main.c ms
 + 重要信息: 机器执行的程序只是一个字节序列, 它是对一系列指令的编码; 机器对产生这些指令的源代码几乎一无所知
 
 
+## 3.2.3 关于格式的注解
+
+```
+_multstore:                             ## @multstore
+## %bb.0:
+  pushq %rbp                    # save %rbx
+  movq  %rsp, %rbp              # copy dest to %rbx
+  pushq %rbx
+  pushq %rax
+  movq  %rdx, %rbx
+  callq _mult2                  # call mult2(x, y)
+  movq  %rax, (%rbx)            # store result at *dest
+  addq  $8, %rsp
+  popq  %rbx                    # restore %rbx
+  popq  %rbp
+  retq                          # return
+                                        ## -- End function
+```
+
 
