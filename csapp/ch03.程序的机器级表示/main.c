@@ -5,7 +5,7 @@ void multstore(long, long, long *);
 int main(int argc, char const *argv[]) {
   long d;
   multstore(2, 3, &d);
-  printf("2 * 3 --> %ld\n", d)
+  printf("2 * 3 --> %ld\n", d);
 
   return 0;
 }

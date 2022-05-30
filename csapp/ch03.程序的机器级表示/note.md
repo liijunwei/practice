@@ -56,7 +56,8 @@ practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -S mstore.c && ca
 practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -c mstore.c && ls -al mstore.o
 practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -c mstore.c && objdump -d mstore.o
 
-practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -o
+practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -o prog main.c mstore.c
+practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -o prog main.c mstore.c && objdump -d prog
 
 
 ```
