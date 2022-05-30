@@ -56,6 +56,9 @@ practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -S mstore.c && ca
 practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -c mstore.c && ls -al mstore.o
 practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -c mstore.c && objdump -d mstore.o
 
+practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -o
+
+
 ```
 
 + 重要信息: 机器执行的程序只是一个字节序列, 它是对一系列指令的编码; 机器对产生这些指令的源代码几乎一无所知
