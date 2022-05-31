@@ -84,4 +84,15 @@ _multstore:                             ## @multstore
                                         ## -- End function
 ```
 
+# 3.4 访问信息
+
++ page 119 寄存器
+
++ 
+
+
+
+
+
+
 
