@@ -9,6 +9,3 @@ exchange_demo: clean
 	gcc -o a.out exchange_demo.c exchange.c
 	./a.out
 
-all:
-	main_demo
-	exchange_demo

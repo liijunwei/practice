@@ -56,9 +56,8 @@ practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -S mstore.c && ca
 practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -c mstore.c && ls -al mstore.o
 practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -c mstore.c && objdump -d mstore.o
 
-practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -o prog main.c mstore.c
+practice && cd csapp/ch03.程序的机器级表示/ && make main_demo
 practice && cd csapp/ch03.程序的机器级表示/ && gcc -Og -o prog main.c mstore.c && objdump -d prog
-
 
 ```
 
@@ -151,6 +150,8 @@ movzwq
     + page 124 练习题 3.2
 
 ## 3.4.3 数据传送示例
+
++ cd csapp/ch03.程序的机器级表示 && make exchange_demo
 
 + https://stackoverflow.com/questions/42619995/running-assembly-code-for-mac-os-x
 + https://www.nasm.us/
