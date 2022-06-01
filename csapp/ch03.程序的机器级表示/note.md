@@ -170,7 +170,7 @@ _exchange:                              ## @exchange
                                         ## -- End function
 ```
 
-
++ 参数通过寄存器传给函数
 
 
 
