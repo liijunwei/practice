@@ -130,7 +130,17 @@ _multstore:                             ## @multstore
     4. 立即数 - 内存
     5. 寄存器 - 内存
 
+```s
+movzbw
+movzbl
+movzwl
+movzbq
+movzwq
+```
 
++ 每条指令的最后两个字符都是大小指示符
+    + 第一个指示 源的大小
+    + 第二个指示 目的地的大小
 
 
 
