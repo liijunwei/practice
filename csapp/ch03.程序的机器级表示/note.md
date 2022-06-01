@@ -174,6 +174,11 @@ _exchange:                              ## @exchange
 
 + TODO page 125 关于这段代码有 大大的疑惑...
 
++ page 120 16个寄存器
+    + %rbp 被调用者保存(???)
+    + %rdi 第1个参数
+    + %rsi 第2个参数
+    + %rsp 
 
 
 
