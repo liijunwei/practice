@@ -156,6 +156,7 @@ movzwq
 + https://www.nasm.us/
 
 + [page 125 example](./exchange.c)
++ csapp/ch03.程序的机器级表示/exchange_demo.c
 
 ```s
 _exchange:                              ## @exchange
