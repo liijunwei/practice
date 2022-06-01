@@ -1,19 +1,10 @@
-all: clean
-	gcc 007_gtk.c -o a.out `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
-	GDK_SCALE=3 ./a.out
-
 clean:
-	rm -rf a.out
+	rm -rf a.out prog
 
-tuto01: clean
-	gcc tuto01.c -o a.out `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
+main_demo: clean
+	gcc -Og -o prog main.c mstore.c
+	./prog
+
+exchange_demo: clean
+	gcc -Og -S exchange.c && cat exchange.s
 	./a.out
-
-tuto02: clean
-	gcc tuto02.c -o a.out `pkg-config --cflags gtk4` `pkg-config --libs gtk4`
-	./a.out
-
-tuto03: clean
-	gcc tuto03.c -o a.out `pkg-config --cflags gtk4` `pkg-config --libs gtk4`
-	./a.out
-
