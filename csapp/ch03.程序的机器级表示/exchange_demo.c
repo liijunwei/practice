@@ -5,12 +5,9 @@
 long exchange(long *xp, long y);
 
 int main(int argc, char const *argv[]) {
-  long a = 100;
-  long b = 200;
-
+  long a = 4;
+  long b = exchange(&a, 3);
   printf("a = %ld b = %ld\n", a, b);
-  long c = exchange(&a, b);
-  printf("a = %ld b = %ld c = %ld\n", a, b, c);
 
   return 0;
 }
