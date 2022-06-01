@@ -9,8 +9,8 @@ int main(int argc, char const *argv[]) {
   long b = 200;
 
   printf("a = %ld b = %ld\n", a, b);
-  exchange(&a, b);
-  printf("a = %ld b = %ld\n", a, b);
+  long c = exchange(&a, b);
+  printf("a = %ld b = %ld c = %ld\n", a, b, c);
 
   return 0;
 }
