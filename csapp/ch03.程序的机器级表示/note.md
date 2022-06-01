@@ -172,7 +172,7 @@ _exchange:                              ## @exchange
 
 + 参数通过寄存器传给函数
 
-
++ TODO page 125 关于这段代码有 大大的疑惑...
 
 
 
