@@ -130,6 +130,10 @@ _multstore:                             ## @multstore
     4. 立即数 - 内存
     5. 寄存器 - 内存
 
++ movl $ox4050, %eax
+    + 第一个是 源操作数
+    + 第二个是 目的操作数
+
 ```s
 movzbw
 movzbl
