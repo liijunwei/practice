@@ -152,9 +152,22 @@ movzwq
 
 ## 3.4.3 数据传送示例
 
++ https://stackoverflow.com/questions/42619995/running-assembly-code-for-mac-os-x
++ https://www.nasm.us/
 
++ [page 125 example](./exchange.c)
 
-
+```s
+_exchange:                              ## @exchange
+## %bb.0:
+  pushq %rbp
+  movq  %rsp, %rbp
+  movq  (%rdi), %rax
+  movq  %rsi, (%rdi)
+  popq  %rbp
+  retq
+                                        ## -- End function
+```
 
 
 
