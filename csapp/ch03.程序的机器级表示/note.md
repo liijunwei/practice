@@ -185,7 +185,7 @@ _exchange:                              ## @exchange
 
 + TODO 问题: 指令里, 有的寄存器加括号, 有的不加括号是什么意思?
 
-
++ TODO 问题: ad hoc 是 "特定"的意思吗?
 
 
 
