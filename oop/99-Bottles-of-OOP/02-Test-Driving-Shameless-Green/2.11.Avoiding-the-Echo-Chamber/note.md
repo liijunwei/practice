@@ -54,7 +54,7 @@ end
 
 + Not only is the above song test too tightly-coupled to the current Bottles implementation, it doesn’t even force you to write the right code.
 
-上面的那种测试用例的问题 不仅在于测试和代码耦合过深, 而且会迫使你写出错误的代码(page 80): 错误的verses的实现
+上面的那种测试用例的问题 不仅在于测试和代码耦合过深, 而且会迫使你写出错误的代码(p80): 错误的verses的实现
 
 
 ```ruby

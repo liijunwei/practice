@@ -70,7 +70,7 @@
 
 选两个最相似的分支, 然后集中注意力把他们变成一样的
 
-`case 1` 和 `case 2`(page 102) 唯一真正的区别是`bottle` 和 `bottles`
+`case 1` 和 `case 2`(p102) 唯一真正的区别是`bottle` 和 `bottles`
 
 ## 3.7.2. Simplifying Hard Problems
 

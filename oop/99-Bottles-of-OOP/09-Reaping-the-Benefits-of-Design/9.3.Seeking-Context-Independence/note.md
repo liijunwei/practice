@@ -71,7 +71,7 @@ end
 + A glance at these two tests makes it clear that CountdownSong has nothing to do with "99 Bottles", but instead, it’s about counting down.
 
 + 去掉 `test_a_few_verses` 的原因
-    + OK 没看懂 page 265 讲的 为什么不需要测试这 2,1,0 这几个特殊的
+    + OK 没看懂 p265 讲的 为什么不需要测试这 2,1,0 这几个特殊的
     + 因为对CountdownSong来说, 他不知道, 或者说他不关心有没有特殊的情况吗?
     + 对, CountdownSong 里面, 没有特殊情况, 不一样的地方交给 BottleNumber.for 工厂处理了
 

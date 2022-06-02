@@ -1,4 +1,4 @@
-+ TODO page 31
++ TODO p31
 
 1. How difficult was it to write?
 

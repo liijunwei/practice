@@ -47,7 +47,7 @@ end
 
 所以这个心理练习将提示你在应用程序的其他地方复用这部分代码时 是简单还是困难
 
-+ TODO "To make this exercise correspond to a real-life problem, pretend that lyrics is an expensive operation..." 没看懂(8.7.Identifying-What-The-Verse-Method-Wants page 214)
++ TODO "To make this exercise correspond to a real-life problem, pretend that lyrics is an expensive operation..." 没看懂(8.7.Identifying-What-The-Verse-Method-Wants p214)
 
 + Pain in testing is a sign of a rigid application and an indication that there’s something wrong with the design.
 

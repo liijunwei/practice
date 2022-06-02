@@ -1,5 +1,5 @@
 + The choice of the best alternative for verse 3 was guided both by metrics and the "Transformation Priority Premise," and those things might again be useful here.
-(page 57 Table 2.2)
+(p57 Table 2.2)
 
 + As was stated in the previous section, as tests get more specific, code should become more generic.
 
