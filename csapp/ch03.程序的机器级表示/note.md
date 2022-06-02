@@ -187,7 +187,10 @@ _exchange:                              ## @exchange
 
 + TODO 问题: ad hoc 是 "特定"的意思吗?
 
+## 3.4.4 压入和弹出栈数据
 
++ pushq S
++ popq  D
 
 
 
