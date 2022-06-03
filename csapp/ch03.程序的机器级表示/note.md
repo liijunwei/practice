@@ -192,6 +192,8 @@ _exchange:                              ## @exchange
 + pushq S 将数据压入程序栈
 + popq  D 从程序栈中弹出数据
 
++ 
+
 
 
 
