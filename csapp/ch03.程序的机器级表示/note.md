@@ -211,7 +211,9 @@ _exchange:                              ## @exchange
 + 异或
 + 与或非
 
-
+```bash
+practice && cd csapp/ch03.程序的机器级表示/ && make scale_demo
+```
 
 
 

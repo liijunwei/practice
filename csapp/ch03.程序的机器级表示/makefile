@@ -9,3 +9,7 @@ exchange_demo: clean
 	gcc -o a.out exchange_demo.c exchange.c
 	./a.out
 
+scale_demo: clean
+	gcc -Og -S scale.c
+	./a.out
+
