@@ -11,5 +11,4 @@ exchange_demo: clean
 
 scale_demo: clean
 	gcc -Og -S scale.c
-	./a.out
-
+	cat scale.s

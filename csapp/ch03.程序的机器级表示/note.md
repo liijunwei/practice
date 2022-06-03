@@ -211,10 +211,13 @@ _exchange:                              ## @exchange
 + 异或
 + 与或非
 
+## 3.5.1 加载有效地址
+
 ```bash
 practice && cd csapp/ch03.程序的机器级表示/ && make scale_demo
 ```
 
++ TODO 问题: 看不明白leaq的用法
 
 
 
