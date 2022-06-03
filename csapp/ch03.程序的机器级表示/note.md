@@ -189,8 +189,8 @@ _exchange:                              ## @exchange
 
 ## 3.4.4 压入和弹出栈数据
 
-+ pushq S
-+ popq  D
++ pushq S 将数据压入程序栈
++ popq  D 从程序栈中弹出数据
 
 
 
