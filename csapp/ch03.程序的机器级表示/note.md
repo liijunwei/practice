@@ -184,7 +184,8 @@ _exchange:                              ## @exchange
 + 像x这样的局部变量通常是保存在寄存器中, 而不是内存中; 访问寄存器比访问内存要快得多
 
 + OK 问题: 指令里, 有的寄存器加括号, 有的不加括号是什么意思?
-    + AT & T assembly syntax: 
+    + AT & T assembly syntax: https://stackoverflow.com/questions/1619131/meaning-of-eax-in-att-syntax
+    + 加括号表示从指针地址取值(p125)
 
 + TODO 问题: ad hoc 是 "特定"的意思吗?
 
@@ -206,6 +207,6 @@ _exchange:                              ## @exchange
 
 
 
-
+till p149???
 
 
