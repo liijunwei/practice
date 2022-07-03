@@ -4,6 +4,8 @@ clean:
 main_demo: clean
 	gcc -o prog main.c mstore.c
 	./prog
+	objdump -d prog
+	rm -rf prog
 
 exchange_demo: clean
 	gcc -o a.out exchange_demo.c exchange.c
