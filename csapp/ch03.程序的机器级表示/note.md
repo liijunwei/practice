@@ -282,6 +282,8 @@ _exchange:                              ## @exchange
 practice && cd csapp/ch03.程序的机器级表示/ && make scale_demo
 ```
 
++ leaq <=> lea q(4字) <=> Load Effective Address(加载有效地址) q
+
 + TODO 问题: 看不明白leaq的用法
 
 
