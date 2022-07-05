@@ -230,6 +230,11 @@ _exchange:                              ## @exchange
 
 + TODO 问题: p126 `pointer dereferencing` 是 "间接引用" 还是 "取消引用"?(./exchange.c)
 
+## 3.4.4 压入和弹出栈数据
+
++ 栈顶元素
+
+
 + 3.7 节讲函数调用和返回的细节
 
 + 参数通过寄存器传给函数
