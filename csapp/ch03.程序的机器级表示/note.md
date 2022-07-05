@@ -219,8 +219,8 @@ _exchange:                              ## @exchange
 ## %bb.0:
   pushq %rbp
   movq  %rsp, %rbp
-  movq  (%rdi), %rax
-  movq  %rsi, (%rdi)
+  movq  (%rdi), %rax // mov指令 从内存中读值到寄存器
+  movq  %rsi, (%rdi) // mov指令 从寄存器写值到内存
   popq  %rbp
   retq
                                         ## -- End function
