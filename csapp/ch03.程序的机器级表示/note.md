@@ -228,6 +228,7 @@ _exchange:                              ## @exchange
 
 + TODO 问题: p126 习题3.4 看不明白
 
++ TODO 问题: `pointer dereferencing` 是 "间接引用" 还是 "取消引用"?(csapp/ch03.程序的机器级表示/exchange.c:1)
 
 + 3.7 节讲函数调用和返回的细节
 
