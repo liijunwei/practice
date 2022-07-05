@@ -206,6 +206,7 @@ movzwq
 
 + %rdi 第1个参数
 + %rsi 第2个参数
++ ret  返回函数被调用点
 
 + https://stackoverflow.com/questions/42619995/running-assembly-code-for-mac-os-x
 + https://www.nasm.us/
@@ -224,6 +225,8 @@ _exchange:                              ## @exchange
   retq
                                         ## -- End function
 ```
+
++ 
 
 + 参数通过寄存器传给函数
 
