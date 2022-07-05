@@ -204,6 +204,9 @@ movzwq
 
 + cd csapp/ch03.程序的机器级表示 && make exchange_demo
 
++ %rdi 第1个参数
++ %rsi 第2个参数
+
 + https://stackoverflow.com/questions/42619995/running-assembly-code-for-mac-os-x
 + https://www.nasm.us/
 
