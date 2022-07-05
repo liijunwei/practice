@@ -278,16 +278,20 @@ _exchange:                              ## @exchange
 
 ## 3.5.1 加载有效地址
 
++ TODO 问题: 看不明白leaq的用法
+
 ```bash
 practice && cd csapp/ch03.程序的机器级表示/ && make scale_demo
 ```
 
 + leaq <=> lea q(4字) <=> Load Effective Address(加载有效地址) q
 
-+ TODO 问题: 看不明白leaq的用法
+
+指令       |  效果       | 描述
+-----------|-------------|-----------------
+leaq S,D   |  D <--- &S  | 加载有效地址
 
 
 
-till p149???
 
 
