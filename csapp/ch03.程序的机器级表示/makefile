@@ -14,3 +14,7 @@ exchange_demo: clean
 scale_demo: clean
 	gcc -Og -S scale.c
 	cat scale.s
+
+store_uprod_demo: clean
+	gcc -Og -S store_uprod.c
+
