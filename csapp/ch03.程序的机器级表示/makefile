@@ -18,3 +18,6 @@ scale_demo: clean
 store_uprod_demo: clean
 	gcc -Og -S store_uprod.c
 
+loop_while_demo: clean
+	gcc -Og -S loop_while.c
+
