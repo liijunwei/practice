@@ -21,3 +21,6 @@ store_uprod_demo: clean
 loop_while_demo: clean
 	gcc -Og -S loop_while.c
 
+recursive_factorial_demo:
+	gcc -Og -S rfact.c
+	cat rfact.s
