@@ -1,3 +1,5 @@
+# bootstrap
+
 ```bash
 mkdir go-mod-demo
 cd go-mod-demo
@@ -11,4 +13,14 @@ go get -u golang.org/x/sys # https://stackoverflow.com/questions/71507321/go-1-1
 
 ./go-mod-demo
 ```
+
+# go module 的6类常规操作
+
++ 为当前module添加一个依赖
+    + import
+    + go mod tidy
+
+
+
+
 
