@@ -35,6 +35,6 @@ go mod edit -require=github.com/sirupsen/logrus@v1.7.1
 go mod tidy
 ```
 
-+ 添加一个zhu'ban'ben'ha
++ 添加一个主版本号大于1的依赖(unclear)
 
-
++ 升级版本到一个不兼容的版本
