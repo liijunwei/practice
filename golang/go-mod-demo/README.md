@@ -38,3 +38,12 @@ go mod tidy
 + 添加一个主版本号大于1的依赖(unclear)
 
 + 升级版本到一个不兼容的版本
+
++ 移出一个依赖
+```bash
+go list -m all | grep redis
+# remove go-redis in main.go
+```
+
+
+
