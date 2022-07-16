@@ -51,4 +51,15 @@ go list -m all | grep redis # go-redis 被清理掉了
 ```
 
 6. 特殊情况: 使用vendor
+```bash
+go mod vendor # 在vendor目录下 创建一份这个项目的依赖包的副本, 并通过vendor/modules.txt记录了vendor下的module以及版本
+
+# 基于vendor构建
+go build -mod=vendor
+
+
+```
+
+
+
 
