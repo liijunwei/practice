@@ -23,3 +23,9 @@ loop_while_demo: clean
 recursive_factorial_demo:
 	gcc -Og -S rfact.c
 	cat rfact.s
+
+gets_demo:
+	gcc -Og -S  gets-demo.c
+	cat gets-demo.s
+
+
