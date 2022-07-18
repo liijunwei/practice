@@ -466,8 +466,7 @@ leaq S,D   |  D <--- &S  | 加载有效地址
 
 ## 3.10.4 对抗缓冲区溢出攻击
 
-+ 栈随机化已经变成了标准行为; 它是更大的一类技术中心的一种, 这类技术成为地址空间布局随机化(Address-Space Layout Randomization ASLR
-)
++ 栈随机化已经变成了标准行为; 它是更大的一类技术中心的一种, 这类技术成为地址空间布局随机化(Address-Space Layout Randomization ASLR)
 
 
 
