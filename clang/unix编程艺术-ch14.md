@@ -24,6 +24,8 @@
 
 + "过度OO分层的陷阱"
 
-+ 
++ Emacs Lisp 是一种脚本语言, 用于emacs文本编辑器的 行为编程
+
++ Emacs Lisp 是一种lisp语言, 它自动管理内存
 
 
