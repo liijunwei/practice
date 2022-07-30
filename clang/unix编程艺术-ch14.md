@@ -26,6 +26,13 @@
 
 + Emacs Lisp 是一种脚本语言, 用于emacs文本编辑器的 行为编程
 
-+ Emacs Lisp 是一种lisp语言, 它自动管理内存
++ Emacs Lisp 是一种lisp语言, 它自动管理内存; 它缺少标准的可移植OS规范, 这个老毛病已经由Emacs内核解决, 实际上Emacs内核就是其OS规范
+
++ Lisp另外有一个老毛病: 狂吃资源. 但在现代机器上也不再是个问题
+
++ "Emacs Makes A Compouter Slow"
++ "Eventually Munches All Computer Storage"
+
++ Emacs Lisp的最佳之处在于结合了非常优秀的基础语言Lisp, 其域原语对文本操作非常有效; 最糟之处在于性能较差, 难以和其他程序通讯
 
 
