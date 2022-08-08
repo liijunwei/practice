@@ -19,4 +19,12 @@
 
 + 研究程序的汇编代码表示也是理解编译器一级产生的代码会如何云心工单最有效手段之一
 
+# 5.1 优化编译器的能力和局限性
+
++ "内存别名使用(memory aliasing)"
+
++ csapp/ch05.优化程序性能/twiddle_demo.c
+    + make dangerous_twiddle_demo
+
++ 
 
