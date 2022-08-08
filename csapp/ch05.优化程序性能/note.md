@@ -26,5 +26,7 @@
 + csapp/ch05.优化程序性能/twiddle_demo.c
     + make dangerous_twiddle_demo
 
-+ 包含函数调用的代码可以用一个称为 "内联函数替换(inline substitution, )"
++ 包含函数调用的代码可以用一个称为 "内联函数替换(inline substitution, 内联inlining)"的过程进行优化, 此时将函数调用替换为函数体
+
++ 在某些情况下, 最好组织编译器执行内联替换, 一种情况是用GDB调试时, 如果一个函数调用已经被内联替换优化过了, 那么任何对这个调用进行追踪或者设置断点的尝试都将失败(这个好像就是之前debug都失败了的原因...)
 
