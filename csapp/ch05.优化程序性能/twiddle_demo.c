@@ -15,6 +15,8 @@ void twiddle2(long *xp, long *yp) {
  * 但是 如果考虑 xp == yp 的情况, 就会发现情况发生了变化
  * twiddle1 会将 xp指向的值 变为原来的 4倍
  * twiddle2 会将 xp指向的值 变为原来的 3倍
+ * 
+ * 这种两个指针可能指向同一个内存位置的情况称为内存别名使用(memory aliasing)
  */
 
 
