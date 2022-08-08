@@ -26,5 +26,5 @@
 + csapp/ch05.优化程序性能/twiddle_demo.c
     + make dangerous_twiddle_demo
 
-+ 
++ 包含函数调用的代码可以用一个称为 "内联函数替换(inline substitution, )"
 
