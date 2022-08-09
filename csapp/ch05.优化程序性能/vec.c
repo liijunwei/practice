@@ -89,6 +89,7 @@ data_t *get_vec_start(vec_ptr v) {
   return v->data;
 }
 
+// 令人吃惊的是 这个优化没能显著提升程序性能(问题: 怎么测?), 说明 combine2 里反复的边界检查不会让性能变差, 之后(5.11.2)会再次回到这个问题
 void combine3(vec_ptr v, data_t *dest) {
   long i;
   long length = vec_length(v);
