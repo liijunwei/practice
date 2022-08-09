@@ -84,7 +84,7 @@ int main(int argc, char const *argv[]) {
   vec_demo1->data[8] = 8;
   vec_demo1->data[9] = 9;
 
-  data_t dest = 10;
+  data_t dest;
   printf("dest is %ld\n", dest);
 
   combine1(vec_demo1, &dest);
