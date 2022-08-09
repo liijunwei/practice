@@ -71,6 +71,19 @@ void combine1(vec_ptr v, data_t *dest) {
   }
 }
 
+void combine2(vec_ptr v, data_t *dest) {
+  long i;
+  long length = vec_length(v);
+
+  *dest = IDENT;
+
+  for(i = 0; i < length; i++) {
+    data_t val;
+    get_vec_element(v, i, &val);
+    *dest = *dest OP val;
+  }
+}
+
 int main(int argc, char const *argv[]) {
   vec_ptr vec_demo1 = new_vec(10);
   vec_demo1->data[0] = 0;
@@ -84,11 +97,13 @@ int main(int argc, char const *argv[]) {
   vec_demo1->data[8] = 8;
   vec_demo1->data[9] = 9;
 
-  data_t dest;
-  printf("dest is %ld\n", dest);
+  data_t dest1;
+  combine1(vec_demo1, &dest1);
+  printf("dest1 is %ld\n", dest1);
 
-  combine1(vec_demo1, &dest);
-  printf("dest is %ld\n", dest);
+  data_t dest2;
+  combine2(vec_demo1, &dest2);
+  printf("dest2 is %ld\n", dest2);
 
   return 0;
 }
