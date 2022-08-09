@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <time.h>
 
+// p351
+
 size_t strlen(const char *s) {
   long length = 0;
 
