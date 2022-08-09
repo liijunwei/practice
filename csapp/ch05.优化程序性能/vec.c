@@ -73,6 +73,17 @@ void combine1(vec_ptr v, data_t *dest) {
 
 int main(int argc, char const *argv[]) {
   vec_ptr vec_demo1 = new_vec(10);
+  vec_demo1->data[0] = 0;
+  vec_demo1->data[1] = 1;
+  vec_demo1->data[2] = 2;
+  vec_demo1->data[3] = 3;
+  vec_demo1->data[4] = 4;
+  vec_demo1->data[5] = 5;
+  vec_demo1->data[6] = 6;
+  vec_demo1->data[7] = 7;
+  vec_demo1->data[8] = 8;
+  vec_demo1->data[9] = 9;
+
   data_t dest = 10;
   printf("dest is %ld\n", dest);
 
