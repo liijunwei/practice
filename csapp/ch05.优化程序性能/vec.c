@@ -3,8 +3,8 @@
 
 // p348
 
-typedef int data_t;
-// typedef long data_t;
+// typedef int data_t;
+typedef long data_t;
 // typedef float data_t;
 // typedef double data_t;
 
@@ -25,6 +25,7 @@ vec_ptr new_vec(long len) {
   result->len = len;
 
   if(len > 0) {
+    // man calloc
     data = (data_t *)calloc(len, sizeof(data_t));
 
     if(!data) {
@@ -72,6 +73,11 @@ void combine1(vec_ptr v, data_t *dest) {
 
 int main(int argc, char const *argv[]) {
   vec_ptr vec_demo1 = new_vec(10);
+  data_t dest = 10;
+  printf("dest is %ld\n", dest);
+
+  combine1(vec_demo1, &dest);
+  printf("dest is %ld\n", dest);
 
   return 0;
 }
