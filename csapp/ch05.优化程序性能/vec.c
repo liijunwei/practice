@@ -50,8 +50,28 @@ long vec_length(vec_ptr v) {
   return v->len;
 }
 
-int main(int argc, char const *argv[]) {
+// 计算向量元素的和
+#define IDENT 0
+#define OP    +
 
+// 计算向量元素的乘积
+// #define IDENT 1
+// #define OP    *
+
+void combine1(vec_ptr v, data_t *dest) {
+  long i;
+
+  *dest = IDENT;
+
+  for(i = 0; i < vec_length(v); i++) {
+    data_t val;
+    get_vec_element(v, i, &val);
+    *dest = *dest OP val;
+  }
+}
+
+int main(int argc, char const *argv[]) {
+  vec_ptr vec_demo1 = new_vec(10);
 
   return 0;
 }
