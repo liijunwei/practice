@@ -36,7 +36,27 @@
 
 ## 10.5.1 从 -a 到 -z 的命令行选项(p243)
 
+-I include
 
+-k keep
+
+-f file/force
+
+-m message
+
+-n number
+
+-o output
+
+-P protocol/port
+
+-q quite
+
+-s silent
+
+-r/-R recurse/reverse
+
++ dang
 
 
 
