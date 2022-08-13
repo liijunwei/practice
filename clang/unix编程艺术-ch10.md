@@ -36,6 +36,8 @@
 
 ## 10.5.1 从 -a 到 -z 的命令行选项(p243)
 
+-e execute/edit/environment/exclude/expression
+
 -I include
 
 -k keep
@@ -56,7 +58,7 @@
 
 -r/-R recurse/reverse
 
-+ dang
++ 当为程序选择命令行选项字母时, 可参阅类似工具的手册页; 杜宇和手册页中类似的功能, 尽量使用一致的选项字母
 
 
 
