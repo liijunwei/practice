@@ -93,6 +93,14 @@ unclear
 
 + 系统优化的通用原则: amdahl定律(Amdahl's law)
 
++ TODO c program profiling(p388)
+```clang
+gcc -Og -pg prog.c -o prog
+./prog file.txt
+
+gprof prof
+```
+
 
 
 
