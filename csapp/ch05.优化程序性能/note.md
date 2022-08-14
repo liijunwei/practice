@@ -91,6 +91,8 @@ unclear
 + 优化大的程序时, 连知道应该优化什么地方 都是很难的
     + code profiler, 在程序执行时手机性能数据的分析工具
 
++ 系统优化的通用原则: amdahl定律(Amdahl's law)
+
 
 
 
