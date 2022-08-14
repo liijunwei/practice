@@ -93,7 +93,7 @@ unclear
 
 + 系统优化的通用原则: amdahl定律(Amdahl's law)
 
-+ TODO c program profiling(p388)
++ OK c program profiling(p388)
 ```clang
 gcc -Og -pg prog.c -o prog
 ./prog file.txt
@@ -101,29 +101,13 @@ gcc -Og -pg prog.c -o prog
 gprof prof
 ```
 
++ p392: 通过这个练习, 我们展示了代码剖析能够帮助将一个建大应用程序所需的时间从3.5分钟降低到0.2秒, 得到约1000倍的性能提升
+
++ 剖析程序能帮我们把注意力集中到程序最耗时的部分上, 同事还提供了关于过程调用结构的有用信息
 
 
+2022-08-14 20:36:06
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+第5章硬着头皮撸完了(20220808-20220814)
 
 
