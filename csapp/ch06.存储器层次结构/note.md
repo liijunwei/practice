@@ -19,5 +19,15 @@
     + 如何分析C程序的局部性, 介绍改进你的程序中局部性的技术
     + 描绘某台机器上存储器层次的性能的有趣方法, 成为"存储器山memory mountain", 他展示出度访问时间也是局部性的一个函数
 
+# 6.1 存储技术
+
+## 6.1.1 随机访问存储器
+
++ Random-Access Memory, RAM 分两类
+    + 静态的 SRAM(Static-RAM)
+    + 动态的 DRAM(Dynamic-RAM)
+    + SRAM 比 DRAM更快, 但也贵很多
+
+
 
 
