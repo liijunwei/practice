@@ -43,3 +43,29 @@ $ mit-scheme
 ;Value: 1.380952380952381
 ```
 
+# 4. Other Arithmetic Operations
+
+
+```
+(quotient 7 3)
+(modulo 7 3)
+(sqrt 8)
+```
+
+## 4.2 Trigonometric Functions
+
+sin, cos, tan, asin, acos, and atan
+
+```
+(atan 1)
+(atan 1 0)
+(sin 3.14)
+```
+
+## 4.3. Exponential and Logarithm
+
+Exponential and logarithm are calculated by exp, and log, respectively. The value of b to the power of a can be calculated by (expt a b).
+
+```
+
+```
