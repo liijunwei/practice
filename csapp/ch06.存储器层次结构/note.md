@@ -24,8 +24,8 @@
 ## 6.1.1 随机访问存储器
 
 + Random-Access Memory, RAM 分两类
-    + 静态的 SRAM(Static-RAM)
-    + 动态的 DRAM(Dynamic-RAM)
+    + 静态的 SRAM(Static-RAM), 几 Mb
+    + 动态的 DRAM(Dynamic-RAM), 几百/几千 Mb
     + SRAM 比 DRAM更快, 但也贵很多
 
 
