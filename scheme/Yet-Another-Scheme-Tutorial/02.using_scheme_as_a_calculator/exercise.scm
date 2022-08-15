@@ -18,11 +18,17 @@
 ; Exercise 2
 
 ; circle ratio, π
-
-; sin(pi/2) = 1 => pi = 
+; sin(pi/2) = 1
+(* 2 (asin 1))
 
 ; exp(2/3)
-; 3 to the power of 4
-; logarithm of 1000
+(exp (/ 2 3))
+(exp (exact->inexact (/ 2 3)))
 
+; 3 to the power of 4
+; The value of b to the power of a can be calculated by (expt a b)
+(expt 3 4)
+
+; logarithm of 1000
+(log 1000)
 
