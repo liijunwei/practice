@@ -63,7 +63,14 @@
 
 + 从磁盘上读信息的时间为毫秒级, 比DRAM慢了10万倍, 比SRAM慢了100万倍
 
-
++ 磁盘构造 相关概念
+    + 盘片(platter)
+    + 表面(surface)
+    + 磁性记录材料
+    + 主轴(spindle)
+    + 磁道(track)
+    + 扇区(sector)
+    + 圆柱面(cylinder)
 
 
 
