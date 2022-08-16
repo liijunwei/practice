@@ -56,8 +56,8 @@
     +
     + 由一对总线连接起来
 
-+ 系统总线 连接 CPU芯片 和 IO桥接器
-+ 内存总线 连接 IO桥接器 和 DRAM内存模块
++ 系统总线(system bus) 连接 CPU芯片 和 IO桥接器
++ 内存总线(memory bus) 连接 IO桥接器 和 DRAM内存模块
 
 
 
