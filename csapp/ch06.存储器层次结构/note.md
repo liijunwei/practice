@@ -28,6 +28,6 @@
     + 动态的 DRAM(Dynamic-RAM), 几百/几千 Mb
     + SRAM 比 DRAM更快, 但也贵很多
 
-
++ 非易失性存储器
 
 
