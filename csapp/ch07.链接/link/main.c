@@ -7,5 +7,7 @@ int array[2] = {1, 2};
 int main(int argc, char const *argv[]) {
   int val = sum(array, 2);
 
-  return val;
+  printf("val = %d\n", val);
+
+  return 0;
 }
