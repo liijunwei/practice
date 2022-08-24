@@ -64,3 +64,4 @@ prog
 .vagrant/
 .vscode/
 .DS_Store
+.rspec

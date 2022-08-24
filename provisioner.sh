@@ -2,7 +2,7 @@
 
 # https://gist.github.com/puremourning/a41b4c6ac732091f63736e3ccb6d8d67
 
-sudo yum install epel-release
+sudo yum install -y epel-release
 sudo yum makecache
 
 sudo yum groupinstall -y "Development tools"
