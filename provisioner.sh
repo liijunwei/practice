@@ -9,5 +9,3 @@ sudo yum groupinstall -y "Development tools"
 sudo yum install -y git tig zsh
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && sudo chsh -s $(which zsh) vagrant
-
-cd /vagrant
