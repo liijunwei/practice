@@ -61,3 +61,6 @@ sandbox/
 golang/go-mod-demo/vendor
 prog
 
+.vagrant/
+.vscode/
+.DS_Store
