@@ -1,13 +1,13 @@
 clean:
-	rm -rf a.out prog
+	rm -rf a.out
 
 main: clean
-	gcc -Og -o prog main.c sum.c
-	./prog
+	gcc -Og main.c sum.c
+	./a.out
 
 verbose_main: clean
-	gcc -Og -v -o prog main.c sum.c
-	./prog
+	gcc -Og -v main.c sum.c
+	./a.out
 
 linkerror: clean
 	gcc -Wall -Og linkerror.c
@@ -43,8 +43,12 @@ ex5: clean
 setup_ar_demo:
 	touch addvec.c
 	touch multvec.c
+	touch main2.c
 
 ex_ar:
 	gcc -c addvec.c multvec.c
 	ar rcs libvector.a addvec.o multvec.o
-
+	gcc -c main2.c
+# 	TODO
+	gcc -static -o a.out main2.o ./libvector.a
+# 	gcc -static -o a.out main2.o -lvector
