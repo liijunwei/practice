@@ -49,6 +49,6 @@ ex_ar:
 	gcc -c addvec.c multvec.c
 	ar rcs libvector.a addvec.o multvec.o
 	gcc -c main2.c
-# 	TODO
+	# TODO 缺少c/c++的依赖, 需要用yum查找和安装
 	gcc -static -o a.out main2.o ./libvector.a
 # 	gcc -static -o a.out main2.o -lvector
