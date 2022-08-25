@@ -40,3 +40,11 @@ ex5: clean
 	gcc foo5.c bar5.c
 	./a.out
 
+setup_ar_demo:
+	touch addvec.c
+	touch multvec.c
+
+ex_ar:
+	gcc -c addvec.c multvec.c
+	ar rcs libvector.a addvec.o multvec.o
+
