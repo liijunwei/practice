@@ -1,5 +1,13 @@
 clean:
-	rm -rf a.out
+	rm -rf a.out prog
+
+main: clean
+	gcc -Og -o prog main.c sum.c
+	./prog
+
+verbose_main: clean
+	gcc -Og -v -o prog main.c sum.c
+	./prog
 
 linkerror: clean
 	gcc -Wall -Og linkerror.c
