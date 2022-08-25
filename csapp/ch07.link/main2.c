@@ -7,10 +7,10 @@ int n[2];
 
 int main(int argc, char const *argv[]) {
   addvec(x, y, m, 2);
-  printf("m = [%d %d]\n", m[0], m[1]);
+  printf("addvec  => [%d %d]\n", m[0], m[1]);
 
   multvec(x, y, n, 2);
-  printf("n = [%d %d]\n", n[0], n[1]);
+  printf("multvec => [%d %d]\n", n[0], n[1]);
 
   return 0;
 }

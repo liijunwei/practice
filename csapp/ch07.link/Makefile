@@ -46,9 +46,14 @@ setup_ar_demo:
 	touch main2.c
 
 ex_ar:
-	sudo yum install glibc-static -y
+# 	sudo yum install glibc-static -y # if needed
 	gcc -c addvec.c multvec.c
 	ar rcs libvector.a addvec.o multvec.o
 	gcc -c main2.c
 	gcc -static -o a.out main2.o ./libvector.a
 	./a.out
+
+ex_ar_fail:
+	gcc -c addvec.c multvec.c
+	ar rcs libvector.a addvec.o multvec.o
+	gcc -static ./libvector.a main2.c
