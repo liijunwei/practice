@@ -10,7 +10,7 @@ setup_foobar:
 
 ex1:
 	gcc foo1.c bar1.c
-	# 	multiple definition of `main'
+	# multiple definition of `main'
 
 ex2:
 	gcc foo2.c bar2.c
@@ -26,7 +26,9 @@ ex4:
 	gcc foo4.c bar4.c
 	./a.out
 	# 如果有两个弱定义, 会发生和ex3同样的事情
-ex5:
-	gcc foo5.c bar5.c
 
+ex5:
+	# Linux practice 3.10.0-957.12.2.el7.x86_64 #1 SMP Tue May 14 21:24:32 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+	gcc foo5.c bar5.c
+	./a.out
 
