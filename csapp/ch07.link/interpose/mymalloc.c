@@ -1,9 +1,18 @@
+#ifdef COMPILETIME
+
 #include <stdio.h>
-#include <stdlib.h>
+#include <malloc.h>
 
-int main(int argc, char const *argv[]) {
-  int *p = malloc(32);
-  free(p);
+void *mymalloc(size_t size) {
+  void *ptr = malloc(size);
+  printf("malloc(%d)=%p\n", (int)size, ptr);
 
-  return 0;
+  return ptr;
 }
+
+void *myfree(void *ptr) {
+  free(ptr);
+  printf("frees(%p)\n", ptr);
+}
+
+#endif

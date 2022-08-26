@@ -1,8 +1,5 @@
 #define malloc(size) mymalloc(size)
-#define 
-int main(int argc, char const *argv[]) {
-  int *p = malloc(32);
-  free(p);
+#define free(ptr) myfree(ptr)
 
-  return 0;
-}
+void *mymalloc(size_t size);
+void *myfree(void *ptr);

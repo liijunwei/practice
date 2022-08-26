@@ -70,3 +70,5 @@ ex_dlf: clean make_libvector.so
 	gcc -rdynamic -o a.out dll.c -ldl
 	./a.out
 
+ex_interpost:
+
