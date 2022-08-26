@@ -2,4 +2,4 @@
 #define free(ptr) myfree(ptr)
 
 void *mymalloc(size_t size);
-void *myfree(void *ptr);
+void myfree(void *ptr);

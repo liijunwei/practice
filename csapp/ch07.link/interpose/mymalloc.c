@@ -1,7 +1,7 @@
 #ifdef COMPILETIME
 
 #include <stdio.h>
-#include <malloc.h>
+#include "malloc.h"
 
 void *mymalloc(size_t size) {
   void *ptr = malloc(size);
@@ -10,7 +10,7 @@ void *mymalloc(size_t size) {
   return ptr;
 }
 
-void *myfree(void *ptr) {
+void myfree(void *ptr) {
   free(ptr);
   printf("frees(%p)\n", ptr);
 }
