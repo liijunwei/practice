@@ -48,7 +48,11 @@ $ ./a.out
     + 共享目标(shared object), 在linux系统中通常用 `.so` 后缀表示(Shared Object, so)
     + 微软的操作系统大量使用了共享库, 他们称为DLL(动态链接库)
 
+# 7.11 从应用程序中加载和链接共享库
 
+```bash
+man dlopen
+```
 
 
 

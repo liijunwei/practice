@@ -61,3 +61,8 @@ ex_ar_fail:
 	ar rcs libvector.a addvec.o multvec.o
 	gcc -static ./libvector.a main2.c
 	objdump -f a.out
+
+ex_dlf: clean
+	gcc dll.c
+	./a.out
+
