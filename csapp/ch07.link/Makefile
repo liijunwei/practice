@@ -71,8 +71,7 @@ ex_dlf: clean make_libvector.so
 	./a.out
 
 ex_interpose:
-	rm mymalloc.o
-	gcc -DCOMILETIME -c ./interpose/mymalloc.c
+	gcc -DCOMPILETIME -c ./interpose/mymalloc.c
 	gcc -I. ./interpose/int.c mymalloc.o
 	./a.out
 
