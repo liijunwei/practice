@@ -60,6 +60,32 @@ man dlopen
 
 + 可以加载而无需重定位的代码称为位置无关代码(Position-Independent Code, PIC)
 
++ GOT: Global Offset Table, 全局偏移量表
+
+# 7.13 库打桩机制(library interpositioning)
+
++ 库打桩机制允许你截获对共享库函数的调用, 取而代之执行自己的代码
+
+## 7.13.1 编译时打桩
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
