@@ -18,5 +18,9 @@
 
 + ELF: Executable and Linkable Format
 
+# 7.9 加载可执行目标文件
 
-
+```bash
+$ ./prog
+$ ./a.out
+```

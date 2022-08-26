@@ -54,6 +54,8 @@ ex_ar:
 	./a.out
 	objdump -f a.out
 
+# tldr objdump
+
 ex_ar_fail:
 	gcc -c addvec.c multvec.c
 	ar rcs libvector.a addvec.o multvec.o
