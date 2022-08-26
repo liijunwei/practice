@@ -42,6 +42,16 @@ $ ./a.out
 
 + 内存的一个有趣属性就是 不论系统的内存有多大, 它总是一种稀缺资源(interesting...)
 
++ 共享库(shared library)是一种致力于解决静态库缺陷的一个现代创新产物
+    + 动态链接(dynamic linking)过程
+    + 动态链接器(dynamic linker)
+    + 共享目标(shared object), 在linux系统中通常用 `.so` 后缀表示(Shared Object, so)
+    + 微软的操作系统大量使用了共享库, 他们称为DLL(动态链接库)
+
+
+
+
+
 
 
 
