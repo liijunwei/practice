@@ -7,6 +7,9 @@ int y[2] = {3, 4};
 int m[2];
 int n[2];
 
+// unclear
+// make ex_dlf
+
 int main(int argc, char const *argv[]) {
   void *handle;
   void (*addvec)(int *, int *, int *, int);

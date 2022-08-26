@@ -62,7 +62,11 @@ ex_ar_fail:
 	gcc -static ./libvector.a main2.c
 	objdump -f a.out
 
-ex_dlf: clean
-	gcc dll.c
+make_libvector.so:
+	gcc -shared -fpic -o libvector.so addvec.c multvec.c
+
+ex_dlf: clean make_libvector.so
+# 	gcc dll.c
+	gcc -rdynamic -o a.out dll.c -ldl
 	./a.out
 
