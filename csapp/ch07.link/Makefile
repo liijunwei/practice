@@ -83,7 +83,7 @@ ex_interpose_link:
 
 ex_interpose_runtime:
 	gcc -DRUNTIME -shared -fpic -o mymalloc-runtime.so ./interpose/mymalloc-runtime.c -ldl
-	gcc ./interpose/int.c
+	gcc ./interpose/int-runtime.c
 	LD_PRELOAD="./mymalloc-runtime.so" ./a.out
 
 
