@@ -81,4 +81,10 @@ ex_interpose_link:
 	gcc -Wl,--wrap,malloc -Wl,--wrap,free int.o mymalloc-link.o
 	./a.out
 
+ex_interpose_runtime:
+	gcc -DLINKTIME -c ./interpose/mymalloc-runtime.c
+	gcc -c ./interpose/int.c
+	gcc -Wl,--wrap,malloc -Wl,--wrap,free int.o mymalloc-runtime.o
+	./a.out
+
 

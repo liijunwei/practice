@@ -70,6 +70,14 @@ man dlopen
 
 make ex_interpose_compile
 
+## 7.13. 链接时打桩
+
+make ex_interpose_link
+
+## 7.14. 运行时打桩
+
+make ex_interpose_runtime
+
 
 
 
