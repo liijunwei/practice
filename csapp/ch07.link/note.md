@@ -68,6 +68,8 @@ man dlopen
 
 ## 7.13.1 编译时打桩
 
+make ex_interpose
+
 
 
 
