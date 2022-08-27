@@ -81,9 +81,13 @@ ex_interpose_link:
 	gcc -Wl,--wrap,malloc -Wl,--wrap,free int.o mymalloc-link.o
 	./a.out
 
-ex_interpose_runtime:
+ex_interpose_runtime_int:
 	gcc -DRUNTIME -shared -fpic -o mymalloc-runtime.so ./interpose/mymalloc-runtime.c -ldl
 	gcc ./interpose/int-runtime.c
 	LD_PRELOAD="./mymalloc-runtime.so" ./a.out
+
+ex_interpose_runtime_ls:
+	gcc -DRUNTIME -shared -fpic -o mymalloc-runtime.so ./interpose/mymalloc-runtime.c -ldl
+	LD_PRELOAD="./mymalloc-runtime.so" $(which ls)
 
 
