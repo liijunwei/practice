@@ -76,5 +76,9 @@ ex_interpose_compile:
 	./a.out
 
 ex_interpose_link:
+	gcc -DLINKTIME -c ./interpose/mymalloc-link.c
+	gcc -c ./interpose/int.c
+	gcc -Wl,--wrap,malloc -Wl,--wrap,free int.o mymalloc-link.o
+	./a.out
 
 
