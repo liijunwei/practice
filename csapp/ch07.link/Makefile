@@ -86,8 +86,11 @@ ex_interpose_runtime_int:
 	gcc ./interpose/int-runtime.c
 	LD_PRELOAD="./mymalloc-runtime.so" ./a.out
 
+# 可以用 LD_PRELOAD 对任何可执行程序的库函数进行打桩(p496)
 ex_interpose_runtime_ls:
 	gcc -DRUNTIME -shared -fpic -o mymalloc-runtime.so ./interpose/mymalloc-runtime.c -ldl
-	LD_PRELOAD="./mymalloc-runtime.so" $(which ls)
+	LD_PRELOAD="./mymalloc-runtime.so" /usr/bin/ls
+	LD_PRELOAD="./mymalloc-runtime.so" /usr/bin/pwd
+# 	...
 
 
