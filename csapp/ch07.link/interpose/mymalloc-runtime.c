@@ -7,7 +7,7 @@
 
 // malloc wrapper function
 void *malloc(size_t size) {
-  void *(mallocp)(size_t size);
+  void *(*mallocp)(size_t size);
   char *error;
 
   mallocp = dlsym(RTLD_NEXT, "malloc"); // get address of libc malloc
@@ -26,7 +26,7 @@ void *malloc(size_t size) {
 
 // free wrapper function
 void free(void *ptr) {
-  void (freep)(void *) = NULL;
+  void (*freep)(void *) = NULL;
   char *error;
 
   if(!ptr) {
