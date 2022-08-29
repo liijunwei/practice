@@ -1,19 +1,17 @@
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
 
-pid_t Fork(void) {
+int main(int argc, char const *argv[]) {
   pid_t pid;
+  int x = 1;
 
-  if((pid = fork()) < 0) {
-    unix_error("Fork error");
+  pid = Fork();
+
+  if(pid == 0) {
+    printf("child: x=%d\n", ++x);
+    exit(0);
   }
 
-  return pid;
-}
-
-int main(int argc, char const *argv[]) {
-
-
-  return 0;
+  printf("parent: x=%d\n", --x);
+  exit(0);
 }
