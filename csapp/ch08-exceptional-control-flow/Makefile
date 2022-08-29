@@ -1,11 +1,13 @@
+LDLIBS = -lpthread
+
 ecf_fork:
-	gcc unix_error.c fork.c ecf_fork.c
+	gcc csapp.c ecf_fork.c $(LDLIBS)
 	./a.out
 
 ecf_nested_fork:
-	gcc unix_error.c fork.c ecf_nested_fork.c
+	gcc csapp.c ecf_nested_fork.c $(LDLIBS)
 	./a.out
 
 ecf_forkprob0:
-	gcc unix_error.c fork.c ecf_forkprob0.c
+	gcc csapp.c ecf_forkprob0.c $(LDLIBS)
 	./a.out
