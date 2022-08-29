@@ -1,5 +1,7 @@
 LDLIBS = -lpthread
 
+all: ecf_fork
+
 ecf_fork:
 	gcc csapp.c ecf_fork.c $(LDLIBS)
 	./a.out
