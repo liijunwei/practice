@@ -2,7 +2,9 @@ LDLIBS = -lpthread
 
 PROGS = ecf_fork \
 				ecf_nested_fork \
-				ecf_forkprob0
+				ecf_forkprob0 \
+				ecf_waitpid1 \
+				ecf_waitpid2
 
 all: $(PROGS)
 
@@ -20,4 +22,8 @@ ecf_forkprob0:
 
 ecf_waitpid1:
 	gcc csapp.c ecf_waitpid1.c $(LDLIBS)
+	./a.out
+
+ecf_waitpid2:
+	gcc csapp.c ecf_waitpid2.c $(LDLIBS)
 	./a.out
