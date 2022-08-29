@@ -5,9 +5,16 @@ int main(int argc, char const *argv[]) {
   int x = 1;
 
   if(Fork() == 0) {
-    printf("p1: x=%d\n", ++x);
+    printf("a");
+    fflush(stdout);
+  } else {
+    printf("b");
+    fflush(stdout);
+    waitpid(-1, NULL, 0);
   }
 
-  printf("p2: x=%d\n", --x);
+  printf("c");
+  fflush(stdout);
+
   exit(0);
 }
