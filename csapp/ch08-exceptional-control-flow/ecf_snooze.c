@@ -9,6 +9,7 @@ unsigned int snooze(unsigned int secs) {
 }
 
 int main(int argc, char const *argv[]) {
+  // question: how to interrupt?
   snooze(10);
 
   exit(0);

@@ -35,3 +35,7 @@ ecf_waitpid2:
 ecf_snooze:
 	gcc csapp.c ecf_snooze.c $(LDLIBS)
 	./a.out
+
+ecf_myecho:
+	gcc csapp.c ecf_myecho.c $(LDLIBS)
+	./a.out
