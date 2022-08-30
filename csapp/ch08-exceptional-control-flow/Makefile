@@ -42,8 +42,9 @@ ecf_myecho:
 
 ecf_shellex_interactive:
 	gcc csapp.c ecf_shellex.c $(LDLIBS)
+	# /usr/bin/which ls
+	# /usr/bin/sleep 3
 	./a.out
-	/usr/bin/which ls
 
 ecf_shellex_stdin:
 	gcc csapp.c ecf_shellex.c $(LDLIBS)
