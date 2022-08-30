@@ -40,6 +40,12 @@ ecf_myecho:
 	gcc csapp.c ecf_myecho.c $(LDLIBS)
 	./a.out a b c de
 
-ecf_shellex:
+ecf_shellex_interactive:
 	gcc csapp.c ecf_shellex.c $(LDLIBS)
 	./a.out
+	/usr/bin/which ls
+
+ecf_shellex_stdin:
+	gcc csapp.c ecf_shellex.c $(LDLIBS)
+	echo "/usr/bin/ls" | ./a.out
+	echo "/usr/bin/pwd" | ./a.out

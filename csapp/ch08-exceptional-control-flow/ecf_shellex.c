@@ -1,5 +1,6 @@
 #include "csapp.h"
 #define MAXARGS 128
+#define COMMAND_PROMPT "$ "
 
 void eval(char *cmdline);
 int parseline(char *buf, char **argv);
@@ -9,7 +10,7 @@ int main(int argc, char const *argv[], char const *envp[]) {
   char cmdline[MAXLINE];
 
   while(1) {
-    printf("> ");
+    printf(COMMAND_PROMPT);
     Fgets(cmdline, MAXLINE, stdin);
 
     if(feof(stdin)) {
