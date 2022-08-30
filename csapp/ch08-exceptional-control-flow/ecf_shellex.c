@@ -37,7 +37,7 @@ void eval(char *cmdline) {
 
   if(!builtin_command(argv)) {
     if((pid = Fork()) == 0) {
-      if(execv(argv[0], argv, environ) < 0) {
+      if(execve(argv[0], argv, environ) < 0) {
         printf("%s: Command not found.\n", argv[0]);
         exit(0);
       }
@@ -58,9 +58,50 @@ void eval(char *cmdline) {
 
 
 int builtin_command(char **argv) {
-  if(!strcmp(argv[0], "quit"))
+  if(!strcmp(argv[0], "quit")) {
+    exit(0);
+  }
+
+  if(!strcmp(argv[0], "&")) {
+    return 1;
+  }
+
+  return 0;
 }
 
 
+int parseline(char *buf, char **argv) {
+  char *delim;
+  int argc;
+  int bg;
+
+  buf[strlen(buf) - 1] = ' ';
+  while(*buf && (*buf == ' ')) {
+    buf++;
+  }
+
+  argc = 0;
+  while((delim = strchr(buf, ' '))) {
+    argv[argc++] = buf;
+    *delim = '\0';
+    buf = delim + 1;
+
+    while(*buf && (*buf == ' ')) {
+      buf++;
+    }
+  }
+
+  argv[argc] = NULL;
+
+  if(argc == 0) {
+    return 1;
+  }
+
+  if((bg = (*argv[argc - 1] == '&')) != 0) {
+    argv[--argc] = NULL;
+  }
+
+  return bg;
+}
 
 
