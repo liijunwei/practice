@@ -20,6 +20,10 @@ ecf_forkprob0:
 	gcc csapp.c ecf_forkprob0.c $(LDLIBS)
 	./a.out
 
+ecf_forkprob1:
+	gcc csapp.c ecf_forkprob1.c $(LDLIBS)
+	./a.out
+
 ecf_waitpid1:
 	gcc csapp.c ecf_waitpid1.c $(LDLIBS)
 	./a.out

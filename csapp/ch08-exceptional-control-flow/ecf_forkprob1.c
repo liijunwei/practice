@@ -10,16 +10,13 @@ int main(int argc, char const *argv[]) {
   printf("%d\n", !pid);
 
   if(pid != 0) {
-    printf("a");
-    fflush(stdout);
-  } else {
-    printf("b");
-    fflush(stdout);
-    waitpid(-1, NULL, 0);
+    if(waitpid(-1, &status, 0) > 0) {
+      if(WIFEXITED(status) != 0) {
+        printf("%d\n", WEXITSTATUS(status));
+      }
+    }
   }
 
-  printf("c");
-  fflush(stdout);
-
-  exit(0);
+  printf("Bye\n");
+  exit(2);
 }
