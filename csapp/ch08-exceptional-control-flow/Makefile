@@ -38,4 +38,8 @@ ecf_snooze:
 
 ecf_myecho:
 	gcc csapp.c ecf_myecho.c $(LDLIBS)
+	./a.out a b c de
+
+ecf_shellex:
+	gcc csapp.c ecf_shellex.c $(LDLIBS)
 	./a.out
