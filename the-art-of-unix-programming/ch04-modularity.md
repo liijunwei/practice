@@ -4,7 +4,7 @@
 + There are 2 ways of constructing a software design. One is make it so simple that there are obvisously no deficiencies(缺陷); the other is to make it so complicated that there are no obvious deficiencies. The first mothod is far more difficult
     + 软件设计有两种方式: 一种是设计的极为简洁, 没有看到明显的缺陷; 另一种是设计得极为复杂, 有缺陷也看不出来; 第一种方式难度要大的多
 
-+ SPOT: Single Point Of Truth
++ SPOT: Single Point Of Truth(p91 4.2.3)
 
 + 陈旧的缓存是滋生bug的温床
 
@@ -28,6 +28,8 @@
 + 正如"网络风格的元素"一书的作者在另一个略有不同的背景下所说的(Padlipshy): "如果你知道自己在做什么, 三层就够了; 但如果你不知道自己在做什么, 十七层也没用"
 
 ## 4.6 模块化编码
+
++ Hatton(p86) 图4.1
 
 > 模块分解的越彻底, 每一块就越小, API 的定义也就越重要.全局复杂度和受 bug 影响的程度也会相应降低.然而, 也可能因过度划分造成模块太小.在模块很小时, bug 发生率也出乎意料地增多, 这在大量以不同语言实现的各种系统中均是如此.因此, Hatton 的经验数据表明, 假设其他所有因素(如程序员的能力)都相同, 200 到 400 之间的逻辑行的代码是"最佳点", 可能的缺陷密度达到最小.这个大小与所使用的语言无关 —— 这个结论有力支持了书中的建议, 即尽可能用最强大的语言和工具编程.根据经验, Hatton 建议逻辑行与物理行之间为两倍的折算率, 即最佳物理行数建议应在 400 至 800 行之间.
 
