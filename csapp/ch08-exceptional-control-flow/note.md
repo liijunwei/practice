@@ -51,4 +51,17 @@
 
 + 键盘输入 ctrl+c 会导致内核发送一个SIGINT信号到前台进程组中的每一个进程; 默认情况下, 结果是终止前台作业
 
+### 8.5.3 接收信号
+
+```c
+#include "signal.h"
+
+typedef void (*sighandler_t)(int);
+sighandler_t signal(int signum, sighandler_t handler);
+```
+
++ signal函数可以通过下列三种方法之一来改变和信号 signum 相关联的行为:
+    1. 如果handler是 `SIGIGN`(ignore), 那么忽略类型为signum的信号
+    2. 如果handler是 `SIGDEL`(default)
+
 
