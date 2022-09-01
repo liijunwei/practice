@@ -50,3 +50,8 @@ ecf_shellex_stdin:
 	gcc csapp.c ecf_shellex.c $(LDLIBS)
 	echo "/usr/bin/ls" | ./a.out
 	echo "/usr/bin/pwd" | ./a.out
+
+ecf_kill:
+	gcc csapp.c ecf_kill.c $(LDLIBS)
+	./a.out
+
