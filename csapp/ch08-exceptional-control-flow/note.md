@@ -61,7 +61,9 @@ sighandler_t signal(int signum, sighandler_t handler);
 ```
 
 + signal函数可以通过下列三种方法之一来改变和信号 signum 相关联的行为:
-    1. 如果handler是 `SIGIGN`(ignore), 那么忽略类型为signum的信号
-    2. 如果handler是 `SIGDEL`(default)
+    1. 如果handler是 `SIGIGN`(sig ignore), 那么忽略类型为signum的信号
+    2. 如果handler是 `SIGDEL`(sig default), 那么类型为signum的信号行为回复为默认行为
+    3. handler是用户定义的函数的地址, 这个函数被称为"信号处理程序", 只要进程接收到一个类型为signum的信号, 就会调用这个程序; 通过把程序的地址传递到signal函数从而改变默认行为, 这叫做设置信号处理程序("installing the handler"). 调用信号处理程序被称为捕获信号, 执行信号处理程序叫做处理信号
 
++ 信号处理程序可以被其他信号处理程序中断
 
