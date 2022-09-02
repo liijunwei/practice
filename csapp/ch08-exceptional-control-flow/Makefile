@@ -55,3 +55,7 @@ ecf_kill:
 	gcc csapp.c ecf_kill.c $(LDLIBS)
 	./a.out
 
+ecf_sigint:
+	gcc csapp.c ecf_sigint.c $(LDLIBS)
+	./a.out
+
