@@ -1,6 +1,9 @@
 #include "csapp.h"
 
-// not working as expected
+void handler(int sig) {
+  return; // catch he signal and return
+}
+
 unsigned int snooze(unsigned int secs) {
   printf("Sleeping...\n");
   unsigned int rc = sleep(secs);
@@ -10,8 +13,7 @@ unsigned int snooze(unsigned int secs) {
 }
 
 int main(int argc, char const *argv[]) {
-  // question: how to interrupt?
-  snooze(10);
+  if(argc != 2)
 
-  exit(0);
+  return 0;
 }

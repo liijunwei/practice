@@ -36,6 +36,10 @@ ecf_snooze:
 	gcc csapp.c ecf_snooze.c $(LDLIBS)
 	./a.out
 
+ecf_snooze_8_7:
+	gcc csapp.c ecf_snooze_8_7.c $(LDLIBS)
+	./a.out
+
 ecf_myecho:
 	gcc csapp.c ecf_myecho.c $(LDLIBS)
 	./a.out a b c de
