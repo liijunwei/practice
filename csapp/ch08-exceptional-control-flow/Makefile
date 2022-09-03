@@ -75,3 +75,7 @@ ecf_sigint:
 	$(CC) csapp.c ecf_sigint.c $(LDLIBS)
 	./a.out
 
+ecf_sigint_safe:
+	$(CC) csapp.c ecf_sigint_safe.c $(LDLIBS)
+	./a.out
+

@@ -77,6 +77,7 @@ sighandler_t signal(int signum, sighandler_t handler);
 + 一些保守的编写处理程序的原则, 使得这些处理程序能安全地并发运行
     + G0: 处理程序要尽可能简单
     + G1: 在处理程序中只调用异步信号安全的函数
+    + G2: 保存和恢复errno
 
 + TODO 问题: "一步信号安全的函数" 和 "线程安全" 有什么关系?
 

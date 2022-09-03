@@ -4,9 +4,11 @@
 // print message
 // stop the program
 
+// signal safe version of `./ecf_sigint.c`
+// p535
 void sigint_handler(int sig) {
-  printf("Caught SIGINT!(with unsafe output)\n"); // printf不是异步信号安全的函数 p535
-  exit(0);
+  sio_puts("Caught SIGINT!(with safe output)\n");
+  _exit(0); // safe exit
 }
 
 int main(int argc, char const *argv[]) {
