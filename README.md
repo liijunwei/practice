@@ -19,3 +19,11 @@ tig working-with-unix-processes/
 ```bash
 alias git-setup-auto-commit="watch -n 120 \"git pull && git add . && git commit -m 'Commit automatically by watch.'\""
 ```
+
+## vm for c programs
+
+```bash
+vagrant up
+vagrant ssh
+cd /vagrant && ls
+```
