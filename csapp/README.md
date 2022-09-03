@@ -5,3 +5,5 @@ random notes while reading CSAPP...
 [Computer Systems: A Programmer's Perspective, 3/E (CS:APP3e)](http://csapp.cs.cmu.edu/)
 
 code: http://csapp.cs.cmu.edu/3e/code.html
+
++ TODO make csapp.c csapp.h global available in practice/csapp/
