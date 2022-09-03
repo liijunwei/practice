@@ -23,6 +23,7 @@ int main(int argc, char const *argv[]) {
   int n;
   char buf[MAXBUF];
 
+  // Sends a SIGCHLD signal to the parent process to indicate that the child process has ended
   if(signal(SIGCHLD, sigint_handler) == SIG_ERR) {
     unix_error("signal error");
   }
