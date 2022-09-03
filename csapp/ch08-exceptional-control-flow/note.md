@@ -79,7 +79,9 @@ sighandler_t signal(int signum, sighandler_t handler);
     + G1: 在处理程序中只调用异步信号安全的函数
     + G2: 保存和恢复errno
     + G3: 阻塞所有的信号, 保护对共享全局数据结构的访问(r/w)
-    + G4: 用volatile声明全局变量
+    + G4: 用volatile声明全局变量(后面有示例)
+        + volatile限定符强迫编译器每次在代码中引用g是, 都要从内存中读取g的值
+    + G5: 用 `sig_stomic_t` 声明标志
 
 + TODO 问题: "一步信号安全的函数" 和 "线程安全" 有什么关系?
 
