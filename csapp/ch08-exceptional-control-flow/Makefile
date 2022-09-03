@@ -82,4 +82,5 @@ ecf_sigint_safe:
 ecf_signal1:
 	$(CC) csapp.c ecf_signal1.c $(LDLIBS)
 	./a.out
+	# ps aux|grep a.out
 
