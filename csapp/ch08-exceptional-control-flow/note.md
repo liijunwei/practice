@@ -89,7 +89,7 @@ sighandler_t signal(int signum, sighandler_t handler);
 
 + SIO 包
 
-
++ 信号的一个与直觉不符的方面是 未处理的信号是不排队的
 
 
 
