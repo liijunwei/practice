@@ -1,7 +1,7 @@
 #include "csapp.h"
 
-long counter = 2;
-// volatile long counter = 2;
+// long counter = 2;
+volatile long counter = 2;
 
 void sigint_handler(int sig) {
   sigset_t mask;
