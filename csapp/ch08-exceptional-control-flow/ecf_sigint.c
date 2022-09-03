@@ -5,7 +5,7 @@
 // stop the program
 
 void sigint_handler(int sig) {
-  printf("Caught SIGINT!\n");
+  printf("Caught SIGINT!\n"); // printf不是异步信号安全的函数
   exit(0);
 }
 
