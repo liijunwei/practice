@@ -1,20 +1,20 @@
 #include "csapp.h"
 
-// this code is buggy
-// 这个程序是有缺陷的, 因为它假设信号是排队的
-
-// 问题出在我们没有解决信号不会排队等待的情况
+// fix ./ecf_signal1.c
+// 我们必须修改handler, 使得每次SIGCHLD处理程序被调用的时候, 回收尽可能多的僵死子进程
 
 void sigint_handler(int sig) {
   int olderrno = errno;
 
-  if((waitpid(-1, NULL, 0)) < 0) {
+  while((waitpid(-1, NULL, 0)) > 0) {
+    sio_puts("Handler reaped child\n");
+  }
+
+  if(errno != ECHILD) {
     sio_error("waitpid error");
   }
 
-  sio_puts("Handler reaped child\n");
   sleep(1);
-
   errno = olderrno;
 }
 

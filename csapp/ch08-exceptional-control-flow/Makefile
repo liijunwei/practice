@@ -84,3 +84,8 @@ ecf_signal1:
 	./a.out
 	# ps aux|grep a.out
 
+ecf_signal2:
+	$(CC) csapp.c ecf_signal2.c $(LDLIBS)
+	./a.out
+	# ps aux|grep a.out
+
