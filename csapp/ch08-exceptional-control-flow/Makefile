@@ -113,6 +113,7 @@ ecf_setjmp:
 	$(CC) csapp.c ecf_setjmp.c $(LDLIBS)
 	./a.out
 
+# kill -9 $(ps aux|grep a.out | awk '{print $2}')
 ecf_restart:
 	$(CC) csapp.c ecf_restart.c $(LDLIBS)
 	./a.out
