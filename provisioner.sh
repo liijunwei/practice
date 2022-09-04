@@ -9,7 +9,9 @@ sudo yum groupinstall -y "Development tools"
 
 sudo yum -y install https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo.x86_64.rpm
 sudo yum install -y git
-sudo yum install -y tig zsh
-
+sudo yum install -y tig
+sudo yum install -y zsh
+sudo yum install -y tldr
+sudo yum install -y strace
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && sudo chsh -s $(which zsh) vagrant

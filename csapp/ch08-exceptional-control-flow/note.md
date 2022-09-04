@@ -94,5 +94,5 @@ sighandler_t signal(int signum, sighandler_t handler);
 + 重要教训(p538): 不可以用信号来对其他进程中发生的事件计数
 
 
-
+2022-09-04 16:07:33
 
