@@ -3,6 +3,8 @@
 // p543 图8-40
 // fix ./ecf_procmask2.c
 
+// unclear
+
 void initjobs() {}
 void addjob(int pid) {
 }
@@ -30,6 +32,7 @@ void handler(int sig) {
   _exit(0);
 }
 
+// 用sigprocmask来同步进程; 这个例子中, 父进程保证在响应的deletejob之前执行addjob
 int main(int argc, char const *argv[]) {
   int pid;
   sigset_t mask_all;
