@@ -1,20 +1,13 @@
 #include "csapp.h"
 
-// p542 图8-39
-// this code is buggy
-
-// addjob 和 deletejob之间存在竞争
-// 如果deletejob赢得进展, 那么结果就是错误的
-// 如果addjob赢得进展,那么结果就是正确的
-// 问题: 怎么模拟这两种情况?
+// p543 图8-40
+// fix ./ecf_procmask2.c
 
 void initjobs() {}
 void addjob(int pid) {
-  // sleep(1);
 }
 
 void deletejob(int pid) {
-  // sleep(1);
 }
 
 void handler(int sig) {
@@ -40,20 +33,27 @@ void handler(int sig) {
 int main(int argc, char const *argv[]) {
   int pid;
   sigset_t mask_all;
-  sigset_t prev_all;
+  sigset_t mask_one;
+  sigset_t prev_one;
 
   Sigfillset(&mask_all);
+  Sigemptyset(&mask_one);
+  Sigaddset(&mask_one, SIGCHLD);
+
   Signal(SIGCHLD, handler);
   initjobs();
 
   while(1) {
+    Sigprocmask(SIG_BLOCK, &mask_one, &prev_one); // block SIGCHLD
+
     if((pid = Fork()) == 0) {
+      Sigprocmask(SIG_SETMASK, &prev_one, NULL) // unblock SIGCHLD
       Execve("/bin/date", argv, NULL);
     }
 
     Sigprocmask(SIG_BLOCK, &mask_all, &prev_all);
     addjob(pid);
-    Sigprocmask(SIG_SETMASK, &prev_all, NULL);
+    Sigprocmask(SIG_SETMASK, &prev_one, NULL);
   }
 
   exit(0);
