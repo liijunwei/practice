@@ -113,3 +113,7 @@ ecf_setjmp:
 	$(CC) csapp.c ecf_setjmp.c $(LDLIBS)
 	./a.out
 
+ecf_restart:
+	$(CC) csapp.c ecf_restart.c $(LDLIBS)
+	./a.out
+

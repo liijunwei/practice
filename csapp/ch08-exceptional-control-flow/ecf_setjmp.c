@@ -9,7 +9,7 @@ void foo();
 void bar();
 
 int main(int argc, char const *argv[]) {
-  switch(setjmp(buf)) {
+  switch(setjmp(buf)) { // 什么意思??
     case 0:
       foo();
       break;
