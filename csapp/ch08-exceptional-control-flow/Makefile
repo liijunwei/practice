@@ -101,3 +101,7 @@ ecf_procmask2:
 	$(CC) csapp.c ecf_procmask2.c $(LDLIBS)
 	./a.out
 
+ecf_waitforsignal:
+	$(CC) csapp.c ecf_waitforsignal.c $(LDLIBS)
+	./a.out
+
