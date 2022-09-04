@@ -1,5 +1,9 @@
 #include "csapp.h"
 
+void initjobs() {}
+void addjob(int pid) {}
+void deletejob(int pid) {}
+
 void handler(int sig) {
   int olderrno = errno;
   sigset_t mask_all;
@@ -21,7 +25,23 @@ void handler(int sig) {
 }
 
 int main(int argc, char const *argv[]) {
+  int pid;
+  sigset_t mask_all;
+  sigset_t prev_all;
 
+  Sigfillset(&mask_all);
+  Signal(SIGCHLD, handler);
+  initjobs();
 
-  return 0;
+  while(1) {
+    if((pid = Fork()) == 0) {
+      Execve("/bin/date", argv, NULL);
+    }
+
+    Sigprocmask(SIG_BLOCK, &mask_all, &prev_all);
+    addjob(pid);
+    Sigprocmask(SIG_SETMASK, &prev_all, NULL);
+  }
+
+  exit(0);
 }
