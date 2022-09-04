@@ -97,3 +97,7 @@ ecf_procmask1:
 	$(CC) csapp.c ecf_procmask1.c $(LDLIBS)
 	./a.out
 
+ecf_procmask2:
+	$(CC) csapp.c ecf_procmask2.c $(LDLIBS)
+	./a.out
+

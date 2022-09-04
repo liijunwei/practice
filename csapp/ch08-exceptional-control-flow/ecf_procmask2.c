@@ -47,13 +47,13 @@ int main(int argc, char const *argv[]) {
     Sigprocmask(SIG_BLOCK, &mask_one, &prev_one); // block SIGCHLD
 
     if((pid = Fork()) == 0) {
-      Sigprocmask(SIG_SETMASK, &prev_one, NULL) // unblock SIGCHLD
+      Sigprocmask(SIG_SETMASK, &prev_one, NULL); // unblock SIGCHLD
       Execve("/bin/date", argv, NULL);
     }
 
-    Sigprocmask(SIG_BLOCK, &mask_all, &prev_all);
+    Sigprocmask(SIG_BLOCK, &mask_all, NULL); // block SIGCHLD
     addjob(pid);
-    Sigprocmask(SIG_SETMASK, &prev_one, NULL);
+    Sigprocmask(SIG_SETMASK, &prev_one, NULL); // unblock SIGCHLD
   }
 
   exit(0);
