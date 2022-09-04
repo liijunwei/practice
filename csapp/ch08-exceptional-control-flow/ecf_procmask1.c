@@ -1,8 +1,19 @@
 #include "csapp.h"
 
+// p542 图8-39
+// this code is buggy
+// addjob 和 deletejob之间存在竞争
 void initjobs() {}
-void addjob(int pid) {}
-void deletejob(int pid) {}
+
+// 如果deletejob赢得进展, 那么结果就是错误的
+void addjob(int pid) {
+  // sleep(1);
+}
+
+// 如果addjob赢得进展,那么结果就是正确的
+void deletejob(int pid) {
+  // sleep(1);
+}
 
 void handler(int sig) {
   int olderrno = errno;
