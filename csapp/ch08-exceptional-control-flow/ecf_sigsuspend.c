@@ -29,14 +29,13 @@ int main(int argc, char const *argv[]) {
     }
 
     pid = 0;
-    Sigprocmask(SIG_SETMASK, &prev, NULL); // unblock SIGCHLD
 
     // wait for SIGCHLD to be received(wasteful)
     while(!pid) {
-      ;
-      // pause();
-      sleep(1);
+      Sigsuspend(&prev);
     }
+
+    Sigprocmask(SIG_SETMASK, &prev, NULL); // optioonally unblock SIGCHLD
 
     // do some work after receiving SIGCHLD
     printf(".");

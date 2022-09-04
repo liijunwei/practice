@@ -105,3 +105,11 @@ ecf_waitforsignal:
 	$(CC) csapp.c ecf_waitforsignal.c $(LDLIBS)
 	./a.out
 
+ecf_sigsuspend:
+	$(CC) csapp.c ecf_sigsuspend.c $(LDLIBS)
+	./a.out
+
+ecf_setjmp:
+	$(CC) csapp.c ecf_setjmp.c $(LDLIBS)
+	./a.out
+
