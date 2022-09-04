@@ -93,3 +93,7 @@ ecf_signalprob0:
 	$(CC) csapp.c ecf_signalprob0.c $(LDLIBS)
 	./a.out
 
+ecf_procmask1:
+	$(CC) csapp.c ecf_procmask1.c $(LDLIBS)
+	./a.out
+
