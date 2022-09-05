@@ -27,3 +27,12 @@ realclean | 删除所有makefile构建的文件
 install   | 在系统目录中安装项目工程的可执行文件和文档(通常需要root权限)以让普通用户访问
 uninstall | 删除由make install安装在系统目录中的所有文件(通常需要root权限)
 
++ makefile tutorial: https://makefiletutorial.com/#getting-started
++ fetchmail example: https://github.com/Distrotech/fetchmail
+
++ 不要局限在这些通用目标上; 一旦掌握了make, 就会越来越频繁地使用makefile机制来自动化哪些依赖项目文件状态的小任务;
++ makefile就是一个方便存放完成这些小任务脚本的重要地方;
++ 而使用make可以检视如何完成这些小任务时一目了然, 并且避免了小脚本将项目工作空间弄得凌乱不堪
+
+
+
