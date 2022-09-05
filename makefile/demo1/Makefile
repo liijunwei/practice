@@ -13,3 +13,6 @@ blah.c:
 
 clean:
 	rm blah*
+
+blah_another:
+	echo "hi from another blah"
