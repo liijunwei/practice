@@ -65,3 +65,4 @@ prog
 .vscode/
 .DS_Store
 .rspec
+blah*
