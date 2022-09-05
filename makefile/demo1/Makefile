@@ -11,3 +11,5 @@ blah.o: blah.c
 blah.c:
 	echo "int main() {return 0;}" > blah.c # runs first
 
+clean:
+	rm blah*
