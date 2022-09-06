@@ -2,7 +2,9 @@
 #
 
 # man make
-make -f
+# 		make -f implicit-rules.make
+# 		make -f implicit-rules.make blah
+# 		make -f implicit-rules.make clean
 
 # Make loves c compilation. And every time it expresses its love, things get confusing.(agree)
 
