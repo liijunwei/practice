@@ -6,13 +6,14 @@
 print: $(wildcard *.c)
 	ls -lah $?
 
-thing_wrong := *.o # Don't do this! '*' will not get expanded
+# thing_wrong := *.o # Don't do this! '*' will not get expanded
 thing_right := $(wildcard *.o)
 
-all: one two three four
+# all: one two three four
+all: three four
 
 # Fails, because $(thing_wrong) is the string "*.o"
-one: $(thing_wrong)
+# one: $(thing_wrong)
 
 # Stays as *.o if there are no files that match this pattern :(
 two: *.o
