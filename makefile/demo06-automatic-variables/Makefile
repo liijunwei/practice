@@ -1,15 +1,15 @@
 # https://makefiletutorial.com/#automatic-variables
 hey: one two
 	# Outputs "hey", since this is the target name
-# 	echo $@
+	# echo $@
 
 	# Outputs all prerequisites newer than the target
-	echo $?
+	# echo $?
 
 	# Outputs all prerequisites
-	echo $^
+	# echo $^
 
-	touch hey
+	# touch hey
 
 one:
 	touch one
