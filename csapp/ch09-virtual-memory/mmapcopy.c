@@ -10,8 +10,21 @@ void mmapcopy(int fd, int size) {
   return;
 }
 
+// mmapcopy driver
 int main(int argc, char const *argv[]) {
+  struct stat stat;
+  int fd;
 
+  // check for required command-line argument
+  if(argc != 2) {
+    printf("Usage: %s <filename>\n", argv[0]);
+    exit(0);
+  }
 
-  return 0;
+  // copy the input argument to stdout
+  fd = Open(argv[1], O_RDONLY, 0);
+  fstat(fd, &stat);
+  mmapcopy(fd, stat.st_size);
+
+  exit(0);
 }
