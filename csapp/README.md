@@ -6,4 +6,4 @@ random notes while reading CSAPP...
 
 code: http://csapp.cs.cmu.edu/3e/code.html
 
-+ TODO make csapp.c csapp.h global available in practice/csapp/
++ OK make csapp.c csapp.h global available in practice/csapp/
