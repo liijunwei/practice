@@ -3,3 +3,6 @@
 main:
 	gcc main.c max.c
 	./a.out
+
+# gcc -c
+#   -c: compile but not link, output the .o file
