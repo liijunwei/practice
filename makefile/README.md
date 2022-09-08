@@ -14,3 +14,8 @@ targets: prerequisites
 + The prerequisites are also file names, separated by spaces. These files need to exist before the commands for the target are run. These are also called dependencies
 
 + The first target is the default target
+
+## Makefile Cookbook
+
+https://makefiletutorial.com/#makefile-cookbook
+
