@@ -9,8 +9,8 @@ csapp.o:
 	$(CC) $(CFLAGS) -c $(CSAPP_SRC)/csapp.c -o csapp.o
 
 ecf_fork: csapp.o
-	$(CC) $(CFLAGS) csapp.o ecf_fork.c
-	./a.out
+# 	$(CC) $(CFLAGS) csapp.o ecf_fork.c
+# 	./a.out
 
 ecf_nested_fork: csapp.o
 	$(CC) $(CFLAGS) csapp.o ecf_nested_fork.c
