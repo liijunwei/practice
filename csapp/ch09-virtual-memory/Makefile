@@ -14,3 +14,9 @@ hard_code_array_size:
 	echo 2 1 2 | ./a.out
 	echo 99999 | ./a.out
 
+dynamic_array_size:
+	$(CC) csapp.c dynamic_array_size.c $(LDLIBS)
+	echo 1 1   | ./a.out
+	echo 2 1 2 | ./a.out
+	# echo 99999 | ./a.out
+
