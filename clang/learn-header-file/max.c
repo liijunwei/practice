@@ -1,3 +1,5 @@
-int max(int a, int b) {
+#include "max.h"
+
+double max(double a, double b) {
   return a > b ? a : b;
 }

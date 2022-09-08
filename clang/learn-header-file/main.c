@@ -8,7 +8,7 @@ int main(int argc, char const *argv[]) {
   int a = 5;
   int b = 6;
 
-  printf("max is %d\n", max(a, b));
+  printf("max is %f\n", max(a, b));
 
   return 0;
 }
