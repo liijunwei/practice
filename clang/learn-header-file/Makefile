@@ -7,13 +7,13 @@ main:
 main_intermediate:
 	gcc --save-temps -c main.c # main.c 里的 "#include "max.h"" 仅仅是把 "max.h" 里的内容插入到main.c里
 	ls -lh
-	tail main.i
+	tail -n20 main.i | grep "max.h" -C 5
 
 clean:
 	rm main.i main.s main.o a.out
 
-# export MANPAGER='less -I'
 # man gcc
+# /\s-I\s
 #   -c: compile but not link, output the .o file
 #   -g: Produce debugging information in the operating system's native format
 #   -O: optimize code
