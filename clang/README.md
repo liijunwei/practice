@@ -3,7 +3,7 @@
 [阮一峰](https://github.com/wangdoc/ssh-tutorial)
 
 + gdb
-    + https://sourceware.org/gdb/download/onlinedocs/
+    + [GDB: The GNU Project Debugger](https://sourceware.org/gdb/download/onlinedocs/)
     + [9.2 - Debugging - GDB Tutorial by Chris Bourke](https://www.youtube.com/watch?v=bWH-nL7v5F4)
 
-[wolfram alpha](https://www.wolframalpha.com/input?i=sum+of+the+first+100+primes)
++ tool: [wolfram alpha](https://www.wolframalpha.com/input?i=sum+of+the+first+100+primes)
