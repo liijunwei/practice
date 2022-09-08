@@ -5,8 +5,12 @@ main:
 	./a.out
 
 main_intermediate:
-	gcc --save-temps -c main.c
+	gcc --save-temps -c main.c # main.c 里的 "#include "max.h"" 仅仅是把 "max.h" 里的内容插入到main.c里
 	ls -lh
+	tail main.i
+
+clean:
+	rm main.i main.s main.o a.out
 
 # export MANPAGER='less -I'
 # man gcc

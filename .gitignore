@@ -67,3 +67,5 @@ prog
 .rspec
 blah*
 subdir
+main.i
+main.s
