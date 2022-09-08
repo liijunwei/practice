@@ -4,5 +4,12 @@ main:
 	gcc main.c max.c
 	./a.out
 
-# gcc -c
+main_intermediate:
+	gcc --save-temps -c main.c
+	ls -lh
+
+# export MANPAGER='less -I'
+# man gcc
 #   -c: compile but not link, output the .o file
+#   -g: Produce debugging information in the operating system's native format
+#   -O: optimize code
