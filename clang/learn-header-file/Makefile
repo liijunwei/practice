@@ -1,7 +1,9 @@
 # https://www.bilibili.com/video/BV1XZ4y1S7e1?p=112&share_source=copy_web
 
+HEADER_PATH = ./ # #include "max.h" 会先在本目录找, 如果找不到才会去这里找
+
 main:
-	gcc main.c max.c
+	gcc -I $(HEADER_PATH) main.c max.c
 	./a.out
 
 main_intermediate:
