@@ -25,3 +25,7 @@ dynamic_array_size: csapp.o
 	echo 2 1 2 | ./a.out
 	# echo 99999 | ./a.out
 
+stackref:
+	$(CC) $(CFLAGS) stackref.c
+	./a.out
+
