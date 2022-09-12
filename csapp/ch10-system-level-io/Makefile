@@ -8,6 +8,11 @@ CFLAGS = -I $(CSAPP_INC) $(LDLIBS)
 csapp.o:
 	$(CC) $(CFLAGS) -c $(CSAPP_SRC)/csapp.c -o csapp.o
 
-ex_10_1: csapp.o
-	$(CC) $(CFLAGS) csapp.o ex_10_1.c
+io_ex_10_1: csapp.o
+	$(CC) $(CFLAGS) csapp.o io_ex_10_1.c
 	./a.out
+
+io_cpstdin: csapp.o
+	$(CC) $(CFLAGS) csapp.o io_cpstdin.c
+	echo 12345 | ./a.out
+	echo ningbotobeijing | ./a.out

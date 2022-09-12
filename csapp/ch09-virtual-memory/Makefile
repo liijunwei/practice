@@ -29,3 +29,7 @@ stackref:
 	$(CC) $(CFLAGS) stackref.c
 	./a.out
 
+memleak: csapp.o
+	$(CC) $(CFLAGS) csapp.o memleak.c
+	./a.out
+

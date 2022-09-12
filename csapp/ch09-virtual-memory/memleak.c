@@ -1,15 +1,16 @@
-#include <stdio.h>
+#include "csapp.h"
 
 // p613
-void leak() {
-  int x = (int *)Malloc(n * sizeof(int));
+void leak(int n) {
+  int *x = (int *)Malloc(n * sizeof(int));
 
-  return &val;
+  // x is garbage at this point
+  return;
 }
 
 int main(int argc, char const *argv[]) {
-  printf("stackref:       %d\n", stackref());
-  printf("stackref value: %d\n", *stackref());
+  leak(10);
+  leak(20);
 
   return 0;
 }
