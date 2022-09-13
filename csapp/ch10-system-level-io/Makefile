@@ -24,3 +24,8 @@ io_statcheck: csapp.o
 	./a.out csapp.o
 	./a.out .
 	./a.out ../
+
+io_readdir: csapp.o
+	$(CC) $(CFLAGS) csapp.o io_readdir.c
+	./a.out .
+	# ./a.out ../
