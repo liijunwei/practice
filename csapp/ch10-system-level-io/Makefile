@@ -46,3 +46,7 @@ io_ex_10_2: csapp.o foobar.txt
 io_ex_10_3: csapp.o foobar.txt
 	$(CC) $(CFLAGS) csapp.o io_ex_10_3.c
 	./a.out
+
+io_ex_10_5: csapp.o foobar.txt
+	$(CC) $(CFLAGS) csapp.o io_ex_10_5.c
+	./a.out

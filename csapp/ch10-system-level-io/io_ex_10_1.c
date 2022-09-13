@@ -10,5 +10,5 @@ int main(int argc, char const *argv[]) {
   fd2 = Open("baz.txt", O_RDONLY, 0);
   printf("fd2 = %d\n", fd2);
 
-  return 0;
+  exit(0);
 }

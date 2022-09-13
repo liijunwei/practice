@@ -14,5 +14,5 @@ int main(int argc, char const *argv[]) {
 
   printf("c = %c\n", c);
 
-  return 0;
+  exit(0);
 }
