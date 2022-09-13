@@ -11,8 +11,8 @@ int main(int argc, char const *argv[]) {
   Read(fd2, &c, 1);
   Dup2(fd2, fd1);
   Read(fd1, &c, 1);
-  Read(fd1, &c, 1);
-  Read(fd1, &c, 1);
+  // Read(fd1, &c, 1);
+  // Read(fd1, &c, 1);
 
   printf("c = %c\n", c);
 
