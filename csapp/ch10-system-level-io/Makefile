@@ -16,3 +16,11 @@ io_cpstdin: csapp.o
 	$(CC) $(CFLAGS) csapp.o io_cpstdin.c
 	echo 12345 | ./a.out
 	echo ningbotobeijing | ./a.out
+
+io_statcheck: csapp.o
+	$(CC) $(CFLAGS) csapp.o io_statcheck.c
+	./a.out io_statcheck.c
+	./a.out a.out
+	./a.out csapp.o
+	./a.out .
+	./a.out ../
