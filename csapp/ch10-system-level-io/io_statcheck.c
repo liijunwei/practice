@@ -5,5 +5,25 @@ int main(int argc, char const *argv[]) {
   char *type;
   char *readok;
 
-  return 0;
+  Stat(argv[1], &stat);
+
+  // check file type
+  if(S_ISREG(stat.st_mode)) {
+    type = "regular";
+  } else if(S_ISDIR(stat.st_mode)) {
+    type = "directory";
+  } else {
+    type = "others";
+  }
+
+  // check read access
+  if((stat.st_mode & S_IRUSR)) {
+    readok = "yes";
+  } else {
+    readok = "no";
+  }
+
+  printf("type: %s, read: %s\n", type, readok);
+
+  exit(0);
 }
