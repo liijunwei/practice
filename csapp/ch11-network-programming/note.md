@@ -26,4 +26,4 @@ man 2 listen
 man 2 accept
 ```
 
-
++ 服务器调用 listen 函数告诉内核, 描述符是被服务器 而不是 客户端使用的
