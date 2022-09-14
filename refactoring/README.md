@@ -4,4 +4,6 @@
 
 https://www.oreilly.com/library/view/refactoring-ruby-edition/9780321603968/
 
+## Using the Catalog
 
+https://refactoring.com/catalog/
