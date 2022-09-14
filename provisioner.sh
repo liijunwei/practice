@@ -13,5 +13,6 @@ sudo yum install -y tig
 sudo yum install -y zsh
 sudo yum install -y tldr
 sudo yum install -y strace
+sudo yum install -y bind-utils
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && sudo chsh -s $(which zsh) vagrant

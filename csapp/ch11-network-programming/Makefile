@@ -22,3 +22,8 @@ dd2hex: csapp.o
 	./a.out 64.12.149.13
 	./a.out 2-5.188.146.23
 	./a.out 205.188.146.23
+
+nslookup:
+	nslookup baidu.com
+	nslookup www.twitter.com
+	nslookup twitter.com
