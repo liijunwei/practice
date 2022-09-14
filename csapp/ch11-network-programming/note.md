@@ -18,5 +18,12 @@
 
 + 客户端和服务器使用 socket 函数来创建一个套接字描述符(socket descriptor)
 
-+ `man 2 socket`
+```bash
+man 2 socket
+man 2 connect
+man 2 bind
+man 2 listen
+man 2 accept
+```
+
 
