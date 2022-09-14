@@ -31,3 +31,7 @@ nslookup:
 
 services_port_map:
 	cat /etc/services | less
+
+netp_socket_demo1: csapp.o
+	$(CC) $(CFLAGS) csapp.o netp_socket_demo1.c
+	./a.out
