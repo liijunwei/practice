@@ -11,7 +11,14 @@ csapp.o:
 hex2dd: csapp.o
 	$(CC) $(CFLAGS) csapp.o netp_ex_11_2.c
 	./a.out 0x8002c2f2
+	./a.out 0x0
+	./a.out 0xffffffff
+	./a.out 0x7f000001
 
 dd2hex: csapp.o
 	$(CC) $(CFLAGS) csapp.o netp_ex_11_3.c
 	./a.out 128.2.194.242
+	./a.out 205.188.160.121
+	./a.out 64.12.149.13
+	./a.out 2-5.188.146.23
+	./a.out 205.188.146.23
