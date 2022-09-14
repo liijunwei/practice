@@ -7,7 +7,7 @@ sudo yum makecache
 
 sudo yum groupinstall -y "Development tools"
 
-sudo yum -y install https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo.x86_64.rpm
+sudo yum install -y https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo.x86_64.rpm
 sudo yum install -y git
 sudo yum install -y tig
 sudo yum install -y zsh

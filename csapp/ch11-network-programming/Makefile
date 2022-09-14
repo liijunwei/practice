@@ -27,3 +27,7 @@ nslookup:
 	nslookup baidu.com
 	nslookup www.twitter.com
 	nslookup twitter.com
+	nslookup edu
+
+services_port_map:
+	cat /etc/services | less
