@@ -8,4 +8,7 @@ CFLAGS = -I $(CSAPP_INC) $(LDLIBS)
 csapp.o:
 	$(CC) $(CFLAGS) -c $(CSAPP_SRC)/csapp.c -o csapp.o
 
-conc_badcnt:
+conc_badcnt: csapp.o
+	$(CC) $(CFLAGS) csapp.o conc_badcnt.c
+	./a.out 1000000
+
