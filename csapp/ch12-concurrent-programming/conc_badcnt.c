@@ -18,6 +18,22 @@ int main(int argc, char const *argv[]) {
     exit(0);
   }
 
+  niters = atoi(argv[1]);
+
+  // create threads and wait for them to finish
+  Pthread_create(&tid1, NULL, thread, &niters);
+  Pthread_create(&tid2, NULL, thread, &niters);
+
+  Pthread_join(tid1, NULL);
+  Pthread_join(tid2, NULL);
+
+  // check result
+  if(cnt != (2 * niters)) {
+    printf("BOOM! cnt=%ld\n", cnt);
+  } else {
+    printf("OK cnt=%ld\n", cnt);
+  }
+
   exit(0);
 }
 
