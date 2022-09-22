@@ -10,5 +10,14 @@ csapp.o:
 
 conc_badcnt: csapp.o
 	$(CC) $(CFLAGS) csapp.o conc_badcnt.c
-	./a.out 1000000
+	./a.out 100000000
+	./a.out 100000000
+	./a.out 100000000
+	./a.out 100000000
+	./a.out 100000000
+	./a.out 100000000
+	./a.out 100000000
+	./a.out 100000000
+	./a.out 100000000
+	./a.out 100000000
 
