@@ -1,6 +1,6 @@
 LDLIBS = -lpthread
 
-CC = gcc -std=gnu99
+CC = gcc -std=gnu99 -g
 CSAPP_INC = ../include
 CSAPP_SRC = ../src
 CFLAGS = -I $(CSAPP_INC) $(LDLIBS) -Wall
@@ -15,6 +15,14 @@ conc_badcnt: csapp.o
 	./a.out 100000000
 	./a.out 100000000
 	./a.out 100000000
+	./a.out 100000000
+	./a.out 100000000
+	./a.out 100000000
+	./a.out 100000000
+	./a.out 100000000
+
+conc_goodcnt: csapp.o
+	$(CC) $(CFLAGS) csapp.o conc_goodcnt.c
 	./a.out 100000000
 	./a.out 100000000
 	./a.out 100000000
