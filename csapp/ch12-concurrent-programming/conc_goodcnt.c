@@ -21,6 +21,7 @@ int main(int argc, char const *argv[]) {
 
   niters = atoi(argv[1]);
 
+  // program will hang if we forget to initialize the semaphore
   Sem_init(&mutex, 0, 1); // mutex = 1
 
   // create threads and wait for them to finish
