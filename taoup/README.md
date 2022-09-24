@@ -12,3 +12,5 @@ commit_before_renaming=46c16f2; git checkout $commit_before_renaming && tig the-
 # go back
 git checkout main
 ```
+
++ TODO question: how to understand "Separation of mechanism and policy" ?
