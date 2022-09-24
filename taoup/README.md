@@ -4,3 +4,11 @@ http://www.catb.org/esr/writings/taoup/html/
 
 start: 2020-07-04
 end:   2022-09-24 18:00:42
+
+```bash
+# see history
+commit_before_renaming=46c16f2; git checkout $commit_before_renaming && tig the-art-of-unix-programming
+
+# go back
+git checkout main
+```
