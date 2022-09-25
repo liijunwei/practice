@@ -58,6 +58,12 @@ conc_race: clean format csapp.o
 	./a.out
 	./a.out
 
+conc_norace: clean format csapp.o
+	@$(CC) $(CFLAGS) csapp.o conc_norace.c
+	./a.out
+	./a.out
+	./a.out
+
 .PHONY: clean
 clean:
 	@rm csapp.o
