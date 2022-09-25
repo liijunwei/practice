@@ -46,8 +46,8 @@ struct point addpoint(struct point p1, struct point p2) {
   return p1;
 }
 
-#define min(a, b) ((a) < (b) ? (a): (b))
-#define max(a, b) ((a) > (b) ? (a): (b))
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
 
 // 将矩形坐标规范化
 struct rect canonrect(struct rect r) {
@@ -61,8 +61,7 @@ struct rect canonrect(struct rect r) {
   return temp;
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   struct point pt1;
   struct point pt2;
 
@@ -75,7 +74,8 @@ int main(int argc, char const *argv[])
   printf("pt2.x: %d pt2.y: %d\n", new_screen.pt2.x, new_screen.pt2.y);
 
   struct point middle;
-  middle = makepoint((new_screen.pt1.x + new_screen.pt2.x) / 2, (new_screen.pt1.y + new_screen.pt2.y) / 2);
+  middle = makepoint((new_screen.pt1.x + new_screen.pt2.x) / 2,
+                     (new_screen.pt1.y + new_screen.pt2.y) / 2);
   printf("middle.x: %d middle.y: %d\n", middle.x, middle.y);
 
   return 0;

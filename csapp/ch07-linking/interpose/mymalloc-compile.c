@@ -1,7 +1,7 @@
 #ifdef COMPILETIME
 
-#include <stdio.h>
 #include <malloc.h> // 标准malloc.h头文件
+#include <stdio.h>
 
 // malloc wrapper function
 void *mymalloc(size_t size) {

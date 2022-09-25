@@ -14,12 +14,12 @@ unsigned int snooze(unsigned int secs) {
 }
 
 int main(int argc, char const *argv[]) {
-  if(argc != 2) {
+  if (argc != 2) {
     fprintf(stderr, "usage: %s <secs>\n", argv[0]);
     exit(0);
   }
 
-  if(signal(SIGINT, handler) == SIG_ERR) {
+  if (signal(SIGINT, handler) == SIG_ERR) {
     unix_error("signal error\n");
   }
 

@@ -3,7 +3,8 @@
 
 void foo() {
   printf("nihao ");
-  exit(999); /* 如果这里不exit, 那么会打印 nihao shijie, exit后, 只会打印 nihao */
+  exit(999); /* 如果这里不exit, 那么会打印 nihao shijie, exit后, 只会打印 nihao
+              */
 }
 
 int main() {

@@ -13,8 +13,7 @@ float sum_elements(float a[], unsigned length) {
 
 // where is the bug?
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 
   float arr[] = {};
 
@@ -24,4 +23,3 @@ int main(int argc, char const *argv[])
 
   return 0;
 }
-

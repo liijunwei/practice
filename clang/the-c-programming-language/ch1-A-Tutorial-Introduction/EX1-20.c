@@ -1,11 +1,13 @@
-#include <stdio.h>
 #include "../common-utils/getline.c"
+#include <stdio.h>
 
 // page 25
 
 // 懂了 :D
-// 编写程序detab, 将输入中的制表符替换成适当数目的空格, 使空格充满到下一个制表符终止位的地方
-// 假设制表符终止位的位置是固定的, 比如每个n列就会出现一个制表符终止位, n应该为变量还是符号常量呢?(本例中, 使用常量)
+// 编写程序detab, 将输入中的制表符替换成适当数目的空格,
+// 使空格充满到下一个制表符终止位的地方 假设制表符终止位的位置是固定的,
+// 比如每个n列就会出现一个制表符终止位, n应该为变量还是符号常量呢?(本例中,
+// 使用常量)
 
 // ch5-Pointers-and-Arrays/EX5-11.c
 // OK 如何检查程序的正确性?
@@ -18,12 +20,14 @@
 void detab(char src[], char tar[]);
 
 // replace tabs with the proper number of blanks
-int main(){
+int main() {
   char s[MAXLINE];
   char t[MAXLINE * TABING];
 
-  printf("Note: for the sake of clarity, all tabs will be replaced with '%c'.\n", VISIABLE_CHAR);
-  while(custom_getline(s, MAXLINE) > 0) {
+  printf(
+      "Note: for the sake of clarity, all tabs will be replaced with '%c'.\n",
+      VISIABLE_CHAR);
+  while (custom_getline(s, MAXLINE) > 0) {
     detab(s, t);
     printf("%s\n", t);
   }
@@ -31,17 +35,17 @@ int main(){
   return 0;
 }
 
-void detab(char src[], char tar[]){
+void detab(char src[], char tar[]) {
   int c;
-  int nb  = 0; // number of blanks necessary
+  int nb = 0; // number of blanks necessary
 
   int i;
   int j = 0;
 
-  for(i = 0; (c = src[i]) != '\0'; i++){
-    if(c == '\t'){
+  for (i = 0; (c = src[i]) != '\0'; i++) {
+    if (c == '\t') {
       nb = TABING - j % TABING;
-      while(nb > 0){
+      while (nb > 0) {
         tar[j] = VISIABLE_CHAR;
         nb--;
         j++;

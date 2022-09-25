@@ -13,21 +13,15 @@ void show_bytes(byte_pointer start, size_t len) {
   printf("\n");
 }
 
-void show_int(int x) {
-  show_bytes((byte_pointer) &x, sizeof(int));
-}
+void show_int(int x) { show_bytes((byte_pointer)&x, sizeof(int)); }
 
-void show_float(float x) {
-  show_bytes((byte_pointer) &x, sizeof(float));
-}
+void show_float(float x) { show_bytes((byte_pointer)&x, sizeof(float)); }
 
-void show_pointer(void *x) {
-  show_bytes((byte_pointer) &x, sizeof(void *));
-}
+void show_pointer(void *x) { show_bytes((byte_pointer)&x, sizeof(void *)); }
 
 void test_show_bytes(int val) {
   int ival = val;
-  float fval = (float) ival;
+  float fval = (float)ival;
   int *pval = &ival;
 
   show_int(ival);
@@ -44,10 +38,10 @@ int main(int argc, char const *argv[]) {
   show_float(3510593.0);
 
   const char *s1 = "12345";
-  show_bytes((byte_pointer) s1, strlen(s1));
+  show_bytes((byte_pointer)s1, strlen(s1));
 
   const char *s2 = "abcdef";
-  show_bytes((byte_pointer) s2, strlen(s2));
+  show_bytes((byte_pointer)s2, strlen(s2));
 
   return 0;
 }

@@ -11,11 +11,7 @@ page 109
 
 #define MAXTOKEN 100
 
-enum {
-  NAME,
-  PARENS,
-  BRACKETS
-};
+enum { NAME, PARENS, BRACKETS };
 
 int gettoken();
 
@@ -26,21 +22,20 @@ char out[1000];
 // bash ch5-Pointers-and-Arrays/dcl-undecl-demo-test.sh
 
 /* undecl 函数, 将文字描述转换为声明 */
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   int type;
   char temp[MAXTOKEN];
 
-  while(gettoken() != EOF) {
+  while (gettoken() != EOF) {
     strcpy(out, token);
 
-    while((type = gettoken()) != '\n') {
-      if(type == PARENS || type == BRACKETS) {
+    while ((type = gettoken()) != '\n') {
+      if (type == PARENS || type == BRACKETS) {
         strcat(out, token);
-      } else if(type == '*') {
+      } else if (type == '*') {
         sprintf(temp, "(*%s)", out);
         strcpy(out, temp);
-      } else if(type == NAME) {
+      } else if (type == NAME) {
         sprintf(temp, "%s %s", token, out);
         strcpy(out, temp);
       } else {
@@ -58,27 +53,27 @@ int gettoken() {
   int c;
   char *p = token;
 
-  while((c = getch()) == ' ' || c == '\t') {
+  while ((c = getch()) == ' ' || c == '\t') {
     ;
   }
 
-  if(c == '(') {
-    if((c = getch()) == ')') {
+  if (c == '(') {
+    if ((c = getch()) == ')') {
       strcpy(token, "()");
       return tokentype = PARENS;
     } else {
       ungetch(c);
       return tokentype = '(';
     }
-  } else if(c == '[') {
-    for(*p++ = c; (*p++ = getch()) != ']';) {
+  } else if (c == '[') {
+    for (*p++ = c; (*p++ = getch()) != ']';) {
       ;
     }
 
     *p = '\0';
     return tokentype = BRACKETS;
-  } else if(isalpha(c)) {
-    for(*p++ = c; isalnum(c = getch());) {
+  } else if (isalpha(c)) {
+    for (*p++ = c; isalnum(c = getch());) {
       *p++ = c;
     }
     *p = '\0';
@@ -88,4 +83,3 @@ int gettoken() {
     return tokentype = c;
   }
 }
-

@@ -13,14 +13,13 @@ toBinary 78  => 0100 1110
 toBinary 89  => 0101 1001
 toBinary 657 => 0010 1001 0001
 */
-unsigned getbits(unsigned x, int p, int n){
+unsigned getbits(unsigned x, int p, int n) {
   // 1. 把不需要的位右移
   // 2. 把不需要的位屏蔽
   return (x >> (p + 1 - n) & ~(~0 << n));
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   printf("%d\n", getbits(255, 4, 3)); // 7
   printf("\n");
 

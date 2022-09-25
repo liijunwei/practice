@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void swap_01(int a, int b){
+void swap_01(int a, int b) {
   int temp;
 
   temp = a;
@@ -8,7 +8,7 @@ void swap_01(int a, int b){
   b = temp;
 }
 
-void swap_02(int *a, int *b){
+void swap_02(int *a, int *b) {
   int temp;
 
   temp = *a;
@@ -16,7 +16,7 @@ void swap_02(int *a, int *b){
   *b = temp;
 }
 
-int main(){
+int main() {
   int x = 2;
   int y = 4;
 

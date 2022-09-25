@@ -9,23 +9,24 @@ int main(int argc, char const *argv[]) {
   pid_t pid[N];
   pid_t retpid;
 
-  for(i = 0; i < N; i++) {
-    if((pid[i] = Fork()) == 0) {
-      exit(100+i);
+  for (i = 0; i < N; i++) {
+    if ((pid[i] = Fork()) == 0) {
+      exit(100 + i);
     }
   }
 
   i = 0;
 
-  while((retpid = waitpid(pid[i++], &status, 0)) > 0) {
-    if(WIFEXITED(status)) {
-      printf("child %d terminated normally with exit status=%d\n", pid, WEXITSTATUS(status));
+  while ((retpid = waitpid(pid[i++], &status, 0)) > 0) {
+    if (WIFEXITED(status)) {
+      printf("child %d terminated normally with exit status=%d\n", pid,
+             WEXITSTATUS(status));
     } else {
       printf("child %d terminated abnormally\n", pid);
     }
   }
 
-  if(errno != ECHILD) {
+  if (errno != ECHILD) {
     unix_error("waitpid error");
   }
 

@@ -14,17 +14,18 @@ page 89
   那么, 语句:
   pmessage = "now is the time";
 
-  将把一个指向该字符数组的指针赋值给pmessage; 该过程并没有字符串的复制, 只涉及到指针的操作
+  将把一个指向该字符数组的指针赋值给pmessage; 该过程并没有字符串的复制,
+只涉及到指针的操作
 
 */
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   // 下面两个定义之间有很大的区别:
 
   /**
    * 定义一个数组
-   * amessage 仅仅是一个一维数组, 数组内的单个元素可以被修改, 但ameessage始终指向同一个存储位置
+   * amessage 仅仅是一个一维数组, 数组内的单个元素可以被修改,
+   * 但ameessage始终指向同一个存储位置
    */
   char amessage[] = "now is the time";
   printf("amessage: %s\n", amessage);
@@ -32,14 +33,16 @@ int main(int argc, char const *argv[])
   amessage[1] = 'O';
   amessage[2] = 'W';
   printf("amessage: %s\n", amessage);
-  // amessage = "hold you piupiu"; // error: array type 'char [16]' is not assignable
+  // amessage = "hold you piupiu"; // error: array type 'char [16]' is not
+  // assignable
 
   printf("\n");
 
   /**
    * 定义一个指针
-   * pmessage 是一个指针, 其初值指向一个字符串常量, 之后它可以被修改以指向其他地址
-   * 但是如果试图修改字符串的内容, 结果是没有定义的
+   * pmessage 是一个指针, 其初值指向一个字符串常量,
+   * 之后它可以被修改以指向其他地址 但是如果试图修改字符串的内容,
+   * 结果是没有定义的
    */
   char *pmessage = "now is the time";
   printf("pmessage: %s\n", pmessage);
@@ -48,7 +51,8 @@ int main(int argc, char const *argv[])
   putchar(pmessage[2]);
   putchar(pmessage[3]);
   putchar(pmessage[4]);
-  // pmessage[0] = 'N'; // exit(138): It indicates that a program was aborted (received SIGBUS)
+  // pmessage[0] = 'N'; // exit(138): It indicates that a program was aborted
+  // (received SIGBUS)
 
   printf("\n");
 

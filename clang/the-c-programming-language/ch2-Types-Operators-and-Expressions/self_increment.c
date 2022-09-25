@@ -2,8 +2,7 @@
 
 // page 37
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   int m = 5;
   int n = 5;
 

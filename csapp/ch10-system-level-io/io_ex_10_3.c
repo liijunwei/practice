@@ -9,7 +9,7 @@ int main(int argc, char const *argv[]) {
 
   fd = Open("foobar.txt", O_RDONLY, 1);
 
-  if(Fork() == 0) {
+  if (Fork() == 0) {
     Read(fd, &c, 1);
     exit(0);
   }

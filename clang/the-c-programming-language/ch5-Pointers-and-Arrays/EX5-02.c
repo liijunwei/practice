@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 
 #include "../common-utils/getch-ungetch.c"
 #include "../common-utils/print-array.c"
@@ -12,36 +12,36 @@ getfloat的返回值应该是什么类型?(int)
 
 */
 
-int getfloat(float *pn){
+int getfloat(float *pn) {
   int c;
   int sign;
   float power;
 
-  while(isspace(c = getch())){
+  while (isspace(c = getch())) {
     ;
   }
 
   // not a number
-  if(!isdigit(c) && c != EOF && c != '+' && c != '-' && c != '.'){
+  if (!isdigit(c) && c != EOF && c != '+' && c != '-' && c != '.') {
     ungetch(c);
     return 0;
   }
 
   sign = (c == '-') ? -1 : 1;
 
-  if(c == '+' || c == '-'){
+  if (c == '+' || c == '-') {
     c = getch();
   }
 
-  for(*pn = 0.0; isdigit(c); c = getch()){
+  for (*pn = 0.0; isdigit(c); c = getch()) {
     *pn = 10.0 * (*pn) + (c - '0'); // integer part
   }
 
-  if(c == '.'){
+  if (c == '.') {
     c = getch();
   }
 
-  for (power = 1.0; isdigit(c); c = getch()){
+  for (power = 1.0; isdigit(c); c = getch()) {
     *pn = 10.0 * (*pn) + (c - '0'); // fractional part
     power *= 10.0;
   }
@@ -50,7 +50,7 @@ int getfloat(float *pn){
   // -3.14 = 314 * (-1) / 100
   *pn = (*pn) * sign / power;
 
-  if(c != EOF){
+  if (c != EOF) {
     ungetch(c);
   }
 
@@ -59,16 +59,15 @@ int getfloat(float *pn){
 
 #define ARR_SIZE 10
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   int n;
   float array[ARR_SIZE];
 
-  for (n = 0; n < ARR_SIZE; n++){
+  for (n = 0; n < ARR_SIZE; n++) {
     array[n] = 0;
   }
 
-  for(n = 0; n < ARR_SIZE && getfloat(&array[n]) != EOF; n++){
+  for (n = 0; n < ARR_SIZE && getfloat(&array[n]) != EOF; n++) {
     ;
   }
   print_float_array(array, ARR_SIZE);

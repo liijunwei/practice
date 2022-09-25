@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main(){
+int main() {
   int x = 1;
   int *p = NULL;
   p = &x;

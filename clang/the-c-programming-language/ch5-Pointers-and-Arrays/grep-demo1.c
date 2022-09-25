@@ -10,16 +10,15 @@ page 100
 #define MAXLINE 1000
 int custom_getline(char s[], int max);
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   char line[MAXLINE];
   int found = 0;
 
-  if(argc != 2){
+  if (argc != 2) {
     printf("Usage: find pattern\n");
   } else {
-    while(custom_getline(line, MAXLINE) > 0){
-      if(strstr(line, argv[1]) != NULL){
+    while (custom_getline(line, MAXLINE) > 0) {
+      if (strstr(line, argv[1]) != NULL) {
         printf("%s", line);
         found++;
       }
@@ -29,16 +28,16 @@ int main(int argc, char const *argv[])
   return found;
 }
 
-int custom_getline(char s[], int max){
+int custom_getline(char s[], int max) {
   int c;
   int i = 0;
 
-  while(--max > 0 && (c = getchar()) != EOF && c != '\n'){
+  while (--max > 0 && (c = getchar()) != EOF && c != '\n') {
     s[i] = c;
     i++;
   }
 
-  if(c == '\n'){
+  if (c == '\n') {
     s[i] = c;
     ++i;
   }
@@ -47,4 +46,3 @@ int custom_getline(char s[], int max){
 
   return i;
 }
-

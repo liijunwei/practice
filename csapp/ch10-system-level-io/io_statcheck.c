@@ -8,16 +8,16 @@ int main(int argc, char const *argv[]) {
   Stat(argv[1], &stat);
 
   // check file type
-  if(S_ISREG(stat.st_mode)) {
+  if (S_ISREG(stat.st_mode)) {
     type = "regular";
-  } else if(S_ISDIR(stat.st_mode)) {
+  } else if (S_ISDIR(stat.st_mode)) {
     type = "directory";
   } else {
     type = "others";
   }
 
   // check read access
-  if((stat.st_mode & S_IRUSR)) {
+  if ((stat.st_mode & S_IRUSR)) {
     readok = "yes";
   } else {
     readok = "no";

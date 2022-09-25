@@ -16,8 +16,7 @@ struct rect {
   struct point pt2;
 };
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   struct point pt1 = {1, 1};
   struct point pt2 = {2, 2};
 

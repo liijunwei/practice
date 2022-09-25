@@ -1,13 +1,10 @@
 #include <stdio.h>
 
-int foo(){
-  return 'B' - 'A' + 10;
-}
+int foo() { return 'B' - 'A' + 10; }
 
 void *(*comp)(int *, char *, int (*fnc)());
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   printf("%d\n\n", foo());
 
   printf("%d\n", 'A' - 'A' + 10);

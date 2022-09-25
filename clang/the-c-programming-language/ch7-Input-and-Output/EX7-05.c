@@ -11,12 +11,12 @@ ref:
   lastc是具有两个元素的静态数组, 用于记录最后读入的字符(sscanf读入的一个字符串)
 */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <ctype.h>
 #include <math.h> /* for fomod */
+#include <stdio.h>
+#include <stdlib.h>
 
-#define NUMBER  '0' // signal that a number was found
+#define NUMBER '0'  // signal that a number was found
 #define MAXVAL 100  // 栈val的最大深度
 int sp = 0;         // 下一个空闲栈的位置
 double val[MAXVAL]; // 值栈
@@ -73,8 +73,8 @@ int getop(char s[]) {
   return NUMBER;
 }
 
-void push(double f){
-  if(sp < MAXVAL){
+void push(double f) {
+  if (sp < MAXVAL) {
     val[sp] = f;
     sp++;
   } else {
@@ -82,8 +82,8 @@ void push(double f){
   }
 }
 
-double pop(void){
-  if(sp > 0) {
+double pop(void) {
+  if (sp > 0) {
     return val[--sp];
   } else {
     printf("Error: stack empty\n");
@@ -91,51 +91,50 @@ double pop(void){
   }
 }
 
-#define MAXOP  100
+#define MAXOP 100
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   int type;
   double op2;
   char s[MAXOP];
 
-  while((type = getop(s)) != EOF){
-    switch(type){
-      case NUMBER:
-        push(atof(s));
-        break;
-      case '+':
-        push(pop() + pop());
-        break;
-      case '*':
-        push(pop() * pop());
-        break;
-      case '-':
-        op2 = pop();
-        push(pop() - op2);
-        break;
-      case '/':
-        op2 = pop();
-        if(op2 != 0.0){
-          push(pop() / op2);
-        } else {
-          printf("Error: zero devisor\n");
-        }
-        break;
-      case '%':
-        op2 = pop();
-        if(op2 != 0.0){
-          push(fmod(pop(), op2));
-        } else {
-          printf("Error: zero devisor\n");
-        }
-        break;
-      case '\n':
-        printf("Result:\t%.8g\n", pop());
-        break;
-      default:
-        printf("Error: unknown command %s\n", s);
-        break;
+  while ((type = getop(s)) != EOF) {
+    switch (type) {
+    case NUMBER:
+      push(atof(s));
+      break;
+    case '+':
+      push(pop() + pop());
+      break;
+    case '*':
+      push(pop() * pop());
+      break;
+    case '-':
+      op2 = pop();
+      push(pop() - op2);
+      break;
+    case '/':
+      op2 = pop();
+      if (op2 != 0.0) {
+        push(pop() / op2);
+      } else {
+        printf("Error: zero devisor\n");
+      }
+      break;
+    case '%':
+      op2 = pop();
+      if (op2 != 0.0) {
+        push(fmod(pop(), op2));
+      } else {
+        printf("Error: zero devisor\n");
+      }
+      break;
+    case '\n':
+      printf("Result:\t%.8g\n", pop());
+      break;
+    default:
+      printf("Error: unknown command %s\n", s);
+      break;
     }
   }
 

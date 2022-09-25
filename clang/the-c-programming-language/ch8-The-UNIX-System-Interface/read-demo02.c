@@ -10,10 +10,10 @@ page 151
 
 /* getchar(v1) */
 int c_getchar() {
-  int fd_stdin  = 0;
+  int fd_stdin = 0;
   char c;
 
-  return (read(fd_stdin, &c, 1) == 1) ? (unsigned char) c : EOF;
+  return (read(fd_stdin, &c, 1) == 1) ? (unsigned char)c : EOF;
 }
 
 // gcc ch8-The-UNIX-System-Interface/read-demo02.c && echo "morning" | ./a.out

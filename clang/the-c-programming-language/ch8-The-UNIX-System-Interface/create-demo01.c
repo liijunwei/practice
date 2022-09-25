@@ -1,14 +1,16 @@
+#include <fcntl.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 #include <unistd.h>
-#include <fcntl.h>
 
 #define PERMS 0666
 
 void error(char *fmt, ...);
 
-// gcc ch8-The-UNIX-System-Interface/create-demo01.c && ./a.out ch8-The-UNIX-System-Interface/create-demo01.c ch8-The-UNIX-System-Interface/tmp.c
+// gcc ch8-The-UNIX-System-Interface/create-demo01.c && ./a.out
+// ch8-The-UNIX-System-Interface/create-demo01.c
+// ch8-The-UNIX-System-Interface/tmp.c
 /* copy: 将文件f1复制到文件f2 */
 int main(int argc, char const *argv[]) {
   int f1;
@@ -50,4 +52,3 @@ void error(char *fmt, ...) {
 
   exit(1);
 }
-

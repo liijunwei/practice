@@ -5,8 +5,7 @@ page 39
 
 */
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 
   // 77 -> 0100 1101
   // 45 -> 0010 1101
@@ -41,10 +40,10 @@ int main(int argc, char const *argv[])
   printf("%d\n", 16 >> 3);
 
   printf("按位求反\n"); // TODO 没明白
-  printf("%d\n", ~1);  // 0000 0001
-  printf("%d\n", ~7);  // 0000 0111
-  printf("%d\n", ~16); // 0001 0000
-  printf("%d\n", ~8);  // 0000 1000
+  printf("%d\n", ~1);   // 0000 0001
+  printf("%d\n", ~7);   // 0000 0111
+  printf("%d\n", ~16);  // 0001 0000
+  printf("%d\n", ~8);   // 0000 1000
 
   return 0;
 }

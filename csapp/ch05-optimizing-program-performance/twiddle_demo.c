@@ -5,9 +5,7 @@ void twiddle1(long *xp, long *yp) {
   *xp += *yp;
 }
 
-void twiddle2(long *xp, long *yp) {
-  *xp += 2 * *yp;
-}
+void twiddle2(long *xp, long *yp) { *xp += 2 * *yp; }
 
 /**
  * p343
@@ -19,8 +17,6 @@ void twiddle2(long *xp, long *yp) {
  *
  * 这种两个指针可能指向同一个内存位置的情况称为内存别名使用(memory aliasing)
  */
-
-
 
 int main(int argc, char const *argv[]) {
   long a = 100;
@@ -39,4 +35,3 @@ int main(int argc, char const *argv[]) {
 
   return 0;
 }
-

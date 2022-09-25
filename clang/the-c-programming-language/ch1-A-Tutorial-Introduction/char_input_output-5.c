@@ -2,13 +2,13 @@
 
 // page 12
 // 对字符进行计数
-int main(){
+int main() {
   long nc = 0;
 
   printf("please enter chars, `ctrl+d` to exit\n");
   printf("\n");
 
-  while(getchar() != EOF){
+  while (getchar() != EOF) {
     ++nc;
   }
 

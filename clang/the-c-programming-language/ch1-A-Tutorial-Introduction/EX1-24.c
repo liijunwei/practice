@@ -30,42 +30,42 @@ void in_comment(void);
 void search(int c);
 
 // rudimentary(初级的) syntax checker for C programs
-int main(){
+int main() {
   int c;
   extern int brace;
   extern int brack;
   extern int paren;
 
-  while((c = getchar()) != EOF){
-    if(c == '/'){
-      if((c = getchar()) == '*'){
+  while ((c = getchar()) != EOF) {
+    if (c == '/') {
+      if ((c = getchar()) == '*') {
         in_comment();
-      } else{
+      } else {
         search(c);
       }
-    } else if(c == '\'' || c == '"'){
+    } else if (c == '\'' || c == '"') {
       in_quote(c);
-    } else{
+    } else {
       search(c);
     }
 
-    if(brace < 0){
+    if (brace < 0) {
       printf("Unbalanced braces -> {}\n");
       brace = 0;
-    } else if(brack < 0){
+    } else if (brack < 0) {
       printf("Unbalanced brackets -> []\n");
       brack = 0;
-    } else if(paren < 0){
+    } else if (paren < 0) {
       printf("Unbalanced parentheses -> ()\n");
       paren = 0;
     }
   }
 
-  if(brace > 0){
+  if (brace > 0) {
     printf("Unbalanced braces -> {}\n");
-  } else if(brack > 0){
+  } else if (brack > 0) {
     printf("Unbalanced brackets -> []\n");
-  } else if(paren > 0){
+  } else if (paren > 0) {
     printf("Unbalanced parentheses -> ()\n");
   }
 
@@ -73,43 +73,43 @@ int main(){
 }
 
 // inside quote
-void in_quote(int c){
+void in_quote(int c) {
   int d;
-  while((d = getchar()) != c){ // search end quote
-    if(d == '\\'){
+  while ((d = getchar()) != c) { // search end quote
+    if (d == '\\') {
       getchar(); // ignore escape seq
     }
   }
 }
 
 // inside of a valid comment
-void in_comment(void){
+void in_comment(void) {
   int c = getchar(); // prev character
   int d = getchar(); // curr character
 
-  while(c != '*' || d != '/'){ // search for end
+  while (c != '*' || d != '/') { // search for end
     c = d;
     d = getchar();
   }
 }
 
 // search for redimentary syntax errors
-void search(int c){
+void search(int c) {
   extern int brace;
   extern int brack;
   extern int paren;
 
-  if(c == '{'){
+  if (c == '{') {
     ++brace;
-  } else if(c == '}'){
+  } else if (c == '}') {
     --brace;
-  } else if(c == '['){
+  } else if (c == '[') {
     ++brack;
-  } else if(c == ']'){
+  } else if (c == ']') {
     --brack;
-  } else if(c == '('){
+  } else if (c == '(') {
     ++paren;
-  } else if(c == ')'){
+  } else if (c == ')') {
     --paren;
   }
 }

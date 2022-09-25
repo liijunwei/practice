@@ -5,10 +5,10 @@ ch6-Structures/text-substitution-demo01.c
 
 */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 struct nlist {
   struct nlist *next; /* pointer to next node       */
@@ -25,8 +25,7 @@ static struct nlist *hashtable[HASHSIZE];
 struct nlist *install(char *name, char *defn);
 void undef(char *s);
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   assert(lookup("date") == NULL);
   assert(lookup("age") == NULL);
   assert(lookup("food") == NULL);
@@ -79,7 +78,7 @@ struct nlist *install(char *name, char *defn) {
   unsigned int hashval;
 
   if ((np = lookup(name)) == NULL) {
-    np = (struct nlist *) malloc(sizeof(*np));
+    np = (struct nlist *)malloc(sizeof(*np));
     if (np == NULL || (np->name = strdup(name)) == NULL) { /* TODO 什么意思? */
       return NULL;
     }
@@ -89,7 +88,7 @@ struct nlist *install(char *name, char *defn) {
     hashtable[hashval] = np;
   } else {
     /* 释放前一个defn */
-    free((void *) np->defn);
+    free((void *)np->defn);
   }
 
   if ((np->defn = strdup(defn)) == NULL) {
@@ -117,16 +116,15 @@ void undef(char *s) {
     prev = np; /* remember previous entry */
   }
 
-  if (np != NULL) {    /* found name */
-    if(prev == NULL) { /* first in the hash list */
+  if (np != NULL) {     /* found name */
+    if (prev == NULL) { /* first in the hash list */
       hashtable[hashval] = np->next;
-    } else {           /* elsewhere in the hash list */
+    } else { /* elsewhere in the hash list */
       prev->next = np->next;
     }
 
-    free((void *) np->name);
-    free((void *) np->defn);
-    free((void *) np); /* free allocated structure */
+    free((void *)np->name);
+    free((void *)np->defn);
+    free((void *)np); /* free allocated structure */
   }
 }
-

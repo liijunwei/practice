@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 /*
 page 85
@@ -10,16 +10,11 @@ page 85
 
 #define ARR_SIZE 10
 
-void print_partial_array(char *s){
-  printf("string is: %s\n", s);
-}
+void print_partial_array(char *s) { printf("string is: %s\n", s); }
 
-void print_partial_array_backward(char *s){
-  printf("char is: %c\n", s[-1]);
-}
+void print_partial_array_backward(char *s) { printf("char is: %c\n", s[-1]); }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   char s[ARR_SIZE] = {'a', 'b', 'c', 'd', '\0'};
 
   print_partial_array(s);
@@ -43,4 +38,3 @@ int main(int argc, char const *argv[])
 
   return 0;
 }
-

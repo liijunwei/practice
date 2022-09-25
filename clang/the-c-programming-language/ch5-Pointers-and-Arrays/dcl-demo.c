@@ -10,20 +10,16 @@ page 105
 bash ch5-Pointers-and-Arrays/dcl-demo-test.sh
 */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "../common-utils/getch-ungetch.c"
 #include "../common-utils/print-error.c"
 
 #define MAXTOKEN 100
 
-enum {
-  NAME,
-  PARENS,
-  BRACKETS
-};
+enum { NAME, PARENS, BRACKETS };
 
 void dcl();
 void dirdcl();
@@ -37,14 +33,13 @@ char out[1000];          /* 输出串                */
 /* 将声明转为文字描述 */
 /* 核心为两个函数: dcl和dirdcl */
 /* 递归下降语法分析 */
-int main(int argc, char const *argv[])
-{
-  while(gettoken() != EOF) { /* 该行的第一个记号是数据类型 */
+int main(int argc, char const *argv[]) {
+  while (gettoken() != EOF) { /* 该行的第一个记号是数据类型 */
     strcpy(datatype, token);
     out[0] = '\0';
     dcl();
 
-    if(tokentype != '\n') {
+    if (tokentype != '\n') {
       error("Syntax error\n");
     }
 
@@ -57,13 +52,13 @@ int main(int argc, char const *argv[])
 // dcl 和 dirdcl 相互递归调用
 void dcl() {
   int ns;
-  for(ns = 0; gettoken() == '*'; ) {
+  for (ns = 0; gettoken() == '*';) {
     ns++;
   }
 
   dirdcl();
 
-  while(ns > 0) {
+  while (ns > 0) {
     strcat(out, " pointer to");
     ns--;
   }
@@ -72,19 +67,19 @@ void dcl() {
 void dirdcl() {
   int type;
 
-  if(tokentype == '(') {
+  if (tokentype == '(') {
     dcl();
-    if(tokentype != ')') {
+    if (tokentype != ')') {
       error("error: missing )\n");
     }
-  } else if(tokentype == NAME) {
+  } else if (tokentype == NAME) {
     strcpy(name, token);
   } else {
     error("error: expected name of (dcl)\n");
   }
 
-  while((type = gettoken()) == PARENS || type == BRACKETS) {
-    if(type == PARENS) {
+  while ((type = gettoken()) == PARENS || type == BRACKETS) {
+    if (type == PARENS) {
       strcat(out, " function returning");
     } else {
       strcat(out, " array");
@@ -99,27 +94,27 @@ int gettoken() {
   int c;
   char *p = token;
 
-  while((c = getch()) == ' ' || c == '\t') {
+  while ((c = getch()) == ' ' || c == '\t') {
     ;
   }
 
-  if(c == '(') {
-    if((c = getch()) == ')') {
+  if (c == '(') {
+    if ((c = getch()) == ')') {
       strcpy(token, "()");
       return tokentype = PARENS;
     } else {
       ungetch(c);
       return tokentype = '(';
     }
-  } else if(c == '[') {
-    for(*p++ = c; (*p++ = getch()) != ']'; ) {
+  } else if (c == '[') {
+    for (*p++ = c; (*p++ = getch()) != ']';) {
       ;
     }
 
     *p = '\0';
     return tokentype = BRACKETS;
-  } else if(isalpha(c)) {
-    for(*p++ = c; isalnum(c = getch()); ) {
+  } else if (isalpha(c)) {
+    for (*p++ = c; isalnum(c = getch());) {
       *p++ = c;
     }
     *p = '\0';
@@ -129,4 +124,3 @@ int gettoken() {
     return tokentype = c;
   }
 }
-

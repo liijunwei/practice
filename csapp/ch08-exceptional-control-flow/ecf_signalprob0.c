@@ -25,8 +25,9 @@ int main(int argc, char const *argv[]) {
 
   signal(SIGUSR1, sigint_handler);
 
-  if((pid = Fork()) == 0) {
-    while(1) {}
+  if ((pid = Fork()) == 0) {
+    while (1) {
+    }
   }
 
   Kill(pid, SIGUSR1);

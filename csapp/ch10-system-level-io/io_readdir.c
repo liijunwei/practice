@@ -8,11 +8,11 @@ int main(int argc, char const *argv[]) {
 
   errno = 0;
 
-  while((dep = readdir(streamp)) != NULL) {
+  while ((dep = readdir(streamp)) != NULL) {
     printf("Found file: %s\n", dep->d_name);
   }
 
-  if(errno != 0) {
+  if (errno != 0) {
     unix_error("readdir error");
   }
 

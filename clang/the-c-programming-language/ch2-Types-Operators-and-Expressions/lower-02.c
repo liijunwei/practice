@@ -1,10 +1,9 @@
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 
 // page 34
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   printf("isdight: %d\n", isdigit('a'));
   printf("isdight: %d\n", isdigit(1));
   printf("isdight: %d\n", isdigit(2));
@@ -20,4 +19,3 @@ int main(int argc, char const *argv[])
 
   return 0;
 }
-

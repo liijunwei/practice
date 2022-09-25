@@ -19,8 +19,7 @@ struct point makepoint(int x, int y) {
   return temp;
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   struct point origin = makepoint(99, 81);
   struct point *pp;
 

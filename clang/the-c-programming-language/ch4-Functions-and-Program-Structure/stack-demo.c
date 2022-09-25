@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 /*
 page 65
@@ -12,8 +12,8 @@ int sp = 0;         // 下一个空闲栈的位置
 double val[MAXVAL]; // 值栈
 
 // 把f压入栈中
-void push(double f){
-  if(sp < MAXVAL){
+void push(double f) {
+  if (sp < MAXVAL) {
     val[sp] = f;
     int tmp_sp = sp;
     sp++;
@@ -24,8 +24,8 @@ void push(double f){
 }
 
 // 弹出并返回栈顶的值
-double pop(void){
-  if(sp > 0) {
+double pop(void) {
+  if (sp > 0) {
     int tmp_sp = --sp;
     printf("从栈中弹出元素: %f\n", val[tmp_sp]);
     val[sp] = 0.0;
@@ -36,16 +36,15 @@ double pop(void){
   }
 }
 
-void print_stack(){
-  for(int i = MAXVAL - 1; i >= 0; i--){
+void print_stack() {
+  for (int i = MAXVAL - 1; i >= 0; i--) {
     printf("%f\n", val[i]);
   }
 
   printf("\n");
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   push(1);
   push(2);
   push(3);

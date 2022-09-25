@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 /*
 page 84
@@ -13,13 +13,13 @@ page 84
     但是数组名不是变量, 因此, 类似于a=pa, a++形式的语句是非法的;
 
 当把数组名传递给一个函数时, 实际上传递的是该数组第一个元素的地址
-再被调用函数中, 该参数是一个局部变量, 因此, 数组名参数必须是一个指针, 也就是存储地址值的变量
+再被调用函数中, 该参数是一个局部变量, 因此, 数组名参数必须是一个指针,
+也就是存储地址值的变量
 */
 
 #define ARR_SIZE 10
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   int *pa;
   int a[ARR_SIZE] = {1, 2, 3, 5};
 
@@ -37,4 +37,3 @@ int main(int argc, char const *argv[])
 
   return 0;
 }
-

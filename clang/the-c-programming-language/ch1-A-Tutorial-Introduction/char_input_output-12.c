@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#define CONST_CHAR_TAB       '\t'
+#define CONST_CHAR_TAB '\t'
 #define CONST_CHAR_BACKSPACE '\b'
-#define CONST_CHAR_SLASH     '\\'
+#define CONST_CHAR_SLASH '\\'
 
 // page 13 练习1-10
 
@@ -10,24 +10,25 @@
 // 这样就可以将制表符和回退符以可见的形式显示出来
 
 // TODO 为什么 backspace 不能正常打印?
-int main(){
+int main() {
   int c;
   printf("please enter chars, `ctrl+d` to exit\n");
 
-  while((c = getchar()) != EOF){
-    if(c == CONST_CHAR_TAB){
+  while ((c = getchar()) != EOF) {
+    if (c == CONST_CHAR_TAB) {
       printf("\\t");
     }
 
-    if(c == CONST_CHAR_BACKSPACE){
+    if (c == CONST_CHAR_BACKSPACE) {
       printf("\\b");
     }
 
-    if(c == CONST_CHAR_SLASH){
+    if (c == CONST_CHAR_SLASH) {
       printf("\\\\");
     }
 
-    if(c != CONST_CHAR_TAB && c != CONST_CHAR_BACKSPACE && c != CONST_CHAR_SLASH){
+    if (c != CONST_CHAR_TAB && c != CONST_CHAR_BACKSPACE &&
+        c != CONST_CHAR_SLASH) {
       putchar(c);
     }
   }

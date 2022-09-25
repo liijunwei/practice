@@ -8,19 +8,19 @@
 // 变量.2 space_counter 是/不是 0
 // 两两组合, 四种情况
 
-int main(){
+int main() {
   int c;
   printf("please enter chars, `ctrl+d` to exit\n");
 
   int space_counter = 0;
 
-  while((c = getchar()) != EOF){
-    if(c == CONST_CHAR_SPACE && space_counter == 0){
+  while ((c = getchar()) != EOF) {
+    if (c == CONST_CHAR_SPACE && space_counter == 0) {
       putchar(c);
       space_counter += 1;
     }
 
-    if(c != CONST_CHAR_SPACE){
+    if (c != CONST_CHAR_SPACE) {
       putchar(c);
       space_counter = 0;
     }

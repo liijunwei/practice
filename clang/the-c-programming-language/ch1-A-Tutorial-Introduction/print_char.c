@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 // 对字符进行计数
-int main(){
+int main() {
   printf("char('a') -> number: %d\n", 'a');
   printf("char('b') -> number: %d\n", 'b');
   printf("char('c') -> number: %d\n", 'c');

@@ -2,8 +2,8 @@
 
 #define SIZE 100
 #define DATE "20220203"
-#define FOO  3.14
-#undef  FOO
+#define FOO 3.14
+#undef FOO
 
 int main(int argc, char const *argv[]) {
   printf("SIZE: %d\n", SIZE);

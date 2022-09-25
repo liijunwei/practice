@@ -2,8 +2,9 @@
 page 145
 
 ch5-Pointers-and-Arrays/grep-demo2.c
-修改第5章的模式查找程序, 是他从一个命名文件的集合中读取输入(有文件名参数时), 如果没有文件名参数, 则从标准输入中读取输入;
-当发现一个匹配行时, 是否应该将相应的文件名打印出来?
+修改第5章的模式查找程序, 是他从一个命名文件的集合中读取输入(有文件名参数时),
+如果没有文件名参数, 则从标准输入中读取输入; 当发现一个匹配行时,
+是否应该将相应的文件名打印出来?
 
 OK fixbug: off by one
     line buffer size not enough: 175 > 100
@@ -11,8 +12,8 @@ OK fixbug: off by one
 */
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define MAXLINE 300
 
@@ -20,8 +21,7 @@ void fpat(FILE *fp, char const *fname, char *pattern, int except, int number);
 
 /* bash ch7-Input-and-Output/EX7-07-test.sh */
 /* print lines that match pattern from first arugment */
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   char pattern[MAXLINE];
   int c;
   int except = 0;
@@ -30,17 +30,17 @@ int main(int argc, char const *argv[])
 
   while (--argc > 0 && (*++argv)[0] == '-') {
     while ((c = *(++argv[0]))) {
-      switch(c) {
-        case 'x':
-          except = 1;
-          break;
-        case 'n':
-          number = 1;
-          break;
-        default:
-          printf("find: illegal option %c\n", c);
-          argc = 0;
-          break;
+      switch (c) {
+      case 'x':
+        except = 1;
+        break;
+      case 'n':
+        number = 1;
+        break;
+      default:
+        printf("find: illegal option %c\n", c);
+        argc = 0;
+        break;
       }
     }
   }
@@ -89,4 +89,3 @@ void fpat(FILE *fp, char const *fname, char *pattern, int except, int number) {
     }
   }
 }
-

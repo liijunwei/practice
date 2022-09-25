@@ -20,7 +20,7 @@ int c_getchar() {
     bufp = buf;
   }
 
-  return (--n >= 0) ? (unsigned char) *bufp++ : EOF;
+  return (--n >= 0) ? (unsigned char)*bufp++ : EOF;
 }
 
 // gcc ch8-The-UNIX-System-Interface/read-demo03.c && echo "eveninig" | ./a.out

@@ -1,8 +1,8 @@
 /*
 page 125
 
-编写一个程序, 用以读入一个C语言程序, 并按字母表顺序分组打印变量名, 要求每一组内各变量的前6个字符相同, 其余字符不同
-字符串和注释的单词不予考虑
+编写一个程序, 用以读入一个C语言程序, 并按字母表顺序分组打印变量名,
+要求每一组内各变量的前6个字符相同, 其余字符不同 字符串和注释的单词不予考虑
 请将'6'作为一个可在命令行中设定的参数
 
 TODO "要求每一组内各变量的前6个字符相同, 其余字符不同" 是什么意思?
@@ -10,10 +10,10 @@ TODO 解法没有实现题目的要求
 
 */
 
-#include <stdio.h>
 #include <ctype.h>
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../common-utils/getch-ungetch.c"
 
@@ -26,17 +26,16 @@ struct tnode {
 
 #define MAXWORD 100
 #define DEFAULT_NUM 6
-enum {NO, YES};
+enum { NO, YES };
 
-struct tnode *addtreex(struct tnode *, char *, int , int *);
+struct tnode *addtreex(struct tnode *, char *, int, int *);
 void treeprint(struct tnode *);
 int getword(char *, int);
 
 /* bash ch6-Structures/EX6-02-test.sh */
 /* print in alphabetic order each group of variable names */
 /* identical in the first num characters (default 6) */
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   struct tnode *root;
   char word[MAXWORD];
   int found = NO;
@@ -45,8 +44,8 @@ int main(int argc, char const *argv[])
   num = (--argc && (*++argv)[0] == '-') ? atoi(argv[0] + 1) : DEFAULT_NUM;
   root = NULL;
 
-  while(getword(word, MAXWORD) != EOF) {
-    if(isalpha(word[0]) && strlen(word) >= num) {
+  while (getword(word, MAXWORD) != EOF) {
+    if (isalpha(word[0]) && strlen(word) >= num) {
       root = addtreex(root, word, num, &found);
     }
 
@@ -58,16 +57,15 @@ int main(int argc, char const *argv[])
   return 0;
 }
 
-
 struct tnode *talloc() {
-  return (struct tnode *) malloc(sizeof(struct tnode));
+  return (struct tnode *)malloc(sizeof(struct tnode));
 }
 
 char *custom_strdup(char *s) {
   char *p;
 
-  p = (char *) malloc(strlen(s) + 1);
-  if(p != NULL) {
+  p = (char *)malloc(strlen(s) + 1);
+  if (p != NULL) {
     strcpy(p, s);
   }
 
@@ -79,13 +77,13 @@ int compare(char *s, struct tnode *p, int num, int *found) {
   int i;
   char *t = p->word;
 
-  for(i = 0; *s == *t; i++, s++, t++) {
-    if(*s == '\0') {
+  for (i = 0; *s == *t; i++, s++, t++) {
+    if (*s == '\0') {
       return 0;
     }
   }
 
-  if(i >= num) {
+  if (i >= num) {
     *found = YES;
     p->match = YES;
   }
@@ -96,15 +94,15 @@ int compare(char *s, struct tnode *p, int num, int *found) {
 struct tnode *addtreex(struct tnode *p, char *w, int num, int *found) {
   int cond;
 
-  if(p == NULL) {
+  if (p == NULL) {
     p = talloc();
     p->word = custom_strdup(w);
     p->match = *found;
     p->left = NULL;
     p->right = NULL;
-  } else if((cond = compare(w, p, num, found)) < 0) {
+  } else if ((cond = compare(w, p, num, found)) < 0) {
     p->left = addtreex(p->left, w, num, found);
-  } else if(cond > 0) {
+  } else if (cond > 0) {
     p->right = addtreex(p->right, w, num, found);
   }
 
@@ -115,21 +113,21 @@ int getword(char *word, int limit) {
   int c;
   char *w = word;
 
-  while(isspace(c = getch()) && c != '\n') {
+  while (isspace(c = getch()) && c != '\n') {
     ;
   }
 
-  if(c != EOF) {
+  if (c != EOF) {
     *w++ = c;
   }
 
-  if(!isalpha(c)) {
+  if (!isalpha(c)) {
     *w = '\0';
     return c;
   }
 
-  for( ; --limit > 0; w++) {
-    if(!isalnum(*w = getch())) {
+  for (; --limit > 0; w++) {
+    if (!isalnum(*w = getch())) {
       ungetch(*w);
       break;
     }
@@ -140,10 +138,9 @@ int getword(char *word, int limit) {
 }
 
 void treeprint(struct tnode *p) {
-  if(p != NULL) {
+  if (p != NULL) {
     treeprint(p->left);
     printf("%s\n", p->word);
     treeprint(p->right);
   }
 }
-

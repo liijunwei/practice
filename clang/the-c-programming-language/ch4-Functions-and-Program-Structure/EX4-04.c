@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 /*
 page 67
@@ -18,8 +18,8 @@ int sp = 0;         // 下一个空闲栈的位置
 double val[MAXVAL]; // 值栈
 
 // 把f压入栈中
-void push(double f){
-  if(sp < MAXVAL){
+void push(double f) {
+  if (sp < MAXVAL) {
     val[sp] = f;
     int tmp_sp = sp;
     sp++;
@@ -30,8 +30,8 @@ void push(double f){
 }
 
 // 弹出并返回栈顶的值
-double pop(void){
-  if(sp > 0) {
+double pop(void) {
+  if (sp > 0) {
     int tmp_sp = --sp;
     printf("从栈中弹出元素: %f\n", val[tmp_sp]);
     val[sp] = 0.0;
@@ -42,13 +42,13 @@ double pop(void){
   }
 }
 
-void print_stack(){
-  if(sp <= 0){
+void print_stack() {
+  if (sp <= 0) {
     printf("error: stack empty\n");
     return;
   }
 
-  for(int i = MAXVAL - 1; i >= 0; i--){
+  for (int i = MAXVAL - 1; i >= 0; i--) {
     printf("%f\n", val[i]);
   }
 
@@ -56,17 +56,17 @@ void print_stack(){
 }
 
 // 在不弹出元素的情况下打印栈顶元素
-void peek(){
-  if(sp > 0){
-    printf("The peek element of the stack is %g\n", val[sp-1]);
+void peek() {
+  if (sp > 0) {
+    printf("The peek element of the stack is %g\n", val[sp - 1]);
   } else {
     printf("error: stack empty\n");
   }
 }
 
 // 复制栈顶元素
-void duplicate_top(){
-  if(sp > 0){
+void duplicate_top() {
+  if (sp > 0) {
     val[sp] = val[sp - 1];
     printf("Duplicating peek value of %f\n", val[sp - 1]);
     sp++;
@@ -75,15 +75,15 @@ void duplicate_top(){
   }
 }
 
-void swap(){
+void swap() {
   double temp = val[sp - 1];
   val[sp - 1] = val[sp - 2];
   val[sp - 2] = temp;
 }
 
 // 交换栈顶两个元素的值
-void swap_top_two(){
-  if(sp > 1){
+void swap_top_two() {
+  if (sp > 1) {
     swap();
   } else {
     printf("error: stack has less than two elements\n");
@@ -91,12 +91,9 @@ void swap_top_two(){
 }
 
 // 清空栈
-void clear_stack(){
-  sp = 0;
-}
+void clear_stack() { sp = 0; }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   push(1);
   push(2);
   push(3);

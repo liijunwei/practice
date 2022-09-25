@@ -1,7 +1,8 @@
 /*
 page 145
 
-编写一个程序, 以打印一个文件集合, 每个文件从新的一页开始打印, 并且打印每个文件相应的标题和页数
+编写一个程序, 以打印一个文件集合, 每个文件从新的一页开始打印,
+并且打印每个文件相应的标题和页数
 
 TODO not clear
 */
@@ -9,8 +10,8 @@ TODO not clear
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAXBOT  3   /* maximum number of lines at bottom page */
-#define MAXHDR  5   /* maximum number of lines at head page */
+#define MAXBOT 3    /* maximum number of lines at bottom page */
+#define MAXHDR 5    /* maximum number of lines at head page */
 #define MAXLINE 300 /* maximum size of one line */
 #define MAXPAGE 50  /* maximum number of lines one one page */
 
@@ -18,15 +19,14 @@ void fileprint(FILE *fp, char const *fname);
 int heading(char const *fname, int pageno);
 
 /* print files: each new one on a new page */
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   FILE *fp;
 
   if (argc == 1) {
     fileprint(stdin, " ");
   } else {
     while (--argc > 0) {
-      if((fp = fopen(*++argv, "r")) == NULL) {
+      if ((fp = fopen(*++argv, "r")) == NULL) {
         fprintf(stderr, "print: can't open %s\n", *argv);
         exit(1);
       } else {
@@ -76,4 +76,3 @@ int heading(char const *fname, int pageno) {
 
   return line_num;
 }
-

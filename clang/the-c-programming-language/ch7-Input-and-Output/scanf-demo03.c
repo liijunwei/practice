@@ -8,8 +8,7 @@ page 139
 #include <stdio.h>
 
 // gcc -g ch7-Input-and-Output/scanf-demo03.c && echo "25 Dec 1988" | ./a.out
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   int day;
   int year;
 

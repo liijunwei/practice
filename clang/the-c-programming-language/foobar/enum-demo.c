@@ -5,11 +5,10 @@
 
 #include <stdio.h>
 
-enum {YES, NO};
-enum {NO_1, YES_1};
+enum { YES, NO };
+enum { NO_1, YES_1 };
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   printf("YES: %d\n", YES);
   printf("NO:  %d\n", NO);
 

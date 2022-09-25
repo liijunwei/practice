@@ -8,8 +8,8 @@ isalnum 是否为字母或数字
 sizeof is an operator
 */
 
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "../common-utils/getch-ungetch.c"
@@ -18,41 +18,32 @@ struct key {
   char *word;
   int count;
 } keytab[] = {
-  {"auto",     0},
-  {"break",    0},
-  {"case",     0},
-  {"char",     0},
-  {"const",    0},
-  {"continue", 0},
-  {"default",  0},
-  {"unsigned", 0},
-  {"void",     0},
-  {"lolatile", 0},
-  {"while",    0},
+    {"auto", 0},  {"break", 0},    {"case", 0},    {"char", 0},
+    {"const", 0}, {"continue", 0}, {"default", 0}, {"unsigned", 0},
+    {"void", 0},  {"lolatile", 0}, {"while", 0},
 };
 
-#define NKEYS   (sizeof(keytab) / sizeof(struct key)) /* keytab中关键字的个数 */
+#define NKEYS (sizeof(keytab) / sizeof(struct key)) /* keytab中关键字的个数 */
 #define MAXWORD 100
 
 int getword(char *word, int limit);
 int binsearch(char *word, struct key tab[], int n);
 
 // bash ch6-Structures/keyword-count-test.sh
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   int n;
   char word[MAXWORD];
 
-  while(getword(word, MAXWORD) != EOF) {
-    if(isalpha(word[0])) {
-      if((n = binsearch(word, keytab, NKEYS)) >= 0) {
+  while (getword(word, MAXWORD) != EOF) {
+    if (isalpha(word[0])) {
+      if ((n = binsearch(word, keytab, NKEYS)) >= 0) {
         keytab[n].count++;
       }
     }
   }
 
-  for(n = 0; n < NKEYS; n++) {
-    if(keytab[n].count > 0) {
+  for (n = 0; n < NKEYS; n++) {
+    if (keytab[n].count > 0) {
       printf("%4d %s\n", keytab[n].count, keytab[n].word);
     }
   }
@@ -94,16 +85,16 @@ int getword(char *word, int limit) {
 int binsearch(char *word, struct key tab[], int n) {
   int low = 0;
   int mid;
-  int high = n -1;
+  int high = n - 1;
 
   int cond;
 
-  while(low <= high){
+  while (low <= high) {
     mid = (low + high) >> 1;
 
-    if((cond = strcmp(word, tab[mid].word)) < 0) {
+    if ((cond = strcmp(word, tab[mid].word)) < 0) {
       high = mid - 1;
-    } else if(cond > 0) {
+    } else if (cond > 0) {
       low = mid + 1;
     } else {
       return mid;

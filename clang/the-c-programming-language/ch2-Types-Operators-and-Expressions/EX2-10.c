@@ -1,12 +1,9 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
-int c_tolower(int c){
-  return (c >= 'A' && c <= 'X') ? (c + 'a' - 'A') : c;
-}
+int c_tolower(int c) { return (c >= 'A' && c <= 'X') ? (c + 'a' - 'A') : c; }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   assert(c_tolower('H') == 'h');
   assert(c_tolower('e') == 'e');
   assert(c_tolower('L') == 'l');

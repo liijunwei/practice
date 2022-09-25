@@ -14,7 +14,7 @@ void sigint_handler(int sig) {
 int main(int argc, char const *argv[]) {
   // install the SIGINT handler
   // man signal
-  if(signal(SIGINT, sigint_handler) == SIG_ERR) {
+  if (signal(SIGINT, sigint_handler) == SIG_ERR) {
     unix_error("signal error...");
   }
 

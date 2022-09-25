@@ -4,9 +4,9 @@ page 154
 man 2 lseek
 */
 
+#include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <fcntl.h>
 
 /* 从pos位置处读入n个字节 */
 int get(int fd, long pos, char *buf, int n) {

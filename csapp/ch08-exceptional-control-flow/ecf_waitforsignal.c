@@ -21,10 +21,10 @@ int main(int argc, char const *argv[]) {
   Sigemptyset(&mask);
   Sigaddset(&mask, SIGCHLD);
 
-  while(1) {
+  while (1) {
     Sigprocmask(SIG_BLOCK, &mask, &prev); // block SIGCHLD
 
-    if(Fork() == 0) {
+    if (Fork() == 0) {
       exit(0);
     }
 
@@ -32,7 +32,7 @@ int main(int argc, char const *argv[]) {
     Sigprocmask(SIG_SETMASK, &prev, NULL); // unblock SIGCHLD
 
     // wait for SIGCHLD to be received(wasteful)
-    while(!pid) {
+    while (!pid) {
       ;
       // pause();
       sleep(1);
@@ -40,7 +40,6 @@ int main(int argc, char const *argv[]) {
 
     // do some work after receiving SIGCHLD
     printf(".");
-
   }
 
   exit(0);

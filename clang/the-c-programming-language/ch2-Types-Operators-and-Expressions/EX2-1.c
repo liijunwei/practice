@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <limits.h>
+#include <stdio.h>
 
 /*
 page 28
@@ -12,8 +12,7 @@ page 28
 void solu_1();
 void solu_2();
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   solu_1();
   printf("\n\n");
 
@@ -23,7 +22,7 @@ int main(int argc, char const *argv[])
 }
 
 // refer to: https://code.woboq.org/userspace/glibc/include/limits.h.html
-void solu_1(){
+void solu_1() {
   printf("Signed Types(%s)\n\n", __func__);
   printf("signed char min  = %d\n", SCHAR_MIN);
   printf("signed char max  = %d\n", SCHAR_MAX);
@@ -51,23 +50,22 @@ void solu_1(){
 + 最后, 把它转为char类型 (char)((unsigned char) ~0 >> 1)
 + 得到signed类型的字符的最大值
 */
-void solu_2(){
+void solu_2() {
   printf("Signed Types(%s)\n\n", __func__);
-  printf("signed char min   = %d\n", -(char)((unsigned char) ~0 >> 1));
-  printf("signed char max   = %d\n",  (char)((unsigned char) ~0 >> 1));
-  printf("signed short min  = %d\n", -(short)((unsigned short) ~0 >> 1));
-  printf("signed short max  = %d\n",  (short)((unsigned short) ~0 >> 1));
-  printf("signed int min    = %d\n", -(int)((unsigned int) ~0 >> 1));
-  printf("signed int max    = %d\n",  (int)((unsigned int) ~0 >> 1));
-  printf("signed long min   = %ld\n", -(long)((unsigned long) ~0 >> 1));
-  printf("signed long max   = %ld\n",  (long)((unsigned long) ~0 >> 1));
+  printf("signed char min   = %d\n", -(char)((unsigned char)~0 >> 1));
+  printf("signed char max   = %d\n", (char)((unsigned char)~0 >> 1));
+  printf("signed short min  = %d\n", -(short)((unsigned short)~0 >> 1));
+  printf("signed short max  = %d\n", (short)((unsigned short)~0 >> 1));
+  printf("signed int min    = %d\n", -(int)((unsigned int)~0 >> 1));
+  printf("signed int max    = %d\n", (int)((unsigned int)~0 >> 1));
+  printf("signed long min   = %ld\n", -(long)((unsigned long)~0 >> 1));
+  printf("signed long max   = %ld\n", (long)((unsigned long)~0 >> 1));
 
   printf("\n");
 
   printf("Unsigned Types(%s)\n\n", __func__);
-  printf("unsigned char max   = %u\n",  (unsigned char)  ~0);
-  printf("unsigned short max  = %u\n",  (unsigned short) ~0);
-  printf("unsigned int max   = %u\n",   (unsigned int)   ~0);
-  printf("unsigned long max   = %lu\n", (unsigned long)  ~0);
+  printf("unsigned char max   = %u\n", (unsigned char)~0);
+  printf("unsigned short max  = %u\n", (unsigned short)~0);
+  printf("unsigned int max   = %u\n", (unsigned int)~0);
+  printf("unsigned long max   = %lu\n", (unsigned long)~0);
 }
-

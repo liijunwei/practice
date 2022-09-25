@@ -14,8 +14,7 @@ page 145
 
 void filecompare(FILE *fp1, FILE *fp2);
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   FILE *fp1;
   FILE *fp2;
 

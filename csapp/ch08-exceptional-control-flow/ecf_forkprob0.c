@@ -3,7 +3,7 @@
 int main(int argc, char const *argv[]) {
   int x = 1;
 
-  if(Fork() == 0) {
+  if (Fork() == 0) {
     printf("a");
     fflush(stdout);
   } else {

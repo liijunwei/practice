@@ -1,7 +1,7 @@
-#include <stdio.h>
 #include <pthread.h>
+#include <stdio.h>
 
-void *entry_point(void *value){
+void *entry_point(void *value) {
   printf("hello from the 2nd thread :)\n");
 
   int *num = (int *)value;
@@ -10,8 +10,7 @@ void *entry_point(void *value){
   return NULL;
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   // `man pthread_create` for help
   pthread_t thread;
 

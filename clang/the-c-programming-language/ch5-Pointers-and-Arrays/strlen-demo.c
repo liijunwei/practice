@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 /*
 page 85
@@ -8,18 +8,17 @@ page 85
 */
 
 // 在函数定义中, 形参 char s[] <=> char *s
-int custom_strlen(const char *s){
+int custom_strlen(const char *s) {
   int n;
 
-  for(n = 0; *s != '\0'; s++){
+  for (n = 0; *s != '\0'; s++) {
     n++;
   }
 
   return n;
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 
   assert(0 == custom_strlen(""));
   assert(1 == custom_strlen("a"));
@@ -29,4 +28,3 @@ int main(int argc, char const *argv[])
 
   return 0;
 }
-

@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 // page 38
 void inplace_swap(int *x, int *y) {
@@ -20,7 +20,7 @@ void reverse_array(int a[], int count) {
 }
 
 void print_array(int a[], int count) {
-  for (int i = 0; i < count; i ++) {
+  for (int i = 0; i < count; i++) {
     printf("%d ", a[i]);
   }
 
@@ -28,8 +28,7 @@ void print_array(int a[], int count) {
 }
 
 const int count = 4;
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   int a[count] = {1, 2, 3, 4};
   // int a[count] = {1, 2, 3};
   print_array(a, count);

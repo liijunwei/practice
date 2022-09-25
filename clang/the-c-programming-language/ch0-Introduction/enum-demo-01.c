@@ -1,12 +1,12 @@
 #include <stdio.h>
 
 enum escapes {
-  BELL      = '\a',
+  BELL = '\a',
   BACKSPACE = '\b',
-  TAB       = '\t',
-  NEWLINE   = '\n',
-  VTAB      = '\v',
-  RETURN    = '\r',
+  TAB = '\t',
+  NEWLINE = '\n',
+  VTAB = '\v',
+  RETURN = '\r',
 };
 
 enum months {
@@ -25,6 +25,4 @@ enum months {
 };
 
 // TODO
-int main(){
-
-}
+int main() {}

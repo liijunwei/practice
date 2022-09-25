@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main(){
+int main() {
   printf("please enter a char: ");
   char c = getchar();
   printf("The input char is: %c\n", c);

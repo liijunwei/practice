@@ -6,8 +6,8 @@ ch6-Structures/keyword-count-demo03.c
 */
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct tnode *Treeptr;
 
@@ -23,8 +23,7 @@ Treeptr addtreex(Treeptr p, char *w);
 void treeprint(Treeptr p);
 
 // 统计单词出现的频率
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   Treeptr root;
   char word[MAXWORD];
 
@@ -49,22 +48,20 @@ int main(int argc, char const *argv[])
   return 0;
 }
 
-Treeptr talloc() {
-  return (Treeptr ) malloc(sizeof(TreeNode));
-}
+Treeptr talloc() { return (Treeptr)malloc(sizeof(TreeNode)); }
 
 Treeptr addtreex(Treeptr p, char *w) {
   int cond;
 
-  if(p == NULL) {
+  if (p == NULL) {
     p = talloc();
     p->word = strdup(w);
     p->count = 1;
     p->left = NULL;
     p->right = NULL;
-  } else if((cond = strcmp(w, p->word)) == 0) {
+  } else if ((cond = strcmp(w, p->word)) == 0) {
     p->count++;
-  } else if(cond < 0) {
+  } else if (cond < 0) {
     p->left = addtreex(p->left, w);
   } else {
     p->right = addtreex(p->right, w);
@@ -74,10 +71,9 @@ Treeptr addtreex(Treeptr p, char *w) {
 }
 
 void treeprint(Treeptr p) {
-  if(p != NULL) {
+  if (p != NULL) {
     treeprint(p->left);
     printf("%4d %s\n", p->count, p->word);
     treeprint(p->right);
   }
 }
-

@@ -9,10 +9,9 @@ typedef中声明的类型在变量名的位置出现, 而不是紧接在关键�
 #include <stdlib.h>
 
 typedef int Length;
-typedef char * String;
+typedef char *String;
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   Length a = 1;
   printf("%d\n", a);
 
@@ -25,7 +24,7 @@ int main(int argc, char const *argv[])
   printf("%d\n", *lenths[2]);
 
   String p;
-  p = (String) malloc(100);
+  p = (String)malloc(100);
   p = "nihao";
   printf("%s\n", p);
 

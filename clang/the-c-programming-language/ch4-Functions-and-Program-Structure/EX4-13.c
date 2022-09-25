@@ -1,6 +1,6 @@
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
 
 /*
 page 75
@@ -9,13 +9,13 @@ page 75
 
 */
 
-void __reverser(char s[], int i, int len){
+void __reverser(char s[], int i, int len) {
   int c;
   int j;
 
   j = len - (i + 1);
 
-  if(i < j){
+  if (i < j) {
     c = s[i];
     s[i] = s[j];
     s[j] = c;
@@ -23,14 +23,11 @@ void __reverser(char s[], int i, int len){
   }
 }
 
-void reverse(char s[]){
-  __reverser(s, 0, strlen(s));
-}
+void reverse(char s[]) { __reverser(s, 0, strlen(s)); }
 
 #define ARR_SIZE 100
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   char str1[ARR_SIZE] = "abcdefg";
   reverse(str1);
   assert(strcmp("gfedcba", str1) == 0);

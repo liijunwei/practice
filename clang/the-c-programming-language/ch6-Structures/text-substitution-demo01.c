@@ -14,10 +14,10 @@ lookup(s)函数在表中查找s, 若找到, 则返回指向该处的指针, 否�
 
 */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /* linked list */
 struct nlist {
@@ -35,8 +35,7 @@ static struct nlist *hashtable[HASHSIZE]; /* 指针表/指针的数组 */
 struct nlist *install(char *name, char *defn);
 void hashtable_dump();
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   assert(lookup("date") == NULL);
   assert(lookup("age") == NULL);
 
@@ -83,7 +82,7 @@ struct nlist *install(char *name, char *defn) {
   unsigned int hashval;
 
   if ((np = lookup(name)) == NULL) {
-    np = (struct nlist *) malloc(sizeof(*np));
+    np = (struct nlist *)malloc(sizeof(*np));
     if (np == NULL || (np->name = strdup(name)) == NULL) { /* TODO 什么意思? */
       return NULL;
     }
@@ -93,7 +92,7 @@ struct nlist *install(char *name, char *defn) {
     hashtable[hashval] = np;
   } else {
     /* 释放前一个defn */
-    free((void *) np->defn);
+    free((void *)np->defn);
   }
 
   if ((np->defn = strdup(defn)) == NULL) {
@@ -108,13 +107,11 @@ void hashtable_dump() {
   printf("=====================\n");
 
   for (int i = 0; i < HASHSIZE; i++) {
-    for (struct nlist *current = hashtable[i]; current != NULL; current = current->next) {
+    for (struct nlist *current = hashtable[i]; current != NULL;
+         current = current->next) {
       printf("%10s:%10s\n", current->name, current->defn);
     }
   }
 
   printf("\n");
 }
-
-
-

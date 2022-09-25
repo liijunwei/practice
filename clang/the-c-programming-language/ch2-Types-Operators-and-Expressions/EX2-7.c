@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 /*
 page 40
@@ -9,7 +9,7 @@ page 40
 
 */
 
-unsigned invert(unsigned x, int p, int n){
+unsigned invert(unsigned x, int p, int n) {
   int tmp = ~(~0 << n) << (p - n + 1);
   return x ^ tmp;
 }
@@ -20,11 +20,10 @@ unsigned invert(unsigned x, int p, int n){
 // toBinary 89   => 01011001
 // toBinary 657  => 001010010001
 // toBinary 8779 => 10001001001011
-int main(int argc, char const *argv[])
-{
-  assert(126 == invert(78, 5, 2)); // 01111110
-  assert(62  == invert(78, 6, 3)); // 00111110
-  assert(369 == invert(657, 9, 5)); // 000101110001
+int main(int argc, char const *argv[]) {
+  assert(126 == invert(78, 5, 2));     // 01111110
+  assert(62 == invert(78, 6, 3));      // 00111110
+  assert(369 == invert(657, 9, 5));    // 000101110001
   assert(9675 == invert(8779, 10, 4)); // 10010111001011
   printf("PASS.\n");
 

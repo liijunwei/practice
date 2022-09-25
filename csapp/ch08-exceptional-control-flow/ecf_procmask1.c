@@ -24,13 +24,13 @@ void handler(int sig) {
   pid_t pid;
 
   Sigfillset(&mask_all);
-  while((pid = waitpid(-1, NULL, 0)) > 0) {
+  while ((pid = waitpid(-1, NULL, 0)) > 0) {
     Sigprocmask(SIG_BLOCK, &mask_all, &prev_all);
     deletejob(pid); // delete the child from the job list
     Sigprocmask(SIG_SETMASK, &prev_all, NULL);
   }
 
-  if(errno != ECHILD) {
+  if (errno != ECHILD) {
     sio_error("waitpid error");
   }
 
@@ -46,8 +46,8 @@ int main(int argc, char const *argv[]) {
   Signal(SIGCHLD, handler);
   initjobs();
 
-  while(1) {
-    if((pid = Fork()) == 0) {
+  while (1) {
+    if ((pid = Fork()) == 0) {
       Execve("/bin/date", argv, NULL);
     }
 

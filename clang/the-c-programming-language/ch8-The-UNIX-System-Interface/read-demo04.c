@@ -3,7 +3,8 @@ page 151
 
 为了更好的掌握有关概念, 下面使用read和write构造类似于getchar/putchar等的高级函数
 
-如果要在包含头文件 <stdio.h> 的情况下编译这些版本的getchar函数, 就有必要用 #undef预处理指令取消getchar的宏定义, 因为在头文件里, getchar是以宏方式实现的
+如果要在包含头文件 <stdio.h> 的情况下编译这些版本的getchar函数, 就有必要用
+#undef预处理指令取消getchar的宏定义, 因为在头文件里, getchar是以宏方式实现的
 */
 
 #include <stdio.h>
@@ -22,7 +23,7 @@ int getchar() {
     bufp = buf;
   }
 
-  return (--n >= 0) ? (unsigned char) *bufp++ : EOF;
+  return (--n >= 0) ? (unsigned char)*bufp++ : EOF;
 }
 
 // gcc ch8-The-UNIX-System-Interface/read-demo04.c && echo "afternoon" | ./a.out

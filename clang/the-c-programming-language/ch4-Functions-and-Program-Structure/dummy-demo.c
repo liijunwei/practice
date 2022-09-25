@@ -12,10 +12,9 @@ page 59
 函数定义的各构成部分都可以省略, 最简单的函数如下所示
 */
 
-void dummy(){}
+void dummy() {}
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   dummy();
   printf("Dummy demo...\n");
 
@@ -23,7 +22,8 @@ int main(int argc, char const *argv[])
 }
 
 /*
-程序可以看成变量定义和函数定义的集合. 函数之间的通信可以通过参数/函数返回值以及外部变量进行
+程序可以看成变量定义和函数定义的集合.
+函数之间的通信可以通过参数/函数返回值以及外部变量进行
 
 函数在原文件中出现的次序可以是任意的
 

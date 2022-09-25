@@ -11,8 +11,7 @@ long rfun(unsigned long x) {
   return x + rv;
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   printf("%lu \n", rfun(0));
   printf("%lu \n", rfun(1));
   printf("%lu \n", rfun(2));

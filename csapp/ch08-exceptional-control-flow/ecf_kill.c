@@ -4,7 +4,7 @@ int main(int argc, char const *argv[]) {
   pid_t pid;
 
   // child sleeps until SIGKILL signal received, then dies
-  if((pid = Fork()) == 0) {
+  if ((pid = Fork()) == 0) {
     printf("child process waiting signal to come...\n");
 
     Pause(); // man pause

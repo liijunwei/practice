@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 /*
 page 40
@@ -9,7 +9,7 @@ page 40
 int bitcount(unsigned x) {
   int b;
   for (b = 0; x != 0; x >>= 1) {
-    if(x & 01){
+    if (x & 01) {
       b++;
     }
   }
@@ -23,8 +23,7 @@ int bitcount(unsigned x) {
 // toBinary 89   => 1011001
 // toBinary 657  => 1010010001
 // toBinary 8779 => 10001001001011
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   assert(4 == bitcount(78));
   assert(4 == bitcount(89));
   assert(4 == bitcount(657));

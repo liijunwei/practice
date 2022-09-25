@@ -4,16 +4,15 @@ page 112
 
 */
 
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 
 struct point {
   int x;
   int y;
 };
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   struct point pt = {300, 400};
   double dist;
 

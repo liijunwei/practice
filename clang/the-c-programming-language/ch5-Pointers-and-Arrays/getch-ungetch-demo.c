@@ -8,8 +8,7 @@
 
 */
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   ungetch('1');
   ungetch('2');
   ungetch('3');

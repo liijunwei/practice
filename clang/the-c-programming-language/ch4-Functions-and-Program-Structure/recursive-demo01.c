@@ -12,21 +12,20 @@ page 74
 
 // 递归打印
 // 该方法不能处理最大(小?)的负数
-void printd(int n){
-  if(n < 0){
+void printd(int n) {
+  if (n < 0) {
     putchar('-');
     n = -n;
   }
 
-  if(n / 10){
+  if (n / 10) {
     printd(n / 10);
   }
 
   putchar(n % 10 + '0');
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   printd(998);
   printf("\n");
   printd(-10086);

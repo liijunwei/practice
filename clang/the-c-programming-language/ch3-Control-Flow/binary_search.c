@@ -1,21 +1,21 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 // page 47
 
 #define ARR_SIZE 6
 
-int binsearch(int x, int v[], int n){
+int binsearch(int x, int v[], int n) {
   int low = 0;
   int mid;
-  int high = n -1;
+  int high = n - 1;
 
-  while(low <= high){
+  while (low <= high) {
     mid = (low + high) >> 1;
 
-    if(x < v[mid]){
+    if (x < v[mid]) {
       high = mid - 1;
-    } else if(x > v[mid]){
+    } else if (x > v[mid]) {
       low = mid + 1;
     } else {
       return mid;
@@ -25,8 +25,7 @@ int binsearch(int x, int v[], int n){
   return -1;
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   int a[ARR_SIZE] = {1, 2, 4, 665, 876, 988};
 
   assert(0 == binsearch(1, a, ARR_SIZE));

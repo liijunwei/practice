@@ -10,7 +10,6 @@ void swap(long *xp, long *yp) {
   *xp = *xp - *yp; /* x + y - x */
 }
 
-
 int main(int argc, char const *argv[]) {
   long a = 100;
   long b = 200;
@@ -27,4 +26,3 @@ int main(int argc, char const *argv[]) {
 
   return 0;
 }
-

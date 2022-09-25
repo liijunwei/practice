@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 /*
 page 40
@@ -10,7 +10,8 @@ page 40
 
 // 计算出运行程序的计算机使用的字长
 // 书上的 wordlength 不管用
-// ref: https://github.com/fool2fish/the-c-programming-language-exercise-answers/blob/master/ch02/2-8.c
+// ref:
+// https://github.com/fool2fish/the-c-programming-language-exercise-answers/blob/master/ch02/2-8.c
 int bitlen(unsigned d) {
   int len = 0;
   for (; d; d >>= 1) {
@@ -20,11 +21,11 @@ int bitlen(unsigned d) {
 }
 
 // not clear
-unsigned rightrot_v2(unsigned x, int n){
+unsigned rightrot_v2(unsigned x, int n) {
   int len = bitlen(x);
   int rbits; // rightmost bit
 
-  if((n = n % len) > 0){
+  if ((n = n % len) > 0) {
     rbits = ~(~0 << n) & x;
     rbits = rbits << (len - n);
 
@@ -41,11 +42,10 @@ unsigned rightrot_v2(unsigned x, int n){
 // toBinary 89   => 1011001
 // toBinary 657  => 1010010001
 // toBinary 8779 => 10001001001011
-int main(int argc, char const *argv[])
-{
-  assert(83 == rightrot_v2(78, 2)); // 1010011
-  assert(27 == rightrot_v2(89, 3)); // 0011011
-  assert(291 == rightrot_v2(657, 9)); // 0100100011
+int main(int argc, char const *argv[]) {
+  assert(83 == rightrot_v2(78, 2));      // 1010011
+  assert(27 == rightrot_v2(89, 3));      // 0011011
+  assert(291 == rightrot_v2(657, 9));    // 0100100011
   assert(9400 == rightrot_v2(8779, 10)); // 10010010111000
   printf("PASS.\n");
 

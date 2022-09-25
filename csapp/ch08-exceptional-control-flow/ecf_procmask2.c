@@ -6,11 +6,9 @@
 // unclear
 
 void initjobs() {}
-void addjob(int pid) {
-}
+void addjob(int pid) {}
 
-void deletejob(int pid) {
-}
+void deletejob(int pid) {}
 
 void handler(int sig) {
   int olderrno = errno;
@@ -19,20 +17,21 @@ void handler(int sig) {
   pid_t pid;
 
   Sigfillset(&mask_all);
-  while((pid = waitpid(-1, NULL, 0)) > 0) {
+  while ((pid = waitpid(-1, NULL, 0)) > 0) {
     Sigprocmask(SIG_BLOCK, &mask_all, &prev_all);
     deletejob(pid); // delete the child from the job list
     Sigprocmask(SIG_SETMASK, &prev_all, NULL);
   }
 
-  if(errno != ECHILD) {
+  if (errno != ECHILD) {
     sio_error("waitpid error");
   }
 
   _exit(0);
 }
 
-// 用sigprocmask来同步进程; 这个例子中, 父进程保证在响应的deletejob之前执行addjob
+// 用sigprocmask来同步进程; 这个例子中,
+// 父进程保证在响应的deletejob之前执行addjob
 int main(int argc, char const *argv[]) {
   int pid;
   sigset_t mask_all;
@@ -46,10 +45,10 @@ int main(int argc, char const *argv[]) {
   Signal(SIGCHLD, handler);
   initjobs();
 
-  while(1) {
+  while (1) {
     Sigprocmask(SIG_BLOCK, &mask_one, &prev_one); // block SIGCHLD
 
-    if((pid = Fork()) == 0) {
+    if ((pid = Fork()) == 0) {
       Sigprocmask(SIG_SETMASK, &prev_one, NULL); // unblock SIGCHLD
       Execve("/bin/date", argv, NULL);
     }

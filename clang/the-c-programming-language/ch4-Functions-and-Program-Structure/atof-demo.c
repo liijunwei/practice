@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <ctype.h>
 #include <assert.h>
+#include <ctype.h>
+#include <stdio.h>
 
 /*
 page 60
@@ -10,32 +10,32 @@ page 60
 */
 
 // 把字符串s转换为相应的双精度浮点数
-double atof(const char s[]){
+double atof(const char s[]) {
   double val;
   double power;
 
   int i;
   int sign;
 
-  for(i = 0; isspace(s[i]); i++){
+  for (i = 0; isspace(s[i]); i++) {
     ; // 跳过空白符
   }
 
   sign = (s[i] == '-') ? -1 : 1;
 
-  if(s[i] == '+' || s[i] == '-'){
+  if (s[i] == '+' || s[i] == '-') {
     i++;
   }
 
-  for(val = 0.0; isdigit(s[i]); i++){
+  for (val = 0.0; isdigit(s[i]); i++) {
     val = 10.0 * val + (s[i] - '0');
   }
 
-  if(s[i] == '.'){
+  if (s[i] == '.') {
     i++;
   }
 
-  for(power = 1.0; isdigit(s[i]); i++){
+  for (power = 1.0; isdigit(s[i]); i++) {
     val = 10.0 * val + (s[i] - '0');
     power *= 10.0;
   }
@@ -43,8 +43,7 @@ double atof(const char s[]){
   return sign * val / power;
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   char str1[100] = "3.14159265354"; // PI
   assert(3.14159265354 == atof(str1));
 

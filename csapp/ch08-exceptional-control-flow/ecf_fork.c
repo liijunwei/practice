@@ -6,7 +6,7 @@ int main(int argc, char const *argv[]) {
 
   pid = Fork();
 
-  if(pid == 0) {
+  if (pid == 0) {
     printf("child: x=%d\n", ++x);
     exit(0);
   }

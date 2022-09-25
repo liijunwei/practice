@@ -1,11 +1,11 @@
 #include <stdio.h>
 
 typedef struct redisObject {
-    int refcount;
+  int refcount;
 } robj;
 
 // TODO
-int main(){
+int main() {
   robj *o = malloc(sizeof(*o));
   o->refcount = 1;
 

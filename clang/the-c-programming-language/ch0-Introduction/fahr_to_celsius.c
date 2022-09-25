@@ -1,8 +1,7 @@
 #include <stdio.h>
 
 // 打印摄氏和华氏度转换
-int main()
-{
+int main() {
   float lower = 0;
   float upper = 300;
   float step = 20;
@@ -12,10 +11,9 @@ int main()
 
   printf("fahr celsius\n");
 
-  while(fahr <= upper) {
+  while (fahr <= upper) {
     celsius = (5.0 / 9.0) * (fahr - 32);
     printf("%3.0f %6.1f\n", fahr, celsius);
     fahr += step;
   }
 }
-

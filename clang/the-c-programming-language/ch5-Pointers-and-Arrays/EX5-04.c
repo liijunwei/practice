@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 #include <string.h>
 
 /*
@@ -10,25 +10,25 @@ page 92
 */
 
 // TODO 没看懂...
-int strend_v1(char *s, char *t){
+int strend_v1(char *s, char *t) {
   char *begin_s = s;
   char *begin_t = t;
 
-  for(; *s != '\0'; s++){
+  for (; *s != '\0'; s++) {
     ;
   }
 
-  for(; *t != '\0'; t++){
+  for (; *t != '\0'; t++) {
     ;
   }
 
-  for(; *s == *t; s--, t--){
-    if(t == begin_t || s == begin_s){
+  for (; *s == *t; s--, t--) {
+    if (t == begin_t || s == begin_s) {
       break;
     }
   }
 
-  if(*s == *t && t == begin_t && *s != '\0'){
+  if (*s == *t && t == begin_t && *s != '\0') {
     return 1;
   } else {
     return 0;
@@ -40,12 +40,12 @@ int strend_v2(char *s, char *t) {
   int len_s = strlen(s);
   int len_t = strlen(t);
 
-  if(len_t == 0 || len_s < len_t){
+  if (len_t == 0 || len_s < len_t) {
     return 0;
   }
 
-  while(len_t > 1) {
-    if(*(t + len_t) != *(s + len_s)) {
+  while (len_t > 1) {
+    if (*(t + len_t) != *(s + len_s)) {
       return 0;
     }
 
@@ -56,8 +56,7 @@ int strend_v2(char *s, char *t) {
   return 1;
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 
   char str[100] = "Hello";
 

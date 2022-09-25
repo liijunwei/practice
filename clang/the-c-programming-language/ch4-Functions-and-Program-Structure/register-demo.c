@@ -9,12 +9,9 @@ page 71
 但编译器可以忽略此选项(???)
 
 */
-int sum(register unsigned m, register unsigned n){
-  return m + n;
-}
+int sum(register unsigned m, register unsigned n) { return m + n; }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 
   printf("sum is: %d\n", sum(1, 8));
   return 0;

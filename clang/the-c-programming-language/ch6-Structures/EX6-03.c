@@ -1,15 +1,15 @@
 /*
 page 125
 
-编写一个交叉引用程序, 打印文档中所有单词的列表, 并且每个单词还有一个列表, 记录出现过该单词的行号
-对the/and等非是一单词不予考虑
+编写一个交叉引用程序, 打印文档中所有单词的列表, 并且每个单词还有一个列表,
+记录出现过该单词的行号 对the/and等非是一单词不予考虑
 
 */
 
-#include <stdio.h>
 #include <ctype.h>
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../common-utils/getch-ungetch.c"
 
@@ -34,17 +34,16 @@ int noiseword(char *);
 void treeprint(struct tnode *);
 
 /* cross referencer */
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   struct tnode *root;
   char word[MAXWORD];
   int linenum = 1;
 
   root = NULL;
-  while(getword(word, MAXWORD) != EOF) {
-    if(isalpha(word[0]) && noiseword(word) == -1) {
+  while (getword(word, MAXWORD) != EOF) {
+    if (isalpha(word[0]) && noiseword(word) == -1) {
       root = addtreex(root, word, linenum);
-    } else if(word[0] == '\n') {
+    } else if (word[0] == '\n') {
       linenum++;
     }
   }
@@ -56,9 +55,9 @@ int main(int argc, char const *argv[])
 
 int comment() {
   int c;
-  while((c = getch()) != EOF) {
-    if(c == '*') {
-      if((c = getch()) == '/') {
+  while ((c = getch()) != EOF) {
+    if (c == '*') {
+      if ((c = getch()) == '/') {
         break;
       } else {
         ungetch(c);
@@ -76,53 +75,53 @@ int getword(char *word, int limit) {
 
   /* there you are!!!         */
   /* thanks "Gerrard Lindsay" */
-  /* https://github.com/gerrard00/the-c-programming-language/blob/master/getword.c */
-  while(isspace(c = getch()) && c != '\n') {
+  /* https://github.com/gerrard00/the-c-programming-language/blob/master/getword.c
+   */
+  while (isspace(c = getch()) && c != '\n') {
     ;
   }
 
-  if(c != EOF) {
+  if (c != EOF) {
     *w++ = c;
   }
 
-  if(isalpha(c) || c == '_' || c == '#') {
-    for( ; --limit > 0; w++) {
-      if(!isalnum(*w = getch()) && *w != '_') {
+  if (isalpha(c) || c == '_' || c == '#') {
+    for (; --limit > 0; w++) {
+      if (!isalnum(*w = getch()) && *w != '_') {
         ungetch(*w);
         break;
       }
     }
-  } else if(c == '\'' || c == '"') {
-    for( ; --limit > 0; w++) {
-      if((*w = getch()) == '\\') {
+  } else if (c == '\'' || c == '"') {
+    for (; --limit > 0; w++) {
+      if ((*w = getch()) == '\\') {
         *++w = getch();
-      } else if(*w == c) {
+      } else if (*w == c) {
         w++;
         break;
-      } else if(*w == EOF) {
+      } else if (*w == EOF) {
         break;
       }
     }
-  } else if(c == '/') {
-    if((d = getch()) == '#') {
+  } else if (c == '/') {
+    if ((d = getch()) == '#') {
       c = comment();
     } else {
       ungetch(d);
     }
   }
 
-
   *w = '\0';
   return c;
 }
 
 struct tnode *talloc() {
-  return (struct tnode *) malloc(sizeof(struct tnode));
+  return (struct tnode *)malloc(sizeof(struct tnode));
 }
 
 // make a linked list node
 struct linklist *lalloc() {
-  return (struct linklist *) malloc(sizeof(struct linklist));
+  return (struct linklist *)malloc(sizeof(struct linklist));
 }
 
 // add line number to the linked list
@@ -130,11 +129,11 @@ void addln(struct tnode *p, int linenum) {
   struct linklist *temp;
 
   temp = p->lines;
-  while(temp->ptr != NULL && temp->lnum != linenum) {
+  while (temp->ptr != NULL && temp->lnum != linenum) {
     temp = temp->ptr;
   }
 
-  if(temp->lnum != linenum) {
+  if (temp->lnum != linenum) {
     temp->ptr = lalloc();
     temp->ptr->lnum = linenum;
     temp->ptr->ptr = NULL;
@@ -144,10 +143,10 @@ void addln(struct tnode *p, int linenum) {
 void treeprint(struct tnode *p) {
   struct linklist *temp;
 
-  if(p != NULL) {
+  if (p != NULL) {
     treeprint(p->left);
     printf("%10s: ", p->word);
-    for(temp = p->lines; temp != NULL; temp = temp->ptr) {
+    for (temp = p->lines; temp != NULL; temp = temp->ptr) {
       printf("%4d ", temp->lnum);
     }
     printf("\n");
@@ -158,18 +157,8 @@ void treeprint(struct tnode *p) {
 // identify word as a noise word
 int noiseword(char *w) {
   static char *nw[] = {
-    "a",
-    "an",
-    "and",
-    "are",
-    "in",
-    "is",
-    "of",
-    "or",
-    "that",
-    "the",
-    "this",
-    "to",
+      "a",  "an", "and",  "are", "in",   "is",
+      "of", "or", "that", "the", "this", "to",
   };
 
   int cond;
@@ -177,9 +166,9 @@ int noiseword(char *w) {
   int low = 0;
   int high = sizeof(nw) / sizeof(char *) - 1;
 
-  while(low <= high) {
+  while (low <= high) {
     mid = (low + high) / 2;
-    if((cond = strcmp(w, nw[mid])) < 0) {
+    if ((cond = strcmp(w, nw[mid])) < 0) {
       high = mid - 1;
     } else if (cond > 0) {
       low = mid + 1;
@@ -191,12 +180,11 @@ int noiseword(char *w) {
   return -1;
 }
 
-
 // add a node with w, at or below p
 struct tnode *addtreex(struct tnode *p, char *w, int linenum) {
   int cond;
 
-  if(p == NULL) {
+  if (p == NULL) {
     p = talloc();
     p->word = strdup(w);
     p->lines = lalloc();
@@ -204,9 +192,9 @@ struct tnode *addtreex(struct tnode *p, char *w, int linenum) {
     p->lines->ptr = NULL;
     p->left = NULL;
     p->right = NULL;
-  } else if((cond = strcmp(w, p->word)) == 0) {
+  } else if ((cond = strcmp(w, p->word)) == 0) {
     addln(p, linenum);
-  } else if(cond < 0) {
+  } else if (cond < 0) {
     p->left = addtreex(p->left, w, linenum);
   } else {
     p->right = addtreex(p->right, w, linenum);
@@ -214,6 +202,3 @@ struct tnode *addtreex(struct tnode *p, char *w, int linenum) {
 
   return p;
 }
-
-
-

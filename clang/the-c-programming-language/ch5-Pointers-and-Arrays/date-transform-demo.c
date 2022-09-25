@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 /*
 page 95
@@ -9,16 +9,15 @@ page 95
 */
 
 static char daytab[2][13] = {
-  {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
-  {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
-};
+    {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+    {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}};
 
 // 将某月某日的日期表示形式转换为某年中第几天的表现形式
-int day_of_year(int year, int month, int day){
+int day_of_year(int year, int month, int day) {
   int i;
   int leap = year % 4 && year % 100 != 0 || year % 400;
 
-  for(i = 1; i < month; i++){
+  for (i = 1; i < month; i++) {
     day += daytab[leap][i];
   }
 
@@ -26,11 +25,11 @@ int day_of_year(int year, int month, int day){
 }
 
 // 将某年的第nTina, 转化为某月某日的形式
-void month_day(int year, int yearday, int *pmonth, int *pday){
+void month_day(int year, int yearday, int *pmonth, int *pday) {
   int i;
   int leap = year % 4 && year % 100 != 0 || year % 400;
 
-  for(i = 1; yearday > daytab[leap][i]; i++){
+  for (i = 1; yearday > daytab[leap][i]; i++) {
     yearday -= daytab[leap][i];
   }
 
@@ -38,8 +37,7 @@ void month_day(int year, int yearday, int *pmonth, int *pday){
   *pday = yearday;
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 
   assert(day_of_year(2022, 1, 1) == 1);
   assert(day_of_year(2022, 1, 19) == 19);

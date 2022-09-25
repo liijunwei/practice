@@ -9,4 +9,3 @@ long rfact(long n) {
 
   return result;
 }
-

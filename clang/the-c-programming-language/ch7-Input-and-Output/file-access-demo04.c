@@ -6,8 +6,8 @@ ref:
 
 */
 
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 
 // gcc ch7-Input-and-Output/file-access-demo04.c && echo "helloworld" | ./a.out
 int main(int argc, char const *argv[]) {

@@ -11,11 +11,11 @@ int custom_getline(char s[], int limit);
 int remove_blank(char s[]);
 #define LENTH_MAX 1000
 
-int main(){
+int main() {
   char buffer[100];
 
-  while(custom_getline(buffer, LENTH_MAX) > 0){
-    if(remove_blank(buffer) > 0){
+  while (custom_getline(buffer, LENTH_MAX) > 0) {
+    if (remove_blank(buffer) > 0) {
       printf("%s", buffer);
     }
   }
@@ -23,15 +23,15 @@ int main(){
   return 0;
 }
 
-int custom_getline(char s[], int limit){
+int custom_getline(char s[], int limit) {
   int c;
   int i;
 
-  for(i = 0; i < limit - 1 && (c = getchar()) != EOF && c != '\n'; ++i){
+  for (i = 0; i < limit - 1 && (c = getchar()) != EOF && c != '\n'; ++i) {
     s[i] = c;
   }
 
-  if(c == '\n'){
+  if (c == '\n') {
     s[i] = c;
     ++i;
   }
@@ -41,20 +41,20 @@ int custom_getline(char s[], int limit){
   return i;
 }
 
-int remove_blank(char s[]){
+int remove_blank(char s[]) {
   printf("string length is %ld\n", strlen(s));
   int i = 0;
-  while(s[i] != '\n'){
+  while (s[i] != '\n') {
     ++i; // find new line character
   }
 
   --i; // backoff from '\n'
 
-  while(i > 0 && (i == ' ' || i == '\t')){
+  while (i > 0 && (i == ' ' || i == '\t')) {
     --i;
   }
 
-  if(i > 0){ // non blank line?
+  if (i > 0) { // non blank line?
     ++i;
     s[i] = '\n'; // put back '\n'
     ++i;
@@ -65,4 +65,3 @@ int remove_blank(char s[]){
   printf("string length is %ld\n", strlen(s));
   return i;
 }
-

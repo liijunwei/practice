@@ -7,9 +7,9 @@ page 137
 
 #include <stdio.h>
 
-// gcc -g ch7-Input-and-Output/scanf-demo01.c && echo 20 "Monkey-D-Luffy" | ./a.out
-int main(int argc, char const *argv[])
-{
+// gcc -g ch7-Input-and-Output/scanf-demo01.c && echo 20 "Monkey-D-Luffy" |
+// ./a.out
+int main(int argc, char const *argv[]) {
   int number;
   printf("Please enter a number: \n");
   scanf("%d", &number);

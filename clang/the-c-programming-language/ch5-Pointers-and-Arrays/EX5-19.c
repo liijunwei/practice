@@ -11,11 +11,7 @@ page 109
 
 #define MAXTOKEN 100
 
-enum {
-  NAME,
-  PARENS,
-  BRACKETS
-};
+enum { NAME, PARENS, BRACKETS };
 
 enum { NO, YES };
 
@@ -30,25 +26,24 @@ int prevtoken;
 // bash ch5-Pointers-and-Arrays/EX5-19-test.sh
 
 /* undecl: convert word description to declaration */
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   int type;
   char temp[MAXTOKEN];
 
-  while(gettoken() != EOF) {
+  while (gettoken() != EOF) {
     strcpy(out, token);
 
-    while((type = gettoken()) != '\n') {
-      if(type == PARENS || type == BRACKETS) {
+    while ((type = gettoken()) != '\n') {
+      if (type == PARENS || type == BRACKETS) {
         strcat(out, token);
-      } else if(type == '*') {
-        if((type = nexttoken()) == PARENS || type == BRACKETS) {
+      } else if (type == '*') {
+        if ((type = nexttoken()) == PARENS || type == BRACKETS) {
           sprintf(temp, "(*%s)", out);
         } else {
           sprintf(temp, "*%s", out);
         }
         strcpy(out, temp);
-      } else if(type == NAME) {
+      } else if (type == NAME) {
         sprintf(temp, "%s %s", token, out);
         strcpy(out, temp);
       } else {
@@ -66,32 +61,32 @@ int gettoken() {
   int c;
   char *p = token;
 
-  if(prevtoken == YES) {
+  if (prevtoken == YES) {
     prevtoken = NO;
     return tokentype;
   }
 
-  while((c = getch()) == ' ' || c == '\t') {
+  while ((c = getch()) == ' ' || c == '\t') {
     ;
   }
 
-  if(c == '(') {
-    if((c = getch()) == ')') {
+  if (c == '(') {
+    if ((c = getch()) == ')') {
       strcpy(token, "()");
       return tokentype = PARENS;
     } else {
       ungetch(c);
       return tokentype = '(';
     }
-  } else if(c == '[') {
-    for(*p++ = c; (*p++ = getch()) != ']'; ) {
+  } else if (c == '[') {
+    for (*p++ = c; (*p++ = getch()) != ']';) {
       ;
     }
 
     *p = '\0';
     return tokentype = BRACKETS;
-  } else if(isalpha(c)) {
-    for(*p++ = c; isalnum(c = getch()); ) {
+  } else if (isalpha(c)) {
+    for (*p++ = c; isalnum(c = getch());) {
       *p++ = c;
     }
     *p = '\0';
@@ -109,4 +104,3 @@ int nexttoken() {
 
   return type;
 }
-

@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <ctype.h>
 #include <assert.h>
+#include <ctype.h>
+#include <stdio.h>
 
 /*
 page 37
@@ -10,30 +10,30 @@ page 37
 OK 参考: ch2-Types-Operators-and-Expressions/atoi.c
 */
 
-int custom_htoi(const char s[]){
+int custom_htoi(const char s[]) {
   int flag = 1;
   int n = 0;
   int hexdigit;
   int i = 0;
 
-  if(s[i] == '0'){
+  if (s[i] == '0') {
     ++i;
 
-    if(tolower(s[i]) == 'x'){
+    if (tolower(s[i]) == 'x') {
       ++i;
     }
   }
 
-  for(; flag == 1; i++){
-    if(s[i] >= '0' && s[i] <= '9'){
+  for (; flag == 1; i++) {
+    if (s[i] >= '0' && s[i] <= '9') {
       hexdigit = s[i] - '0';
-    } else if(tolower(s[i]) >= 'a' && tolower(s[i]) <= 'f'){
+    } else if (tolower(s[i]) >= 'a' && tolower(s[i]) <= 'f') {
       hexdigit = tolower(s[i]) - 'a' + 10;
     } else {
       flag = -1;
     }
 
-    if(flag == 1){
+    if (flag == 1) {
       n = 16 * n + hexdigit;
     }
   }
@@ -41,8 +41,7 @@ int custom_htoi(const char s[]){
   return n;
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   printf("assertion started...\n");
 
   assert(custom_htoi("0x1a") == 26);
@@ -53,4 +52,3 @@ int main(int argc, char const *argv[])
   printf("assertion pass!\n");
   return 0;
 }
-

@@ -6,19 +6,15 @@ page 109
 TODO 没懂
 */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "../common-utils/getch-ungetch.c"
 
 #define MAXTOKEN 100
 
-enum {
-  NAME,
-  PARENS,
-  BRACKETS
-};
+enum { NAME, PARENS, BRACKETS };
 
 enum { NO, YES };
 
@@ -33,14 +29,13 @@ char datatype[MAXTOKEN]; /* 数据类型为char/int 等 */
 char out[1000];          /* 输出串                */
 int prevtoken;
 
-int main(int argc, char const *argv[])
-{
-  while(gettoken() != EOF) { /* 该行的第一个记号是数据类型 */
+int main(int argc, char const *argv[]) {
+  while (gettoken() != EOF) { /* 该行的第一个记号是数据类型 */
     strcpy(datatype, token);
     out[0] = '\0';
     dcl();
 
-    if(tokentype != '\n') {
+    if (tokentype != '\n') {
       errmsg("Syntax error\n");
     }
 
@@ -53,13 +48,13 @@ int main(int argc, char const *argv[])
 // parse a declarator
 void dcl() {
   int ns;
-  for(ns = 0; gettoken() == '*'; ) {
+  for (ns = 0; gettoken() == '*';) {
     ns++;
   }
 
   dirdcl();
 
-  while(ns > 0) {
+  while (ns > 0) {
     strcat(out, " pointer to");
     ns--;
   }
@@ -69,19 +64,19 @@ void dcl() {
 void dirdcl() {
   int type;
 
-  if(tokentype == '(') {
+  if (tokentype == '(') {
     dcl();
-    if(tokentype != ')') {
+    if (tokentype != ')') {
       errmsg("error: missing )\n");
     }
-  } else if(tokentype == NAME) {
+  } else if (tokentype == NAME) {
     strcpy(name, token);
   } else {
     errmsg("error: expected name of (dcl)\n");
   }
 
-  while((type = gettoken()) == PARENS || type == BRACKETS) {
-    if(type == PARENS) {
+  while ((type = gettoken()) == PARENS || type == BRACKETS) {
+    if (type == PARENS) {
       strcat(out, " function returning");
     } else {
       strcat(out, " array");
@@ -102,32 +97,32 @@ int gettoken() {
   int c;
   char *p = token;
 
-  if(prevtoken == YES) {
+  if (prevtoken == YES) {
     prevtoken = NO;
     return tokentype;
   }
 
-  while((c = getch()) == ' ' || c == '\t') {
+  while ((c = getch()) == ' ' || c == '\t') {
     ;
   }
 
-  if(c == '(') {
-    if((c = getch()) == ')') {
+  if (c == '(') {
+    if ((c = getch()) == ')') {
       strcpy(token, "()");
       return tokentype = PARENS;
     } else {
       ungetch(c);
       return tokentype = '(';
     }
-  } else if(c == '[') {
-    for(*p++ = c; (*p++ = getch()) != ']'; ) {
+  } else if (c == '[') {
+    for (*p++ = c; (*p++ = getch()) != ']';) {
       ;
     }
 
     *p = '\0';
     return tokentype = BRACKETS;
-  } else if(isalpha(c)) {
-    for(*p++ = c; isalnum(c = getch()); ) {
+  } else if (isalpha(c)) {
+    for (*p++ = c; isalnum(c = getch());) {
       *p++ = c;
     }
     *p = '\0';
@@ -137,4 +132,3 @@ int gettoken() {
     return tokentype = c;
   }
 }
-

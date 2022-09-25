@@ -1,19 +1,20 @@
 /*
 page 125
 
-编写一个程序, 根据单词出现的频率, 按降序打印输入的各个不同单词, 并在每个单词的前面标上它的出现次数
+编写一个程序, 根据单词出现的频率, 按降序打印输入的各个不同单词,
+并在每个单词的前面标上它的出现次数
 
 TODO 没全懂...
 */
 
-#include <stdio.h>
 #include <ctype.h>
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../common-utils/getch-ungetch.c"
 
-#define MAXWORD  100
+#define MAXWORD 100
 #define NDISTNCT 1000
 
 struct tnode {
@@ -32,8 +33,7 @@ struct tnode *list[NDISTNCT]; /* pointer to tree nodes */
 int ntn = 0;                  /* number of tree nodes  */
 
 /* print distinct words sorted in decreasing order of frequency */
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   struct tnode *root;
   char word[MAXWORD];
   int i;
@@ -57,21 +57,21 @@ int main(int argc, char const *argv[])
 }
 
 struct tnode *talloc() {
-  return (struct tnode *) malloc(sizeof(struct tnode));
+  return (struct tnode *)malloc(sizeof(struct tnode));
 }
 
 struct tnode *addtree(struct tnode *p, char *w) {
   int cond;
 
-  if(p == NULL) {
+  if (p == NULL) {
     p = talloc();
     p->word = strdup(w);
     p->count = 1;
     p->left = NULL;
     p->right = NULL;
-  } else if((cond = strcmp(w, p->word)) == 0) {
+  } else if ((cond = strcmp(w, p->word)) == 0) {
     p->count++;
-  } else if(cond < 0) {
+  } else if (cond < 0) {
     p->left = addtree(p->left, w);
   } else {
     p->right = addtree(p->right, w);
@@ -82,9 +82,9 @@ struct tnode *addtree(struct tnode *p, char *w) {
 
 int comment() {
   int c;
-  while((c = getch()) != EOF) {
-    if(c == '*') {
-      if((c = getch()) == '/') {
+  while ((c = getch()) != EOF) {
+    if (c == '*') {
+      if ((c = getch()) == '/') {
         break;
       } else {
         ungetch(c);
@@ -100,34 +100,34 @@ int getword(char *word, int limit) {
   int d;
   char *w = word;
 
-  while(isspace(c = getch()) && c != '\n') {
+  while (isspace(c = getch()) && c != '\n') {
     ;
   }
 
-  if(c != EOF) {
+  if (c != EOF) {
     *w++ = c;
   }
 
-  if(isalpha(c) || c == '_' || c == '#') {
-    for( ; --limit > 0; w++) {
-      if(!isalnum(*w = getch()) && *w != '_') {
+  if (isalpha(c) || c == '_' || c == '#') {
+    for (; --limit > 0; w++) {
+      if (!isalnum(*w = getch()) && *w != '_') {
         ungetch(*w);
         break;
       }
     }
-  } else if(c == '\'' || c == '"') {
-    for( ; --limit > 0; w++) {
-      if((*w = getch()) == '\\') {
+  } else if (c == '\'' || c == '"') {
+    for (; --limit > 0; w++) {
+      if ((*w = getch()) == '\\') {
         *++w = getch();
-      } else if(*w == c) {
+      } else if (*w == c) {
         w++;
         break;
-      } else if(*w == EOF) {
+      } else if (*w == EOF) {
         break;
       }
     }
-  } else if(c == '/') {
-    if((d = getch()) == '#') {
+  } else if (c == '/') {
+    if ((d = getch()) == '#') {
       c = comment();
     } else {
       ungetch(d);
@@ -158,20 +158,17 @@ void sortlist() {
 
   struct tnode *temp;
 
-  for (gap = ntn/2; gap > 0; gap /= 2) {
+  for (gap = ntn / 2; gap > 0; gap /= 2) {
     for (i = gap; i < ntn; i++) {
       for (j = i - gap; j >= 0; j -= gap) {
-        if ((list[j]->count) >= (list[j+gap]->count)) {
+        if ((list[j]->count) >= (list[j + gap]->count)) {
           break;
         }
 
         temp = list[j];
-        list[j] = list[j+gap];
-        list[j+gap] = temp;
+        list[j] = list[j + gap];
+        list[j + gap] = temp;
       }
     }
   }
 }
-
-
-
