@@ -37,6 +37,10 @@ int main(int argc, char const *argv[]) {
     Pthread_join(tid[i], NULL);
   }
 
+  for(i = 0; i < nthreads; i++) {
+    gsum += psum[i];
+  }
+
   // check the result
   if(gsum != (nelems * (nelems - 1)) / 2) {
     printf("Error: result=%ld\n", gsum);
