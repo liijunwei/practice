@@ -42,7 +42,7 @@ int main(int argc, char const *argv[]) {
   }
 
   // check the result
-  if(gsum != (nelems * (nelems - 1)) / 2) {
+  if(gsum != (nelems * (nelems - 1) / 2)) {
     printf("Error: result=%ld\n", gsum);
   }
 
