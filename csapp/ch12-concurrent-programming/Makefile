@@ -55,3 +55,7 @@ conc_psum-local: clean csapp.o
 .PHONY: clean
 clean:
 	rm csapp.o
+
+.PHONY: format
+format:
+	clang-format -style=LLVM -i *.c

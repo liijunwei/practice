@@ -18,7 +18,7 @@ int main(int argc, char const *argv[]) {
 
   pthread_t tid[MAXTHREADS];
 
-  if(argc != 3) {
+  if (argc != 3) {
     printf("Usage: %s <nthreads> <log_nelems>\n", argv[0]);
     exit(0);
   }
@@ -28,24 +28,25 @@ int main(int argc, char const *argv[]) {
   nelems = (1L << log_nelems);
   nelems_per_thread = nelems / nthreads;
 
-  for(i = 0; i < nthreads; i++) {
+  for (i = 0; i < nthreads; i++) {
     myid[i] = i;
     Pthread_create(&tid[i], NULL, sum_array, &myid[i]);
   }
 
-  for(i = 0; i < nthreads; i++) {
+  for (i = 0; i < nthreads; i++) {
     Pthread_join(tid[i], NULL);
   }
 
-  for(i = 0; i < nthreads; i++) {
+  for (i = 0; i < nthreads; i++) {
     gsum += psum[i];
   }
 
-  // long expected = (nelems * (nelems - 1)) / 2; // overflow... print ((nelems * (nelems - 1)) / 2) => -2147483648
+  // long expected = (nelems * (nelems - 1)) / 2; // overflow... print ((nelems
+  // * (nelems - 1)) / 2) => -2147483648
   long expected = (nelems / 2) * (nelems - 1);
 
   // check the result
-  if(gsum != expected) {
+  if (gsum != expected) {
     printf("Error: expected=%ld actual=%ld\n", expected, gsum);
   } else {
     printf("Looking good");
@@ -61,7 +62,7 @@ void *sum_array(void *vargp) {
   long i;
   long sum = 0;
 
-  for(i = start; i < end; i++) {
+  for (i = start; i < end; i++) {
     sum += i;
   }
 
@@ -69,4 +70,3 @@ void *sum_array(void *vargp) {
 
   return NULL;
 }
-

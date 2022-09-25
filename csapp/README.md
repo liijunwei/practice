@@ -13,10 +13,11 @@ code: http://csapp.cs.cmu.edu/3e/code.html
 # keyword: "yum install clang-format"
 #     https://centos.pkgs.org/7/centos-sclo-rh-x86_64/llvm-toolset-7-git-clang-format-5.0.1-4.el7.x86_64.rpm.html
 #     Install Howto
-
 sudo yum install centos-release-scl-rh -y
-yum search clang-format
-sudo yum install llvm-toolset-7.0-git-clang-format.x86_64 -y
+sudo yum install llvm-toolset-7-git-clang-format -y
+
+# /opt/rh/llvm-toolset-7/root/usr/bin/git-clang-format
+export PATH=/opt/rh/llvm-toolset-7/root/usr/bin:$PATH
 
 # macos
 brew install clang-format

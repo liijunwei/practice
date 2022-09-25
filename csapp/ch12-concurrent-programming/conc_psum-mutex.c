@@ -17,7 +17,7 @@ int main(int argc, char const *argv[]) {
 
   pthread_t tid[MAXTHREADS];
 
-  if(argc != 3) {
+  if (argc != 3) {
     printf("Usage: %s <nthreads> <log_nelems>\n", argv[0]);
     exit(0);
   }
@@ -29,19 +29,19 @@ int main(int argc, char const *argv[]) {
 
   Sem_init(&mutex, 0, 1);
 
-  for(i = 0; i < nthreads; i++) {
+  for (i = 0; i < nthreads; i++) {
     myid[i] = i;
     Pthread_create(&tid[i], NULL, sum_mutex, &myid[i]);
   }
 
-  for(i = 0; i < nthreads; i++) {
+  for (i = 0; i < nthreads; i++) {
     Pthread_join(tid[i], NULL);
   }
 
   long expected = (nelems / 2) * (nelems - 1);
 
   // check the result
-  if(gsum != expected) {
+  if (gsum != expected) {
     printf("Error: expected=%ld actual=%ld\n", expected, gsum);
   } else {
     printf("Looking good");
@@ -56,7 +56,7 @@ void *sum_mutex(void *vargp) {
   long end = start + nelems_per_thread;  // end element index
   long i;
 
-  for(i = start; i < end; i++) {
+  for (i = start; i < end; i++) {
     P(&mutex);
     gsum += i;
     V(&mutex);
@@ -64,4 +64,3 @@ void *sum_mutex(void *vargp) {
 
   return NULL;
 }
-

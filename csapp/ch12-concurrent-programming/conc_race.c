@@ -4,11 +4,6 @@
 
 void *thread(void *vargp);
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[]) { exit(0); }
 
-  exit(0);
-}
-
-void *thread(void *vargp) {
-
-}
+void *thread(void *vargp) {}

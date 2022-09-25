@@ -15,4 +15,8 @@ sudo yum install -y tldr
 sudo yum install -y strace
 sudo yum install -y bind-utils
 
+sudo yum install centos-release-scl-rh -y
+sudo yum install llvm-toolset-7-git-clang-format -y
+echo 'export PATH=/opt/rh/llvm-toolset-7/root/usr/bin:$PATH' >> ~/.zshrc
+
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && sudo chsh -s $(which zsh) vagrant

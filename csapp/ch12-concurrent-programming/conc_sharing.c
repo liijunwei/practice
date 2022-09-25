@@ -12,21 +12,13 @@ int main(int argc, char const *argv[]) {
   pthread_t tid;
 
   char *msgs[N] = {
-    "hello0",
-    "hello1",
-    "hello2",
-    "hello3",
-    "hello4",
-    "hello5",
-    "hello6",
-    "hello7",
-    "hello8",
-    "hello9",
+      "hello0", "hello1", "hello2", "hello3", "hello4",
+      "hello5", "hello6", "hello7", "hello8", "hello9",
   };
 
   ptr = msgs;
 
-  for(i = 0; i < N; i++) {
+  for (i = 0; i < N; i++) {
     Pthread_create(&tid, NULL, thread, (void *)i);
   }
 
