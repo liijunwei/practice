@@ -13,4 +13,7 @@ code: http://csapp.cs.cmu.edu/3e/code.html
 sudo yum install centos-release-scl-rh -y
 yum search clang-format
 sudo yum install llvm-toolset-7.0-git-clang-format.x86_64 -y
+
+clang-format -style=LLVM main.c
+clang-format -style=LLVM -i main.c
 ```
