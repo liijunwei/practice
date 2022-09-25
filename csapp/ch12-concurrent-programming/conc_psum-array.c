@@ -41,8 +41,10 @@ int main(int argc, char const *argv[]) {
     gsum += psum[i];
   }
 
+  long expected_result = (nelems * (nelems - 1)) / 2;
+
   // check the result
-  if(gsum != (nelems * (nelems - 1) / 2)) {
+  if(gsum != expected_result) {
     printf("Error: result=%ld\n", gsum);
   }
 
