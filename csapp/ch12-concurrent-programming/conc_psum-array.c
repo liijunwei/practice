@@ -7,6 +7,7 @@ void *sum_array(void *vargp); // thread routine
 long gsum = 0;
 long nelems_per_thread;
 sem_t mutex;
+long psum[MAXTHREADS];
 
 int main(int argc, char const *argv[]) {
   long i;
@@ -26,8 +27,6 @@ int main(int argc, char const *argv[]) {
   log_nelems = atoi(argv[2]);
   nelems = (1L << log_nelems);
   nelems_per_thread = nelems / nthreads;
-
-  long psum[nthreads];
 
   for(i = 0; i < nthreads; i++) {
     myid[i] = i;
