@@ -25,4 +25,6 @@
     + ./conc_psum-array.c
     + ./conc_psum-local.c
 
+### 12.7.5 死锁
 
++ 信号量引入了一个潜在的令人厌恶的运行时错误: 死锁(dead lock)
