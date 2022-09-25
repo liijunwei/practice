@@ -29,8 +29,35 @@ int main(int argc, char const *argv[]) {
 
   Sem_init(&mutex, 0, 1);
 
+  for(i = 0; i < nthreads; i++) {
+    myid[i] = i;
+    Pthread_create(&tid[i], NULL, sum_mutex, &myid[i]);
+  }
 
+  for(i = 0; i < nthreads; i++) {
+    Pthread_join(tid[i], NULL);
+  }
+
+  // check the result
+  if(gsum != (nelems * (nelems - 1)) / 2) {
+    printf("Error: result=%ld\n", gsum);
+  }
 
   exit(0);
+}
+
+void *sum_mutex(void *vargp) {
+  long myid = *((long *)vargp);          // extract thread id
+  long start = myid * nelems_per_thread; // start element index
+  long end = start + nelems_per_thread;  // end element index
+  long i;
+
+  for(i = start; i < end; i++) {
+    P(&mutex);
+    gsum += i;
+    V(&mutex);
+  }
+
+  return NULL;
 }
 
