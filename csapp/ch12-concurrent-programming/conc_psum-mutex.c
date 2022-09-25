@@ -38,10 +38,14 @@ int main(int argc, char const *argv[]) {
     Pthread_join(tid[i], NULL);
   }
 
+  long expected = (1 / 2) * nelems * (nelems - 1);
+
   // check the result
-  if(gsum != (nelems * (nelems - 1) / 2)) {
-    printf("Error: result=%ld\n", gsum);
+  if(gsum != expected) {
+    printf("Error: expected=%ld actual=%ld\n", expected, gsum);
   }
+
+  printf("Success: expected=%ld actual=%ld\n", expected, gsum);
 
   exit(0);
 }

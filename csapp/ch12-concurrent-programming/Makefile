@@ -40,11 +40,11 @@ conc_sharing: csapp.o
 conc_psum-mutex: csapp.o
 	$(CC) $(CFLAGS) csapp.o conc_psum-mutex.c
 	./a.out
-	./a.out 1 32
+# 	./a.out 1 32
 
 conc_psum-array: csapp.o
 	$(CC) $(CFLAGS) csapp.o conc_psum-array.c
 	./a.out
-	./a.out 1 32
+# 	./a.out 1 32
 
 
