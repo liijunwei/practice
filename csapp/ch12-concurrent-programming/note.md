@@ -17,3 +17,12 @@
 + aka: Pthreads
 
 + Pthreads 是在C程序中处理线程的一个标准接口
+
+## 12.6 使用线程提高并行性
+
++ 从 这三个例子可以学习到一个重要经验: 写并行程序相当棘手; 对代码看上去很小的改动可能会对性能有极大的影响
+    + ./conc_psum-mutex.c
+    + ./conc_psum-array.c
+    + ./conc_psum-local.c
+
+
