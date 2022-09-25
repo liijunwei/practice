@@ -6,7 +6,7 @@ CSAPP_SRC = ../src
 CFLAGS = -I $(CSAPP_INC) $(LDLIBS) -Wall -g
 
 csapp.o:
-	$(CC) $(CFLAGS) -c $(CSAPP_SRC)/csapp.c -o csapp.o
+	@$(CC) $(CFLAGS) -c $(CSAPP_SRC)/csapp.c -o csapp.o
 
 conc_badcnt: csapp.o
 	$(CC) $(CFLAGS) csapp.o conc_badcnt.c
@@ -53,13 +53,15 @@ conc_psum-local: clean format csapp.o
 	./a.out
 
 conc_race: clean format csapp.o
-	$(CC) $(CFLAGS) csapp.o conc_race.c
+	@$(CC) $(CFLAGS) csapp.o conc_race.c
+	./a.out
+	./a.out
 	./a.out
 
 .PHONY: clean
 clean:
-	rm csapp.o
+	@rm csapp.o
 
 .PHONY: format
 format:
-	clang-format -style=LLVM -i *.c
+	@clang-format -style=LLVM -i *.c

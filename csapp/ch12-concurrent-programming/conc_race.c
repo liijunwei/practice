@@ -1,6 +1,6 @@
 #include "csapp.h"
 
-#define N 10
+#define N 4
 
 void *thread(void *vargp);
 
