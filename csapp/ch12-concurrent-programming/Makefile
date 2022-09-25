@@ -47,4 +47,6 @@ conc_psum-array: csapp.o
 	./a.out
 # 	./a.out 1 32
 
-
+.PH
+clean:
+	rm csapp.o

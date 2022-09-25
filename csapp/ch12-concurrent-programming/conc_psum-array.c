@@ -42,14 +42,14 @@ int main(int argc, char const *argv[]) {
   }
 
   // long expected = (nelems * (nelems - 1)) / 2; // overflow... print ((nelems * (nelems - 1)) / 2) => -2147483648
-  long expected = (1 / 2) * nelems * (nelems - 1);
+  long expected = (nelems / 2) * (nelems - 1);
 
   // check the result
   if(gsum != expected) {
     printf("Error: expected=%ld actual=%ld\n", expected, gsum);
+  } else {
+    printf("Looking good");
   }
-
-  printf("Success: expected=%ld actual=%ld\n", expected, gsum);
 
   exit(0);
 }
