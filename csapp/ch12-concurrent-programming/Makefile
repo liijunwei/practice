@@ -32,3 +32,7 @@ conc_goodcnt: csapp.o
 conc_sharing: csapp.o
 	$(CC) $(CFLAGS) csapp.o conc_sharing.c
 	./a.out
+
+conc_psum-mutex: csapp.o
+	$(CC) $(CFLAGS) csapp.o conc_psum-mutex.c
+	./a.out
