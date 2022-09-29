@@ -37,6 +37,7 @@ func main() {
 	i.M()
 }
 
+// describe 特定的接口
 func describe(i I) {
 	fmt.Printf("(%v, %T)\n", i, i)
 }
