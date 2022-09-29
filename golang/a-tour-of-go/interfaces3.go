@@ -30,6 +30,8 @@ func main() {
 	describe(i)
 	i.M()
 
+	fmt.Printf("===============\n")
+
 	i = F(math.Pi)
 	describe(i)
 	i.M()
