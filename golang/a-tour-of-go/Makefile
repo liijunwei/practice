@@ -12,5 +12,8 @@ interfaces3: fmt
 interfaces4: fmt
 	@go run interfaces4.go
 
+interfaces5: fmt
+	@go run interfaces5.go
+
 fmt:
 	@gofmt -w *.go
