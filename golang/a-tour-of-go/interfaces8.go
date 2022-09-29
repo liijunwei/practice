@@ -1,5 +1,6 @@
 package main
 
+// https://go.dev/tour/methods/19
 import (
 	"fmt"
 	"time"
@@ -16,7 +17,7 @@ func (e *MyError) Error() string {
 }
 
 func run() (int, error) {
-	return 100, nil
+	// return 100, nil
 	return 100, &MyError{
 		time.Now(),
 		"it didn't work",

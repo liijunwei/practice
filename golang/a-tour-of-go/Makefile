@@ -21,5 +21,8 @@ interfaces6: fmt
 interfaces7: fmt
 	@go run interfaces7.go
 
+interfaces8: fmt
+	@go run interfaces8.go
+
 fmt:
 	@gofmt -w *.go
