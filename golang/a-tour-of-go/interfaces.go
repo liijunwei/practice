@@ -10,7 +10,7 @@ type Abser interface {
 }
 
 func main() {
-	var a Abser
+	var a Abser // 接口类型的值
 	f := MyFloat(-math.Sqrt2)
 	v := Vertex{3, 4}
 
@@ -19,7 +19,7 @@ func main() {
 
 	// In the following line, v is a Vertex (not *Vertex)
 	// and does NOT implement Abser.
-	a = v
+	// a = v
 
 	fmt.Println(a.Abs())
 }
