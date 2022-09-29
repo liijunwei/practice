@@ -10,3 +10,10 @@
 
 ## Replacing the Conditional Logic with Polymorphism
 
++ If you must use a case statement, it should be on your own data, not on someone else's
+
++ The refactoring I'm going to use here is `Replace Type Code with State/Stragety`
+
+## Final thoughts
+
++ The most important lesson from this example is the rhythm of refactoring: test, small changes, test, small changes, test, small changes. It's that rhythm that allows refactoring to move quickly and safely
