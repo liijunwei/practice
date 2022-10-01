@@ -10,3 +10,4 @@ This will place a tour binary in your [GOPATH's](https://pkg.go.dev/cmd/go#hdr-G
 
 Of course, you can continue to take the tour through this web site.
 
+**[Where to Go from here...](https://go.dev/tour/concurrency/11)**
