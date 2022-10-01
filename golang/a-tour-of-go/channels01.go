@@ -19,7 +19,10 @@ func main() {
 	go sum(s[len(s)/2:], c)
 
 	x := <-c // receive from c
-	y := <-c
+	y := <-c // receive from c
+	// y := <-c
+	fmt.Println(x)
+	fmt.Println(y)
 
-	fmt.Printf("partial_x: %d \npartial_y: %d \nsum: %d \n", x, y, x+y)
+	// fmt.Printf("partial_x: %d \npartial_y: %d \nsum: %d \n", x, y, x+y)
 }

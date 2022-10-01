@@ -2,7 +2,7 @@ package main
 
 // https://go.dev/tour/concurrency/4
 // Only the sender should close a channel, never the receiver.
-// Sending on a closed channel will cause a panic.
+// Sending on a closed channel will cause a panic. (unclear)
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ func fibonacci(n int, c chan int) {
 		c <- x
 		x, y = y, x+y
 	}
-	// close(c)
+	close(c)
 }
 
 func main() {
@@ -24,7 +24,5 @@ func main() {
 	// The loop for i := range c receives values from the channel repeatedly until it is closed.
 	for i := range c {
 		fmt.Println(i)
-		close(c)
-
 	}
 }
