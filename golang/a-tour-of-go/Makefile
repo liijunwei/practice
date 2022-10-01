@@ -49,5 +49,13 @@ channels03: fmt
 	@go build -o a.out channels03.go
 	@./a.out
 
+select01: fmt
+	@go build -o a.out select01.go
+	@./a.out
+
+select02: fmt
+	@go build -o a.out select02.go
+	@./a.out
+
 fmt:
 	@gofmt -w *.go
