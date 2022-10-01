@@ -37,5 +37,9 @@ goroutines01: fmt
 	@go build -o a.out goroutines01.go
 	@watch -n2 -d "./a.out"
 
+channels01: fmt
+	@go build -o a.out channels01.go
+	@./a.out
+
 fmt:
 	@gofmt -w *.go
