@@ -33,5 +33,9 @@ interfaces10: fmt
 # interfaces11: fmt
 # 	@go run interfaces11.go
 
+goroutines01: fmt
+	@go build -o a.out goroutines01.go
+	@watch -n2 -d "./a.out"
+
 fmt:
 	@gofmt -w *.go
