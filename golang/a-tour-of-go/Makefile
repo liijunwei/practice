@@ -57,5 +57,9 @@ select02: fmt
 	@go build -o a.out select02.go
 	@./a.out
 
+mutex01: fmt
+	@go build -o a.out mutex01.go
+	@./a.out
+
 fmt:
 	@gofmt -w *.go
