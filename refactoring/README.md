@@ -4,8 +4,8 @@
 
 ## toc
 
-- [ ] Chapter 01. Refactoring, a First Example
-- [ ] Chapter 02. Principles in Refactoring
+- [x] Chapter 01. Refactoring, a First Example
+- [x] Chapter 02. Principles in Refactoring
 - [ ] Chapter 03. Bad Smells in Code
 - [ ] Chapter 04. Building Tests
 - [ ] Chapter 05. Toward a Catalog of Refactorings
