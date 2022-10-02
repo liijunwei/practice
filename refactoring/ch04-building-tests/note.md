@@ -18,4 +18,10 @@ Even if you are fortunate enough to have a tool that can automate the refactorin
 
 + But often when I’m working with people on refactoring, we have a body of non-self-testing code to work on. **So first we have to make the code self-testing before we refactor.**
 
++ Again I’ll mention that when I’m writing tests, **I start by making them fail**. With existing code I either change it to make it fail (if I can touch the code) or put an incorrect expected value in the assertion.
+    + I do this because I like to prove to myself that the test does actually run and the test is actually testing what it’s supposed to (which is why I prefer changing the tested code if I can).
+    + This may be paranoia, but you can really confuse yourself when tests are testing something other than what you think they are testing.
 
+## Developer and Quality Assurance Tests
+
++ Quality assurance tests are a different animal. They are written to ensure the software as a whole works. They provide quality assurance to the customer and don’t care about programmer productivity.
