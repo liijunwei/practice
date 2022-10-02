@@ -4,6 +4,8 @@
 
 ## toc
 
+refactoring/create_notes.rb
+
 - [x] Chapter 01. Refactoring, a First Example
 - [x] Chapter 02. Principles in Refactoring
 - [x] Chapter 03. Bad Smells in Code
