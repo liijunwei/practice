@@ -6,3 +6,5 @@ The biggest problem with Extract Method is dealing with local variables, and tem
 
 + TODO question: what is "Split Temporary Variable"?
 
++ When a **default parameter** becomes unused, I need to remove it using Remove Unused Default Parameter.
+
