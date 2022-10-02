@@ -24,4 +24,15 @@ Even if you are fortunate enough to have a tool that can automate the refactorin
 
 ## Developer and Quality Assurance Tests
 
++ I write them to improve my productivity as a pro- grammer. Making the quality assurance department happy is just a side effect.
+
 + Quality assurance tests are a different animal. They are written to ensure the software as a whole works. They provide quality assurance to the customer and don’t care about programmer productivity.
+
++ Tip: **When you get a bug report, start by writing a unit test that exposes the bug.**
+
+## Adding More Tests
+
++ The key is to test the areas that you are most worried about going wrong. That way you get the most benefit for your testing effort.
+
++ Tip: Think of the boundary conditions under which things might go wrong and concentrate your tests there.
+
