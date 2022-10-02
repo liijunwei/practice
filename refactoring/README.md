@@ -6,9 +6,9 @@
 
 - [x] Chapter 01. Refactoring, a First Example
 - [x] Chapter 02. Principles in Refactoring
-- [ ] Chapter 03. Bad Smells in Code
-- [ ] Chapter 04. Building Tests
-- [ ] Chapter 05. Toward a Catalog of Refactorings
+- [x] Chapter 03. Bad Smells in Code
+- [x] Chapter 04. Building Tests
+- [x] Chapter 05. Toward a Catalog of Refactorings
 - [ ] Chapter 06. Composing Methods
 - [ ] Chapter 07. Moving Features Between Objects
 - [ ] Chapter 08. Organizing Data
