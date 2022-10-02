@@ -35,4 +35,15 @@ Even if you are fortunate enough to have a tool that can automate the refactorin
 + The key is to test the areas that you are most worried about going wrong. That way you get the most benefit for your testing effort.
 
 + Tip: Think of the boundary conditions under which things might go wrong and concentrate your tests there.
+    + Part of looking for boundaries is looking for special conditions that can cause the test to fail.
+
++ In the process you get to really understand the interface of the class.
++ In particular, it helps to think about error conditions and boundary conditions.
++ That’s another advantage for writing tests as you write code, or even before you write the production code.
+
++ **You should concentrate on where the risk is**. Look at the code and see where it becomes complex. Look at the function and consider the likely areas of error. Your tests will not find every bug, but **as you refactor you will understand the program better and thus find more bugs**.
+
++ Build a good bug detector and run it frequently.
+
+
 
