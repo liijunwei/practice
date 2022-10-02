@@ -29,3 +29,7 @@
     + You get it when people say, "Oh, I think we need the ability to do this kind of thing someday" and thus want all sorts of hooks and special cases to handle things that aren't required.
 
 + we can rarely figure out a design until we’ve mostly built it
+
++ Refused Bequest(遗赠)
+
+
