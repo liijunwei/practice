@@ -15,3 +15,9 @@
     + Reducing instance variable lists and parameter lists will certainly remove a few bad smells, but once you have the objects, you get the opportunity to make a nice perfume.
 
 + Primitive Obsession(mind blowing)
+    + Replace Data Value with Object on individual data values
+
++ Case Statements
+    + The problem with case statements is essentially that of duplication
+    + Often you find the same case statement scattered about a program in different places
+    + Most times when you see a case statement you should consider polymorphism
