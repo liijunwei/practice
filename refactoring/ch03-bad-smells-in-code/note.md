@@ -37,3 +37,8 @@
 + When you feel the need to write a comment, first try to refactor the code so that any comment becomes superfluous.
 
 + A good time to use a comment is when you don’t know what to do. In addi- tion to describing what is going on, comments can indicate areas in which you aren’t sure. A comment is a good place to say why you did something. This kind of information helps future modifiers, especially forgetful ones.
+
++ Repetitive Boilerplate
+    + Most code isn’t simple enough to declare in this way(e.g.: attr_reader), but when the purpose of the code can **be captured clearly in a declarative statement**, Introduce Class Annotation can clarify the intention of your code.
+
+
