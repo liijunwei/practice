@@ -36,4 +36,5 @@ end
 mother = Person.new("mia", "1963-01-01", nil, nil)
 Person.new("tiny-mia1", "1993-01-01", nil, mother)
 Person.new("tiny-mia2", "1994-01-01", nil, mother)
-p mother
+p mother.number_of_living_descendants
+p mother.number_of_descendants_named('tiny-mia11')
