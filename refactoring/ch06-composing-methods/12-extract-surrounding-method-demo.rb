@@ -15,14 +15,14 @@ class Person
   end
 
   def number_of_living_descendants
-    children.inject(0) do |count, child|
+    children.reduce(0) do |count, child|
       count += 1 if child.alive?
       count + child.number_of_living_descendants
     end
   end
 
   def number_of_descendants_named(name)
-    children.inject(0) do |count, child|
+    children.reduce(0) do |count, child|
       count += 1 if child.name == name
       count + child.number_of_descendants_named(name)
     end
