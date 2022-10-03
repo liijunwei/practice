@@ -59,5 +59,6 @@ RSpec.describe Person do
   describe '#number_of_descendants_named' do
     specify { expect(mother.number_of_descendants_named('tiny-mia2')).to eq(2) }
     specify { expect(mother.number_of_descendants_named('tiny-mia1')).to eq(1) }
+    specify { expect(mother.number_of_descendants_named('foobar')).to be_zero }
   end
 end
