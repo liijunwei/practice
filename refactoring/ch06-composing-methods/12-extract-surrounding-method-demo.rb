@@ -31,6 +31,15 @@ class Person
   def alive?
     @date_of_death.nil?
   end
+
+  protected
+
+  def count_descendants_matching(name)
+    children.reduce(0) do |count, child|
+      count += 1 if child.name == name
+      count + child.number_of_descendants_named(name)
+    end
+  end
 end
 
 mother = Person.new("mia", "1963-01-01", nil, nil)
