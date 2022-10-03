@@ -20,4 +20,21 @@ end
 
 + **The primary goal for Dynamic Method Definition is to more concisely express the method definition in a readable and maintainable format.**(agree)
 
++ `def_each` (it's all about readability and maintainability)
+```ruby
+class Class
+  def def_each(*method_names, &block)
+    method_names.each do |method_name|
+      define_method method_name do
+        instance_exec method_name, &block
+      end
+    end
+  end
+end
+```
 
++ or use dsl(class macro)
+
++ too much magic :(
+    + library can do this
+    + application better not
