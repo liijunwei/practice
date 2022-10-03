@@ -39,3 +39,24 @@ RSpec.describe SearchCriteria do
     expect {criteria.foo}.to raise_error(NoMethodError)
   end
 end
+
+class FilterCriteria
+  HASH_FIELDS = %i[keyword site]
+  attr_reader *HASH_FIELDS
+
+  include CustomInitializers
+
+  hash_initializer *HASH_FIELDS
+end
+
+RSpec.describe FilterCriteria do
+  let(:hash) { {keyword: 'stub', site: 'https://martinfowler.com'} }
+
+  it 'has instance variables initialized' do
+    criteria = described_class.new(hash)
+
+    expect(criteria.keyword).to eq('stub')
+    expect(criteria.site).to eq('https://martinfowler.com')
+    expect {criteria.foo}.to raise_error(NoMethodError)
+  end
+end
