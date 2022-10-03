@@ -22,10 +22,7 @@ class Person
   end
 
   def number_of_descendants_named(name)
-    children.reduce(0) do |count, child|
-      count += 1 if child.name == name
-      count + child.number_of_descendants_named(name)
-    end
+    count_descendants_matching { |descendant| descendant.name == name }
   end
 
   def alive?
@@ -34,16 +31,33 @@ class Person
 
   protected
 
-  def count_descendants_matching(name)
+  def count_descendants_matching(&block)
     children.reduce(0) do |count, child|
-      count += 1 if child.name == name
-      count + child.number_of_descendants_named(name)
+      count += 1 if yield child
+      count + child.count_descendants_matching(&block)
     end
   end
 end
 
-mother = Person.new("mia", "1963-01-01", nil, nil)
-Person.new("tiny-mia1", "1993-01-01", nil, mother)
-Person.new("tiny-mia2", "1994-01-01", nil, mother)
-p mother.number_of_living_descendants
-p mother.number_of_descendants_named('tiny-mia11')
+require 'rspec'
+require 'pry'
+
+# rspec 12-extract-surrounding-method-demo.rb
+RSpec.describe Person do
+  let(:mother) { described_class.new("mia", "1963-01-01", nil, nil) }
+
+  before do
+    described_class.new("tiny-mia1", "1993-01-01", nil, mother)
+    described_class.new("tiny-mia2", "1994-01-01", nil, mother)
+    described_class.new("tiny-mia2", "1998-01-01", nil, mother)
+  end
+
+  describe '#number_of_living_descendants' do
+    specify { expect(mother.number_of_living_descendants).to eq(3) }
+  end
+
+  describe '#number_of_descendants_named' do
+    specify { expect(mother.number_of_descendants_named('tiny-mia2')).to eq(2) }
+    specify { expect(mother.number_of_descendants_named('tiny-mia1')).to eq(1) }
+  end
+end
