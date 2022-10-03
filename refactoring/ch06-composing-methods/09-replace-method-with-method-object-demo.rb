@@ -9,3 +9,13 @@ class Account
     important_value3 - 2 * important_value1
   end
 end
+
+class Gamma
+attr_reader :account,
+            :input_val,
+            :quantity,
+            :year_to_date,
+            :important_value1,
+            :important_value2,
+            :important_value3
+end
