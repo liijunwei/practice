@@ -1,15 +1,25 @@
+module CustomInitializers
+  def self.included(klass)
+    klass.extend(ClassMethods)
+  end
+
+  module ClassMethods
+    def hash_initializer(*attribute_names)
+      define_method(:initialize) do |*args|
+        data = args.first || {}
+        attribute_names.each do |attribute_name|
+          instance_variable_set "@#{attribute_name}", data[attribute_name]
+        end
+      end
+    end
+  end
+end
+
 class SearchCriteria
   HASH_FIELDS = %i[author_id publisher_id isbn]
   attr_reader *HASH_FIELDS
 
-  def self.hash_initializer(*attribute_names)
-    define_method(:initialize) do |*args|
-      data = args.first || {}
-      attribute_names.each do |attribute_name|
-        instance_variable_set "@#{attribute_name}", data[attribute_name]
-      end
-    end
-  end
+  include CustomInitializers
 
   hash_initializer *HASH_FIELDS
 end
