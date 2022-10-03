@@ -8,15 +8,15 @@ func Trace(name string) func() {
 }
 
 func foo() {
-	defer Trace("foo")
+	defer Trace("foo")()
 	bar()
 }
 
 func bar() {
-	defer Trace("bar")
+	defer Trace("bar")()
 }
 
 func main() {
-	defer Trace("main")
+	defer Trace("main")()
 	foo()
 }
