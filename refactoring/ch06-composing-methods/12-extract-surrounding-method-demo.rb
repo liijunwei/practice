@@ -22,6 +22,7 @@ class Person
     count_descendants_matching { |descendant| descendant.name == name }
   end
 
+  # can't be private
   def alive?
     @date_of_death.nil?
   end
