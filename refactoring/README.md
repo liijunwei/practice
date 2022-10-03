@@ -11,7 +11,7 @@ refactoring/create_notes.rb
 - [x] Chapter 03. Bad Smells in Code
 - [x] Chapter 04. Building Tests
 - [x] Chapter 05. Toward a Catalog of Refactorings
-- [ ] Chapter 06. Composing Methods
+- [x] Chapter 06. Composing Methods
 - [ ] Chapter 07. Moving Features Between Objects
 - [ ] Chapter 08. Organizing Data
 - [ ] Chapter 09. Simplifying Conditional Expressions
