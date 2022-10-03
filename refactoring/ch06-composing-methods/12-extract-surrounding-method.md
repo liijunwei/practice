@@ -37,3 +37,7 @@ def connect
   end
 end
 ```
+
++ As well as removing duplication, this refactoring can be used to hide away infrastructure code (for example, code for iterating over a collection or connecting to an external service), so that the business logic becomes more prominent.
+
+如果两段代码只有中间部分是不同的, 可以用 ruby block 来抽象(one of the block usages)
