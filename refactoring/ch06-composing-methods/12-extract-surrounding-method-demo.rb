@@ -15,11 +15,11 @@ class Person
   end
 
   def number_of_living_descendants
-    count_descendants_matching { |descendant| descendant.alive? }
+    count_descendants_matching { |child| child.alive? }
   end
 
   def number_of_descendants_named(name)
-    count_descendants_matching { |descendant| descendant.name == name }
+    count_descendants_matching { |child| child.name == name }
   end
 
   # can't be private
