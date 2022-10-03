@@ -15,7 +15,7 @@ class Person
   end
 
   def number_of_living_descendants
-    count_descendants_matching { |child| child.alive? }
+    count_descendants_matching(&:alive?)
   end
 
   def number_of_descendants_named(name)
