@@ -1,6 +1,6 @@
 class SearchCriteria
-  fields = [:author_id, :publisher_id, :isbn, :foo]
-  attr_reader :author_id, :publisher_id, :isbn, :foo
+  HASH_FIELDS = %i[author_id publisher_id isbn]
+  attr_reader *HASH_FIELDS
 
   def self.hash_initializer(*attribute_names)
     define_method(:initialize) do |*args|
@@ -11,7 +11,7 @@ class SearchCriteria
     end
   end
 
-  hash_initializer :author_id, :publisher_id, :isbn, :foo
+  hash_initializer *HASH_FIELDS
 end
 
 require 'rspec'
@@ -26,7 +26,6 @@ RSpec.describe SearchCriteria do
     expect(criteria.author_id).to eq(1)
     expect(criteria.publisher_id).to eq(2)
     expect(criteria.isbn).to eq('foobar')
-    expect(criteria.isbn).to eq('foobar')
-    expect(criteria.foo).to eq(1)
+    expect {criteria.foo}.to raise_error(NoMethodError)
   end
 end
