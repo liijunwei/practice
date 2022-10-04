@@ -13,3 +13,8 @@ You have one class doing work that should be done by two.
     + A useful test is to ask yourself **what would happen if you removed a piece of data or a method**. What other fields and methods would become nonsense?
 
 + `two-way link` -> `one-way link`
+
++ Extract Class is a common technique for **improving the liveness of a concurrent program** because it allows you to have separate locks on the two resulting classes.
+
++ don't understand
+    + "Transactions are useful when you use them, but writing transaction managers is more than most programmers should attempt."
