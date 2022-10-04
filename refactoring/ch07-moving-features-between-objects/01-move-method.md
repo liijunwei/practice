@@ -10,3 +10,6 @@
     + Actually it is then no big deal. If it is difficult to make the decision, it probably does not matter that much.
     + Then I choose according to instinct; after all, **I can always change it again later.**
 
++ Sometimes it is easier to move a clutch of methods than to move them one at a time.
+
++ If the method includes exception handlers, **decide which class should logically handle the exception**. If the source class should be responsible, leave the handlers behind.
