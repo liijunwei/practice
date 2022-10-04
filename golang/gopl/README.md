@@ -4,8 +4,8 @@ Thanks for the recommendation from "frank.wang" & 左耳朵耗子(https://github
 
 # TOC
 
-- [ ] ch00 Contents
-- [ ] ch00 Preface
+- [x] ch00 Contents
+- [x] ch00 Preface
 - [ ] ch01 Tutorial
 - [ ] ch02 Program Structure
 - [ ] ch03 Basic Data Types
