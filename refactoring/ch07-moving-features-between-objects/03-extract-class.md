@@ -11,3 +11,5 @@ You have one class doing work that should be done by two.
     + A good sign is that a subset of the data and a subset of the methods seem to **go together**.
     + Other good signs are subsets of data that usually **change together** or are particularly **dependent on each other**.
     + A useful test is to ask yourself **what would happen if you removed a piece of data or a method**. What other fields and methods would become nonsense?
+
++ `two-way link` -> `one-way link`
