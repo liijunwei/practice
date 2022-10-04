@@ -1,4 +1,5 @@
 TDOO don't understand
+    + 暂时按照 迪米特法则去理解吧
 
 A client is calling a delegate class of an object.
 
