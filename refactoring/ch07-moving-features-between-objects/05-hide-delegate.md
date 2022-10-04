@@ -1,4 +1,6 @@
-A client is calling a delegate class of an object.(don't understand)
+TDOO don't understand
+
+A client is calling a delegate class of an object.
 
 *Create methods on the server to hide the delegate.*
 
@@ -7,3 +9,5 @@ A client is calling a delegate class of an object.(don't understand)
     + Then when things change, fewer objects need to be told about the change, which makes the change easier to make.
 
 + sophisticated 复杂的
+
++ You may find it is worthwhile to use `Hide Delegate` for **some clients of the server or all clients**.
