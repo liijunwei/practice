@@ -12,7 +12,7 @@ refactoring/create_notes.rb
 - [x] Chapter 04. Building Tests
 - [x] Chapter 05. Toward a Catalog of Refactorings
 - [x] Chapter 06. Composing Methods
-- [ ] Chapter 07. Moving Features Between Objects
+- [x] Chapter 07. Moving Features Between Objects
 - [ ] Chapter 08. Organizing Data
 - [ ] Chapter 09. Simplifying Conditional Expressions
 - [ ] Chapter 10. Making Method Calls Simpler
