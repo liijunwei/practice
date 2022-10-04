@@ -1,3 +1,5 @@
++ TODO read again(complex)
+
 + Moving methods is the bread and butter of refactoring(重构的基础)
 
 + I move methods when classes have too much behavior or when classes are collaborating too much and are too highly coupled
