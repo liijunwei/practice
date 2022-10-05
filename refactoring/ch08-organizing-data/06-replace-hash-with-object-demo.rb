@@ -18,6 +18,8 @@ class Network
 end
 
 class NetworkResult
+  attr_reader :old_networks
+
   def initialize
     @old_networks, @nodes = [], []
   end
