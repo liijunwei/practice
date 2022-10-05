@@ -25,6 +25,17 @@ class Customer
   def self.create(name)
     Customer.new(name)
   end
+
+  def self.load_customers
+    require 'yaml'
+    YAML.load_file("./03-change-value-to-reference-customers.yml").each do |c|
+      new(c).store
+    end
+  end
+
+  def store
+    Instances[name] = self
+  end
 end
 
 require 'pry'
@@ -53,6 +64,15 @@ RSpec.describe Order do
     specify do
       expect(number_of_orders_for(orders, customer_a)).to eq(1)
       expect(number_of_orders_for(orders, customer_ab)).to eq(0)
+    end
+  end
+
+  describe 'Customer Instances' do
+    it 'has pre-loaded customers' do
+      expect(Customer::Instances.keys.count).to be_zero
+
+      Customer.load_customers
+      expect(Customer::Instances.keys.count).to eq(5)
     end
   end
 end
