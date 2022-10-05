@@ -13,7 +13,7 @@ class Course
 end
 
 class Person
-  attr_accessor :courses
+  attr_reader :courses
 
   def initialize
     @courses = []
