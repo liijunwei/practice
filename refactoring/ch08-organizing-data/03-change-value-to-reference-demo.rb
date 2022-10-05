@@ -1,10 +1,10 @@
 class Order
   def initialize(customer_name)
-    @customer = Customer.create(customer_name)
+    @customer = Customer.with_name(customer_name)
   end
 
   def customer=(customer_name)
-    @customer = Customer.create(customer_name)
+    @customer = Customer.with_name(customer_name)
   end
 
   def customer_name
@@ -22,7 +22,7 @@ class Customer
     @name = name
   end
 
-  def self.create(name)
+  def self.with_name(name)
     Instances[name]
   end
 
@@ -47,15 +47,17 @@ RSpec.describe Order do
     orders.select { |order| order.customer_name == customer.name }.size
   end
 
+  before { Customer.load_customers }
+
   let(:customer_a) { Customer.new('a') }
   let(:customer_ab) { Customer.new('ab') }
 
   let(:orders) do
     os = []
     os << Order.new("a")
-    os << Order.new("b")
     os << Order.new("c")
     os << Order.new("d")
+    os << Order.new("e")
     os
   end
 
@@ -69,8 +71,6 @@ RSpec.describe Order do
 
   describe 'Customer Instances' do
     it 'has pre-loaded customers' do
-      expect(Customer::Instances.keys.count).to be_zero
-
       Customer.load_customers
       expect(Customer::Instances.keys.count).to eq(5)
     end
