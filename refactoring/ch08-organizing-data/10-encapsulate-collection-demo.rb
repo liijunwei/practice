@@ -21,7 +21,7 @@ class Person
 
   def initialize_courses(courses)
     raise "courses should be empty" unless @courses.empty?
-    courses.each {|c| add_course(c)}
+    @courses += courses
   end
 
   def add_course(course)
