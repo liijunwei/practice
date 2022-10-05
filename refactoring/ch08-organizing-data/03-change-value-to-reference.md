@@ -10,3 +10,6 @@ You have a class with many equal instances that you want to replace with a singl
     + use the object iden- tity to test whether they are equal
 
 + value objects
+    + things like date or money.(also can be reference object???)
+    + They are defined entirely through their data values(unclear)
+    + You don't mind that copies exist

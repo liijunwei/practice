@@ -6,8 +6,8 @@ You have a data item that needs additional data or behavior.
 
 ```ruby
 # before
-class Order...
-  attr_accessor :customer # the data item
+class Order
+  attr_reader :customer # the data item
 
   def initialize(customer)
     @customer = customer
@@ -15,8 +15,8 @@ class Order...
 end
 
 # after
-class Order...
-  attr_accessor :customer
+class Order
+  attr_reader :customer
 
   def initialize(customer_name)
     @customer = Customer.new(customer_name)
@@ -24,6 +24,8 @@ class Order...
 end
 
 class Customer
+  attr_reader :name
+
   def initialize(name)
     @name = name
   end
