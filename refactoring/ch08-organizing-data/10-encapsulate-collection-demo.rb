@@ -15,6 +15,10 @@ end
 class Person
   attr_accessor :courses
 
+  def initialize
+    @courses = []
+  end
+
   def add_course(course)
     @courses << course
   end
