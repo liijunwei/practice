@@ -39,5 +39,6 @@ RSpec.describe NetworkResult do
     new_network.name = new_network.old_networks.collect do |network|
       network.name
     end.join(" - ")
+    expect(new_network.name).to eq('foobar')
   end
 end
