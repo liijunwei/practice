@@ -8,7 +8,7 @@ You have a class with many equal instances that you want to replace with a singl
 
 当有多个order的时候, 即使这多个order对应的customer都是同一个人, 在我们的代码中, customer还是会不停的被重新初始化(多个customer实例, 即使他们表示的是同一个人)
 
-因此需要使用这个重构技巧, 当我们识别出这些order里对应的customer是同一个人的时候, 我们用一个customer的引用来表示这个客户, 不需要创建那么多customer的实例
+因此需要使用这个重构技巧, 当我们识别出这些order里对应的customer是同一个人的时候, 我们用一个customer的引用来表示这个客户, 不需要创建很多customer的实例
 
 > At the moment Customer is a value object.
 > Each order has its own customer object even if they are for the same conceptual customer.
