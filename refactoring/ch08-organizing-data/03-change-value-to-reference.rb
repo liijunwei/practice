@@ -18,6 +18,10 @@ class Customer
   def initialize(name)
     @name = name
   end
+
+  def self.create(name)
+    Customer.new(name)
+  end
 end
 
 require 'pry'
@@ -49,8 +53,3 @@ RSpec.describe Order do
     end
   end
 end
-
-# At the moment Customer is a value object.
-# Each order has its own customer object even if they are for the same conceptual customer.
-# I want to change this so that if we have several orders for the same conceptual customer, they share a single customer object.
-# For this case this means that there should be only one customer object for each customer name.
