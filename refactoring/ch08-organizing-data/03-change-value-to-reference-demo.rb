@@ -55,6 +55,9 @@ RSpec.describe Order do
   let(:orders) do
     os = []
     os << Order.new("a")
+    os << Order.new("a")
+    os << Order.new("a")
+    os << Order.new("a")
     os << Order.new("c")
     os << Order.new("d")
     os << Order.new("e")
@@ -64,8 +67,13 @@ RSpec.describe Order do
   # client code
   describe 'number_of_orders_for' do
     specify do
-      expect(number_of_orders_for(orders, customer_a)).to eq(1)
+      expect(number_of_orders_for(orders, customer_a)).to eq(4)
       expect(number_of_orders_for(orders, customer_ab)).to eq(0)
+    end
+
+    it 'has same customer object for orders of a' do
+      object_ids = orders.select { |order| order.customer_name == 'a' }.map {|o| o.instance_variable_get("@customer") }.map(&:object_id)
+      expect(object_ids.uniq.count).to eq(1)
     end
   end
 
