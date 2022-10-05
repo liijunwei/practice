@@ -2,6 +2,8 @@ You have a class with many equal instances that you want to replace with a singl
 
 *Turn the object into a reference object.*
 
+`reference` 指的就是 一个指针(引用), 就是对于同一样东西, 不为它创建副本, 只有一份
+
 如果每个order里包含一个customer, 我们把customer重构成了Customer的实例
 
 当有多个order的时候, 即使这多个order对应的customer都是同一个人, 在我们的代码中, customer还是会不停的被重新初始化(多个customer实例, 即使他们表示的是同一个人)
@@ -28,5 +30,5 @@ You have a class with many equal instances that you want to replace with a singl
     + You don't mind that copies exist(clear)
 
 + TODO question: 怎么衡量这个优化的效果呢?
+    + pros: 不需要重复创建很多的对象了; (但还是需要根据属性去作比较啊...); 如果数据是可变的, 会有很大的优势
     + cons: 代码变复杂了; 内存使用率会变多
-    + pros: 不需要重复创建很多的对象了
