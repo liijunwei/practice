@@ -1,9 +1,21 @@
 require 'set'
 
+# customer->orders
+# one to many
+
 class Order
   attr_reader :customer
+
+  def customer=(value)
+    customer.friend_orders.subtract(self) unless customer.nil?
+    @customer = value
+    customer.friend_orders.add(self) unless customer.nil?
+  end
 end
 
+# Because the order will take charge
+# I need to add a helper method to the customer
+# that allows direct access to the orders collection.
 class Customer
   attr_reader :orders
 
@@ -13,6 +25,11 @@ class Customer
 
   def add_order(order)
     @orders << order
+  end
+
+  def friend_orders
+    #should only be used by Order when modifying the association
+    @orders
   end
 end
 

@@ -11,3 +11,7 @@ You have two classes that need to use each other's features, but there is only a
 + The idiom is awkward enough that you should have tests, at least until you are comfortable with the idiom.
 
 + This refactoring uses back pointers to implement bidirectionality.
+
++ How to decide which class will control the association
+    + If both objects are reference objects and the association is **one to many**, then the object that has the one reference is the controller. (That is, if one customer has many orders, the order controls the association.)
+    + 一对多关系中的 1 对应的类是控制方(unclear)
