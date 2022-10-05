@@ -43,8 +43,8 @@ RSpec.describe Person do
     expect(kent.courses.size).to eq(2)
 
     refactoring = Course.new("Refactoring", true)
-    kent.courses << refactoring
-    kent.courses << Course.new("Brutal Sarcasm", false)
+    kent.add_course(refactoring)
+    kent.add_course(Course.new("Brutal Sarcasm", false))
 
     expect(kent.courses.size).to eq(4)
     expect(kent.courses.select {|c| c.advanced?}.size).to eq(2)
