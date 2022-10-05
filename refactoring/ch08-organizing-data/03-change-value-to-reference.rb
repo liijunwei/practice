@@ -15,6 +15,8 @@ end
 class Customer
   attr_reader :name
 
+  Instances = {}
+
   def initialize(name)
     @name = name
   end
