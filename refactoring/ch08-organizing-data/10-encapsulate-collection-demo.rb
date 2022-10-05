@@ -19,6 +19,11 @@ class Person
     @courses = []
   end
 
+  def courses=(courses)
+    raise "courses should be empty" unless @courses.empty?
+    courses.each {|c| add_course(c)}
+  end
+
   def add_course(course)
     @courses << course
   end
