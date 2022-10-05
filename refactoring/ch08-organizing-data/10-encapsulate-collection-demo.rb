@@ -49,7 +49,7 @@ RSpec.describe Person do
     expect(kent.courses.size).to eq(4)
     expect(kent.courses.select {|c| c.advanced?}.size).to eq(2)
 
-    kent.courses.delete(refactoring)
+    kent.courses.delete(refactoring) # operate on duplicate
     expect(kent.courses.size).to eq(4)
 
     expect(kent.courses.select {|c| c.advanced?}.size).to eq(2)
