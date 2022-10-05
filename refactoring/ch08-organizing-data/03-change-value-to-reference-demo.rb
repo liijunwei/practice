@@ -30,7 +30,7 @@ end
 require 'pry'
 require 'rspec'
 
-# rspec 03-change-value-to-reference.rb
+# rspec 03-change-value-to-reference-demo.rb
 RSpec.describe Order do
   def number_of_orders_for(orders, customer)
     orders.select { |order| order.customer_name == customer.name }.size
