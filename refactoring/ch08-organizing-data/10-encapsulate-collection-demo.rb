@@ -37,11 +37,8 @@ RSpec.describe Person do
   specify do
     kent = Person.new
 
-    courses = []
-    courses << Course.new("Smalltalk Programming", false)
-    courses << Course.new("Appreciating Single Malts", true)
-
-    kent.initialize_courses(courses)
+    kent.add_course(Course.new("Smalltalk Programming", false))
+    kent.add_course(Course.new("Appreciating Single Malts", true))
 
     expect(kent.courses.size).to eq(2)
 
