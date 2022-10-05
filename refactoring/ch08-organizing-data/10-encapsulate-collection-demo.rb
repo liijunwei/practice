@@ -45,22 +45,19 @@ end
 
 RSpec.describe Person do
   specify do
-    kent = Person.new
-
-    kent.add_course(Course.new("Smalltalk Programming", false))
-    kent.add_course(Course.new("Appreciating Single Malts", true))
+    subject.add_course(Course.new("Smalltalk Programming", false))
+    subject.add_course(Course.new("Appreciating Single Malts", true))
 
     refactoring = Course.new("Refactoring", true)
-    kent.add_course(refactoring)
-    kent.add_course(Course.new("Brutal Sarcasm", false))
+    subject.add_course(refactoring)
+    subject.add_course(Course.new("Brutal Sarcasm", false))
 
+    expect(subject.number_of_courses).to eq(4)
+    expect(subject.number_of_advanced_courses).to eq(2)
 
-    expect(kent.number_of_courses).to eq(4)
-    expect(kent.number_of_advanced_courses).to eq(2)
+    subject.remove_course(refactoring)
+    expect(subject.number_of_courses).to eq(3)
 
-    kent.remove_course(refactoring)
-    expect(kent.number_of_courses).to eq(3)
-
-    expect(kent.number_of_advanced_courses).to eq(1)
+    expect(subject.number_of_advanced_courses).to eq(1)
   end
 end
