@@ -19,6 +19,7 @@ end
 
 class NetworkResult
   attr_reader :old_networks
+  attr_reader :nodes
 
   def initialize
     @old_networks, @nodes = [], []
@@ -41,7 +42,7 @@ RSpec.describe NetworkResult do
 
     new_network = NetworkResult.new
     new_network.old_networks << node.network
-    new_network[:nodes] << node
+    new_network.nodes << node
     new_network[:name] = new_network[:old_networks].collect do |network|
       network.name
     end.join(" - ")
