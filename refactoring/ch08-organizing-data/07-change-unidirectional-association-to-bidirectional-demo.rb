@@ -1,6 +1,7 @@
 require 'set'
 
 class Order
+  attr_reader :customer
 end
 
 class Customer
@@ -17,6 +18,11 @@ end
 
 # rspec 07-change-unidirectional-association-to-bidirectional-demo.rb
 RSpec.describe Order do
+  it 'responds to customer' do
+    o = Order.new
+
+    expect(o.respond_to?(:customer)).to be_truthy
+  end
 end
 
 RSpec.describe Customer do
