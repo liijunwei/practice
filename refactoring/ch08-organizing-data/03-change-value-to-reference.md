@@ -13,7 +13,9 @@ You have a class with many equal instances that you want to replace with a singl
 > I want to change this so that if we have several orders for the same conceptual customer, they share a single customer object.
 > For this case this means that there should be only one customer object for each customer name.
 
-+ TODO question: what is "Replace Constructor with Factory Method." and why we ues it?
++ OK question: what is "Replace Constructor with Factory Method." and why we ues it?
+    + 使用工厂方法创建标准的实例
+    + 没什么特别的
 
 + reference objects
     + things like customer or account
@@ -23,4 +25,8 @@ You have a class with many equal instances that you want to replace with a singl
 + value objects
     + things like date or money.(also can be reference object???)
     + They are defined entirely through their data values(unclear)
-    + You don't mind that copies exist
+    + You don't mind that copies exist(clear)
+
++ TODO question: 怎么衡量这个优化的效果呢?
+    + cons: 代码变复杂了; 内存使用率会变多
+    + pros: 不需要重复创建很多的对象了
