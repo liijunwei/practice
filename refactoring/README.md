@@ -2,6 +2,8 @@
 
 [Using the Catalog](https://refactoring.com/catalog/)
 
++ TODO I really need to learn UML
+
 ## toc
 
 refactoring/create_notes.rb
