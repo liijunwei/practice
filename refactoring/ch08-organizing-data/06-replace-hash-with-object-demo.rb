@@ -25,6 +25,10 @@ class NetworkResult
   def initialize
     @old_networks, @nodes = [], []
   end
+
+  def name
+    @old_networks.collect { | network | network.name }.join(" - ")
+  end
 end
 
 # rspec 06-replace-hash-with-object-demo.rb
@@ -36,9 +40,7 @@ RSpec.describe NetworkResult do
     new_network = NetworkResult.new
     new_network.old_networks << node.network
     new_network.nodes << node
-    new_network.name = new_network.old_networks.collect do |network|
-      network.name
-    end.join(" - ")
+
     expect(new_network.name).to eq('foobar')
   end
 end
