@@ -31,3 +31,4 @@ end
 
 + TODO question: what is `Introduce Assertion` ?
 
++ there are many ways "remove the back-pointer but retain the interdependencies between the two classes"
