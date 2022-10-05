@@ -23,7 +23,7 @@ class Customer
   end
 
   def self.create(name)
-    Customer.new(name)
+    Instances[name]
   end
 
   def self.load_customers
