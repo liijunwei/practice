@@ -1,4 +1,6 @@
 require 'set'
+require 'pry'
+require 'rspec'
 
 # customer->orders
 # one to many
@@ -39,6 +41,27 @@ RSpec.describe Order do
     o = Order.new
 
     expect(o.respond_to?(:customer)).to be_truthy
+  end
+
+  it 'gets customer info' do
+    c = Customer.new
+    o1 = Order.new
+    o2 = Order.new
+
+    # 双向关联的责任交由 order 里的 `customer=` 维护
+    o1.customer = c
+    o2.customer = c
+
+    expect(o1.customer).to eq(c)
+    expect(o2.customer).to eq(c)
+    expect(c.orders).to eq(Set.new([o1, o2]))
+  end
+
+  it 'does not have customer' do
+    o1 = Order.new
+
+    o1.customer = nil
+    expect(o1.customer).to be_nil
   end
 end
 
