@@ -11,3 +11,4 @@
     + TODO question: what is link?
     + `Change Unidirectional Association to Bidirectional`
     + `Change Bidirectional Association to Unidirectional`
+    + `Change Bidirectional Association to Unidirectional` removes unnecessary complexity should you find you no longer need the two- way link.
