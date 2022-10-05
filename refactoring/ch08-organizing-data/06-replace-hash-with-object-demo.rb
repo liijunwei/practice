@@ -18,6 +18,10 @@ class Network
 end
 
 class NetworkResult
+  def initialize
+    @old_networks, @nodes = [], []
+  end
+
   def [](attribute)
     instance_variable_get "@#{attribute}"
   end
