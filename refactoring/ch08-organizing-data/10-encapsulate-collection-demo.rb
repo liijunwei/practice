@@ -19,7 +19,7 @@ class Person
     @courses = []
   end
 
-  def courses=(courses)
+  def initialize_courses(courses)
     raise "courses should be empty" unless @courses.empty?
     courses.each {|c| add_course(c)}
   end
@@ -41,7 +41,7 @@ RSpec.describe Person do
     courses << Course.new("Smalltalk Programming", false)
     courses << Course.new("Appreciating Single Malts", true)
 
-    kent.courses = courses
+    kent.initialize_courses(courses)
 
     expect(kent.courses.size).to eq(2)
 
