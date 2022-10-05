@@ -6,4 +6,4 @@ You have a reference object that is small, immutable, and awkward to manage.
 
 + **An important property of value objects is that they should be immutable.**
 
-
++ TODO question: what is `Remove Setting Method`
