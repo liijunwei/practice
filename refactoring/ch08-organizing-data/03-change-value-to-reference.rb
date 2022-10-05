@@ -15,6 +15,7 @@ end
 class Customer
   attr_reader :name
 
+  # Then I decide whether to create customers on the fly when asked or to create them in advance.
   Instances = {}
 
   def initialize(name)
