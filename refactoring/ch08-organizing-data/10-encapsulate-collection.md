@@ -18,3 +18,6 @@ A method returns a collection.
 + In addition there should not be an attribute writer for the collection: rather, there should be operations to add and remove elements.
 
 除此以外, 类还不该暴露属性的 writer 方法, 应该暴露用有一定限制的接口去让客户端修改数据(更加可控)
+
++ A few years ago I was concerned that moving this kind of behavior over to Person would lead to a bloated Person class. In practice, I’ve found that this usually isn’t a problem.
+
