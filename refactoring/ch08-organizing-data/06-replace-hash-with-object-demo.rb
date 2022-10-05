@@ -33,14 +33,16 @@ end
 
 # rspec 06-replace-hash-with-object-demo.rb
 RSpec.describe NetworkResult do
+  let(:network_name) { 'foobar' }
+
   specify do
-    network = Network.new("foobar")
+    network = Network.new(network_name)
     node = Node.new(network)
 
     new_network = NetworkResult.new
     new_network.old_networks << node.network
     new_network.nodes << node
 
-    expect(new_network.name).to eq('foobar')
+    expect(new_network.name).to eq(network_name)
   end
 end
