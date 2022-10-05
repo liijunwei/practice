@@ -1,25 +1,25 @@
 require 'set'
 
 class Order
-  attr_accessor :customers
-
   def initialize
-    @customers = Set.new
+    @customer = nil
   end
 
   # controlling methods
   def add_customer(customer)
     customer.friend_orders.add(self)
-    customers.add(customer)
+    @customer = customer
   end
 
   def remove_customer(customer)
     customer.friend_orders.subtract(self)
-    customers.subtract(customer)
+    @customer = nil
   end
 end
 
 class Customer
+  attr_reader :orders
+
   def initialize
     @orders = Set.new
   end
@@ -45,6 +45,12 @@ o2 = Order.new
 
 c.add_order(o1)
 c.add_order(o2)
+
 p c
 p o1
 p o2
+puts "=" * 20
+
+p c.orders
+c.remove_order(o1)
+
