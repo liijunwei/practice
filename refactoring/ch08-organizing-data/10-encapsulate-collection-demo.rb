@@ -33,6 +33,10 @@ class Person
   def remove_course(course)
     @courses.delete(course)
   end
+
+  def number_of_advanced_courses
+    courses.select { |course| course.advanced? }.size
+  end
 end
 
 RSpec.describe Person do
@@ -46,16 +50,13 @@ RSpec.describe Person do
     kent.add_course(refactoring)
     kent.add_course(Course.new("Brutal Sarcasm", false))
 
-    def number_of_advanced_courses(person)
-      person.courses.select { |course| course.advanced? }.size
-    end
 
     expect(kent.courses.size).to eq(4)
-    expect(number_of_advanced_courses(kent)).to eq(2)
+    expect(kent.number_of_advanced_courses).to eq(2)
 
     kent.courses.delete(refactoring) # operate on duplicates
     expect(kent.courses.size).to eq(4)
 
-    expect(number_of_advanced_courses(kent)).to eq(2)
+    expect(kent.number_of_advanced_courses).to eq(2)
   end
 end
