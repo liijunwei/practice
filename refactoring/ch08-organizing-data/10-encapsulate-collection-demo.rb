@@ -13,8 +13,6 @@ class Course
 end
 
 class Person
-  attr_reader :courses
-
   def initialize
     @courses = []
   end
@@ -22,6 +20,10 @@ class Person
   def initialize_courses(courses)
     raise "courses should be empty" unless @courses.empty?
     @courses += courses
+  end
+
+  def courses
+    @courses.dup
   end
 
   def add_course(course)
@@ -40,8 +42,6 @@ RSpec.describe Person do
     kent.add_course(Course.new("Smalltalk Programming", false))
     kent.add_course(Course.new("Appreciating Single Malts", true))
 
-    expect(kent.courses.size).to eq(2)
-
     refactoring = Course.new("Refactoring", true)
     kent.add_course(refactoring)
     kent.add_course(Course.new("Brutal Sarcasm", false))
@@ -50,8 +50,8 @@ RSpec.describe Person do
     expect(kent.courses.select {|c| c.advanced?}.size).to eq(2)
 
     kent.courses.delete(refactoring)
-    expect(kent.courses.size).to eq(3)
+    expect(kent.courses.size).to eq(4)
 
-    expect(kent.courses.select {|c| c.advanced?}.size).to eq(1)
+    expect(kent.courses.select {|c| c.advanced?}.size).to eq(2)
   end
 end
