@@ -2,7 +2,6 @@ A method returns a collection.
 
 *Make it return a copy of the collection and provide add/remove methods.*
 
-
 + The attribute reader should not return the collection object itself, because that allows clients to manipulate the contents of the collection without the owning class knowing what is going on.
 
 类暴露的属性读取方法不应该把 集合数据本身 暴露出去(应该暴露一个副本) (unclear)
