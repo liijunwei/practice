@@ -22,7 +22,7 @@ class Female < Person
   end
 
   def female?
-    true
+    @female
   end
 
   def code
@@ -36,7 +36,7 @@ class Male < Person
   end
 
   def female?
-    false
+    @female
   end
 
   def code
