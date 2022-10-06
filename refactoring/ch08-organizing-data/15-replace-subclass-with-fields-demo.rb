@@ -7,14 +7,6 @@ class Person
     @code = code
   end
 
-  def self.create_female
-    new(true, 'F')
-  end
-
-  def self.create_male
-    new(false, 'M')
-  end
-
   def female?
     @female
   end
