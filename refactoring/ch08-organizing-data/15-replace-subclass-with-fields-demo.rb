@@ -25,8 +25,8 @@ class Person
 end
 
 RSpec.describe Person do
-  let(:f) { Person.create_female }
-  let(:m) { Person.create_male }
+  let(:f) { Person.new(true, 'F') }
+  let(:m) { Person.new(false, 'M') }
 
   it 'is female' do
     expect(f.female?).to be_truthy
