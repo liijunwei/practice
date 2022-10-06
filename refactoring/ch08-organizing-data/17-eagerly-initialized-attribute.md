@@ -22,3 +22,4 @@ end
     + personally prefer `Eagerly Initialized Attributes` unless some resources are too expensive to initialize eagerly
 
 + Martin and I agree that this isn’t something worth being religious about.
+    + Additionally, we both think it’s valuable for a team to **standardize** on Lazily or Eagerly Initialized Attributes.
