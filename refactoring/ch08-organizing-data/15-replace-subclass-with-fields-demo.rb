@@ -24,18 +24,6 @@ class Person
   end
 end
 
-class Female < Person
-  def initialize(female = nil, code = nil)
-    super(true, 'F')
-  end
-end
-
-class Male < Person
-  def initialize(female = nil, code = nil)
-    super(false, 'M')
-  end
-end
-
 RSpec.describe Person do
   let(:f) { Person.create_female }
   let(:m) { Person.create_male }
