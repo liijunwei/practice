@@ -26,7 +26,7 @@ class Female < Person
   end
 
   def code
-    'F'
+    @code
   end
 end
 
@@ -40,7 +40,7 @@ class Male < Person
   end
 
   def code
-    'M'
+    @code
   end
 end
 
