@@ -22,6 +22,6 @@ end
 
 + Lazily Initialized Attributes can encapsulate all their initialization logic within the methods themselves.
 
-+ Using `||=` for `Lazily Initialized Attributes` is a common idiom; however, this idiom falls down when nil or false are valid values for the attribute.
-
++ 注意: Using `||=` for `Lazily Initialized Attributes` is a common idiom; however, this idiom falls down when `nil` or `false` are **valid** values for the attribute.
+    + solution: **utilizes the `instance_variable_defined?` method**
 
