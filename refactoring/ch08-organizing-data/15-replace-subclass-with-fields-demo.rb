@@ -28,14 +28,6 @@ class Female < Person
   def initialize(female = nil, code = nil)
     super(true, 'F')
   end
-
-  def female?
-    @female
-  end
-
-  def code
-    @code
-  end
 end
 
 class Male < Person
