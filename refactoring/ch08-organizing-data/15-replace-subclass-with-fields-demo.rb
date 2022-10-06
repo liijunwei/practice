@@ -17,6 +17,10 @@ class Person
 end
 
 class Female < Person
+  def initialize(female = nil, code = nil)
+    super(true, 'F')
+  end
+
   def female?
     true
   end
@@ -27,6 +31,10 @@ class Female < Person
 end
 
 class Male < Person
+  def initialize(female = nil, code = nil)
+    super(false, 'M')
+  end
+
   def female?
     false
   end
