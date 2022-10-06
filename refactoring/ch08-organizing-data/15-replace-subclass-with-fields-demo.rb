@@ -34,14 +34,6 @@ class Male < Person
   def initialize(female = nil, code = nil)
     super(false, 'M')
   end
-
-  def female?
-    @female
-  end
-
-  def code
-    @code
-  end
 end
 
 RSpec.describe Female do
