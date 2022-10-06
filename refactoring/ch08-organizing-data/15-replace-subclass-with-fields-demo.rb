@@ -8,7 +8,7 @@ class Person
   end
 
   def self.create_female
-    Female.new
+    new(false, 'M')
   end
 
   def self.create_male
