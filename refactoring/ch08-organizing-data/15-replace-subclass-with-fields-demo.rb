@@ -36,17 +36,14 @@ class Male < Person
   end
 end
 
-RSpec.describe Female do
+RSpec.describe Person do
   let(:f) { Person.create_female }
+  let(:m) { Person.create_male }
 
   it 'is female' do
     expect(f.female?).to be_truthy
     expect(f.code).to eq("F")
   end
-end
-
-RSpec.describe Male do
-  let(:m) { Person.create_male }
 
   it 'is male' do
     expect(m.female?).to be_falsey
