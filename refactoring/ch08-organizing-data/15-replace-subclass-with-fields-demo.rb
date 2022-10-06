@@ -2,7 +2,7 @@ require 'rspec'
 require 'pry'
 
 class Person
-  def initialize(female = nil, code = nil)
+  def initialize(female, code)
     @female = female
     @code = code
   end
