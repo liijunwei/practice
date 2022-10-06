@@ -61,9 +61,9 @@ end
 
 RSpec.describe MountainBike do
   specify do
-    bike1 = RigidMountainBike.new(:type_code => :rigid, :tire_width => 2.5)
-    bike2 = FrontSuspensionMountainBike.new(:type_code => :front_suspension, :tire_width => 2, :front_fork_travel => 3)
-    bike3 = FullSuspensionMountainBike.new(:type_code => :full_suspension, :tire_width => 2, :front_fork_travel => 3)
+    bike1 = RigidMountainBike.new(:tire_width => 2.5)
+    bike2 = FrontSuspensionMountainBike.new(:tire_width => 2, :front_fork_travel => 3)
+    bike3 = FullSuspensionMountainBike.new(:tire_width => 2, :front_fork_travel => 3)
 
     bike1.off_road_ability
     bike1.price
