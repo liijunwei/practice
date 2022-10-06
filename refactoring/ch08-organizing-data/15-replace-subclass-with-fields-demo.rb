@@ -14,6 +14,14 @@ class Person
   def self.create_male
     Male.new
   end
+
+  def female?
+    @female
+  end
+
+  def code
+    @code
+  end
 end
 
 class Female < Person
