@@ -2,6 +2,11 @@ require 'rspec'
 require 'pry'
 
 class Person
+  def initialize(female = nil, code = nil)
+    @female = female
+    @code = code
+  end
+
   def self.create_female
     Female.new
   end
