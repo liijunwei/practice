@@ -1,7 +1,7 @@
 require 'pry'
 require 'rspec'
 
-class MountainBike
+module MountainBike
   TIRE_WIDTH_FACTOR = 1
   FRONT_SUSPENSION_FACTOR = 1
   REAR_SUSPENSION_FACTOR = 1
@@ -41,11 +41,23 @@ class MountainBike
   end
 end
 
+class RigidMountainBike
+  include MountainBike
+end
+
+class FrontSuspensionMountainBike
+  include MountainBike
+end
+
+class FullSuspensionMountainBike
+  include MountainBike
+end
+
 RSpec.describe MountainBike do
   specify do
-    bike1 = MountainBike.new(:type_code => :rigid, :tire_width => 2.5)
-    bike2 = MountainBike.new(:type_code => :front_suspension, :tire_width => 2, :front_fork_travel => 3)
-    bike3 = MountainBike.new(:type_code => :full_suspension, :tire_width => 2, :front_fork_travel => 3)
+    bike1 = RigidMountainBike.new(:type_code => :rigid, :tire_width => 2.5)
+    bike2 = FrontSuspensionMountainBike.new(:type_code => :front_suspension, :tire_width => 2, :front_fork_travel => 3)
+    bike3 = FullSuspensionMountainBike.new(:type_code => :full_suspension, :tire_width => 2, :front_fork_travel => 3)
 
     bike1.off_road_ability
     bike1.price
