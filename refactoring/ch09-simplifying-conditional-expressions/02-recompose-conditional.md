@@ -9,3 +9,5 @@ parameters = params ? params : []
 # after
 parameters = params || []
 ```
+
++ improve the expressiveness of our code
