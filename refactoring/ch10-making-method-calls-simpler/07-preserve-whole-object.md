@@ -11,3 +11,5 @@ plan.within_range?(low, high)
 # after
 plan.within_range?(days_temperature_range)
 ```
+
++ When you are considering Preserve Whole Object, consider Move Method as an alternative.
