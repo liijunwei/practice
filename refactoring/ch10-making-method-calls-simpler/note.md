@@ -29,3 +29,10 @@ On the whole these renamings are fairly simple text replacements, so I haven't a
 + Constructors are a particularly awkward feature of Ruby and Java, because they force you to know the class of an object you need to create.
     + Often you don't need to know this.
     + The need to know can be removed with `Replace Constructor with Factory Method`.
+    +
+    + mind blowing: 构造器 使得客户端必须知道类的内部细节, 实际上客户端不需要了解
+    + 如果可能的话, 把构造器 重构为 工厂方法
+
++ But sometimes exceptions aren't the right answer;
+    + you should test first with `Replace Exception with Test`
+    + TODO unclear
