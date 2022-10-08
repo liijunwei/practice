@@ -10,4 +10,13 @@ You have repeated checks for a nil value.
 + This can sometimes make it difficult to detect or find a problem, because nothing ever breaks.
 + Of course, as soon as you begin inspecting the objects, you'll find the null object somewhere where it shouldn't be.(unclear)
 
-+ Remember, null objects are always constant; nothing about them ever changes.
++ **Remember, null objects are always constant; nothing about them ever changes.**
+    + Apply `Singleton pattern`
+
++ Ruby allows us **two main options** for implementing the null object.
+    + 1. subclass
+    + 2. duck type
+    + add methods to `NilClass` itself(dangerous)
+
++ consider whether to implement a `message-eating null object`
+    + A message-eating null will accept any message sent to it and return another message-eating null object.
