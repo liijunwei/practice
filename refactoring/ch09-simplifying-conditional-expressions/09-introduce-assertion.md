@@ -17,3 +17,6 @@ A section of code assumes something about the state of the program.
 + I've noticed the debugging help is less important when I write self-testing code, but I still appreciate the value of assertions in communication.
 
 + Because assertions should not affect the running of a system, adding one is always behavior preserving.
+
++ Beware of overusing assertions.
++ **Use assertions only to check things that need to be true.**
