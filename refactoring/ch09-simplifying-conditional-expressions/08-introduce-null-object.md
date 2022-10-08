@@ -20,3 +20,5 @@ You have repeated checks for a nil value.
 
 + consider whether to implement a `message-eating null object`
     + A message-eating null will accept any message sent to it and return another message-eating null object.
+
++ **In essence there is a bigger pattern here, called special case**. A special case class is a particular instance of a class with special behavior.
