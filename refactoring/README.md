@@ -2,6 +2,8 @@
 
 [Using the Catalog](https://refactoring.com/catalog/)
 
+[My Purchased Web Edition](https://memberservices.informit.com/my_account/webedition/9780135425664/html/index.html)
+
 + TODO I really need to learn UML
 
 ## toc
