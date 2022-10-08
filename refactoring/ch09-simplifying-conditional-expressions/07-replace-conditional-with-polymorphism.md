@@ -14,3 +14,5 @@ You have a conditional that chooses different behavior depending on the type of 
 > But with polymorphism you just create a new class and provide the appropriate methods.
 > Clients of the class don’t need to know about the polymorphism, which reduces the dependencies in your system and makes it easier to update.
 
++ **We already have our clients creating specific mountain bike objects**, and calling them polymorphically
+    + don't worry about the object creation
