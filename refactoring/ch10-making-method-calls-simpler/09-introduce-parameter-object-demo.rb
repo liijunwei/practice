@@ -6,7 +6,7 @@ class Account
     @charges = []
   end
 
-  def add_charge(charge = nil)
+  def add_charge(charge)
     total = charge.base_price + charge.base_price * charge.tax_rate
     total += charge.base_price * 0.1 if charge.imported
     @charges << total
