@@ -53,3 +53,5 @@ class GetGateway < Gateway
   # ...
 end
 ```
+
++ what is `Introduce Expression Builder` ?(next section)
