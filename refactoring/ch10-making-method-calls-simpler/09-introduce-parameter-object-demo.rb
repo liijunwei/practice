@@ -25,6 +25,12 @@ class Charge
     @tax_rate = tax_rate
     @imported = imported
   end
+
+  def total
+    total = base_price + base_price * tax_rate
+    total += base_price * 0.1 if imported
+    total
+  end
 end
 
 RSpec.describe Account do
