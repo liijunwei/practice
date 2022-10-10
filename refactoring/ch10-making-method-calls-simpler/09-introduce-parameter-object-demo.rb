@@ -6,7 +6,7 @@ class Account
     @charges = []
   end
 
-  def add_charge(base_price, tax_rate, imported, charge = nil)
+  def add_charge(charge = nil)
     total = charge.base_price + charge.base_price * charge.tax_rate
     total += charge.base_price * 0.1 if charge.imported
     @charges << total
@@ -30,8 +30,8 @@ end
 RSpec.describe Account do
   let(:account) { subject }
   specify do
-    account.add_charge(5, 0.1, true, Charge.new(5, 0.1, true))
-    account.add_charge(12, 0.125, false, Charge.new(12, 0.125, false))
+    account.add_charge(Charge.new(5, 0.1, true))
+    account.add_charge(Charge.new(12, 0.125, false))
     total = account.total_charge
     expect(total).to eq(19.5)
   end
