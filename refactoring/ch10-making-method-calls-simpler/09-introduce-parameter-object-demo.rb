@@ -6,7 +6,7 @@ class Account
     @charges = []
   end
 
-  def add_charge(base_price, tax_rate, imported)
+  def add_charge(base_price, tax_rate, imported, charge = nil)
     total = base_price + base_price * tax_rate
     total += base_price * 0.1 if imported
     @charges << total
@@ -14,6 +14,16 @@ class Account
 
   def total_charge
     @charges.inject(0) { |total, charge| total + charge }
+  end
+end
+
+class Charge
+  attr_accessor :base_price, :tax_rate, :imported
+
+  def initialize(base_price, tax_rate, imported)
+    @base_price = base_price
+    @tax_rate = tax_rate
+    @imported = imported
   end
 end
 
