@@ -19,7 +19,7 @@ refactoring/create_notes.rb
 - [x] Chapter 07. Moving Features Between Objects
 - [x] Chapter 08. Organizing Data
 - [x] Chapter 09. Simplifying Conditional Expressions
-- [ ] Chapter 10. Making Method Calls Simpler
+- [x] Chapter 10. Making Method Calls Simpler
 - [ ] Chapter 11. Dealing with Generalization
 - [ ] Chapter 12. Big Refactorings
 - [ ] Chapter 13. Putting It All Together
