@@ -16,7 +16,7 @@ class Account
 end
 
 class Charge
-  attr_accessor :base_price, :tax_rate, :imported
+  attr_reader :base_price, :tax_rate, :imported
 
   def initialize(base_price, tax_rate, imported)
     @base_price = base_price
@@ -36,7 +36,7 @@ RSpec.describe Account do
   specify do
     account.add_charge(Charge.new(5, 0.1, true))
     account.add_charge(Charge.new(12, 0.125, false))
-    total = account.total_charge
-    expect(total).to eq(19.5)
+
+    expect(account.total_charge).to eq(19.5)
   end
 end
