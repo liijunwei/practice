@@ -7,13 +7,11 @@ class Account
   end
 
   def add_charge(charge)
-    total = charge.base_price + charge.base_price * charge.tax_rate
-    total += charge.base_price * 0.1 if charge.imported
-    @charges << total
+    @charges << charge
   end
 
   def total_charge
-    @charges.inject(0) { |total, charge| total + charge }
+    @charges.inject(0) { |total, charge| total + charge.total }
   end
 end
 
