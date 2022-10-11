@@ -1,9 +1,9 @@
-class Policy < Hash
+class Policy
   attr_reader :name
 
   def initialize(name)
     @name = name
-    @rules = self
+    @rules = {}
   end
 
   def <<(rule)
