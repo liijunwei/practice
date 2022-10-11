@@ -1,4 +1,9 @@
+require 'forwardable'
+
 class Policy
+  extend Forwardable
+  def_delegators :@rules, :size, :empty?, :[] # unclear
+
   attr_reader :name
 
   def initialize(name)
