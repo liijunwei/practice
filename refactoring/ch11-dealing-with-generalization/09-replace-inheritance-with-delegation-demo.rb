@@ -47,7 +47,6 @@ RSpec.describe Policy do
     policy << Rule.new('age_must_be_greater_than', 28)
     policy << Rule.new('country_must_be', 'china')
     policy << Rule.new('account_balance_must_be_greater_than', 10_000)
-    require "pry"; binding.pry
 
     policy.apply(account)
   end

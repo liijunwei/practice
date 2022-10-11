@@ -18,7 +18,6 @@ pool = ConnectionPool.new(size: 5, timeout: 5) {
 }
 
 # result = pool.with {|conn| conn.query("SELECT sleep(5);")}
-# binding.pry
 
 threads = []
 
@@ -29,7 +28,6 @@ num.times do |i|
   threads << Thread.new {pool.with {|conn| conn.query("SELECT sleep(5);")}}
 end
 
-binding.pry
 # puts result.to_a
 
 

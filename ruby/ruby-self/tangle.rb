@@ -14,7 +14,6 @@ module Document
   def print_to_screen
     prepare_cover
     format_for_screen
-    # binding.pry
     print
   end
 
