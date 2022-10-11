@@ -8,12 +8,12 @@ class Policy < Hash
 
   def <<(rule)
     key = rule.attribute
-    self[key] ||= []
-    self[key] << rule
+    @rules[key] ||= []
+    @rules[key] << rule
   end
 
   def apply(account)
-    self.each do |attribute, rules|
+    @rules.each do |attribute, rules|
       rules.each { |rule| rule.apply(account) }
     end
   end
