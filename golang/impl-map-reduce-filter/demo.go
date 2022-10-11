@@ -26,6 +26,16 @@ func Reduce(arr []string, fn func(s string) int) int {
 	return sum
 }
 
+func Filter(arr []int, fn func(s int) int) int {
+	sum := 0
+
+	for _, val := range arr {
+		sum += fn(val)
+	}
+
+	return sum
+}
+
 func main() {
 	var list = []string{"nihao", "mingtian", "nihao", "shenghuo"}
 
