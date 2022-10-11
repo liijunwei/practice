@@ -26,14 +26,16 @@ func Reduce(arr []string, fn func(s string) int) int {
 	return sum
 }
 
-func Filter(arr []int, fn func(s int) int) int {
-	sum := 0
+func Filter(arr []int, fn func(s int) bool) []int {
+	var newArray = []int{}
 
 	for _, val := range arr {
-		sum += fn(val)
+		if fn(val) {
+			newArray = append(newArray, val)
+		}
 	}
 
-	return sum
+	return newArray
 }
 
 func main() {
@@ -50,4 +52,21 @@ func main() {
 	})
 
 	fmt.Println("Reduce:", y) // 5+8+5+8 = 26
+
+	intset := []int{1, 2, 3, 4, 5, 6}
+	odds := Filter(intset, func(n int) bool {
+		return n%2 == 1
+	})
+
+	evens := Filter(intset, func(n int) bool {
+		return n%2 == 0
+	})
+
+	greaterThan3 := Filter(intset, func(n int) bool {
+		return n > 3
+	})
+
+	fmt.Println("Filter odds:        ", odds)
+	fmt.Println("Filter evens:       ", evens)
+	fmt.Println("Filter greaterThan3:", greaterThan3)
 }
