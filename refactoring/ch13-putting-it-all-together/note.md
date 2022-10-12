@@ -41,3 +41,16 @@
 + Duets(二重奏?)
     + For goodness' sake, refactor with someone. **There are many advantages to working in pairs for all kinds of development.**
     + 结对编程 来做重构
+
++ As ugly as the mess looks now, discipline yourself to nibble away at the problem.
+即使代码看起来一团糟, 有时也要抑制住一下做出很多改动的冲动, 要慢慢训练自己解决问题的能力
+
++ When you are going to add some new functionality to an area, take a few minutes to clean it up first.
+如果你需要为应用添加新的功能, 先花点时间来清理代码;
+
++ If you have to add some tests before you can clean up with confidence, add them. You’ll be glad you did.
+如果你觉得在清理代码前有必要先增加一点测试来提升信心, 尽管加吧, 好处多多
+
++ Touching the code will remind you how it works.
+
++ When you decide to undertake a large refactoring, try to pick off pieces that can be integrated back into the main development branch as quickly as pos- sible.
