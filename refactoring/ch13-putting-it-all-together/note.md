@@ -35,4 +35,9 @@
 + Backtrack(回溯)
     + take small steps
     + run your tests frequently
+    + **Go back to your last known good configuration, Replay your changes one by one. Run the tests after each one.**
+    + "I think my personal record for failing to follow my own advice is four hours and three separate tries."
 
++ Duets(二重奏?)
+    + For goodness' sake, refactor with someone. **There are many advantages to working in pairs for all kinds of development.**
+    + 结对编程 来做重构
