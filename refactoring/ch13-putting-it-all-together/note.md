@@ -61,3 +61,25 @@
     + 做较大的重构时, 有一种很具诱惑的想法是: 我很难在不做出很大的breaking changes的情况下, 完成这项重构工作;
     + **实际上不是这样, 一般都会有兼容的方案 让重构尽可能平滑的完成**
     + But the extra time spent writing this throw-away adaptive code is **worth the benefit of continual integration with the development branch**.
+
++ Never forget the two hats:
+    + **The refactoring hat**
+    + **The new functionality hat**
+    +
+    + Only wear one hat at a time
+
++ When you refactor, you will inevitably discover code that doesn't work correctly.
++ You'll find bugs, test cases to add or change, and other unrelated refactorings.
++ Some of these might even be more important than the refactoring you're currently working on.
++ Resist temptation to mix an unfinished refactoring with one of these newfound tasks.
+
+重构的时候, 不可避免的会发现一些当前目标(重构某部分代码, 添加新功能)以外的 问题/bug/不合理之处 等等(深有体会...)
+有些问题可能比你当前的任务更加重要, 但是 要抵制住 将当前正在做的`重构+添加新功能`的事和 那些`新发现的问题`混在一起的诱惑
+
++ If the newfound task truly is an immediate priority, abandon your refactoring.
++ Revert the code and start a fresh.
++ But if you decide to wear the refactoring hat, your goal is to leave the code computing exactly the same answers that it was when you found it; nothing more, nothing less.
++ Once you develop the discipline and rhythm to juggle the two hats, you'll find refactoring to be a rewarding and productive experience. Happy coding!
+
+
+
