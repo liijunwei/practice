@@ -48,9 +48,16 @@
 + When you are going to add some new functionality to an area, take a few minutes to clean it up first.
 如果你需要为应用添加新的功能, 先花点时间来清理代码;
 
-+ If you have to add some tests before you can clean up with confidence, add them. You’ll be glad you did.
++ If you have to add some tests before you can clean up with confidence, add them. You'll be glad you did.
 如果你觉得在清理代码前有必要先增加一点测试来提升信心, 尽管加吧, 好处多多
 
 + Touching the code will remind you how it works.
+在为新功能修改代码前先这样做一些清理/增加测试的事情, 能提示我们对代码的熟悉程度
 
-+ When you decide to undertake a large refactoring, try to pick off pieces that can be integrated back into the main development branch as quickly as pos- sible.
++ When you decide to undertake a large refactoring, try to pick off pieces that can be integrated back into the main development branch as quickly as possible.
+当你决定承担起一个较大的重构任务的时候, 先选出一些小的部分做修改, 然后确保他们能尽快的集成进已有系统里(small steps with confidence; keep close with the main branch)
+
++ When contemplating a large refactoring it's tempting to say, "I can't improve that code without adopting a big-bang approach that will take 3 days."
+    + 做较大的重构时, 有一种很具诱惑的想法是: 我很难在不做出很大的breaking changes的情况下, 完成这项重构工作;
+    + **实际上不是这样, 一般都会有兼容的方案 让重构尽可能平滑的完成**
+    + But the extra time spent writing this throw-away adaptive code is **worth the benefit of continual integration with the development branch**.
