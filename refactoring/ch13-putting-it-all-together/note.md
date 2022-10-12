@@ -78,8 +78,13 @@
 
 + If the newfound task truly is an immediate priority, abandon your refactoring.
 + Revert the code and start a fresh.
+如果新的问题真的很重要, 优先级非常高, 那么停止手头的工作, 把当前做的事暂时搁置(commit/stash/abort), 然后基于最新的代码开出新的分支, 专门处理那个问题
+
 + But if you decide to wear the refactoring hat, your goal is to leave the code computing exactly the same answers that it was when you found it; nothing more, nothing less.
 + Once you develop the discipline and rhythm to juggle the two hats, you'll find refactoring to be a rewarding and productive experience. Happy coding!
+但是如果他们没那么重要, 而且你现在要专注于重构一个部分, 你应该忽略掉那些些你发现的问题(可以先记录下来, 以后再处理), 不要被他们分心, 不要修改他们
+当我们适应了这种 重构-添加新功能 的节奏后, 你会真正从重构之中获益
 
+happy coding!
 
 
