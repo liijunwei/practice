@@ -6,4 +6,6 @@ You have an inheritance hierarchy that is doing two jobs at once.
 + It makes changes more difficult, because the strategies for solving a certain kind of problem are spread around.
 
 + **Identify the different jobs being done by the hierarchy.**
-+ Decide which job is more important
++ Decide which job is **more important**
+
++ It is true that sometimes you have to take a step backward before you can take two steps forward.
