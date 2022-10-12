@@ -2,9 +2,9 @@
 
 require 'fileutils'
 
-hash = {}
+chapters = {}
 
-hash["ch06-composing-methods"] = <<EOF
+chapters["ch06-composing-methods"] = <<EOF
 Extract Method . . . 102
 Inline Method . . . 108
 Inline Temp . . . 110
@@ -27,7 +27,7 @@ Isolate Dynamic Receptor . . . 160
 Move Eval from Runtime to Parse Time . . . 165
 EOF
 
-hash["ch07-moving-features-between-objects"] = <<EOF
+chapters["ch07-moving-features-between-objects"] = <<EOF
 Move Method . . . 167
 Move Field . . . 172
 Extract Class . . . 175
@@ -36,13 +36,13 @@ Hide Delegate . . . 181
 Remove Middle Man . . . 185
 EOF
 
-hash["ch08-organizing-data"] = <<EOF
+chapters["ch08-organizing-data"] = <<EOF
 Self Encapsulate Field . . . 188
 Replace Data Value with Object . . . 191
 Change Value to Reference . . . 194
 Change Reference to Value . . . 198
 Replace Array with Object . . . 201
-Replace Hash with Object . . . 206
+Replace chapters with Object . . . 206
 Change Unidirectional Association to Bidirectional . . . 210
 Change Bidirectional Association to Unidirectional . . . 213
 Replace Magic Number with Symbolic Constant . . . 217
@@ -56,7 +56,7 @@ Lazily Initialized Attribute . . . 255
 Eagerly Initialized Attribute . . . 257
 EOF
 
-hash["ch09-simplifying-conditional-expressions"] = <<EOF
+chapters["ch09-simplifying-conditional-expressions"] = <<EOF
 Decompose Conditional . . . 261
 Recompose Conditional . . . 264
 Consolidate Conditional Expression . . . 265
@@ -68,7 +68,7 @@ Introduce Null Object . . . 284
 Introduce Assertion . . . 292
 EOF
 
-hash["ch10-making-method-calls-simpler"] = <<EOF
+chapters["ch10-making-method-calls-simpler"] = <<EOF
 Rename Method . . . 298
 Add Parameter . . . 300
 Remove Parameter . . . 302
@@ -87,7 +87,7 @@ Introduce Gateway . . . 341
 Introduce Expression Builder . . . 346
 EOF
 
-hash["ch11-dealing-with-generalization"] = <<EOF
+chapters["ch11-dealing-with-generalization"] = <<EOF
 Pull Up Method . . . 353
 Push Down Method . . . 356
 Extract Module . . . 357
@@ -101,7 +101,7 @@ Replace Delegation with Hierarchy . . . 389
 Replace Abstract Superclass with Module . . . 392
 EOF
 
-hash["ch12-big-refactorings"] = <<EOF
+chapters["ch12-big-refactorings"] = <<EOF
 The Nature of the Game . . . 397
 Why Big Refactorings Are Important . . . 398
 Four Big Refactorings . . . 398
@@ -127,7 +127,7 @@ def print_or_create_sub_chs(ch, sub_chs)
   end
 end
 
-hash.each do |ch, sub_chs|
+chapters.each do |ch, sub_chs|
   formated_sub_chapters = sub_chs.split("\n").map(&:strip).map {|e| e.split(' . . . ')[0]}.map(&:downcase).map {|e| e.gsub(' ', '-')}.map.with_index {|e, i| "#{(i+1).to_s.rjust(2, "0")}-#{e}.md"}
   print_or_create_sub_chs(ch, formated_sub_chapters)
 end
