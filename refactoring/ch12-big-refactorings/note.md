@@ -6,3 +6,8 @@
 + As you do this, you should be guided by your need to do something else.
 + Do the refactorings as you need to add function and fix bugs.
 + You don't have to complete the refactoring when you begin. Do as much as you need to achieve your real task. You can always come back tomorrow.
+
++ **You will have to have faith that you are making the world a little safer for your program each day.**
+
++ The big refactorings require a degree of agreement among the entire programming team that isn't needed with the smaller refactorings.
++ The whole team has to recognize that one of the big refactorings is "in play" and make their moves accordingly.
