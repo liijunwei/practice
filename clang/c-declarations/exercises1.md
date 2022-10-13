@@ -32,6 +32,7 @@ symbols above (say, something like "int"), just say it.  Otherwise, translate
 it into English using that table above.  Keep going left until you run out of
 symbols *OR* hit a *left* parenthesis `(`.
 
+Now repeat steps 2 and 3 until you've formed your declaration.
 
 ```c
 int *p[];
