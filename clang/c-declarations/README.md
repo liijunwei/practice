@@ -1,5 +1,5 @@
-+ TODO ./exercises4.md
-+ TODO ./exercises1.md
++ OK ./exercises4.md
++ OK ./exercises1.md
 + TODO ./exercises2.md
 + TODO ./exercises3.md
 
