@@ -14,7 +14,7 @@ c语言里的 变量 和 函数声明真的太难懂啦
 
 ## example.1 `char **argv` <=> `char *argv[]`
 
-+ [What does char * argv[] means?](https://stackoverflow.com/questions/16666353/what-does-char-argv-means#:~:text=The%20declaration%20char%20*argv%5B%5D,a%20pointer%20as%20an%20array).)
++ [What does char * argv[] means?](https://stackoverflow.com/questions/16666353/what-does-char-argv-means#:~:text=The%20declaration%20char%20*argv%5B%5D,a%20pointer%20as%20an%20array)
 
 > The declaration `char *argv[]` is an array (of undetermined size) of pointers to char, in other words an array of strings.
 > And all arrays decays(衰变) to pointers, and so you can use an array as a pointer (just like you can use a pointer as an array).
