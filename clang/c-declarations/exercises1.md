@@ -35,11 +35,11 @@ symbols *OR* hit a *left* parenthesis `(`.
 
 ```c
 int *p[];
-// p is an array of pointer to int
+// p is array of poniter to int
 // 指针(的)数组, 每个指针指向int类型的数
 
 int (*p)[];
-// p is a pointer to an array of ints
+// p is pointer to array of int
 // 数组(的)指针, 数组里存放int型的数
 
 ```
