@@ -29,8 +29,8 @@ Generics(pending)
   Channel Buffering
   Channel Synchronization
   Channel Directions
-Select
-Timeouts
+  Select
+  Timeouts
 Non-Blocking Channel Operations
 Closing Channels
 Range over Channels
