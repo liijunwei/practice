@@ -18,11 +18,11 @@ https://github.com/mmcgrana/gobyexample/blob/master/examples.txt
   Recursion
   Pointers
   Strings and Runes
-Structs
-Methods
-Interfaces
-Struct Embedding
-Generics
+  Structs
+  Methods
+  Interfaces
+  Struct Embedding
+Generics(pending)
 Errors
 Goroutines
 Channels
