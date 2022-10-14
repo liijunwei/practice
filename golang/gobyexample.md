@@ -23,12 +23,12 @@ https://github.com/mmcgrana/gobyexample/blob/master/examples.txt
   Interfaces
   Struct Embedding
 Generics(pending)
-Errors
-Goroutines
-Channels
-Channel Buffering
-Channel Synchronization
-Channel Directions
+  Errors
+  Goroutines
+  Channels
+  Channel Buffering
+  Channel Synchronization
+  Channel Directions
 Select
 Timeouts
 Non-Blocking Channel Operations
