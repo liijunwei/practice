@@ -31,7 +31,7 @@ Generics(pending)
   Channel Directions
   Select
   Timeouts
-Non-Blocking Channel Operations
+  Non-Blocking Channel Operations
 Closing Channels
 Range over Channels
 Timers
