@@ -38,17 +38,17 @@ Generics(pending)
   Tickers
   Worker Pools
   WaitGroups
-Rate Limiting
-Atomic Counters
-Mutexes
-Stateful Goroutines
-Sorting
-Sorting by Functions
-Panic
-Defer
-Recover
-String Functions
-String Formatting
+  Rate Limiting
+  Atomic Counters
+  Mutexes
+  Stateful Goroutines
+  Sorting
+  Sorting by Functions
+  Panic
+  Defer
+  Recover
+  String Functions
+  String Formatting
 Text Templates
 Regular Expressions
 JSON
