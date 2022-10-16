@@ -32,12 +32,12 @@ Generics(pending)
   Select
   Timeouts
   Non-Blocking Channel Operations
-Closing Channels
-Range over Channels
-Timers
-Tickers
-Worker Pools
-WaitGroups
+  Closing Channels
+  Range over Channels
+  Timers
+  Tickers
+  Worker Pools
+  WaitGroups
 Rate Limiting
 Atomic Counters
 Mutexes
