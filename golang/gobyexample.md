@@ -49,7 +49,7 @@ Generics(pending)
   Recover
   String Functions
   String Formatting
-Text Templates
+  Text Templates
 Regular Expressions
 JSON
 XML
