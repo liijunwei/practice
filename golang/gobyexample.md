@@ -50,9 +50,9 @@ Generics(pending)
   String Functions
   String Formatting
   Text Templates
-Regular Expressions
-JSON
-XML
+  Regular Expressions
+  JSON
+  XML
   Time
 Epoch
 Time Formatting / Parsing
