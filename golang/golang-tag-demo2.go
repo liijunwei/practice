@@ -20,16 +20,16 @@ import (
 )
 
 type User struct {
-	name          string
-	password      string
-	preferredFish []string
-	CreatedAt     time.Time
+	Name          string    `json:"name"`
+	Password      string    `json:"password"`
+	PreferredFish []string  `json:"preferredFish"`
+	CreatedAt     time.Time `json:"createdAt"`
 }
 
 func main() {
 	u := &User{
-		name:      "Sammy the Shark",
-		password:  "fisharegreat",
+		Name:      "Sammy the Shark",
+		Password:  "fisharegreat",
 		CreatedAt: time.Now(),
 	}
 
