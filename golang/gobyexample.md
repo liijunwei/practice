@@ -64,7 +64,7 @@ Generics(pending)
   Reading Files
   Writing Files
   Line Filters
-File Paths
+  File Paths
 Directories
 Temporary Files and Directories
 Embed Directive
