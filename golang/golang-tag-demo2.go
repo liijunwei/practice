@@ -20,14 +20,14 @@ type User struct {
 	name          string
 	password      string
 	preferredFish []string
-	createdAt     time.Time
+	CreatedAt     time.Time
 }
 
 func main() {
 	u := &User{
 		name:      "Sammy the Shark",
 		password:  "fisharegreat",
-		createdAt: time.Now(),
+		CreatedAt: time.Now(),
 	}
 
 	out, err := json.MarshalIndent(u, "", "  ")
