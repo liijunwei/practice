@@ -17,17 +17,17 @@ import (
 )
 
 type User struct {
-	Name          string
-	Password      string
-	PreferredFish []string
-	CreatedAt     time.Time
+	name          string
+	password      string
+	preferredFish []string
+	createdAt     time.Time
 }
 
 func main() {
 	u := &User{
-		Name:      "Sammy the Shark",
-		Password:  "fisharegreat",
-		CreatedAt: time.Now(),
+		name:      "Sammy the Shark",
+		password:  "fisharegreat",
+		createdAt: time.Now(),
 	}
 
 	out, err := json.MarshalIndent(u, "", "  ")
