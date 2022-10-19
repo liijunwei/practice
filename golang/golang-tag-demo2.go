@@ -4,6 +4,9 @@
 // it(struct tags) has no effect on the operation of this Go code.
 // To use struct tags to accomplish something, other Go code must be written to examine structs at runtime.
 
+// Camel casing fields properly requires that the first character be lower-cased.
+// While JSON doesn’t care how you name your fields, Go does, as it indicates the visibility of the field outside of the package.
+
 // gofmt -w golang/*.go && go run golang/golang-tag-demo2.go
 
 package main
