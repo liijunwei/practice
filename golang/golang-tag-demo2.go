@@ -20,8 +20,8 @@ import (
 )
 
 type User struct {
-	Name          string `json:"name1"`
-	Password      string
+	Name          string    `json:"name1"`
+	Password      string    `json:"-"`
 	PreferredFish []string  `json:"preferredFish,omitempty"`
 	CreatedAt     time.Time `json:"createdAt"`
 }
