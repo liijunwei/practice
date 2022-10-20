@@ -65,9 +65,9 @@ Generics(pending)
   Writing Files
   Line Filters
   File Paths
-Directories
-Temporary Files and Directories
-Embed Directive
+  Directories
+  Temporary Files and Directories
+  Embed Directive
 Testing and Benchmarking
 Command-Line Arguments
 Command-Line Flags
