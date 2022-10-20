@@ -68,7 +68,7 @@ Generics(pending)
   Directories
   Temporary Files and Directories
   Embed Directive
-Testing and Benchmarking
+  Testing and Benchmarking
 Command-Line Arguments
 Command-Line Flags
 Command-Line Subcommands
