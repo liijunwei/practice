@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-
 	dateCmd := exec.Command("date")
 
 	dateOut, err := dateCmd.Output()
@@ -34,7 +33,7 @@ func main() {
 	grepIn, _ := grepCmd.StdinPipe()
 	grepOut, _ := grepCmd.StdoutPipe()
 	grepCmd.Start()
-	grepIn.Write([]byte("hello grep\ngoodbye grep"))
+	grepIn.Write([]byte("hello grep \n goodbye grep"))
 	grepIn.Close()
 	grepBytes, _ := io.ReadAll(grepOut)
 	grepCmd.Wait()
@@ -42,11 +41,11 @@ func main() {
 	fmt.Println("> grep hello")
 	fmt.Println(string(grepBytes))
 
-	lsCmd := exec.Command("bash", "-c", "ls -a -l -h")
+	lsCmd := exec.Command("bash", "-c", "ls -alh")
 	lsOut, err := lsCmd.Output()
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("> ls -a -l -h")
+	fmt.Println("> ls -alh")
 	fmt.Println(string(lsOut))
 }
