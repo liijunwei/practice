@@ -10,6 +10,7 @@ dirs=(
 1.1.2.Speculatively-General
 1.1.3.Concretely-Abstract
 1.1.4.Shameless-Green
+solu_self
 )
 
 for dir in ${dirs[@]}; do
