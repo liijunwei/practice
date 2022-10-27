@@ -8,11 +8,7 @@
 
 + Answering the question "What makes code good?" thus requires defining goodness in concrete and actionable ways. This is harder than one might think.
 
-> I like my code to be elegant and efficient.
-
-> Clean code is full of crisp abstractions
-
-> Clean code was written by someone who cares.
++ **I like my code to be elegant and efficient; Clean code is full of crisp abstractions; Clean code was written by someone who cares.**
 
 + **Any pile of code can be made to work; good code not only works, but is also simple, understandable, expressive and changeable.**
 
@@ -20,26 +16,31 @@
 
 + Metrics are fallible but human opinion is no more precise. Checking metrics regularly will keep you humble and improve your code.
 
-代码的质量应该多用指标工具去检测
+代码的质量应该多用指标工具去检测, 不该仅仅靠感觉(感谢 flog/flay 这类工具)
 
 + As programmers grow, they get better at solving challenging problems, and become comfortable with complexity.
 + This higher level of comfort sometimes leads to the belief that complexity is inevitable, as if it’s the natural, inescapable state of all finished code.
+    + 业务的复杂度 是代码复杂度的下限
 + However, there’s something beyond complexity --- a higher level of simplicity.
 + **Infinitely experienced programmers do not write infinitely complex code; they write code that’s blindingly simple.**
 
-复杂 是可以避免的
+有些复杂性 是可以避免的
 
 "更高层次的简洁" 是 "复杂" 下一阶段, 或者目标
 
 有经验的程序员不会写出很复杂难懂的代码, 他们会把代码变得很简单, 清晰易懂, 同时能解决问题
 
+(make it work, make it right, make it fast; don't stop at the intermediate state; https://wiki.c2.com/?MakeItWorkMakeItRightMakeItFast)
+
 + **Shameless Green is defined as the solution which quickly reaches green while prioritizing understandability over changeability.**
 
-"Shameless Green"的解决方案是那种 能快速实现解决方案, 并且平衡了易读性/易于改变特性的 的方案
+"Shameless Green"是那种 能快速实现功能 并且平衡了易读性/易扩展(修改)性 的方案
 
 + It uses tests to drive comprehension, and patiently accumulates concrete examples while awaiting insight into underlying abstractions.
 
-"Shameless Green"的解决方案使用测试驱动达到让代码易于理解的目的, 然后耐心的积累实际经验, 直到有一天认识到隐藏在代码背后的抽象(???)
+"Shameless Green"的解决方案使用测试驱动达到让代码易于理解的目的, 然后耐心的积累实际经验, 直到有一天认识到隐藏在代码背后的抽象
+
+重构代码, 对于帮助理解业务很有帮助, 前提是 测试用例写得比较靠谱...
 
 + It doesn’t dispute that DRY is good, rather it believes that it is cheaper to manage temporary duplication than to recover from incorrect abstractions.
 
@@ -58,13 +59,5 @@
 
 + The challenge comes when a change request arrives. Code that’s good enough when nothing ever changes may well be code that’s not good enough when things do.
 
-当需求变化时，挑战就来了。当什么都没有改变时就足够好的代码 很可能是 当事情发生时还不够好的代码。
-
-
-
-
-
-
-
-
+当需求变化时，挑战就来了。当什么都没有改变时就足够好的代码 很可能是 当改变发生时还不够好的代码。
 
