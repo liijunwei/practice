@@ -1,8 +1,11 @@
 require 'rake/testtask'
 
-# cd oop/99-Bottles-of-OOP/02-Test-Driving-Shameless-Green && rvm use 2.5.1 && rake
-task default: "test"
+task :flog do
+  sh "find lib -name *.rb | xargs flog"
+end
 
 Rake::TestTask.new do |task|
  task.pattern = 'test/*_test.rb'
 end
+
+task default: [:test, :flog]
