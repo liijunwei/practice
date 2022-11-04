@@ -1,1 +1,1 @@
-+ TODO oop/99-Bottles-of-OOP/02-Test-Driving-Shameless-Green/2.07.exposing-responsibilities.md
++ TODO oop/99-Bottles-of-OOP/03-Unearthing-Concepts/3.1.Listening-to-Change/note.md
