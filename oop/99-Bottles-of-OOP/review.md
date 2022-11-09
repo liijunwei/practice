@@ -1,4 +1,4 @@
-+ TODO oop/99-Bottles-of-OOP/03-Unearthing-Concepts/3.6.following-the-flocking-rules.md
++ TODO oop/99-Bottles-of-OOP/04-Practicing-Horizontal-Refactoring/4.08.discovering-deeper-abstractions.md
 
 ```bash
 ll oop/99-Bottles-of-OOP/**/*/note.md | awk '{print $9}'
