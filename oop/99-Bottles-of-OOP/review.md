@@ -1,4 +1,4 @@
-+ TODO oop/99-Bottles-of-OOP/05-Separating-Responsibilities/5.3.apreciating-imutability.md
++ TODO oop/99-Bottles-of-OOP/06-Achieving-Openness/6.1.consolidating-data-clumps.md
 
 ```bash
 ll oop/99-Bottles-of-OOP/**/*/note.md | awk '{print $9}'
