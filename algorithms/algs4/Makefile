@@ -6,4 +6,14 @@ download_jars:
 
 # download and put lib into `edu/princeton/cs/algs4/`
 # https://algs4.cs.princeton.edu/code/
+StdRandom:
+	wget https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/StdRandom.java --directory-prefix edu/princeton/cs/algs4
 
+binary_search_demo:
+# 	javac -Xlint:deprecation BinarySearch.java
+	@javac BinarySearch.java
+	@java BinarySearch tinyW.txt < tinyT.txt
+
+random_seq_demo:
+	@javac RandomSeq.java
+	@java RandomSeq 3 1 100
