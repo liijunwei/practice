@@ -4,10 +4,12 @@ gcd:
 download_jars:
 	wget https://algs4.cs.princeton.edu/code/algs4.jar --directory-prefix algs4-jars
 
+LIB_FOLDER := edu/princeton/cs/algs4
 # download and put lib into `edu/princeton/cs/algs4/`
 # https://algs4.cs.princeton.edu/code/
 StdRandom:
-	wget https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/StdRandom.java --directory-prefix edu/princeton/cs/algs4
+	wget --directory-prefix $(LIB_FOLDER) https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/StdRandom.java
+	wget --directory-prefix $(LIB_FOLDER) https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/StdDraw.java
 
 binary_search_demo:
 # 	javac -Xlint:deprecation BinarySearch.java
@@ -21,3 +23,7 @@ random_seq_demo:
 average_demo:
 	javac Average.java
 	java Average < tinyW.txt
+
+draw_function_graph_demo:
+	javac DrawFunctionGraph.java
+	java DrawFunctionGraph
