@@ -1,5 +1,3 @@
-// https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/BinarySearch.java.html
-
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdRandom;
 

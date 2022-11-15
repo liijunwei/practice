@@ -1,4 +1,3 @@
-
 def rank(key, sorted_list)
   low = 0
   high = sorted_list.size - 1
