@@ -11,9 +11,13 @@ StdRandom:
 
 binary_search_demo:
 # 	javac -Xlint:deprecation BinarySearch.java
-	@javac BinarySearch.java
-	@java BinarySearch tinyW.txt < tinyT.txt
+	javac BinarySearch.java
+	java BinarySearch tinyW.txt < tinyT.txt
 
 random_seq_demo:
-	@javac RandomSeq.java
-	@java RandomSeq 3 1 100
+	javac RandomSeq.java
+	java RandomSeq 3 1 100
+
+average_demo:
+	javac Average.java
+	java Average < tinyW.txt
