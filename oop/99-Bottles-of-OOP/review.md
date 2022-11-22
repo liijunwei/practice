@@ -1,4 +1,4 @@
-+ TODO oop/99-Bottles-of-OOP/06-Achieving-Openness/6.3.replacing-conditionals-with-polymorphism.md
++ TODO oop/99-Bottles-of-OOP/08-Developing-a-Programming-Aesthetic/8.1.appreciating-the-mechanical-process.md
 
 ```bash
 ll oop/99-Bottles-of-OOP/**/*/note.md | awk '{print $9}'
