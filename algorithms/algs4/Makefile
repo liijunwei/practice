@@ -27,3 +27,12 @@ average_demo:
 draw_function_graph_demo:
 	javac DrawFunctionGraph.java
 	java DrawFunctionGraph
+
+# tutorial: https://www.guru99.com/download-installation-junit.html
+# download from: https://github.com/junit-team/junit4/wiki/Download-and-Install
+JARS_HOME = "/Users/lijunwei/java-jars"
+JAVA_CLASSPATH = -classpath .:$(JARS_HOME)/hamcrest-core-1.3.jar:$(JARS_HOME)/junit-4.13.2.jar
+
+test_runner:
+	@javac $(JAVA_CLASSPATH) TestRunner.java
+	@java $(JAVA_CLASSPATH) TestRunner
