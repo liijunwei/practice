@@ -16,7 +16,7 @@ public class VisualAccumulator {
         StdDraw.setPenColor(StdDraw.DARK_GRAY);
         StdDraw.point(N, val);
         StdDraw.setPenColor(StdDraw.RED);
-        StdDraw.point(N, total / N);
+        StdDraw.point(N, mean());
     }
 
     public double mean() {
