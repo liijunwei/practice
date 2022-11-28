@@ -48,3 +48,7 @@ test_flips_max:
 test_accumulator:
 	@javac $(JAVA_CLASSPATH) TestAccumulator.java
 	@java $(JAVA_CLASSPATH) TestAccumulator 10000000
+
+test_visual_accumulator:
+	@javac $(JAVA_CLASSPATH) TestVisualAccumulator.java
+	@java $(JAVA_CLASSPATH) TestVisualAccumulator 1000
