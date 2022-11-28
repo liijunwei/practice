@@ -40,3 +40,7 @@ test_runner:
 test_flips:
 	@javac $(JAVA_CLASSPATH) Flips.java
 	@java $(JAVA_CLASSPATH) Flips 10
+
+test_flips_max:
+	@javac $(JAVA_CLASSPATH) FlipsMax.java
+	@java $(JAVA_CLASSPATH) FlipsMax 10000000
