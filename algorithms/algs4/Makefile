@@ -36,3 +36,7 @@ JAVA_CLASSPATH = -classpath .:$(JARS_HOME)/hamcrest-core-1.3.jar:$(JARS_HOME)/ju
 test_runner:
 	@javac $(JAVA_CLASSPATH) TestRunner.java
 	@java $(JAVA_CLASSPATH) TestRunner
+
+test_flips:
+	@javac $(JAVA_CLASSPATH) Flips.java
+	@java $(JAVA_CLASSPATH) Flips 10
