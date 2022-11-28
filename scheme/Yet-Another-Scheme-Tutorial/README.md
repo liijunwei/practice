@@ -1,8 +1,8 @@
 [Yet Another Scheme Tutorial](http://www.shido.info/lisp/idx_scm_e.html)
 
-- [ ] 01.installing_mit_scheme
-- [ ] 02.using_scheme_as_a_calculator
-- [ ] 03.making_lists
+- [x] 01.installing_mit_scheme
+- [x] 02.using_scheme_as_a_calculator
+- [x] 03.making_lists
 - [ ] 04.defining_functions
 - [ ] 05.branching
 - [ ] 06.local_variables
