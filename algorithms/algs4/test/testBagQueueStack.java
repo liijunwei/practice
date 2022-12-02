@@ -3,8 +3,6 @@ package test;
 import bag_queue_stack.Bag;
 import org.junit.Test;
 
-import java.util.Iterator;
-
 import static org.junit.Assert.*;
 
 public class testBagQueueStack {
@@ -48,5 +46,39 @@ public class testBagQueueStack {
         }
 
         assertEquals(4, bag.size());
+    }
+
+    @Test
+    public void testStats() {
+        Bag<Double> bag = new Bag<>();
+
+        bag.add(100.0);
+        bag.add(99.0);
+        bag.add(101.0);
+        bag.add(120.0);
+        bag.add(98.0);
+        bag.add(107.0);
+        bag.add(109.0);
+        bag.add(81.0);
+        bag.add(101.0);
+        bag.add(90.0);
+
+        double sum = 0;
+        for (Double d : bag) {
+            sum += d;
+        }
+
+        int N = bag.size();
+        double mean = sum / N;
+
+        sum = 0;
+        for (Double d : bag) {
+            sum += (d - mean) * (d - mean);
+        }
+
+        double std = Math.sqrt(sum / N);
+
+        assertEquals("mean", 100.6, mean, 0.1);
+        assertEquals("std", 9.9, std, 0.1);
     }
 }
