@@ -134,19 +134,20 @@ public class testBagQueueStack {
     public void testResizingArrayStack() {
         ResizingArrayStack<Integer> s = new ResizingArrayStack(2);
         assertEquals(0, s.size());
+        assertTrue(s.isEmpty());
 
         s.push(1);
         s.push(2);
         s.push(3);
         s.push(4);
         s.push(5);
-
         assertEquals(5, s.size());
-        String str = "";
-        for (Integer i : s) {
-            str += i;
-        }
 
-        assertEquals("54321", str);
+        StringBuilder str = new StringBuilder();
+        for (Integer i : s) {
+            str.append(i);
+        }
+        assertEquals("54321", str.toString());
+
     }
 }
