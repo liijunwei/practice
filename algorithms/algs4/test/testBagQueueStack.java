@@ -112,7 +112,7 @@ public class testBagQueueStack {
         String tobe = "to be or not to - be - - that - - - is";
         String[] tokens = tobe.split(" ");
 
-        FixedCapacityStack<String> s = new FixedCapacityStack(10);
+        FixedCapacityStack<String> s = new FixedCapacityStack(2);
         assertEquals(0, s.size());
 
         for (String item : tokens) {

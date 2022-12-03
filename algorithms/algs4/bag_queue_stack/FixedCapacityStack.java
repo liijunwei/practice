@@ -9,11 +9,22 @@ public class FixedCapacityStack<Item> {
     }
 
     public void push(Item item) {
+        if (size == stackEntries.length) {
+            resize(2 * stackEntries.length);
+        }
+
         stackEntries[size++] = item;
     }
 
     public Item pop() {
-        return stackEntries[--size];
+        Item item = stackEntries[--size];
+        stackEntries[size] = null; // 避免对象游离(悬空)
+
+        if (size > 0 && size == (stackEntries.length / 4)) {
+            resize(stackEntries.length / 2);
+        }
+
+        return item;
     }
 
     public boolean isEmpty() {
@@ -22,5 +33,15 @@ public class FixedCapacityStack<Item> {
 
     public int size() {
         return size;
+    }
+
+    private void resize(int max) {
+        Item[] temp = (Item[]) new Object[max];
+
+        for (int i = 0; i < size; i++) {
+            temp[i] = stackEntries[i];
+        }
+
+        stackEntries = temp;
     }
 }
