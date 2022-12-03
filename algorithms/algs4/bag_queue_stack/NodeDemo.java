@@ -54,6 +54,38 @@ public class NodeDemo<Item> {
         assertEquals(second, first.next.next);
     }
 
+    @Test
+    public void testInsertLastNode() {
+        Node<String> first = new Node<>();
+        Node<String> second = new Node<>();
+        Node<String> third = new Node<>();
+
+        first.item = "to";
+        second.item = "be";
+        third.item = "or";
+
+        first.next = second;
+        second.next = third;
+        third.next = null;
+
+
+        Node<String> oldlast = first;
+        while (oldlast.next != null) {
+            oldlast = oldlast.next;
+        }
+
+        assertEquals(third, oldlast);
+
+        Node<String> last = new Node<>();
+        last.item = "inserted last";
+        last.next = null;
+
+        oldlast.next = last;
+
+        assertEquals("inserted last", third.next.item);
+        assertNull(third.next.next);
+    }
+
     private static class Node<Item> {
         Item item;
         Node<Item> next;
