@@ -1,9 +1,6 @@
 package test;
 
-import bag_queue_stack.Bag;
-import bag_queue_stack.FixedCapacityStack;
-import bag_queue_stack.FixedCapacityStackOfStrings;
-import bag_queue_stack.ResizingArrayStack;
+import bag_queue_stack.*;
 import edu.princeton.cs.algs4.StdOut;
 import org.junit.Test;
 
