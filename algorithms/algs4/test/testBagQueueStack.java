@@ -1,6 +1,7 @@
 package test;
 
 import bag_queue_stack.Bag;
+import bag_queue_stack.FixedCapacityStack;
 import bag_queue_stack.FixedCapacityStackOfStrings;
 import edu.princeton.cs.algs4.StdOut;
 import org.junit.Test;
@@ -90,6 +91,28 @@ public class testBagQueueStack {
         String[] tokens = tobe.split(" ");
 
         FixedCapacityStackOfStrings s = new FixedCapacityStackOfStrings(10);
+        assertEquals(0, s.size());
+
+        for (String item : tokens) {
+            if (!item.equals("-")) {
+                s.push(item);
+            } else if (!s.isEmpty()) {
+                StdOut.print(s.pop() + " ");
+            }
+        }
+
+        assertEquals(2, s.size());
+        assertEquals("is", s.pop());
+        assertEquals("to", s.pop());
+        assertEquals(0, s.size());
+    }
+
+    @Test
+    public void testFixedCapacityStack() {
+        String tobe = "to be or not to - be - - that - - - is";
+        String[] tokens = tobe.split(" ");
+
+        FixedCapacityStack<String> s = new FixedCapacityStack(10);
         assertEquals(0, s.size());
 
         for (String item : tokens) {
