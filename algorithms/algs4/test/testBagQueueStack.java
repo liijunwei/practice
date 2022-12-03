@@ -3,6 +3,7 @@ package test;
 import bag_queue_stack.Bag;
 import bag_queue_stack.FixedCapacityStack;
 import bag_queue_stack.FixedCapacityStackOfStrings;
+import bag_queue_stack.ResizingArrayStack;
 import edu.princeton.cs.algs4.StdOut;
 import org.junit.Test;
 
@@ -127,5 +128,25 @@ public class testBagQueueStack {
         assertEquals("is", s.pop());
         assertEquals("to", s.pop());
         assertEquals(0, s.size());
+    }
+
+    @Test
+    public void testResizingArrayStack() {
+        ResizingArrayStack<Integer> s = new ResizingArrayStack(2);
+        assertEquals(0, s.size());
+
+        s.push(1);
+        s.push(2);
+        s.push(3);
+        s.push(4);
+        s.push(5);
+
+        assertEquals(5, s.size());
+        String str = "";
+        for (Integer i : s) {
+            str += i;
+        }
+
+        assertEquals("54321", str);
     }
 }
