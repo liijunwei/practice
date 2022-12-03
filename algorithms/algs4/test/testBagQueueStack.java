@@ -1,6 +1,8 @@
 package test;
 
 import bag_queue_stack.Bag;
+import bag_queue_stack.FixedCapacityStackOfStrings;
+import edu.princeton.cs.algs4.StdOut;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -80,5 +82,27 @@ public class testBagQueueStack {
 
         assertEquals("mean", 100.6, mean, 0.1);
         assertEquals("std", 9.9, std, 0.1);
+    }
+
+    @Test
+    public void testFixedCapacityStackOfStrings() {
+        String tobe = "to be or not to - be - - that - - - is";
+        String[] tokens = tobe.split(" ");
+
+        FixedCapacityStackOfStrings s = new FixedCapacityStackOfStrings(10);
+        assertEquals(0, s.size());
+
+        for (String item : tokens) {
+            if (!item.equals("-")) {
+                s.push(item);
+            } else if (!s.isEmpty()) {
+                StdOut.print(s.pop() + " ");
+            }
+        }
+
+        assertEquals(2, s.size());
+        assertEquals("is", s.pop());
+        assertEquals("to", s.pop());
+        assertEquals(0, s.size());
     }
 }
