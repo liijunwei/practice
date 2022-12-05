@@ -147,4 +147,28 @@ public class testBagQueueStack {
         assertEquals("54321", str.toString());
 
     }
+
+    @Test
+    public void testLinkedListStack() {
+        String tobe = "to be or not to - be - - that - - - is";
+        String[] tokens = tobe.split(" ");
+
+        LinkedListStack<String> s = new LinkedListStack();
+        assertEquals(0, s.size());
+        assertTrue(s.isEmpty());
+
+        for (String item : tokens) {
+            if (!item.equals("-")) {
+                s.push(item);
+            } else if (!s.isEmpty()) {
+                StdOut.print(s.pop() + " ");
+            }
+        }
+
+        assertEquals(2, s.size());
+        assertEquals("is", s.pop());
+        assertEquals("to", s.pop());
+        assertEquals(0, s.size());
+
+    }
 }
