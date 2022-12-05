@@ -169,7 +169,28 @@ public class testBagQueueStack {
         assertEquals("is", s.pop());
         assertEquals("to", s.pop());
         assertEquals(0, s.size());
+    }
 
+    @Test
+    public void testLinkedListStackWithOtherInput() {
+        String tobe = "it was - the best - of times - - - it was - the - -";
+        String[] tokens = tobe.split(" ");
+
+        LinkedListStack<String> s = new LinkedListStack();
+        assertEquals(0, s.size());
+        assertTrue(s.isEmpty());
+
+        for (String item : tokens) {
+            if (!item.equals("-")) {
+                s.push(item);
+            } else if (!s.isEmpty()) {
+                StdOut.print(s.pop() + " ");
+            }
+        }
+
+        assertEquals(1, s.size());
+        assertEquals("it", s.pop());
+        assertEquals(0, s.size());
     }
 
     @Test
