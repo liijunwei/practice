@@ -171,4 +171,28 @@ public class testBagQueueStack {
         assertEquals(0, s.size());
 
     }
+
+    @Test
+    public void testLinkedListQueue() {
+        String tobe = "to be or not to - be - - that - - - is";
+        String[] tokens = tobe.split(" ");
+
+        LinkedListQueue<String> s = new LinkedListQueue();
+        assertEquals(0, s.size());
+        assertTrue(s.isEmpty());
+
+        for (String item : tokens) {
+            if (!item.equals("-")) {
+                s.enqueue(item);
+            } else if (!s.isEmpty()) {
+                StdOut.print(s.dequeue() + " ");
+            }
+        }
+
+        assertEquals(2, s.size());
+        assertEquals("that", s.dequeue());
+        assertEquals("is", s.dequeue());
+        assertEquals(0, s.size());
+
+    }
 }
