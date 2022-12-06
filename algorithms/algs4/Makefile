@@ -5,11 +5,15 @@ download_jars:
 	wget https://algs4.cs.princeton.edu/code/algs4.jar --directory-prefix algs4-jars
 
 LIB_FOLDER := edu/princeton/cs/algs4
+STD_LIB_URL_PREFIX := https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4
+PULL_STD_LIB := wget --timestamping --directory-prefix $(LIB_FOLDER)
+
 # download and put lib into `edu/princeton/cs/algs4/`
 # https://algs4.cs.princeton.edu/code/
 StdRandom:
-	wget --directory-prefix $(LIB_FOLDER) https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/StdRandom.java
-	wget --directory-prefix $(LIB_FOLDER) https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/StdDraw.java
+	$(PULL_STD_LIB) $(STD_LIB_URL_PREFIX)/StdRandom.java
+	$(PULL_STD_LIB) $(STD_LIB_URL_PREFIX)/StdDraw.java
+	$(PULL_STD_LIB) $(STD_LIB_URL_PREFIX)/ThreeSum.java
 
 binary_search_demo:
 # 	javac -Xlint:deprecation BinarySearch.java
