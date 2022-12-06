@@ -11,8 +11,10 @@ JAVA_CLASSPATH = -classpath .:$(JAVA_JARS_FOLDER)/hamcrest-core-1.3.jar:$(JAVA_J
 setup_java_jars_folder:
 	mkdir -p $(JAVA_JARS_FOLDER)
 
-download_algs4_jar: setup_java_jars_folder
+download_jars: setup_java_jars_folder
 	$(DOWNLOAD_CODE_TO) $(JAVA_JARS_FOLDER) https://algs4.cs.princeton.edu/code/algs4.jar
+	wget --timestamping -O $(JAVA_JARS_FOLDER)/hamcrest-core-1.3.jar https://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
+	wget --timestamping -O $(JAVA_JARS_FOLDER)/junit-4.13.2.jar https://search.maven.org/remotecontent?filepath=junit/junit/4.13.2/junit-4.13.2.jar
 
 gcd:
 	javac GreatestCommonDivisor.java && java GreatestCommonDivisor
