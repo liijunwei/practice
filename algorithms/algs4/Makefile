@@ -1,19 +1,21 @@
+# code
+# https://algs4.cs.princeton.edu/code/
+
+JAVA_JARS_FOLDER := $(HOME)/java-jars
+DOWNLOAD_CODE_TO := wget --timestamping --directory-prefix
+
+# tutorial: https://www.guru99.com/download-installation-junit.html
+# download from: https://github.com/junit-team/junit4/wiki/Download-and-Install
+JAVA_CLASSPATH = -classpath .:$(JAVA_JARS_FOLDER)/hamcrest-core-1.3.jar:$(JAVA_JARS_FOLDER)/junit-4.13.2.jar
+
+setup_java_jars_folder:
+	mkdir -p $(JAVA_JARS_FOLDER)
+
+download_algs4_jar: setup_java_jars_folder
+	$(DOWNLOAD_CODE_TO) $(JAVA_JARS_FOLDER) https://algs4.cs.princeton.edu/code/algs4.jar
+
 gcd:
 	javac GreatestCommonDivisor.java && java GreatestCommonDivisor
-
-download_jars:
-	wget https://algs4.cs.princeton.edu/code/algs4.jar --directory-prefix algs4-jars
-
-LIB_FOLDER := edu/princeton/cs/algs4
-STD_LIB_URL_PREFIX := https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4
-PULL_STD_LIB := wget --timestamping --directory-prefix $(LIB_FOLDER)
-
-# download and put lib into `edu/princeton/cs/algs4/`
-# https://algs4.cs.princeton.edu/code/
-StdRandom:
-	$(PULL_STD_LIB) $(STD_LIB_URL_PREFIX)/StdRandom.java
-	$(PULL_STD_LIB) $(STD_LIB_URL_PREFIX)/StdDraw.java
-	$(PULL_STD_LIB) $(STD_LIB_URL_PREFIX)/ThreeSum.java
 
 binary_search_demo:
 # 	javac -Xlint:deprecation BinarySearch.java
@@ -31,11 +33,6 @@ average_demo:
 draw_function_graph_demo:
 	javac DrawFunctionGraph.java
 	java DrawFunctionGraph
-
-# tutorial: https://www.guru99.com/download-installation-junit.html
-# download from: https://github.com/junit-team/junit4/wiki/Download-and-Install
-JARS_HOME = "/Users/lijunwei/java-jars"
-JAVA_CLASSPATH = -classpath .:$(JARS_HOME)/hamcrest-core-1.3.jar:$(JARS_HOME)/junit-4.13.2.jar
 
 test_runner:
 	@javac $(JAVA_CLASSPATH) TestRunner.java
