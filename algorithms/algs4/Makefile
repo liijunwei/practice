@@ -6,7 +6,7 @@ DOWNLOAD_CODE_TO := wget --timestamping --directory-prefix
 
 # tutorial: https://www.guru99.com/download-installation-junit.html
 # download from: https://github.com/junit-team/junit4/wiki/Download-and-Install
-JAVA_CLASSPATH = -classpath .:$(JAVA_JARS_FOLDER)/hamcrest-core-1.3.jar:$(JAVA_JARS_FOLDER)/junit-4.13.2.jar
+JAVA_CLASSPATH = -classpath .:$(JAVA_JARS_FOLDER)/algs4.jar:$(JAVA_JARS_FOLDER)/hamcrest-core-1.3.jar:$(JAVA_JARS_FOLDER)/junit-4.13.2.jar
 
 setup_java_jars_folder:
 	mkdir -p $(JAVA_JARS_FOLDER)
@@ -55,3 +55,7 @@ test_accumulator:
 test_visual_accumulator:
 	@javac $(JAVA_CLASSPATH) TestVisualAccumulator.java
 	@java $(JAVA_CLASSPATH) TestVisualAccumulator 1000
+
+test_quick_union:
+	@javac $(JAVA_CLASSPATH) union_find/UF.java
+	@java $(JAVA_CLASSPATH) union_find.UF < union_find/tinyUF.txt
