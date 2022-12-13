@@ -1,6 +1,7 @@
 # code
 # https://algs4.cs.princeton.edu/code/
 
+TMP_FILE_FOLDER := tmp
 JAVA_JARS_FOLDER := $(HOME)/java-jars
 DOWNLOAD_CODE_TO := wget --timestamping --directory-prefix
 
@@ -8,10 +9,11 @@ DOWNLOAD_CODE_TO := wget --timestamping --directory-prefix
 # download from: https://github.com/junit-team/junit4/wiki/Download-and-Install
 JAVA_CLASSPATH = -classpath .:$(JAVA_JARS_FOLDER)/algs4.jar:$(JAVA_JARS_FOLDER)/hamcrest-core-1.3.jar:$(JAVA_JARS_FOLDER)/junit-4.13.2.jar
 
-setup_java_jars_folder:
+setup_folders:
 	mkdir -p $(JAVA_JARS_FOLDER)
+	mkdir -p $(TMP_FILE_FOLDER)
 
-download_jars: setup_java_jars_folder
+download_jars: setup_folders
 	$(DOWNLOAD_CODE_TO) $(JAVA_JARS_FOLDER) https://algs4.cs.princeton.edu/code/algs4.jar
 	wget --timestamping -O $(JAVA_JARS_FOLDER)/hamcrest-core-1.3.jar https://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
 	wget --timestamping -O $(JAVA_JARS_FOLDER)/junit-4.13.2.jar https://search.maven.org/remotecontent?filepath=junit/junit/4.13.2/junit-4.13.2.jar
@@ -56,6 +58,25 @@ test_visual_accumulator:
 	@javac $(JAVA_CLASSPATH) TestVisualAccumulator.java
 	@java $(JAVA_CLASSPATH) TestVisualAccumulator 1000
 
-test_quick_union:
+# https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/UF.java.html
+download_tinyUF.txt: setup_folders
+	@$(DOWNLOAD_CODE_TO) $(TMP_FILE_FOLDER) https://algs4.cs.princeton.edu/15uf/tinyUF.txt
+	@$(DOWNLOAD_CODE_TO) $(TMP_FILE_FOLDER) https://algs4.cs.princeton.edu/15uf/mediumUF.txt
+	@$(DOWNLOAD_CODE_TO) $(TMP_FILE_FOLDER) https://algs4.cs.princeton.edu/15uf/largeUF.txt
+
+# download_tinyUF.txt -> test_quick_union
+build_quick_union:
 	@javac $(JAVA_CLASSPATH) union_find/UF.java
-	@java $(JAVA_CLASSPATH) union_find.UF < union_find/tinyUF.txt
+
+test_quick_union_with_tinyUF: build_quick_union
+	@java $(JAVA_CLASSPATH) union_find.UF < $(TMP_FILE_FOLDER)/tinyUF.txt
+
+test_quick_union_with_mediumUF: build_quick_union
+	@java $(JAVA_CLASSPATH) union_find.UF < $(TMP_FILE_FOLDER)/mediumUF.txt
+
+test_quick_union_with_largeUF: build_quick_union
+	@java $(JAVA_CLASSPATH) union_find.UF < $(TMP_FILE_FOLDER)/largeUF.txt
+
+
+
+
