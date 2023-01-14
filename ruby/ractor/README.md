@@ -1,0 +1,4 @@
+- [actor model - Google Search](https://www.google.com/search?q=actor+model)
+- [Actor Model Explained - YouTube](https://www.youtube.com/watch?v=ELwEdb_pD0k)
+- [An Introduction to Ractors in Ruby | AppSignal Blog](https://blog.appsignal.com/2022/08/24/an-introduction-to-ractors-in-ruby.html)
+- paper(not read yet): [Actor model overview using Elixir language](https://courses.cs.ut.ee/MTAT.08.024/2020_spring/uploads/Main/B96281_5867_1.pdf)
