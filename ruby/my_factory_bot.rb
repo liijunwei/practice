@@ -1,10 +1,14 @@
+require 'rspec'
+require 'pry'
+
 class User
   attr_accessor :name
   attr_accessor :email
 end
 
 class MyFactoryBot
-  def self.define
+  def self.define(&block)
+    instance_exec(&block)
   end
 
   def self.create(model_sym)
@@ -14,13 +18,11 @@ end
 
 MyFactoryBot.define do
   factory :user do
+    require "pry"; binding.pry
     name { 'Bogs' }
     email { 'demo@example.com' }
   end
 end
-
-require 'rspec'
-require 'pry'
 
 # rspec my_factory_bot.rb
 RSpec.describe MyFactoryBot do
