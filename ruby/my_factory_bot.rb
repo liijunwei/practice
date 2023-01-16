@@ -14,11 +14,29 @@ class MyFactoryBot
   def self.create(model_sym)
     User.new
   end
+
+  def self.factory(model_sym, &block)
+    f = MyFactory.new
+    f.instance_exec(&block)
+  end
+end
+
+class MyFactory
+  def initialize
+    @user = User.new
+  end
+
+  def name(&block)
+    @user.name = block.call
+  end
+
+  def email(&block)
+    @user.email = block.call
+  end
 end
 
 MyFactoryBot.define do
   factory :user do
-    require "pry"; binding.pry
     name { 'Bogs' }
     email { 'demo@example.com' }
   end
