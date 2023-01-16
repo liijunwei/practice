@@ -18,12 +18,13 @@ class MyFactoryBot
   end
 
   def self.create(model_sym)
-    @factory.record
+    @factories[model_sym].record
   end
 
   def self.factory(model_sym, &block)
-    @factory = MyFactory.new(model_sym)
-    @factory.instance_exec(&block)
+    @factories ||= {}
+    @factories[model_sym] = MyFactory.new(model_sym)
+    @factories[model_sym].instance_exec(&block)
   end
 end
 
