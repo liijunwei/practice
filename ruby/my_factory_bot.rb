@@ -12,16 +12,18 @@ class MyFactoryBot
   end
 
   def self.create(model_sym)
-    User.new
+    @factory.user
   end
 
   def self.factory(model_sym, &block)
-    f = MyFactory.new
-    f.instance_exec(&block)
+    @factory = MyFactory.new
+    @factory.instance_exec(&block)
   end
 end
 
 class MyFactory
+  attr_reader :user
+
   def initialize
     @user = User.new
   end
