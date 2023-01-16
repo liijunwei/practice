@@ -4,6 +4,7 @@ require 'pry'
 class User
   attr_accessor :name
   attr_accessor :email
+  attr_accessor :gender
 end
 
 class MyFactoryBot
@@ -41,6 +42,7 @@ MyFactoryBot.define do
   factory :user do
     name { 'Bogs' }
     email { 'demo@example.com' }
+    gender { 'male' }
   end
 end
 
@@ -51,6 +53,7 @@ RSpec.describe MyFactoryBot do
       user = described_class.create(:user)
       expect(user.name).to eq('Bogs')
       expect(user.email).to eq('demo@example.com')
+      expect(user.gender).to eq('male')
     end
   end
 end
