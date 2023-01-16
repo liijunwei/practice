@@ -1,5 +1,6 @@
 require 'rspec'
 require 'pry'
+require 'active_support/all'
 
 class User
   attr_accessor :name
@@ -13,24 +14,24 @@ class MyFactoryBot
   end
 
   def self.create(model_sym)
-    @factory.user
+    @factory.record
   end
 
   def self.factory(model_sym, &block)
-    @factory = MyFactory.new
+    @factory = MyFactory.new(model_sym)
     @factory.instance_exec(&block)
   end
 end
 
 class MyFactory
-  attr_reader :user
+  attr_reader :record
 
-  def initialize
-    @user = User.new
+  def initialize(model_sym)
+    @record = Kernel.const_get(model_sym.to_s.classify).new
   end
 
   def method_missing(attr, *args, &block)
-    @user.send("#{attr}=", block.call)
+    @record.send("#{attr}=", block.call)
   end
 end
 
