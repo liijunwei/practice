@@ -36,7 +36,7 @@ class MyFactory
   end
 
   def method_missing(attr, *args, &block)
-    @record.send("#{attr}=", block.call)
+    record.send("#{attr}=", block.call)
   end
 end
 
