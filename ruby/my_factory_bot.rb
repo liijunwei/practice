@@ -29,12 +29,8 @@ class MyFactory
     @user = User.new
   end
 
-  def name(&block)
-    @user.name = block.call
-  end
-
-  def email(&block)
-    @user.email = block.call
+  def method_missing(attr, *args, &block)
+    @user.send("#{attr}=", block.call)
   end
 end
 
