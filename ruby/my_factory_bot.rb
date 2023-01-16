@@ -64,7 +64,7 @@ RSpec.describe MyFactoryBot do
       expect(user.gender).to eq('male')
     end
 
-    it 'creates a new instance of User' do
+    it 'creates a new instance of Website' do
       website = described_class.create(:website)
       expect(website.url).to eq('https://www.codewithjason.com/articles/')
     end
