@@ -8,6 +8,10 @@ class User
   attr_accessor :gender
 end
 
+class Website
+  attr_accessor :url
+end
+
 class MyFactoryBot
   def self.define(&block)
     instance_exec(&block)
@@ -43,6 +47,12 @@ MyFactoryBot.define do
   end
 end
 
+MyFactoryBot.define do
+  factory :website do
+    url { 'https://www.codewithjason.com/articles/' }
+  end
+end
+
 # rspec my_factory_bot.rb
 RSpec.describe MyFactoryBot do
   describe '.create' do
@@ -51,6 +61,11 @@ RSpec.describe MyFactoryBot do
       expect(user.name).to eq('Bogs')
       expect(user.email).to eq('demo@example.com')
       expect(user.gender).to eq('male')
+    end
+
+    it 'creates a new instance of User' do
+      website = described_class.create(:website)
+      expect(website.url).to eq('https://www.codewithjason.com/articles/')
     end
   end
 end
