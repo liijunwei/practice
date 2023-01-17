@@ -54,6 +54,7 @@ MyFactoryBot.define do
   end
 end
 
+# ref: https://www.codewithjason.com/understanding-factory-bot-syntax-coding-factory-bot/
 # rspec my_factory_bot.rb
 RSpec.describe MyFactoryBot do
   describe '.create' do
