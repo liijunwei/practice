@@ -7,7 +7,7 @@ public class DrawRandomListGraph {
         double[] a = new double[N];
 
         for (int i = 0; i < N; i++) {
-            a[i] = StdRandom.random();
+            a[i] = StdRandom.uniformDouble();
         }
 
         for (int i = 1; i <= N; i++) {
