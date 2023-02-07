@@ -13,8 +13,10 @@ public class VisualAccumulator {
     public void addDataValue(double val) {
         N++;
         total += val;
+
         StdDraw.setPenColor(StdDraw.DARK_GRAY);
         StdDraw.point(N, val);
+
         StdDraw.setPenColor(StdDraw.RED);
         StdDraw.point(N, mean());
     }
