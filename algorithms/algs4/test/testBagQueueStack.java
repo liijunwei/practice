@@ -106,6 +106,25 @@ public class testBagQueueStack {
     }
 
     @Test
+    public void testFixedCapacityStackOfStringsIsFull() {
+        FixedCapacityStackOfStrings s = new FixedCapacityStackOfStrings(3);
+
+        assertFalse(s.isFull());
+
+        s.push("hello");
+        s.push("hello");
+        s.push("hello");
+
+        assertTrue(s.isFull());
+
+        assertEquals(3, s.size());
+
+        assertThrows(RuntimeException.class, () -> {
+            s.push("hello");
+        });
+    }
+
+    @Test
     public void testFixedCapacityStack() {
         String tobe = "to be or not to - be - - that - - - is";
         String[] tokens = tobe.split(" ");
