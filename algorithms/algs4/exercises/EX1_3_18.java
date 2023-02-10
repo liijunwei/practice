@@ -29,6 +29,31 @@ public class EX1_3_18 {
         return secondLast.next;
     }
 
+    public static String nodeStr(Node first) {
+        StringBuilder s = new StringBuilder();
+
+        for (Node temp = first; temp != null; temp = temp.next){
+            s.append(temp.num).append(' ');
+        }
+
+        return s.toString().trim();
+    }
+
+    public static Node removeLastNode(Node first) {
+        if (first == null || first.next == null) {
+            return null;
+        }
+
+        Node secondLast = first;
+
+        while (secondLast.next.next != null) {
+            secondLast = secondLast.next;
+        }
+        secondLast.next = null;
+
+        return first;
+    }
+
     @Test
     public void testZeroOrOneNode() {
         Node first = null;
@@ -38,6 +63,10 @@ public class EX1_3_18 {
         first.num = 1;
 
         assertEquals(first, findSecondLastNode(first));
+        assertEquals("1", nodeStr(first));
+
+        removeLastNode(first);
+        assertEquals("1", nodeStr(first));
     }
 
     @Test
@@ -58,6 +87,10 @@ public class EX1_3_18 {
         second.next = third;
 
         assertEquals(third, findSecondLastNode(first));
+        assertEquals("1 2 3", nodeStr(first));
+
+        removeLastNode(first);
+        assertEquals("1 2", nodeStr(first));
     }
 
 }
