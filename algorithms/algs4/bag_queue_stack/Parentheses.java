@@ -1,10 +1,11 @@
 package bag_queue_stack;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+// practice 1.3.4
 public class Parentheses {
     public static boolean foo(LinkedListStack<String> s1, String[] tokens) {
         for (String item : tokens) {
@@ -37,7 +38,8 @@ public class Parentheses {
                     return false;
             }
         }
-        return true;
+
+        return s1.isEmpty();
     }
 
     @Test
@@ -57,11 +59,10 @@ public class Parentheses {
         assertFalse(foo(s, t));
     }
 
-    // don't know why this won't pass
-    @Ignore
+    // @Ignore
     @Test
     public void testBalancedParentheses3() {
-        String input = "[()]{}{[()()]()}[(";
+        String input = "[()]{}{[()()]()}[";
         String[] t = input.split("(?!^)");
         LinkedListStack<String> s = new LinkedListStack();
         assertFalse(foo(s, t));
