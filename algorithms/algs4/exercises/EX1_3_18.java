@@ -11,34 +11,33 @@ import static org.junit.Assert.assertNull;
  * 3. test pass
  */
 public class EX1_3_18 {
-    private class Node {
+    private static class Node {
         Integer num;
         Node next;
     }
 
-    public static Node removeLast(Node first) {
+    public static Node findSecondLastNode(Node first) {
         if (first == null || first.next == null) {
             return first;
         }
 
-        Node tmp = first;
+        Node secondLast = first;
 
-        while (tmp.next.next != null) {
-            tmp = tmp.next;
+        while (secondLast.next.next != null) {
+            secondLast = secondLast.next;
         }
-        return tmp.next;
+        return secondLast.next;
     }
 
     @Test
     public void testZeroOrOneNode() {
         Node first = null;
-        assertNull(removeLast(first));
+        assertNull(findSecondLastNode(first));
 
-        Node n = new Node();
-        n.num = 1;
-        first = n;
+        first = new Node();
+        first.num = 1;
 
-        assertEquals(n, removeLast(first));
+        assertEquals(first, findSecondLastNode(first));
     }
 
     @Test
@@ -51,14 +50,14 @@ public class EX1_3_18 {
 
         first.next = second;
 
-        assertEquals(second, removeLast(first));
+        assertEquals(second, findSecondLastNode(first));
 
         Node third = new Node();
         third.num = 3;
 
         second.next = third;
 
-        assertEquals(third, removeLast(first));
+        assertEquals(third, findSecondLastNode(first));
     }
 
 }
