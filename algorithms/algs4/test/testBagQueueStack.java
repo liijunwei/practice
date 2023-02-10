@@ -213,6 +213,18 @@ public class testBagQueueStack {
     }
 
     @Test
+    public void testLinkedListStackWithPeek() {
+        LinkedListStack<String> s = new LinkedListStack();
+        s.push("foo");
+        s.push("bar");
+
+        assertEquals("bar", s.peek());
+
+        s.push("fizz");
+        assertEquals("fizz", s.peek());
+    }
+
+    @Test
     public void testLinkedListQueue() {
         String tobe = "to be or not to - be - - that - - - is";
         String[] tokens = tobe.split(" ");

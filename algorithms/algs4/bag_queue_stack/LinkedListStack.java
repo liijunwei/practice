@@ -6,6 +6,10 @@ public class LinkedListStack<Item> implements Iterable<Item> {
     private Node first;
     private int size;
 
+    public Item peek() {
+        return first.item;
+    }
+
     private class Node {
         Item item;
         Node next;
