@@ -13,30 +13,26 @@ public class Parentheses {
                 continue;
             }
 
-            if (s1.isEmpty()) {
-                return false;
-            }
-
-            String popStr;
+            String popStr = s1.pop();
             switch (item) {
                 case "]":
-                    popStr = s1.pop();
-                    if (popStr.equals("{") || popStr.equals("(")) {
+                    if (popStr.equals("[")) {
+                        continue;
+                    } else {
                         return false;
                     }
-                    break;
                 case "}":
-                    popStr = s1.pop();
-                    if (popStr.equals("[") || popStr.equals("(")) {
+                    if (popStr.equals("{")) {
+                        continue;
+                    } else {
                         return false;
                     }
-                    break;
                 case ")":
-                    popStr = s1.pop();
-                    if (popStr.equals("[") || popStr.equals("{")) {
+                    if (popStr.equals("(")) {
+                        continue;
+                    } else {
                         return false;
                     }
-                    break;
                 default:
                     return false;
             }
