@@ -115,10 +115,8 @@ public class MyQueue<Item> {
 
             if (first == last) {
                 last = first.next;
-                first = first.next;
-            } else {
-                first = first.next;
             }
+            first = first.next;
 
             size--;
         }
