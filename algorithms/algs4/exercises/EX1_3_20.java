@@ -55,7 +55,15 @@ public class EX1_3_20 {
             return n;
         }
 
-        return null;
+        Node prev = first;
+        for (int i = 0; prev != null && i < index - 1; i++) {
+            prev = prev.next;
+        }
+
+        Node n = prev.next;
+        prev.next = n.next;
+
+        return n;
     }
 
     @Test
@@ -79,14 +87,23 @@ public class EX1_3_20 {
         assertEquals(Integer.valueOf(1), list.delete(0).num);
     }
 
-    @Ignore
     @Test
-    public void testDeleteMiddle() {
+    public void testDeleteMiddle1() {
         EX1_3_20 list = new EX1_3_20();
         list.append(1);
         list.append(2);
         list.append(3);
-        assertEquals(Integer.valueOf(2), list.delete(0).num);
+        assertEquals(Integer.valueOf(2), list.delete(1).num);
+    }
+
+    @Test
+    public void testDeleteMiddle2() {
+        EX1_3_20 list = new EX1_3_20();
+        list.append(1);
+        list.append(2);
+        list.append(3);
+        list.append(4);
+        assertEquals(Integer.valueOf(3), list.delete(2).num);
     }
 
     @Test
