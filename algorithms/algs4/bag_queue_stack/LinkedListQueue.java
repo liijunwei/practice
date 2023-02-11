@@ -15,7 +15,6 @@ public class LinkedListQueue<Item> implements Iterable<Item> {
     /**
      * append new item to the last one of the nodes
      *
-     * @param item
      */
     public void enqueue(Item item) {
         Node oldlast = last;
