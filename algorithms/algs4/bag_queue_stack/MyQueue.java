@@ -29,15 +29,29 @@ public class MyQueue<Item> {
 
         assertFalse(q.isEmpty());
         assertEquals(2, q.size());
-        assertEquals(2023, q.first.item);
-        assertEquals(2, q.last.item);
+        assertEquals(Integer.valueOf(2023), q.first.item);
+        assertEquals(Integer.valueOf(2), q.first.next.item);
+    }
+
+    @Test
+    public void testEnqueueThreeItems() {
+        MyQueue<Integer> q = new MyQueue();
+        q.enqueue(2023);
+        q.enqueue(2);
+        q.enqueue(11);
+
+        assertFalse(q.isEmpty());
+        assertEquals(3, q.size());
+        assertEquals(Integer.valueOf(2023), q.first.item);
+        assertEquals(Integer.valueOf(2), q.first.next.item);
+        assertEquals(Integer.valueOf(11), q.last.item);
     }
 
     private int size;
     private Node first;
     private Node last;
 
-    private static class Node<Item> {
+    private class Node {
         Item item;
         Node next;
     }
@@ -52,15 +66,16 @@ public class MyQueue<Item> {
 
     public void enqueue(Item item) {
         if (isEmpty()) {
-            first = last = new Node<Item>();
+            first = last = new Node();
             first.item = item;
         } else {
-            Node<Item> oldlast = last;
-            last = new Node<Item>();
+            Node oldlast = last;
+            last = new Node();
             last.item = item;
             last.next = null;
             oldlast.next = last;
         }
+
         size++;
     }
 }
