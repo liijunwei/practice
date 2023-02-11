@@ -2,9 +2,11 @@ package bag_queue_stack;
 
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
-public class MyQueue<Item> {
+public class MyQueue<Item> implements Iterable<Item> {
     @Test
     public void testQueueIsEmptyByDefault() {
         MyQueue q = new MyQueue();
@@ -72,9 +74,44 @@ public class MyQueue<Item> {
         assertNull(q.last);
     }
 
+    @Test
+    public void testIterateThroughTheQueue() {
+        MyQueue<Integer> q = new MyQueue();
+        q.enqueue(2023);
+        q.enqueue(2);
+        q.enqueue(11);
+
+        for (Integer n : q) {
+            System.out.print(n + " -> ");
+        }
+        System.out.println();
+    }
+
     private int size;
     private Node first;
     private Node last;
+
+    @Override
+    public Iterator iterator() {
+        return new ListIterator();
+    }
+
+    private class ListIterator implements Iterator<Item> {
+        private Node current = first;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public Item next() {
+            Item item = current.item;
+            current = current.next;
+
+            return item;
+        }
+    }
 
     private class Node {
         Item item;
