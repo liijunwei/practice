@@ -173,7 +173,7 @@ public class testBagQueueStack {
         String tobe = "to be or not to - be - - that - - - is";
         String[] tokens = tobe.split(" ");
 
-        LinkedListStack<String> s = new LinkedListStack();
+        Stack<String> s = new Stack();
         assertEquals(0, s.size());
         assertTrue(s.isEmpty());
 
@@ -196,7 +196,7 @@ public class testBagQueueStack {
         String tobe = "it was - the best - of times - - - it was - the - -";
         String[] tokens = tobe.split(" ");
 
-        LinkedListStack<String> s = new LinkedListStack();
+        Stack<String> s = new Stack();
         assertEquals(0, s.size());
         assertTrue(s.isEmpty());
 
@@ -215,7 +215,7 @@ public class testBagQueueStack {
 
     @Test
     public void testLinkedListStackWithPeek() {
-        LinkedListStack<String> s = new LinkedListStack();
+        Stack<String> s = new Stack();
         s.push("foo");
         s.push("bar");
 

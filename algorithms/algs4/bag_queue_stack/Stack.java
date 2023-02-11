@@ -2,7 +2,7 @@ package bag_queue_stack;
 
 import java.util.Iterator;
 
-public class LinkedListStack<Item> implements Iterable<Item> {
+public class Stack<Item> implements Iterable<Item> {
     private Node first;
     private int size;
 
