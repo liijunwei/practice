@@ -64,7 +64,6 @@ public class EX1_3_4 {
         assertFalse(parentheses(s, t));
     }
 
-    // @Ignore
     @Test
     public void testBalancedParentheses3() {
         String input = "[()]{}{[()()]()}[";
