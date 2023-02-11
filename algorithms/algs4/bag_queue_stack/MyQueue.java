@@ -114,7 +114,7 @@ public class MyQueue<Item> {
             item = first.item;
 
             if (first == last) {
-                last = first.next;
+                last = null;
             }
             first = first.next;
 
