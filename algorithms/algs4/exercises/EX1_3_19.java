@@ -10,7 +10,7 @@ import static org.junit.Assert.assertNull;
  * 2. delete the tail node
  * 3. test pass
  */
-public class EX1_3_18 {
+public class EX1_3_19 {
     private static class Node {
         Integer num;
         Node next;
