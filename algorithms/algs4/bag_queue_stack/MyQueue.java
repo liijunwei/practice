@@ -18,7 +18,19 @@ public class MyQueue<Item> {
         Integer magicNum = 7;
         q.enqueue(magicNum);
         assertFalse(q.isEmpty());
-//        assertEquals(1, q.size());
+        assertEquals(1, q.size());
+    }
+
+    @Test
+    public void testEnqueueTwoItems() {
+        MyQueue<Integer> q = new MyQueue();
+        q.enqueue(2023);
+        q.enqueue(2);
+
+        assertFalse(q.isEmpty());
+        assertEquals(2, q.size());
+        assertEquals(2023, q.first.item);
+        assertEquals(2, q.last.item);
     }
 
     private int size;
@@ -40,8 +52,14 @@ public class MyQueue<Item> {
 
     public void enqueue(Item item) {
         if (isEmpty()) {
-            first = last = new Node();
+            first = last = new Node<Item>();
             first.item = item;
+        } else {
+            Node<Item> oldlast = last;
+            last = new Node<Item>();
+            last.item = item;
+            last.next = null;
+            oldlast.next = last;
         }
         size++;
     }
