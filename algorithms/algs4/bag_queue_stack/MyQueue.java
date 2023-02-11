@@ -47,6 +47,31 @@ public class MyQueue<Item> {
         assertEquals(Integer.valueOf(11), q.last.item);
     }
 
+    @Test
+    public void testDequeueForEmptyQueue() {
+        MyQueue<Integer> q = new MyQueue();
+
+        assertTrue(q.isEmpty());
+        assertNull(q.dequeue());
+    }
+
+    @Test
+    public void testDequeueForNonEmptyQueue() {
+        MyQueue<Integer> q = new MyQueue();
+        q.enqueue(2023);
+        q.enqueue(2);
+        q.enqueue(11);
+
+        assertEquals(3, q.size());
+        assertEquals(Integer.valueOf(2023), q.dequeue());
+        assertEquals(Integer.valueOf(2), q.dequeue());
+        assertEquals(Integer.valueOf(11), q.dequeue());
+        assertEquals(0, q.size());
+
+        assertNull(q.first);
+        assertNull(q.last);
+    }
+
     private int size;
     private Node first;
     private Node last;
@@ -57,7 +82,7 @@ public class MyQueue<Item> {
     }
 
     public boolean isEmpty() {
-        return size == 0;
+        return size == 0 && first == null && last == null;
     }
 
     public int size() {
@@ -78,4 +103,27 @@ public class MyQueue<Item> {
 
         size++;
     }
+
+    private Item dequeue() {
+        Item item = null;
+
+        if (isEmpty()) {
+            first = null;
+            first = null;
+        } else {
+            item = first.item;
+
+            if (first == last) {
+                last = first.next;
+                first = first.next;
+            } else {
+                first = first.next;
+            }
+
+            size--;
+        }
+
+        return item;
+    }
+
 }

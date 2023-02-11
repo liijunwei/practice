@@ -2,6 +2,7 @@ package test;
 
 import bag_queue_stack.*;
 import edu.princeton.cs.algs4.StdOut;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -246,5 +247,16 @@ public class testBagQueueStack {
         assertEquals("is", s.dequeue());
         assertEquals(0, s.size());
 
+    }
+
+    // 书上的实现似乎有问题
+    @Ignore
+    @Test
+    public void testLinkedListQueue2() {
+        LinkedListQueue<String> s = new LinkedListQueue();
+        assertEquals(0, s.size());
+        assertTrue(s.isEmpty());
+
+        assertNull(s.dequeue());
     }
 }
