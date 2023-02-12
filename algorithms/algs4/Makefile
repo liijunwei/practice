@@ -70,6 +70,14 @@ download_tinyUF.txt: setup_folders
 	@$(DOWNLOAD_CODE_TO) $(TMP_FILE_FOLDER) https://algs4.cs.princeton.edu/15uf/mediumUF.txt
 	@$(DOWNLOAD_CODE_TO) $(TMP_FILE_FOLDER) https://algs4.cs.princeton.edu/15uf/largeUF.txt
 
+download_ch1.4:
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/14analysis/1Kints.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/14analysis/2Kints.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/14analysis/4Kints.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/14analysis/8Kints.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/14analysis/16Kints.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/14analysis/1Mints.txt
+
 # download_tinyUF.txt -> test_quick_union
 build_quick_union:
 	@javac $(JAVA_CLASSPATH) union_find/UF.java
