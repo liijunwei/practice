@@ -91,11 +91,18 @@ DoublingTest:
 	java edu.princeton.cs.algs4.DoublingTest
 
 
-TwoSum:
-	javac TwoSum.java
-	java TwoSum data/8Kints.txt
-	java TwoSum data/16Kints.txt
-	java TwoSum data/1Mints.txt
+TwoSumFast:
+	javac TwoSumFast.java
+	java TwoSumFast data/8Kints.txt
+	java TwoSumFast data/16Kints.txt
+	java TwoSumFast data/1Mints.txt
+
+
+ThreeSumFast:
+	javac ThreeSumFast.java
+	java ThreeSumFast data/8Kints.txt
+	java ThreeSumFast data/16Kints.txt
+# 	java ThreeSumFast data/1Mints.txt
 
 
 # download_tinyUF.txt -> test_quick_union
