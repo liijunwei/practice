@@ -64,6 +64,10 @@ test_visual_accumulator:
 	@javac $(JAVA_CLASSPATH) TestVisualAccumulator.java
 	@java $(JAVA_CLASSPATH) TestVisualAccumulator 1000
 
+testBagQueueStack:
+	javac test/testBagQueueStack.java
+	java org.junit.runner.JUnitCore test.testBagQueueStack
+
 # https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/UF.java.html
 download_tinyUF.txt: setup_folders
 	@$(DOWNLOAD_CODE_TO) $(TMP_FILE_FOLDER) https://algs4.cs.princeton.edu/15uf/tinyUF.txt
@@ -77,6 +81,15 @@ download_ch1.4:
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/14analysis/8Kints.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/14analysis/16Kints.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/14analysis/1Mints.txt
+
+1.4.2.1:
+	java edu.princeton.cs.algs4.ThreeSum data/1Kints.txt
+	java edu.princeton.cs.algs4.ThreeSum data/2Kints.txt
+	java edu.princeton.cs.algs4.ThreeSum data/4Kints.txt
+	java edu.princeton.cs.algs4.ThreeSum data/8Kints.txt
+DoublingTest:
+	java edu.princeton.cs.algs4.DoublingTest
+
 
 # download_tinyUF.txt -> test_quick_union
 build_quick_union:
@@ -94,5 +107,3 @@ test_quick_union_with_largeUF: build_quick_union
 test_junit:
 	javac bag_queue_stack/MyQueue.java
 	java org.junit.runner.JUnitCore bag_queue_stack.MyQueue
-
-
