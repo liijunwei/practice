@@ -4,6 +4,15 @@
 
 + TODO resolve problems: https://lift.cs.princeton.edu/java/mac/
 
+### Download data
+
+https://introcs.cs.princeton.edu/java/data/
+
+```bash
+gem install nokogiri
+make download_data
+```
+
 ### 链表
 
 + 链表是一种递归的数据结构, 它或者为空, 或者是含有泛型元素的节点和另一个节点的指针

@@ -2,6 +2,7 @@
 # https://algs4.cs.princeton.edu/code/
 
 TMP_FILE_FOLDER := tmp
+ALGS4_DATA_FOLDER := data
 JAVA_JARS_FOLDER := $(HOME)/java-jars
 DOWNLOAD_CODE_TO := wget --timestamping --directory-prefix
 
@@ -12,11 +13,16 @@ JAVA_CLASSPATH = -classpath .:$(JAVA_JARS_FOLDER)/algs4.jar:$(JAVA_JARS_FOLDER)/
 setup_folders:
 	mkdir -p $(JAVA_JARS_FOLDER)
 	mkdir -p $(TMP_FILE_FOLDER)
+	mkdir -p $(ALGS4_DATA_FOLDER)
 
 download_jars: setup_folders
 	$(DOWNLOAD_CODE_TO) $(JAVA_JARS_FOLDER) https://algs4.cs.princeton.edu/code/algs4.jar
 	wget --timestamping -O $(JAVA_JARS_FOLDER)/hamcrest-core-1.3.jar https://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
 	wget --timestamping -O $(JAVA_JARS_FOLDER)/junit-4.13.2.jar https://search.maven.org/remotecontent?filepath=junit/junit/4.13.2/junit-4.13.2.jar
+
+# see README.md
+download_data: setup_folders
+	ruby parse_data_urls.rb | parallel "$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) {}"
 
 gcd:
 	javac GreatestCommonDivisor.java && java GreatestCommonDivisor
