@@ -102,7 +102,7 @@ ThreeSumFast:
 	javac ThreeSumFast.java
 	java ThreeSumFast data/8Kints.txt
 	java ThreeSumFast data/16Kints.txt
-# 	java ThreeSumFast data/1Mints.txt
+	java ThreeSumFast data/1Mints.txt
 
 
 # download_tinyUF.txt -> test_quick_union
