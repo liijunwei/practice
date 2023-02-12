@@ -91,6 +91,13 @@ DoublingTest:
 	java edu.princeton.cs.algs4.DoublingTest
 
 
+TwoSum:
+	javac TwoSum.java
+	java TwoSum data/8Kints.txt
+	java TwoSum data/16Kints.txt
+	java TwoSum data/1Mints.txt
+
+
 # download_tinyUF.txt -> test_quick_union
 build_quick_union:
 	@javac $(JAVA_CLASSPATH) union_find/UF.java
