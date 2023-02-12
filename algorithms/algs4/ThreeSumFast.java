@@ -15,6 +15,7 @@ public class ThreeSumFast {
             for (int j = i + 1; j < N; j++) {
                 int target = -(a[i] + a[j]);
                 int k = BinarySearch.rank(target, a);
+//                System.out.println("target: " + target + " result: " + k);
                 if (k > j) {
                     cnt++;
                 }
