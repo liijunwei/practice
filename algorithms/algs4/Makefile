@@ -121,3 +121,6 @@ test_quick_union_with_largeUF: build_quick_union
 test_junit:
 	javac bag_queue_stack/MyQueue.java
 	java org.junit.runner.JUnitCore bag_queue_stack.MyQueue
+
+DoublingRatio:
+	java edu.princeton.cs.algs4.DoublingRatio
