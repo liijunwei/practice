@@ -68,12 +68,6 @@ testBagQueueStack:
 	javac test/testBagQueueStack.java
 	java org.junit.runner.JUnitCore test.testBagQueueStack
 
-# https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/UF.java.html
-download_tinyUF.txt: setup_folders
-	@$(DOWNLOAD_CODE_TO) $(TMP_FILE_FOLDER) https://algs4.cs.princeton.edu/15uf/tinyUF.txt
-	@$(DOWNLOAD_CODE_TO) $(TMP_FILE_FOLDER) https://algs4.cs.princeton.edu/15uf/mediumUF.txt
-	@$(DOWNLOAD_CODE_TO) $(TMP_FILE_FOLDER) https://algs4.cs.princeton.edu/15uf/largeUF.txt
-
 download_ch1.4:
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/14analysis/1Kints.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/14analysis/2Kints.txt
@@ -105,18 +99,23 @@ ThreeSumFast:
 # 	java ThreeSumFast data/1Mints.txt
 
 
-# download_tinyUF.txt -> test_quick_union
+# https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/UF.java.html
+download_ch1.5: setup_folders
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/15uf/tinyUF.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/15uf/mediumUF.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/15uf/largeUF.txt
+
 build_quick_union:
 	@javac $(JAVA_CLASSPATH) union_find/UF.java
 
 test_quick_union_with_tinyUF: build_quick_union
-	@java $(JAVA_CLASSPATH) union_find.UF < $(TMP_FILE_FOLDER)/tinyUF.txt
+	@java $(JAVA_CLASSPATH) union_find.UF < $(ALGS4_DATA_FOLDER)/tinyUF.txt
 
 test_quick_union_with_mediumUF: build_quick_union
-	@java $(JAVA_CLASSPATH) union_find.UF < $(TMP_FILE_FOLDER)/mediumUF.txt
+	@java $(JAVA_CLASSPATH) union_find.UF < $(ALGS4_DATA_FOLDER)/mediumUF.txt
 
 test_quick_union_with_largeUF: build_quick_union
-	@java $(JAVA_CLASSPATH) union_find.UF < $(TMP_FILE_FOLDER)/largeUF.txt
+	@java $(JAVA_CLASSPATH) union_find.UF < $(ALGS4_DATA_FOLDER)/largeUF.txt
 
 test_junit:
 	javac bag_queue_stack/MyQueue.java
