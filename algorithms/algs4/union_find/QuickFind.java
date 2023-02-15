@@ -5,11 +5,11 @@ import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Arrays;
 
-public class UF {
+public class QuickFind {
     private int[] id;
     private int count;
 
-    public UF(int N) {
+    public QuickFind(int N) {
         this.count = N;
         this.id = new int[N];
         for (int i = 0; i < N; i++) {
@@ -66,19 +66,19 @@ public class UF {
 
     public static void main(String[] args) {
         int N = StdIn.readInt();
-        UF uf = new UF(N);
+        QuickFind quickFind = new QuickFind(N);
 
         while (!StdIn.isEmpty()) {
             int p = StdIn.readInt();
             int q = StdIn.readInt();
 
-            if (!uf.connected(p, q)) {
-                uf.union(p, q);
+            if (!quickFind.connected(p, q)) {
+                quickFind.union(p, q);
                 StdOut.println(p + " " + q);
             }
         }
 
-        StdOut.println("id: " + uf);
-        StdOut.println(uf.count + " components");
+        StdOut.println("id: " + quickFind);
+        StdOut.println(quickFind.count + " components");
     }
 }
