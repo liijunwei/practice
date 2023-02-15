@@ -5,15 +5,21 @@ import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Arrays;
 
-public class QuickUnion {
+public class WeightedQuickUnion {
     private int[] id;
+    private int[] sz;
     private int count;
 
-    public QuickUnion(int N) {
+    public WeightedQuickUnion(int N) {
         this.count = N;
         this.id = new int[N];
         for (int i = 0; i < N; i++) {
-            id[i] = i;
+            this.id[i] = i;
+        }
+
+        this.sz = new int[N];
+        for (int i = 0; i < N; i++) {
+            this.sz[i] = i;
         }
     }
 
@@ -46,14 +52,20 @@ public class QuickUnion {
      * 连通p和q
      */
     public void union(int p, int q) {
-        int pRoot = find(p);
-        int qRoot = find(q);
+        int i = find(p);
+        int j = find(q);
 
-        if (pRoot == qRoot) {
+        if (i == j) {
             return;
         }
 
-        id[pRoot] = qRoot; // 指针
+        if(sz[i] < sz[j]) {
+            id[i] = j;
+            sz[j] += sz[i];
+        } else {
+            id[j] = i;
+            sz[i] += sz[j];
+        }
 
         count--;
     }
@@ -64,7 +76,7 @@ public class QuickUnion {
 
     public static void main(String[] args) {
         int N = StdIn.readInt();
-        QuickUnion QuickUnion = new QuickUnion(N);
+        WeightedQuickUnion QuickUnion = new WeightedQuickUnion(N);
 
         while (!StdIn.isEmpty()) {
             int p = StdIn.readInt();
