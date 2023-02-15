@@ -119,7 +119,7 @@ build_quick_union:
 test_quick_union: build_quick_union
 # 	@java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/tinyUF.txt
 # 	@java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/mediumUF.txt
-	@time java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/largeUF.txt # 6 components
+	@time java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/largeUF.txt # 6 components, 1935.83s
 
 build_weighted_quick_union:
 	@javac $(JAVA_CLASSPATH) union_find/WeightedQuickUnion.java
