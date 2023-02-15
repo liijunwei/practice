@@ -19,7 +19,7 @@ public class WeightedQuickUnion {
 
         this.sz = new int[N];
         for (int i = 0; i < N; i++) {
-            this.sz[i] = i;
+            this.sz[i] = 1;
         }
     }
 
