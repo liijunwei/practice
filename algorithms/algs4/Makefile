@@ -117,9 +117,9 @@ build_quick_union:
 	@javac $(JAVA_CLASSPATH) union_find/QuickUnion.java
 
 test_quick_union: build_quick_union
-	@java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/tinyUF.txt
-	@java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/mediumUF.txt
-# 	@java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/largeUF.txt # 6 components
+# 	@java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/tinyUF.txt
+# 	@java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/mediumUF.txt
+	@java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/largeUF.txt # 6 components
 
 build_weighted_quick_union:
 	@javac $(JAVA_CLASSPATH) union_find/WeightedQuickUnion.java
@@ -127,7 +127,7 @@ build_weighted_quick_union:
 test_weighted_quick_union: build_weighted_quick_union
 # 	@java $(JAVA_CLASSPATH) union_find.WeightedQuickUnion < $(ALGS4_DATA_FOLDER)/tinyUF.txt
 # 	@java $(JAVA_CLASSPATH) union_find.WeightedQuickUnion < $(ALGS4_DATA_FOLDER)/mediumUF.txt
-	@java $(JAVA_CLASSPATH) union_find.WeightedQuickUnion < $(ALGS4_DATA_FOLDER)/largeUF.txt # 6 components
+	@java $(JAVA_CLASSPATH) union_find.WeightedQuickUnion < $(ALGS4_DATA_FOLDER)/largeUF.txt # 6 components, 4.636s
 
 test_junit:
 	javac bag_queue_stack/MyQueue.java
