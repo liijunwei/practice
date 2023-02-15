@@ -105,17 +105,21 @@ download_ch1.5: setup_folders
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/15uf/mediumUF.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/15uf/largeUF.txt
 
-build_quick_union:
+build_quick_find:
 	@javac $(JAVA_CLASSPATH) union_find/QuickFind.java
 
-test_quick_union_with_tinyUF: build_quick_union
+test_quick_find: build_quick_find
 	@java $(JAVA_CLASSPATH) union_find.QuickFind < $(ALGS4_DATA_FOLDER)/tinyUF.txt
+# 	@java $(JAVA_CLASSPATH) union_find.QuickFind < $(ALGS4_DATA_FOLDER)/mediumUF.txt
+# 	@java $(JAVA_CLASSPATH) union_find.QuickFind < $(ALGS4_DATA_FOLDER)/largeUF.txt
 
-test_quick_union_with_mediumUF: build_quick_union
-	@java $(JAVA_CLASSPATH) union_find.QuickFind < $(ALGS4_DATA_FOLDER)/mediumUF.txt
+build_quick_union:
+	@javac $(JAVA_CLASSPATH) union_find/QuickUnion.java
 
-test_quick_union_with_largeUF: build_quick_union
-	@java $(JAVA_CLASSPATH) union_find.QuickFind < $(ALGS4_DATA_FOLDER)/largeUF.txt
+test_quick_union: build_quick_union
+	@java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/tinyUF.txt
+	@java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/mediumUF.txt
+	@java $(JAVA_CLASSPATH) union_find.QuickUnion < $(ALGS4_DATA_FOLDER)/largeUF.txt
 
 test_junit:
 	javac bag_queue_stack/MyQueue.java
