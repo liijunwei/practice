@@ -1,3 +1,7 @@
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
 public class SelectionSorter {
     public static void sort(Comparable[] a) {
         int N = a.length;
@@ -9,9 +13,9 @@ public class SelectionSorter {
                 if (less(a[j], a[minIndex])) {
                     minIndex = j;
                 }
-
-                swap(a, i, j);
             }
+
+            swap(a, i, minIndex);
         }
 
     }
@@ -24,5 +28,15 @@ public class SelectionSorter {
 
     private static boolean less(Comparable v, Comparable w) {
         return v.compareTo(w) < 0;
+    }
+
+    @Test
+    public void testSelectionSorter() {
+        String[] list1 = {"S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"};
+        String[] list2 = {"A", "E", "E", "L", "M", "O", "P", "R", "S", "T", "X"};
+
+        SelectionSorter.sort(list1);
+
+        assertEquals(list2, list1);
     }
 }

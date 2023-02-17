@@ -135,3 +135,11 @@ test_junit:
 
 DoublingRatio:
 	java edu.princeton.cs.algs4.DoublingRatio
+
+download_ch2.1.2: setup_folders
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/21elementary/tiny.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/21elementary/words3.txt
+
+SelectionSorter:
+	@javac $(JAVA_CLASSPATH) SelectionSorter.java
+	@java org.junit.runner.JUnitCore SelectionSorter
