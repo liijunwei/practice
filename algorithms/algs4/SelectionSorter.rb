@@ -12,10 +12,18 @@ class SelectionSorter
         j += 1
       end
 
-      a[min_index], a[i] = a[i], a[min_index]
+      swap(a, i, min_index)
     end
 
     a
+  end
+
+  private
+
+  def swap(a, i, j)
+    tmp = a[i]
+    a[i] = a[j]
+    a[j] = tmp
   end
 end
 
