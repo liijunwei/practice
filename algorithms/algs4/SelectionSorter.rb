@@ -1,16 +1,7 @@
 class SelectionSorter
   def sort(a)
-    length = a.length
-
     a.each_with_index do |e, i|
-      min_index = i
-
-      j = i + 1
-
-      while (j < length)
-        min_index = j if a[j] < a[min_index]
-        j += 1
-      end
+      min_index = find_min_index(i, a)
 
       swap(a, i, min_index)
     end
@@ -19,6 +10,20 @@ class SelectionSorter
   end
 
   private
+
+  def find_min_index(curr_min_index, a)
+    min_index = curr_min_index
+
+    cursor = curr_min_index + 1
+    length = a.length
+
+    while (cursor < length)
+      min_index = cursor if a[cursor] < a[min_index]
+      cursor += 1
+    end
+
+    min_index
+  end
 
   def swap(a, i, j)
     tmp = a[i]
