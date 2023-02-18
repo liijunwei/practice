@@ -14,9 +14,14 @@ public class ShellSorter {
 
         while (h >= 1) {
             for (int i = h; i < n; i++) {
-                for (int j = i; j >= h && less(a[j], a[j - h]); j -= h) {
-                    swap(a, j, j - h);
+                Comparable tmp = a[i];
+                int j = i;
+
+                for (; j >= h && less(tmp, a[j - h]); j -= h) {
+                    a[j] = a[j - h];
                 }
+
+                a[j] = tmp;
             }
 
             h = h / 3;
