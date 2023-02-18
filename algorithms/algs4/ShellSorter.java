@@ -12,6 +12,10 @@ public class ShellSorter {
             h = 3 * h + 1; // 1, 4, 13, 40, 121, 364
         }
 
+        /**
+         * 如果我们在插入排序（算法2。2）中加入一个外循环来将h 按照递增序列递减
+         * 我们就能得到这个简洁的希尔排序
+         */
         while (h >= 1) {
             for (int i = h; i < n; i++) {
                 Comparable tmp = a[i];
