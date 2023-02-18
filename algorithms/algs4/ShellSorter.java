@@ -2,10 +2,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+//https://www.sortvisualizer.com/shellsort/
 public class ShellSorter {
     public static void sort(Comparable[] a) {
         int n = a.length;
-        int h = 1;
+        int h = 3;
 
         while (h < n / 3) {
             h = 3 * h + 1; // 1, 4, 13, 40, 121, 364
