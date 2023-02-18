@@ -11,6 +11,8 @@ public class InsertionSorterV2 {
      * "要大幅提高插入排序的速度并不难，只需要在内循环中将较大的元素都向右移动而不总是交换两个元素(这样访问数组的次数就能减半)"
      * see: exercise 2.1.25
      * 右移: a[j] = a[j-1]
+     *
+     * 先移动数组，再把新的元素放到合适的位置
      */
     public static void sort(Comparable[] a) {
         for (int i = 1; i < a.length; i++) {
