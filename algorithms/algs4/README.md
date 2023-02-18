@@ -63,3 +63,9 @@ private class Node {
 + 最常见的错误就是过于关注程序的性能。你的首要任务应该是写出清晰正确的代码。仅仅为了提高运行速度而修改程序的事最好交给专家们来做。
 + 不成熟的优化是万恶之源
 + 另一个常见的错误是完全忽略了程序的性能
+
+## Exercise References
+
+https://github.com/reneargento/algorithms-sedgewick-wayne
+
+
