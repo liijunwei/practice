@@ -8,6 +8,10 @@ public class ShellSorter {
         int n = a.length;
         int h = 3;
 
+        /**
+         * h = f(h_init, n)
+         * 先根据这个函数计算出h， 再递减h有序数组
+         */
         while (h < n / 3) {
             h = 3 * h + 1; // 1, 4, 13, 40, 121, 364
         }

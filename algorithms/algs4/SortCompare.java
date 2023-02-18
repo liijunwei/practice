@@ -45,6 +45,8 @@ public class SortCompare {
         double t1 = timeRandomInput(alg1, N, T);
         double t2 = timeRandomInput(alg2, N, T);
 
+        System.out.println(alg1 + t1);
+        System.out.println(alg2 + t2);
         StdOut.printf("For %6d random Doubles: %s is %4.1f times faster than %s\n", N, alg1, t2 / t1, alg2);
     }
 }
