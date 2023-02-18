@@ -151,3 +151,9 @@ InsertionSorter:
 	java org.junit.runner.JUnitCore InsertionSorter
 	java InsertionSorter < data/tiny.txt
 	java InsertionSorter < data/words3.txt
+
+InsertionSorterV2:
+	javac $(JAVA_CLASSPATH) InsertionSorterV2.java
+	java org.junit.runner.JUnitCore InsertionSorterV2
+	java InsertionSorterV2 < data/tiny.txt
+	java InsertionSorterV2 < data/words3.txt
