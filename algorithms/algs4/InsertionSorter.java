@@ -10,7 +10,7 @@ public class InsertionSorter {
      * 把这种排序方式想像成给发到手的牌 排序
      * 循环里i增大，相当于得到一张新的牌
      * 循环里j减小并且比较，相当于给手里的牌重新排序(把刚刚得到的牌插入到合适的位置)
-     *
+     * <p>
      * 所谓的插入排序，不是一下子把某个数插入到合适的位置，而是指最终到效果看起来好像是把数字插入到了合适到问题
      * 实际上还是遍历和交换到结果
      */
@@ -34,8 +34,9 @@ public class InsertionSorter {
 
     private static void show(Comparable[] a) {
         for (Comparable comparable : a) {
-            StdOut.println(comparable);
+            StdOut.print(comparable + " ");
         }
+        StdOut.println();
     }
 
     @Test

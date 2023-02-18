@@ -33,8 +33,9 @@ public class InsertionSorterV2 {
 
     private static void show(Comparable[] a) {
         for (Comparable comparable : a) {
-            StdOut.println(comparable);
+            StdOut.print(comparable + " ");
         }
+        StdOut.println();
     }
 
     @Test
