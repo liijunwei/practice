@@ -6,6 +6,11 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class InsertionSorter {
+    /**
+     * 把这种排序方式想像成给发到手的牌 排序
+     * 循环里i增大，相当于得到一张新的牌
+     * 循环里j减小并且比较，相当于给手里的牌重新排序(把刚刚得到的牌插入到合适的位置)
+     */
     public static void sort(Comparable[] a) {
         for (int i = 1; i < a.length; i++) {
             for (int j = i; j > 0 && less(a[j], a[j - 1]); j--) {
