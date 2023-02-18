@@ -24,6 +24,7 @@ public class InsertionSorterV2 {
             }
 
             a[j] = tmp;
+            show(a);
         }
     }
 
@@ -50,7 +51,6 @@ public class InsertionSorterV2 {
 
     public static void main(String[] args) {
         String[] a = StdIn.readAllStrings();
-        Selection.sort(a);
-        show(a);
+        InsertionSorterV2.sort(a);
     }
 }
