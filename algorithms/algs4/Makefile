@@ -157,3 +157,10 @@ InsertionSorterV2:
 	java org.junit.runner.JUnitCore InsertionSorterV2
 	java InsertionSorterV2 < data/tiny.txt
 	java InsertionSorterV2 < data/words3.txt
+
+SortCompare_Selection_Insertion:
+	javac $(JAVA_CLASSPATH) SelectionSorter.java
+	javac $(JAVA_CLASSPATH) InsertionSorter.java
+	javac $(JAVA_CLASSPATH) SortCompare.java
+	java SortCompare InsertionSorter SelectionSorter 1000 100
+
