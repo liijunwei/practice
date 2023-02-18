@@ -5,22 +5,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class SelectionSorter {
+public class InsertionSorter {
     public static void sort(Comparable[] a) {
-        int N = a.length;
-
-        for (int i = 0; i < N; i++) {
-            int minIndex = i;
-
-            for (int j = minIndex + 1; j < N; j++) {
-                if (less(a[j], a[minIndex])) {
-                    minIndex = j;
-                }
+        for (int i = 1; i < a.length; i++) {
+            for (int j = i; j > 0 && less(a[j], a[j - 1]); j--) {
+                swap(a, j, j - 1);
             }
-
-            swap(a, i, minIndex);
         }
-
     }
 
     private static void swap(Object[] a, int i, int j) {
@@ -34,17 +25,17 @@ public class SelectionSorter {
     }
 
     private static void show(Comparable[] a) {
-        for (int i = 0; i < a.length; i++) {
-            StdOut.println(a[i]);
+        for (Comparable comparable : a) {
+            StdOut.println(comparable);
         }
     }
 
     @Test
-    public void testSelectionSorter() {
+    public void testInsertionSorter() {
         String[] list1 = {"S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"};
         String[] list2 = {"A", "E", "E", "L", "M", "O", "P", "R", "S", "T", "X"};
 
-        SelectionSorter.sort(list1);
+        InsertionSorter.sort(list1);
 
         assertEquals(list2, list1);
     }

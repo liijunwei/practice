@@ -141,5 +141,13 @@ download_ch2.1.2: setup_folders
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/21elementary/words3.txt
 
 SelectionSorter:
-	@javac $(JAVA_CLASSPATH) SelectionSorter.java
-	@java org.junit.runner.JUnitCore SelectionSorter
+	javac $(JAVA_CLASSPATH) SelectionSorter.java
+	java org.junit.runner.JUnitCore SelectionSorter
+	java SelectionSorter < data/tiny.txt
+	java SelectionSorter < data/words3.txt
+
+InsertionSorter:
+	javac $(JAVA_CLASSPATH) InsertionSorter.java
+	java org.junit.runner.JUnitCore InsertionSorter
+	java InsertionSorter < data/tiny.txt
+	java InsertionSorter < data/words3.txt
