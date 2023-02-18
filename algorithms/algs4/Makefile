@@ -167,10 +167,10 @@ SortCompare_Selection_Insertion:
 	java SortCompare InsertionSorter SelectionSorter 10000  100
 
 SortCompare_Selection_InsertionV2:
-	javac $(JAVA_CLASSPATH) SelectionSorter.java
-	javac $(JAVA_CLASSPATH) InsertionSorterV2.java
-	javac $(JAVA_CLASSPATH) SortCompare.java
-	java SortCompare InsertionSorterV2 SelectionSorter 100    100
-	java SortCompare InsertionSorterV2 SelectionSorter 1000   100
-	java SortCompare InsertionSorterV2 InsertionSorter 1000   100
-	java SortCompare InsertionSorterV2 InsertionSorter 1000   100
+	@javac $(JAVA_CLASSPATH) SelectionSorter.java
+	@javac $(JAVA_CLASSPATH) InsertionSorterV2.java
+	@javac $(JAVA_CLASSPATH) SortCompare.java
+	@java SortCompare InsertionSorterV2 SelectionSorter 100    100
+	@java SortCompare InsertionSorterV2 SelectionSorter 1000   100
+	@java SortCompare InsertionSorterV2 InsertionSorter 1000   100
+	@java SortCompare InsertionSorterV2 InsertionSorter 1000   100

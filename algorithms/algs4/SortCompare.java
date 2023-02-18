@@ -3,7 +3,7 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.Stopwatch;
 
 public class SortCompare {
-    public static double time(String alg, Comparable[] a) {
+    public static double getElapsedTime(String alg, Comparable[] a) {
         Stopwatch timer = new Stopwatch();
 
         if (alg.equals("InsertionSorter")) InsertionSorter.sort(a);
@@ -14,19 +14,26 @@ public class SortCompare {
         return timer.elapsedTime();
     }
 
-    public static double timeRandomInput(String alg, int N, int T) {
-        double total = 0.0;
-        Double[] a = new Double[N];
+    /**
+     * 使用算法alg将T个长度为N的数组排序, 并返回总耗时
+     * @param algorithmName 排序算法的名称
+     * @param arraySize 数组的长度
+     * @param arrayNum 数组的个数
+     * @return 总耗时
+     */
+    public static double timeRandomInput(String algorithmName, int arraySize, int arrayNum) {
+        double totalTime = 0.0;
+        Double[] sampleArray = new Double[arraySize];
 
-        for (int t = 0; t < T; t++) {
-            for (int i = 0; i < N; i++) {
-                a[i] = StdRandom.uniform();
+        for (int n = 0; n < arrayNum; n++) {
+            for (int i = 0; i < arraySize; i++) {
+                sampleArray[i] = StdRandom.uniformDouble();
             }
 
-            total += time(alg, a);
+            totalTime += getElapsedTime(algorithmName, sampleArray);
         }
 
-        return total;
+        return totalTime;
     }
 
     public static void main(String[] args) {
