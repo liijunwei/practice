@@ -9,16 +9,17 @@ public class SortCompare {
         if (alg.equals("InsertionSorter")) InsertionSorter.sort(a);
         if (alg.equals("SelectionSorter")) SelectionSorter.sort(a);
         if (alg.equals("InsertionSorterV2")) InsertionSorterV2.sort(a);
-//        if(alg.equals("Shell")) ShellSorter.sort(a);
+        if (alg.equals("ShellSorter")) ShellSorter.sort(a);
 
         return timer.elapsedTime();
     }
 
     /**
      * 使用算法alg将T个长度为N的数组排序, 并返回总耗时
+     *
      * @param algorithmName 排序算法的名称
-     * @param arraySize 数组的长度
-     * @param arrayNum 数组的个数
+     * @param arraySize     数组的长度
+     * @param arrayNum      数组的个数
      * @return 总耗时
      */
     public static double timeRandomInput(String algorithmName, int arraySize, int arrayNum) {
@@ -44,6 +45,6 @@ public class SortCompare {
         double t1 = timeRandomInput(alg1, N, T);
         double t2 = timeRandomInput(alg2, N, T);
 
-        StdOut.printf("For %8d random Doubles: %s is %.1f times faster than %s\n", N, alg1, t2 / t1, alg2);
+        StdOut.printf("For %6d random Doubles: %s is %4.1f times faster than %s\n", N, alg1, t2 / t1, alg2);
     }
 }
