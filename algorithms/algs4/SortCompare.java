@@ -8,6 +8,7 @@ public class SortCompare {
 
         if (alg.equals("InsertionSorter")) InsertionSorter.sort(a);
         if (alg.equals("SelectionSorter")) SelectionSorter.sort(a);
+        if (alg.equals("InsertionSorterV2")) InsertionSorterV2.sort(a);
 //        if(alg.equals("Shell")) ShellSorter.sort(a);
 
         return timer.elapsedTime();
@@ -36,7 +37,6 @@ public class SortCompare {
         double t1 = timeRandomInput(alg1, N, T);
         double t2 = timeRandomInput(alg2, N, T);
 
-        StdOut.printf("For %d random Doubles\n %s is", N, alg1);
-        StdOut.printf(" %.1f times faster than %s\n", t2 / t1, alg2);
+        StdOut.printf("For %8d random Doubles: %s is %.1f times faster than %s\n", N, alg1, t2 / t1, alg2);
     }
 }

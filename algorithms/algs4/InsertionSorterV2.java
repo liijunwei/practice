@@ -24,7 +24,7 @@ public class InsertionSorterV2 {
             }
 
             a[j] = tmp;
-            show(a);
+//            show(a);
         }
     }
 
