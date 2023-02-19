@@ -188,3 +188,12 @@ SortCompare_Shell_Insertion:
 	@javac $(JAVA_CLASSPATH) InsertionSorter.java
 	@javac $(JAVA_CLASSPATH) SortCompare.java
 	java SortCompare ShellSorter InsertionSorter 100000 100
+
+SortCompare_Shell_MergeSorter:
+	@javac $(JAVA_CLASSPATH) ShellSorter.java
+	@javac $(JAVA_CLASSPATH) MergeSorter.java
+	@javac $(JAVA_CLASSPATH) SortCompare.java
+# 	java SortCompare ShellSorter MergeSorter 1000 100
+# 	java SortCompare ShellSorter MergeSorter 10000 100
+# 	java SortCompare ShellSorter MergeSorter 100000 100
+	java SortCompare MergeSorter ShellSorter 1000000 10

@@ -10,6 +10,7 @@ public class SortCompare {
         if (alg.equals("SelectionSorter")) SelectionSorter.sort(a);
         if (alg.equals("InsertionSorterV2")) InsertionSorterV2.sort(a);
         if (alg.equals("ShellSorter")) ShellSorter.sort(a);
+        if (alg.equals("MergeSorter")) MergeSorter.sort(a);
 
         return timer.elapsedTime();
     }
@@ -45,8 +46,8 @@ public class SortCompare {
         double t1 = timeRandomInput(alg1, N, T);
         double t2 = timeRandomInput(alg2, N, T);
 
-        System.out.println(alg1 + t1);
-        System.out.println(alg2 + t2);
+        System.out.println(alg1 + " " + t1);
+        System.out.println(alg2 + " " + t2);
         StdOut.printf("For %6d random Doubles: %s is %4.1f times faster than %s\n", N, alg1, t2 / t1, alg2);
     }
 }
