@@ -30,6 +30,11 @@ public class MergeSorter {
         sort(a, lo, mid); // 将左半边排序
         sort(a, mid + 1, hi); // 将右半边排序
 
+        // page175 & exercise 2.2.8
+        if (less(a[mid], a[mid + 1])) {
+            return;
+        }
+
         merge(a, lo, mid, hi); // 归并排序结果
     }
 
