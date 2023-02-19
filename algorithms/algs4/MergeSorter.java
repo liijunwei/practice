@@ -27,10 +27,10 @@ public class MergeSorter {
         }
 
         int mid = lo + (hi - lo) / 2;
-        sort(a, lo, mid);
-        sort(a, mid + 1, hi);
+        sort(a, lo, mid); // 将左半边排序
+        sort(a, mid + 1, hi); // 将右半边排序
 
-        merge(a, lo, mid, hi);
+        merge(a, lo, mid, hi); // 归并排序结果
     }
 
     private static void merge(Comparable[] a, int lo, int mid, int hi) {
