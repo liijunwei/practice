@@ -197,3 +197,15 @@ SortCompare_Shell_MergeSorter:
 # 	java SortCompare ShellSorter MergeSorter 10000 100
 # 	java SortCompare ShellSorter MergeSorter 100000 100
 	java SortCompare MergeSorter ShellSorter 1000000 10
+
+SortCompare_Shell_MergeSorterBU:
+	@javac $(JAVA_CLASSPATH) ShellSorter.java
+	@javac $(JAVA_CLASSPATH) MergeSorterBU.java
+	@javac $(JAVA_CLASSPATH) SortCompare.java
+	java SortCompare MergeSorterBU ShellSorter 100000 100
+
+SortCompare_MergeSorter_MergeSorterBU:
+	@javac $(JAVA_CLASSPATH) MergeSorter.java
+	@javac $(JAVA_CLASSPATH) MergeSorterBU.java
+	@javac $(JAVA_CLASSPATH) SortCompare.java
+	java SortCompare MergeSorterBU MergeSorter 100000 1000

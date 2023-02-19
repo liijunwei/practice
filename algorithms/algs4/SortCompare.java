@@ -11,6 +11,7 @@ public class SortCompare {
         if (alg.equals("InsertionSorterV2")) InsertionSorterV2.sort(a);
         if (alg.equals("ShellSorter")) ShellSorter.sort(a);
         if (alg.equals("MergeSorter")) MergeSorter.sort(a);
+        if (alg.equals("MergeSorterBU")) MergeSorterBU.sort(a);
 
         return timer.elapsedTime();
     }
