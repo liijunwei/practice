@@ -6,7 +6,7 @@ public class MergeSorter {
     private static Comparable[] aux;
 
     @Test
-    public void testInsertionSorter() {
+    public void testMergeSorter() {
         Comparable[] list1 = {1, 3, 2, 5, 8, 4, 6, 0};
         Comparable[] list2 = {0, 1, 2, 3, 4, 5, 6, 8};
 
@@ -15,10 +15,25 @@ public class MergeSorter {
         assertEquals(list2, list1);
     }
 
-    private static void sort(Comparable[] list1) {
+    public static void sort(Comparable[] a) {
+        aux = new Comparable[a.length];
+        sort(a, 0, a.length - 1);
     }
 
-    public static void merge(Comparable[] a, int lo, int mid, int hi) {
+    private static void sort(Comparable[] a, int lo, int hi) {
+        // 将数组a[lo..hi]排序
+        if (hi <= lo) {
+            return;
+        }
+
+        int mid = lo + (hi - lo) / 2;
+        sort(a, lo, mid);
+        sort(a, mid + 1, hi);
+
+        merge(a, lo, mid, hi);
+    }
+
+    private static void merge(Comparable[] a, int lo, int mid, int hi) {
         int i = lo; // 左半边的cursor
         int j = mid + 1; // 右半边的cursor
 
