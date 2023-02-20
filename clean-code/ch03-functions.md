@@ -62,6 +62,13 @@
 + "first my functions are long and complicated; then I massage and refine that code, splitting out functions, changing names, eliminating duplication. I shrink the methods and reorder them. Sometimes I break out whole classes, all the while keeping thetests passing"
 + "in the end, i wind up with functions that follow the rules I've laid down in this chapter. I don't write them that way to start, I don't think anyone could"
 
+### Conclusion
+
+The art of programming is, and has always been, the art of language design
+
+Master programmers think of systems as stories to be told rather than programs to be written.
+
+
 
 
 
