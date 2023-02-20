@@ -27,24 +27,43 @@
 
 + be consistent in your names
 
-### function arguments
++ function arguments
+    + number of function arguments
+        + ideal: 0
+        + next: 1
+        + next: 2
 
-+ number of function arguments
-    + ideal: 0
-    + next: 1
-    + next: 2
 
-### flag arguments
++ flag arguments
+    + passing a boolean into a function is a truly terrible practice
+        + it loudly proclainming that this function does more than one thing
 
-+ passing a boolean into a function is a truly terrible practice
-    + it loudly proclainming that this function does more than one thing
-
-### argument objects
-
-+ when a function seems to need more than two or three arguments, it is likely that some of those arguments ought to be wrapped into a class of their own
++ argument objects
+    + when a function seems to need more than two or three arguments, it is likely that some of those arguments ought to be wrapped into a class of their own
 
 + monads 一元的/单子
-+ dtads  二元的
++ dyads  二元的
 + triads 三元的
+
++ Have no side effects
+
++ (in general) Avoid the output arguments
+
++ Command Query Separation
+    + functions should either do something or answer something, but not both
+    + doing both leads to confusion
+
++ Extract try/catch block out into functions of their own
+
++ DRY
+
++ "if it repeats more than 3 times"
+
++ "first my functions are long and complicated; then I massage and refine that code, splitting out functions, changing names, eliminating duplication. I shrink the methods and reorder them. Sometimes I break out whole classes, all the while keeping thetests passing"
++ "in the end, i wind up with functions that follow the rules I've laid down in this chapter. I don't write them that way to start, I don't think anyone could"
+
+
+
+
 
 
