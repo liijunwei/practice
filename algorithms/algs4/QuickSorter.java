@@ -35,12 +35,16 @@ public class QuickSorter {
         Comparable v = a[lo];
 
         while (true) {
+            // 如果左指针 或者右指针 碰到了边界，就不再移动
+
+            // 将左指针i 向右移动，直至 a[i] >= 切割点的值
             while (less(a[++i], v)) {
                 if (i == hi) {
                     break;
                 }
             }
 
+            // 将右指针j 向左移动，直至 a[j] <= 切割点的值
             while (less(v, a[--j])) {
                 if (j == lo) {
                     break;
@@ -51,6 +55,9 @@ public class QuickSorter {
                 break;
             }
 
+            // i/j 找好位置以后，交换值，然后进入下一轮循环
+            // 直到循环退出
+            // 然后把 切割点放到合适的位置
             swap(a, i, j);
         }
 
