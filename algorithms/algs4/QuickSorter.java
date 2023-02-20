@@ -14,6 +14,16 @@ public class QuickSorter {
         assertEquals(list2, list1);
     }
 
+    @Test
+    public void testQuickSorter2() {
+        Comparable[] list1 = {8, 2, 1, 5, 3, 4, 7, 6, 10, 9};
+        Comparable[] list2 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+        QuickSorter.sort(list1);
+
+        assertEquals(list2, list1);
+    }
+
     public static void sort(Comparable[] a) {
         StdRandom.shuffle(a);
         sort(a, 0, a.length - 1);
@@ -31,7 +41,7 @@ public class QuickSorter {
 
     private static int partition(Comparable[] a, int lo, int hi) {
         int i = lo;
-        int j = hi + 1; // ???
+        int j = hi + 1; // 因为每个元素都要比较到
         Comparable v = a[lo];
 
         while (true) {
