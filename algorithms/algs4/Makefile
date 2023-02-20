@@ -209,3 +209,9 @@ SortCompare_MergeSorter_MergeSorterBU:
 	@javac $(JAVA_CLASSPATH) MergeSorterBU.java
 	@javac $(JAVA_CLASSPATH) SortCompare.java
 	java SortCompare MergeSorterBU MergeSorter 100000 1000
+
+SortCompare_MergeSorter_QuickSorter:
+	@javac $(JAVA_CLASSPATH) MergeSorter.java
+	@javac $(JAVA_CLASSPATH) QuickSorter.java
+	@javac $(JAVA_CLASSPATH) SortCompare.java
+	java SortCompare QuickSorter MergeSorter 100000 100
