@@ -38,16 +38,7 @@ public class MaxPQSortedArray<Key extends Comparable<Key>> {
     }
 
     public Key delMax() {
-        int maxIndex = 0;
-
-        for (int i = maxIndex + 1; i < size; i++) {
-            if (less(pq[maxIndex], pq[i])) {
-                maxIndex = i;
-            }
-        }
-
-        Key max = pq[maxIndex];
-        exch(pq, maxIndex, size - 1);
+        Key max = pq[size - 1];
         size--;
 
         if (size > 0 && size == (pq.length / 4)) {
