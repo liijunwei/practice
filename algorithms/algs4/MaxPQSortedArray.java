@@ -25,6 +25,7 @@ public class MaxPQSortedArray<Key extends Comparable<Key>> {
         }
 
         // 插入排序的逻辑: 找到插入位置，之后的元素右移
+        // v 是新拿到手里的牌，从后向前扫描，如果发现有更小的元素，就把牌依次向右移动，为新牌腾出位置
         int j = size;
 
         for (; j > 0 && less(pq[j - 1], v); j--) {
