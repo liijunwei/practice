@@ -1,7 +1,3 @@
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-
 public class MaxPQArray<Key extends Comparable<Key>> {
     private Key[] pq;
     private int N = 0;
@@ -28,14 +24,5 @@ public class MaxPQArray<Key extends Comparable<Key>> {
 
     public Key max() {
         return null;
-    }
-
-    @Test
-    public void testMaxPQArrayImplementation() {
-        MaxPQArray<Integer> pq = new MaxPQArray<>(10);
-        pq.insert(1);
-        pq.insert(10);
-        pq.insert(2);
-//        assertEquals(list2, list1);
     }
 }
