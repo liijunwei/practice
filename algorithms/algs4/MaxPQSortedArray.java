@@ -19,6 +19,7 @@ public class MaxPQSortedArray<Key extends Comparable<Key>> {
         return size;
     }
 
+    // 把最大的元素放在数组的末尾
     public void insert(Key v) {
         if (size == pq.length) {
             resize(2 * pq.length);
@@ -28,7 +29,7 @@ public class MaxPQSortedArray<Key extends Comparable<Key>> {
         // v 是新拿到手里的牌，从后向前扫描，如果发现有更小的元素，就把牌依次向右移动，为新牌腾出位置
         int j = size;
 
-        for (; j > 0 && less(pq[j - 1], v); j--) {
+        for (; j > 0 && less(v, pq[j - 1]); j--) {
             pq[j] = pq[j - 1];
         }
 
