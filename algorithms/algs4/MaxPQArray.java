@@ -1,3 +1,7 @@
+/**
+ * 2.4.2.1 MaxPQ array implementation
+ * @param <Key>
+ */
 public class MaxPQArray<Key extends Comparable<Key>> {
     private Key[] pq;
     private int size = 0;
