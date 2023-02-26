@@ -79,4 +79,19 @@ public class MaxPQTest {
         assertEquals(Integer.valueOf(2), pq.delMax());
         assertEquals(Integer.valueOf(1), pq.delMax());
     }
+
+    @Test
+    public void testMaxPQLinkedList() {
+        MaxPQLinkedList<Integer> pq = new MaxPQLinkedList<>();
+
+        pq.insert(1);
+        pq.insert(10);
+        pq.insert(2);
+        pq.insert(200);
+
+        assertEquals(Integer.valueOf(200), pq.delMax());
+        assertEquals(Integer.valueOf(10), pq.delMax());
+        assertEquals(Integer.valueOf(2), pq.delMax());
+        assertEquals(Integer.valueOf(1), pq.delMax());
+    }
 }
