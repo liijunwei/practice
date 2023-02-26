@@ -24,5 +24,11 @@ public class MaxPQTest {
 
         assertEquals(Integer.valueOf(10), pq.delMax());
         assertEquals(Integer.valueOf(2), pq.delMax());
+
+        pq.insert(2000);
+        assertEquals(Integer.valueOf(2000), pq.delMax());
+
+        pq.insert(100);
+        assertEquals(Integer.valueOf(100), pq.delMax());
     }
 }
