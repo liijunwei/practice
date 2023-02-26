@@ -66,14 +66,4 @@ public class MaxPQHeap<Key extends Comparable<Key>> {
         pq[i] = pq[j];
         pq[j] = tmp;
     }
-
-    private void resize(int max) {
-        Key[] temp = (Key[]) new Comparable[max];
-
-        if (size >= 0) {
-            System.arraycopy(pq, 0, temp, 0, size);
-        }
-
-        pq = temp;
-    }
 }
