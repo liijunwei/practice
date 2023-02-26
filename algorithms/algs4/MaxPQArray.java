@@ -14,6 +14,10 @@ public class MaxPQArray<Key extends Comparable<Key>> {
         return size;
     }
 
+    public int arrLength() {
+        return pq.length;
+    }
+
     public void insert(Key v) {
         if (size == pq.length) {
             resize(2 * pq.length);
@@ -34,6 +38,10 @@ public class MaxPQArray<Key extends Comparable<Key>> {
         Key max = pq[maxIndex];
         exch(pq, maxIndex, size - 1);
         size--;
+
+        if (size > 0 && size == (pq.length / 4)) {
+            resize(pq.length / 2);
+        }
 
         return max;
     }
