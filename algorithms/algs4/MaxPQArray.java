@@ -1,5 +1,6 @@
 /**
  * 2.4.2.1 MaxPQ array implementation
+ *
  * @param <Key>
  */
 public class MaxPQArray<Key extends Comparable<Key>> {
@@ -48,10 +49,6 @@ public class MaxPQArray<Key extends Comparable<Key>> {
         }
 
         return max;
-    }
-
-    public Key max() {
-        return null;
     }
 
     private boolean less(Comparable v, Comparable w) {

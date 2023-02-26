@@ -48,18 +48,8 @@ public class MaxPQSortedArray<Key extends Comparable<Key>> {
         return max;
     }
 
-    public Key max() {
-        return null;
-    }
-
     private boolean less(Comparable v, Comparable w) {
         return v.compareTo(w) < 0;
-    }
-
-    private void exch(Object[] a, int i, int j) {
-        Object tmp = a[i];
-        a[i] = a[j];
-        a[j] = tmp;
     }
 
     private void resize(int max) {
