@@ -3,7 +3,7 @@ public class MaxPQArray<Key extends Comparable<Key>> {
     private int size = 0;
 
     public MaxPQArray(int maxN) {
-        pq = (Key[]) new Comparable[maxN + 1];
+        pq = (Key[]) new Comparable[maxN];
     }
 
     public boolean isEmpty() {
@@ -15,6 +15,10 @@ public class MaxPQArray<Key extends Comparable<Key>> {
     }
 
     public void insert(Key v) {
+        if (size == pq.length) {
+            resize(2 * pq.length);
+        }
+
         pq[size++] = v;
     }
 
@@ -46,5 +50,15 @@ public class MaxPQArray<Key extends Comparable<Key>> {
         Object tmp = a[i];
         a[i] = a[j];
         a[j] = tmp;
+    }
+
+    private void resize(int max) {
+        Key[] temp = (Key[]) new Comparable[max];
+
+        if (size >= 0) {
+            System.arraycopy(pq, 0, temp, 0, size);
+        }
+
+        pq = temp;
     }
 }

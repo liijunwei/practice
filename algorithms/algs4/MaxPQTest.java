@@ -31,4 +31,22 @@ public class MaxPQTest {
         pq.insert(100);
         assertEquals(Integer.valueOf(100), pq.delMax());
     }
+
+
+    @Test
+    public void testMaxPQArrayResize() {
+        MaxPQArray<Integer> pq = new MaxPQArray<>(2);
+        assertEquals(0, pq.size());
+
+        pq.insert(1);
+        pq.insert(10);
+        pq.insert(2);
+
+        assertEquals(3, pq.size());
+        pq.insert(2);
+        pq.insert(2);
+        pq.insert(2);
+        pq.insert(2);
+        assertEquals(7, pq.size());
+    }
 }
