@@ -62,6 +62,7 @@ public class MaxPQHeap<Key extends Comparable<Key>> {
     }
 
     private void exch(int i, int j) {
+//        System.out.println("exch("+i+", "+j + ")");
         Key tmp = pq[i];
         pq[i] = pq[j];
         pq[j] = tmp;

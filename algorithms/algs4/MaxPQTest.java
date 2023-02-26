@@ -117,4 +117,27 @@ public class MaxPQTest {
         assertEquals(Integer.valueOf(2), pq.delMax());
         assertEquals(Integer.valueOf(1), pq.delMax());
     }
+
+    @Test
+    public void testMaxPQHeap1() {
+        MaxPQHeap<String> pq = new MaxPQHeap<>(10);
+
+        pq.insert("P");
+        pq.insert("Q");
+        pq.insert("E");
+
+        assertEquals("Q", pq.delMax());
+
+        pq.insert("X");
+        pq.insert("A");
+        pq.insert("M");
+
+        assertEquals("X", pq.delMax());
+
+        pq.insert("P");
+        pq.insert("L");
+        pq.insert("E");
+
+        assertEquals("P", pq.delMax());
+    }
 }
