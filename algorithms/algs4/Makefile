@@ -227,3 +227,9 @@ STDemo:
 	@javac $(JAVA_CLASSPATH) STDemo.java
 	echo L P M X H C R A E S | java STDemo
 
+FrequencyCounter:
+	javac $(JAVA_CLASSPATH) FrequencyCounter.java
+	java FrequencyCounter 1  < data/tinyTale.txt
+	java FrequencyCounter 8  < data/tale.txt
+	java FrequencyCounter 10 < data/leipzig1M.txt
+
