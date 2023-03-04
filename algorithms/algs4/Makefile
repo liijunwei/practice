@@ -231,5 +231,5 @@ FrequencyCounter:
 	javac $(JAVA_CLASSPATH) FrequencyCounter.java
 	java FrequencyCounter 1  < data/tinyTale.txt
 	java FrequencyCounter 8  < data/tale.txt
-	java FrequencyCounter 10 < data/leipzig1M.txt
+	java FrequencyCounter 10 < data/leipzig1M.txt # very slow for SequentialSearchST
 
