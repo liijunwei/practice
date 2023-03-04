@@ -226,6 +226,7 @@ download_ch3.1.3: setup_folders
 STDemo:
 	@javac $(JAVA_CLASSPATH) STDemo.java
 	echo L P M X H C R A E S | java STDemo
+	java STDemo < data/tinyST.txt
 
 FrequencyCounter:
 	javac $(JAVA_CLASSPATH) FrequencyCounter.java

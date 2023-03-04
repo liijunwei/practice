@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.StdOut;
 public class FrequencyCounter {
     public static void main(String[] args) {
         int minlen = Integer.parseInt(args[0]);
+
         SequentialSearchST<String, Integer> st = new SequentialSearchST<>();
 
         while (!StdIn.isEmpty()) {
