@@ -221,3 +221,9 @@ download_ch3.1.3: setup_folders
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/31elementary/tale.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/31elementary/leipzig1M.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/31elementary/tinyST.txt
+
+
+STDemo:
+	@javac $(JAVA_CLASSPATH) STDemo.java
+	echo L P M X H C R A E S | java STDemo
+
