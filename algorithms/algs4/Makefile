@@ -243,6 +243,6 @@ FrequencyCounterForBinarySearchST:
 FrequencyCounterForBST:
 	javac $(JAVA_CLASSPATH) FrequencyCounterForBST.java
 	java FrequencyCounterForBST 1  < data/tinyTale.txt
-# 	java FrequencyCounterForBST 8  < data/tale.txt
-# 	java FrequencyCounterForBST 10 < data/leipzig1M.txt # takes 30.658s, much faster
+	java FrequencyCounterForBST 8  < data/tale.txt
+	java FrequencyCounterForBST 10 < data/leipzig1M.txt # takes 4.288s, much much faster
 
