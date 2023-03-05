@@ -20,7 +20,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     private Node root;
 
     public int size() {
-        return size(root);
+        return size(this.root);
     }
 
     private int size(Node x) {
@@ -32,7 +32,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public Value get(Key key) {
-        return get(root, key);
+        return get(this.root, key);
     }
 
     private Value get(Node x, Key key) {
@@ -52,7 +52,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public void put(Key key, Value value) {
-        root = put(root, key, value);
+        this.root = put(this.root, key, value);
     }
 
     private Node put(Node x, Key key, Value value) {
@@ -86,9 +86,10 @@ public class BST<Key extends Comparable<Key>, Value> {
 
     public Key min() {
         if (isEmpty()) throw new NoSuchElementException("calls min() with empty symbol table");
-        return min(root).key;
+        return min(this.root).key;
     }
 
+    // 树的左边总是更小
     private Node min(Node x) {
         if (x.left == null) return x;
         else return min(x.left);
@@ -96,9 +97,10 @@ public class BST<Key extends Comparable<Key>, Value> {
 
     public Key max() {
         if (isEmpty()) throw new NoSuchElementException("calls max() with empty symbol table");
-        return max(root).key;
+        return max(this.root).key;
     }
 
+    // 树的右边总是更大
     private Node max(Node x) {
         if (x.right == null) return x;
         else return max(x.right);
@@ -114,7 +116,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         if (hi == null) throw new IllegalArgumentException("second argument to keys() is null");
 
         Queue<Key> queue = new Queue<Key>();
-        keys(root, queue, lo, hi);
+        keys(this.root, queue, lo, hi);
         return queue;
     }
 
