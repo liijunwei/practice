@@ -29,7 +29,23 @@ public class BST<Key extends Comparable<Key>, Value> {
 
     // TODO
     public Value get(Key key) {
-        return null;
+        return get(root, key);
+    }
+
+    private Value get(Node x, Key key) {
+        if (x == null) {
+            return null;
+        }
+
+        int cmp = key.compareTo(x.key);
+
+        if (cmp < 0) {
+            return get(x.left, key);
+        } else if (cmp > 0) {
+            return get(x.right, key);
+        } else {
+            return x.value;
+        }
     }
 
     // TODO
