@@ -234,3 +234,9 @@ FrequencyCounter:
 	java FrequencyCounter 8  < data/tale.txt
 # 	java FrequencyCounter 10 < data/leipzig1M.txt # very slow for SequentialSearchST
 
+FrequencyCounterForBinarySearchST:
+	javac $(JAVA_CLASSPATH) FrequencyCounterForBinarySearchST.java
+	java FrequencyCounterForBinarySearchST 1  < data/tinyTale.txt
+	java FrequencyCounterForBinarySearchST 8  < data/tale.txt
+# 	java FrequencyCounterForBinarySearchST 10 < data/leipzig1M.txt # takes 30.658s
+
