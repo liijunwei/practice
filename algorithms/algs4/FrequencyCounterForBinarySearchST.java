@@ -1,6 +1,8 @@
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.List;
+
 public class FrequencyCounterForBinarySearchST {
     public static void main(String[] args) {
         int minlen = Integer.parseInt(args[0]);
@@ -18,6 +20,12 @@ public class FrequencyCounterForBinarySearchST {
             } else {
                 st.put(word, st.get(word) + 1);
             }
+        }
+
+        List<Integer> comparisonTimes = st.getComparisonTimes();
+        VisualAccumulator va = new VisualAccumulator(comparisonTimes.size(), 6000);
+        for (Integer comparisonTime : comparisonTimes) {
+            va.addDataValue(comparisonTime);
         }
 
         String max = " ";

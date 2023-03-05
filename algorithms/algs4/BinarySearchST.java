@@ -1,9 +1,17 @@
 import edu.princeton.cs.algs4.Queue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinarySearchST<Key extends Comparable<Key>, Value> {
     private Key[] keys;
     private Value[] values;
     private int N;
+    private final List<Integer> compareTimes = new ArrayList();
+
+    public List<Integer> getComparisonTimes() {
+        return compareTimes;
+    }
 
     public BinarySearchST(int capacity) {
         this.keys = (Key[]) new Comparable[capacity];
@@ -34,31 +42,42 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
     private int rank(Key key) {
         int lo = 0;
         int hi = N - 1;
+        int compareTime = 0;
 
         while (lo <= hi) {
+            compareTime++;
             int mid = lo + (hi - lo) / 2;
             int cmp = key.compareTo(keys[mid]);
+            compareTime++;
 
             if (cmp < 0) {
                 hi = mid - 1;
+                compareTime++;
             } else if (cmp > 0) {
                 lo = mid + 1;
+                compareTime++;
             } else {
+                compareTimes.add(compareTime);
                 return mid;
             }
         }
 
+        compareTimes.add(compareTime);
         return lo;
     }
 
     public void put(Key key, Value value) {
+        int compareTime = 0;
+
         int i = rank(key);
 
         if (i < N && keys[i].compareTo(key) == 0) {
+            compareTimes.add(1);
             values[i] = value;
             return;
         }
         if (N == keys.length) {
+            compareTime++;
             resize(2 * keys.length);
         }
 
@@ -66,11 +85,13 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
             // 数组内的数据向右挪一位
             keys[j] = keys[j - 1];
             values[j] = values[j - 1];
+            compareTime++;
         }
 
         keys[i] = key;
         values[i] = value;
         N++;
+        compareTimes.add(compareTime);
     }
 
     private boolean isEmpty() {
@@ -97,7 +118,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
         keys[N] = null;
         values[N] = null;
 
-        if (N > 0 && N == keys.length/4) {
+        if (N > 0 && N == keys.length / 4) {
             resize(keys.length / 2);
         }
 
@@ -128,7 +149,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
 
     private void resize(int capacity) {
         assert capacity >= N;
-        Key[]   tempk = (Key[])   new Comparable[capacity];
+        Key[] tempk = (Key[]) new Comparable[capacity];
         Value[] tempv = (Value[]) new Object[capacity];
         for (int i = 0; i < N; i++) {
             tempk[i] = keys[i];
