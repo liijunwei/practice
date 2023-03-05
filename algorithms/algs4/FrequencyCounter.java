@@ -4,7 +4,7 @@ import edu.princeton.cs.algs4.StdOut;
 public class FrequencyCounter {
     public static void main(String[] args) {
         int minlen = Integer.parseInt(args[0]);
-        VisualAccumulator va = new VisualAccumulator(10000, 10000);
+        VisualAccumulator va = new VisualAccumulator(15000, 6000);
 
         SequentialSearchST<String, Integer> st = new SequentialSearchST<>();
 
