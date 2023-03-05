@@ -27,7 +27,6 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
-    // TODO
     public Value get(Key key) {
         return get(root, key);
     }
@@ -48,8 +47,27 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
-    // TODO
     public void put(Key key, Value value) {
 
+    }
+
+    private Node put(Node x, Key key, Value value) {
+        if (x == null) {
+            return new Node(key, value, 1);
+        }
+
+        int cmp = key.compareTo(x.key);
+
+        if (cmp < 0) {
+            x.left = put(x.left, key, value);
+        } else if (cmp > 0) {
+            x.right = put(x.right, key, value);
+        } else {
+            x.value = value;
+        }
+
+        x.N = size(x.left) + size(x.right) + 1;
+
+        return x;
     }
 }
