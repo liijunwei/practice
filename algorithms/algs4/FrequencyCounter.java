@@ -1,53 +1,27 @@
-import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 public class FrequencyCounter {
-    private static class VisualAccumulator {
-        public VisualAccumulator() {
-            StdDraw.setXscale(0, 200);
-            StdDraw.setYscale(0, 10);
-            StdDraw.setPenRadius(0.005);
-        }
-
-        public void addDataValue(int x, int y, double mean) {
-            StdDraw.setPenColor(StdDraw.DARK_GRAY);
-            StdDraw.point(x, y);
-
-            StdDraw.setPenColor(StdDraw.RED);
-            StdDraw.point(x, mean);
-        }
-    }
-
     public static void main(String[] args) {
         int minlen = Integer.parseInt(args[0]);
-        VisualAccumulator va = new VisualAccumulator();
+        VisualAccumulator va = new VisualAccumulator(10000, 10000);
 
         SequentialSearchST<String, Integer> st = new SequentialSearchST<>();
 
-        int totalPutCount = 0;
-        int index = 0;
-
         while (!StdIn.isEmpty()) {
-            index++;
-            int putCount = 0;
-
             String word = StdIn.readString();
             if (word.length() < minlen) {
-                va.addDataValue(index, putCount, (double) totalPutCount / index);
-
                 continue;
             }
 
+            int count;
             if (!st.contains(word)) {
-                st.put(word, 1);
+                count = st.put(word, 1);
             } else {
-                st.put(word, st.get(word) + 1);
+                count = st.put(word, st.get(word) + 1);
             }
 
-            putCount++;
-            totalPutCount += putCount;
-            va.addDataValue(index, putCount, (double) totalPutCount / index);
+            va.addDataValue(count);
         }
 
         String max = " ";
