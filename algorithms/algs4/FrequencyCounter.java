@@ -1,27 +1,31 @@
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.List;
+
 public class FrequencyCounter {
     public static void main(String[] args) {
-        int minlen = Integer.parseInt(args[0]);
-        VisualAccumulator va = new VisualAccumulator(15000, 6000);
+        int minLength = Integer.parseInt(args[0]);
 
         SequentialSearchST<String, Integer> st = new SequentialSearchST<>();
 
         while (!StdIn.isEmpty()) {
             String word = StdIn.readString();
-            if (word.length() < minlen) {
+            if (word.length() < minLength) {
                 continue;
             }
 
-            int count;
             if (!st.contains(word)) {
-                count = st.put(word, 1);
+                st.put(word, 1);
             } else {
-                count = st.put(word, st.get(word) + 1);
+                st.put(word, st.get(word) + 1);
             }
+        }
 
-            va.addDataValue(count);
+        List<Integer> comparisonTimes = st.getComparisonTimes();
+        VisualAccumulator va = new VisualAccumulator(comparisonTimes.size(), 6000);
+        for (Integer comparisonTime : comparisonTimes) {
+            va.addDataValue(comparisonTime);
         }
 
         String max = " ";

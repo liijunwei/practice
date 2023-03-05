@@ -1,7 +1,15 @@
 import edu.princeton.cs.algs4.Queue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SequentialSearchST<Key, Value> {
     private Node first;
+    private final List<Integer> compareTimes = new ArrayList();
+
+    public List<Integer> getComparisonTimes() {
+        return compareTimes;
+    }
 
     private class Node {
         Key key;
@@ -37,25 +45,25 @@ public class SequentialSearchST<Key, Value> {
         return get(key) != null;
     }
 
-    public int put(Key key, Value value) {
+    public void put(Key key, Value value) {
+        int compareTime = 0;
         if (key == null) {
+            compareTimes.add(1);
             throw new IllegalArgumentException("argument to contains() is null");
         }
 
-        int count = 0;
-
         for (Node x = first; x != null; x = x.next) {
-            count++;
+            compareTime++;
 
             if (key.equals(x.key)) {
                 x.value = value;
-                return count;
+                compareTimes.add(compareTime);
             }
         }
 
         first = new Node(key, value, first); // 未命中，将新节点插入链表头
 
-        return count;
+        compareTimes.add(compareTime);
     }
 
     // TODO
