@@ -1,0 +1,3 @@
+- book: [A Philosophy of Software Design Paperback](https://www.amazon.com/Philosophy-Software-Design-John-Ousterhout/dp/1732102201)
+- talk: [A Philosophy of Software Design | Talks at Google](https://www.youtube.com/watch?v=bmSAYlu0NcY)
+- post: ["Notes on A Philosophy of Software Design"](https://lethain.com/notes-philosophy-software-design/)
