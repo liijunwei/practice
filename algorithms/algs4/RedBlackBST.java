@@ -76,8 +76,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 
     private Node put(Node h, Key key, Value value) {
         if (h == null) {
-            return new Node(key, value, 1, RED)
-
+            return new Node(key, value, 1, RED);
         }
 
         int cmp = key.compareTo(h.key);
