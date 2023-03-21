@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.StdOut;
+
 public class RedBlackBST<Key extends Comparable<Key>, Value> {
     private Node root;
     private static final boolean RED = true;
@@ -104,5 +106,19 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         h.N = size(h.left) + size(h.right) + 1;
 
         return h;
+    }
+
+    public void print() {
+        print(root);
+    }
+
+    private void print(Node x) {
+        if(x == null) {
+            return;
+        }
+
+        print(x.left);
+        StdOut.println(x.key);
+        print(x.right);
     }
 }
