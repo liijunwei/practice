@@ -1,4 +1,7 @@
+import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.StdOut;
+
+import java.util.NoSuchElementException;
 
 public class RedBlackBST<Key extends Comparable<Key>, Value> {
     private Node root;
@@ -113,7 +116,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private void print(Node x) {
-        if(x == null) {
+        if (x == null) {
             return;
         }
 
@@ -140,5 +143,57 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         } else {
             return x.value;
         }
+    }
+
+    public boolean contains(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to contains() is null");
+        return get(key) != null;
+    }
+
+    public Iterable<Key> keys() {
+        if (isEmpty()) return new Queue<Key>();
+        return keys(min(), max());
+    }
+
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    private Iterable<Key> keys(Key lo, Key hi) {
+        if (lo == null) throw new IllegalArgumentException("first argument to keys() is null");
+        if (hi == null) throw new IllegalArgumentException("second argument to keys() is null");
+
+        Queue<Key> queue = new Queue<Key>();
+        keys(this.root, queue, lo, hi);
+        return queue;
+    }
+
+    private void keys(Node x, Queue<Key> queue, Key lo, Key hi) {
+        if (x == null) return;
+        int cmplo = lo.compareTo(x.key);
+        int cmphi = hi.compareTo(x.key);
+        if (cmplo < 0) keys(x.left, queue, lo, hi);
+        if (cmplo <= 0 && cmphi >= 0) queue.enqueue(x.key);
+        if (cmphi > 0) keys(x.right, queue, lo, hi);
+    }
+
+    public Key min() {
+        if (isEmpty()) throw new NoSuchElementException("calls min() with empty symbol table");
+        return min(this.root).key;
+    }
+
+    private Node min(Node x) {
+        if (x.left == null) return x;
+        else return min(x.left);
+    }
+
+    public Key max() {
+        if (isEmpty()) throw new NoSuchElementException("calls max() with empty symbol table");
+        return max(this.root).key;
+    }
+
+    private Node max(Node x) {
+        if (x.right == null) return x;
+        else return max(x.right);
     }
 }

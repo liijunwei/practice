@@ -246,3 +246,9 @@ FrequencyCounterForBST:
 	java FrequencyCounterForBST 8  < data/tale.txt
 	java FrequencyCounterForBST 10 < data/leipzig1M.txt # takes 4.288s, much much faster
 
+FrequencyCounterForRedBlackBST:
+	javac $(JAVA_CLASSPATH) FrequencyCounterForRedBlackBST.java
+	java FrequencyCounterForRedBlackBST 1  < data/tinyTale.txt
+	java FrequencyCounterForRedBlackBST 8  < data/tale.txt
+	java FrequencyCounterForRedBlackBST 10 < data/leipzig1M.txt # takes 4.022s
+
