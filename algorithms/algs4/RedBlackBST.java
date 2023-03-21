@@ -68,4 +68,42 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
             return x.N;
         }
     }
+
+    public void put(Key key, Value value) {
+        root = put(root, key, value);
+        root.color = BLACK;
+    }
+
+    private Node put(Node h, Key key, Value value) {
+        if (h == null) {
+            return new Node(key, value, 1, RED)
+
+        }
+
+        int cmp = key.compareTo(h.key);
+
+        if (cmp < 0) {
+            h.left = put(h.left, key, value);
+        } else if (cmp > 0) {
+            h.right = put(h.right, key, value);
+        } else {
+            h.value = value;
+        }
+
+        if (isRed(h.right) && !isRed(h.left)) {
+            h = rotateLeft(h);
+        }
+
+        if (isRed(h.left) && isRed(h.left.left)) {
+            h = rotateRight(h);
+        }
+
+        if (isRed(h.left) && isRed(h.right)) {
+            flipColors(h);
+        }
+
+        h.N = size(h.left) + size(h.right) + 1;
+
+        return h;
+    }
 }
