@@ -51,6 +51,16 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         return x;
     }
 
+    void flipColors(Node h) {
+        h.color = RED;
+        h.left.color = BLACK;
+        h.right.color = BLACK;
+    }
+
+    private int size() {
+        return size(root);
+    }
+
     private int size(Node x) {
         if (x == null) {
             return 0;
