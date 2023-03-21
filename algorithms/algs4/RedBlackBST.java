@@ -121,4 +121,24 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         StdOut.println(x.key);
         print(x.right);
     }
+
+    public Value get(Key key) {
+        return get(this.root, key);
+    }
+
+    private Value get(Node x, Key key) {
+        if (x == null) {
+            return null;
+        }
+
+        int cmp = key.compareTo(x.key);
+
+        if (cmp < 0) {
+            return get(x.left, key);
+        } else if (cmp > 0) {
+            return get(x.right, key);
+        } else {
+            return x.value;
+        }
+    }
 }
