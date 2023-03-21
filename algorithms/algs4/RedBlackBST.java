@@ -57,7 +57,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         h.right.color = BLACK;
     }
 
-    private int size() {
+    public int size() {
         return size(root);
     }
 
