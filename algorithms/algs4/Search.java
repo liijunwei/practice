@@ -12,7 +12,9 @@ public class Search {
         this.quickUnion = new WeightedQuickUnion(G.V());
         for (int v = 0; v < G.V(); v++) {
             for (int w : G.adj(v)) {
-                quickUnion.union(v, w);
+                if (!quickUnion.connected(v, w)) {
+                    quickUnion.union(v, w);
+                }
             }
         }
     }
