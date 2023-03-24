@@ -2,7 +2,7 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class SearchTest {
     @Test
@@ -13,20 +13,20 @@ public class SearchTest {
 
         Search search = new Search(G, s);
 
-        for(int v =0; v < G.V();v++){
-            if(search.marked(v)){
-                StdOut.print(v+" ");
+        for (int v = 0; v < G.V(); v++) {
+            if (search.marked(v)) {
+                StdOut.print(v + " ");
             }
         }
         StdOut.println();
 
-        if(search.count() !=G.V()){
+        if (search.count() != G.V()) {
             StdOut.print("NOT ");
         }
 
         StdOut.println("connected");
 
-        assertTrue(true);
+        assertEquals(7, search.count());
     }
 
     @Test
@@ -37,19 +37,19 @@ public class SearchTest {
 
         Search search = new Search(G, s);
 
-        for(int v =0; v < G.V();v++){
-            if(search.marked(v)){
-                StdOut.print(v+" ");
+        for (int v = 0; v < G.V(); v++) {
+            if (search.marked(v)) {
+                StdOut.print(v + " ");
             }
         }
         StdOut.println();
 
-        if(search.count() !=G.V()){
+        if (search.count() != G.V()) {
             StdOut.print("NOT ");
         }
 
         StdOut.println("connected");
 
-        assertTrue(true);
+        assertEquals(4, search.count());
     }
 }

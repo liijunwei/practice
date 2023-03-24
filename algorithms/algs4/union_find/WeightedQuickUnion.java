@@ -70,6 +70,10 @@ public class WeightedQuickUnion {
         count--;
     }
 
+    public int countFor(int v) {
+        return sz[find(v)];
+    }
+
     public String toString() {
         return Arrays.toString(id);
     }

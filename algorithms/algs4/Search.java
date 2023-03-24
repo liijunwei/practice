@@ -24,6 +24,6 @@ public class Search {
     }
 
     public int count() {
-        return 0;
+        return quickUnion.countFor(s);
     }
 }
