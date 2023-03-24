@@ -263,3 +263,6 @@ GraphTest:
 	java Graph data/mediumG.txt
 # 	java Graph data/largeG.txt
 
+SearchTest:
+	javac $(JAVA_CLASSPATH) SearchTest.java
+	java org.junit.runner.JUnitCore SearchTest
