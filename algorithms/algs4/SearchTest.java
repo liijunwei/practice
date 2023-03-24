@@ -5,13 +5,11 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class SearchTest {
-    @Test
-    public void testSearch0() {
-        In in = new In("data/tinyG.txt");
+    private Search searcherFor(String inputFile, int source) {
+        In in = new In(inputFile);
         Graph G = new Graph(in);
-        int s = 0;
 
-        Search search = new Search(G, s);
+        Search search = new Search(G, source);
 
         for (int v = 0; v < G.V(); v++) {
             if (search.marked(v)) {
@@ -26,30 +24,14 @@ public class SearchTest {
 
         StdOut.println("connected");
 
-        assertEquals(7, search.count());
+        return search;
     }
 
     @Test
-    public void testSearch9() {
-        In in = new In("data/tinyG.txt");
-        Graph G = new Graph(in);
-        int s = 9;
+    public void testSearch() {
+        assertEquals(7, searcherFor("data/tinyG.txt", 0).count());
+        assertEquals(4, searcherFor("data/tinyG.txt", 9).count());
+        assertEquals(2, searcherFor("data/tinyG.txt", 7).count());
 
-        Search search = new Search(G, s);
-
-        for (int v = 0; v < G.V(); v++) {
-            if (search.marked(v)) {
-                StdOut.print(v + " ");
-            }
-        }
-        StdOut.println();
-
-        if (search.count() != G.V()) {
-            StdOut.print("NOT ");
-        }
-
-        StdOut.println("connected");
-
-        assertEquals(4, search.count());
     }
 }
