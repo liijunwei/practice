@@ -252,3 +252,14 @@ FrequencyCounterForRedBlackBST:
 	java FrequencyCounterForRedBlackBST 8  < data/tale.txt
 	java FrequencyCounterForRedBlackBST 10 < data/leipzig1M.txt # takes 4.022s
 
+download_ch4.1.2: setup_folders
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/tinyG.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/mediumG.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/largeG.txt
+
+GraphTest:
+	javac $(JAVA_CLASSPATH) Graph.java
+	java Graph data/tinyG.txt
+	java Graph data/mediumG.txt
+# 	java Graph data/largeG.txt
+
