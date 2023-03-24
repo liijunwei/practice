@@ -32,6 +32,6 @@ public class SearchTest {
         assertEquals(7, searcherFor("data/tinyG.txt", 0).count());
         assertEquals(4, searcherFor("data/tinyG.txt", 9).count());
         assertEquals(2, searcherFor("data/tinyG.txt", 7).count());
-
+        assertEquals(searcherFor("data/tinyG.txt", 7).count(), searcherFor("data/tinyG.txt", 8).count());
     }
 }
