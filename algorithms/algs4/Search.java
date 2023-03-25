@@ -1,17 +1,17 @@
 import union_find.WeightedQuickUnion;
 
 public class Search {
-    private final Graph G;
+    private final Graph g;
     private final int s;
     private final WeightedQuickUnion quickUnion;
 
-    public Search(Graph G, int s) {
-        this.G = G;
+    public Search(Graph g, int s) {
+        this.g = g;
         this.s = s;
 
-        this.quickUnion = new WeightedQuickUnion(G.V());
-        for (int v = 0; v < G.V(); v++) {
-            for (int w : G.adj(v)) {
+        this.quickUnion = new WeightedQuickUnion(g.V());
+        for (int v = 0; v < g.V(); v++) {
+            for (int w : g.adj(v)) {
                 if (!quickUnion.connected(v, w)) {
                     quickUnion.union(v, w);
                 }

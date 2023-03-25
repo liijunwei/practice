@@ -7,18 +7,18 @@ import static org.junit.Assert.assertEquals;
 public class DepthFirstSearchTest {
     private DepthFirstSearch searcherFor(String inputFile, int source) {
         In in = new In(inputFile);
-        Graph G = new Graph(in);
+        Graph g = new Graph(in);
 
-        DepthFirstSearch search = new DepthFirstSearch(G, source);
+        DepthFirstSearch search = new DepthFirstSearch(g, source);
 
-        for (int v = 0; v < G.V(); v++) {
+        for (int v = 0; v < g.V(); v++) {
             if (search.marked(v)) {
                 StdOut.print(v + " ");
             }
         }
         StdOut.println();
 
-        if (search.count() != G.V()) {
+        if (search.count() != g.V()) {
             StdOut.print("NOT ");
         }
 
