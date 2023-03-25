@@ -266,3 +266,7 @@ GraphTest:
 SearchTest:
 	javac $(JAVA_CLASSPATH) SearchTest.java
 	java org.junit.runner.JUnitCore SearchTest
+
+PathsTest:
+	javac $(JAVA_CLASSPATH) Paths.java
+	java Paths data/tinyG.txt 0
