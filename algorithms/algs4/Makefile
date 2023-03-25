@@ -254,6 +254,7 @@ FrequencyCounterForRedBlackBST:
 
 download_ch4.1.2: setup_folders
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/tinyG.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/tinyCG.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/mediumG.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/largeG.txt
 
@@ -269,4 +270,4 @@ SearchTest:
 
 DepthFirstPathsTest:
 	javac $(JAVA_CLASSPATH) DepthFirstPaths.java
-	java DepthFirstPaths data/tinyG.txt 0
+	java DepthFirstPaths data/tinyCG.txt 0
