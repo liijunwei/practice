@@ -1,5 +1,5 @@
 public class DepthFirstSearch {
-    private boolean[] marked;
+    private final boolean[] marked;
     private int count;
 
     public DepthFirstSearch(Graph g, int s) {
