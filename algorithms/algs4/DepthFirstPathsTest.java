@@ -1,13 +1,11 @@
-import edu.princeton.cs.algs4.In;
-import edu.princeton.cs.algs4.StdOut;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class PathsTest {
+public class DepthFirstPathsTest {
     @Test
     public void testPath() {
-        Paths.pathFor("data/tinyG.txt", 0);
+        DepthFirstPaths.pathFor("data/tinyG.txt", 0);
         assertEquals(2, 2);
     }
 }
