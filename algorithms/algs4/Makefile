@@ -277,4 +277,5 @@ BreadthFirstPathsTest:
 	java BreadthFirstPaths data/tinyCG.txt 0
 	java BreadthFirstPaths data/tinyCG.txt 1
 	java BreadthFirstPaths data/tinyCG.txt 2
-	java BreadthFirstPaths data/tinyCG.txt 3
+	java BreadthFirstPaths data/mediumG.txt 3 | grep "to 88:"
+	java DepthFirstPaths data/mediumG.txt 3 | grep "to 88:"
