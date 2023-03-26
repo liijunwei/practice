@@ -23,6 +23,8 @@ class DepthFirstSearch
 
     @count += 1
 
+    # 不能改为 graph.adj(v).select {|w| !@marked[w]}.each {|w| dfs(graph, w)}
+    # 还没看懂原因，大致是还没理解这里递归的含义和执行过程
     graph.adj(v).each do |w|
       dfs(graph, w) if !@marked[w]
     end
