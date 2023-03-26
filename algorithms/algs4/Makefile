@@ -274,6 +274,7 @@ DepthFirstPathsTest:
 
 BreadthFirstPathsTest:
 	javac $(JAVA_CLASSPATH) BreadthFirstPaths.java
+	javac $(JAVA_CLASSPATH) DepthFirstPaths.java
 	java BreadthFirstPaths data/tinyCG.txt 0
 	java BreadthFirstPaths data/tinyCG.txt 1
 	java BreadthFirstPaths data/tinyCG.txt 2
