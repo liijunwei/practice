@@ -280,3 +280,10 @@ BreadthFirstPathsTest:
 	java BreadthFirstPaths data/tinyCG.txt 2
 	java BreadthFirstPaths data/mediumG.txt 3 | grep "to 88:"
 	java DepthFirstPaths data/mediumG.txt 3 | grep "to 88:"
+
+install_rspec:
+	@which rspec > /dev/null || gem install rspec
+
+rb_grapth_tests: install_rspec
+	rspec ruby-lab/bit_matrix_spec.rb
+	rspec ruby-lab/depth_first_search.rb
