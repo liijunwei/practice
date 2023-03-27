@@ -287,3 +287,7 @@ install_rspec:
 rb_grapth_tests: install_rspec
 	rspec ruby-lab/bit_matrix_spec.rb
 	rspec ruby-lab/depth_first_search.rb
+
+CCTest:
+	javac $(JAVA_CLASSPATH) CCTest.java
+	java CCTest data/tinyG.txt

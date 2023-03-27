@@ -8,8 +8,10 @@ public class CC {
         this.id = new int[g.V()];
 
         for (int s = 0; s < g.V(); s++) {
-            dfs(g, s);
-            count++;
+            if (!marked[s]) {
+                dfs(g, s);
+                count++;
+            }
         }
     }
 
