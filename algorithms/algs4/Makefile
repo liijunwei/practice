@@ -257,6 +257,7 @@ download_ch4.1.2: setup_folders
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/tinyCG.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/mediumG.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/largeG.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/movies.txt
 
 GraphTest:
 	javac $(JAVA_CLASSPATH) Graph.java
@@ -291,3 +292,8 @@ rb_grapth_tests: install_rspec
 CCTest:
 	javac $(JAVA_CLASSPATH) CCTest.java
 	java CCTest data/tinyG.txt
+
+CycleTest:
+	javac $(JAVA_CLASSPATH) Cycle.java
+	java Cycle data/tinyG.txt
+	java Cycle data/tinyCG.txt
