@@ -71,7 +71,7 @@ public class Graph {
         return count / 2; // 每条边被记两次
     }
 
-    private void addEdge(int v, int w) {
+    public void addEdge(int v, int w) {
         this.adj[v].add(w);
         this.adj[w].add(v);
         this.E++;

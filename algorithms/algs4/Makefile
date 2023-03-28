@@ -302,3 +302,7 @@ TwoColorTest:
 	javac $(JAVA_CLASSPATH) TwoColor.java
 	java TwoColor data/tinyG.txt
 	java TwoColor data/tinyCG.txt
+
+SymbolGraphTest:
+	javac $(JAVA_CLASSPATH) SymbolGraph.java
+	java SymbolGraph data/movies.txt "/"
