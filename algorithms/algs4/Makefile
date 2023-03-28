@@ -297,3 +297,8 @@ CycleTest:
 	javac $(JAVA_CLASSPATH) Cycle.java
 	java Cycle data/tinyG.txt
 	java Cycle data/tinyCG.txt
+
+TwoColorTest:
+	javac $(JAVA_CLASSPATH) TwoColor.java
+	java TwoColor data/tinyG.txt
+	java TwoColor data/tinyCG.txt
