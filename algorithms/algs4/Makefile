@@ -311,3 +311,9 @@ SymbolGraphTest:
 	echo JFK | java SymbolGraph data/routes.txt " "
 	echo LAX | java SymbolGraph data/routes.txt " "
 	echo DFW | java SymbolGraph data/routes.txt " "
+
+DegreeOfSeparationTest:
+	javac $(JAVA_CLASSPATH) DegreeOfSeparation.java
+	echo JFK | java DegreeOfSeparation data/routes.txt " " JFK
+	echo LAX | java DegreeOfSeparation data/routes.txt " " JFK
+	echo DFW | java DegreeOfSeparation data/routes.txt " " JFK
