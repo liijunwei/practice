@@ -257,6 +257,7 @@ download_ch4.1.2: setup_folders
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/tinyCG.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/mediumG.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/largeG.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/routes.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/41graph/movies.txt
 
 GraphTest:
@@ -305,4 +306,8 @@ TwoColorTest:
 
 SymbolGraphTest:
 	javac $(JAVA_CLASSPATH) SymbolGraph.java
-	java SymbolGraph data/movies.txt "/"
+	echo "Bacon, Kevin"   | java SymbolGraph data/movies.txt "/"
+	echo "Tin Men (1987)" | java SymbolGraph data/movies.txt "/"
+	echo JFK | java SymbolGraph data/routes.txt " "
+	echo LAX | java SymbolGraph data/routes.txt " "
+	echo DFW | java SymbolGraph data/routes.txt " "
