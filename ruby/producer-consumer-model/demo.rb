@@ -1,7 +1,4 @@
-LOCK = Mutex.new
-
 $stdout.sync = true
-$stdin.sync = true
 
 class Counter
   attr_reader :mutex
