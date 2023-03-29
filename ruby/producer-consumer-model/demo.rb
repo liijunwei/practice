@@ -56,9 +56,9 @@ def t_consume(counter)
 end
 
 def main
-  n = ARGV[0].to_i
+  n = ARGV[0].to_i # nesting num
   c = Counter.new(n)
-  t = ARGV[1].to_i
+  t = ARGV[1].to_i # thread num
 
   threads = []
 
