@@ -2,38 +2,65 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"strconv"
+	"sync"
 	"time"
 )
 
-var counter = 0
+type Counter struct {
+	m     sync.Mutex
+	count uint64
+}
 
-// WIP
-func t_producer() {
+func (c *Counter) t_producer(n uint64) {
 	for {
-		fmt.Print("(")
-		counter += 1
+		c.m.Lock()
+
+		if c.can_produce(n) {
+			c.count += 1
+			fmt.Print("(")
+		}
+
+		c.m.Unlock()
 	}
 }
 
-func t_consumer() {
+func (c *Counter) t_consumer() {
 	for {
-		fmt.Print(")")
-		counter -= 1
+		c.m.Lock()
+
+		if c.can_consume() {
+			c.count -= 1
+			fmt.Print(")")
+		}
+
+		c.m.Unlock()
 	}
+}
+
+func (c *Counter) can_produce(n uint64) bool {
+	return c.count < n
+}
+
+func (c *Counter) can_consume() bool {
+	return c.count > 0
 }
 
 func main() {
-	go func() {
-		t_producer()
-	}()
+	var c Counter
+	var n, _ = strconv.Atoi(os.Args[1])
+	var T, _ = strconv.Atoi(os.Args[2])
 
-	go func() {
-		t_producer()
-	}()
+	for i := 0; i < T; i++ {
+		go func() {
+			c.t_producer(uint64(n))
+		}()
 
-	go func() {
-		t_consumer()
-	}()
+		go func() {
+			c.t_consumer()
+		}()
+	}
 
-	time.Sleep(10 * time.Second)
+	time.Sleep(3 * time.Second)
 }

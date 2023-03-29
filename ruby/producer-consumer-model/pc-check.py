@@ -2,10 +2,11 @@
 
 import sys
 
-BATCH_SIZE = 10
+BATCH_SIZE = 1000000
 
 num_of_nest = int(sys.argv[1])
-count, checked = 0, 0
+count = 0
+checked = 0
 
 while True:
     for ch in sys.stdin.read(BATCH_SIZE):
