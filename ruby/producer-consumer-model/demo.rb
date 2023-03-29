@@ -4,7 +4,7 @@ $stdout.sync = true
 $stdin.sync = true
 
 def can_produce?
-  @count < @num_of_nest
+  @count < NUM_OF_NEST
 end
 
 def can_consume?
@@ -34,7 +34,7 @@ def t_consumer
 end
 
 @count = 0
-@num_of_nest = ARGV[0].to_i
+NUM_OF_NEST = ARGV[0].to_i
 num_of_thread = ARGV[1].to_i
 
 threads = []

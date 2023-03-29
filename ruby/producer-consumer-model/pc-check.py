@@ -2,9 +2,9 @@
 
 import sys
 
-BATCH_SIZE = 100000
+BATCH_SIZE = 10
 
-limit = int(sys.argv[1])
+num_of_nest = int(sys.argv[1])
 count, checked = 0, 0
 
 while True:
@@ -13,6 +13,6 @@ while True:
             case '(': count += 1
             case ')': count -= 1
             case _: assert 0
-        assert 0 <= count <= limit
+        assert 0 <= count <= num_of_nest
     checked += BATCH_SIZE
     print(f'{checked} OK')
