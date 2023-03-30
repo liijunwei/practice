@@ -2,8 +2,8 @@
 
 import sys
 
+n = int(sys.argv[1])
 batch_size = int(sys.argv[2])
-nesting_size = int(sys.argv[1])
 count = 0
 checked = 0
 
@@ -13,6 +13,6 @@ while True:
             case '(': count += 1
             case ')': count -= 1
             case _: assert 0
-        assert 0 <= count <= nesting_size
+        assert 0 <= count <= n
     checked += batch_size
     print(f'{checked} OK')
