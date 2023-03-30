@@ -2,9 +2,11 @@ $stdout.sync = true
 
 class Counter
   attr_reader :mutex
+  attr_reader :cv
 
   def initialize(n)
     @mutex = Mutex.new
+    @cv = ConditionVariable.new
     @count = 0
     @n = n
   end
@@ -33,6 +35,9 @@ def t_produce(counter)
     if counter.can_produce?
       counter.increment
       print('(')
+      counter.cv.broadcast
+    else
+      counter.cv.wait(counter.mutex)
     end
 
     counter.mutex.unlock
@@ -46,6 +51,9 @@ def t_consume(counter)
     if counter.can_consume?
       counter.decrement
       print(')')
+      counter.cv.broadcast
+    else
+      counter.cv.wait(counter.mutex)
     end
 
     counter.mutex.unlock
