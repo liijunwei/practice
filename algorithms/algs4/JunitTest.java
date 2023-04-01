@@ -2,7 +2,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestJunit {
+public class JunitTest {
     @Test
     public void testSetup() {
         String str = "I am done with Junit setup";

@@ -134,9 +134,11 @@ test_weighted_quick_union: build_weighted_quick_union
 # 	@java $(JAVA_CLASSPATH) WeightedQuickUnion < $(ALGS4_DATA_FOLDER)/mediumUF.txt
 	@time java $(JAVA_CLASSPATH) WeightedQuickUnion < $(ALGS4_DATA_FOLDER)/largeUF.txt # 6 components, 4.636s
 
-test_junit:
-	javac bag_queue_stack/MyQueue.java
-	java org.junit.runner.JUnitCore bag_queue_stack.MyQueue
+JunitTest:
+	javac MyQueue.java
+	java org.junit.runner.JUnitCore MyQueue
+	javac JunitTest.java
+	java org.junit.runner.JUnitCore JunitTest
 
 DoublingRatio:
 	java edu.princeton.cs.algs4.DoublingRatio
