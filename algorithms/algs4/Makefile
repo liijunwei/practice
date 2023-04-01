@@ -1,6 +1,10 @@
 # code
 # https://algs4.cs.princeton.edu/code/
 
+.PHONY: clean
+clean:
+	find . -type f -name '*.class' -delete
+
 TMP_FILE_FOLDER := tmp
 ALGS4_DATA_FOLDER := data
 JAVA_JARS_FOLDER := $(HOME)/java-jars
