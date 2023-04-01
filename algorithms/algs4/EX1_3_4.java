@@ -1,5 +1,3 @@
-package exercises;
-
 import bag_queue_stack.Stack;
 import org.junit.Test;
 
