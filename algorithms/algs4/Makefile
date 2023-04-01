@@ -61,9 +61,9 @@ test_flips_max:
 	@javac $(JAVA_CLASSPATH) FlipsMax.java
 	@java $(JAVA_CLASSPATH) FlipsMax 10000000
 
-test_accumulator:
-	@javac $(JAVA_CLASSPATH) TestAccumulator.java
-	@java $(JAVA_CLASSPATH) TestAccumulator 10000000
+AccumulatorTest:
+	@javac $(JAVA_CLASSPATH) AccumulatorTest.java
+	@java $(JAVA_CLASSPATH) AccumulatorTest 10000000
 
 test_visual_accumulator:
 	@javac $(JAVA_CLASSPATH) TestVisualAccumulator.java
