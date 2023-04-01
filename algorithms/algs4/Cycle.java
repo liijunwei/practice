@@ -24,6 +24,7 @@ public class Cycle {
             if (!marked[w]) {
                 dfs(g, w, v);
             } else if (w != u) {
+//                System.out.printf("has cycle when: v = %2d w = %2d u = %2d\n", v, w, u);
                 hasCycle = true;
             }
         }
