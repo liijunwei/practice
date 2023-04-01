@@ -17,6 +17,7 @@ public class Cycle {
 
     private void dfs(Graph g, int v, int u) {
         marked[v] = true;
+        System.out.printf("%2d is marked, dfs(g, %2d, %2d)\n", v, v, u);
 
         // 理不清楚...
         for (int w : g.adj(v)) {
