@@ -18,6 +18,7 @@ public class Cycle {
     private void dfs(Graph g, int v, int u) {
         marked[v] = true;
 
+        // 理不清楚...
         for (int w : g.adj(v)) {
             if (!marked[w]) {
                 dfs(g, w, v);
