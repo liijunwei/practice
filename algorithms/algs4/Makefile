@@ -330,6 +330,9 @@ download_ch4.2: setup_folders
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/mediumDG.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/largeDG.txt
 
+# 单点可达性: 使用dfs确定是否能从一个顶点到达有向图种的另一个顶点
+# 多点可达性: 使用dfs确定是否能从一个顶点集合到达有向图种的另一个顶点
 DirectedDFSTest:
-	java edu.princeton.cs.algs4.DirectedDFS data/tinyDG.txt 1
-	java edu.princeton.cs.algs4.DirectedDFS data/tinyDG.txt 2
+	java edu.princeton.cs.algs4.DirectedDFS data/tinyDG.txt 1 # 从1出发只能到1
+	java edu.princeton.cs.algs4.DirectedDFS data/tinyDG.txt 2 # 从2出发，能到0 1 2 3 4 5
+	java edu.princeton.cs.algs4.DirectedDFS data/tinyDG.txt 1 2 6 # 从1 2 6出发，能到0 1 2 3 4 5 6 8 9 10 11 12
