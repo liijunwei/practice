@@ -330,6 +330,7 @@ download_ch4.2: setup_folders
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/tinyDAG.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/mediumDG.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/largeDG.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/jobs.txt
 
 # 单点可达性: 使用dfs确定是否能从一个顶点到达有向图种的另一个顶点
 # 多点可达性: 使用dfs确定是否能从一个顶点集合到达有向图种的另一个顶点
@@ -350,4 +351,9 @@ BreadthFirstDirectedPathsTest:
 DirectedCycleTest:
 	java edu.princeton.cs.algs4.DirectedCycle data/tinyDG.txt
 	java edu.princeton.cs.algs4.DirectedCycle data/tinyDAG.txt
+
+# 优先级限制下的调度问题等价于计算有向无环图中所有顶点的拓扑排序
+TopologicalTest:
+	java edu.princeton.cs.algs4.Topological data/jobs.txt "/"
+	java edu.princeton.cs.algs4.Topological data/tinyDAG.txt "/"
 
