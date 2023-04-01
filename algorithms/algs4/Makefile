@@ -327,6 +327,7 @@ DegreeOfSeparationTest:
 
 download_ch4.2: setup_folders
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/tinyDG.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/tinyDAG.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/mediumDG.txt
 	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/largeDG.txt
 
@@ -344,4 +345,9 @@ DepthFirstDirectedPathsTest:
 # 单点最短路径
 BreadthFirstDirectedPathsTest:
 	java edu.princeton.cs.algs4.BreadthFirstDirectedPaths data/tinyDG.txt 3
+
+# 检测有向环
+DirectedCycleTest:
+	java edu.princeton.cs.algs4.DirectedCycle data/tinyDG.txt
+	java edu.princeton.cs.algs4.DirectedCycle data/tinyDAG.txt
 
