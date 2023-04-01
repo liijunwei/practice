@@ -305,9 +305,9 @@ CycleTest:
 	java CycleTest data/tinyCG.txt
 
 TwoColorTest:
-	javac $(JAVA_CLASSPATH) TwoColor.java
-	java TwoColor data/tinyG.txt
-	java TwoColor data/tinyCG.txt
+	javac $(JAVA_CLASSPATH) TwoColorTest.java
+	java TwoColorTest data/tinyG.txt
+	java TwoColorTest data/tinyCG.txt
 
 SymbolGraphTest:
 	javac $(JAVA_CLASSPATH) SymbolGraph.java
