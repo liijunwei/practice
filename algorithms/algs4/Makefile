@@ -21,9 +21,9 @@ setup_folders:
 	mkdir -p $(ALGS4_DATA_FOLDER)
 
 download_jars: setup_folders
-	$(DOWNLOAD_CODE_TO) $(JAVA_JARS_FOLDER) https://algs4.cs.princeton.edu/code/algs4.jar
+	wget --timestamping -O $(JAVA_JARS_FOLDER)/algs4.jar             https://algs4.cs.princeton.edu/code/algs4.jar
 	wget --timestamping -O $(JAVA_JARS_FOLDER)/hamcrest-core-1.3.jar https://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar
-	wget --timestamping -O $(JAVA_JARS_FOLDER)/junit-4.13.2.jar https://search.maven.org/remotecontent?filepath=junit/junit/4.13.2/junit-4.13.2.jar
+	wget --timestamping -O $(JAVA_JARS_FOLDER)/junit-4.13.2.jar      https://search.maven.org/remotecontent?filepath=junit/junit/4.13.2/junit-4.13.2.jar
 
 # see README.md
 download_data: setup_folders
@@ -324,3 +324,12 @@ DegreeOfSeparationTest:
 	echo JFK | java DegreeOfSeparation data/routes.txt " " JFK
 	echo LAX | java DegreeOfSeparation data/routes.txt " " JFK
 	echo DFW | java DegreeOfSeparation data/routes.txt " " JFK
+
+download_ch4.2: setup_folders
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/tinyDG.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/mediumDG.txt
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/42digraph/largeDG.txt
+
+DirectedDFSTest:
+	java edu.princeton.cs.algs4.DirectedDFS data/tinyDG.txt 1
+	java edu.princeton.cs.algs4.DirectedDFS data/tinyDG.txt 2
