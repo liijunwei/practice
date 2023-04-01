@@ -300,9 +300,9 @@ CCTest:
 	java CCTest data/tinyG.txt
 
 CycleTest:
-	javac $(JAVA_CLASSPATH) Cycle.java
-	java Cycle data/tinyG.txt
-	java Cycle data/tinyCG.txt
+	javac $(JAVA_CLASSPATH) CycleTest.java
+	java CycleTest data/tinyG.txt
+	java CycleTest data/tinyCG.txt
 
 TwoColorTest:
 	javac $(JAVA_CLASSPATH) TwoColor.java
