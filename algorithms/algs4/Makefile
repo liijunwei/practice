@@ -336,3 +336,12 @@ DirectedDFSTest:
 	java edu.princeton.cs.algs4.DirectedDFS data/tinyDG.txt 1 # 从1出发只能到1
 	java edu.princeton.cs.algs4.DirectedDFS data/tinyDG.txt 2 # 从2出发，能到0 1 2 3 4 5
 	java edu.princeton.cs.algs4.DirectedDFS data/tinyDG.txt 1 2 6 # 从1 2 6出发，能到0 1 2 3 4 5 6 8 9 10 11 12
+
+# 单点有向路径
+DepthFirstDirectedPathsTest:
+	java edu.princeton.cs.algs4.DepthFirstDirectedPaths data/tinyDG.txt 3
+
+# 单点最短路径
+BreadthFirstDirectedPathsTest:
+	java edu.princeton.cs.algs4.BreadthFirstDirectedPaths data/tinyDG.txt 3
+
