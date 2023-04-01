@@ -310,12 +310,12 @@ TwoColorTest:
 	java TwoColorTest data/tinyCG.txt
 
 SymbolGraphTest:
-	javac $(JAVA_CLASSPATH) SymbolGraph.java
-	echo "Bacon, Kevin"   | java SymbolGraph data/movies.txt "/"
-	echo "Tin Men (1987)" | java SymbolGraph data/movies.txt "/"
-	echo JFK | java SymbolGraph data/routes.txt " "
-	echo LAX | java SymbolGraph data/routes.txt " "
-	echo DFW | java SymbolGraph data/routes.txt " "
+	javac $(JAVA_CLASSPATH) SymbolGraphTest.java
+	echo "Bacon, Kevin"   | java SymbolGraphTest data/movies.txt "/"
+	echo "Tin Men (1987)" | java SymbolGraphTest data/movies.txt "/"
+	echo JFK | java SymbolGraphTest data/routes.txt " "
+	echo LAX | java SymbolGraphTest data/routes.txt " "
+	echo DFW | java SymbolGraphTest data/routes.txt " "
 
 DegreeOfSeparationTest:
 	javac $(JAVA_CLASSPATH) DegreeOfSeparation.java
