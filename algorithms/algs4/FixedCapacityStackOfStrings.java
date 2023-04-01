@@ -1,5 +1,3 @@
-package bag_queue_stack;
-
 public class FixedCapacityStackOfStrings {
     private String[] stackEntries;
     private int size;

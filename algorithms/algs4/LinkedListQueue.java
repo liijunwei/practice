@@ -1,5 +1,3 @@
-package bag_queue_stack;
-
 import java.util.Iterator;
 
 public class LinkedListQueue<Item> implements Iterable<Item> {

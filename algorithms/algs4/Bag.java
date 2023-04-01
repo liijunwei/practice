@@ -1,5 +1,3 @@
-package bag_queue_stack;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 

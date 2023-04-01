@@ -1,5 +1,3 @@
-package bag_queue_stack;
-
 import org.junit.Test;
 
 import java.util.Iterator;

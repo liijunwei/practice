@@ -1,5 +1,3 @@
-import bag_queue_stack.Stack;
-
 /**
  * 2.4.2.3 MaxPQ linked list implementation
  *

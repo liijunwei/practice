@@ -1,10 +1,10 @@
-package bag_queue_stack;
+import java.util.Iterator;
 
-public class FixedCapacityStack<Item> {
+public class ResizingArrayStack<Item> implements Iterable<Item> {
     private Item[] stackEntries;
     private int size;
 
-    public FixedCapacityStack(int cap) {
+    public ResizingArrayStack(int cap) {
         stackEntries = (Item[]) new Object[cap]; // 强制类型转换
     }
 
@@ -38,10 +38,31 @@ public class FixedCapacityStack<Item> {
     private void resize(int max) {
         Item[] temp = (Item[]) new Object[max];
 
-        for (int i = 0; i < size; i++) {
-            temp[i] = stackEntries[i];
+        if (size >= 0) {
+            System.arraycopy(stackEntries, 0, temp, 0, size);
         }
 
         stackEntries = temp;
+    }
+
+    @Override
+    public Iterator<Item> iterator() {
+        return new ReverseArrayIterator();
+    }
+
+    private class ReverseArrayIterator implements Iterator<Item> {
+        // 支持LIFO的迭代(遍历)
+        private int i = size;
+
+        public boolean hasNext() {
+            return i > 0;
+        }
+
+        public Item next() {
+            return stackEntries[--i];
+        }
+
+        public void remove() {
+        }
     }
 }
