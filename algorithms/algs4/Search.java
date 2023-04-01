@@ -1,5 +1,3 @@
-import union_find.WeightedQuickUnion;
-
 public class Search {
     private final Graph g;
     private final int s;
