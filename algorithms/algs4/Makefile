@@ -1,6 +1,7 @@
 # code
 # https://algs4.cs.princeton.edu/code/
 
+# remember to run `idea -> build -> rebuild project` after running `make clean`
 .PHONY: clean
 clean:
 	find . -type f -name '*.class' -delete

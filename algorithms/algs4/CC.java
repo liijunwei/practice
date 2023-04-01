@@ -1,3 +1,6 @@
+/**
+ * 处理一幅图中的连通分量
+ */
 public class CC {
     private final boolean[] marked;
     private int[] id;
