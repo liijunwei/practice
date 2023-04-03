@@ -1,3 +1,5 @@
+-- http://learnyouahaskell.com/starting-out
+
 doubleMe x = x + x
 tripleMe x = x * 3
 -- doubleUs x y = x*2 + y*2
