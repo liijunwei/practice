@@ -21,4 +21,19 @@
     + **if you invest a little extra time to refactor and improve the system design, you’ll end up with a cleaner system.**
     + **If you’re not making the design better, you are probably making it worse.**
 
++ an investment mindset sometimes conflicts with the realities of commercial software development.
+    + 理想和现实可能会有矛盾
++ Nonetheless, you should resist these compromises as much as possible. Ask yourself “Is this the best I can possibly do to create a clean system design, given my current constraints?”
+    + 但是无论如何，应该尽量避免轻易的妥协
 
++ Comments belong in the code, not the commit log
+    + 注释应该写在代码里，而不是commit信息里
+
++ maintaining comments: avoid duplication
++ try to document each design decision exactly once.
++ find the most **obvious** single place to put the documentation.
+
++ If information is already documented someplace outside your program, don’t repeat the documentation inside the program; just reference the external documentation.
+
++ One final thought on maintaining documentation: comments are easier to maintain if they are higher-level and more abstract than the code.
+    + describe the interface, instead of the implementation
