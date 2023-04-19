@@ -8,10 +8,6 @@ class SuffixArray
     @suffixes = get_suffixes_of(text)
   end
 
-  def index(i)
-    suffixes[i][:k]
-  end
-
   def lcp(i)
     lcp_suffix(suffixes[i][:v], suffixes[i - 1][:v])
   end
@@ -49,10 +45,12 @@ class LRS
     lrs = ""
 
     n.times do |i|
+      next if i == 0
+
       length = sa.lcp(i)
 
       if(length > lrs.size)
-        lrs = sa.select(i)[0..length]
+        lrs = sa.select(i)[0...length]
       end
     end
 

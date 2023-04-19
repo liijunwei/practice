@@ -363,3 +363,6 @@ download_ch6: setup_folders
 lrs_test:
 	ruby longest_repeat_string.rb < data/abra.txt
 	ruby longest_repeat_string.rb < data/tinyTale.txt
+	javac $(JAVA_CLASSPATH) LRS.java
+	java LRS < data/abra.txt
+	java LRS < data/tinyTale.txt
