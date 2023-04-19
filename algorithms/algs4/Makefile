@@ -357,3 +357,9 @@ TopologicalTest:
 	java edu.princeton.cs.algs4.Topological data/jobs.txt "/"
 	java edu.princeton.cs.algs4.Topological data/tinyDAG.txt "/"
 
+download_ch6: setup_folders
+	@$(DOWNLOAD_CODE_TO) $(ALGS4_DATA_FOLDER) https://algs4.cs.princeton.edu/63suffix/abra.txt
+
+lrs_test:
+	ruby longest_repeat_string.rb < data/abra.txt
+	ruby longest_repeat_string.rb < data/tinyTale.txt
