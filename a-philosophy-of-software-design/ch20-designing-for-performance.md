@@ -44,8 +44,30 @@
 
 + If the changes didn’t make a measurable difference in performance, then back them out (unless they made the system simpler). There’s no point in retaining complexity unless it provides a significant speedup.
 
-### Design around the critical path
+### ch20.3 Design around the critical path
 
++ **The best way to improve its performance is with a “fundamental” change**, such as introducing a cache, or using a different algorithmic approach (balanced tree vs. list, for instance).
++ If you can identify a fundamental fix, then you can implement it using the design techniques discussed in previous chapters.
 
++ core issue: how to redesign an existing piece of code so that it runs faster.
+    + This should be your last resort, and it shouldn’t happen often, but there are cases where it can make a big difference.
+    + The key idea is to design the code around the critical path.
+    不过这应该是你最后的手段，我们应该尽可能避免这种情况
 
++ Start off by asking yourself what is the smallest amount of code that must be executed to carry out the desired task in the common case.
++ consider only the data needed for the critical path, and assume whatever data structure is most convenient for the critical path.
++ Assume that you could completely redesign the system in order to minimize the code that must be executed for the critical path. Let’s call this code “the ideal.”
+
++ The next step is to look for a new design that comes as close as possible to the ideal while still having a clean structure.
++ "In my experience it’s almost always possible to find a design that is clean and simple, yet comes very close to the ideal."
++ One of the most important things that happens in this process is to remove special cases from the critical path.
++ When redesigning for performance, try to minimize the number of special cases you must check.
++ Performance isn’t as important for special cases, so you can structure the special- case code for simplicity rather than performance.
+
++ **The most important overall lesson from this chapter is that clean design and high performance are compatible.**
+
++ Complicated code tends to be slow because it does extraneous or redundant work.
++ On the other hand, if you write clean, simple code, your system will probably be fast enough that you don’t have to worry much about performance in the first place.
+
++ *In the few cases where you do need to optimize performance, the key is simplicity again: find the critical paths that are most important for performance and make them as simple as possible.*
 
