@@ -48,3 +48,30 @@ quicksort (x:xs) =
     in  smallerSorted ++ [x] ++ biggerSorted
 
 -- 好简洁的 function application 和 function composition!!!
+
+
+-- Function application with $
+:t ($)
+
+sum (map sqrt [1..130])
+sum $ map sqrt [1..130]
+
+sqrt 3 + 4 + 9
+(sqrt 3) + 4 + 9
+
+sqrt (3 + 4 + 9)
+sqrt $ 3 + 4 + 9
+
+map ($ 3) [(4+), (10*), (^2), sqrt]
+
+-- 从右向左读
+
+-- Function composition
+:t (.)
+
+map (\x -> negate (abs x)) [5,-3,-6,7,-3,2,-19,24]
+map (\x -> negate $ abs x) [5,-3,-6,7,-3,2,-19,24]
+map (negate . abs) [5,-3,-6,7,-3,2,-19,24]
+
+map (\xs -> negate (sum (tail xs))) [[1..5],[3..6],[1..7]]
+map (negate . sum . tail) [[1..5],[3..6],[1..7]]
