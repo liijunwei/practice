@@ -1,9 +1,9 @@
 require 'rspec'
 require_relative './bit_matrix'
 
-# rspec ruby-lab/bit_matrix_spec.rb
+# rspec bit_matrix_spec.rb
 RSpec.describe BitMatrix do
-  v, _e, *edges = File.readlines("data/tinyG.txt")
+  v, _e, *edges = File.readlines("../algs4/data/tinyG.txt")
 
   let(:graph) { BitMatrix.new(v.to_i) }
 
