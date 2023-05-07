@@ -3,15 +3,22 @@ require_relative './bit_matrix'
 
 # rspec bit_matrix_spec.rb
 RSpec.describe BitMatrix do
-  v, _e, *edges = File.readlines("../algs4/data/tinyG.txt")
-
-  let(:graph) { BitMatrix.new(v.to_i) }
-
-  before do
-    edges.map {|e| e.strip.split(" ")}.each {|from, to| graph.set(from.to_i, to.to_i) }
-  end
-
   it 'has correct graph implementation' do
+    graph = BitMatrix.new(13)
+    graph.set(0, 5)
+    graph.set(4, 3)
+    graph.set(0, 1)
+    graph.set(9, 12)
+    graph.set(6, 4)
+    graph.set(5, 4)
+    graph.set(0, 2)
+    graph.set(11, 12)
+    graph.set(9, 10)
+    graph.set(0, 6)
+    graph.set(7, 8)
+    graph.set(9, 11)
+    graph.set(5, 3)
+
     expect(graph.V).to eq(13)
     expect(graph.E).to eq(13)
 
@@ -30,5 +37,22 @@ RSpec.describe BitMatrix do
     expect(graph.adj(12).sort).to eq([9, 11])
 
     expect(graph.vertices.sort).to eq((0..12).to_a)
+  end
+
+  it 'works for string vertices' do
+    vertices = %w[pending detected confirmed failed]
+
+    graph = BitMatrix.new(vertices.size)
+    graph.set(vertices.index('pending'), vertices.index('detected'))
+    graph.set(vertices.index('detected'), vertices.index('confirmed'))
+    graph.set(vertices.index('detected'), vertices.index('failed'))
+
+    expect(graph.V).to eq(4)
+    expect(graph.E).to eq(3)
+
+    expect(graph.adj(vertices.index('pending')).sort).to eq([vertices.index('detected')])
+    expect(graph.adj(vertices.index('detected')).sort).to eq([vertices.index('pending'), vertices.index('confirmed'), vertices.index('failed')])
+    expect(graph.adj(vertices.index('confirmed')).sort).to eq([vertices.index('detected')])
+    expect(graph.adj(vertices.index('failed')).sort).to eq([vertices.index('detected')])
   end
 end
