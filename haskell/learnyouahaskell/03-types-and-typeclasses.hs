@@ -16,7 +16,7 @@
 -- If we write a number, we don't have to tell Haskell it's a number.
 -- It can infer that on its own, so we don't have to explicitly write out the types of our functions and expressions to get things done.
 
--- However, understanding the type system is a very important part of learning Haskell.
+-- However, **understanding the type system is a very important part of learning Haskell.**
 
 -- A type is a kind of label that every expression has.
 -- It tells us in which category of things that expression fits.

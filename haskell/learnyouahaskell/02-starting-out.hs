@@ -65,4 +65,25 @@ let triangles = [ (a,b,c) | c <- [1..10], b <- [1..10], a <- [1..10] ]
 
 -- 描述要做什么，不描述怎么做
 
+-- https://hackage.haskell.org/package/base-4.18.0.0/docs/Data-Ord.html
+-- The Ord class is used for totally ordered datatypes.
+
+:t minimum
+-- minimum :: (Foldable t, Ord a) => t a -> a
+-- Foldable 表明可以用一个列表得到一个值
+-- Ord 表明列表里的元素可以比较大小, 最少要实现的方法(Minimal complete definition)是 compare | (<=)
+
+
+4 `elem` [3,4,5,6] -- infix
+elem 4 [3,4,5,6]   -- prefix
+
+:t elem
+-- elem :: (Foldable t, Eq a) => a -> t a -> Bool
+
+-- https://hackage.haskell.org/package/base-4.18.0.0/docs/Data-Eq.html#t:Eq
+-- Eq Minimal complete definition: (==) | (/=) 相等 和不等
+
+take2 = take 2
+take2 (cycle [1,2,3])
+take2 $ cycle [1,2,3]
 
