@@ -1,6 +1,6 @@
 -- http://learnyouahaskell.com/types-and-typeclasses
 
--- :: is read as "has type of"
+-- :: is read as "has type of" ***
 :t 1
 :t "hello" -- a list of characters
 :t True
@@ -11,6 +11,8 @@
 :t (True, 'a')
 :t ('a','b','c')
 
+removeNonUppercase :: String -> String
+removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
 
 -- Unlike Java or Pascal, Haskell has type inference.
 -- If we write a number, we don't have to tell Haskell it's a number.
@@ -42,15 +44,16 @@ addThree x y z = x + y + z
 
 -- ### Typeclasses 101
 
--- A typeclass is a sort of interface that defines some behavior.
+-- A typeclass is a sort of interface that defines some behavior. ***
 -- If a type is a part of a typeclass, that means that it supports and implements the behavior the typeclass describes.
 -- typeclass 类似于java里的interface，但是更好(better) (不明白...)
 
 :t (==)
 -- (==) :: Eq a => a -> a -> Bool
--- Everything before the => symbol is called a class constraint.
+-- Everything before the => symbol is called a **class constraint**.
 -- the equality function takes any two values that are of the same type and returns a Bool.
 -- The type of those two values must be a member of the Eq class (this was the class constraint).
+-- Q: member of 和 instance of 有区别吗？
 
 :t elem
 -- elem :: (Foldable t, Eq a) => a -> t a -> Bool
