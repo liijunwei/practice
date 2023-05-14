@@ -1,9 +1,5 @@
 $stdout.sync = true
 
-def print_char(char)
-  loop { print(char) }
-end
-
 FSM = [
   {from: :A, to: :B, event: '<'},
   {from: :B, to: :C, event: '>'},
@@ -18,6 +14,7 @@ MUTEX = Mutex.new
 COND_VAR = Thread::ConditionVariable.new
 
 @current_state = :A
+@quota = 1
 
 def next_state(event)
   transition = FSM.find do |transition|
@@ -30,11 +27,44 @@ def next_state(event)
   transition[:to]
 end
 
+def can_print?(event)
+  next_state(event) && @quota > 0
+end
+
+def fish_before(event)
+  MUTEX.lock
+
+  while !can_print?(event) do
+    COND_VAR.wait(MUTEX)
+  end
+  @quota -= 1
+
+  MUTEX.unlock
+end
+
+def fish_after(event)
+  MUTEX.lock
+
+  @quota += 1
+  @current_state = next_state(event)
+  COND_VAR.broadcast
+
+  MUTEX.unlock
+end
+
+def fish_thread(char)
+  loop do
+    fish_before(char)
+    print(char)
+    fish_after(char)
+  end
+end
+
 def main
   thread_pattern = '<<<>>>___'
 
   threads = thread_pattern.chars.map do |char|
-    Thread.new { print_char(char) }
+    Thread.new { fish_thread(char) }
   end
 
   threads.each { |t| t.join }

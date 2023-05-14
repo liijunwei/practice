@@ -13,4 +13,4 @@ java-demo:
 	javac demo.java && java demo 3 4 | python3 pc-check.py 3 100000
 
 fish-demo:
-	ruby fish.rb 1 1
+	ruby fish.rb
