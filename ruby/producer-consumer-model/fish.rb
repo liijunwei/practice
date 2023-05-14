@@ -7,7 +7,7 @@ FSM = [
   {from: :D, to: :A, event: '_'},
   {from: :A, to: :E, event: '>'},
   {from: :E, to: :F, event: '<'},
-  {from: :F, to: :D, event: '<'}
+  {from: :F, to: :D, event: '>'}
 ]
 
 MUTEX = Mutex.new
