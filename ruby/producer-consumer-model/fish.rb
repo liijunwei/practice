@@ -11,8 +11,24 @@ FSM = [
   {from: :D, to: :A, event: '_'},
   {from: :A, to: :E, event: '>'},
   {from: :E, to: :F, event: '<'},
-  {from: :F, to: :D, event: '>'}
+  {from: :F, to: :D, event: '<'}
 ]
+
+MUTEX = Mutex.new
+COND_VAR = Thread::ConditionVariable.new
+
+@current_state = :A
+
+def next_state(event)
+  transition = FSM.find do |transition|
+    transition[:from] == @current_state && transition[:event] == event
+  end
+
+  # assert
+  raise "invalid transition, current_state: #{@current_state}, event: #{event}" if transition.nil?
+
+  transition[:to]
+end
 
 def main
   thread_pattern = '<<<>>>___'
