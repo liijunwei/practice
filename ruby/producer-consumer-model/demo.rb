@@ -6,7 +6,7 @@ class Counter
 
   def initialize(n)
     @mutex = Mutex.new
-    @cv = ConditionVariable.new
+    @cv = Thread::ConditionVariable.new
     @count = 0
     @n = n
   end
