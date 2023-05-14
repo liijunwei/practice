@@ -1,5 +1,8 @@
 $stdout.sync = true
 
+# Q: what's the difference between `MUTEX.lock {}` and `MUTEX.lock + MUTEX.unlock` ?
+# Q: what's the meaning of @quota?
+
 FSM = [
   {from: :A, to: :B, event: '<'},
   {from: :B, to: :C, event: '>'},
