@@ -1,5 +1,7 @@
 $stdout.sync = true
 
+# ref: https://jyywiki.cn/OS/2023/build/lect9.ipynb
+
 # Q: what's the difference between `MUTEX.lock {}` and `MUTEX.lock + MUTEX.unlock` ?
 # Q: what's the meaning of @quota?
 
