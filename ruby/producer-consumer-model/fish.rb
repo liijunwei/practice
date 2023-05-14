@@ -21,10 +21,7 @@ def next_state(event)
     transition[:from] == @current_state && transition[:event] == event
   end
 
-  # assert
-  raise "invalid transition, current_state: #{@current_state}, event: #{event}" if transition.nil?
-
-  transition[:to]
+  transition && transition[:to]
 end
 
 def can_print?(event)
@@ -47,6 +44,8 @@ def fish_after(event)
 
   @quota += 1
   @current_state = next_state(event)
+  # assert @current_state
+  raise "invalid transition, current_state: #{@current_state}, event: #{event}" if @current_state.nil?
   COND_VAR.broadcast
 
   MUTEX.unlock
