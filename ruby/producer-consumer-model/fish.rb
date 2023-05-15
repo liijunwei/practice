@@ -3,6 +3,7 @@ $stdout.sync = true
 # ref: https://jyywiki.cn/OS/2023/build/lect9.ipynb
 
 # Q: what's the difference between `MUTEX.lock {}` and `MUTEX.lock + MUTEX.unlock` ?
+#     A: it should be `MUTEX.synchronize {}`
 # Q: what's the meaning of @quota?
 
 FSM = [
@@ -34,26 +35,22 @@ def can_print?(event)
 end
 
 def fish_before(event)
-  MUTEX.lock
-
-  while !can_print?(event) do
-    COND_VAR.wait(MUTEX)
+  MUTEX.synchronize do
+    while !can_print?(event) do
+      COND_VAR.wait(MUTEX)
+    end
+    @quota -= 1
   end
-  @quota -= 1
-
-  MUTEX.unlock
 end
 
 def fish_after(event)
-  MUTEX.lock
-
-  @quota += 1
-  @current_state = next_state(event)
-  # assert @current_state
-  raise "invalid transition, current_state: #{@current_state}, event: #{event}" if @current_state.nil?
-  COND_VAR.broadcast
-
-  MUTEX.unlock
+  MUTEX.synchronize do
+    @quota += 1
+    @current_state = next_state(event)
+    # assert @current_state
+    raise "invalid transition, current_state: #{@current_state}, event: #{event}" if @current_state.nil?
+    COND_VAR.broadcast
+  end
 end
 
 def fish_thread(char)
