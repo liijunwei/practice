@@ -44,3 +44,41 @@ bmiTell weight height
           skinny = 18.5
           normal = 25.0
           fat = 30.0
+
+
+first1 :: (a,b,c) -> a
+first1 (x,_,_) = x
+
+first2 :: (Num a) => (a,b,c) -> a
+first2 (x,_,_) = x
+
+
+length1 :: (Num b) => [a] -> b
+length1 [] = 0
+length1 (_:xs) = 1 + length1 xs
+
+sum1 :: (Num a) => [a] -> a
+sum1 [] = 0
+sum1 (x:xs) = x + sum1 xs
+
+-- :t sum
+-- sum :: (Foldable t, Num a) => t a -> a
+
+
+capital :: String -> String
+capital "" = error "Empty string, whoops!"
+capital all1@(x:xs) = "The first letter of " ++ all1++ " is " ++ [x]
+
+initials :: String -> String -> String
+initials firstname lastname = [f] ++ ". " ++ [l] ++ "."
+    where (f:_) = firstname
+          (l:_) = lastname
+
+cylinder :: (RealFloat a) => a -> a -> a
+cylinder r h =
+    let sidearea = 2 * pi * r
+        toparea = pi * r ^ 2
+    in sidearea + 2 * toparea
+
+
+
