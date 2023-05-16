@@ -27,6 +27,8 @@ maximum' (x:xs)
     where maxTail = maximum' xs
 
 -- maximum' [2,5,1]
+-- :t maximum
+-- maximum :: (Foldable t, Ord a) => t a -> a
 
 replicate' :: (Num i, Ord i) => i -> a -> [a]
 replicate' n x
@@ -43,8 +45,15 @@ reverse' :: [a] -> [a]
 reverse' [] = []
 reverse' (x:xs) = reverse' xs ++ [x]
 
+reverse1 :: [a] -> [a]
+reverse1 [] = []
+reverse1 (x:xs) = reverse1 xs ++ [x]
+
 repeat' :: a -> [a]
 repeat' x = x:(repeat' x) -- never ending
+
+repeat1 :: a -> [a]
+repeat1 x = x:repeat x
 
 zip' ::[a] -> [b] -> [(a,b)]
 zip' _ [] = []
