@@ -1,4 +1,10 @@
--- 好难懂
+-- Higher order functions aren't just a part of the Haskell experience, they pretty much are the Haskell experience.
+-- Every function in Haskell officially only takes one parameter.
+-- All the functions that accepted several parameters so far have been curried functions
+
+-- max4 :: (Ord a, Num a) => a -> a
+max4 :: (Num a, Ord a) => a -> a
+max4 = max 4
 
 applyTwice :: (a -> a) -> a -> a
 applyTwice f x = f (f x)
@@ -29,6 +35,10 @@ zipWith' f (x:xs) (y:ys) = f x y : zipWith' f xs ys
 flip' :: (a -> b -> c) -> b -> a -> c
 flip' f y x = f x y
 
+-- c 表示结果，不一定是相同的值
+flip1 :: (a -> b -> c) -> b -> a -> c
+flip1 f x y = f y x
+
 -- zip [1,2,3,4,5] "hello"
 -- flip' zip [1,2,3,4,5] "hello"
 -- zipWith (flip' div) [2,2..] [10,8,6,4,2]
@@ -51,27 +61,27 @@ quicksort (x:xs) =
 
 
 -- Function application with $
-:t ($)
+-- :t ($)
 
-sum (map sqrt [1..130])
-sum $ map sqrt [1..130]
+-- sum (map sqrt [1..130])
+-- sum $ map sqrt [1..130]
 
-sqrt 3 + 4 + 9
-(sqrt 3) + 4 + 9
+-- sqrt 3 + 4 + 9
+-- (sqrt 3) + 4 + 9
 
-sqrt (3 + 4 + 9)
-sqrt $ 3 + 4 + 9
+-- sqrt (3 + 4 + 9)
+-- sqrt $ 3 + 4 + 9
 
-map ($ 3) [(4+), (10*), (^2), sqrt]
+-- map ($ 3) [(4+), (10*), (^2), sqrt]
 
 -- 从右向左读
 
 -- Function composition
-:t (.)
+-- :t (.)
 
-map (\x -> negate (abs x)) [5,-3,-6,7,-3,2,-19,24]
-map (\x -> negate $ abs x) [5,-3,-6,7,-3,2,-19,24]
-map (negate . abs) [5,-3,-6,7,-3,2,-19,24]
+-- map (\x -> negate (abs x)) [5,-3,-6,7,-3,2,-19,24]
+-- map (\x -> negate $ abs x) [5,-3,-6,7,-3,2,-19,24]
+-- map (negate . abs) [5,-3,-6,7,-3,2,-19,24]
 
-map (\xs -> negate (sum (tail xs))) [[1..5],[3..6],[1..7]]
-map (negate . sum . tail) [[1..5],[3..6],[1..7]]
+-- map (\xs -> negate (sum (tail xs))) [[1..5],[3..6],[1..7]]
+-- map (negate . sum . tail) [[1..5],[3..6],[1..7]]
