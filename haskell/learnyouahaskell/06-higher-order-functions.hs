@@ -191,3 +191,18 @@ map3 f xs = foldl (\acc x -> acc ++ [f x]) [] xs
 -- :t ($)
 -- ($) :: (a -> b) -> a -> b
 
+-- map (negate . abs) [1,2,-4,-1,3,45,5,-1100]
+-- 用来map的函数，可以通过多个函数组合而成
+-- 问题：这里是遍历几次数组？一次还是两次？
+--    遍历一次，which is expected!!! nice
+
+-- 妙哇
+-- map (negate . sum . tail) [[1..5], [3..6], [1..7]]
+
+-- (sum . replicate 5 . max 6.7) 8.9
+
+-- Excellent! Many times, a point free style is more readable and concise, because it makes you think about functions and what kind of functions composing them results in instead of thinking about data and how it's shuffled around.
+
+oddSquareSum :: Integer
+oddSquareSum = sum . takeWhile (<10000) . filter odd . map (^2) $ [1..]
+
