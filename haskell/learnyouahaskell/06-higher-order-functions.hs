@@ -50,6 +50,7 @@ flip1 f x y = f y x
 -- map (+3) [1,5,3,1,6]
 -- filter even [1..10]
 
+-- 效率似乎不是很高
 quicksort :: (Ord a) => [a] -> [a]
 quicksort [] = []
 quicksort (x:xs) =
@@ -72,6 +73,16 @@ quicksort (x:xs) =
 -- sqrt (3 + 4 + 9)
 -- sqrt $ 3 + 4 + 9
 
+-- map takes a function and an array, and returns another new array
+map1 :: (a->b) -> [a] -> [b]
+map1 _ [] = []
+map1 f (x:xs) = f x : map1 f xs
+-- map1 (*2) [1,2,3]
+-- (*2) 1 : [2,3]
+-- ((*2) 1) : ((*2) 2) : [3]
+-- ((*2) 1) : ((*2) 2) : ((*2) 3) : []
+-- [2,4,6]
+
 -- map ($ 3) [(4+), (10*), (^2), sqrt]
 
 -- 从右向左读
@@ -85,3 +96,42 @@ quicksort (x:xs) =
 
 -- map (\xs -> negate (sum (tail xs))) [[1..5],[3..6],[1..7]]
 -- map (negate . sum . tail) [[1..5],[3..6],[1..7]]
+
+filter1 :: (a -> Bool) -> [a] -> [a]
+filter1 _ [] = []
+filter1 predicate (x:xs)
+    | predicate x = x : filter1 predicate xs -- 断言为true，则保留这个元素
+    | otherwise = filter1 predicate xs       -- 断言为false，则去掉这个元素
+
+-- filter1 (>1) [1,2,3]
+-- filter1 (\x -> x == (negate x)) [-2,-1,0,1,2,3]
+
+
+-- find the largest number under 100,000 that's divisible by 3829
+largestDivisible :: (Integral a) => a
+largestDivisible = head (filter predicate [100000,99999..])
+    where predicate x = x `mod` 3829 == 0
+
+-- in ruby
+-- 100000.downto(1).find {|e| e % 3829 == 0}
+
+chain :: (Integral a) => a -> [a]
+chain 1 = [1]
+chain n
+    | even n = n:chain (n `div` 2)
+    | odd n = n:chain (n*3 + 1)
+
+-- this is more like an experission, not a function...
+numLongChains :: Int
+numLongChains = length (filter isLong (map chain [1..100]))
+    where isLong x = length x > 15
+
+-- produce a list of functions, which is [(*0), (*1), (*2), (*3), (*4)...]
+listOfFuns = map (*) [0..]
+-- call it by
+-- (listOfFuns !! 2) 5
+-- 10
+
+
+
+
