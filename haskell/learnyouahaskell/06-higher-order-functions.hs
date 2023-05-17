@@ -132,6 +132,62 @@ listOfFuns = map (*) [0..]
 -- (listOfFuns !! 2) 5
 -- 10
 
+-- These functions are called folds.
+-- They're sort of like the map function, only they **reduce** the list to some single value.
+-- A fold takes a binary function, a starting value (I like to call it the accumulator) and a list to fold up.
+-- fold 接受一个函数(接收两个参数的函数)，一个初始值，一个需要执行fold操作的列表(一共3个参数)
+-- Once we've walked over the whole list, only the accumulator remains, which is what we've reduced the list to.
+
+-- :t foldl
+-- foldl :: Foldable t => (b -> a -> b) -> b -> t a -> b
+-- foldl 接受一个函数，一个初始值，一个foldable的实例(e.g.列表), 返回一个reduce后的值
+-- 初始值/acc值 为b, foldable 实例为a
 
 
+-- foldl：folds the list up from the left side
+
+sum1 :: (Num a) => [a] -> a
+sum1 xs = foldl (\acc x -> acc + x) 0 xs
+
+-- nice a
+sum2 :: (Num a) => [a] -> a
+sum2 = foldl (+) 0
+-- sum2 returns a function that takes a folable instance(list) and returns a reduced result
+
+-- pretty straightforward
+elem1 :: (Eq a) => a -> [a] -> Bool
+y `elem1` ys = foldl (\acc x -> if x == y then True else acc) False ys
+
+-- The right fold, foldr works in a similar way to the left fold, only the accumulator eats up the values from the right.
+
+map2 :: (a -> b) -> [a] -> [b]
+map2 f xs = foldr (\x acc -> f x : acc) [] xs
+-- we can't use foldl directly to implement map because 1:2:[] syntax only apply to right side
+-- but we can use ++ xD
+
+map3 :: (a -> b) -> [a] -> [b]
+map3 f xs = foldl (\acc x -> acc ++ [f x]) [] xs
+
+-- One big difference is that right folds work on infinite lists, whereas left ones don't!
+-- 什么意思？？？
+-- 用foldl处理无穷序列，永远也处理不完
+-- 用foldr处理无穷序列，可以处理完...
+-- 什么原理？
+
+-- Folds can be used to implement any function where you traverse a list once, element by element, and then return something based on that.
+-- Whenever you want to traverse a list to return something, chances are you want a fold.
+
+-- 三件套: map/reduce/filter
+
+-- 可以用fold实现map和filter
+
+
+-- scanl and scanr are like foldl and foldr, only they report all the intermediate accumulator states in the form of a list.
+-- scanl (+) 0 [3,5,2,1]
+-- [0,3,8,10,11]
+-- Scans are used to monitor the progression of a function that can be implemented as a fold.
+
+-- Function application with $
+-- :t ($)
+-- ($) :: (a -> b) -> a -> b
 
