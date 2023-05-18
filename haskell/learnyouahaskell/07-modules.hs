@@ -4,6 +4,13 @@
 
 -- The syntax for importing modules in a Haskell script is import <module name>.
 
+-- module for
+--    manipulating lists
+--    concurrent programming
+--    dealing with complex numbers
+--    ...
+
+
 import Data.List
 -- selectively import
 import Data.List (nub, sort)
