@@ -16,7 +16,8 @@ import Data.List
 import Data.List (nub, sort)
 import Data.List hiding (nub)
 import qualified Data.Map as M
-import Data.Function (on)
+import Data.Function
+import Data.Char
 
 numUniques :: (Eq a) => [a] -> Int
 numUniques = length . nub
@@ -53,6 +54,15 @@ phoneBook = [("betty","555-2938"),("bonnie","452-2928"),("patsy","493-2928"),("l
 -- groupBy (\x y -> (x > 0) == (y > 0)) values
 -- groupBy (\x y -> (x > 0) && (y > 0) || (x <= 0) && (y <= 0)) values
 
--- unclear
+-- pretty neat
 -- :t on
 -- groupBy ((==) `on` (> 0)) values
+-- groupBy (on (==) (> 0)) values
+
+-- xs = [[5,4,5,4,4],[1,2,3],[3,5,4,3],[],[2],[2,2]]
+-- sortBy (\x y -> length x `compare` length y) xs
+-- sortBy (compare `on` length) xs
+
+-- all isAlphaNum "bobby283"
+-- isControl 'a'
+-- isControl '\n'
