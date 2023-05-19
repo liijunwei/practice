@@ -15,9 +15,9 @@ import Data.List
 -- selectively import
 import Data.List (nub, sort)
 import Data.List hiding (nub)
-import qualified Data.Map as M
 import Data.Function
 import Data.Char
+import qualified Data.Map as Map
 
 numUniques :: (Eq a) => [a] -> Int
 numUniques = length . nub
@@ -28,9 +28,6 @@ numUniques = length . nub
 -- https://downloads.haskell.org/ghc/latest/docs/libraries/
 -- A great way to pick up new Haskell knowledge is to just click through the standard library reference and explore the modules and their functions.
 -- You can also view the Haskell source code for each module. Reading the source code of some modules is a really good way to learn Haskell and get a solid feel for it.
-
-findKey key xs = snd . head . filter (\(k,v) -> key == k) $ xs
-phoneBook = [("betty","555-2938"),("bonnie","452-2928"),("patsy","493-2928"),("lucille","205-2928"),("wendy","939-8282"),("penny","853-2492")]
 
 -- intersperse 穿插
 -- intersperse '.' "MONKEY"
@@ -66,3 +63,68 @@ phoneBook = [("betty","555-2938"),("bonnie","452-2928"),("patsy","493-2928"),("l
 -- all isAlphaNum "bobby283"
 -- isControl 'a'
 -- isControl '\n'
+
+-- hashmap
+phoneBook = [("betty","555-2938"),("bonnie","452-2928"),("patsy","493-2928"),("lucille","205-2928"),("wendy","939-8282"),("penny","853-2492")]
+findKey key xs = snd . head . Data.List.filter (\(k,_) -> key == k) $ xs
+-- findKey "betty" phoneBook
+-- findKey "betty1" phoneBook
+
+findKey1 :: (Eq k) => k -> [(k,v)] -> Maybe v
+findKey1 key [] = Nothing
+findKey1 key ((k,v):xs) = if key == k
+    then Just v
+    else findKey1 key xs
+-- findKey1 "betty" phoneBook
+-- findKey1 "betty1" phoneBook
+-- Q: any way to rewrite using guard clause ?
+
+findKey2 :: (Eq k) => k -> [(k,v)] -> Maybe v
+findKey2 key = Data.List.foldr (\(k,v) acc -> if key == k then Just v else acc) Nothing
+-- 遍历时没有修改acc, 所以遍历结束以后，结果为 Just v 或者 Nothing
+-- findKey2 "betty" phoneBook
+-- findKey2 "betty1" phoneBook
+
+-- import qualified Data.Map as Map
+
+-- Map.fromList [("betty","555-2938"),("bonnie","452-2928"),("lucille","205-2928")]
+-- Map.fromList [(1,2),(3,4),(3,2),(5,5)]
+
+-- You should always use Data.Map for key-value associations unless you have keys that aren't part of the Ord typeclass.
+
+-- Map.empty
+-- Map.insert 3 100 Map.empty
+-- Map.insert 5 600 (Map.insert 4 200 ( Map.insert 3 100  Map.empty))
+-- Map.insert 5 600 . Map.insert 4 200 . Map.insert 3 100 $ Map.empty
+-- Map.null Map.empty
+-- Map.null $ Map.fromList [(2,3),(5,5)]
+
+phoneBookMap = Map.fromList phoneBook
+-- Map.member "betty" phoneBookMap
+-- Map.lookup "betty" phoneBookMap
+-- Map.lookup "bonnie" phoneBookMap
+
+-- :t Map.map
+-- :t Map.filter
+
+-- toList phoneBookMap
+
+anotherPhoneBook =
+    [("betty","555-2938")
+    ,("betty","342-2492")
+    ,("bonnie","452-2928")
+    ,("patsy","493-2928")
+    ,("patsy","943-2929")
+    ,("patsy","827-9162")
+    ,("lucille","205-2928")
+    ,("wendy","939-8282")
+    ,("penny","853-2492")
+    ,("penny","555-2111")
+    ]
+
+phonebookToMap :: (Ord k) => [(k,String)] -> Map.Map k String
+phonebookToMap xs = Map.fromListWith (\number1 number2 -> number1 ++ ", " ++ number2) xs
+
+-- Map.lookup "patsy" $ phonebookToMap anotherPhoneBook
+-- Map.lookup "wendy" $ phonebookToMap anotherPhoneBook
+-- Map.lookup "betty" $ phonebookToMap anotherPhoneBook
