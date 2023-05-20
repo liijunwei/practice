@@ -18,6 +18,7 @@ import Data.List hiding (nub)
 import Data.Function
 import Data.Char
 import qualified Data.Map as Map
+import qualified Data.Set as Set
 
 numUniques :: (Eq a) => [a] -> Int
 numUniques = length . nub
@@ -128,3 +129,10 @@ phonebookToMap xs = Map.fromListWith (\number1 number2 -> number1 ++ ", " ++ num
 -- Map.lookup "patsy" $ phonebookToMap anotherPhoneBook
 -- Map.lookup "wendy" $ phonebookToMap anotherPhoneBook
 -- Map.lookup "betty" $ phonebookToMap anotherPhoneBook
+
+text1 = "I just had an anime dream. Anime... Reality... Are they so different?"
+text2 = "The old man left his garbage can out and now his trash is all over my lawn!"
+
+setNub xs = Set.toList $ Set.fromList xs
+
+
