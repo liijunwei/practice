@@ -52,3 +52,15 @@ surface (Rectangle (Point x1 y1) (Point x2 y2)) = (abs $ x2 - x1) * (abs $ y2 - 
 
 -- surface (Rectangle (Point 0 0) (Point 2 2))
 -- surface (Circle (Point 0 0) 24)
+
+
+-- nudge 推动/移动
+nudge :: Shape -> Float -> Float -> Shape
+nudge (Circle (Point x y) r) a b = Circle (Point (x+a) (y+b)) r
+nudge (Rectangle (Point x1 y1) (Point x2 y2)) a b = Rectangle (Point (x1+a) (y1+b)) (Point (x2+a) (y2+b))
+
+-- nudge (Circle (Point 0 0) 10) 2 2
+-- nudge (Rectangle (Point 0 0) (Point 1 1)) 2 2
+
+
+
