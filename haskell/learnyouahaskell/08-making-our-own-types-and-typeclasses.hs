@@ -1,5 +1,12 @@
+module Shapes
+( Point(..)
+, Shape(..)
+, surface
+, nudge
+) where
+
 -- how do we make our own? Well, one way is to use the data keyword to define a type
-data Bool = False | True
+-- data Bool = False | True
 
 -- data means that we're defining a new data type
 -- The part before the = denotes the type, which is Bool
@@ -61,6 +68,37 @@ nudge (Rectangle (Point x1 y1) (Point x2 y2)) a b = Rectangle (Point (x1+a) (y1+
 
 -- nudge (Circle (Point 0 0) 10) 2 2
 -- nudge (Rectangle (Point 0 0) (Point 1 1)) 2 2
+
+-- Record syntax
+data Person = Person {
+  firstName :: String,
+  lastName :: String,
+  age :: Int,
+  height :: Float,
+  phoneNumber :: String,
+  flavor :: String
+} deriving (Show)
+
+-- let guy = Person "Buddy" "Finklestein" 43 184.2 "526-2928" "Chocolate"
+-- let guy = Person {flavor = "Chocolate", firstName = "Buddy", lastName = "Finklestein", age = 43, height = 184.2, phoneNumber = "526-2928"}
+-- firstName guy
+-- flavor guy
+
+-- we don't have to necessarily put the fields in the proper order, as long as we list all of them.
+-- But if we don't use record syntax, we have to specify them in order.
+
+data Car = Car {
+  company :: String,
+  model :: String,
+  year :: Int
+} deriving (Show)
+
+-- Type parameters
+    -- A value constructor can take some values parameters and then produce a new value.
+    -- type constructors can take types as parameters to produce new types
+
+-- type constructor
+    -- Maybe
 
 
 
