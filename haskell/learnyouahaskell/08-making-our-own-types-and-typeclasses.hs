@@ -101,4 +101,14 @@ data Car = Car {
     -- Maybe
 
 
+-- Just "Haha"
+-- Just 10 :: Maybe Double
+
+-- An empty list can act like a list of anything.
+-- That's why we can do [1,2,3] ++ [] and ["ha","ha","ha"] ++ []
+
+-- 感觉type parameter好难懂...
+-- Using type parameters is very beneficial, but only when using them makes sense.
+
+
 
