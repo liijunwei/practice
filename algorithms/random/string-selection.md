@@ -15,4 +15,6 @@ aaaaa
 
 ## Analysis
 
+可能是使用 tire symbol table 这种数据结构实现(单词查找树)
+
 TODO
