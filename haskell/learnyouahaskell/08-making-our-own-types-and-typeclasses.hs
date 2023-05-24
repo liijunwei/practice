@@ -109,6 +109,35 @@ data Car = Car {
 
 -- 感觉type parameter好难懂...
 -- Using type parameters is very beneficial, but only when using them makes sense.
+-- If our type acts as some kind of box, it's good to use them
 
+-- a,b,c are type parameters
+data Car1 a b c = Car1 {
+  company1 :: a,
+  model1 :: b,
+  year1 :: c
+} deriving (Show)
+
+
+-- data (Ord k) => Map k v = ...
+-- However, it's a very strong convention in Haskell to never add typeclass constraints in data declarations.
+-- Why? Well, because we don't benefit a lot, but we end up writing more class constraints, even when we don't need them.
+
+data Vector a = Vector a a a deriving (Show)
+vplus :: (Num t) => Vector t -> Vector t -> Vector t
+(Vector i j k) `vplus` (Vector l m n) = Vector (i+l) (j+m) (k+n)
+
+-- Vector 1 2 3 `vplus` Vector 1 1 1
+-- vplus (Vector 1 2 3) (Vector 1 1 1)
+
+vectMult :: (Num t) => Vector t -> t -> Vector t
+(Vector i j k) `vectMult` m = Vector (i*m) (j*m) (k*m)
+
+-- vectMult (Vector 1 2 3) 10
+
+scalarMult :: (Num t) => Vector t -> Vector t -> t
+(Vector i j k) `scalarMult` (Vector l m n) = i*l + j*m + k*n
+
+-- scalarMult (Vector 1 2 3) (Vector 10 10 10)
 
 
