@@ -151,3 +151,63 @@ scalarMult :: (Num t) => Vector t -> Vector t -> t
     -- 用 value constructor 声明值(value), 接收参数得到不同的值
     -- 用 type  constructor 声明类型(type)，接收参数得到不同限制的类型(type constraint)
 
+-- Typeclasses are more like interfaces.
+-- We don't make data from typeclasses.
+-- Instead, we first make our data type and then we think about what it can act like.
+
+-- 感觉和duck-typing是一个意思
+
+-- 接下来的章节，我们会学习怎么通过实现类型的方法 手动的把我们的类型变为某个类型的实例
+-- In the next section, we'll take a look at how we can manually make our types instances of typeclasses by implementing the functions defined by the typeclasses.
+
+data Person1 = Person1 {
+  firstName1 :: String,
+  lastName1 :: String,
+  age1 :: Int
+} deriving (Eq, Show, Read)
+
+-- let guy1 = Person1 {firstName1 = "Buddy", lastName1 = "Finklestein", age1 = 99}
+-- let guy2 = Person1 {firstName1 = "Buddy", lastName1 = "Finklestein", age1 = 99}
+-- guy1 == guy2
+-- "hi " ++ show guy1
+-- read "Person1 {firstName1 = \"Buddy\", lastName1 = \"Finklestein\", age1 = 99}" :: Person1
+
+data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
+  deriving (Eq, Ord, Show, Read, Bounded, Enum)
+
+-- minBound :: Day
+-- maxBound :: Day
+-- succ Monday
+-- pred Tuesday
+-- [Monday .. Sunday]
+-- [minBound .. maxBound] :: [Day]
+
+-- 没做什么特殊的事，只是提升了可读性而已
+-- Type synonyms
+
+-- type String = [Char]
+
+type PPP = Person1
+info :: PPP -> String
+info p = show p
+
+phoneBook :: [(String,String)]
+phoneBook = [("betty","555-2938"),("bonnie","452-2928"),("patsy","493-2928"),("lucille","205-2928"),("wendy","939-8282"),("penny","853-2492")]
+
+type PhoneNumber = String
+type Name = String
+type PhoneBook = [(Name, PhoneNumber)]
+
+inPhoneBook :: Name -> PhoneNumber -> PhoneBook -> Bool
+inPhoneBook name pnumber pbook = (name, pnumber) `elem` pbook
+
+-- inPhoneBook "betty" "555-2938" phoneBook
+-- inPhoneBook "betty" "555-29381" phoneBook
+
+-- type synonyms 可以用来提升代码的可读性，但是要注意不要滥用
+-- the type declaration that took advantage of type synonyms is easier to understand.
+-- However, you shouldn't go overboard with them.
+
+-- **values can only have types that are concrete types**
+
+-- Just like we can partially apply functions to get new functions, we can partially apply type parameters and get new type constructors from them.
