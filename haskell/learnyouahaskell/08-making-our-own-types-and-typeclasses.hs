@@ -140,4 +140,14 @@ scalarMult :: (Num t) => Vector t -> Vector t -> t
 
 -- scalarMult (Vector 1 2 3) (Vector 10 10 10)
 
+-- These functions can operate on types of Vector Int, Vector Integer, Vector Float...
+-- whatever, as long as the a from Vector a is from the Num typeclass.
+
+-- http://learnyouahaskell.com/making-our-own-types-and-typeclasses
+-- Once again, it's very **important** to distinguish between the type constructor and the value constructor.
+-- When declaring a data type, the part before the = is the type constructor and the constructors after it (possibly separated by |'s) are value constructors.
+
+-- type constructor vs type constraint vs value constructor
+    -- 用 value constructor 声明值(value), 接收参数得到不同的值
+    -- 用 type  constructor 声明类型(type)，接收参数得到不同限制的类型(type constraint)
 
