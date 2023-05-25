@@ -5,6 +5,8 @@ module Shapes
 , nudge
 ) where
 
+import qualified Data.Map as Map
+
 -- how do we make our own? Well, one way is to use the data keyword to define a type
 -- data Bool = False | True
 
@@ -160,6 +162,8 @@ scalarMult :: (Num t) => Vector t -> Vector t -> t
 -- 接下来的章节，我们会学习怎么通过实现类型的方法 手动的把我们的类型变为某个类型的实例
 -- In the next section, we'll take a look at how we can manually make our types instances of typeclasses by implementing the functions defined by the typeclasses.
 
+-- 但是在这之前，我们先来了解一下怎么通过haskell的deriving来自动让某个实例变为某个类型的实力
+
 data Person1 = Person1 {
   firstName1 :: String,
   lastName1 :: String,
@@ -191,12 +195,12 @@ type PPP = Person1
 info :: PPP -> String
 info p = show p
 
-phoneBook :: [(String,String)]
-phoneBook = [("betty","555-2938"),("bonnie","452-2928"),("patsy","493-2928"),("lucille","205-2928"),("wendy","939-8282"),("penny","853-2492")]
-
-type PhoneNumber = String
 type Name = String
+type PhoneNumber = String
 type PhoneBook = [(Name, PhoneNumber)]
+
+phoneBook :: [(Name, PhoneNumber)]
+phoneBook = [("betty","555-2938"),("bonnie","452-2928"),("patsy","493-2928"),("lucille","205-2928"),("wendy","939-8282"),("penny","853-2492")]
 
 inPhoneBook :: Name -> PhoneNumber -> PhoneBook -> Bool
 inPhoneBook name pnumber pbook = (name, pnumber) `elem` pbook
@@ -208,6 +212,58 @@ inPhoneBook name pnumber pbook = (name, pnumber) `elem` pbook
 -- the type declaration that took advantage of type synonyms is easier to understand.
 -- However, you shouldn't go overboard with them.
 
+-- concrete types
 -- **values can only have types that are concrete types**
 
 -- Just like we can partially apply functions to get new functions, we can partially apply type parameters and get new type constructors from them.
+
+
+-- The Maybe a type is defined in Haskell's standard library as follows: (https://wiki.haskell.org/Maybe)
+-- data Maybe a = Nothing | Just a
+-- Mayby is a type constructor
+-- Mayby a is a type
+
+-- 终于基本看懂了 type constructor
+-- 又出现了个 type synonyms... x.x
+-- 它的含义很简单，只是为什么看它的用法总觉得很绕呢？
+
+-- 函数可以柯里化，类型别名也可以柯里化
+-- type IntMap = Map.Map Int
+
+data IntMap a = KKK a deriving (Show)
+-- intMapDemo = IntMap 1 String
+
+-- Maybe a 可以用来表示 出错，或者有值，但是仅仅是“出错”这个信息对于有些场景来说太过于模糊了
+-- 我们可以用Either这个type constructor来明确说明可能出问题的情况
+-- when we're interested in how some function failed or why, we usually use the result type of Either a b, where a is some sort of type that can tell us something about the possible failure and b is the type of a successful computation
+-- Hence, errors use the Left value constructor while results use Right.
+
+data LockerState = Taken | Free deriving (Show, Eq)
+type Code = String
+type ErrorMessage = String
+type LockerNumber = Int
+type LockerMap = Map.Map LockerNumber (LockerState, Code)
+
+lockerLookup :: LockerNumber -> LockerMap -> Either ErrorMessage Code
+lockerLookup lockernumber map =
+  case Map.lookup lockernumber map of
+    Nothing -> Left $ "Locker number " ++ show lockernumber ++ " doesn't exist!"
+    Just (state, code) -> if state /= Taken then Right code
+                          else Left $ "Locker " ++ show lockernumber ++ " is already taken!"
+
+lockers :: LockerMap
+lockers = Map.fromList
+ [(100,(Taken,"ZD39I")),
+  (101,(Free,"JAH3I")),
+  (103,(Free,"IQSA9")),
+  (105,(Free,"QOTSA")),
+  (109,(Taken,"893JJ")),
+  (110,(Taken,"99292"))]
+
+-- lockerLookup 100 lockers
+-- lockerLookup 101 lockers
+-- lockerLookup 102 lockers
+-- lockerLookup 103 lockers
+-- lockerLookup 105 lockers
+-- lockerLookup 109 lockers
+-- lockerLookup 110 lockers
