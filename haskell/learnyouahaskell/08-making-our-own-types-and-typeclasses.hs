@@ -354,3 +354,66 @@ r1 = processing_tx2 == pending_tx
 
 r2 :: Bool
 r2 = processing_tx1 == processing_tx2
+
+
+-- data Mood = Happy | Sad | Bored
+
+-- data means that we're defining a new data type
+
+-- class Eq a where
+--     (==) :: a -> a -> Bool
+--     (/=) :: a -> a -> Bool
+--     x == y = not (x /= y)
+--     x /= y = not (x == y)
+
+-- class Eq a where, this means that we're defining a new typeclass and that's called Eq
+
+-- data type VS typeclass
+-- different things
+
+-- mutual recursion
+
+data TrafficLight = Red | Yellow | Green
+-- Notice how we didn't derive any class instances for it.
+-- That's because we're going to write up some instances by hand,
+-- even though we could derive them for types like Eq and Show
+-- Here's how we make it an instance of Eq
+
+instance Eq TrafficLight where
+  Red == Red = True
+  Green == Green = True
+  Yellow == Yellow = True
+  _ == _ = False
+
+
+-- We did it by using the instance keyword
+-- So class is for defining new typeclasses
+--    instance is for making our types instances of typeclasses.
+-- 使用class关键字定义新的typeclass
+-- 使用instance关键字把我们自定义的类型变为typeclass的实例
+
+-- 前面用到 "mutual recursion" 的作用可能是为了使之后的定义变得简单
+-- 比如 将 TrafficLight 变为Eq的实例时，我们只需要定义 == 方法，可以忽略 /= 方法，因为这是一个 "minimal complete definition for the typeclass"
+-- 如果不是使用"mutual recursion"， 那么Eq的定义会是下面这样
+    -- class Eq a where
+    --     (==) :: a -> a -> Bool
+    --     (/=) :: a -> a -> Bool
+-- 那么将 TrafficLight 变为Eq的实例时，既要定义 ==, 又要定义/=
+
+instance Show TrafficLight where
+  show Red = "Red Light"
+  show Green = "Green Light"
+  show Yellow = "Yellow Light"
+
+-- ghci> Red
+-- Red Light
+-- ghci> Green
+-- Green Light
+-- ghci> Yellow
+-- Yellow Light
+-- ghci> Red == Red
+-- True
+-- ghci> Red == Green
+-- False
+-- ghci> Red `elem` [Red, Yellow, Green]
+-- True
