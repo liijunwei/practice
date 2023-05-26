@@ -6,7 +6,11 @@ curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 ```
 
 ```
-:set prompt "ghci> "
+$ ghci
+
+ghci> :set prompt "ghci> "
+ghci> :help
+
 ```
 
 [Haskell Hierarchical Libraries](https://downloads.haskell.org/ghc/latest/docs/libraries/)

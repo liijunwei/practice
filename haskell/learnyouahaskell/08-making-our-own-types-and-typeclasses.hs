@@ -395,6 +395,7 @@ instance Eq TrafficLight where
 -- 前面用到 "mutual recursion" 的作用可能是为了使之后的定义变得简单
 -- 比如 将 TrafficLight 变为Eq的实例时，我们只需要定义 == 方法，可以忽略 /= 方法，因为这是一个 "minimal complete definition for the typeclass"
 -- 如果不是使用"mutual recursion"， 那么Eq的定义会是下面这样
+    -- here is Eq typeclass definition
     -- class Eq a where
     --     (==) :: a -> a -> Bool
     --     (/=) :: a -> a -> Bool
@@ -417,3 +418,92 @@ instance Show TrafficLight where
 -- False
 -- ghci> Red `elem` [Red, Yellow, Green]
 -- True
+
+-- comon sense: all the types in functions have to be concrete
+
+-- This is like saying that we want to make all types of the form Maybe something an instance of Eq.
+--
+-- instance Eq (Maybe m) where
+--     Just x == Just y = x == y
+--     Nothing == Nothing = True
+--     _ == _ = False
+
+-- with issue fixed, (Maybe m) has to be comparable
+-- instance (Eq m) => Eq (Maybe m) where
+--     Just x == Just y = x == y
+--     Nothing == Nothing = True
+--     _ == _ = False
+
+
+-- see what the instances of a typeclass are, just do :info YourTypeClass in GHCI
+--
+-- :info Eq
+-- :info Num
+-- :info Show
+-- :info Maybe
+-- :info Bool
+
+
+class YesNo a where
+  yesno :: a -> Bool
+
+instance YesNo Int where
+  yesno 0 = False
+  yesno _ = True
+
+instance YesNo [a] where
+  yesno [] = False
+  yesno _ = True
+
+instance YesNo Bool where
+  yesno = id
+  -- id is a stdlib function that takes a parameter and returns the same thing
+
+instance YesNo (Maybe a) where
+  yesno (Just _) = True
+  yesno Nothing = False
+
+instance YesNo (Tree a) where
+  yesno EmptyTree = False
+  yesno _ = True
+
+-- lol
+instance YesNo TrafficLight where
+  yesno Red = False
+  yesno _ = True
+
+y1 :: Bool
+y1 = yesno []
+
+y2 :: Bool
+y2 = yesno "haha"
+
+y3 :: Bool
+y3 = yesno ""
+
+y4 :: Bool
+y4 = yesno $ Just 0
+
+y5 :: Bool
+y5 = yesno True
+
+y6 :: Bool
+y6 = yesno EmptyTree
+
+y7 :: Bool
+y7 = yesno [1,2,3]
+
+y8 :: Bool
+y8 = yesno True
+
+-- :t yesno
+
+-- mimic the if statement
+yesnoIf :: (YesNo y) => y -> a -> a -> a
+yesnoIf yesnoVal yesResult noResult = if yesno yesnoVal then yesResult else noResult
+
+-- yesnoIf [] "YEAH!" "NO!"         -- "NO!"
+-- yesnoIf [2,3,4] "YEAH!" "NO!"    -- "YEAH!"
+-- yesnoIf True "YEAH!" "NO!"       -- "YEAH!"
+-- yesnoIf (Just 500) "YEAH!" "NO!" -- "YEAH!"
+-- yesnoIf Nothing "YEAH!" "NO!"    -- "NO!"
