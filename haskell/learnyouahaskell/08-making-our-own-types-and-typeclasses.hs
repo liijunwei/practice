@@ -6,6 +6,7 @@ module Shapes
 ) where
 
 import qualified Data.Map as Map
+import Data.Time
 
 -- how do we make our own? Well, one way is to use the data keyword to define a type
 -- data Bool = False | True
@@ -299,3 +300,57 @@ treeElem x (Node a left right)
 -- 8 `treeElem` numsTree
 -- 888 `treeElem` numsTree
 
+
+data User = User {
+  user_id :: Int,
+  name :: String
+} deriving (Show, Eq)
+
+data Status = Pending | Processing | Failed | Succeed deriving (Show, Eq, Enum)
+
+data Transaction = Transaction {
+  tx_id :: Int,
+  from_user_id :: Int,
+  to_user_id :: Int,
+  amount :: Float,
+  status :: Status,
+  created_at :: UTCTime,
+  updated_at :: UTCTime
+} deriving (Show, Eq)
+
+user1 :: User
+user1 = User {user_id = 1, name = "Ben"}
+
+user2 :: User
+user2 = User {user_id = 2, name = "Rob"}
+
+pending_tx :: Transaction
+pending_tx = Transaction {tx_id = 1, from_user_id = (user_id user1), to_user_id = (user_id user2), amount = 1, status = Pending, created_at = (read "2023-05-26 00:00:00 UTC" :: UTCTime), updated_at = (read "2023-05-26 00:00:00 UTC" :: UTCTime)}
+
+-- Q: is this the right way to update tx status?
+-- probably not
+markProcessing1 :: Transaction -> Transaction
+markProcessing1 tx = Transaction {
+  tx_id = tx_id tx,
+  from_user_id = from_user_id tx,
+  to_user_id = to_user_id tx,
+  amount = amount tx,
+  status = Processing,
+  created_at = created_at tx,
+  updated_at = updated_at tx
+}
+
+processing_tx1 :: Transaction
+processing_tx1 = markProcessing1 pending_tx
+
+markProcessing2 :: Transaction -> Status -> Transaction
+markProcessing2 tx new_status = tx {status = new_status}
+
+processing_tx2 :: Transaction
+processing_tx2 = markProcessing2 pending_tx Processing
+
+r1 :: Bool
+r1 = processing_tx2 == pending_tx
+
+r2 :: Bool
+r2 = processing_tx1 == processing_tx2
