@@ -569,4 +569,29 @@ instance Functor Tree where
 -- fmap :: Functor f => (a -> b) -> f a -> f b
 -- (a -> b) -> Either e a -> Either e b
 
+-- Types are little labels that values carry so that we can reason about the values.
+-- But types have their own little labels, called kinds.
+-- 类型不过是 value(值) 的标签，用来帮助我们理解值的含义
+-- 类型也有他自己的标签，这个标签叫做 kind
+-- A kind is more or less the type of a type.
+-- kind差不多是 类型的类型
+
+-- :k Int
+-- :k String
+-- :k Maybe
+-- :k Maybe Int
+-- :k []
+-- :k [Int]
+
+-- A * means that the type is a concrete type
+
+-- We used :k on a type to get its kind, just like we can use :t on a value to get its type.
+-- function is also a value
+
+-- :k Either
+-- :k Either Int
+-- :k Either Int String
+
+-- 太抽象了
+
 
