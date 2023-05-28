@@ -507,3 +507,66 @@ yesnoIf yesnoVal yesResult noResult = if yesno yesnoVal then yesResult else noRe
 -- yesnoIf True "YEAH!" "NO!"       -- "YEAH!"
 -- yesnoIf (Just 500) "YEAH!" "NO!" -- "YEAH!"
 -- yesnoIf Nothing "YEAH!" "NO!"    -- "NO!"
+
+
+-- The Functor typeclass
+    -- which is basically for things that can be mapped over.
+    -- list type is part of the Functor typeclass.
+
+-- :info Functor
+
+-- class Functor f where
+--     fmap :: (a -> b) -> f a -> f b
+
+-- :t fmap
+-- fmap :: Functor f => (a -> b) -> f a -> f b
+
+-- :t map
+-- map :: (a -> b) -> [a] -> [b]
+
+-- in fact, map is just a fmap that works only on lists
+
+
+-- instance Functor [] where
+--     fmap = map
+
+-- [a] is already a concrete type (of a list with any type inside it)
+-- while [] is a type constructor that takes one type and can produce types such as [Int], [String] or even [[String]].
+
+-- **Types that can act like a box can be functors.**
+
+-- **Functor wants a type constructor that takes one type and not a concrete type.**
+--
+-- Functor 的实例，在实现方法的时候，指定的是 type constructor, not concrete type
+    -- instance Functor [] where...    (not [a])
+    -- instance Functor Maybe where... (not Maybe m)
+--
+-- 以 :t fmap 为例来看
+-- 如果我们把 f 替换为 Maybe，那么fmap的类型签名为(type signature)
+    -- (a -> b) -> Maybe a -> Maybe b
+    -- 没问题
+-- 但是如果把 f 替换为 Maybe m, 那么fmap的类型签名为(type signature)
+    -- (a -> b) -> Maybe m a -> Maybe m b
+    -- 说不通，没有任何意义，因为 Maybe 只接收一个参数，并返回一个concrete type
+
+
+-- fmap (++ " HEY GUYS IM INSIDE THE JUST") (Just "Something serious.")
+-- fmap (++ " HEY GUYS IM INSIDE THE JUST") Nothing
+-- fmap (*2) (Just 200)
+-- fmap (*2) Nothing
+
+-- Another thing that can be mapped over and made an instance of Functor is our Tree a type.
+    -- (a -> b) -> Tree a -> Tree b
+
+instance Functor Tree where
+  fmap f EmptyTree = EmptyTree
+  fmap f (Node x left right) = Node (f x) (fmap f left) (fmap f right)
+
+-- fmap (*2) EmptyTree
+-- fmap (*2) (foldr treeInsert EmptyTree [5,7,3,2,1,7,6])
+
+-- :info Either
+-- fmap :: Functor f => (a -> b) -> f a -> f b
+-- (a -> b) -> Either e a -> Either e b
+
+
