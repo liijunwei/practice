@@ -20,4 +20,38 @@
 -- Q: when will an I/O action be performed?
 -- A: An I/O action will be performed when we give it a name of main and then run our program.
 
+-- :t getLine
+-- :info IO
+
+-- Q: how haskell manages to neatly separate the pure and impure part of our code
+--
+-- you can think of an IO action as a box with little feet that will go out into real world and do something there and maybe bring back some data
+-- once it's feched that data for you, the only way to open the box and get the data inside it is to use `<-` construct
+-- and when we're taking data out of an IO action, we can only take it out when we're inside another IO action
+--
+-- getLine is in a sense impure because its result value is not guaranteed to be the same when performed twice
+-- (which means it has state)
+
+-- tainted 受到污染
+--
+-- we temporarily un-taint the data inside an I/O action when we bind it to a name
+
+-- invalid statement, because String ++ IO action is invalid
+--
+-- nameTag = "Hello, my name is " ++ getLine
+--
+-- we need to bind the return value of `getLine` to a variable and then use it
+
+-- 看完这个例子后，我理解了IOaction的return value的含义
+-- foo <- putStrLn "Hello, what's your name?"
+-- foo
+-- :t foo
+-- :t putStrLn
+-- :t getLine
+
+-- in a do block, the last action cannot be bound to a name like the first two were
+
+-- I/O actions will only be performed when they are given a name of main or when they're inside a bigger I/O action that we composed with a do block.
+
+
 
