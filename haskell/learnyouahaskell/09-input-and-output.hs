@@ -57,4 +57,7 @@
 -- Remember that in Haskell, every if must have a corresponding else because every expression has to have some sort of value.
 
 
+-- TODO not understand the meaning of `sequence` and  `mapM`
+
+
 
