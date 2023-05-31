@@ -53,5 +53,8 @@
 
 -- I/O actions will only be performed when they are given a name of main or when they're inside a bigger I/O action that we composed with a do block.
 
+-- haskell 里的每个if都必须要有一个对应的else分支，因为每个表达式都要有值
+-- Remember that in Haskell, every if must have a corresponding else because every expression has to have some sort of value.
+
 
 
