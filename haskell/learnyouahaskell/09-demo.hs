@@ -84,18 +84,24 @@
 
 
 -- cat shortlines.txt | runhaskell 09-demo.hs
-main = do
-  contents <- getContents
-  putStr $ shortLinesOnly contents
+-- main = interact shortLinesOnly
+-- main = do
+--   contents <- getContents
+--   putStr $ shortLinesOnly contents
 
-shortLinesOnly :: String -> String
-shortLinesOnly input =
-  let allLines = lines input
-      shortLines = filter (\line -> length line < 10) allLines
-      result = unlines shortLines
-  in result
+-- shortLinesOnly :: String -> String
+-- shortLinesOnly input =
+--   let allLines = lines input
+--       shortLines = filter (\line -> length line < 10) allLines
+--       result = unlines shortLines
+--   in result
 
+-- :t interact
+-- interact :: (String -> String) -> IO ()
 
+-- cat shortlines.txt | runhaskell 09-demo.hs
+-- 妙哇 composition
+main = interact $ unlines . filter ((<10) . length) . lines
 
 
 
