@@ -65,4 +65,37 @@
 --     putStrLn "The colors that you associate with 1, 2, 3 and 4 are: "
 --     mapM putStrLn colors
 
+-- -- cat haiku.txt | runhaskell 09-demo.hs
+-- import Control.Monad
+-- import Data.Char
+
+-- main = forever $ do
+--   -- putStr "Give me some input: "
+--   l <- getLine
+--   putStrLn $ map toUpper l
+
+
+-- cat haiku.txt | runhaskell 09-demo.hs
+-- import Data.Char
+
+-- main = do
+--   contents <- getContents
+--   putStr $ map toUpper contents
+
+
+-- cat shortlines.txt | runhaskell 09-demo.hs
+main = do
+  contents <- getContents
+  putStr $ shortLinesOnly contents
+
+shortLinesOnly :: String -> String
+shortLinesOnly input =
+  let allLines = lines input
+      shortLines = filter (\line -> length line < 10) allLines
+      result = unlines shortLines
+  in result
+
+
+
+
 
