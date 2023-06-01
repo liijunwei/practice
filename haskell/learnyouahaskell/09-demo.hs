@@ -110,5 +110,6 @@ respondPalindromes contents = unlines $ map (\xs -> isPalindrome xs) (lines cont
 -- putStrLn $ respondPalindromes "elephant\nABCBA\nwhatever"
 
 -- runhaskell 09-demo.hs
+-- cat words.txt | runhaskell 09-demo.hs
 main = interact respondPalindromes
 
