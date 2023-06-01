@@ -101,7 +101,14 @@
 
 -- cat shortlines.txt | runhaskell 09-demo.hs
 -- 妙哇 composition
-main = interact $ unlines . filter ((<10) . length) . lines
+-- main = interact $ unlines . filter ((<10) . length) . lines
 
+respondPalindromes :: String -> String
+respondPalindromes contents = unlines $ map (\xs -> isPalindrome xs) (lines contents)
+    where isPalindrome xs = if xs == reverse xs then "palindrome" else "not a palindrome"
 
+-- putStrLn $ respondPalindromes "elephant\nABCBA\nwhatever"
+
+-- runhaskell 09-demo.hs
+main = interact respondPalindromes
 
