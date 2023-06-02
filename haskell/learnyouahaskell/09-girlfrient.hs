@@ -1,6 +1,7 @@
 -- runhaskell 09-girlfrient.hs
 
 import System.IO
+import Data.Char
 
 -- main = do
 --   handle <- openFile "girlfriend.txt" ReadMode
@@ -12,7 +13,12 @@ import System.IO
 -- :t openFile
 -- :info FilePath
 
+-- main = do
+--   withFile "girlfriend.txt" ReadMode (\handle -> do
+--     contents <- hGetContents handle
+--     putStr contents) -- this right parenthese can not go to next line...
+
+-- runhaskell 09-girlfrient.hs && cat girlfriendcaps.txt
 main = do
-  withFile "girlfriend.txt" ReadMode (\handle -> do
-    contents <- hGetContents handle
-    putStr contents) -- this right parenthese can not go to next line...
+  contents <- readFile "girlfriend.txt"
+  writeFile "girlfriendcaps.txt" $ map toUpper contents
