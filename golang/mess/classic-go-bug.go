@@ -15,6 +15,7 @@ func main() {
 
 	fmt.Println("parallel running")
 	for _, c := range colors {
+		// c := c // fix by adding this line
 		go func() {
 			fmt.Println(c)
 		}()
