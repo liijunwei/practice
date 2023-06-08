@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+// In Go, a loop closure refers to a common mistake that can occur when using closures inside loops.
+
 var colors = []string{"red", "green", "blue"}
 
 func main() {
@@ -14,8 +16,8 @@ func main() {
 	}
 
 	fmt.Println("parallel running")
+	// fix by either declare new local variable in loop or pass variable to anonymous function
 	for _, c := range colors {
-		// c := c // fix by adding this line
 		go func() {
 			fmt.Println(c)
 		}()
