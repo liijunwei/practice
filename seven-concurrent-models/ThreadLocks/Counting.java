@@ -1,3 +1,5 @@
+package ThreadLocks;
+
 public class Counting {
     public static void main(String[] args) throws InterruptedException {
         class Counter {

@@ -1,3 +1,5 @@
+package ThreadLocks;
+
 public class Puzzle {
     static boolean answerReady = false;
     static int answer = 0;

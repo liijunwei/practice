@@ -1,3 +1,5 @@
+package ThreadLocks;
+
 public class HelloThread {
     public static void main(String[] args) throws InterruptedException {
         Thread t1 = new Thread(() -> System.out.println("hello from t1 thread"));
