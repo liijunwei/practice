@@ -33,16 +33,19 @@ public class Philosopher extends Thread {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        Philosopher[] philosophers = new Philosopher[5];
-        Chopstick[] chopsticks = new Chopstick[5];
+        // increase this number will make dead lock easier to observe
+        int num = 5;
+//        int num = 50;
+        Philosopher[] philosophers = new Philosopher[num];
+        Chopstick[] chopsticks = new Chopstick[num];
 
-        for (int i = 0; i < 5; ++i)
+        for (int i = 0; i < num; ++i)
             chopsticks[i] = new Chopstick(i);
-        for (int i = 0; i < 5; ++i) {
+        for (int i = 0; i < num; ++i) {
             philosophers[i] = new Philosopher("P" + (i + 1), chopsticks[i], chopsticks[(i + 1) % 5]);
             philosophers[i].start();
         }
-        for (int i = 0; i < 5; ++i)
+        for (int i = 0; i < num; ++i)
             philosophers[i].join();
     }
 }
