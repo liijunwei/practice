@@ -2,12 +2,14 @@
 
 Thanks for the recommendation from "frank.wang" & 左耳朵耗子(https://github.com/haoel)
 
+[adonovan/gopl.io: Example programs from "The Go Programming Language"](https://github.com/adonovan/gopl.io/)
+
 # TOC
 
 - [x] ch00 Contents
 - [x] ch00 Preface
-- [ ] ch01 Tutorial
-- [ ] ch02 Program Structure
+- [x] ch01 Tutorial
+- [x] ch02 Program Structure
 - [ ] ch03 Basic Data Types
 - [ ] ch04 Composite Types
 - [ ] ch05 Functions
