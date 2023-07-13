@@ -4,16 +4,18 @@ Thanks for the recommendation from "frank.wang" & 左耳朵耗子(https://github
 
 [adonovan/gopl.io: Example programs from "The Go Programming Language"](https://github.com/adonovan/gopl.io/)
 
+the examples in this book are great and practical
+
 # TOC
 
 - [x] ch00 Contents
 - [x] ch00 Preface
 - [x] ch01 Tutorial
 - [x] ch02 Program Structure
-- [ ] ch03 Basic Data Types
-- [ ] ch04 Composite Types
-- [ ] ch05 Functions
-- [ ] ch06 Methods
+- [x] ch03 Basic Data Types
+- [x] ch04 Composite Types
+- [x] ch05 Functions
+- [x] ch06 Methods
 - [ ] ch07 Interfaces
 - [ ] ch08 Goroutines and Channels
 - [ ] ch09 Concurrency with Shared Variables
@@ -22,3 +24,6 @@ Thanks for the recommendation from "frank.wang" & 左耳朵耗子(https://github
 - [ ] ch12 Reflection
 - [ ] ch13 Low-Level Programming
 - [ ] ch14 Index
+
++ TODO didn't understand ch7.5 interface value yet
+
