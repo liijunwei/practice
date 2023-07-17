@@ -6,6 +6,7 @@ import (
 )
 
 // In Go, a loop closure refers to a common mistake that can occur when using closures inside loops.
+// loop variable capture
 
 var colors = []string{"red", "green", "blue"}
 
