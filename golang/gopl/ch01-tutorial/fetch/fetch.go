@@ -33,6 +33,7 @@ func main() {
 			os.Exit(1)
 		}
 
+		fmt.Printf("status: %s\n", resp.Status)
 		fmt.Printf("%s", b)
 	}
 }
