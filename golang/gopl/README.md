@@ -21,9 +21,9 @@ the examples in this book are great and practical
 - [x] ch09 Concurrency with Shared Variables
 - [x] ch10 Packages and the Go Tool
 - [x] ch11 Testing
-- [ ] ch12 Reflection
-- [ ] ch13 Low-Level Programming
-- [ ] ch14 Index
+- [x] ch12 Reflection
+- [x] ch13 Low-Level Programming
+- [x] ch14 Index
 
 + TODO didn't understand ch7.5 interface value yet
 
