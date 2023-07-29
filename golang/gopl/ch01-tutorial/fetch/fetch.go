@@ -8,8 +8,11 @@ import (
 	"strings"
 )
 
+const httpPrefix = "http://"
+
 func main() {
-	for _, url := range os.Args[1:] {
+	for _, u := range os.Args[1:] {
+		url := checkAndPrependHttpPrefix(u)
 		resp, err := http.Get(url)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
@@ -32,4 +35,12 @@ func main() {
 
 		fmt.Printf("%s", b)
 	}
+}
+
+func checkAndPrependHttpPrefix(rawUrl string) string {
+	if strings.HasPrefix(rawUrl, httpPrefix) {
+		return rawUrl
+	}
+
+	return fmt.Sprintf("%s%s", httpPrefix, rawUrl)
 }
