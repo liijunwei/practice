@@ -27,3 +27,18 @@ vagrant up
 vagrant ssh
 cd /vagrant && ls
 ```
+
+## example of using linux env
+
+```bash
+git clone https://github.com/liijunwei/practice
+cd practice && vagrant up && vagrant ssh
+cd /vagrant/csapp/ch08-exceptional-control-flow && make ecf_fork
+
+# or
+
+vagrant ssh-config
+# copy the config to your ~/.ssh/config file
+# use vscode "Remote - SSH" plugin
+Remote-SSH connect to sandbox
+```
