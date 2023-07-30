@@ -6,6 +6,13 @@ random notes while reading CSAPP...
 
 code: http://csapp.cs.cmu.edu/3e/code.html
 
+```bash
+# example of using linux env
+git clone https://github.com/liijunwei/practice
+cd practice && vagrant up && vagrant ssh
+cd /vagrant/csapp/ch08-exceptional-control-flow && make ecf_fork
+```
+
 + OK make csapp.c csapp.h global available in practice/csapp/
 
 + [C code formatter: "centos安装clang-format"](https://www.jianshu.com/p/91265382bace)
