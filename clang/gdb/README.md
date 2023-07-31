@@ -1,0 +1,2 @@
+- [GDB - Init File](https://www.cse.unsw.edu.au/~learn/debugging/modules/gdb_init_file/)
+- [Running Programs Under GDB](https://web.mit.edu/gnu/doc/html/gdb_6.html)
