@@ -19,6 +19,32 @@
 + 一个为负的PID会导致信号被发送到进程组PID中的每个进程
     + kill -9 -15213
 
+## 8.4 创建和终止进程
+
+从程序员的角度认为进程总是处于以下三个状态之一
+- 运行running
+- 停止suspended
+- 终止terminated
+
+fork 函数被调用一次，会返回两次，一次在父进程，返回子进程的pid，一次在子进程，返回0，可以用0分辩子进程
+- csapp/ch08-exceptional-control-flow/ecf_fork.c
+    - 调用一次，返回两次
+    - 并发执行
+    - 相同但是独立的地址空间
+    - 共享文件
+
+画进程图对于学习fork函数很有帮助(p515)
+
+fork bomb in c(play with vm only)
+```c
+#include <unistd.h>
+int main(void) {
+    while(1) {
+        fork();
+    }
+}
+```
+
 ## 8.5 信号
 
 + linux信号 允许进程和内核终端其他进程
