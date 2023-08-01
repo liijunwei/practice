@@ -45,6 +45,8 @@ func fetch(url string, ch chan<- string) {
 	}
 
 	secs := time.Since(start).Seconds()
+	// sending through unbuffered channel is an synchronization operation
+	// or similar join multiple threads
 	ch <- fmt.Sprintf("%.2fs  %10d  %s", secs, written, url)
 }
 
