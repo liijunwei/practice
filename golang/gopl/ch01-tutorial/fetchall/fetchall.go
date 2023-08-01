@@ -20,8 +20,8 @@ func main() {
 		go fetch(url, ch)
 	}
 
-	for range os.Args[1:] {
-		fmt.Println(<-ch)
+	for range os.Args[1:] { // ignore the loop variable if it's not used
+		fmt.Println(<-ch) // n urls -> n channel message -> receive n times
 	}
 
 	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
