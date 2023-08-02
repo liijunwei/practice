@@ -93,6 +93,10 @@ ecf_waitforsignal: csapp.o
 	$(CC) $(CFLAGS) csapp.o ecf_waitforsignal.c
 	./a.out
 
+ecf_waitprob2: csapp.o
+	$(CC) $(CFLAGS) csapp.o ecf_waitprob0.c
+	./a.out
+
 ecf_sigsuspend: csapp.o
 	$(CC) $(CFLAGS) csapp.o ecf_sigsuspend.c
 	./a.out
