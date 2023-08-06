@@ -9,22 +9,40 @@ import (
 func main() {
 	fmt.Println("graph based scheduling demo")
 
-	g := graph.New(graph.IntHash, graph.Directed())
+	nodeHash := func(c WorkNode) string {
+		return c.Name
+	}
 
-	_ = g.AddVertex(1)
-	_ = g.AddVertex(2)
-	_ = g.AddVertex(3)
-	_ = g.AddVertex(4)
+	g1 := graph.New(nodeHash, graph.Directed(), graph.PreventCycles())
+	n1 := WorkNode{
+		Name: "task1",
+	}
 
-	_ = g.AddEdge(1, 2)
-	_ = g.AddEdge(1, 3)
-	_ = g.AddEdge(3, 4)
+	n2 := WorkNode{
+		Name: "task2",
+	}
 
-	_ = graph.DFS(g, 1, func(value int) bool {
-		fmt.Println(value)
-		return false
-	})
+	n3 := WorkNode{
+		Name: "task3",
+	}
+
+	n4 := WorkNode{
+		Name: "task4",
+	}
+
+	_ = g1.AddVertex(n1)
+	_ = g1.AddVertex(n2)
+	_ = g1.AddVertex(n3)
+	_ = g1.AddVertex(n4)
+
+	_ = g1.AddEdge(n1.Name, n2.Name)
+	_ = g1.AddEdge(n1.Name, n3.Name)
+	_ = g1.AddEdge(n3.Name, n4.Name)
+
+	order, _ := graph.TopologicalSort(g1)
+	fmt.Println(order)
 }
 
 type WorkNode struct {
+	Name string
 }
