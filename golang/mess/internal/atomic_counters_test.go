@@ -1,13 +1,13 @@
-package main
+package internal
 
 import (
 	"fmt"
 	"sync"
 	"sync/atomic"
+	"testing"
 )
 
-func main() {
-
+func Test_AtomaticCounter(t *testing.T) {
 	var ops uint64
 
 	var wg sync.WaitGroup

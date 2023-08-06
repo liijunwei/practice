@@ -1,7 +1,8 @@
-package main
+package internal
 
 import (
 	"fmt"
+	"testing"
 	"time"
 )
 
@@ -10,7 +11,7 @@ import (
 
 var colors = []string{"red", "green", "blue"}
 
-func main() {
+func TestLoopVariableCapture(t *testing.T) {
 	fmt.Println("serial running")
 	for _, c := range colors {
 		fmt.Println(c)

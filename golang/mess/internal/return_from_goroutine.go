@@ -1,9 +1,10 @@
-package main
+package internal
 
 import (
 	"fmt"
 	"sync"
 	"sync/atomic"
+	"testing"
 	"time"
 )
 
@@ -12,7 +13,8 @@ var (
 	wg      sync.WaitGroup = sync.WaitGroup{}
 )
 
-func main() {
+// what happened?
+func TestReturnFromGoRouting(t *testing.T) {
 	wg.Add(1)
 	go foo()
 
