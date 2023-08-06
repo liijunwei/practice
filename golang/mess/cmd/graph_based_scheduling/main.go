@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/dominikbraun/graph"
 )
@@ -15,19 +16,23 @@ func main() {
 
 	g1 := graph.New(nodeHash, graph.Directed(), graph.PreventCycles())
 	n1 := WorkNode{
-		Name: "task1",
+		Name:              "task1",
+		MillisecondNeeded: 10,
 	}
 
 	n2 := WorkNode{
-		Name: "task2",
+		Name:              "task2",
+		MillisecondNeeded: 20,
 	}
 
 	n3 := WorkNode{
-		Name: "task3",
+		Name:              "task3",
+		MillisecondNeeded: 30,
 	}
 
 	n4 := WorkNode{
-		Name: "task4",
+		Name:              "task4",
+		MillisecondNeeded: 40,
 	}
 
 	_ = g1.AddVertex(n1)
@@ -44,5 +49,6 @@ func main() {
 }
 
 type WorkNode struct {
-	Name string
+	Name              string
+	MillisecondNeeded time.Duration
 }
