@@ -7,6 +7,13 @@ import (
 	"github.com/dominikbraun/graph"
 )
 
+const (
+	statusHold     = "hold"
+	statusReady    = "ready"
+	statusRunning  = "running"
+	statusFinished = "finished"
+)
+
 func main() {
 	fmt.Println("graph based scheduling demo")
 
@@ -16,23 +23,27 @@ func main() {
 
 	g1 := graph.New(nodeHash, graph.Directed(), graph.PreventCycles())
 	n1 := WorkNode{
-		Name:              "task1",
-		MillisecondNeeded: 10,
+		Name:           "task1",
+		DurationNeeded: 10 * time.Millisecond,
+		Status:         "hold",
 	}
 
 	n2 := WorkNode{
-		Name:              "task2",
-		MillisecondNeeded: 20,
+		Name:           "task2",
+		DurationNeeded: 20 * time.Millisecond,
+		Status:         "hold",
 	}
 
 	n3 := WorkNode{
-		Name:              "task3",
-		MillisecondNeeded: 30,
+		Name:           "task3",
+		DurationNeeded: 30 * time.Millisecond,
+		Status:         "hold",
 	}
 
 	n4 := WorkNode{
-		Name:              "task4",
-		MillisecondNeeded: 40,
+		Name:           "task4",
+		DurationNeeded: 40 * time.Millisecond,
+		Status:         "hold",
 	}
 
 	_ = g1.AddVertex(n1)
@@ -49,6 +60,7 @@ func main() {
 }
 
 type WorkNode struct {
-	Name              string
-	MillisecondNeeded time.Duration
+	Name           string
+	DurationNeeded time.Duration
+	Status         string
 }
