@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/dominikbraun/graph"
@@ -57,10 +58,61 @@ func main() {
 
 	order, _ := graph.TopologicalSort(g1)
 	fmt.Println(order)
+
+	// adjMap, err := g1.AdjacencyMap()
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	for _, node := range order {
+		// fmt.Println(adjMap[node])
+		fmt.Printf("working on %s \n", node)
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(2)
+	queue := make(chan string)
+
+	go func() {
+		produce(queue, g1)
+		wg.Done()
+	}()
+
+	go func() {
+		consume(queue, g1)
+		wg.Done()
+	}()
+
+	wg.Wait()
 }
 
 type WorkNode struct {
 	Name           string
 	DurationNeeded time.Duration
 	Status         string
+}
+
+func produce(queue chan<- string, _graph graph.Graph[string, WorkNode]) {
+	for i := 0; i < 10; i++ {
+		queue <- fmt.Sprintf("task#%d", i)
+	}
+
+	close(queue)
+}
+
+func consume(queue <-chan string, _graph graph.Graph[string, WorkNode]) {
+	for {
+		select {
+		case task, ok := <-queue:
+			if ok {
+				fmt.Println("working on ", task)
+			} else {
+				fmt.Println("queue closed")
+				return
+			}
+		default:
+			fmt.Println("idle...")
+			time.Sleep(100 * time.Millisecond)
+		}
+	}
 }
