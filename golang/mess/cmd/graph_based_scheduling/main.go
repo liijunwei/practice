@@ -16,35 +16,33 @@ const (
 )
 
 func main() {
-	fmt.Println("graph based scheduling demo")
-
 	nodeHash := func(c WorkNode) string {
 		return c.Name
 	}
 
 	g1 := graph.New(nodeHash, graph.Directed(), graph.PreventCycles())
 	n1 := WorkNode{
-		Name:           "task1",
-		DurationNeeded: 10 * time.Millisecond,
-		Status:         "hold",
+		Name:     "task1",
+		Duration: 10 * time.Millisecond,
+		Status:   "hold",
 	}
 
 	n2 := WorkNode{
-		Name:           "task2",
-		DurationNeeded: 20 * time.Millisecond,
-		Status:         "hold",
+		Name:     "task2",
+		Duration: 20 * time.Millisecond,
+		Status:   "hold",
 	}
 
 	n3 := WorkNode{
-		Name:           "task3",
-		DurationNeeded: 30 * time.Millisecond,
-		Status:         "hold",
+		Name:     "task3",
+		Duration: 30 * time.Millisecond,
+		Status:   "hold",
 	}
 
 	n4 := WorkNode{
-		Name:           "task4",
-		DurationNeeded: 40 * time.Millisecond,
-		Status:         "hold",
+		Name:     "task4",
+		Duration: 40 * time.Millisecond,
+		Status:   "hold",
 	}
 
 	_ = g1.AddVertex(n1)
@@ -64,11 +62,6 @@ func main() {
 	// 	panic(err)
 	// }
 
-	for _, node := range order {
-		// fmt.Println(adjMap[node])
-		fmt.Printf("working on %s \n", node)
-	}
-
 	var wg sync.WaitGroup
 	wg.Add(2)
 	queue := make(chan string)
@@ -87,9 +80,9 @@ func main() {
 }
 
 type WorkNode struct {
-	Name           string
-	DurationNeeded time.Duration
-	Status         string
+	Name     string
+	Duration time.Duration
+	Status   string
 }
 
 func produce(queue chan<- string, _graph graph.Graph[string, WorkNode]) {
@@ -105,7 +98,7 @@ func consume(queue <-chan string, _graph graph.Graph[string, WorkNode]) {
 		select {
 		case task, ok := <-queue:
 			if ok {
-				fmt.Println("working on ", task)
+				fmt.Printf("working on %s\n", task)
 			} else {
 				fmt.Println("queue closed")
 				return
