@@ -20,10 +20,10 @@ const (
 //     from ready   to running  : task_start
 //     from running to done     : task_done
 
-type Graph map[*WorkNode]([]*WorkNode)
+type DiGraph map[*WorkNode]([]*WorkNode)
 
-func (g Graph) Transpose() Graph {
-	transposeGraph := Graph{}
+func (g DiGraph) Transpose() DiGraph {
+	transposeGraph := DiGraph{}
 
 	for current, dependencies := range g {
 		for _, dep := range dependencies {
@@ -39,7 +39,7 @@ func (g Graph) Transpose() Graph {
 	return transposeGraph
 }
 
-func (g Graph) String() string {
+func (g DiGraph) String() string {
 	var sb strings.Builder
 
 	for current, dependencies := range g {
@@ -54,7 +54,7 @@ func (g Graph) String() string {
 	return sb.String()
 }
 
-func (g Graph) Nodes() map[*WorkNode]struct{} {
+func (g DiGraph) Nodes() map[*WorkNode]struct{} {
 	nodes := make(map[*WorkNode]struct{})
 
 	for current, dependencies := range g {
@@ -101,7 +101,7 @@ func NewWorkNode(name string, options ...WorkNodeOption) *WorkNode {
 
 // check whether dependencies are all done
 // mark to ready if yes
-func (n *WorkNode) TaskReady(graph *Graph) bool {
+func (n *WorkNode) TaskReady(graph *DiGraph) bool {
 	dependencies := (*graph)[n]
 
 	for _, node := range dependencies {
@@ -147,7 +147,7 @@ func (n *WorkNode) IsDone() bool {
 	return n.Status == statusDone
 }
 
-func (n *WorkNode) InDegree(g Graph) int {
+func (n *WorkNode) InDegree(g DiGraph) int {
 	if deps, ok := g[n]; ok {
 		return len(deps)
 	}
@@ -155,7 +155,7 @@ func (n *WorkNode) InDegree(g Graph) int {
 	return 0
 }
 
-func (n *WorkNode) OutDegree(g Graph) int {
+func (n *WorkNode) OutDegree(g DiGraph) int {
 	return n.InDegree(g.Transpose())
 }
 
@@ -168,7 +168,7 @@ func main() {
 	t4 := NewWorkNode("task4")
 	t5 := NewWorkNode("task5", Duration(2))
 
-	var g = Graph{
+	var g = DiGraph{
 		t2: {t1, t5},
 		t3: {t1},
 		t4: {t3},
@@ -191,7 +191,7 @@ func main() {
 	}
 }
 
-func findFinalNodes(g *Graph) []*WorkNode {
+func findFinalNodes(g *DiGraph) []*WorkNode {
 	var finals []*WorkNode
 
 	for node := range g.Nodes() {
@@ -204,7 +204,7 @@ func findFinalNodes(g *Graph) []*WorkNode {
 	return finals
 }
 
-func waitForDependencies(n *WorkNode, g *Graph) {
+func waitForDependencies(n *WorkNode, g *DiGraph) {
 	dependencies := (*g)[n]
 
 	for _, node := range dependencies {
@@ -214,7 +214,7 @@ func waitForDependencies(n *WorkNode, g *Graph) {
 	fmt.Println("dependencies for", n.Name, "are met")
 }
 
-func run(n *WorkNode, g *Graph) {
+func run(n *WorkNode, g *DiGraph) {
 	defer timer(n.Name)()
 
 	if n.TaskReady(g) {
