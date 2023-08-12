@@ -2,21 +2,40 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
-// const (
-// 	statusHold     = "hold"
-// 	statusReady    = "ready"
-// 	statusRunning  = "running"
-// 	statusFinished = "finished"
-// )
+const (
+	statusHold     = "hold"
+	statusReady    = "ready"
+	statusRunning  = "running"
+	statusFinished = "finished"
+)
 
 func main() {
-	var taskGraph = map[string][]string{
-		"t2": {"t1"},
-		"t3": {"t1"},
-		"t4": {"t3"},
+	t1 := WorkNode{
+		Name:   "task1",
+		Status: statusHold,
+	}
+
+	t2 := WorkNode{
+		Name:   "task2",
+		Status: statusHold,
+	}
+
+	t3 := WorkNode{
+		Name:   "task3",
+		Status: statusHold,
+	}
+
+	t4 := WorkNode{
+		Name:   "task4",
+		Status: statusHold,
+	}
+
+	var taskGraph = map[WorkNode][]WorkNode{
+		t2: {t1},
+		t3: {t1},
+		t4: {t3},
 	}
 
 	fmt.Println(taskGraph)
@@ -35,7 +54,6 @@ func main() {
 // 		知道每个任务的当前状态
 
 type WorkNode struct {
-	Name     string
-	Duration time.Duration
-	Status   string
+	Name   string
+	Status string
 }
