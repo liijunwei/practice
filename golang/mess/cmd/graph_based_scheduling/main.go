@@ -117,21 +117,22 @@ func main() {
 		// TODO make trigger task running on `task_ready` event
 
 		go func() {
+			waitForDependencies(t1, &taskGraph)
 			run(t1, &taskGraph)
 		}()
 
 		go func() {
-			<-t1.done
+			waitForDependencies(t2, &taskGraph)
 			run(t2, &taskGraph)
 		}()
 
 		go func() {
-			<-t1.done
+			waitForDependencies(t3, &taskGraph)
 			run(t3, &taskGraph)
 		}()
 
 		go func() {
-			<-t3.done
+			waitForDependencies(t4, &taskGraph)
 			run(t4, &taskGraph)
 		}()
 
@@ -144,6 +145,16 @@ func main() {
 			break
 		}
 	}
+}
+
+func waitForDependencies(n *WorkNode, g *Graph) {
+	dependencies := (*g)[n]
+
+	for _, node := range dependencies {
+		<-node.done
+	}
+
+	fmt.Println("dependencies for", n.Name, "are met")
 }
 
 func run(n *WorkNode, g *Graph) {
