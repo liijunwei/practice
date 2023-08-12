@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -17,7 +18,39 @@ const (
 //     from ready   to running  : task_start
 //     from running to done     : task_done
 
-type Graph map[*WorkNode][]*WorkNode
+type Graph map[*WorkNode]([]*WorkNode)
+
+func (g Graph) Transpose() Graph {
+	transposeGraph := Graph{}
+
+	for current, dependencies := range g {
+		for _, dep := range dependencies {
+			if _, ok := transposeGraph[dep]; ok {
+				transposeGraph[dep] = append(transposeGraph[dep], current)
+				continue
+			}
+
+			transposeGraph[dep] = []*WorkNode{current}
+		}
+	}
+
+	return transposeGraph
+}
+
+func (g Graph) String() string {
+	var sb strings.Builder
+
+	for current, dependencies := range g {
+		depNames := make([]string, len(dependencies))
+		for _, dep := range dependencies {
+			depNames = append(depNames, dep.Name)
+		}
+
+		sb.WriteString(fmt.Sprintf("%s depends on %s\n", current.Name, depNames))
+	}
+
+	return sb.String()
+}
 
 // TODO Q: need to add mutex to WorkNode?
 type WorkNode struct {
@@ -75,6 +108,10 @@ func (n *WorkNode) IsDone() bool {
 	return n.Status == statusDone
 }
 
+// func (n *WorkNode) OutDegree(g *Graph) int {
+// 	return n.Status == statusDone
+// }
+
 func main() {
 	defer timer("all tasks")()
 
@@ -111,6 +148,12 @@ func main() {
 		t3: {t1},
 		t4: {t3},
 	}
+
+	g2 := taskGraph.Transpose()
+	fmt.Println(taskGraph)
+	fmt.Println(g2)
+
+	return
 
 	for {
 		// TODO make this non-blocking
