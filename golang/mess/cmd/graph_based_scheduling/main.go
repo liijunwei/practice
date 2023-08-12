@@ -74,6 +74,8 @@ func (n *WorkNode) IsDone() bool {
 }
 
 func main() {
+	defer timer("all tasks")()
+
 	t1 := &WorkNode{
 		Name:     "task1",
 		Status:   statusHold,
@@ -122,9 +124,19 @@ func main() {
 }
 
 func run(n *WorkNode, g *Graph) {
+	defer timer(n.Name)()
+
 	if n.TaskReady(g) {
 		n.TaskStart()
 		n.TaskDone()
+	}
+}
+
+func timer(name string) func() {
+	start := time.Now()
+
+	return func() {
+		fmt.Printf("%s took %v\n", name, time.Since(start))
 	}
 }
 
