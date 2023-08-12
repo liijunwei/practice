@@ -24,6 +24,7 @@ type WorkNode struct {
 	Name     string
 	Status   string
 	Duration int64
+	done     chan struct{}
 }
 
 // check whether dependencies are all done
@@ -61,6 +62,7 @@ func (n *WorkNode) TaskDone() {
 	if n.Status == statusRunning {
 		time.Sleep(time.Duration(n.Duration) * time.Second) // work consumes time
 		n.Status = statusDone
+		close(n.done)
 		fmt.Printf("%s is done...\n", n.Name)
 
 		return
@@ -80,24 +82,28 @@ func main() {
 		Name:     "task1",
 		Status:   statusHold,
 		Duration: 1,
+		done:     make(chan struct{}),
 	}
 
 	t2 := &WorkNode{
 		Name:     "task2",
 		Status:   statusHold,
 		Duration: 2,
+		done:     make(chan struct{}),
 	}
 
 	t3 := &WorkNode{
 		Name:     "task3",
 		Status:   statusHold,
 		Duration: 1,
+		done:     make(chan struct{}),
 	}
 
 	t4 := &WorkNode{
 		Name:     "task4",
 		Status:   statusHold,
 		Duration: 1,
+		done:     make(chan struct{}),
 	}
 
 	var taskGraph = Graph{
@@ -110,10 +116,25 @@ func main() {
 		// TODO make this non-blocking
 		// TODO make trigger task running on `task_ready` event
 
-		run(t1, &taskGraph)
-		go run(t2, &taskGraph)
-		run(t3, &taskGraph)
-		run(t4, &taskGraph)
+		go run(t1, &taskGraph)
+
+		go func() {
+			<-t1.done
+			run(t2, &taskGraph)
+		}()
+
+		go func() {
+			<-t1.done
+			run(t3, &taskGraph)
+		}()
+
+		go func() {
+			<-t3.done
+			run(t4, &taskGraph)
+		}()
+
+		// TODO find the final nodes and wait for their signals
+		<-t4.done
 
 		// TODO dfs iterate through all notes
 		if t1.IsDone() || t2.IsDone() || t3.IsDone() || t4.IsDone() {
