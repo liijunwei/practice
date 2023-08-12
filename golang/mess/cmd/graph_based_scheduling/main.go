@@ -171,28 +171,8 @@ func main() {
 		t4: {t3},
 	}
 
-	g2 := taskGraph.Transpose()
-	fmt.Println(taskGraph)
-	fmt.Println(g2)
-
-	fmt.Println("in degree of", t1.Name, t1.InDegree(taskGraph))
-	fmt.Println("in degree of", t2.Name, t2.InDegree(taskGraph))
-	fmt.Println("in degree of", t3.Name, t3.InDegree(taskGraph))
-	fmt.Println("in degree of", t4.Name, t4.InDegree(taskGraph))
-
-	fmt.Println("out degree of", t1.Name, t1.OutDegree(taskGraph))
-	fmt.Println("out degree of", t2.Name, t2.OutDegree(taskGraph))
-	fmt.Println("out degree of", t3.Name, t3.OutDegree(taskGraph))
-	fmt.Println("out degree of", t4.Name, t4.OutDegree(taskGraph))
-	fmt.Println()
-	for n := range taskGraph.Nodes() {
-		fmt.Println("all notes", n.Name)
-	}
-
 	for {
-		// TODO make this non-blocking
 		// TODO make trigger task running on `task_ready` event
-
 		go func() {
 			waitForDependencies(t1, &taskGraph)
 			run(t1, &taskGraph)
