@@ -6,16 +6,16 @@ import (
 )
 
 const (
-	statusHold     = "hold"
-	statusReady    = "ready"
-	statusRunning  = "running"
-	statusFinished = "finished"
+	statusHold    = "hold"
+	statusReady   = "ready"
+	statusRunning = "running"
+	statusDone    = "done"
 )
 
 // state machine:
 //     from hold    to ready    : task_ready
 //     from ready   to running  : task_start
-//     from running to finished : task_done
+//     from running to done     : task_done
 
 type Graph map[*WorkNode][]*WorkNode
 
@@ -32,8 +32,8 @@ func (n *WorkNode) TaskReady(graph *Graph) bool {
 	dependencies := (*graph)[n]
 
 	for _, node := range dependencies {
-		fmt.Println("checking dependencies stats: node:", node.Name, "status:", node.Status)
-		if node.Status != statusFinished {
+		// fmt.Println("checking dependencies status:", node.Name, node.Status)
+		if node.Status != statusDone {
 			return false
 		}
 	}
@@ -56,17 +56,21 @@ func (n *WorkNode) TaskStart() {
 	fmt.Printf("%s is not ready\n", n.Name)
 }
 
-// start the task if the node is ready
+// do work if it's already running
 func (n *WorkNode) TaskDone() {
 	if n.Status == statusRunning {
 		time.Sleep(time.Duration(n.Duration) * time.Second) // work consumes time
-		n.Status = statusFinished
+		n.Status = statusDone
 		fmt.Printf("%s is done...\n", n.Name)
 
 		return
 	}
 
 	fmt.Printf("%s is not running\n", n.Name)
+}
+
+func (n *WorkNode) IsDone() bool {
+	return n.Status == statusDone
 }
 
 func main() {
@@ -100,14 +104,33 @@ func main() {
 		t4: {t3},
 	}
 
-	fmt.Println(taskGraph)
-	fmt.Println(taskGraph[t1])
-	fmt.Println()
-	if t1.TaskReady(&taskGraph) {
-		t1.TaskStart()
-		t1.TaskDone()
+	for {
+		if t1.TaskReady(&taskGraph) {
+			t1.TaskStart()
+			t1.TaskDone()
+		}
+
+		if t2.TaskReady(&taskGraph) {
+			t2.TaskStart()
+			t2.TaskDone()
+		}
+
+		if t3.TaskReady(&taskGraph) {
+			t3.TaskStart()
+			t3.TaskDone()
+		}
+
+		if t4.TaskReady(&taskGraph) {
+			t4.TaskStart()
+			t4.TaskDone()
+		}
+
+		// dfs iterate through all notes
+		if t1.IsDone() || t2.IsDone() || t2.IsDone() || t2.IsDone() {
+			fmt.Println("all work done")
+			break
+		}
 	}
-	fmt.Println(t2.TaskReady(&taskGraph))
 }
 
 // 定义每个任务的输入输出
