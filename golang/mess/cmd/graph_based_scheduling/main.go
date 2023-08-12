@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+// TODO add tests
+
 const (
 	statusHold    = "hold"
 	statusReady   = "ready"
@@ -165,32 +167,28 @@ func main() {
 		done:     make(chan struct{}),
 	}
 
+	t5 := &WorkNode{
+		Name:     "task5",
+		Status:   statusHold,
+		Duration: 3,
+		done:     make(chan struct{}),
+	}
+
 	var taskGraph = Graph{
-		t2: {t1},
+		t2: {t1, t5},
 		t3: {t1},
 		t4: {t3},
 	}
 
 	// TODO make trigger task running on `task_ready` event
-	go func() {
-		waitForDependencies(t1, &taskGraph)
-		run(t1, &taskGraph)
-	}()
+	for node := range taskGraph.Nodes() {
+		node := node
 
-	go func() {
-		waitForDependencies(t2, &taskGraph)
-		run(t2, &taskGraph)
-	}()
-
-	go func() {
-		waitForDependencies(t3, &taskGraph)
-		run(t3, &taskGraph)
-	}()
-
-	go func() {
-		waitForDependencies(t4, &taskGraph)
-		run(t4, &taskGraph)
-	}()
+		go func() {
+			waitForDependencies(node, &taskGraph)
+			run(node, &taskGraph)
+		}()
+	}
 
 	// Q: am I doing this right?
 	finals := findFinalNodes(&taskGraph)
