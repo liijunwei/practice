@@ -111,7 +111,7 @@ func main() {
 		// TODO make trigger task running on `task_ready` event
 
 		run(t1, &taskGraph)
-		run(t2, &taskGraph)
+		go run(t2, &taskGraph)
 		run(t3, &taskGraph)
 		run(t4, &taskGraph)
 
