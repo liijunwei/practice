@@ -17,7 +17,7 @@ const (
 //     from ready   to running  : task_start
 //     from running to finished : task_done
 
-type Graph map[WorkNode][]WorkNode
+type Graph map[*WorkNode][]*WorkNode
 
 // TODO Q: need to add mutex to WorkNode?
 type WorkNode struct {
@@ -28,17 +28,18 @@ type WorkNode struct {
 
 // check whether dependencies are all done
 // mark to ready if yes
-func (n *WorkNode) TaskReady(graph Graph) bool {
-	dependencies := graph[*n]
+func (n *WorkNode) TaskReady(graph *Graph) bool {
+	dependencies := (*graph)[n]
 
 	for _, node := range dependencies {
+		fmt.Println("checking dependencies stats: node:", node.Name, "status:", node.Status)
 		if node.Status != statusFinished {
 			return false
 		}
 	}
 
 	n.Status = statusReady
-	fmt.Printf("%s is ready...", n.Name)
+	fmt.Printf("%s is ready...\n", n.Name)
 
 	return true
 }
@@ -47,46 +48,47 @@ func (n *WorkNode) TaskReady(graph Graph) bool {
 func (n *WorkNode) TaskStart() {
 	if n.Status == statusReady {
 		n.Status = statusRunning
-		fmt.Printf("%s is started...", n.Name)
+		fmt.Printf("%s is started...\n", n.Name)
 
 		return
 	}
 
-	fmt.Printf("%s is not ready", n.Name)
+	fmt.Printf("%s is not ready\n", n.Name)
 }
 
 // start the task if the node is ready
 func (n *WorkNode) TaskDone() {
 	if n.Status == statusRunning {
 		time.Sleep(time.Duration(n.Duration) * time.Second) // work consumes time
-		fmt.Printf("%s is done...", n.Name)
+		n.Status = statusFinished
+		fmt.Printf("%s is done...\n", n.Name)
 
 		return
 	}
 
-	fmt.Printf("%s is not running", n.Name)
+	fmt.Printf("%s is not running\n", n.Name)
 }
 
 func main() {
-	t1 := WorkNode{
+	t1 := &WorkNode{
 		Name:     "task1",
 		Status:   statusHold,
 		Duration: 1,
 	}
 
-	t2 := WorkNode{
+	t2 := &WorkNode{
 		Name:     "task2",
 		Status:   statusHold,
 		Duration: 2,
 	}
 
-	t3 := WorkNode{
+	t3 := &WorkNode{
 		Name:     "task3",
 		Status:   statusHold,
 		Duration: 3,
 	}
 
-	t4 := WorkNode{
+	t4 := &WorkNode{
 		Name:     "task4",
 		Status:   statusHold,
 		Duration: 4,
@@ -99,7 +101,13 @@ func main() {
 	}
 
 	fmt.Println(taskGraph)
-	fmt.Println(taskGraph[t2])
+	fmt.Println(taskGraph[t1])
+	fmt.Println()
+	if t1.TaskReady(&taskGraph) {
+		t1.TaskStart()
+		t1.TaskDone()
+	}
+	fmt.Println(t2.TaskReady(&taskGraph))
 }
 
 // 定义每个任务的输入输出
