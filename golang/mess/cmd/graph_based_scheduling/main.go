@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 const (
@@ -11,34 +12,94 @@ const (
 	statusFinished = "finished"
 )
 
+// state machine:
+//     from hold    to ready    : task_ready
+//     from ready   to running  : task_start
+//     from running to finished : task_done
+
+type Graph map[WorkNode][]WorkNode
+
+// TODO Q: need to add mutex to WorkNode?
+type WorkNode struct {
+	Name     string
+	Status   string
+	Duration int64
+}
+
+// check whether dependencies are all done
+// mark to ready if yes
+func (n *WorkNode) TaskReady(graph Graph) bool {
+	dependencies := graph[*n]
+
+	for _, node := range dependencies {
+		if node.Status != statusFinished {
+			return false
+		}
+	}
+
+	n.Status = statusReady
+	fmt.Printf("%s is ready...", n.Name)
+
+	return true
+}
+
+// start the task if the node is ready
+func (n *WorkNode) TaskStart() {
+	if n.Status == statusReady {
+		n.Status = statusRunning
+		fmt.Printf("%s is started...", n.Name)
+
+		return
+	}
+
+	fmt.Printf("%s is not ready", n.Name)
+}
+
+// start the task if the node is ready
+func (n *WorkNode) TaskDone() {
+	if n.Status == statusRunning {
+		time.Sleep(time.Duration(n.Duration) * time.Second) // work consumes time
+		fmt.Printf("%s is done...", n.Name)
+
+		return
+	}
+
+	fmt.Printf("%s is not running", n.Name)
+}
+
 func main() {
 	t1 := WorkNode{
-		Name:   "task1",
-		Status: statusHold,
+		Name:     "task1",
+		Status:   statusHold,
+		Duration: 1,
 	}
 
 	t2 := WorkNode{
-		Name:   "task2",
-		Status: statusHold,
+		Name:     "task2",
+		Status:   statusHold,
+		Duration: 2,
 	}
 
 	t3 := WorkNode{
-		Name:   "task3",
-		Status: statusHold,
+		Name:     "task3",
+		Status:   statusHold,
+		Duration: 3,
 	}
 
 	t4 := WorkNode{
-		Name:   "task4",
-		Status: statusHold,
+		Name:     "task4",
+		Status:   statusHold,
+		Duration: 4,
 	}
 
-	var taskGraph = map[WorkNode][]WorkNode{
+	var taskGraph = Graph{
 		t2: {t1},
 		t3: {t1},
 		t4: {t3},
 	}
 
 	fmt.Println(taskGraph)
+	fmt.Println(taskGraph[t2])
 }
 
 // 定义每个任务的输入输出
@@ -52,8 +113,3 @@ func main() {
 // 		图的样子
 // 		每个任务的函数签名
 // 		知道每个任务的当前状态
-
-type WorkNode struct {
-	Name   string
-	Status string
-}
