@@ -107,31 +107,24 @@ func main() {
 	for {
 		// TODO make this non-blocking
 		// TODO make trigger task running on `task_ready` event
-		if t1.TaskReady(&taskGraph) {
-			t1.TaskStart()
-			t1.TaskDone()
-		}
 
-		if t2.TaskReady(&taskGraph) {
-			t2.TaskStart()
-			t2.TaskDone()
-		}
-
-		if t3.TaskReady(&taskGraph) {
-			t3.TaskStart()
-			t3.TaskDone()
-		}
-
-		if t4.TaskReady(&taskGraph) {
-			t4.TaskStart()
-			t4.TaskDone()
-		}
+		run(t1, &taskGraph)
+		run(t2, &taskGraph)
+		run(t3, &taskGraph)
+		run(t4, &taskGraph)
 
 		// TODO dfs iterate through all notes
 		if t1.IsDone() || t2.IsDone() || t2.IsDone() || t2.IsDone() {
 			fmt.Println("all work done")
 			break
 		}
+	}
+}
+
+func run(n *WorkNode, g *Graph) {
+	if n.TaskReady(g) {
+		n.TaskStart()
+		n.TaskDone()
 	}
 }
 
