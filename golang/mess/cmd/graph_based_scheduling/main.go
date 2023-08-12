@@ -114,7 +114,7 @@ func main() {
 		run(t4, &taskGraph)
 
 		// TODO dfs iterate through all notes
-		if t1.IsDone() || t2.IsDone() || t2.IsDone() || t2.IsDone() {
+		if t1.IsDone() || t2.IsDone() || t3.IsDone() || t4.IsDone() {
 			fmt.Println("all work done")
 			break
 		}
