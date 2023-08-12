@@ -91,13 +91,13 @@ func main() {
 	t3 := &WorkNode{
 		Name:     "task3",
 		Status:   statusHold,
-		Duration: 3,
+		Duration: 1,
 	}
 
 	t4 := &WorkNode{
 		Name:     "task4",
 		Status:   statusHold,
-		Duration: 4,
+		Duration: 1,
 	}
 
 	var taskGraph = Graph{
