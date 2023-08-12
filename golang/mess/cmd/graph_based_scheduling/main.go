@@ -171,39 +171,31 @@ func main() {
 		t4: {t3},
 	}
 
-	for {
-		// TODO make trigger task running on `task_ready` event
-		go func() {
-			waitForDependencies(t1, &taskGraph)
-			run(t1, &taskGraph)
-		}()
+	// TODO make trigger task running on `task_ready` event
+	go func() {
+		waitForDependencies(t1, &taskGraph)
+		run(t1, &taskGraph)
+	}()
 
-		go func() {
-			waitForDependencies(t2, &taskGraph)
-			run(t2, &taskGraph)
-		}()
+	go func() {
+		waitForDependencies(t2, &taskGraph)
+		run(t2, &taskGraph)
+	}()
 
-		go func() {
-			waitForDependencies(t3, &taskGraph)
-			run(t3, &taskGraph)
-		}()
+	go func() {
+		waitForDependencies(t3, &taskGraph)
+		run(t3, &taskGraph)
+	}()
 
-		go func() {
-			waitForDependencies(t4, &taskGraph)
-			run(t4, &taskGraph)
-		}()
+	go func() {
+		waitForDependencies(t4, &taskGraph)
+		run(t4, &taskGraph)
+	}()
 
-		// Q: am I doing this right?
-		finals := findFinalNodes(&taskGraph)
-		for _, node := range finals {
-			<-node.done
-		}
-
-		// TODO dfs iterate through all notes
-		if t1.IsDone() || t2.IsDone() || t3.IsDone() || t4.IsDone() {
-			fmt.Println("all work done")
-			break
-		}
+	// Q: am I doing this right?
+	finals := findFinalNodes(&taskGraph)
+	for _, node := range finals {
+		<-node.done
 	}
 }
 
