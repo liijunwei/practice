@@ -116,7 +116,9 @@ func main() {
 		// TODO make this non-blocking
 		// TODO make trigger task running on `task_ready` event
 
-		go run(t1, &taskGraph)
+		go func() {
+			run(t1, &taskGraph)
+		}()
 
 		go func() {
 			<-t1.done
