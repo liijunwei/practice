@@ -68,12 +68,35 @@ func (g Graph) Nodes() map[*WorkNode]struct{} {
 	return nodes
 }
 
+type WorkNodeOption func(*WorkNode)
+
 // TODO Q: need to add mutex to WorkNode?
 type WorkNode struct {
 	Name     string
 	Status   string
 	Duration int64
 	done     chan struct{}
+}
+
+func Duration(d int64) WorkNodeOption {
+	return func(node *WorkNode) {
+		node.Duration = d
+	}
+}
+
+func NewWorkNode(name string, options ...WorkNodeOption) *WorkNode {
+	node := &WorkNode{
+		Name:     name,
+		Status:   statusHold,
+		Duration: 1,
+		done:     make(chan struct{}),
+	}
+
+	for _, o := range options {
+		o(node)
+	}
+
+	return node
 }
 
 // check whether dependencies are all done
@@ -139,59 +162,30 @@ func (n *WorkNode) OutDegree(g Graph) int {
 func main() {
 	defer timer("all tasks")()
 
-	t1 := &WorkNode{
-		Name:     "task1",
-		Status:   statusHold,
-		Duration: 1,
-		done:     make(chan struct{}),
-	}
+	t1 := NewWorkNode("task1")
+	t2 := NewWorkNode("task2", Duration(2))
+	t3 := NewWorkNode("task3")
+	t4 := NewWorkNode("task4")
+	t5 := NewWorkNode("task5", Duration(2))
 
-	t2 := &WorkNode{
-		Name:     "task2",
-		Status:   statusHold,
-		Duration: 2,
-		done:     make(chan struct{}),
-	}
-
-	t3 := &WorkNode{
-		Name:     "task3",
-		Status:   statusHold,
-		Duration: 1,
-		done:     make(chan struct{}),
-	}
-
-	t4 := &WorkNode{
-		Name:     "task4",
-		Status:   statusHold,
-		Duration: 1,
-		done:     make(chan struct{}),
-	}
-
-	t5 := &WorkNode{
-		Name:     "task5",
-		Status:   statusHold,
-		Duration: 3,
-		done:     make(chan struct{}),
-	}
-
-	var taskGraph = Graph{
+	var g = Graph{
 		t2: {t1, t5},
 		t3: {t1},
 		t4: {t3},
 	}
 
 	// TODO make trigger task running on `task_ready` event
-	for node := range taskGraph.Nodes() {
+	for node := range g.Nodes() {
 		node := node
 
 		go func() {
-			waitForDependencies(node, &taskGraph)
-			run(node, &taskGraph)
+			waitForDependencies(node, &g)
+			run(node, &g)
 		}()
 	}
 
 	// Q: am I doing this right?
-	finals := findFinalNodes(&taskGraph)
+	finals := findFinalNodes(&g)
 	for _, node := range finals {
 		<-node.done
 	}
