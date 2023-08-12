@@ -52,6 +52,20 @@ func (g Graph) String() string {
 	return sb.String()
 }
 
+func (g Graph) Nodes() map[*WorkNode]struct{} {
+	nodes := make(map[*WorkNode]struct{})
+
+	for current, dependencies := range g {
+		nodes[current] = struct{}{}
+
+		for _, dep := range dependencies {
+			nodes[dep] = struct{}{}
+		}
+	}
+
+	return nodes
+}
+
 // TODO Q: need to add mutex to WorkNode?
 type WorkNode struct {
 	Name     string
@@ -108,9 +122,17 @@ func (n *WorkNode) IsDone() bool {
 	return n.Status == statusDone
 }
 
-// func (n *WorkNode) OutDegree(g *Graph) int {
-// 	return n.Status == statusDone
-// }
+func (n *WorkNode) InDegree(g Graph) int {
+	if deps, ok := g[n]; ok {
+		return len(deps)
+	}
+
+	return 0
+}
+
+func (n *WorkNode) OutDegree(g Graph) int {
+	return n.InDegree(g.Transpose())
+}
 
 func main() {
 	defer timer("all tasks")()
@@ -153,7 +175,19 @@ func main() {
 	fmt.Println(taskGraph)
 	fmt.Println(g2)
 
-	return
+	fmt.Println("in degree of", t1.Name, t1.InDegree(taskGraph))
+	fmt.Println("in degree of", t2.Name, t2.InDegree(taskGraph))
+	fmt.Println("in degree of", t3.Name, t3.InDegree(taskGraph))
+	fmt.Println("in degree of", t4.Name, t4.InDegree(taskGraph))
+
+	fmt.Println("out degree of", t1.Name, t1.OutDegree(taskGraph))
+	fmt.Println("out degree of", t2.Name, t2.OutDegree(taskGraph))
+	fmt.Println("out degree of", t3.Name, t3.OutDegree(taskGraph))
+	fmt.Println("out degree of", t4.Name, t4.OutDegree(taskGraph))
+	fmt.Println()
+	for n := range taskGraph.Nodes() {
+		fmt.Println("all notes", n.Name)
+	}
 
 	for {
 		// TODO make this non-blocking
@@ -179,8 +213,11 @@ func main() {
 			run(t4, &taskGraph)
 		}()
 
-		// TODO find the final nodes and wait for their signals
-		<-t4.done
+		// Q: am I doing this right?
+		finals := findFinalNodes(&taskGraph)
+		for _, node := range finals {
+			<-node.done
+		}
 
 		// TODO dfs iterate through all notes
 		if t1.IsDone() || t2.IsDone() || t3.IsDone() || t4.IsDone() {
@@ -188,6 +225,19 @@ func main() {
 			break
 		}
 	}
+}
+
+func findFinalNodes(g *Graph) []*WorkNode {
+	var finals []*WorkNode
+
+	for node := range g.Nodes() {
+		if node.OutDegree(*g) == 0 {
+			finals = append(finals, node)
+			fmt.Println("we will wait for", node.Name)
+		}
+	}
+
+	return finals
 }
 
 func waitForDependencies(n *WorkNode, g *Graph) {
