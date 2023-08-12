@@ -105,6 +105,8 @@ func main() {
 	}
 
 	for {
+		// TODO make this non-blocking
+		// TODO make trigger task running on `task_ready` event
 		if t1.TaskReady(&taskGraph) {
 			t1.TaskStart()
 			t1.TaskDone()
@@ -125,7 +127,7 @@ func main() {
 			t4.TaskDone()
 		}
 
-		// dfs iterate through all notes
+		// TODO dfs iterate through all notes
 		if t1.IsDone() || t2.IsDone() || t2.IsDone() || t2.IsDone() {
 			fmt.Println("all work done")
 			break
