@@ -20,6 +20,7 @@ const (
 //     from ready   to running  : task_start
 //     from running to done     : task_done
 
+// TODO cycle detection
 type DiGraph map[*WorkNode]([]*WorkNode)
 
 func (g DiGraph) Transpose() DiGraph {
