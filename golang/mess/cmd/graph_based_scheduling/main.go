@@ -69,6 +69,19 @@ func (g DiGraph) Nodes() map[*WorkNode]struct{} {
 	return nodes
 }
 
+func (g DiGraph) FinalNodes() []*WorkNode {
+	var finals []*WorkNode
+
+	for node := range g.Nodes() {
+		if node.OutDegree(g) == 0 {
+			finals = append(finals, node)
+			fmt.Println("we will wait for", node.Name)
+		}
+	}
+
+	return finals
+}
+
 type WorkNodeOption func(*WorkNode)
 
 // TODO Q: need to add mutex to WorkNode?
@@ -166,6 +179,24 @@ func (n *WorkNode) OutDegree(g DiGraph) int {
 	return n.InDegree(g.Transpose())
 }
 
+// unblock means node dependencies are all ready
+func (n *WorkNode) WaitForDependencies(g DiGraph) {
+	dependencies := g[n]
+
+	for _, node := range dependencies {
+		<-node.done
+	}
+}
+
+func (n *WorkNode) Run(g DiGraph) {
+	defer timer(n.Name)()
+
+	if n.TaskReady(&g) {
+		n.TaskStart()
+		n.TaskDone()
+	}
+}
+
 func main() {
 	defer timer("all tasks")()
 
@@ -186,46 +217,13 @@ func main() {
 		node := node
 
 		go func() {
-			waitForDependencies(node, &g)
-			run(node, &g)
+			node.WaitForDependencies(g)
+			node.Run(g)
 		}()
 	}
 
-	// Q: am I doing this right?
-	finals := findFinalNodes(&g)
-	for _, node := range finals {
+	for _, node := range g.FinalNodes() {
 		<-node.done
-	}
-}
-
-func findFinalNodes(g *DiGraph) []*WorkNode {
-	var finals []*WorkNode
-
-	for node := range g.Nodes() {
-		if node.OutDegree(*g) == 0 {
-			finals = append(finals, node)
-			fmt.Println("we will wait for", node.Name)
-		}
-	}
-
-	return finals
-}
-
-// unblock means node dependencies are all ready
-func waitForDependencies(n *WorkNode, g *DiGraph) {
-	dependencies := (*g)[n]
-
-	for _, node := range dependencies {
-		<-node.done
-	}
-}
-
-func run(n *WorkNode, g *DiGraph) {
-	defer timer(n.Name)()
-
-	if n.TaskReady(g) {
-		n.TaskStart()
-		n.TaskDone()
 	}
 }
 
