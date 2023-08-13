@@ -70,14 +70,22 @@ func (g DiGraph) Nodes() map[*WorkNode]struct{} {
 }
 
 func (g DiGraph) FinalNodes() []*WorkNode {
-	var finals []*WorkNode
+	nodes := g.Nodes()
+	finals := make([]*WorkNode, 0, len(nodes))
 
-	for node := range g.Nodes() {
+	for node := range nodes {
 		if node.OutDegree(g) == 0 {
 			finals = append(finals, node)
-			fmt.Println("we will wait for", node.Name)
 		}
 	}
+
+	names := make([]string, 0, len(finals))
+
+	for _, node := range finals {
+		names = append(names, node.Name)
+	}
+
+	fmt.Printf("waiting for final nodes: %s\n", names)
 
 	return finals
 }
@@ -144,7 +152,8 @@ func (n *WorkNode) TaskStart() {
 }
 
 func (n *WorkNode) DoWork() {
-	time.Sleep(time.Duration(n.Duration) * time.Second) // work consumes time
+	took := time.Duration(n.Duration) * time.Second
+	time.Sleep(took) // work took x time
 }
 
 // do work if it's already running
