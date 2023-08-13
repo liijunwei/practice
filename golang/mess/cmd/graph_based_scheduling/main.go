@@ -211,14 +211,13 @@ func findFinalNodes(g *DiGraph) []*WorkNode {
 	return finals
 }
 
+// unblock means node dependencies are all ready
 func waitForDependencies(n *WorkNode, g *DiGraph) {
 	dependencies := (*g)[n]
 
 	for _, node := range dependencies {
 		<-node.done
 	}
-
-	fmt.Println("dependencies for", n.Name, "are met")
 }
 
 func run(n *WorkNode, g *DiGraph) {
