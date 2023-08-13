@@ -1,7 +1,10 @@
 https://mermaid.live/
 
+- TD: -> top down
+- LR: -> left right
+
 ```mermaid
-flowchart TD
+flowchart LR
     A --> C
     A --> D
     B --> C
