@@ -164,8 +164,6 @@ func (n *WorkNode) TaskDone() {
 
 		close(n.done)
 
-		fmt.Printf("%s is done...\n", n.ID)
-
 		return
 	}
 
@@ -240,7 +238,7 @@ func timer(name string) func() {
 	start := time.Now()
 
 	return func() {
-		fmt.Printf("%s took %v\n", name, time.Since(start))
+		fmt.Printf("%s is done...(took %v)\n", name, time.Since(start))
 	}
 }
 
