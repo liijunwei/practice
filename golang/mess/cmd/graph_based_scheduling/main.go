@@ -7,6 +7,8 @@ import (
 )
 
 // TODO add tests
+// TODO what's the relationship between this and toposort?
+// Q: how to see the result of single thread execution?
 
 const (
 	statusHold    = "hold" // initial state

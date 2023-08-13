@@ -9,5 +9,5 @@ demo_pass_parameter_while_build:
 	./a.out
 
 demo_graph_based_scheduling:
-	go build -o a.out cmd/graph_based_scheduling/main.go
+	go build -race -o a.out cmd/graph_based_scheduling/main.go
 	./a.out
