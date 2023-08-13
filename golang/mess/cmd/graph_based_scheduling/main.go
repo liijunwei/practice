@@ -130,12 +130,18 @@ func (n *WorkNode) TaskStart() {
 	fmt.Printf("%s is not ready\n", n.Name)
 }
 
+func (n *WorkNode) DoWork() {
+	time.Sleep(time.Duration(n.Duration) * time.Second) // work consumes time
+}
+
 // do work if it's already running
 func (n *WorkNode) TaskDone() {
 	if n.Status == statusRunning {
-		time.Sleep(time.Duration(n.Duration) * time.Second) // work consumes time
+		n.DoWork() // work consumes time
 		n.Status = statusDone
+
 		close(n.done)
+
 		fmt.Printf("%s is done...\n", n.Name)
 
 		return
