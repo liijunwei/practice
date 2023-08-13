@@ -9,16 +9,16 @@ import (
 // TODO add tests
 
 const (
-	statusHold    = "hold"
+	statusHold    = "hold" // initial state
 	statusReady   = "ready"
 	statusRunning = "running"
 	statusDone    = "done"
 )
 
 // state machine:
-//     from hold    to ready    : task_ready
-//     from ready   to running  : task_start
-//     from running to done     : task_done
+//     from hold    to ready    : TaskReady
+//     from ready   to running  : TaskStart
+//     from running to done     : TaskDone
 
 // TODO cycle detection
 type DiGraph map[*WorkNode]([]*WorkNode)
@@ -123,8 +123,8 @@ func NewWorkNode(name string, options ...WorkNodeOption) *WorkNode {
 
 // check whether dependencies are all done
 // mark to ready if yes
-func (n *WorkNode) TaskReady(graph *DiGraph) bool {
-	dependencies := (*graph)[n]
+func (n *WorkNode) TaskReady(graph DiGraph) bool {
+	dependencies := graph[n]
 
 	for _, node := range dependencies {
 		// fmt.Println("checking dependencies status:", node.Name, node.Status)
@@ -143,7 +143,7 @@ func (n *WorkNode) TaskReady(graph *DiGraph) bool {
 func (n *WorkNode) TaskStart() {
 	if n.Status == statusReady {
 		n.Status = statusRunning
-		fmt.Printf("%s is started...\n", n.ID)
+		fmt.Printf("%s is running...\n", n.ID)
 
 		return
 	}
@@ -198,7 +198,7 @@ func (n *WorkNode) WaitForDependencies(g DiGraph) {
 func (n *WorkNode) Run(g DiGraph) {
 	defer timer(n.ID)()
 
-	if n.TaskReady(&g) {
+	if n.TaskReady(g) {
 		n.TaskStart()
 		n.TaskDone()
 	}
