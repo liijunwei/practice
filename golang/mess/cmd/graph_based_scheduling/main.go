@@ -46,10 +46,10 @@ func (g DiGraph) String() string {
 	for current, dependencies := range g {
 		depNames := make([]string, len(dependencies))
 		for _, dep := range dependencies {
-			depNames = append(depNames, dep.Name)
+			depNames = append(depNames, dep.ID)
 		}
 
-		sb.WriteString(fmt.Sprintf("%s depends on %s\n", current.Name, depNames))
+		sb.WriteString(fmt.Sprintf("%s depends on %s\n", current.ID, depNames))
 	}
 
 	return sb.String()
@@ -82,7 +82,7 @@ func (g DiGraph) FinalNodes() []*WorkNode {
 	names := make([]string, 0, len(finals))
 
 	for _, node := range finals {
-		names = append(names, node.Name)
+		names = append(names, node.ID)
 	}
 
 	fmt.Printf("waiting for final nodes: %s\n", names)
@@ -94,7 +94,7 @@ type WorkNodeOption func(*WorkNode)
 
 // TODO Q: need to add mutex to WorkNode?
 type WorkNode struct {
-	Name     string
+	ID       string
 	Status   string
 	Duration int64
 	done     chan struct{}
@@ -108,7 +108,7 @@ func Duration(d int64) WorkNodeOption {
 
 func NewWorkNode(name string, options ...WorkNodeOption) *WorkNode {
 	node := &WorkNode{
-		Name:     name,
+		ID:       name,
 		Status:   statusHold,
 		Duration: 1,
 		done:     make(chan struct{}),
@@ -134,7 +134,7 @@ func (n *WorkNode) TaskReady(graph *DiGraph) bool {
 	}
 
 	n.Status = statusReady
-	fmt.Printf("%s is ready...\n", n.Name)
+	fmt.Printf("%s is ready...\n", n.ID)
 
 	return true
 }
@@ -143,12 +143,12 @@ func (n *WorkNode) TaskReady(graph *DiGraph) bool {
 func (n *WorkNode) TaskStart() {
 	if n.Status == statusReady {
 		n.Status = statusRunning
-		fmt.Printf("%s is started...\n", n.Name)
+		fmt.Printf("%s is started...\n", n.ID)
 
 		return
 	}
 
-	fmt.Printf("%s is not ready\n", n.Name)
+	fmt.Printf("%s is not ready\n", n.ID)
 }
 
 func (n *WorkNode) DoWork() {
@@ -164,12 +164,12 @@ func (n *WorkNode) TaskDone() {
 
 		close(n.done)
 
-		fmt.Printf("%s is done...\n", n.Name)
+		fmt.Printf("%s is done...\n", n.ID)
 
 		return
 	}
 
-	fmt.Printf("%s is not running\n", n.Name)
+	fmt.Printf("%s is not running\n", n.ID)
 }
 
 func (n *WorkNode) IsDone() bool {
@@ -198,7 +198,7 @@ func (n *WorkNode) WaitForDependencies(g DiGraph) {
 }
 
 func (n *WorkNode) Run(g DiGraph) {
-	defer timer(n.Name)()
+	defer timer(n.ID)()
 
 	if n.TaskReady(&g) {
 		n.TaskStart()
