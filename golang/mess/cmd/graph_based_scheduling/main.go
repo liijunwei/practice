@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"strings"
+	"sync"
+	"sync/atomic"
 	"time"
 )
 
@@ -163,6 +165,8 @@ type WorkNode struct {
 	Status   string
 	Duration int64
 	done     chan struct{}
+
+	cond sync.Cond
 }
 
 func Duration(d int64) WorkNodeOption {
@@ -172,11 +176,14 @@ func Duration(d int64) WorkNodeOption {
 }
 
 func NewWorkNode(name string, options ...WorkNodeOption) *WorkNode {
+	mu := &sync.Mutex{}
+
 	node := &WorkNode{
 		ID:       name,
 		Status:   statusHold,
 		Duration: 1,
 		done:     make(chan struct{}),
+		cond:     *sync.NewCond(mu),
 	}
 
 	for _, o := range options {
@@ -186,20 +193,33 @@ func NewWorkNode(name string, options ...WorkNodeOption) *WorkNode {
 	return node
 }
 
+// TODO need to synchronize
 // check whether dependencies are all done
 // mark to ready if yes
 func (n *WorkNode) TaskReady(dependencies []*WorkNode) bool {
-	for _, node := range dependencies {
-		// fmt.Println("checking dependencies status:", node.ID, node.Status)
-		if node.Status != statusDone {
-			return false
-		}
+	n.cond.L.Lock()
+	defer n.cond.L.Unlock()
+
+	for n.PendingDependenciesCountNotZero(dependencies) {
+		n.cond.Wait()
 	}
 
 	n.Status = statusReady
 	fmt.Printf("%s is ready...\n", n.ID)
 
 	return true
+}
+
+func (n *WorkNode) PendingDependenciesCountNotZero(dependencies []*WorkNode) bool {
+	var count uint32
+
+	for _, node := range dependencies {
+		if node.Status != statusDone {
+			atomic.AddUint32(&count, 1)
+		}
+	}
+
+	return count != 0
 }
 
 // start the task if the node is ready
