@@ -35,6 +35,38 @@ const (
 //     from ready   to running  : TaskStart
 //     from running to done     : TaskDone
 
+func main() {
+	defer timer("all tasks")()
+
+	t1 := NewWorkNode("task1")
+	t2 := NewWorkNode("task2", Duration(2))
+	t3 := NewWorkNode("task3")
+	t4 := NewWorkNode("task4")
+	t5 := NewWorkNode("task5", Duration(2))
+
+	graph := DiGraph{
+		t1: {t2, t3},
+		t2: {},
+		t3: {t4},
+		t4: {},
+		t5: {t2},
+	}
+
+	reverseGrapth := graph.Transpose()
+
+	for node := range graph.Nodes() {
+		node := node
+
+		go func() {
+			node.Run(reverseGrapth)
+		}()
+	}
+
+	for _, node := range graph.FinalNodes() {
+		<-node.done
+	}
+}
+
 // TODO cycle detection
 type DiGraph map[*WorkNode]([]*WorkNode)
 
@@ -215,38 +247,6 @@ func (n *WorkNode) Run(g DiGraph) {
 	if n.TaskReady(g) {
 		n.TaskStart()
 		n.TaskDone()
-	}
-}
-
-func main() {
-	defer timer("all tasks")()
-
-	t1 := NewWorkNode("task1")
-	t2 := NewWorkNode("task2", Duration(2))
-	t3 := NewWorkNode("task3")
-	t4 := NewWorkNode("task4")
-	t5 := NewWorkNode("task5", Duration(2))
-
-	graph := DiGraph{
-		t1: {t2, t3},
-		t2: {},
-		t3: {t4},
-		t4: {},
-		t5: {t2},
-	}
-
-	reverseGrapth := graph.Transpose()
-
-	for node := range graph.Nodes() {
-		node := node
-
-		go func() {
-			node.Run(reverseGrapth)
-		}()
-	}
-
-	for _, node := range graph.FinalNodes() {
-		<-node.done
 	}
 }
 
