@@ -9,6 +9,7 @@ import (
 // TODO add tests
 // TODO what's the relationship between this and toposort?
 // Q: how to see the result of single thread execution?
+// Q: how to make use of producer / consumer pattern, is it necessary/helpful?
 
 const (
 	statusHold    = "hold" // initial state
