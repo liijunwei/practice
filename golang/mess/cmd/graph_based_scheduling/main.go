@@ -38,18 +38,36 @@ const (
 func main() {
 	defer timer("all tasks")()
 
-	t1 := NewWorkNode("task1")
-	t2 := NewWorkNode("task2", Duration(2))
-	t3 := NewWorkNode("task3")
-	t4 := NewWorkNode("task4")
-	t5 := NewWorkNode("task5", Duration(2))
+	ta := NewWorkNode("task#A")
+	tb := NewWorkNode("task#B")
+	tc := NewWorkNode("task#C")
+	td := NewWorkNode("task#D")
+	te := NewWorkNode("task#E")
+	tf := NewWorkNode("task#F")
+	tg := NewWorkNode("task#G")
+	th := NewWorkNode("task#H")
+	ti := NewWorkNode("task#I")
+	tj := NewWorkNode("task#J")
+	tk := NewWorkNode("task#K")
+	tl := NewWorkNode("task#L")
+	tm := NewWorkNode("task#M")
 
 	graph := DiGraph{
-		t1: {t2, t3},
-		t2: {},
-		t3: {t4},
-		t4: {},
-		t5: {t2},
+		ta: {tc, td},
+		tb: {tc, td},
+		tc: {tg, th},
+		td: {te, tf},
+		te: {th},
+		tf: {ti},
+		tg: {tj},
+		th: {tj},
+		ti: {tj},
+		tj: {tk},
+		tj: {tl},
+		tj: {tm},
+		tk: {},
+		tl: {},
+		tm: {},
 	}
 
 	reverseGrapth := graph.Transpose()
@@ -91,12 +109,12 @@ func (g DiGraph) String() string {
 	var sb strings.Builder
 
 	for from, downstreams := range g {
-		dsIDs := make([]string, len(downstreams))
+		dsIDs := make([]string, 0, len(downstreams))
 		for _, dep := range downstreams {
 			dsIDs = append(dsIDs, dep.ID)
 		}
 
-		sb.WriteString(fmt.Sprintf("%s depends on %s\n", from.ID, dsIDs))
+		sb.WriteString(fmt.Sprintf("from %s to %s\n", from.ID, dsIDs))
 	}
 
 	return sb.String()
@@ -170,11 +188,9 @@ func NewWorkNode(name string, options ...WorkNodeOption) *WorkNode {
 
 // check whether dependencies are all done
 // mark to ready if yes
-func (n *WorkNode) TaskReady(graph DiGraph) bool {
-	dependencies := graph[n]
-
+func (n *WorkNode) TaskReady(dependencies []*WorkNode) bool {
 	for _, node := range dependencies {
-		// fmt.Println("checking dependencies status:", node.Name, node.Status)
+		// fmt.Println("checking dependencies status:", node.ID, node.Status)
 		if node.Status != statusDone {
 			return false
 		}
@@ -233,10 +249,9 @@ func (n *WorkNode) OutDegree(g DiGraph) int {
 	return 0
 }
 
-func (n *WorkNode) Run(g DiGraph) {
+func (n *WorkNode) Run(reverseGrapth DiGraph) {
 	defer timer(n.ID)()
 
-	reverseGrapth := g
 	dependencies := reverseGrapth[n]
 
 	// unblock means node dependencies are all ready
@@ -244,7 +259,7 @@ func (n *WorkNode) Run(g DiGraph) {
 		<-node.done
 	}
 
-	if n.TaskReady(g) {
+	if n.TaskReady(dependencies) {
 		n.TaskStart()
 		n.TaskDone()
 	}
