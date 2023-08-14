@@ -6,6 +6,18 @@ import (
 	"time"
 )
 
+// 定义每个任务的输入输出
+// 任务可以组合，根据任务的依赖关系生成图
+// 对图做剪支优化，合并重复任务(optional for now)
+// 对图进行拓扑排序(optional for now)
+// 从没有输入依赖 或者 依赖已经满足的节点开始执行，每个任务执行结束检查是否能触发下游任务开始执行
+
+// 主要思路：
+// 框架(scheduler) 知道：
+// 		图的样子
+// 		每个任务的函数签名
+// 		知道每个任务的当前状态
+
 // TODO add tests
 // TODO what's the relationship between this and toposort?
 // Q: how to see the result of single thread execution?
@@ -29,14 +41,14 @@ type DiGraph map[*WorkNode]([]*WorkNode)
 func (g DiGraph) Transpose() DiGraph {
 	transposeGraph := DiGraph{}
 
-	for current, dependencies := range g {
-		for _, dep := range dependencies {
-			if _, ok := transposeGraph[dep]; ok {
-				transposeGraph[dep] = append(transposeGraph[dep], current)
+	for from, downstreams := range g {
+		for _, ds := range downstreams {
+			if _, ok := transposeGraph[ds]; ok {
+				transposeGraph[ds] = append(transposeGraph[ds], from)
 				continue
 			}
 
-			transposeGraph[dep] = []*WorkNode{current}
+			transposeGraph[ds] = []*WorkNode{from}
 		}
 	}
 
@@ -46,13 +58,13 @@ func (g DiGraph) Transpose() DiGraph {
 func (g DiGraph) String() string {
 	var sb strings.Builder
 
-	for current, dependencies := range g {
-		depNames := make([]string, len(dependencies))
-		for _, dep := range dependencies {
-			depNames = append(depNames, dep.ID)
+	for from, downstreams := range g {
+		dsIDs := make([]string, len(downstreams))
+		for _, dep := range downstreams {
+			dsIDs = append(dsIDs, dep.ID)
 		}
 
-		sb.WriteString(fmt.Sprintf("%s depends on %s\n", current.ID, depNames))
+		sb.WriteString(fmt.Sprintf("%s depends on %s\n", from.ID, dsIDs))
 	}
 
 	return sb.String()
@@ -61,10 +73,10 @@ func (g DiGraph) String() string {
 func (g DiGraph) Nodes() map[*WorkNode]struct{} {
 	nodes := make(map[*WorkNode]struct{})
 
-	for current, dependencies := range g {
-		nodes[current] = struct{}{}
+	for from, downstreams := range g {
+		nodes[from] = struct{}{}
 
-		for _, dep := range dependencies {
+		for _, dep := range downstreams {
 			nodes[dep] = struct{}{}
 		}
 	}
@@ -178,20 +190,20 @@ func (n *WorkNode) IsDone() bool {
 }
 
 func (n *WorkNode) InDegree(g DiGraph) int {
-	if deps, ok := g[n]; ok {
-		return len(deps)
+	return n.OutDegree(g.Transpose())
+}
+
+func (n *WorkNode) OutDegree(g DiGraph) int {
+	if downstreams, ok := g[n]; ok {
+		return len(downstreams)
 	}
 
 	return 0
 }
 
-func (n *WorkNode) OutDegree(g DiGraph) int {
-	return n.InDegree(g.Transpose())
-}
-
 // unblock means node dependencies are all ready
-func (n *WorkNode) WaitForDependencies(g DiGraph) {
-	dependencies := g[n]
+func (n *WorkNode) WaitForDependencies(reverseGrapth DiGraph) {
+	dependencies := reverseGrapth[n]
 
 	for _, node := range dependencies {
 		<-node.done
@@ -216,23 +228,26 @@ func main() {
 	t4 := NewWorkNode("task4")
 	t5 := NewWorkNode("task5", Duration(2))
 
-	var g = DiGraph{
-		t2: {t1, t5},
-		t3: {t1},
-		t4: {t3},
+	graph := DiGraph{
+		t1: {t2, t3},
+		t2: {},
+		t3: {t4},
+		t4: {},
+		t5: {t2},
 	}
 
-	// TODO make trigger task running on `task_ready` event
-	for node := range g.Nodes() {
+	reverseGrapth := graph.Transpose()
+
+	for node := range graph.Nodes() {
 		node := node
 
 		go func() {
-			node.WaitForDependencies(g)
-			node.Run(g)
+			node.WaitForDependencies(reverseGrapth)
+			node.Run(reverseGrapth)
 		}()
 	}
 
-	for _, node := range g.FinalNodes() {
+	for _, node := range graph.FinalNodes() {
 		<-node.done
 	}
 }
@@ -244,15 +259,3 @@ func timer(name string) func() {
 		fmt.Printf("%s is done...(took %v)\n", name, time.Since(start))
 	}
 }
-
-// 定义每个任务的输入输出
-// 任务可以组合，根据任务的依赖关系生成图
-// 对图做剪支优化，合并重复任务(optional for now)
-// 对图进行拓扑排序(optional for now)
-// 从没有输入依赖 或者 依赖已经满足的节点开始执行，每个任务执行结束检查是否能触发下游任务开始执行
-
-// 主要思路：
-// 框架(scheduler) 知道：
-// 		图的样子
-// 		每个任务的函数签名
-// 		知道每个任务的当前状态
