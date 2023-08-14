@@ -201,17 +201,16 @@ func (n *WorkNode) OutDegree(g DiGraph) int {
 	return 0
 }
 
-// unblock means node dependencies are all ready
-func (n *WorkNode) WaitForDependencies(reverseGrapth DiGraph) {
+func (n *WorkNode) Run(g DiGraph) {
+	defer timer(n.ID)()
+
+	reverseGrapth := g
 	dependencies := reverseGrapth[n]
 
+	// unblock means node dependencies are all ready
 	for _, node := range dependencies {
 		<-node.done
 	}
-}
-
-func (n *WorkNode) Run(g DiGraph) {
-	defer timer(n.ID)()
 
 	if n.TaskReady(g) {
 		n.TaskStart()
@@ -242,7 +241,6 @@ func main() {
 		node := node
 
 		go func() {
-			node.WaitForDependencies(reverseGrapth)
 			node.Run(reverseGrapth)
 		}()
 	}
