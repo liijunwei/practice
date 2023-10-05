@@ -52,11 +52,10 @@ func wait() {
 }
 
 func search(path string, master bool) {
-	log.Print("searching in", path)
-
 	files, err := os.ReadDir(path)
 	if err != nil {
 		log.Println("cannot read dir: ", path)
+		workDone <- true
 
 		return
 	}
