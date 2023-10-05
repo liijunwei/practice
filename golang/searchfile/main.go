@@ -3,14 +3,15 @@ package main
 import (
 	"log"
 	"os"
+	"sync/atomic"
 	"time"
 )
 
 var query = "test"
 var matches int
 
-var workerCount = 0
-var maxWorkerCount = 32
+var workerCount atomic.Int32
+var maxWorkerCount = 10
 var searchRequest = make(chan string)
 var workDone = make(chan bool)
 var foundMatch = make(chan bool)
@@ -24,7 +25,7 @@ func main() {
 	}
 
 	startPoint := dirname + "/"
-	workerCount = 1
+	workerCount.Add(1)
 	go search(startPoint, true)
 
 	wait()
@@ -38,11 +39,11 @@ func wait() {
 	for {
 		select {
 		case path := <-searchRequest:
-			workerCount++
+			workerCount.Add(1)
 			go search(path, true)
 		case <-workDone:
-			workerCount--
-			if workerCount == 0 {
+			workerCount.Add(-1)
+			if workerCount.Load() == 0 {
 				return
 			}
 		case <-foundMatch:
@@ -70,7 +71,9 @@ func search(path string, master bool) {
 		if file.IsDir() {
 			newDir := path + name + "/"
 
-			if workerCount < maxWorkerCount {
+			if int(workerCount.Load()) < maxWorkerCount {
+				log.Println("new -> ", workerCount.Load())
+
 				searchRequest <- newDir
 			} else {
 				search(newDir, false)
