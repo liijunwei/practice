@@ -11,7 +11,7 @@ var query = "test"
 var matches int
 
 var workerCount atomic.Int32
-var maxWorkerCount = 10
+var maxWorkerCount = 32
 var searchRequest = make(chan string)
 var workDone = make(chan bool)
 var foundMatch = make(chan bool)
@@ -53,6 +53,12 @@ func wait() {
 }
 
 func search(path string, master bool) {
+	defer func() {
+		if master {
+			workDone <- true
+		}
+	}()
+
 	files, err := os.ReadDir(path)
 	if err != nil {
 		log.Println("cannot read dir: ", path)
@@ -72,7 +78,7 @@ func search(path string, master bool) {
 			newDir := path + name + "/"
 
 			if int(workerCount.Load()) < maxWorkerCount {
-				log.Println("new -> ", workerCount.Load())
+				log.Println("workerCount -> ", workerCount.Load())
 
 				searchRequest <- newDir
 			} else {
@@ -81,7 +87,4 @@ func search(path string, master bool) {
 		}
 	}
 
-	if master {
-		workDone <- true
-	}
 }
