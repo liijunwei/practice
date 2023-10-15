@@ -8,7 +8,8 @@ import (
 	"time"
 )
 
-// go run ch01-tutorial/fetch1/main.go https://go.dev/ https://www.gopl.io/
+// go run ch01-tutorial/fetch1/main.go https://go.dev/ https://www.gopl.io/ https://go.dev/doc/
+// go run ch01-tutorial/fetch1/main.go https://www.baidu.com/ https://cn.bing.com/ https://www.bilibili.com/
 
 func main() {
 	start := time.Now()
