@@ -151,4 +151,5 @@ fabric.properties
 *.class
 
 .ipynb_checkpoints
+.virtual_documents
 
