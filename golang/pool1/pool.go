@@ -30,7 +30,7 @@ func (t *SendEmail) Run() {
 	content, err := json.Marshal(t)
 	boom(err)
 
-	log.Printf("sending email... %s\n", content)
+	log.Printf("processing... %s\n", content)
 	time.Sleep(2 * time.Second)
 }
 
@@ -48,7 +48,7 @@ func (t *ProcessImage) Run() {
 	content, err := json.Marshal(t)
 	boom(err)
 
-	log.Printf("processing image... %s\n", content)
+	log.Printf("processing... %s\n", content)
 	time.Sleep(5 * time.Second)
 }
 
