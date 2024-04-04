@@ -1,18 +1,55 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 	"sync"
 	"time"
 )
 
-type Task struct {
-	ID int
+type Task interface {
+	Run()
 }
 
-func (t *Task) Run() {
-	log.Printf("processing task %d\n", t.ID)
+type SendEmail struct {
+	Email       string
+	Subject     string
+	MessageBody string
+}
+
+func NewSendEmailTask(id int) *SendEmail {
+	return &SendEmail{
+		Email:       fmt.Sprintf("me-%d@foo.com", id),
+		Subject:     fmt.Sprintf("fiz-%d", id),
+		MessageBody: fmt.Sprintf("buz-%d", id),
+	}
+}
+
+func (t *SendEmail) Run() {
+	content, err := json.Marshal(t)
+	boom(err)
+
+	log.Printf("sending email... %s\n", content)
 	time.Sleep(2 * time.Second)
+}
+
+func NewProcessImageTask(id int) *ProcessImage {
+	return &ProcessImage{
+		ImageUrl: fmt.Sprintf("image@%d", id),
+	}
+}
+
+type ProcessImage struct {
+	ImageUrl string
+}
+
+func (t *ProcessImage) Run() {
+	content, err := json.Marshal(t)
+	boom(err)
+
+	log.Printf("processing image... %s\n", content)
+	time.Sleep(5 * time.Second)
 }
 
 type Pool struct {
@@ -50,4 +87,10 @@ func (p *Pool) Run() {
 	close(p.taskChannel)
 
 	p.wg.Wait()
+}
+
+func boom(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
