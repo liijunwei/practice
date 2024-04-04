@@ -9,7 +9,7 @@ page 150
 /* TODO 问题: BUFSIZ 为1 和 为 100 有什么区别呢? */
 
 int main(int argc, char const *argv[]) {
-  char buf[BUFSIZ]; /* BUFSIZ 在 <stdio.h> 中定义 */
+  char buf[1]; /* BUFSIZ 在 <stdio.h> 中定义 */
   int n;
 
   printf("BUFSIZ %d\n", BUFSIZ);
