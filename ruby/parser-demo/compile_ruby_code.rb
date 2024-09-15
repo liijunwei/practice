@@ -34,3 +34,5 @@ puts demo4
 demo5 = RubyVM::InstructionSequence.compile("puts 9+8").disasm
 puts demo5
 require "pry"; binding.pry
+
+# other apis to try: https://ruby-doc.org/core-2.6/RubyVM/
