@@ -59,7 +59,7 @@ func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Reques
 
 func (app *application) routes() *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/v1/healthcheck", app.healthcheckHandler)
+	mux.HandleFunc("GET /v1/healthcheck", app.healthcheckHandler)
 
 	// borrowed from: https://github.com/benhoyt/go-routing/blob/master/stdlib/route.go
 	mux.HandleFunc("GET /{$}", home)
