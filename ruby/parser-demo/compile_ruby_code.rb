@@ -30,4 +30,7 @@ p demo3.to_a
 
 demo4 = RubyVM::InstructionSequence.compile(foo).disasm
 puts demo4
+
+demo5 = RubyVM::InstructionSequence.compile("puts 9+8").disasm
+puts demo5
 require "pry"; binding.pry
