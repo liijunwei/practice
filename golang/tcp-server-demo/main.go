@@ -1,24 +1,43 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
 	"log"
 	"net"
 	"strings"
+	"sync"
 )
 
 func main() {
 	server := newServer("localhost:3000")
 	go func() {
 		for msg := range server.msgCh {
-			fmt.Printf("%s> %s", msg.from, string(msg.payload))
+			// fmt.Printf("%s> %s", msg.from, string(msg.payload))
+			server.broadcast(msg)
 		}
 		fmt.Println("msgch closed...")
 	}()
 
 	log.Fatal(server.start())
+}
+
+func (s *server) broadcast(msg message) {
+	for client, conn := range s.clients {
+		if msg.from == client.String() { // skip broadcast to itself
+			continue
+		}
+
+		var out bytes.Buffer
+
+		out.WriteString(msg.from)
+		out.WriteString("> ")
+		out.WriteString(string(msg.payload))
+
+		conn.Write(out.Bytes())
+	}
 }
 
 type message struct {
@@ -31,6 +50,8 @@ type server struct {
 	listener   net.Listener
 	quitCh     chan struct{}
 	msgCh      chan message
+	clients    map[net.Addr]net.Conn
+	mu         sync.Mutex
 }
 
 func newServer(addr string) *server {
@@ -38,6 +59,7 @@ func newServer(addr string) *server {
 		listenAddr: addr,
 		quitCh:     make(chan struct{}),
 		msgCh:      make(chan message, 10),
+		clients:    make(map[net.Addr]net.Conn),
 	}
 }
 
@@ -73,14 +95,24 @@ func (s *server) acceptLoop() {
 
 		fmt.Println("new connection to server:", conn.RemoteAddr())
 		conn.Write([]byte("welcome!\n"))
+
+		s.mu.Lock()
+		s.clients[conn.RemoteAddr()] = conn
+		s.mu.Unlock()
+
 		go s.readLoop(conn)
 	}
 }
 
 func (s *server) readLoop(conn net.Conn) {
-	defer conn.Close()
+	defer func() {
+		conn.Close()
+		s.mu.Lock()
+		delete(s.clients, conn.RemoteAddr())
+		s.mu.Unlock()
+	}()
 
-	const bufSize = 2048
+	const bufSize = 2048 // this number seems tricky
 	buf := make([]byte, bufSize)
 
 	for {
