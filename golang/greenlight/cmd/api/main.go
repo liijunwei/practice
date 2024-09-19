@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -52,14 +54,40 @@ type application struct {
 }
 
 func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "status: available\n")
-	fmt.Fprintf(w, "environment: %s\n", app.config.env)
-	fmt.Fprintf(w, "version: %s\n", version)
+	w.Header().Set("Content-Type", "application/json")
+
+	data := map[string]string{
+		"status":      "available",
+		"environment": app.config.env,
+		"version":     version,
+	}
+
+	if err := app.writeJSON(w, http.StatusOK, data, nil); err != nil {
+		app.logger.Println(err)
+		http.Error(w, "unexpected server error", http.StatusInternalServerError)
+	}
+}
+
+func (app *application) writeJSON(w http.ResponseWriter, status int, data any, headers http.Header) error {
+	js, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
+	for key, value := range headers {
+		w.Header()[key] = value
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	w.Write(js)
+
+	return nil
 }
 
 func (app *application) routes() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /v1/healthcheck", app.healthcheckHandler)
+	mux.HandleFunc("POST /v1/movies", app.createMovieHandler)
+	mux.HandleFunc("GET /v1/movies/{id}", app.showMovieHandler)
 
 	// borrowed from: https://github.com/benhoyt/go-routing/blob/master/stdlib/route.go
 	mux.HandleFunc("GET /{$}", home)
@@ -75,6 +103,29 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("POST /{slug}/image", widgetImage)
 
 	return mux
+}
+
+func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "createMovieHandler\n")
+}
+
+func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
+	movieID, err := app.readIDParam(r)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+	fmt.Fprintf(w, "show details of movie %d\n", movieID)
+}
+
+func (app *application) readIDParam(r *http.Request) (int64, error) {
+	str := r.PathValue("id")
+	id, err := strconv.ParseInt(str, 10, 64)
+	if err != nil || id < 1 {
+		return 0, errors.New("invalid id param")
+	}
+
+	return id, nil
 }
 
 func home(w http.ResponseWriter, r *http.Request) {

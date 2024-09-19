@@ -10,30 +10,34 @@ import (
 )
 
 func main() {
-	log.Fatal(newServer("localhost:3000").start())
+	log.Fatal(newServer("localhost", 3000).start())
 }
 
 type server struct {
-	listenAddr string
-	quit       chan struct{}
+	ip   string
+	port int
+	quit chan struct{}
 }
 
-func newServer(listenAddr string) *server {
+func newServer(addr string, port int) *server {
 	return &server{
-		listenAddr: listenAddr,
-		quit:       make(chan struct{}),
+		ip:   addr,
+		port: port,
+		quit: make(chan struct{}),
 	}
 }
 
 func (s *server) start() error {
-	listner, err := net.Listen("tcp", s.listenAddr)
+	addr := fmt.Sprintf("%s:%d", s.ip, s.port)
+
+	listner, err := net.Listen("tcp", addr)
 	if err != nil {
-		return fmt.Errorf("fail to list %s, %w", s.listenAddr, err)
+		return fmt.Errorf("fail to list %s, %w", addr, err)
 	}
 
 	go s.acceptLoop(listner)
-	fmt.Println("tcp server started", s.listenAddr)
-	fmt.Println("nc", s.listenAddr)
+	fmt.Println("tcp server started", addr)
+	fmt.Println("nc", s.ip, s.port)
 
 	<-s.quit
 
