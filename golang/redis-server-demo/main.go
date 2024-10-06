@@ -65,20 +65,22 @@ func (s *server) handleConnection(conn net.Conn) error {
 	const bufSize = 2048
 	buf := make([]byte, bufSize)
 
-	n, err := conn.Read(buf)
-	if err != nil {
-		if err == io.EOF {
-			return nil
+	for {
+		n, err := conn.Read(buf)
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+
+			fmt.Println("failed to read message", conn.RemoteAddr(), err)
+			return err
 		}
 
-		fmt.Println("failed to read message", conn.RemoteAddr(), err)
-		return err
+		msg := string(buf[:n])
+		fmt.Println("client request:", strconv.Quote(msg))
+
+		conn.Write([]byte("+OK\r\n"))
 	}
-
-	msg := string(buf[:n])
-	fmt.Println("client request:", strconv.Quote(msg))
-
-	conn.Write([]byte("+OK\r\n"))
 
 	return nil
 }
