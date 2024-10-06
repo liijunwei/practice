@@ -494,3 +494,98 @@ FROM us_counties_2010 where state_us_abbreviation = 'CA'
 UNION
 SELECT median(p0010001) AS "County Median"
 FROM us_counties_2010 where state_us_abbreviation = 'NY'
+
+
+CREATE TABLE departments (
+    dept_id bigserial,
+    dept varchar(100),
+    city varchar(100),
+    CONSTRAINT dept_key PRIMARY KEY (dept_id),
+    CONSTRAINT dept_city_unique UNIQUE (dept, city)
+);
+
+DROP TABLE employees
+CREATE TABLE employees (
+    emp_id bigserial,
+    first_name varchar(100),
+    last_name varchar(100),
+    salary integer,
+    dept_id integer REFERENCES departments (dept_id),
+    CONSTRAINT emp_key PRIMARY KEY (emp_id),
+    CONSTRAINT emp_dept_unique UNIQUE (emp_id, dept_id)
+);
+
+drop table departments; -- this will fail because employees table depends on departments table to have dept_id
+-- A foreign key constraint requires a value entered in a column to already exist in the primary key of the table it references. So, values in dept_id in the employees table must exist in dept_id in the departments table; otherwise, you can’t add them. 
+
+INSERT INTO departments (dept, city)
+VALUES
+    ('Tax', 'Atlanta'),
+    ('IT', 'Boston');
+
+INSERT INTO employees (first_name, last_name, salary, dept_id)
+VALUES
+    ('Nancy', 'Jones', 62500, 1),
+    ('Lee', 'Smith', 59300, 1),
+    ('Soo', 'Nguyen', 83000, 2),
+    ('Janet', 'King', 95000, 2);
+
+-- vien diagram is very helpful for understanding join/left-join/right-join/full-outer-join
+-- "cross-join" similar to matrix product ?
+		-- CROSS JOIN Returns every possible combination of rows from both tables.
+-- join == inner join, rows should be available in BOTH tables
+
+
+
+
+SELECT *
+FROM employees JOIN departments
+ON employees.dept_id = departments.dept_id;
+
+CREATE TABLE schools_left (
+    id integer CONSTRAINT left_id_key PRIMARY KEY,
+    left_school varchar(30)
+);
+
+CREATE TABLE schools_right (
+    id integer CONSTRAINT right_id_key PRIMARY KEY,
+    right_school varchar(30)
+);
+
+INSERT INTO schools_left (id, left_school) VALUES
+    (1, 'Oak Street School'),
+    (2, 'Roosevelt High School'),
+    (5, 'Washington Middle School'),
+    (6, 'Jefferson High School');
+
+INSERT INTO schools_right (id, right_school) VALUES
+    (1, 'Oak Street School'),
+    (2, 'Roosevelt High School'),
+    (3, 'Morrison Elementary'),
+    (4, 'Chase Magnet Academy'),
+    (6, 'Jefferson High School');
+
+SELECT *
+FROM schools_left JOIN schools_right
+ON schools_left.id = schools_right.id;
+
+SELECT *
+FROM schools_left INNER JOIN schools_right
+ON schools_left.id = schools_right.id;
+
+SELECT *
+FROM schools_left LEFT JOIN schools_right
+ON schools_left.id = schools_right.id;
+
+SELECT *
+FROM schools_left RIGHT JOIN schools_right
+ON schools_left.id = schools_right.id;
+
+SELECT *
+FROM schools_left FULL OUTER JOIN schools_right
+ON schools_left.id = schools_right.id;
+
+-- something like product
+SELECT *
+FROM schools_left CROSS JOIN schools_right;
+
