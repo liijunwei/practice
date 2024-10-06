@@ -515,8 +515,8 @@ CREATE TABLE employees (
     CONSTRAINT emp_dept_unique UNIQUE (emp_id, dept_id)
 );
 
-drop table departments; -- this will fail because employees table depends on departments table to have dept_id
--- A foreign key constraint requires a value entered in a column to already exist in the primary key of the table it references. So, values in dept_id in the employees table must exist in dept_id in the departments table; otherwise, you can’t add them. 
+DROP TABLE DEPARTMENTS;
+-- this will fail because employees table depends on departments table to have dept_id-- A foreign key constraint requires a value entered in a column to already exist in the primary key of the table it references. So, values in dept_id in the employees table must exist in dept_id in the departments table; otherwise, you can’t add them. 
 
 INSERT INTO departments (dept, city)
 VALUES
@@ -531,8 +531,24 @@ VALUES
     ('Janet', 'King', 95000, 2);
 
 -- vien diagram is very helpful for understanding join/left-join/right-join/full-outer-join
--- "cross-join" similar to matrix product ?
+-- "cross-join" == Cartesian product(笛卡尔积)
 		-- CROSS JOIN Returns every possible combination of rows from both tables.
+		-- 
+		-- left = []
+		-- left << 'Oak Street School'
+		-- left << 'Roosevelt High School'
+		-- left << 'Washington Middle School'
+		-- left << 'Jefferson High School'
+		
+		-- right = []
+		-- right << 'Oak Street School'
+		-- right << 'Roosevelt High School'
+		-- right << 'Morrison Elementary'
+		-- right << 'Chase Magnet Academy'
+		-- right << 'Jefferson High School'
+		
+		-- demo = left.product(right)
+
 -- join == inner join, rows should be available in BOTH tables
 
 
@@ -589,3 +605,126 @@ ON schools_left.id = schools_right.id;
 SELECT *
 FROM schools_left CROSS JOIN schools_right;
 
+SELECT *
+FROM schools_left LEFT JOIN schools_right
+ON schools_left.id = schools_right.id
+WHERE schools_right.id IS NULL;
+
+SELECT *
+FROM schools_left LEFT JOIN schools_right
+ON schools_left.id = schools_right.id
+WHERE schools_right.id IS NOT NULL;
+
+SELECT schools_left.id,
+       schools_left.left_school,
+       schools_right.right_school
+FROM schools_left LEFT JOIN schools_right
+ON schools_left.id = schools_right.id;
+
+SELECT schools_left.id "foo bar",
+       schools_left.left_school,
+       schools_right.right_school
+FROM schools_left LEFT JOIN schools_right
+ON schools_left.id = schools_right.id
+ORDER BY "foo bar" DESC
+
+SELECT lt.id,
+       lt.left_school,
+       rt.right_school
+FROM schools_left AS lt LEFT JOIN schools_right AS rt
+ON lt.id = rt.id;
+
+
+-- Three Types of Table Relationships
+	-- one  to one
+	-- one  to many
+	-- many to many
+
+-- Listing 6-12: Joining multiple tables
+-- ** we can even join same table more than once on different conditions **
+-- e.g. event sourcing aggregate table join with event table twice on differnt event_type
+CREATE TABLE schools_enrollment (
+    id integer, -- school_id
+    enrollment integer
+);
+
+CREATE TABLE schools_grades (
+    id integer, -- school_id
+    grades varchar(10)
+);
+
+INSERT INTO schools_enrollment (id, enrollment)
+VALUES
+    (1, 360),
+    (2, 1001),
+    (5, 450),
+    (6, 927);
+
+INSERT INTO schools_grades (id, grades)
+VALUES
+    (1, 'K-3'),
+    (2, '9-12'),
+    (5, '6-8'),
+    (6, '9-12');
+
+SELECT lt.id, lt.left_school, en.enrollment, gr.grades
+FROM schools_left AS lt LEFT JOIN schools_enrollment AS en
+    ON lt.id = en.id
+LEFT JOIN schools_grades AS gr
+    ON lt.id = gr.id;
+
+
+CREATE TABLE us_counties_2000 (
+    geo_name varchar(90),              -- County/state name,
+    state_us_abbreviation varchar(2),  -- State/U.S. abbreviation
+    state_fips varchar(2),             -- State FIPS code
+    county_fips varchar(3),            -- County code
+    p0010001 integer,                  -- Total population
+    p0010002 integer,                  -- Population of one race:
+    p0010003 integer,                      -- White Alone
+    p0010004 integer,                      -- Black or African American alone
+    p0010005 integer,                      -- American Indian and Alaska Native alone
+    p0010006 integer,                      -- Asian alone
+    p0010007 integer,                      -- Native Hawaiian and Other Pacific Islander alone
+    p0010008 integer,                      -- Some Other Race alone
+    p0010009 integer,                  -- Population of two or more races
+    p0010010 integer,                  -- Population of two races
+    p0020002 integer,                  -- Hispanic or Latino
+    p0020003 integer                   -- Not Hispanic or Latino:
+);
+
+COPY us_counties_2000
+FROM '/Users/lijunwei/OuterGitRepo/practical-sql/Chapter_06/us_counties_2000.csv'
+WITH (FORMAT CSV, HEADER);
+
+SELECT c2010.geo_name,
+       c2010.state_us_abbreviation AS state,
+       c2010.p0010001 AS pop_2010,
+       c2000.p0010001 AS pop_2000,
+       c2010.p0010001 - c2000.p0010001 AS raw_change,
+       round( (CAST(c2010.p0010001 AS numeric(8,1)) - c2000.p0010001)
+           / c2000.p0010001 * 100, 1 ) AS pct_change
+FROM us_counties_2010 c2010 INNER JOIN us_counties_2000 c2000
+ON c2010.state_fips = c2000.state_fips
+   AND c2010.county_fips = c2000.county_fips
+   AND c2010.p0010001 != c2000.p0010001
+ORDER BY pct_change DESC;
+
+-- https://www.postgresql.org/docs/current/functions-comparison.html#FUNCTIONS-COMPARISON
+-- Note: <> is the standard SQL notation for “not equal”. != is an alias, which is converted to <> at a very early stage of parsing. Hence, it is not possible to implement != and <> operators that do different things.
+
+select * from us_counties_2000;
+select * from us_counties_2010;
+
+select count(*) from us_counties_2000; -- 3141
+select count(*) from us_counties_2010; -- 3143
+
+SELECT
+	C2010.GEO_NAME,
+	C2010.COUNTY_FIPS
+FROM
+	US_COUNTIES_2010 C2010
+	FULL OUTER JOIN US_COUNTIES_2000 C2000 ON C2010.COUNTY_FIPS = C2000.COUNTY_FIPS
+WHERE
+	C2010.COUNTY_FIPS IS NULL
+	OR C2000.COUNTY_FIPS ISNULL
