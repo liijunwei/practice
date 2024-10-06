@@ -45,7 +45,7 @@ func (s *server) acceptLoop(listener net.Listener) error {
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
-			fmt.Println("falied to accept request: %v", err)
+			fmt.Println("falied to accept request", err.Error())
 			continue
 		}
 
@@ -55,7 +55,7 @@ func (s *server) acceptLoop(listener net.Listener) error {
 			defer conn.Close()
 
 			if err := s.handleConnection(conn); err != nil {
-				fmt.Println("falied to handle connection: %v", err)
+				fmt.Println("falied to handle connection", err.Error())
 			}
 		}(conn)
 	}
