@@ -249,3 +249,248 @@ COPY us_counties_2010
 FROM '/Users/lijunwei/OuterGitRepo/practical-sql/Chapter_04/us_counties_2010.csv'
 WITH (FORMAT CSV, HEADER);
 
+SELECT geo_name, state_us_abbreviation, area_land
+FROM us_counties_2010
+ORDER BY area_land DESC
+LIMIT 5;
+
+SELECT geo_name, state_us_abbreviation, internal_point_lon
+FROM us_counties_2010
+ORDER BY internal_point_lon DESC
+LIMIT 5;
+
+select geo_name,state_us_abbreviation,summary_level,region,division,state_fips,county_fips,area_land,area_water,population_count_100_percent,housing_unit_count_100_percent,internal_point_lat,internal_point_lon from us_counties_2010
+
+CREATE TABLE supervisor_salaries (
+    town varchar(30),
+    county varchar(30),
+    supervisor varchar(30),
+    start_date date,
+    salary money,
+    benefits money
+);
+
+SELECT * FROM supervisor_salaries;
+
+COPY supervisor_salaries (town,supervisor,salary)
+FROM '/Users/lijunwei/OuterGitRepo/practical-sql/Chapter_04/supervisor_salaries.csv'
+WITH (FORMAT CSV, HEADER);
+
+DELETE FROM supervisor_salaries;
+
+CREATE TEMPORARY TABLE supervisor_salaries_temp (LIKE supervisor_salaries);
+SELECT * FROM supervisor_salaries_temp;
+COPY supervisor_salaries_temp (town,supervisor,salary)
+FROM '/Users/lijunwei/OuterGitRepo/practical-sql/Chapter_04/supervisor_salaries.csv'
+WITH (FORMAT CSV, HEADER);
+
+INSERT INTO supervisor_salaries (town, county, supervisor, salary)
+SELECT town, 'Some County', supervisor, salary
+FROM supervisor_salaries_temp;
+
+DROP TABLE supervisor_salaries_temp;
+SELECT * FROM supervisor_salaries LIMIT 2;
+
+
+COPY us_counties_2010
+TO '/tmp/us_counties_export.txt'
+WITH (FORMAT CSV, HEADER, DELIMITER '|');
+
+COPY us_counties_2010 (geo_name, internal_point_lat, internal_point_lon)
+TO '/tmp/us_counties_latlon_export.txt'
+WITH (FORMAT CSV, HEADER, DELIMITER '|');
+
+COPY (
+    SELECT geo_name, state_us_abbreviation
+    FROM us_counties_2010
+    WHERE geo_name ILIKE '%mill%'
+     )
+TO '/tmp/us_counties_mill_export.txt'
+WITH (FORMAT CSV, HEADER, DELIMITER '|');
+
+
+SELECT 2 + 2;
+SELECT 11 / 6;
+SELECT 11 / 6.0;
+SELECT CAST(11 AS numeric(3,1)) / 6;
+
+SELECT 3 ^ 4;
+SELECT 2 ^ 15;
+select |/16 -- square root of 16 is 4
+select |/4  -- square root of 16 is 2
+
+SELECT factorial(40);
+SELECT 3 ^ 3 - 1;
+
+SELECT geo_name,
+       state_us_abbreviation AS "st",
+       p0010001 AS "Total Population",
+       p0010003 AS "White Alone",
+       p0010004 AS "Black or African American Alone",
+       p0010005 AS "Am Indian/Alaska Native Alone",
+       p0010006 AS "Asian Alone",
+       p0010007 AS "Native Hawaiian and Other Pacific Islander Alone",
+       p0010008 AS "Some Other Race Alone",
+       p0010009 AS "Two or More Races"
+FROM us_counties_2010;
+
+SELECT geo_name,
+       state_us_abbreviation AS "st",
+       p0010003 AS "White Alone",
+       p0010004 AS "Black Alone",
+       p0010003 + p0010004 AS "Total White and Black"
+FROM us_counties_2010;
+
+SELECT geo_name,
+       state_us_abbreviation AS "st",
+       p0010001 AS "Total",
+       p0010003 + p0010004 + p0010005 + p0010006 + p0010007
+           + p0010008 + p0010009 AS "All Races",
+       (p0010003 + p0010004 + p0010005 + p0010006 + p0010007
+           + p0010008 + p0010009) - p0010001 AS "Difference"
+FROM us_counties_2010
+ORDER BY "Difference" DESC;
+
+-- the question to ask: "how to reference column aliases defined in a CTE directly in the outer query"?
+with t as (
+	SELECT geo_name,
+	       state_us_abbreviation AS "st",
+	       p0010001 AS "Total",
+	       p0010003 + p0010004 + p0010005 + p0010006 + p0010007
+	           + p0010008 + p0010009 AS "All Races",
+	       (p0010003 + p0010004 + p0010005 + p0010006 + p0010007
+	           + p0010008 + p0010009) - p0010001 AS "Difference"
+	FROM us_counties_2010
+)
+select distinct "Difference" from t
+
+SELECT geo_name,
+       state_us_abbreviation AS "st",
+       (CAST(p0010006 AS numeric(8,1)) / p0010001) * 100 AS "pct_asian"
+FROM us_counties_2010
+ORDER BY "pct_asian" DESC;
+
+CREATE TABLE percent_change (
+    department varchar(20),
+    spend_2014 numeric(10,2),
+    spend_2017 numeric(10,2)
+);
+
+
+INSERT INTO percent_change
+VALUES
+    ('Building', 250000, 289000),
+    ('Assessor', 178556, 179500),
+    ('Library', 87777, 90001),
+    ('Clerk', 451980, 650000),
+    ('Police', 250000, 223000),
+    ('Recreation', 199000, 195000);
+
+SELECT department,
+       spend_2014,
+       spend_2017,
+       round( (spend_2017 - spend_2014) /
+                    spend_2014 * 100, 1 ) AS "pct_change"
+FROM percent_change;
+
+SELECT sum(p0010001) AS "County Sum",
+       round(avg(p0010001), 0) AS "County Average"
+FROM us_counties_2010;
+
+-- Finding the Median with Percentile Functions
+-- In statistics, percentiles indicate the point in an ordered set of data below which a certain percentage of the data is found.
+
+CREATE TABLE percentile_test (
+    numbers integer
+);
+
+INSERT INTO percentile_test (numbers) VALUES
+    (1), (2), (3), (4), (5), (6);
+
+select * from percentile_test;
+
+SELECT
+    percentile_cont(.5) -- continuous
+    WITHIN GROUP (ORDER BY numbers),
+    percentile_disc(.5) -- discrete
+    WITHIN GROUP (ORDER BY numbers)
+FROM percentile_test;
+
+-- The median and average are far apart, which shows that averages can mislead. 
+SELECT sum(p0010001) AS "County Sum",
+       round(avg(p0010001), 0) AS "County Average",
+       percentile_cont(.5)
+       WITHIN GROUP (ORDER BY p0010001) AS "County Median"
+FROM us_counties_2010;
+
+-- However, entering values one at a time is laborious if you want to generate multiple cut points. Instead, you can pass values into percentile_cont() using an array, a SQL data type that contains a list of items
+SELECT percentile_cont(array[.25,.5,.75])
+       WITHIN GROUP (ORDER BY p0010001) AS "quartiles"
+FROM us_counties_2010;
+
+SELECT unnest (percentile_cont(array[.25,.5,.75])
+       WITHIN GROUP (ORDER BY p0010001)) AS "quartiles"
+FROM us_counties_2010;
+
+-- https://www.postgresql.org/docs/current/functions-array.html
+select ARRAY[4,5,6];
+select ARRAY[1,2,3] || ARRAY[4,5,6,7];
+select ARRAY[1,2,3] || ARRAY[[4,5,6],[7,8,9.9]];
+select ARRAY[1,4,3] && ARRAY[2,1]  -- true
+select ARRAY[1,4,3] && ARRAY[2,10] -- false
+
+SELECT percentile_cont(array[.2,.4,.6,.8])
+       WITHIN GROUP (ORDER BY p0010001) AS "quintiles"
+FROM us_counties_2010;
+
+SELECT unnest (percentile_cont(array[.1,.2,.3,.4,.5,.6,.7,.8,.9])
+       WITHIN GROUP (ORDER BY p0010001)) AS "deciles"
+FROM us_counties_2010;
+
+SELECT unnest(
+	percentile_cont(array[.25,.5,.75])
+	WITHIN GROUP (ORDER BY p0010001)
+	) AS "quartiles"
+FROM us_counties_2010;
+
+-- define sql function
+-- https://wiki.postgresql.org/wiki/Aggregate_Median
+CREATE OR REPLACE FUNCTION _final_median(numeric[])
+   RETURNS numeric AS
+$$
+   SELECT AVG(val)
+   FROM (
+     SELECT val
+     FROM unnest($1) val
+     ORDER BY 1
+     LIMIT  2 - MOD(array_upper($1, 1), 2)
+     OFFSET CEIL(array_upper($1, 1) / 2.0) - 1
+   ) sub;
+$$
+LANGUAGE 'sql' IMMUTABLE;
+
+CREATE AGGREGATE median(numeric) (
+  SFUNC=array_append,
+  STYPE=numeric[],
+  FINALFUNC=_final_median,
+  INITCOND='{}'
+);
+
+SELECT sum(p0010001) AS "County Sum",
+       round(avg(p0010001), 0) AS "County Average",
+       median(p0010001) AS "County Median",
+       percentile_cont(.5)
+       WITHIN GROUP (ORDER BY P0010001) AS "50th Percentile"
+FROM us_counties_2010;
+
+-- In PostgreSQL, the mode() function is an aggregate function that returns the most frequent value (mode) in a set of values.
+SELECT mode() WITHIN GROUP (ORDER BY p0010001)
+FROM us_counties_2010;
+
+select pi() * (5 ^ 2);
+
+SELECT median(p0010001) AS "County Median"
+FROM us_counties_2010 where state_us_abbreviation = 'CA'
+UNION
+SELECT median(p0010001) AS "County Median"
+FROM us_counties_2010 where state_us_abbreviation = 'NY'
