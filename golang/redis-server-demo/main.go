@@ -76,10 +76,9 @@ func (s *server) handleConnection(conn net.Conn) error {
 	}
 
 	msg := string(buf[:n])
-	// fmt.Println("msg", msg)
 	fmt.Println("client request:", strconv.Quote(msg))
 
-	conn.Write([]byte("ack\n"))
+	conn.Write([]byte("+OK\r\n"))
 
 	return nil
 }
