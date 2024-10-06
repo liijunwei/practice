@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -65,12 +64,13 @@ func (s *server) acceptLoop(listener net.Listener) error {
 func (s *server) handleConnection(conn net.Conn) error {
 	const bufSize = 2048
 	buf := make([]byte, bufSize)
-	n, err := conn.Read(buf)
-	if err != nil && errors.Is(err, io.EOF) {
-		return nil
-	}
 
+	n, err := conn.Read(buf)
 	if err != nil {
+		if err == io.EOF {
+			return nil
+		}
+
 		fmt.Println("failed to read message", conn.RemoteAddr(), err)
 		return err
 	}
