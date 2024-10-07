@@ -728,3 +728,14 @@ FROM
 WHERE
 	C2010.COUNTY_FIPS IS NULL
 	OR C2000.COUNTY_FIPS ISNULL
+
+-- Standard ANSI SQL and many database-specific variants of SQL treat identifiers as case-insensitive unless you provide a delimiter around them— typically double quotes.
+select * from TEacherS;   -- case insensitive
+select * from "TEacherS"; -- case sensitive
+
+create table customers();
+create table Customers(); -- ERROR:  relation "customers" already exists 
+create table "Customers"();
+
+SELECT * FROM "Customers";
+SELECT * FROM customers;
