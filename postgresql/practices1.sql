@@ -739,3 +739,198 @@ create table "Customers"();
 
 SELECT * FROM "Customers";
 SELECT * FROM customers;
+
+CREATE TABLE natural_key_example (
+    license_id varchar(10) CONSTRAINT license_key PRIMARY KEY,
+    first_name varchar(50),
+    last_name varchar(50)
+);
+
+DROP TABLE natural_key_example;
+
+CREATE TABLE natural_key_example (
+    license_id varchar(10),
+    first_name varchar(50),
+    last_name varchar(50),
+    CONSTRAINT license_key PRIMARY KEY (license_id)
+);
+
+select * from natural_key_example;
+
+INSERT INTO natural_key_example (license_id, first_name, last_name)
+VALUES ('T229901', 'Lynn', 'Malero');
+
+INSERT INTO natural_key_example (license_id, first_name, last_name)
+VALUES ('T229901', 'Sam', 'Tracy'); -- duplicate key value violates unique constraint "license_key"
+
+INSERT INTO natural_key_example (license_id, first_name, last_name)
+VALUES ('T229902', 'Sam', 'Tracy');
+
+CREATE TABLE natural_key_composite_example (
+    student_id varchar(10),
+    school_day date,
+    present boolean,
+    CONSTRAINT student_key PRIMARY KEY (student_id, school_day)
+);
+
+select * from natural_key_composite_example;
+
+INSERT INTO natural_key_composite_example (student_id, school_day, present)
+VALUES(775, '1/22/2017', 'Y');
+
+INSERT INTO natural_key_composite_example (student_id, school_day, present)
+VALUES(775, '1/23/2017', 'Y');
+
+INSERT INTO natural_key_composite_example (student_id, school_day, present)
+VALUES(775, '1/23/2017', 'N');
+
+CREATE TABLE surrogate_key_example (
+    order_number bigserial,
+    product_name varchar(50),
+    order_date date,
+    CONSTRAINT order_key PRIMARY KEY (order_number)
+);
+
+select * from surrogate_key_example;
+
+INSERT INTO surrogate_key_example (product_name, order_date)
+VALUES ('Beachball Polish', '2015-03-17'),
+       ('Wrinkle De-Atomizer', '2017-05-22'),
+       ('Flux Capacitor', '1985-10-26');
+
+CREATE TABLE licenses (
+    license_id varchar(10),
+    first_name varchar(50),
+    last_name varchar(50),
+    CONSTRAINT licenses_key PRIMARY KEY (license_id)
+);
+
+CREATE TABLE registrations (
+    registration_id varchar(10),
+    registration_date date,
+    license_id varchar(10) REFERENCES licenses (license_id),
+    CONSTRAINT registration_key PRIMARY KEY (registration_id, license_id)
+);
+
+CREATE TABLE registrations (
+    registration_id varchar(10),
+    registration_date date,
+	-- automatically delete related records with cascade(probably bad...sometimes)
+	-- logical delete or archive might be better
+    license_id varchar(10) REFERENCES licenses (license_id) ON DELETE CASCADE,
+    CONSTRAINT registration_key PRIMARY KEY (registration_id, license_id)
+);
+
+select * from licenses
+select * from registrations
+
+INSERT INTO licenses (license_id, first_name, last_name)
+VALUES ('T229901', 'Lynn', 'Malero');
+
+INSERT INTO registrations (registration_id, registration_date, license_id)
+VALUES ('A203391', '3/17/2017', 'T229901');
+
+INSERT INTO registrations (registration_id, registration_date, license_id)
+VALUES ('A75772', '3/17/2017', 'T000001'); -- lincense T000001 not exist yet
+
+-- A CHECK constraint evaluates whether data added to a column meets the expected criteria, which we specify with a logical test. 
+CREATE TABLE check_constraint_example (
+    user_id bigserial,
+    user_role varchar(50),
+    salary integer,
+    CONSTRAINT user_id_key PRIMARY KEY (user_id),
+    CONSTRAINT check_role_in_list CHECK (user_role IN('Admin', 'Staff')),
+    CONSTRAINT check_salary_not_zero CHECK (salary > 0)
+);
+
+select * from check_constraint_example
+
+INSERT INTO check_constraint_example (user_role)
+VALUES ('admin'); -- fail
+INSERT INTO check_constraint_example (user_role)
+VALUES ('Admin'); -- ok
+INSERT INTO check_constraint_example (user_role)
+VALUES ('Staff'); -- ok
+INSERT INTO check_constraint_example (salary)
+VALUES (0); -- fail, nullable
+INSERT INTO check_constraint_example (salary)
+VALUES (10); -- ok
+
+
+CREATE TABLE unique_constraint_example (
+    contact_id bigserial CONSTRAINT contact_id_key PRIMARY KEY,
+    first_name varchar(50),
+    last_name varchar(50),
+    email varchar(200),
+    CONSTRAINT email_unique UNIQUE (email)
+);
+
+select * from unique_constraint_example
+
+INSERT INTO unique_constraint_example (first_name, last_name, email)
+VALUES ('Samantha', 'Lee', 'slee@example.org');
+
+INSERT INTO unique_constraint_example (first_name, last_name, email)
+VALUES ('Betty', 'Diaz', 'bdiaz@example.org');
+
+INSERT INTO unique_constraint_example (first_name, last_name, email)
+VALUES ('Sasha', 'Lee', 'slee@example.org'); -- duplicated email
+
+
+CREATE TABLE not_null_example (
+    student_id bigserial,
+    first_name varchar(50) NOT NULL,
+    last_name varchar(50) NOT NULL,
+    CONSTRAINT student_id_key PRIMARY KEY (student_id)
+);
+
+select * from not_null_example
+
+ALTER TABLE not_null_example DROP CONSTRAINT student_id_key;
+ALTER TABLE not_null_example ADD CONSTRAINT student_id_key PRIMARY KEY (student_id);
+ALTER TABLE not_null_example ALTER COLUMN first_name DROP NOT NULL;
+ALTER TABLE not_null_example ALTER COLUMN first_name SET NOT NULL;
+
+-- You can only add a constraint to an existing table if the data
+-- in the target column obeys the limits of the constraint.
+-- For example, you can’t place a primary key constraint on a column
+-- that has duplicate or empty values.
+
+CREATE TABLE new_york_addresses (
+    longitude numeric(9,6),
+    latitude numeric(9,6),
+    street_number varchar(10),
+    street varchar(32),
+    unit varchar(7),
+    postcode varchar(5),
+    id integer CONSTRAINT new_york_key PRIMARY KEY
+);
+
+select * from new_york_addresses
+
+COPY new_york_addresses
+FROM '/Users/lijunwei/OuterGitRepo/practical-sql/Chapter_07/city_of_new_york.csv'
+WITH (FORMAT CSV, HEADER);
+
+EXPLAIN ANALYZE SELECT * FROM new_york_addresses
+WHERE street = 'BROADWAY';
+
+EXPLAIN ANALYZE SELECT * FROM new_york_addresses
+WHERE street = '52 STREET';
+
+EXPLAIN ANALYZE SELECT * FROM new_york_addresses
+WHERE street = 'ZWICKY AVENUE';
+
+-- Each time you add a primary key or UNIQUE constraint to a table, PostgreSQL (as well as most database systems) places an index on the column.
+-- Indexes are stored separately from the table data, but they’re accessed automatically when you run a query and are updated every time a row is added or removed from the table.
+CREATE INDEX street_idx ON new_york_addresses (street);
+
+DROP INDEX street_idx
+
+-- PostgreSQL, for example, has five more index types in addition to B-Tree.
+-- One, called GiST, is particularly suited to the geometry data types I’ll discuss later in the book.
+-- Full text search, which you’ll learn in Chapter 13, also benefits from indexing.
+
+-- Consider adding indexes to any columns you’ll use in table joins
+-- Add indexes to columns that will frequently end up in a query WHERE clause
+-- Use EXPLAIN ANALYZE to test performance under a variety of configurations if you’re unsure. Optimization is a process!
