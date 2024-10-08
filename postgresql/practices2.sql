@@ -1,3 +1,4 @@
+-- fy: fiscal year 财政年度
 CREATE TABLE pls_fy2014_pupld14a (
     stabr varchar(2) NOT NULL,
     fscskey varchar(6) CONSTRAINT fscskey2014_key PRIMARY KEY,
@@ -166,6 +167,9 @@ WITH (FORMAT CSV, HEADER);
 
 select * from pls_fy2009_pupld09a
 
+-- Aggregate functions combine values from multiple rows and return a single result based on an operation on those values.
+
+
 SELECT count(*) FROM pls_fy2014_pupld14a; -- 9305
 SELECT count(salaries) FROM pls_fy2014_pupld14a; -- 5983
 
@@ -190,28 +194,31 @@ SELECT libname, city, stabr
 FROM pls_fy2014_pupld14a
 WHERE libname = 'OXFORD PUBLIC LIBRARY';
 
+-- -1 indicates a “nonresponse”
+-- -3 indicates “not applicable” 
+-- A better alternative for this negative value scenario is to use NULL in rows in the visits column where response data is absent
+-- and then create a separate isits_flag column to hold codes explaining why.
+-- This technique separates number values from information about them
 SELECT max(visits), min(visits)
 FROM pls_fy2014_pupld14a;
 
-SELECT stabr
-FROM pls_fy2014_pupld14a
-GROUP BY stabr
-ORDER BY stabr
+-- When you use the GROUP BY clause with aggregate functions, you can group results according to the values in one or more columns. 
+-- On its own, GROUP BY, which is also part of standard ANSI SQL, eliminates duplicate values from the results, similar to DISTINCT.
+-- You’re not limited to grouping just one column. 
+SELECT stabr FROM pls_fy2014_pupld14a -- 9305 rows
+SELECT stabr FROM pls_fy2014_pupld14a GROUP BY stabr ORDER BY stabr -- 56 rows
 
-SELECT stabr
-FROM pls_fy2009_pupld09a
-GROUP BY stabr
-ORDER BY stabr;
+SELECT stabr FROM pls_fy2009_pupld09a -- 9299
+SELECT DISTINCT stabr FROM pls_fy2009_pupld09a -- 55
+SELECT stabr FROM pls_fy2009_pupld09a GROUP BY stabr ORDER BY stabr; -- 55
 
-SELECT city, stabr
-FROM pls_fy2014_pupld14a
-GROUP BY city, stabr
-ORDER BY city, stabr;
+SELECT distinct city, stabr FROM pls_fy2014_pupld14a ORDER BY city, stabr; -- 9088
+SELECT city, stabr FROM pls_fy2014_pupld14a GROUP BY city, stabr ORDER BY city, stabr; -- 9088
 
-SELECT city, stabr, count(*)
+SELECT city, stabr, count(*) as total
 FROM pls_fy2014_pupld14a
 GROUP BY city, stabr
-ORDER BY count(*) DESC
+ORDER BY total DESC
 
 SELECT stabr, count(*)
 FROM pls_fy2014_pupld14a
@@ -221,6 +228,11 @@ ORDER BY count(*) DESC;
 SELECT stabr, stataddr, count(*)
 FROM pls_fy2014_pupld14a
 GROUP BY stabr, stataddr
+ORDER BY stabr ASC, count(*) DESC;
+
+SELECT stabr, stataddr, count(*)
+FROM pls_fy2014_pupld14a
+GROUP BY stabr -- stataddr" must appear in the GROUP BY clause
 ORDER BY stabr ASC, count(*) DESC;
 
 SELECT sum(visits) AS visits_2014
@@ -250,6 +262,11 @@ WHERE pls14.visits >= 0 AND pls09.visits >= 0
 GROUP BY pls14.stabr
 ORDER BY pct_change DESC;
 
+-- To filter the results of aggregate functions, we need to use the HAVING clause that’s part of standard ANSI SQL.
+-- where work on row level
+-- aggregate functions work across rows
+-- The HAVING clause places conditions on groups created by aggregating. 
+
 -- filter the results of an aggregate query
 SELECT pls14.stabr,
        sum(pls09.visits) AS visits_2009,
@@ -262,3 +279,17 @@ WHERE pls14.visits >= 0 AND pls09.visits >= 0
 GROUP BY pls14.stabr
 HAVING sum(pls14.visits) > 50000000
 ORDER BY pct_change DESC;
+
+-- https://www.postgresql.org/docs/current/functions-datetime.html#FUNCTIONS-DATETIME-TRUNC
+
+SELECT DATE_TRUNC('day', timestamp) AS day,
+       SUM(amount) AS total_amount
+FROM sales_data
+GROUP BY day
+ORDER BY day;
+
+SELECT date_trunc('hour', TIMESTAMP '2001-02-16 20:38:40');
+SELECT date_trunc('year', TIMESTAMP '2001-02-16 20:38:40');
+SELECT date_trunc('day', TIMESTAMP WITH TIME ZONE '2001-02-16 20:38:40+00');
+SELECT date_trunc('day', TIMESTAMP WITH TIME ZONE '2001-02-16 20:38:40+00', 'Australia/Sydney');
+SELECT date_trunc('hour', INTERVAL '3 days 02:47:33');
