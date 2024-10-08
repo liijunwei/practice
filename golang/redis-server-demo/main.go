@@ -61,6 +61,10 @@ func (s *server) acceptLoop(listener net.Listener) error {
 	}
 }
 
+// goal#1: handle ping
+// goal#2: handle set a 1
+// goal#3: handle get a
+// other goals: TBC
 func (s *server) handleConnection(conn net.Conn) error {
 	const bufSize = 2048
 	buf := make([]byte, bufSize)
