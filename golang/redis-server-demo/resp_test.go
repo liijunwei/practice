@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"io"
 	"strconv"
 	"strings"
 	"testing"
@@ -70,4 +71,59 @@ func TestParseRespMessage(t *testing.T) {
 	require.Equal(t, length, n)
 
 	assert.Equal(t, "ping", string(buf))
+}
+
+// 0x2A in ASCII -> *
+// 0x31 in ASCII -> 1
+// 0x0D in ASCII -> \r
+// 0x0A in ASCII -> \n
+// 0x24 in ASCII -> $
+// 0x34 in ASCII -> 4
+// 0x0D in ASCII -> \r
+// 0x0A in ASCII -> \n
+// 0x70 in ASCII -> p
+// 0x69 in ASCII -> i
+// 0x6E in ASCII -> n
+// 0x67 in ASCII -> g
+// 0x0D in ASCII -> \r
+// 0x0A in ASCII -> \n
+func TestParsePing(t *testing.T) {
+	input := "*1\r\n$4\r\nping\r\n"
+	reader := bufio.NewReader(strings.NewReader(input))
+
+	var tmp byte
+
+	typ, err := reader.ReadByte()
+	require.NoError(t, err)
+	require.Equal(t, byte('*'), typ)
+
+	tmp, _ = reader.ReadByte()
+	// numElements, _ := strconv.Atoi(string(tmp))
+	assert.Equal(t, byte('1'), tmp, string(tmp))
+
+	// \r\n
+	reader.ReadByte()
+	reader.ReadByte()
+
+	elementType, err := reader.ReadByte()
+	require.NoError(t, err)
+	require.Equal(t, byte('$'), elementType, string(elementType))
+
+	tmp, err = reader.ReadByte()
+	require.NoError(t, err)
+	assert.Equal(t, byte('4'), tmp, string(tmp))
+	// length, _ := strconv.Atoi(string(tmp))
+
+	reader.ReadByte()
+	reader.ReadByte()
+
+	str, _ := reader.ReadString('\r')
+	str = strings.TrimSuffix(str, "\r")
+	assert.Equal(t, "ping", str)
+
+	reader.ReadByte()
+	reader.ReadByte()
+
+	_, err = reader.ReadByte()
+	require.True(t, err == io.EOF, err.Error())
 }
