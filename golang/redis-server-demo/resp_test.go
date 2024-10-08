@@ -10,9 +10,21 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// Note: https://go.dev/ref/spec#String_literals
+// https://stackoverflow.com/questions/46917331/what-is-the-difference-between-backticks-double-quotes-in-golang
+//
+// There are two forms: raw string literals and interpreted string literals.
+// Raw string literals are character sequences between back quotes, as in `foo`.
+// Within the quotes, any character may appear except back quote.
+//
+// a := "\n" // This is one character, a line break.
+// b := `\n` // These are two characters, backslash followed by letter n.
+
 func TestParseRespMessage(t *testing.T) {
-	// TODO what's the difference between "*1\r\n$4\r\nping\r\n" and `*1\r\n$4\r\nping\r\n` ?
+	// OK what's the difference between "*1\r\n$4\r\nping\r\n" and `*1\r\n$4\r\nping\r\n` ?
+	//
 	// cuz I found `\r\n` needs 4 reader.ReadByte(), while "\r\n" only needs 2
+	// here I need the interpreted string literal actually
 
 	input := "*1\r\n$4\r\nping\r\n"
 	reader := bufio.NewReader(strings.NewReader(input))

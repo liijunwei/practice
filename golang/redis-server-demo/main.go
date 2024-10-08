@@ -66,6 +66,22 @@ func (s *server) handleConnection(conn net.Conn) error {
 	buf := make([]byte, bufSize)
 
 	for {
+		resp := newResp(conn)
+		val, err := resp.read()
+		if err != nil {
+			return fmt.Errorf("failed to read msg from connection %w", err)
+		}
+
+		if val.typ != "array" {
+			fmt.Println("Invalid request, expected array")
+			continue
+		}
+
+		if len(val.array) == 0 {
+			fmt.Println("Invalid request, expected array length > 0")
+			continue
+		}
+
 		n, err := conn.Read(buf)
 		if err != nil {
 			if err == io.EOF {

@@ -33,7 +33,7 @@ func newResp(reader io.Reader) *resp {
 	}
 }
 
-func (r *resp) Read() (value, error) {
+func (r *resp) read() (value, error) {
 	typ, err := r.reader.ReadByte()
 	if err != nil {
 		return value{}, err
