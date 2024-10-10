@@ -391,6 +391,7 @@ SELECT
     (SELECT count(*) FROM meat_poultry_egg_inspect) AS original,
     (SELECT count(*) FROM meat_poultry_egg_inspect_backup) AS backup;
 
+-- https://www.postgresql.org/docs/current/sql-altertable.html
 ALTER TABLE meat_poultry_egg_inspect ADD COLUMN st_copy varchar(2);
 alter table meat_poultry_egg_inspect drop column st_copy;
 alter table meat_poultry_egg_inspect add column st_copy varchar(2)
@@ -516,7 +517,9 @@ WHERE st IN('PR','VI');
 ALTER TABLE meat_poultry_egg_inspect DROP COLUMN zip_copy;
 DROP TABLE meat_poultry_egg_inspect_backup;
 
+-- https://www.postgresql.org/docs/current/static/tutorial-transactions.html
 -- Demonstrating a transaction block
+-- A database programmer would either want both steps in the transaction to happen (say, when your card charge goes through) or neither of them to happen (if your card is declined or you cancel at checkout). Defining both steps as one transaction keeps them as a unit; if one step fails, the other is canceled too.
 START TRANSACTION; COMMIT;
 START TRANSACTION;
 
@@ -545,6 +548,7 @@ WHERE company = 'AGRO Merchants Oakland, LLC';
 
 COMMIT
 
+-- Instead of adding a column and filling it with values, we can save disk space by copying the entire table and adding a populated column during the operation. Then, we rename the tables so the copy replaces the original, and the original becomes a backup.
 CREATE TABLE meat_poultry_egg_inspect_backup AS
 SELECT *,
        '2018-02-07'::date AS reviewed_date
@@ -557,3 +561,189 @@ ALTER TABLE meat_poultry_egg_inspect RENAME TO meat_poultry_egg_inspect_temp;
 ALTER TABLE meat_poultry_egg_inspect_backup RENAME TO meat_poultry_egg_inspect;
 ALTER TABLE meat_poultry_egg_inspect_temp RENAME TO meat_poultry_egg_inspect_backup;
 
+select first_name || ' ' || last_name as full_name, * from teachers;
+select 'hello' || ' ' || '2024' as msg;
+
+select first_name || ' ' || last_name as full_name, * from teachers;
+
+-- analysis=# \h
+
+-- Let me restate the important tasks of working safely. Be sure to back up your tables before you start making changes. Make copies of your columns, too, for an extra level of protection.
+
+-- chapter 10
+CREATE TABLE acs_2011_2015_stats (
+    geoid varchar(14) CONSTRAINT geoid_key PRIMARY KEY,
+    county varchar(50) NOT NULL,
+    st varchar(20) NOT NULL,
+    pct_travel_60_min numeric(5,3) NOT NULL,
+    pct_bachelors_higher numeric(5,3) NOT NULL,
+    pct_masters_higher numeric(5,3) NOT NULL,
+    median_hh_income integer,
+    CHECK (pct_masters_higher <= pct_bachelors_higher)
+);
+
+COPY acs_2011_2015_stats
+FROM '/Users/lijunwei/OuterGitRepo/practical-sql/Chapter_10/acs_2011_2015_stats.csv'
+WITH (FORMAT CSV, HEADER, DELIMITER ',');
+
+CREATE TABLE fbi_crime_data_2015 (
+    st varchar(20),
+    city varchar(50),
+    population integer,
+    violent_crime integer,
+    property_crime integer,
+    burglary integer,
+    larceny_theft integer,
+    motor_vehicle_theft integer,
+    CONSTRAINT st_city_key PRIMARY KEY (st, city)
+);
+
+COPY fbi_crime_data_2015
+FROM '/Users/lijunwei/OuterGitRepo/practical-sql/Chapter_10/fbi_crime_data_2015.csv'
+WITH (FORMAT CSV, HEADER, DELIMITER ',');
+
+select count(*) from acs_2011_2015_stats
+select * from acs_2011_2015_stats
+select distinct county from acs_2011_2015_stats order by county
+select count(*) from fbi_crime_data_2015
+select * from fbi_crime_data_2015
+select distinct st from fbi_crime_data_2015 order by st
+
+-- https://www.postgresql.org/docs/9.4/functions-aggregate.html
+-- Researchers often want to understand the relationships between variables, and one such measure of relationships is correlation. 
+-- The r values fall between −1 and 1. Either end of the range indicates a perfect correlation, whereas values near zero indicate a random distribution with no correlation. A positive r value indicates a direct relationship: as one variable increases, the other does too. 
+-- A negative r value indicates an inverse relationship: as one variable increases, the other decreases.
+-- 两个变量之间的相关性系数(0 不相关 ---> 1 相关)
+-- 
+-- This positive r value indicates that as a county’s educational attainment increases, household income tends to increase.
+SELECT corr(median_hh_income, pct_bachelors_higher)
+    AS bachelors_income_r
+FROM acs_2011_2015_stats; -- 0.6823
+
+SELECT
+    round(
+      corr(median_hh_income, pct_bachelors_higher)::numeric, 3
+      ) AS bachelors_income_r,
+    round(
+      corr(pct_travel_60_min, median_hh_income)::numeric, 3
+      ) AS income_travel_r,
+    round(
+      corr(pct_travel_60_min, pct_bachelors_higher)::numeric, 3
+      ) AS bachelors_travel_r
+FROM acs_2011_2015_stats;
+
+-- 强相关不意味着因果关系
+-- When testing for correlation, we need to note some caveats. The first is that even a strong correlation does not imply causality. 
+
+-- Y = bX + a where b = slope and a = y_intercept
+SELECT
+    round(
+        regr_slope(median_hh_income, pct_bachelors_higher)::numeric, 2
+        ) AS slope,
+    round(
+        regr_intercept(median_hh_income, pct_bachelors_higher)::numeric, 2
+        ) AS y_intercept
+FROM acs_2011_2015_stats;
+
+SELECT round(
+        regr_r2(median_hh_income, pct_bachelors_higher)::numeric, 3
+        ) AS r_squared
+FROM acs_2011_2015_stats;
+
+SELECT var_pop(median_hh_income)
+FROM acs_2011_2015_stats;
+
+SELECT stddev_pop(median_hh_income)
+FROM acs_2011_2015_stats;
+
+SELECT covar_pop(median_hh_income, pct_bachelors_higher)
+FROM acs_2011_2015_stats;
+
+CREATE TABLE widget_companies (
+    id bigserial,
+    company varchar(30) NOT NULL,
+    widget_output integer NOT NULL
+);
+
+truncate table widget_companies
+select * from widget_companies
+
+-- run this twice to make the result more obvious
+INSERT INTO widget_companies (company, widget_output)
+VALUES
+    ('Morse Widgets', 125000),
+    ('Springfield Widget Masters', 143000),
+    ('Best Widgets', 196000),
+    ('Acme Inc.', 133000),
+    ('District Widget Inc.', 201000),
+    ('Clarke Amalgamated', 620000),
+    ('Stavesacre Industries', 244000),
+    ('Bowers Widget Emporium', 201000);
+
+-- https://www.postgresql.org/docs/17/functions-aggregate.html
+-- rank(): 有间隙 Computes the rank of the hypothetical row, with gaps; that is, the row number of the first row in its peer group.
+-- rank() is preferable as it tells the real rank(e.g. 1,2,3,3,5,6 表示有两行并列第三，但是第五还是第五，反映了他的真实排名)
+-- dense_rank(): 无间隙 Computes the rank of the hypothetical row, without gaps; this function effectively counts peer groups.
+-- rank() is window function, which present results fro each row in the table
+-- https://www.postgresql.org/docs/current/tutorial-window.html
+SELECT
+    company,
+    widget_output,
+    rank() OVER (ORDER BY widget_output DESC),
+    dense_rank() OVER (ORDER BY widget_output DESC)
+FROM widget_companies;
+
+-- unclear
+select company, widget_output,
+rank() over (order by widget_output asc),
+-- dense_rank() over (order by widget_output desc)，
+percent_rank() over (order by widget_output asc)
+from widget_companies
+
+-- Applying rank() within groups using PARTITION BY
+CREATE TABLE store_sales (
+    store varchar(30),
+    category varchar(30) NOT NULL,
+    unit_sales bigint NOT NULL,
+    CONSTRAINT store_category_key PRIMARY KEY (store, category)
+);
+
+INSERT INTO store_sales (store, category, unit_sales)
+VALUES
+    ('Broders', 'Cereal', 1104),
+    ('Wallace', 'Ice Cream', 1863),
+    ('Broders', 'Ice Cream', 2517),
+    ('Cramers', 'Ice Cream', 2112),
+    ('Broders', 'Beer', 641),
+    ('Cramers', 'Cereal', 1003),
+    ('Cramers', 'Beer', 640),
+    ('Wallace', 'Cereal', 980),
+    ('Wallace', 'Beer', 988);
+
+select * from store_sales;
+
+select category, store, unit_sales,
+rank() over (partition by category order by unit_sales desc)
+from store_sales;
+
+select category, store, unit_sales,
+rank() over (partition by store order by unit_sales desc) as cat_rank
+from store_sales
+-- ERROR:  window functions are not allowed in WHERE
+-- where (rank() over (partition by store order by unit_sales desc)) = 1
+
+SELECT * FROM fbi_crime_data_2015
+ORDER BY population DESC;
+
+--  Find property crime rates per thousand in cities with 500,000 or more people
+SELECT
+    city,
+    st,
+    population,
+    property_crime,
+    round(
+        (property_crime::numeric / population) * 1000, 1
+        ) AS pc_per_1000
+FROM fbi_crime_data_2015
+WHERE population >= 500000
+ORDER BY pc_per_1000 DESC;
