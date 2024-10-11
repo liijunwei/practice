@@ -227,6 +227,20 @@ FROM nyc_yellow_taxi_trips_2016_06_01
 GROUP BY trip_hour
 ORDER BY trip_hour;
 
+SELECT
+    date_part('hour', tpep_pickup_datetime) AS trip_hour,
+    percentile_cont(.9)
+        WITHIN GROUP (
+			ORDER BY tpep_dropoff_datetime - tpep_pickup_datetime
+		) AS median_trip,
+    percentile_cont(.8)
+        WITHIN GROUP (
+			ORDER BY (date_part('epoch', tpep_dropoff_datetime - tpep_pickup_datetime))
+		) AS median_trip_in_seconds
+FROM nyc_yellow_taxi_trips_2016_06_01
+GROUP BY trip_hour
+ORDER BY trip_hour;
+
 SET timezone TO 'US/Central';
 
 CREATE TABLE train_rides (
@@ -250,7 +264,8 @@ SELECT * FROM train_rides;
 -- https://www.postgresql.org/docs/current/functions-formatting.html
 SELECT segment,
        to_char(departure, 'YYYY-MM-DD HH12:MI a.m. TZ') AS departure,
-       arrival - departure AS segment_time
+       arrival - departure AS segment_time,
+	   extract (epoch from arrival - departure) as segment_time_in_second
 FROM train_rides;
 
 SELECT segment,
