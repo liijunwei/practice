@@ -8,10 +8,10 @@ import (
 )
 
 const (
-	STRING = '+'
-	ERROR  = '-'
-	BULK   = '$'
-	ARRAY  = '*'
+	TYPE_STRING = '+'
+	TYPE_ERROR  = '-'
+	TYPE_BULK   = '$'
+	TYPE_ARRAY  = '*'
 )
 
 // RESP spec
@@ -20,11 +20,11 @@ const (
 
 // deserilize RESP request message(binary) into value data structure
 type value struct {
-	typ   string
-	str   string
-	num   int
-	bulk  string
-	array []value
+	Typ   string
+	Str   string
+	Num   int
+	Bulk  string
+	Array []value
 }
 
 type resp struct {
@@ -46,9 +46,9 @@ func (r *resp) read() (value, error) {
 	fmt.Printf("_type: %v -> %q\n", string(typ), typ)
 
 	switch typ {
-	case ARRAY:
+	case TYPE_ARRAY:
 		return r.readArray()
-	case BULK:
+	case TYPE_BULK:
 		return r.readBulk()
 	default:
 		fmt.Printf("Unknown type: %v", string(typ))
@@ -65,21 +65,21 @@ func (r *resp) read() (value, error) {
 // element[2] = value
 func (r *resp) readArray() (value, error) {
 	v := value{}
-	v.typ = "array"
+	v.Typ = "array"
 
 	len, _, err := r.readInteger()
 	if err != nil {
 		return v, err
 	}
 
-	v.array = make([]value, len)
+	v.Array = make([]value, len)
 	for i := 0; i < len; i++ {
 		val, err := r.read() // recursive call
 		if err != nil {
 			return v, err
 		}
 
-		v.array = append(v.array, val)
+		v.Array = append(v.Array, val)
 	}
 
 	return v, nil
@@ -124,7 +124,7 @@ func (r *resp) readInteger() (int, int, error) {
 // bulk = value
 func (r *resp) readBulk() (value, error) {
 	v := value{}
-	v.typ = "bulk"
+	v.Typ = "bulk"
 
 	len, _, err := r.readInteger()
 	if err != nil {
@@ -133,7 +133,7 @@ func (r *resp) readBulk() (value, error) {
 
 	bulk := make([]byte, len)
 	r.reader.Read(bulk) // read data into buffer
-	v.bulk = string(bulk)
+	v.Bulk = string(bulk)
 
 	// see: Test_readLine
 	r.readLine()

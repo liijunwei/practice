@@ -1,11 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net"
-	"strconv"
+	"strings"
 )
 
 func main() {
@@ -67,10 +68,12 @@ func (s *server) acceptLoop(listener net.Listener) error {
 // other goals: TBC
 func (s *server) handleConnection(conn net.Conn) error {
 	const bufSize = 2048
-	buf := make([]byte, bufSize)
+	// buf := make([]byte, bufSize)
 
 	for {
-		n, err := conn.Read(buf)
+		resp := newResp(conn)
+
+		value, err := resp.read()
 		if err != nil {
 			if err == io.EOF {
 				break
@@ -80,8 +83,25 @@ func (s *server) handleConnection(conn net.Conn) error {
 			return err
 		}
 
-		msg := string(buf[:n])
-		fmt.Println("client request:", strconv.Quote(msg))
+		if len(value.Array) == 0 {
+			fmt.Println("invalid request, expected array length > 0")
+			continue
+		}
+
+		data, err := json.Marshal(value)
+		if err != nil {
+			log.Panic(err)
+		}
+		fmt.Println("value", string(data))
+
+		command := strings.ToUpper(value.Array[0].Bulk)
+		args := value.Array[1:]
+
+		fmt.Println("command", command)
+		fmt.Println("args", args)
+
+		// msg := string(buf[:n])
+		// fmt.Println("client request:", strconv.Quote(msg))
 
 		conn.Write([]byte("+PONG\r\n"))
 	}
