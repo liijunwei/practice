@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"strconv"
 	"strings"
@@ -126,4 +127,9 @@ func TestParsePing(t *testing.T) {
 
 	_, err = reader.ReadByte()
 	require.True(t, err == io.EOF, err.Error())
+}
+
+func TestByteToASCII(t *testing.T) {
+	// byte to ascii, byte <=> unit8
+	fmt.Printf("%q %q\n", byte(42), byte(36))
 }
