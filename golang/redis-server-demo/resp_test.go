@@ -131,5 +131,5 @@ func TestParsePing(t *testing.T) {
 
 func TestByteToASCII(t *testing.T) {
 	// byte to ascii, byte <=> unit8
-	fmt.Printf("%q %q\n", byte(42), byte(36))
+	fmt.Printf("%q %q %v\n", byte(42), byte(36), string(byte(36)))
 }
