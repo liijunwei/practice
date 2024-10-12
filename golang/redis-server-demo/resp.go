@@ -8,13 +8,17 @@ import (
 )
 
 const (
-	STRING  = '+'
-	ERROR   = '-'
-	INTEGER = ':'
-	BULK    = '$'
-	ARRAY   = '*'
+	STRING = '+'
+	ERROR  = '-'
+	BULK   = '$'
+	ARRAY  = '*'
 )
 
+// RESP spec
+// https://redis.io/docs/latest/develop/reference/protocol-spec/
+// The first byte in an RESP-serialized payload always identifies its type. Subsequent bytes constitute the type's contents.
+
+// deserilize RESP request message(binary) into value data structure
 type value struct {
 	typ   string
 	str   string
@@ -39,6 +43,8 @@ func (r *resp) read() (value, error) {
 		return value{}, err
 	}
 
+	fmt.Printf("_type: %v -> %q\n", string(typ), typ)
+
 	switch typ {
 	case ARRAY:
 		return r.readArray()
@@ -50,8 +56,37 @@ func (r *resp) read() (value, error) {
 	}
 }
 
+// format: *<number-of-elements>\r\n<element-1>...<element-n>
+//
+// e.g. *3\r\n$3\r\nset\r\n$3\r\nkey\r\n$5\r\nvalue\r\n
+// len = 3
+// element[0] = set
+// element[1] = key
+// element[2] = value
+func (r *resp) readArray() (value, error) {
+	v := value{}
+	v.typ = "array"
+
+	len, _, err := r.readInteger()
+	if err != nil {
+		return v, err
+	}
+
+	v.array = make([]value, len)
+	for i := 0; i < len; i++ {
+		val, err := r.read() // recursive call
+		if err != nil {
+			return v, err
+		}
+
+		v.array = append(v.array, val)
+	}
+
+	return v, nil
+}
+
 func (r *resp) readLine() ([]byte, int, error) {
-	var counter int
+	var nbyte int
 	var line []byte
 
 	for {
@@ -59,18 +94,18 @@ func (r *resp) readLine() ([]byte, int, error) {
 		if err != nil {
 			return nil, 0, err
 		}
-		counter += 1
+		nbyte += 1
 		line = append(line, b)
 		if len(line) >= 2 && line[len(line)-2] == '\r' { // \r\n
 			break
 		}
 	}
 
-	return line, counter, nil
+	return line[:len(line)-2], nbyte, nil
 }
 
 func (r *resp) readInteger() (int, int, error) {
-	line, n, err := r.readLine()
+	line, n, err := r.readLine() // content/data between \r\n
 	if err != nil {
 		return 0, 0, err
 	}
@@ -82,10 +117,26 @@ func (r *resp) readInteger() (int, int, error) {
 	return int(num), n, nil
 }
 
-func (r *resp) readArray() (value, error) {
-	panic("TODO")
-}
-
+// format: $<length>\r\n<data>\r\n
+//
+// e.g. $5\r\nvalue\r\n
+// len  = 5
+// bulk = value
 func (r *resp) readBulk() (value, error) {
-	panic("TODO")
+	v := value{}
+	v.typ = "bulk"
+
+	len, _, err := r.readInteger()
+	if err != nil {
+		return v, err
+	}
+
+	bulk := make([]byte, len)
+	r.reader.Read(bulk) // read data into buffer
+	v.bulk = string(bulk)
+
+	// see: Test_readLine
+	r.readLine()
+
+	return v, nil
 }

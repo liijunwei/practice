@@ -281,3 +281,40 @@ SELECT segment,
            OVER (ORDER BY trip_id) * interval '1 second' AS cume_time
 FROM train_rides;
 
+-- chapter12
+SELECT geo_name,
+       state_us_abbreviation,
+       p0010001
+FROM us_counties_2010
+WHERE p0010001 >= (
+	    SELECT percentile_cont(.9) WITHIN GROUP (ORDER BY p0010001)
+	    FROM us_counties_2010
+    )
+ORDER BY p0010001 DESC;
+
+-- TODO Q: when to use subquery and when to use CTE?
+
+drop table us_counties_2010_top10;
+
+CREATE TABLE us_counties_2010_top10 AS
+SELECT * FROM us_counties_2010;
+
+
+DELETE FROM us_counties_2010_top10
+WHERE p0010001 < (
+    SELECT percentile_cont(.9) WITHIN GROUP (ORDER BY p0010001)
+    FROM us_counties_2010_top10
+    );
+
+SELECT count(*) FROM us_counties_2010_top10;
+
+SELECT round(calcs.average, 0) as average,
+       calcs.median,
+       round(calcs.average - calcs.median, 0) AS median_average_diff
+FROM (
+     SELECT avg(p0010001) AS average,
+            percentile_cont(.5)
+                WITHIN GROUP (ORDER BY p0010001)::numeric(10,1) AS median
+     FROM us_counties_2010
+     )
+AS calcs;

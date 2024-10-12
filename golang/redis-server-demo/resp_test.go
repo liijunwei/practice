@@ -133,3 +133,37 @@ func TestByteToASCII(t *testing.T) {
 	// byte to ascii, byte <=> unit8
 	fmt.Printf("%q %q %v\n", byte(42), byte(36), string(byte(36)))
 }
+
+func Test_readLine(t *testing.T) {
+	t.Run("case1", func(t *testing.T) {
+		input := "*1\r\n$5\r\nhello\r\n"
+		reader := bufio.NewReader(strings.NewReader(input))
+		resp := newResp(reader)
+
+		data, nbyte, err := resp.readLine()
+		require.NoError(t, err)
+		assert.Equal(t, []byte{'*', '1'}, data)
+		assert.Equal(t, 4, nbyte)
+
+		data, nbyte, err = resp.readLine()
+		require.NoError(t, err)
+		assert.Equal(t, []byte{'$', '5'}, data)
+		assert.Equal(t, 4, nbyte)
+	})
+
+	t.Run("case2", func(t *testing.T) {
+		input := "\r\n"
+		reader := bufio.NewReader(strings.NewReader(input))
+		resp := newResp(reader)
+
+		data, nbyte, err := resp.readLine()
+		require.NoError(t, err)
+		assert.Equal(t, []byte{}, data)
+		assert.Equal(t, 2, nbyte)
+
+		data, nbyte, err = resp.readLine()
+		require.ErrorIs(t, err, io.EOF)
+		assert.Equal(t, 0, len(data))
+		assert.Equal(t, 0, nbyte)
+	})
+}
