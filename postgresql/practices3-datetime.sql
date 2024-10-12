@@ -562,7 +562,7 @@ select * from ice_cream_survey
 
 -- Generating the ice cream survey crosstab
 -- a different/summarized view of the first query...
--- 数据透视表 in excel, steps:
+-- 数据透视表 pivot-table in excel, steps:
 -- 1. download query result
 -- 2. open csv with wps/excel
 -- 3. menu -> insert -> pivot table
