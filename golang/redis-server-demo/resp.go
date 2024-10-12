@@ -20,11 +20,11 @@ const (
 
 // deserilize RESP request message(binary) into value data structure
 type value struct {
-	Typ   string
-	Str   string
-	Num   int
-	Bulk  string
-	Array []value
+	Typ   string  `json:"type,omitempty"`
+	Str   string  `json:"string,omitempty"`
+	Num   int     `json:"number,omitempty"`
+	Bulk  string  `json:"bulk,omitempty"`
+	Array []value `json:"array,omitempty"`
 }
 
 type resp struct {
@@ -72,7 +72,7 @@ func (r *resp) readArray() (value, error) {
 		return v, err
 	}
 
-	v.Array = make([]value, len)
+	v.Array = make([]value, 0)
 	for i := 0; i < len; i++ {
 		val, err := r.read() // recursive call
 		if err != nil {
