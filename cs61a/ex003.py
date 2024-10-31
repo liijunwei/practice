@@ -8,8 +8,8 @@ def trace(fn):
     return fn(x)
   return traced
 
-# python3 -m doctest ex3.py
-# python3 -i ex3.py
+# python3 -m doctest ex003.py
+# python3 -i ex003.py
 @trace
 def square(x):
   return x * x

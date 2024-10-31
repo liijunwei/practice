@@ -1,6 +1,6 @@
 # https://pythontutor.com/render.html#mode=display
 
-# python3 -i ex6.py
+# python3 -i ex006.py
 def factorial(n):
   """
   >>> factorial(1)

@@ -1,6 +1,6 @@
 # https://pythontutor.com/render.html#mode=display
 
-# python3 -m doctest ex5.py
+# python3 -m doctest ex005.py
 def split(n):
   assert n >= 0
   return n // 10, n % 10

@@ -1,6 +1,6 @@
 # https://pythontutor.com/render.html#mode=display
 
-# python3 -i ex4.py
+# python3 -i ex004.py
 def print_sums(n):
   print(n)
   def next_sum(k):

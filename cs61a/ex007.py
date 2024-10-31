@@ -5,7 +5,7 @@
 
 # TODO unclear yet
 
-# python3 -i ex7.py
+# python3 -i ex007.py
 def split(n):
   """
   >>> split(1001)

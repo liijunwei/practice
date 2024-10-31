@@ -8,8 +8,8 @@ assert 23 % 10 == 3
 assert 21 % 10 == 1
 assert 20 % 10 == 0
 
-# python3 -m doctest ex2.py
-# python3 -i ex2.py
+# python3 -m doctest ex002.py
+# python3 -i ex002.py
 def remove(n, digit):
   """
   return all digits of non-negative N that are not DIGIT,
