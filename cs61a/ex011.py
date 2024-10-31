@@ -2,7 +2,7 @@
 
 # python3 -m doctest ex011.py
 
-# this is hard for me...
+# this is hard for me... (TODO)
 # counting partitions
 
 def count_partitions(n, m):
