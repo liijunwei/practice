@@ -31,17 +31,21 @@ func main() {
 	flag.Parse()
 
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
-	app := &application{
-		config: cfg,
-		logger: *logger,
-	}
 
 	db, err := openDB(cfg)
 	if err != nil {
 		logger.Fatal(err)
 	}
 
+	logger.Println("database connection pool established")
+
 	defer db.Close()
+
+	app := &application{
+		config: cfg,
+		logger: *logger,
+		models: data.NewModels(db),
+	}
 
 	mux := app.routes()
 
@@ -76,6 +80,7 @@ type dbConfig struct {
 type application struct {
 	config config
 	logger log.Logger
+	models data.Models
 }
 
 func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
