@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
@@ -23,9 +24,10 @@ func main() {
 	flag.StringVar(&cfg.env, "env", "development", "environment(development|staging|production)")
 	flag.StringVar(&cfg.ip, "ip", "localhost", "the server ip address")
 	flag.IntVar(&cfg.port, "port", 4000, "api server port")
-
-	defaultDsn := fmt.Sprintf("postgres://greenlight:%s@localhost/greenlight?sslmode=disable", os.Getenv("PGPASSWORD"))
-	flag.StringVar(&cfg.db.dsn, "db-dsn", defaultDsn, "postgres Data Source Name (DSN) ")
+	flag.StringVar(&cfg.db.dsn, "db-dsn", os.Getenv("GREENLIGHT_DB_DSN"), "postgres Data Source Name (DSN)") // from sensitive-exports.sh
+	flag.IntVar(&cfg.db.maxOpenConns, "db-max-open-conns", 25, "postgres max open connections")
+	flag.IntVar(&cfg.db.maxIdleConns, "db-max-idle-conns", 25, "postgres max idle connections")
+	flag.StringVar(&cfg.db.maxIdleTime, "db-max-idle-time", "15m", "postgres max connection idle time")
 	flag.Parse()
 
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
@@ -65,7 +67,10 @@ type config struct {
 }
 
 type dbConfig struct {
-	dsn string // Data Source Name (DSN)
+	dsn          string // Data Source Name (DSN)
+	maxOpenConns int
+	maxIdleConns int
+	maxIdleTime  string
 }
 
 type application struct {
@@ -212,12 +217,37 @@ func openDB(cfg config) (*sql.DB, error) {
 		return nil, err
 	}
 
+	db.SetMaxOpenConns(cfg.db.maxOpenConns)
+	db.SetMaxIdleConns(cfg.db.maxIdleConns)
+	duration, err := time.ParseDuration(cfg.db.maxIdleTime)
+	if err != nil {
+		return nil, err
+	}
+
+	db.SetConnMaxIdleTime(duration)
+
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	if err := db.PingContext(ctx); err != nil {
 		return nil, err
 	}
+
+	go func() {
+		ticker := time.NewTicker(10 * time.Second)
+
+		for {
+			select {
+			case <-ticker.C:
+				stat, err := json.Marshal(db.Stats())
+				if err != nil {
+					continue
+				}
+
+				fmt.Println("database stat:", string(stat))
+			}
+		}
+	}()
 
 	return db, nil
 }
