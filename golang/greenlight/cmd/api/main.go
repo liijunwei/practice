@@ -1,10 +1,10 @@
 package main
 
 import (
-	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
+	"greenlight/internal/data"
 	"log"
 	"net/http"
 	"os"
@@ -56,31 +56,17 @@ type application struct {
 func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	data := map[string]string{
-		"status":      "available",
-		"environment": app.config.env,
-		"version":     version,
+	env := envelope{
+		"status": "available",
+		"system_info": map[string]string{
+			"environment": app.config.env,
+			"version":     version,
+		},
 	}
 
-	if err := app.writeJSON(w, http.StatusOK, data, nil); err != nil {
-		app.logger.Println(err)
-		http.Error(w, "unexpected server error", http.StatusInternalServerError)
+	if err := app.writeJSON(w, http.StatusOK, env, nil); err != nil {
+		app.serverErrorResponse(w, r, err)
 	}
-}
-
-func (app *application) writeJSON(w http.ResponseWriter, status int, data any, headers http.Header) error {
-	js, err := json.Marshal(data)
-	if err != nil {
-		return err
-	}
-	for key, value := range headers {
-		w.Header()[key] = value
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(status)
-	w.Write(js)
-
-	return nil
 }
 
 func (app *application) routes() *http.ServeMux {
@@ -112,10 +98,23 @@ func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Reques
 func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
 	movieID, err := app.readIDParam(r)
 	if err != nil {
-		http.NotFound(w, r)
+		app.notFoundResponse(w, r)
 		return
 	}
-	fmt.Fprintf(w, "show details of movie %d\n", movieID)
+
+	movie := data.Movie{
+		ID:        movieID,
+		CreatedAt: time.Now(),
+		Title:     "BOPE",
+		Year:      2007,
+		Runtime:   114,
+		Genres:    []string{"crime", "war"},
+		Version:   1,
+	}
+
+	if err := app.writeJSON(w, http.StatusOK, envelope{"movies": movie}, nil); err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
 }
 
 func (app *application) readIDParam(r *http.Request) (int64, error) {
