@@ -6,6 +6,7 @@ import (
 )
 
 var ErrRecordNotFound = errors.New("record not found")
+var ErrStaleObject = errors.New("trying to update stale object")
 
 type Movies interface {
 	Insert(movie *Movie) error
