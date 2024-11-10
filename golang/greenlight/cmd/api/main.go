@@ -71,6 +71,8 @@ func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Reques
 
 func (app *application) routes() *http.ServeMux {
 	mux := http.NewServeMux()
+	mux.HandleFunc("/", app.notFoundResponse)
+
 	mux.HandleFunc("GET /v1/healthcheck", app.healthcheckHandler)
 	mux.HandleFunc("POST /v1/movies", app.createMovieHandler)
 	mux.HandleFunc("GET /v1/movies/{id}", app.showMovieHandler)
