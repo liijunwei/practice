@@ -1,6 +1,7 @@
 package data
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 	"greenlight/internal/validator"
@@ -49,7 +50,10 @@ func (m MovieModel) Insert(movie *Movie) error {
 
 	args := []any{movie.Title, movie.Year, movie.Runtime, pq.Array(movie.Genres)}
 
-	return m.DB.QueryRow(query, args...).Scan(&movie.ID, &movie.CreatedAt, &movie.Version)
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	return m.DB.QueryRowContext(ctx, query, args...).Scan(&movie.ID, &movie.CreatedAt, &movie.Version)
 }
 
 func (m MovieModel) Get(id int64) (*Movie, error) {
@@ -61,7 +65,10 @@ func (m MovieModel) Get(id int64) (*Movie, error) {
 
 	var movie Movie
 
-	if err := m.DB.QueryRow(query, id).Scan(&movie.ID, &movie.CreatedAt, &movie.Title, &movie.Year, &movie.Runtime, pq.Array(&movie.Genres), &movie.Version); err != nil {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	if err := m.DB.QueryRowContext(ctx, query, id).Scan(&movie.ID, &movie.CreatedAt, &movie.Title, &movie.Year, &movie.Runtime, pq.Array(&movie.Genres), &movie.Version); err != nil {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
 			return nil, ErrRecordNotFound
@@ -83,7 +90,10 @@ func (m MovieModel) Update(movie *Movie) error {
 	// fmt.Println("version:", movie.Version)
 	// time.Sleep(3 * time.Second) // to mock concurrent update
 
-	if err := m.DB.QueryRow(query, args...).Scan(&movie.Version); err != nil {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	if err := m.DB.QueryRowContext(ctx, query, args...).Scan(&movie.Version); err != nil {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
 			return ErrStaleObject
@@ -102,7 +112,10 @@ func (m MovieModel) Delete(id int64) error {
 
 	query := `DELETE from movies where id = $1;`
 
-	result, err := m.DB.Exec(query, id)
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	result, err := m.DB.ExecContext(ctx, query, id)
 	if err != nil {
 		return err
 	}

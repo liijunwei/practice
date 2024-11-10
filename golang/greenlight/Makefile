@@ -28,3 +28,9 @@ create-migration-file-example:
 migrate:
 	migrate -path=./db/migrations -database=${GREENLIGHT_DB_DSN} up
 	pg_dump --schema-only ${GREENLIGHT_DB_DSN} --file ./db/structure.sql
+
+# test-optimistic-locking
+# xargs -I % -P8 curl --location --request PUT 'http://localhost:4000/v1/movies/9' --header 'Content-Type: application/json' --data '{"title":"movie4","year":2007,"runtime":1500,"genres":["crime","war","sci-fi"]}' < <(printf '%s\n' {1..8})
+
+# test timeout with `select pg_sleep(3)`
+# curl --write-out '\nTime: %{time_total}s \n' http://localhost:4000/v1/movies/9
