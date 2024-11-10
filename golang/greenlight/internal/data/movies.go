@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"greenlight/internal/validator"
 	"time"
+
+	"github.com/lib/pq"
 )
 
 type Movie struct {
@@ -40,7 +42,13 @@ type MovieModel struct {
 }
 
 func (m MovieModel) Insert(movie *Movie) error {
-	return nil
+	s := `insert into movies(title, year, runtime, genres)
+	values($1, $2, $3, $4)
+	returning id, created_at, version;`
+
+	args := []any{movie.Title, movie.Year, movie.Runtime, pq.Array(movie.Genres)}
+
+	return m.DB.QueryRow(s, args...).Scan(&movie.ID, &movie.CreatedAt, &movie.Version)
 }
 
 func (m MovieModel) Get(id int64) (*Movie, error) {
