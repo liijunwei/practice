@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+	"database/sql"
 	"errors"
 	"flag"
 	"fmt"
@@ -10,6 +12,8 @@ import (
 	"os"
 	"strconv"
 	"time"
+
+	_ "github.com/lib/pq"
 )
 
 const version = "1.0.0"
@@ -19,6 +23,9 @@ func main() {
 	flag.StringVar(&cfg.env, "env", "development", "environment(development|staging|production)")
 	flag.StringVar(&cfg.ip, "ip", "localhost", "the server ip address")
 	flag.IntVar(&cfg.port, "port", 4000, "api server port")
+
+	defaultDsn := fmt.Sprintf("postgres://greenlight:%s@localhost/greenlight?sslmode=disable", os.Getenv("PGPASSWORD"))
+	flag.StringVar(&cfg.db.dsn, "db-dsn", defaultDsn, "postgres Data Source Name (DSN) ")
 	flag.Parse()
 
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
@@ -26,6 +33,13 @@ func main() {
 		config: cfg,
 		logger: *logger,
 	}
+
+	db, err := openDB(cfg)
+	if err != nil {
+		logger.Fatal(err)
+	}
+
+	defer db.Close()
 
 	mux := app.routes()
 
@@ -38,14 +52,20 @@ func main() {
 	}
 
 	logger.Printf("starting %s server on %s", cfg.env, server.Addr)
-	err := server.ListenAndServe()
-	logger.Fatal(err)
+	if err := server.ListenAndServe(); err != nil {
+		logger.Fatal(err)
+	}
 }
 
 type config struct {
 	ip   string
 	port int
 	env  string
+	db   dbConfig
+}
+
+type dbConfig struct {
+	dsn string // Data Source Name (DSN)
 }
 
 type application struct {
@@ -184,4 +204,20 @@ func widgetAdmin(w http.ResponseWriter, r *http.Request) {
 func widgetImage(w http.ResponseWriter, r *http.Request) {
 	slug := r.PathValue("slug")
 	fmt.Fprintf(w, "widgetImage %s\n", slug)
+}
+
+func openDB(cfg config) (*sql.DB, error) {
+	db, err := sql.Open("postgres", cfg.db.dsn)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := db.PingContext(ctx); err != nil {
+		return nil, err
+	}
+
+	return db, nil
 }
