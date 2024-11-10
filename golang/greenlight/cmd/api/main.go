@@ -12,8 +12,10 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -94,6 +96,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("GET /v1/movies/{id}", app.showMovieHandler)
 	mux.HandleFunc("PUT /v1/movies/{id}", app.updateMovieHandler)
 	mux.HandleFunc("DELETE /v1/movies/{id}", app.DeleteMovieHandler)
+	mux.HandleFunc("GET /v1/movies", app.listMovieHandler)
 
 	// borrowed from: https://github.com/benhoyt/go-routing/blob/master/stdlib/route.go
 	mux.HandleFunc("GET /{$}", home)
@@ -248,6 +251,44 @@ func (app *application) DeleteMovieHandler(w http.ResponseWriter, r *http.Reques
 	}
 
 	if err := app.writeJSON(w, http.StatusOK, envelope{"movie": "movie deleted"}, nil); err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
+}
+
+func (app *application) listMovieHandler(w http.ResponseWriter, r *http.Request) {
+	var input struct {
+		Title   string
+		Genres  []string
+		Filters data.Filters
+	}
+
+	v := validator.New()
+	qs := r.URL.Query()
+
+	input.Title = app.readString(qs, "title", "")
+	input.Genres = app.readCSV(qs, "genres", []string{})
+	input.Filters.Page = app.readInt(qs, "page", 1, v)
+	input.Filters.PageSize = app.readInt(qs, "page_size", 20, v)
+	input.Filters.Sort = app.readString(qs, "sort", "id")
+	input.Filters.SortSafelist = []string{"id", "title", "year", "runtime", "-id", "-title", "-year", "-runtime"}
+
+	if data.ValidateFilters(v, input.Filters); !v.Valid() {
+		app.failedValidationResponse(w, r, v.Errors)
+		return
+	}
+
+	if !v.Valid() {
+		app.failedValidationResponse(w, r, v.Errors)
+		return
+	}
+
+	movies, err := app.models.Movies.GetAll(input.Title, input.Genres, input.Filters)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+	if err := app.writeJSON(w, http.StatusOK, envelope{"movies": movies}, nil); err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
 }
@@ -454,4 +495,34 @@ func (app *application) failedValidationResponse(w http.ResponseWriter, r *http.
 func (app *application) editStaleRecordResponse(w http.ResponseWriter, r *http.Request) {
 	message := "unable to update a stale object, please try again"
 	app.errorResponse(w, r, http.StatusConflict, message)
+}
+
+func (app *application) readString(qs url.Values, key string, defaultVal string) string {
+	if s := qs.Get(key); s != "" {
+		return s
+	}
+
+	return defaultVal
+}
+
+func (app *application) readCSV(qs url.Values, key string, defaultVal []string) []string {
+	if s := qs.Get(key); s != "" {
+		return strings.Split(s, ",")
+	}
+
+	return defaultVal
+}
+
+func (app *application) readInt(qs url.Values, key string, defaultVal int, v *validator.Validator) int {
+	if s := qs.Get(key); s != "" {
+		i, err := strconv.Atoi(s)
+		if err != nil {
+			v.AddError(key, "must be an integer value")
+			return defaultVal
+		}
+
+		return i
+	}
+
+	return defaultVal
 }
