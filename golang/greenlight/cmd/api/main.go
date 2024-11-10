@@ -93,10 +93,6 @@ func (app *application) routes() *http.ServeMux {
 	return mux
 }
 
-func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "createMovieHandler\n")
-}
-
 func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
 	movieID, err := app.readIDParam(r)
 	if err != nil {
