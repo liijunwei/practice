@@ -27,4 +27,4 @@ create-migration-file-example:
 
 migrate:
 	migrate -path=./db/migrations -database=${GREENLIGHT_DB_DSN} up
-	pg_dump --schema-only ${GREENLIGHT_DB_DSN} > ./db/structure.sql
+	pg_dump --schema-only ${GREENLIGHT_DB_DSN} --file ./db/structure.sql
