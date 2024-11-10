@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"greenlight/internal/data"
 	"greenlight/internal/validator"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -84,22 +85,6 @@ type application struct {
 	models data.Models
 }
 
-func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	env := envelope{
-		"status": "available",
-		"system_info": map[string]string{
-			"environment": app.config.env,
-			"version":     version,
-		},
-	}
-
-	if err := app.writeJSON(w, http.StatusOK, env, nil); err != nil {
-		app.serverErrorResponse(w, r, err)
-	}
-}
-
 func (app *application) routes() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", app.notFoundResponse)
@@ -124,6 +109,61 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("POST /{slug}/image", widgetImage)
 
 	return mux
+}
+
+func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	env := envelope{
+		"status": "available",
+		"system_info": map[string]string{
+			"environment": app.config.env,
+			"version":     version,
+		},
+	}
+
+	if err := app.writeJSON(w, http.StatusOK, env, nil); err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
+}
+
+func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Request) {
+	var input struct {
+		Title   string   `json:"title"`
+		Year    int32    `json:"year"`
+		Runtime int32    `json:"runtime"`
+		Genres  []string `json:"genres"`
+	}
+
+	if err := app.readJSON(w, r, &input); err != nil {
+		app.badRequestResponse(w, r, err)
+		return
+	}
+
+	movie := &data.Movie{
+		Title:   input.Title,
+		Year:    input.Year,
+		Runtime: data.Runtime(input.Runtime),
+		Genres:  input.Genres,
+	}
+
+	v := validator.New()
+	if data.ValidateMovie(v, movie); !v.Valid() {
+		app.failedValidationResponse(w, r, v.Errors)
+		return
+	}
+
+	if err := app.models.Movies.Insert(movie); err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+	headers := make(http.Header)
+	headers.Set("Location", fmt.Sprintf("/v1/movies/%d", movie.ID))
+
+	if err := app.writeJSON(w, http.StatusCreated, envelope{"movie": movie}, headers); err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
 }
 
 func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
@@ -326,4 +366,82 @@ func openDB(cfg config) (*sql.DB, error) {
 	}()
 
 	return db, nil
+}
+
+type envelope map[string]any
+
+func (app *application) writeJSON(w http.ResponseWriter, status int, data envelope, headers http.Header) error {
+	js, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
+	for key, value := range headers {
+		w.Header()[key] = value
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	w.Write(js)
+
+	return nil
+}
+
+func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst any) error {
+	if err := json.NewDecoder(r.Body).Decode(dst); err != nil {
+		var syntaxError *json.SyntaxError
+		var unmarshalTypeError *json.UnmarshalTypeError
+		var invalidUnmarshalError *json.InvalidUnmarshalError
+
+		switch {
+		case errors.As(err, &syntaxError):
+			return fmt.Errorf("json SyntaxError at char %d", syntaxError.Offset)
+		case errors.Is(err, io.ErrUnexpectedEOF):
+			return fmt.Errorf("UnexpectedEOF")
+		case errors.As(err, &unmarshalTypeError):
+			return fmt.Errorf("body contains incorrect json type")
+		case errors.Is(err, io.EOF):
+			return fmt.Errorf("body must not be empty")
+		case errors.As(err, &invalidUnmarshalError):
+			panic(err)
+		default:
+			return fmt.Errorf("no error handler %w", err)
+		}
+	}
+
+	return nil
+}
+
+func (app *application) logError(r *http.Request, err error) {
+	app.logger.Println(err)
+}
+
+func (app *application) errorResponse(w http.ResponseWriter, r *http.Request, status int, message any) {
+	env := envelope{"error": message}
+	if err := app.writeJSON(w, status, env, nil); err != nil {
+		app.logError(r, err)
+		w.WriteHeader(500)
+	}
+}
+
+func (app *application) serverErrorResponse(w http.ResponseWriter, r *http.Request, err error) {
+	app.logError(r, err)
+	message := "server failed unexpectedly"
+	app.errorResponse(w, r, http.StatusServiceUnavailable, message)
+}
+
+func (app *application) notFoundResponse(w http.ResponseWriter, r *http.Request) {
+	message := "resource not found"
+	app.errorResponse(w, r, http.StatusNotFound, message)
+}
+
+func (app *application) methodNotAllowedResponse(w http.ResponseWriter, r *http.Request) {
+	message := fmt.Sprintf("the %s method is not supported for this resource", r.Method)
+	app.errorResponse(w, r, http.StatusMethodNotAllowed, message)
+}
+
+func (app *application) badRequestResponse(w http.ResponseWriter, r *http.Request, err error) {
+	app.errorResponse(w, r, http.StatusBadRequest, err.Error())
+}
+
+func (app *application) failedValidationResponse(w http.ResponseWriter, r *http.Request, errors map[string]string) {
+	app.errorResponse(w, r, http.StatusUnprocessableEntity, errors)
 }
