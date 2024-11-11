@@ -56,7 +56,7 @@ func main() {
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf("%s:%d", cfg.ip, cfg.port),
-		Handler:      mux,
+		Handler:      app.recoverPanic(mux),
 		ErrorLog:     log.New(logger, "", 0),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
@@ -262,6 +262,8 @@ func (app *application) DeleteMovieHandler(w http.ResponseWriter, r *http.Reques
 }
 
 func (app *application) listMovieHandler(w http.ResponseWriter, r *http.Request) {
+	// panic("boom")
+
 	var input struct {
 		Title   string
 		Genres  []string
@@ -518,4 +520,30 @@ func (app *application) readInt(qs url.Values, key string, defaultVal int, v *va
 	}
 
 	return defaultVal
+}
+
+func (app *application) recoverPanic(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		now := time.Now()
+
+		app.logger.PrintInfo("request start", map[string]string{
+			"request_method": r.Method,
+			"request_url":    r.URL.String(),
+		})
+
+		defer func() {
+			app.logger.PrintInfo("request end", map[string]string{
+				"duration": time.Since(now).String(),
+			})
+		}()
+
+		defer func() {
+			if err := recover(); err != nil {
+				w.Header().Set("Connection", "close")
+				app.serverErrorResponse(w, r, fmt.Errorf("%s", err))
+			}
+		}()
+
+		next.ServeHTTP(w, r)
+	})
 }
