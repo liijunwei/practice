@@ -57,8 +57,9 @@ func (m MovieModel) Insert(movie *Movie) error {
 	return m.DB.QueryRowContext(ctx, query, args...).Scan(&movie.ID, &movie.CreatedAt, &movie.Version)
 }
 
-func (m MovieModel) GetAll(title string, genres []string, filters Filters) ([]*Movie, error) {
-	query := fmt.Sprintf(`select id,created_at,title,year,runtime,genres,version
+func (m MovieModel) GetAll(title string, genres []string, filters Filters) ([]*Movie, Metadata, error) {
+	// window function in pg
+	query := fmt.Sprintf(`select count(*) over(),id,created_at,title,year,runtime,genres,version
 	from movies
 	where (to_tsvector('english', title) @@ plainto_tsquery('english', $1) OR $1 = '')
 	AND (genres @> $2 OR $2 = '{}')
@@ -70,27 +71,30 @@ func (m MovieModel) GetAll(title string, genres []string, filters Filters) ([]*M
 
 	rows, err := m.DB.QueryContext(ctx, query, title, pq.Array(genres), filters.limit(), filters.offset())
 	if err != nil {
-		return nil, err
+		return nil, emptyMetadata(), err
 	}
 
 	defer rows.Close()
 
+	var totalRecords int
 	movies := make([]*Movie, 0, 20)
 
 	for rows.Next() {
 		var movie Movie
 
-		if err := rows.Scan(&movie.ID, &movie.CreatedAt, &movie.Title, &movie.Year, &movie.Runtime, pq.Array(&movie.Genres), &movie.Version); err != nil {
-			return nil, err
+		if err := rows.Scan(&totalRecords, &movie.ID, &movie.CreatedAt, &movie.Title, &movie.Year, &movie.Runtime, pq.Array(&movie.Genres), &movie.Version); err != nil {
+			return nil, emptyMetadata(), err
 		}
 		movies = append(movies, &movie)
 	}
 
 	if err := rows.Err(); err != nil {
-		return nil, err
+		return nil, emptyMetadata(), err
 	}
 
-	return movies, nil
+	metadata := getMetadata(totalRecords, filters.Page, filters.limit())
+
+	return movies, metadata, nil
 }
 
 func (m MovieModel) Get(id int64) (*Movie, error) {
