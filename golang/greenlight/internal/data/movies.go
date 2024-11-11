@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	"greenlight/internal/validator"
 	"time"
 
@@ -57,11 +58,11 @@ func (m MovieModel) Insert(movie *Movie) error {
 }
 
 func (m MovieModel) GetAll(title string, genres []string, filters Filters) ([]*Movie, error) {
-	query := `select id,created_at,title,year,runtime,genres,version
+	query := fmt.Sprintf(`select id,created_at,title,year,runtime,genres,version
 	from movies
 	where (to_tsvector('english', title) @@ plainto_tsquery('english', $1) OR $1 = '')
 	AND (genres @> $2 OR $2 = '{}')
-	order by id`
+	order by %s %s, id asc`, filters.sortColumn(), filters.sortDirection())
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
