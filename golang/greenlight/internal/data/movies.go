@@ -62,12 +62,13 @@ func (m MovieModel) GetAll(title string, genres []string, filters Filters) ([]*M
 	from movies
 	where (to_tsvector('english', title) @@ plainto_tsquery('english', $1) OR $1 = '')
 	AND (genres @> $2 OR $2 = '{}')
-	order by %s %s, id asc`, filters.sortColumn(), filters.sortDirection())
+	order by %s %s, id asc
+	limit $3 offset $4`, filters.sortColumn(), filters.sortDirection())
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	rows, err := m.DB.QueryContext(ctx, query, title, pq.Array(genres))
+	rows, err := m.DB.QueryContext(ctx, query, title, pq.Array(genres), filters.limit(), filters.offset())
 	if err != nil {
 		return nil, err
 	}
