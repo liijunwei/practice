@@ -113,6 +113,20 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: movies_genres_idx; Type: INDEX; Schema: public; Owner: greenlight
+--
+
+CREATE INDEX movies_genres_idx ON public.movies USING gin (genres);
+
+
+--
+-- Name: movies_title_idx; Type: INDEX; Schema: public; Owner: greenlight
+--
+
+CREATE INDEX movies_title_idx ON public.movies USING gin (to_tsvector('simple'::regconfig, title));
+
+
+--
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: pg_database_owner
 --
 
