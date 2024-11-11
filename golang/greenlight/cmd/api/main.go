@@ -8,6 +8,7 @@ import (
 	"flag"
 	"fmt"
 	"greenlight/internal/data"
+	"greenlight/internal/jsonlog"
 	"greenlight/internal/validator"
 	"io"
 	"log"
@@ -34,20 +35,20 @@ func main() {
 	flag.StringVar(&cfg.db.maxIdleTime, "db-max-idle-time", "15m", "postgres max connection idle time")
 	flag.Parse()
 
-	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
+	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
 
-	db, err := openDB(cfg)
+	db, err := openDB(cfg, logger)
 	if err != nil {
-		logger.Fatal(err)
+		logger.PrintFatal(err, nil)
 	}
 
-	logger.Println("database connection pool established")
+	logger.PrintInfo("database connection pool established", nil)
 
 	defer db.Close()
 
 	app := &application{
 		config: cfg,
-		logger: *logger,
+		logger: logger,
 		models: data.NewModels(db),
 	}
 
@@ -56,14 +57,19 @@ func main() {
 	server := &http.Server{
 		Addr:         fmt.Sprintf("%s:%d", cfg.ip, cfg.port),
 		Handler:      mux,
+		ErrorLog:     log.New(logger, "", 0),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
 	}
 
-	logger.Printf("starting %s server on %s", cfg.env, server.Addr)
+	logger.PrintInfo("server started", map[string]string{
+		"env":     cfg.env,
+		"address": server.Addr,
+	})
+
 	if err := server.ListenAndServe(); err != nil {
-		logger.Fatal(err)
+		logger.PrintFatal(err, nil)
 	}
 }
 
@@ -83,7 +89,7 @@ type dbConfig struct {
 
 type application struct {
 	config config
-	logger log.Logger
+	logger *jsonlog.Logger
 	models data.Models
 }
 
@@ -373,7 +379,7 @@ func widgetImage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "widgetImage %s\n", slug)
 }
 
-func openDB(cfg config) (*sql.DB, error) {
+func openDB(cfg config, logger *jsonlog.Logger) (*sql.DB, error) {
 	db, err := sql.Open("postgres", cfg.db.dsn)
 	if err != nil {
 		return nil, err
@@ -394,22 +400,6 @@ func openDB(cfg config) (*sql.DB, error) {
 	if err := db.PingContext(ctx); err != nil {
 		return nil, err
 	}
-
-	go func() {
-		ticker := time.NewTicker(10 * time.Second)
-
-		for {
-			select {
-			case <-ticker.C:
-				stat, err := json.Marshal(db.Stats())
-				if err != nil {
-					continue
-				}
-
-				fmt.Println("database stat:", string(stat))
-			}
-		}
-	}()
 
 	return db, nil
 }
@@ -457,7 +447,10 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst any
 }
 
 func (app *application) logError(r *http.Request, err error) {
-	app.logger.Println(err)
+	app.logger.PrintError(err, map[string]string{
+		"request_method": r.Method,
+		"request_url":    r.URL.String(),
+	})
 }
 
 func (app *application) errorResponse(w http.ResponseWriter, r *http.Request, status int, message any) {
