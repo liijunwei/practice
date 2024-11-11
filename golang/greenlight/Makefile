@@ -11,8 +11,11 @@ help:
 # run with postgres user
 # GRANT ALL PRIVILEGES ON DATABASE greenlight TO greenlight; # run with postgres user
 # GRANT ALL ON SCHEMA public TO greenlight;
-psql:
+db:
 	@PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight
+
+db-seed:
+	PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight -a -f db/seeds/*.sql
 
 show-pg-config-file:
 	sudo -u postgres psql -c 'show config_file;'
