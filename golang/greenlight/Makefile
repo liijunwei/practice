@@ -11,8 +11,8 @@ help:
 # run with postgres user
 # GRANT ALL PRIVILEGES ON DATABASE greenlight TO greenlight; # run with postgres user
 # GRANT ALL ON SCHEMA public TO greenlight;
-db:
-	@PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight
+db-console:
+	PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight
 
 db-seed:
 	PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight -a -f db/seeds/*.sql
