@@ -9,6 +9,11 @@ import (
 	"time"
 )
 
+// zerolog or std slog is better option
+//
+// https://github.com/rs/zerolog
+// https://go.dev/blog/slog
+
 type Level uint8
 
 const (
