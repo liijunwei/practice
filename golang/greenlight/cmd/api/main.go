@@ -12,11 +12,13 @@ import (
 	"greenlight/internal/validator"
 	"io"
 	"log"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -564,27 +566,39 @@ func (app *application) recoverPanic(next http.Handler) http.Handler {
 }
 
 func (app *application) rateLimit(next http.Handler) http.Handler {
-	// Note: this limiter initialization is out side of the function, meaning the limiter middleware is stateful
-	//
-	// token bucket rate limiter
-	// allow 2 requests per second, with a maximum of 4 request in a burst
-	limiter := rate.NewLimiter(2, 4)
+	var mu sync.Mutex
+	var clients = make(map[string]*rate.Limiter)
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		app.logger.PrintInfo("middleware rate_limit ...", nil)
 
-		if !limiter.Allow() {
+		ip, _, err := net.SplitHostPort(r.RemoteAddr)
+		if err != nil {
+			app.serverErrorResponse(w, r, err)
+			return
+		}
+
+		mu.Lock()
+
+		if _, ok := clients[ip]; !ok {
+			clients[ip] = rate.NewLimiter(2, 4)
+		}
+
+		if !clients[ip].Allow() {
+			mu.Unlock()
+
 			app.logger.PrintInfo("rate_limit triggered", map[string]string{
 				"request_method": r.Method,
 				"request_url":    r.URL.String(),
 				"user_agent":     r.UserAgent(),
 			})
 
-			// panic("boom")
-
 			app.rateLimitExceededResponse(w, r)
+
 			return
 		}
+
+		mu.Unlock()
 
 		next.ServeHTTP(w, r)
 	})
