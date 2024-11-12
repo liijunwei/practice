@@ -37,3 +37,6 @@ migrate:
 
 # test timeout with `select pg_sleep(3)`
 # curl --write-out '\nTime: %{time_total}s \n' http://localhost:4000/v1/movies/9
+
+test-rate-limiter:
+	for i in {1..10}; do curl --location 'http://localhost:4000/v1/healthcheck'; done

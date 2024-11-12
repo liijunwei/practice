@@ -29,16 +29,27 @@ const version = "1.0.0"
 
 func main() {
 	var cfg config
-	flag.StringVar(&cfg.env, "env", "development", "environment(development|staging|production)")
-	flag.StringVar(&cfg.ip, "ip", "localhost", "the server ip address")
-	flag.IntVar(&cfg.port, "port", 4000, "api server port")
-	flag.StringVar(&cfg.db.dsn, "db-dsn", os.Getenv("GREENLIGHT_DB_DSN"), "postgres Data Source Name (DSN)") // from sensitive-exports.sh
-	flag.IntVar(&cfg.db.maxOpenConns, "db-max-open-conns", 25, "postgres max open connections")
-	flag.IntVar(&cfg.db.maxIdleConns, "db-max-idle-conns", 25, "postgres max idle connections")
-	flag.StringVar(&cfg.db.maxIdleTime, "db-max-idle-time", "15m", "postgres max connection idle time")
+	flag.StringVar(&cfg.Env, "env", "development", "environment(development|staging|production)")
+	flag.StringVar(&cfg.IP, "ip", "localhost", "the server ip address")
+	flag.IntVar(&cfg.Port, "port", 4000, "api server port")
+	flag.StringVar(&cfg.DB.DSN, "db-dsn", os.Getenv("GREENLIGHT_DB_DSN"), "postgres Data Source Name (DSN)") // from sensitive-exports.sh
+	flag.IntVar(&cfg.DB.MaxOpenConns, "db-max-open-conns", 25, "postgres max open connections")
+	flag.IntVar(&cfg.DB.MaxIdleConns, "db-max-idle-conns", 25, "postgres max idle connections")
+	flag.StringVar(&cfg.DB.MaxIdleTime, "db-max-idle-time", "15m", "postgres max connection idle time")
+	flag.Float64Var(&cfg.Limiter.RPS, "limiter-rps", 2, "rate limiter maximum requests per second")
+	flag.IntVar(&cfg.Limiter.Burst, "limiter-burst", 4, "rate limiter maximum burst")
+	flag.BoolVar(&cfg.Limiter.Enabled, "limiter-enabled", true, "enable rate limiter")
 	flag.Parse()
 
 	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
+
+	configInfo, err := json.Marshal(cfg)
+	if err != nil {
+		logger.PrintFatal(err, nil)
+	}
+
+	// TODO optimize later with zerolog
+	logger.PrintInfo(string(configInfo), nil)
 
 	db, err := openDB(cfg, logger)
 	if err != nil {
@@ -60,11 +71,13 @@ func main() {
 	var handler http.Handler = mux
 
 	// the middlewares order matters
-	handler = app.rateLimit(handler)
+	if app.config.Limiter.Enabled {
+		handler = app.rateLimit(handler)
+	}
 	handler = app.recoverPanic(handler)
 
 	server := &http.Server{
-		Addr:         fmt.Sprintf("%s:%d", cfg.ip, cfg.port),
+		Addr:         fmt.Sprintf("%s:%d", cfg.IP, cfg.Port),
 		Handler:      handler,
 		ErrorLog:     log.New(logger, "", 0),
 		IdleTimeout:  time.Minute,
@@ -73,7 +86,7 @@ func main() {
 	}
 
 	logger.PrintInfo("server started", map[string]string{
-		"env":     cfg.env,
+		"env":     cfg.Env,
 		"address": server.Addr,
 	})
 
@@ -83,17 +96,24 @@ func main() {
 }
 
 type config struct {
-	ip   string
-	port int
-	env  string
-	db   dbConfig
+	IP      string        `json:"ip"`
+	Port    int           `json:"port"`
+	Env     string        `json:"env"`
+	DB      dbConfig      `json:"db"`
+	Limiter limiterConfig `json:"limiter"`
 }
 
 type dbConfig struct {
-	dsn          string // Data Source Name (DSN)
-	maxOpenConns int
-	maxIdleConns int
-	maxIdleTime  string
+	DSN          string `json:"dsn"` // Data Source Name (DSN)
+	MaxOpenConns int    `json:"max_open_conns"`
+	MaxIdleConns int    `json:"max_idle_conns"`
+	MaxIdleTime  string `json:"max_idle_time"`
+}
+
+type limiterConfig struct {
+	RPS     float64 `json:"rps"`
+	Burst   int     `json:"burst"`
+	Enabled bool    `json:"enabled"`
 }
 
 type application struct {
@@ -135,7 +155,7 @@ func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Reques
 	env := envelope{
 		"status": "available",
 		"system_info": map[string]string{
-			"environment": app.config.env,
+			"environment": app.config.Env,
 			"version":     version,
 		},
 	}
@@ -391,14 +411,14 @@ func widgetImage(w http.ResponseWriter, r *http.Request) {
 }
 
 func openDB(cfg config, logger *jsonlog.Logger) (*sql.DB, error) {
-	db, err := sql.Open("postgres", cfg.db.dsn)
+	db, err := sql.Open("postgres", cfg.DB.DSN)
 	if err != nil {
 		return nil, err
 	}
 
-	db.SetMaxOpenConns(cfg.db.maxOpenConns)
-	db.SetMaxIdleConns(cfg.db.maxIdleConns)
-	duration, err := time.ParseDuration(cfg.db.maxIdleTime)
+	db.SetMaxOpenConns(cfg.DB.MaxOpenConns)
+	db.SetMaxIdleConns(cfg.DB.MaxIdleConns)
+	duration, err := time.ParseDuration(cfg.DB.MaxIdleTime)
 	if err != nil {
 		return nil, err
 	}
@@ -604,7 +624,7 @@ func (app *application) rateLimit(next http.Handler) http.Handler {
 		mu.Lock()
 
 		if _, ok := clients[ip]; !ok {
-			clients[ip] = &client{limiter: rate.NewLimiter(2, 4)}
+			clients[ip] = &client{limiter: rate.NewLimiter(rate.Limit(app.config.Limiter.RPS), app.config.Limiter.Burst)}
 		}
 
 		clients[ip].lastSeen = time.Now()
