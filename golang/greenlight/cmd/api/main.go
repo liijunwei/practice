@@ -66,31 +66,7 @@ func main() {
 		models: data.NewModels(db),
 	}
 
-	mux := app.routes()
-
-	var handler http.Handler = mux
-
-	// the middlewares order matters
-	if app.config.Limiter.Enabled {
-		handler = app.rateLimit(handler)
-	}
-	handler = app.recoverPanic(handler)
-
-	server := &http.Server{
-		Addr:         fmt.Sprintf("%s:%d", cfg.IP, cfg.Port),
-		Handler:      handler,
-		ErrorLog:     log.New(logger, "", 0),
-		IdleTimeout:  time.Minute,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 30 * time.Second,
-	}
-
-	logger.PrintInfo("server started", map[string]string{
-		"env":     cfg.Env,
-		"address": server.Addr,
-	})
-
-	if err := server.ListenAndServe(); err != nil {
+	if err := app.serve(); err != nil {
 		logger.PrintFatal(err, nil)
 	}
 }
@@ -647,4 +623,36 @@ func (app *application) rateLimit(next http.Handler) http.Handler {
 
 		next.ServeHTTP(w, r)
 	})
+}
+
+func (app *application) serve() error {
+	mux := app.routes()
+
+	var handler http.Handler = mux
+
+	// the middlewares order matters
+	if app.config.Limiter.Enabled {
+		handler = app.rateLimit(handler)
+	}
+	handler = app.recoverPanic(handler)
+
+	server := &http.Server{
+		Addr:         fmt.Sprintf("%s:%d", app.config.IP, app.config.Port),
+		Handler:      handler,
+		ErrorLog:     log.New(app.logger, "", 0),
+		IdleTimeout:  time.Minute,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 30 * time.Second,
+	}
+
+	app.logger.PrintInfo("server started", map[string]string{
+		"env":     app.config.Env,
+		"address": server.Addr,
+	})
+
+	if err := server.ListenAndServe(); err != nil {
+		return err
+	}
+
+	return nil
 }
