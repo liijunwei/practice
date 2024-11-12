@@ -560,6 +560,8 @@ func (app *application) recoverPanic(next http.Handler) http.Handler {
 }
 
 func (app *application) rateLimit(next http.Handler) http.Handler {
+	// Note: this limiter initialization is out side of the function, meaning the limiter middleware is stateful
+	//
 	// token bucket rate limiter
 	// allow 2 requests per second, with a maximum of 4 request in a burst
 	limiter := rate.NewLimiter(2, 4)
