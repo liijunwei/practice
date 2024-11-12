@@ -55,8 +55,10 @@ func main() {
 
 	mux := app.routes()
 
-	var handler http.Handler
-	handler = app.rateLimit(mux)
+	var handler http.Handler = mux
+
+	// the middlewares order matters
+	handler = app.rateLimit(handler)
 	handler = app.recoverPanic(handler)
 
 	server := &http.Server{
@@ -573,6 +575,8 @@ func (app *application) rateLimit(next http.Handler) http.Handler {
 				"request_url":    r.URL.String(),
 				"user_agent":     r.UserAgent(),
 			})
+
+			// panic("boom")
 
 			app.rateLimitExceededResponse(w, r)
 			return
