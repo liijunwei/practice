@@ -566,8 +566,31 @@ func (app *application) recoverPanic(next http.Handler) http.Handler {
 }
 
 func (app *application) rateLimit(next http.Handler) http.Handler {
+	type client struct {
+		limiter  *rate.Limiter
+		lastSeen time.Time
+	}
+
 	var mu sync.Mutex
-	var clients = make(map[string]*rate.Limiter)
+	var clients = make(map[string]*client) // works for single machine
+
+	go func() {
+		ticker := time.NewTicker(1 * time.Second)
+
+		for range ticker.C {
+			mu.Lock()
+
+			app.logger.PrintInfo("checking client map...", nil)
+
+			for ip, client := range clients {
+				if time.Since(client.lastSeen) > 3*time.Minute {
+					delete(clients, ip)
+				}
+			}
+
+			mu.Unlock()
+		}
+	}()
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		app.logger.PrintInfo("middleware rate_limit ...", nil)
@@ -581,10 +604,12 @@ func (app *application) rateLimit(next http.Handler) http.Handler {
 		mu.Lock()
 
 		if _, ok := clients[ip]; !ok {
-			clients[ip] = rate.NewLimiter(2, 4)
+			clients[ip] = &client{limiter: rate.NewLimiter(2, 4)}
 		}
 
-		if !clients[ip].Allow() {
+		clients[ip].lastSeen = time.Now()
+
+		if !clients[ip].limiter.Allow() {
 			mu.Unlock()
 
 			app.logger.PrintInfo("rate_limit triggered", map[string]string{
