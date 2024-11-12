@@ -45,14 +45,6 @@ func main() {
 
 	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
 
-	configInfo, err := json.Marshal(cfg)
-	if err != nil {
-		logger.PrintFatal(err, nil)
-	}
-
-	// TODO optimize later with zerolog
-	logger.PrintInfo(string(configInfo), nil)
-
 	db, err := openDB(cfg, logger)
 	if err != nil {
 		logger.PrintFatal(err, nil)
@@ -137,6 +129,8 @@ func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Reques
 			"version":     version,
 		},
 	}
+
+	// time.Sleep(40 * time.Second)
 
 	if err := app.writeJSON(w, http.StatusOK, env, nil); err != nil {
 		app.serverErrorResponse(w, r, err)
@@ -647,6 +641,8 @@ func (app *application) serve() error {
 		WriteTimeout: 30 * time.Second,
 	}
 
+	shutdownError := make(chan error)
+
 	go func() {
 		quit := make(chan os.Signal, 1)
 
@@ -654,20 +650,38 @@ func (app *application) serve() error {
 
 		s := <-quit // block until signal received
 
-		app.logger.PrintInfo("caught signal", map[string]string{
-			"signal": s.String(),
+		app.logger.PrintInfo("shutting down", map[string]string{
+			"service_type": "api server",
+			"signal":       s.String(),
 		})
 
-		os.Exit(0)
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		shutdownError <- server.Shutdown(ctx)
 	}()
+
+	configInfo, err := json.Marshal(app.config)
+	if err != nil {
+		app.logger.PrintFatal(err, nil)
+	}
 
 	app.logger.PrintInfo("server started", map[string]string{
 		"env":     app.config.Env,
 		"address": server.Addr,
+		"config":  string(configInfo), //TODO optimize later with zerolog
 	})
 
 	if err := server.ListenAndServe(); err != nil {
-		return err
+		if !errors.Is(err, http.ErrServerClosed) {
+			return err
+		}
+
+		if err := <-shutdownError; err != nil {
+			return err
+		}
+
+		app.logger.PrintInfo("server shutdown", nil)
 	}
 
 	return nil
