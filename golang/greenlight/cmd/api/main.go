@@ -20,6 +20,7 @@ import (
 	"time"
 
 	_ "github.com/lib/pq"
+	"golang.org/x/time/rate"
 )
 
 const version = "1.0.0"
@@ -54,9 +55,13 @@ func main() {
 
 	mux := app.routes()
 
+	var handler http.Handler
+	handler = app.rateLimit(mux)
+	handler = app.recoverPanic(handler)
+
 	server := &http.Server{
 		Addr:         fmt.Sprintf("%s:%d", cfg.ip, cfg.port),
-		Handler:      app.recoverPanic(mux),
+		Handler:      handler,
 		ErrorLog:     log.New(logger, "", 0),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
@@ -419,6 +424,7 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data envelo
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	w.Write(js)
+	w.Write([]byte("\n"))
 
 	return nil
 }
@@ -492,6 +498,11 @@ func (app *application) editStaleRecordResponse(w http.ResponseWriter, r *http.R
 	app.errorResponse(w, r, http.StatusConflict, message)
 }
 
+func (app *application) rateLimitExceededResponse(w http.ResponseWriter, r *http.Request) {
+	message := "rate limit exceeded"
+	app.errorResponse(w, r, http.StatusTooManyRequests, message)
+}
+
 func (app *application) readString(qs url.Values, key string, defaultVal string) string {
 	if s := qs.Get(key); s != "" {
 		return s
@@ -543,6 +554,27 @@ func (app *application) recoverPanic(next http.Handler) http.Handler {
 				app.serverErrorResponse(w, r, fmt.Errorf("%s", err))
 			}
 		}()
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (app *application) rateLimit(next http.Handler) http.Handler {
+	// token bucket rate limiter
+	// allow 2 requests per second, with a maximum of 4 request in a burst
+	limiter := rate.NewLimiter(2, 4)
+
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if !limiter.Allow() {
+			app.logger.PrintInfo("rate_limit triggered", map[string]string{
+				"request_method": r.Method,
+				"request_url":    r.URL.String(),
+				"user_agent":     r.UserAgent(),
+			})
+
+			app.rateLimitExceededResponse(w, r)
+			return
+		}
 
 		next.ServeHTTP(w, r)
 	})
