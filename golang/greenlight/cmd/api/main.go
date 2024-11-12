@@ -16,9 +16,11 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"os/signal"
 	"strconv"
 	"strings"
 	"sync"
+	"syscall"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -644,6 +646,20 @@ func (app *application) serve() error {
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
 	}
+
+	go func() {
+		quit := make(chan os.Signal, 1)
+
+		signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+
+		s := <-quit // block until signal received
+
+		app.logger.PrintInfo("caught signal", map[string]string{
+			"signal": s.String(),
+		})
+
+		os.Exit(0)
+	}()
 
 	app.logger.PrintInfo("server started", map[string]string{
 		"env":     app.config.Env,
