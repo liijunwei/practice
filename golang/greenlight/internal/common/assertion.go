@@ -1,7 +1,9 @@
 package common
 
-func Assert(ok bool, msg string) {
+import "strings"
+
+func Assert(ok bool, msg ...string) {
 	if !ok {
-		panic(msg)
+		panic(strings.Join(msg, "; "))
 	}
 }
