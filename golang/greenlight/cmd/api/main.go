@@ -17,6 +17,7 @@ import (
 	"net/url"
 	"os"
 	"os/signal"
+	"runtime/debug"
 	"strconv"
 	"strings"
 	"sync"
@@ -41,6 +42,7 @@ func main() {
 	flag.Float64Var(&cfg.Limiter.RPS, "limiter-rps", 2, "rate limiter maximum requests per second")
 	flag.IntVar(&cfg.Limiter.Burst, "limiter-burst", 4, "rate limiter maximum burst")
 	flag.BoolVar(&cfg.Limiter.Enabled, "limiter-enabled", true, "enable rate limiter")
+	flag.BoolVar(&cfg.Debug, "debug-enabled", false, "verbose api response")
 	flag.Parse()
 
 	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
@@ -71,6 +73,7 @@ type config struct {
 	Env     string        `json:"env"`
 	DB      dbConfig      `json:"db"`
 	Limiter limiterConfig `json:"limiter"`
+	Debug   bool          `json:"debug"`
 }
 
 type dbConfig struct {
@@ -470,6 +473,18 @@ func (app *application) errorResponse(w http.ResponseWriter, r *http.Request, st
 func (app *application) serverErrorResponse(w http.ResponseWriter, r *http.Request, err error) {
 	app.logError(r, err)
 	message := "server failed unexpectedly"
+
+	if app.config.Debug {
+		details := map[string]any{
+			"message": message,
+			"error":   err.Error(),
+			"traces":  strings.Split(string(debug.Stack()), "\n"),
+		}
+
+		app.errorResponse(w, r, http.StatusServiceUnavailable, details)
+		return
+	}
+
 	app.errorResponse(w, r, http.StatusServiceUnavailable, message)
 }
 
