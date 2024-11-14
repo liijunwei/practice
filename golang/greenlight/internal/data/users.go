@@ -93,7 +93,7 @@ func ValidatePasswordPlaintext(v *validator.Validator, password string) {
 func (m UserModel) Insert(user *User) error {
 	query := `insert into users(name,email,password_hash,status)
 	values($1,$2,$3,$4)
-	returning id,created_at,version`
+	returning id,created_at,updated_at,version`
 
 	args := []any{user.Name, user.Email, user.Password.hash, user.Status}
 
@@ -103,6 +103,7 @@ func (m UserModel) Insert(user *User) error {
 	if err := m.DB.QueryRowContext(ctx, query, args...).Scan(
 		&user.ID,
 		&user.CreatedAt,
+		&user.UpdatedAt,
 		&user.Version,
 	); err != nil {
 		switch {
