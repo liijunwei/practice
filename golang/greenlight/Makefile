@@ -17,6 +17,16 @@ db-console:
 db-seed:
 	PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight -a -f db/seeds/*.sql
 
+db-reset:
+	migrate -path=./db/migrations -database=${GREENLIGHT_DB_DSN} down -all
+
+db-migrate:
+	migrate -path=./db/migrations -database=${GREENLIGHT_DB_DSN} up
+	rm ./db/structure.sql
+	pg_dump --schema-only ${GREENLIGHT_DB_DSN} --file ./db/structure.sql
+
+db-reset-add-seed: db-reset db-migrate db-seed
+
 show-pg-config-file:
 	sudo -u postgres psql -c 'show config_file;'
 	# /Library/PostgreSQL/17/data/postgresql.conf
@@ -27,10 +37,6 @@ install-tools:
 
 create-migration-file-example:
 	@echo "migrate create -seq -ext=.sql -dir=./db/migrations create_movies_table"
-
-migrate:
-	migrate -path=./db/migrations -database=${GREENLIGHT_DB_DSN} up
-	pg_dump --schema-only ${GREENLIGHT_DB_DSN} --file ./db/structure.sql
 
 # test-optimistic-locking
 # xargs -I % -P8 curl --location --request PUT 'http://localhost:4000/v1/movies/9' --header 'Content-Type: application/json' --data '{"title":"movie4","year":2007,"runtime":1500,"genres":["crime","war","sci-fi"]}' < <(printf '%s\n' {1..8})
