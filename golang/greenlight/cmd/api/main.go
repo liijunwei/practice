@@ -103,6 +103,8 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("DELETE /v1/movies/{id}", app.DeleteMovieHandler)
 	mux.HandleFunc("GET /v1/movies", app.listMovieHandler)
 
+	mux.HandleFunc("POST /v1/users", app.registerUserHandler)
+
 	// borrowed from: https://github.com/benhoyt/go-routing/blob/master/stdlib/route.go
 	mux.HandleFunc("GET /{$}", home)
 	mux.HandleFunc("GET /contact", contact)
@@ -567,7 +569,7 @@ func (app *application) rateLimit(next http.Handler) http.Handler {
 	var clients = make(map[string]*client) // works for single machine
 
 	go func() {
-		ticker := time.NewTicker(1 * time.Second)
+		ticker := time.NewTicker(1 * time.Minute)
 
 		for range ticker.C {
 			mu.Lock()
@@ -685,4 +687,51 @@ func (app *application) serve() error {
 	}
 
 	return nil
+}
+
+func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Request) {
+	var input struct {
+		Name     string `json:"name"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	if err := app.readJSON(w, r, &input); err != nil {
+		app.badRequestResponse(w, r, err)
+		return
+	}
+
+	user := &data.User{
+		Name:   input.Name,
+		Email:  input.Email,
+		Status: "pending",
+	}
+
+	if err := user.Password.Set(input.Password); err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+	v := validator.New()
+
+	if data.ValidateUser(v, user); !v.Valid() {
+		app.failedValidationResponse(w, r, v.Errors)
+		return
+	}
+
+	if err := app.models.Users.Insert(user); err != nil {
+		switch {
+		case errors.Is(err, data.ErrDuplicatedEmail):
+			v.AddError("email", "email already taken")
+			app.failedValidationResponse(w, r, v.Errors)
+		default:
+			app.serverErrorResponse(w, r, err)
+		}
+
+		return
+	}
+
+	if err := app.writeJSON(w, http.StatusCreated, envelope{"user": user}, nil); err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
 }

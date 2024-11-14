@@ -42,11 +42,11 @@ func (v *Validator) In(value string, list ...string) bool {
 	return false
 }
 
-func (v *Validator) Match(value string, rx *regexp.Regexp) bool {
+func Match(value string, rx *regexp.Regexp) bool {
 	return rx.MatchString(value)
 }
 
-func (v *Validator) Unique(values []string) bool {
+func Unique(values []string) bool {
 	uniqueVals := make(map[string]bool)
 
 	for _, val := range values {
