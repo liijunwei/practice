@@ -776,8 +776,14 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	token, err := app.models.Tokens.New(user.ID, 3*24*time.Hour, data.ScopeActivation)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
 	app.runInBackground(func() {
-		sendEmail(app.logger, app.mailer, user)
+		sendEmail(app.logger, app.mailer, user, token)
 	})
 
 	if err := app.writeJSON(w, http.StatusAccepted, envelope{"user": user}, nil); err != nil {
@@ -785,15 +791,20 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 }
 
-func sendEmail(logger *jsonlog.Logger, mailer mailer.Mailer, user *data.User) {
+func sendEmail(logger *jsonlog.Logger, mailer mailer.Mailer, user *data.User, token *data.Token) {
 	detail := map[string]any{
 		"user_id": user.ID,
+	}
+
+	data := map[string]any{
+		"userID":          user.ID,
+		"activationToken": token.Plaintext,
 	}
 
 	logger.PrintInfo("send email: start", detail)
 	startTime := time.Now()
 
-	if err := mailer.Send(user.Email, "user_welcome.tmpl", user); err != nil {
+	if err := mailer.Send(user.Email, "user_welcome.tmpl", data); err != nil {
 		detail["error_message"] = "send email: fail"
 		logger.PrintError(err, detail)
 		return
