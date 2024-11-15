@@ -776,27 +776,41 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	go app.sendEmail(user)
+	app.runInBackground(func() {
+		sendEmail(app.logger, app.mailer, user)
+	})
 
 	if err := app.writeJSON(w, http.StatusAccepted, envelope{"user": user}, nil); err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
 }
 
-func (app *application) sendEmail(user *data.User) {
+func sendEmail(logger *jsonlog.Logger, mailer mailer.Mailer, user *data.User) {
 	detail := map[string]any{
 		"user_id": user.ID,
 	}
 
-	app.logger.PrintInfo("send email: start", detail)
+	logger.PrintInfo("send email: start", detail)
 	startTime := time.Now()
 
-	if err := app.mailer.Send(user.Email, "user_welcome.tmpl", user); err != nil {
+	if err := mailer.Send(user.Email, "user_welcome.tmpl", user); err != nil {
 		detail["error_message"] = "send email: fail"
-		app.logger.PrintError(err, detail)
+		logger.PrintError(err, detail)
 		return
 	}
 
 	detail["duration"] = time.Since(startTime).String()
-	app.logger.PrintInfo("send email: done", detail)
+	logger.PrintInfo("send email: done", detail)
+}
+
+func (app *application) runInBackground(fn func()) {
+	go func() {
+		defer func() {
+			if err := recover(); err != nil {
+				app.logger.PrintError(fmt.Errorf("%s", err), nil)
+			}
+		}()
+
+		fn()
+	}()
 }
