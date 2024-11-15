@@ -22,14 +22,21 @@ type Users interface {
 	Update(user *User) error
 }
 
+type Tokens interface {
+	Insert(token *Token) error
+	DeleteAllForUser(scope string, userID int64) error
+}
+
 type Models struct {
 	Movies Movies
 	Users  Users
+	Tokens Tokens
 }
 
 func NewModels(db *sql.DB) Models {
 	return Models{
 		Movies: MovieModel{DB: db},
 		Users:  UserModel{DB: db},
+		Tokens: TokenModel{DB: db},
 	}
 }
