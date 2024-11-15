@@ -12,7 +12,7 @@ import (
 // indicate to Go that we want to store the contents of the ./templates directory in the templateFS embeded file system variable
 //
 //go:embed "templates"
-var templateFS embed.FS
+var templateFS embed.FS // TODO learn more about goembed
 
 type Mailer struct {
 	dialer *mail.Dialer
