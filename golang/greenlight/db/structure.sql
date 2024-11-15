@@ -90,6 +90,22 @@ CREATE TABLE public.schema_migrations (
 ALTER TABLE public.schema_migrations OWNER TO greenlight;
 
 --
+-- Name: tokens; Type: TABLE; Schema: public; Owner: greenlight
+--
+
+CREATE TABLE public.tokens (
+    hash bytea NOT NULL,
+    user_id bigint NOT NULL,
+    scope text NOT NULL,
+    expire_at timestamp(0) with time zone NOT NULL,
+    created_at timestamp(0) with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(0) with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.tokens OWNER TO greenlight;
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: greenlight
 --
 
@@ -159,6 +175,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: tokens tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: greenlight
+--
+
+ALTER TABLE ONLY public.tokens
+    ADD CONSTRAINT tokens_pkey PRIMARY KEY (hash);
+
+
+--
 -- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: greenlight
 --
 
@@ -186,6 +210,14 @@ CREATE INDEX movies_genres_idx ON public.movies USING gin (genres);
 --
 
 CREATE INDEX movies_title_idx ON public.movies USING gin (to_tsvector('english'::regconfig, title));
+
+
+--
+-- Name: tokens tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: greenlight
+--
+
+ALTER TABLE ONLY public.tokens
+    ADD CONSTRAINT tokens_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
