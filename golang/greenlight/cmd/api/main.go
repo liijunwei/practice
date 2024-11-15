@@ -746,7 +746,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	if err := app.models.Users.Insert(user); err != nil {
 		switch {
 		case errors.Is(err, data.ErrDuplicatedEmail):
-			v.AddError("email", "email already taken")
+			v.AddError("email", "email already taken") // FIXME: take care of "preventing enumeration attack" when necessary
 			app.failedValidationResponse(w, r, v.Errors)
 		default:
 			app.serverErrorResponse(w, r, err)
