@@ -778,7 +778,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 
 	go app.sendEmail(user)
 
-	if err := app.writeJSON(w, http.StatusCreated, envelope{"user": user}, nil); err != nil {
+	if err := app.writeJSON(w, http.StatusAccepted, envelope{"user": user}, nil); err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
 }
