@@ -112,6 +112,7 @@ type application struct {
 	logger *jsonlog.Logger
 	models data.Models
 	mailer mailer.Mailer
+	wg     sync.WaitGroup
 }
 
 func (app *application) routes() *http.ServeMux {
@@ -672,7 +673,7 @@ func (app *application) serve() error {
 	}
 	handler = app.recoverPanic(handler)
 
-	server := &http.Server{
+	srv := &http.Server{
 		Addr:         fmt.Sprintf("%s:%d", app.config.IP, app.config.Port),
 		Handler:      handler,
 		ErrorLog:     log.New(app.logger, "", 0),
@@ -698,28 +699,27 @@ func (app *application) serve() error {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
-		shutdownError <- server.Shutdown(ctx)
+		if err := srv.Shutdown(ctx); err != nil {
+			shutdownError <- srv.Shutdown(ctx)
+		}
+
+		app.logger.PrintInfo("completing background tasks", map[string]any{
+			"addr": srv.Addr,
+		})
+
+		app.wg.Wait()
+
+		shutdownError <- nil
 	}()
-
-	configInfo, err := json.Marshal(app.config)
-	if err != nil {
-		app.logger.PrintFatal(err, nil)
-	}
-
-	// struct -> []byte -> map
-	configMap := make(map[string]any)
-	if err := json.Unmarshal(configInfo, &configMap); err != nil {
-		app.logger.PrintFatal(err, nil)
-	}
 
 	app.logger.PrintInfo("server started", map[string]any{
 		"env":     app.config.Env,
-		"address": server.Addr,
-		"config":  configMap,
+		"address": srv.Addr,
+		"config":  configStructToMap(app.config),
 		"approot": approot.Root,
 	})
 
-	if err := server.ListenAndServe(); err != nil {
+	if err := srv.ListenAndServe(); err != nil {
 		if !errors.Is(err, http.ErrServerClosed) {
 			return err
 		}
@@ -804,7 +804,11 @@ func sendEmail(logger *jsonlog.Logger, mailer mailer.Mailer, user *data.User) {
 }
 
 func (app *application) runInBackground(fn func()) {
+	app.wg.Add(1)
+
 	go func() {
+		defer app.wg.Done()
+
 		defer func() {
 			if err := recover(); err != nil {
 				app.logger.PrintError(fmt.Errorf("%s", err), nil)
@@ -813,4 +817,16 @@ func (app *application) runInBackground(fn func()) {
 
 		fn()
 	}()
+}
+
+// struct -> []byte -> map
+func configStructToMap(config config) map[string]any {
+	configInfo, err := json.Marshal(config)
+	common.Assert(err == nil)
+
+	configMap := make(map[string]any)
+	err = json.Unmarshal(configInfo, &configMap)
+	common.Assert(err == nil)
+
+	return configMap
 }
