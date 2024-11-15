@@ -219,7 +219,7 @@ func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Reques
 		Title   string       `json:"title"`
 		Year    int32        `json:"year"`
 		Runtime data.Runtime `json:"runtime"`
-		Genres  []string     `json:"genres`
+		Genres  []string     `json:"genres"`
 	}
 
 	if err := app.readJSON(w, r, &input); err != nil {
