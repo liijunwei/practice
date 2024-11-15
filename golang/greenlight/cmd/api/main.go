@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"greenlight/internal/data"
 	"greenlight/internal/jsonlog"
+	approot "greenlight/internal/projectroot"
 	"greenlight/internal/validator"
 	"io"
 	"log"
@@ -47,12 +48,15 @@ func main() {
 
 	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
 
-	db, err := openDB(cfg, logger)
+	db, err := openDB(cfg)
 	if err != nil {
 		logger.PrintFatal(err, nil)
 	}
 
 	logger.PrintInfo("database connection pool established", nil)
+	logger.PrintInfo("app root", map[string]string{
+		"app_root": approot.Root,
+	})
 
 	defer db.Close()
 
@@ -134,8 +138,6 @@ func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Reques
 			"version":     version,
 		},
 	}
-
-	// time.Sleep(40 * time.Second)
 
 	if err := app.writeJSON(w, http.StatusOK, env, nil); err != nil {
 		app.serverErrorResponse(w, r, err)
@@ -268,8 +270,6 @@ func (app *application) DeleteMovieHandler(w http.ResponseWriter, r *http.Reques
 }
 
 func (app *application) listMovieHandler(w http.ResponseWriter, r *http.Request) {
-	// panic("boom")
-
 	var input struct {
 		Title   string
 		Genres  []string
@@ -387,7 +387,7 @@ func widgetImage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "widgetImage %s\n", slug)
 }
 
-func openDB(cfg config, logger *jsonlog.Logger) (*sql.DB, error) {
+func openDB(cfg config) (*sql.DB, error) {
 	db, err := sql.Open("postgres", cfg.DB.DSN)
 	if err != nil {
 		return nil, err
@@ -430,7 +430,7 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data envelo
 	return nil
 }
 
-func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst any) error {
+func (app *application) readJSON(_ http.ResponseWriter, r *http.Request, dst any) error {
 	if err := json.NewDecoder(r.Body).Decode(dst); err != nil {
 		var syntaxError *json.SyntaxError
 		var unmarshalTypeError *json.UnmarshalTypeError
@@ -493,11 +493,6 @@ func (app *application) notFoundResponse(w http.ResponseWriter, r *http.Request)
 	app.errorResponse(w, r, http.StatusNotFound, message)
 }
 
-func (app *application) methodNotAllowedResponse(w http.ResponseWriter, r *http.Request) {
-	message := fmt.Sprintf("the %s method is not supported for this resource", r.Method)
-	app.errorResponse(w, r, http.StatusMethodNotAllowed, message)
-}
-
 func (app *application) badRequestResponse(w http.ResponseWriter, r *http.Request, err error) {
 	app.errorResponse(w, r, http.StatusBadRequest, err.Error())
 }
@@ -550,8 +545,6 @@ func (app *application) recoverPanic(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		now := time.Now()
 
-		app.logger.PrintInfo("middleware recover_panic ...", nil)
-
 		app.logger.PrintInfo("request start", map[string]string{
 			"request_method": r.Method,
 			"request_url":    r.URL.String(),
@@ -602,8 +595,6 @@ func (app *application) rateLimit(next http.Handler) http.Handler {
 	}()
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		app.logger.PrintInfo("middleware rate_limit ...", nil)
-
 		ip, _, err := net.SplitHostPort(r.RemoteAddr)
 		if err != nil {
 			app.serverErrorResponse(w, r, err)
