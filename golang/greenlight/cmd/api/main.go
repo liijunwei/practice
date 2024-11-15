@@ -776,19 +776,27 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	app.logger.PrintInfo("sending email start", nil)
-	t := time.Now()
-
-	if err := app.mailer.Send(user.Email, "user_welcome.tmpl", user); err != nil {
-		app.serverErrorResponse(w, r, err)
-		return
-	}
-
-	app.logger.PrintInfo("sending email done.", map[string]any{
-		"duration": time.Since(t).String(),
-	})
+	go app.sendEmail(user)
 
 	if err := app.writeJSON(w, http.StatusCreated, envelope{"user": user}, nil); err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
+}
+
+func (app *application) sendEmail(user *data.User) {
+	detail := map[string]any{
+		"user_id": user.ID,
+	}
+
+	app.logger.PrintInfo("send email: start", detail)
+	startTime := time.Now()
+
+	if err := app.mailer.Send(user.Email, "user_welcome.tmpl", user); err != nil {
+		detail["error_message"] = "send email: fail"
+		app.logger.PrintError(err, detail)
+		return
+	}
+
+	detail["duration"] = time.Since(startTime).String()
+	app.logger.PrintInfo("send email: done", detail)
 }
