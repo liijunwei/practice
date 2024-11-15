@@ -61,9 +61,6 @@ func main() {
 	}
 
 	logger.PrintInfo("database connection pool established", nil)
-	logger.PrintInfo("app root", map[string]string{
-		"app_root": approot.Root,
-	})
 
 	defer db.Close()
 
@@ -90,7 +87,7 @@ type config struct {
 }
 
 type dbConfig struct {
-	DSN          string `json:"dsn"` // Data Source Name (DSN)
+	DSN          string `json:"-"` // Data Source Name (DSN)
 	MaxOpenConns int    `json:"max_open_conns"`
 	MaxIdleConns int    `json:"max_idle_conns"`
 	MaxIdleTime  string `json:"max_idle_time"`
@@ -151,7 +148,7 @@ func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Reques
 
 	env := envelope{
 		"status": "available",
-		"system_info": map[string]string{
+		"system_info": map[string]any{
 			"environment": app.config.Env,
 			"version":     version,
 		},
@@ -474,7 +471,7 @@ func (app *application) readJSON(_ http.ResponseWriter, r *http.Request, dst any
 }
 
 func (app *application) logError(r *http.Request, err error) {
-	app.logger.PrintError(err, map[string]string{
+	app.logger.PrintError(err, map[string]any{
 		"request_method": r.Method,
 		"request_url":    r.URL.String(),
 	})
@@ -580,13 +577,13 @@ func (app *application) recoverPanic(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		now := time.Now()
 
-		app.logger.PrintInfo("request start", map[string]string{
+		app.logger.PrintInfo("request start", map[string]any{
 			"request_method": r.Method,
 			"request_url":    r.URL.String(),
 		})
 
 		defer func() {
-			app.logger.PrintInfo("request end", map[string]string{
+			app.logger.PrintInfo("request end", map[string]any{
 				"duration": time.Since(now).String(),
 			})
 		}()
@@ -647,7 +644,7 @@ func (app *application) rateLimit(next http.Handler) http.Handler {
 		if !clients[ip].limiter.Allow() {
 			mu.Unlock()
 
-			app.logger.PrintInfo("rate_limit triggered", map[string]string{
+			app.logger.PrintInfo("rate_limit triggered", map[string]any{
 				"request_method": r.Method,
 				"request_url":    r.URL.String(),
 				"user_agent":     r.UserAgent(),
@@ -693,7 +690,7 @@ func (app *application) serve() error {
 
 		s := <-quit // block until signal received
 
-		app.logger.PrintInfo("shutting down", map[string]string{
+		app.logger.PrintInfo("shutting down", map[string]any{
 			"service_type": "api server",
 			"signal":       s.String(),
 		})
@@ -709,10 +706,17 @@ func (app *application) serve() error {
 		app.logger.PrintFatal(err, nil)
 	}
 
-	app.logger.PrintInfo("server started", map[string]string{
+	// struct -> []byte -> map
+	configMap := make(map[string]any)
+	if err := json.Unmarshal(configInfo, &configMap); err != nil {
+		app.logger.PrintFatal(err, nil)
+	}
+
+	app.logger.PrintInfo("server started", map[string]any{
 		"env":     app.config.Env,
 		"address": server.Addr,
-		"config":  string(configInfo), //TODO optimize later with zerolog
+		"config":  configMap,
+		"approot": approot.Root,
 	})
 
 	if err := server.ListenAndServe(); err != nil {
@@ -780,7 +784,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	app.logger.PrintInfo("sending email done.", map[string]string{
+	app.logger.PrintInfo("sending email done.", map[string]any{
 		"duration": time.Since(t).String(),
 	})
 

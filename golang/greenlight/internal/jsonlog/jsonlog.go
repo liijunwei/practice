@@ -50,30 +50,30 @@ func New(out io.Writer, minLevel Level) *Logger {
 	}
 }
 
-func (l *Logger) PrintInfo(message string, properties map[string]string) {
+func (l *Logger) PrintInfo(message string, properties map[string]any) {
 	l.print(LevelInfo, message, properties)
 }
 
-func (l *Logger) PrintError(err error, properties map[string]string) {
+func (l *Logger) PrintError(err error, properties map[string]any) {
 	l.print(LevelError, err.Error(), properties)
 }
 
-func (l *Logger) PrintFatal(err error, properties map[string]string) {
+func (l *Logger) PrintFatal(err error, properties map[string]any) {
 	l.print(LevelFatal, err.Error(), properties)
 	os.Exit(1)
 }
 
-func (l *Logger) print(level Level, message string, properties map[string]string) (int, error) {
+func (l *Logger) print(level Level, message string, properties map[string]any) (int, error) {
 	if level < l.minLevel {
 		return 0, nil
 	}
 
 	aux := struct {
-		Level      string            `json:"level"`
-		Time       string            `json:"time"`
-		Message    string            `json:"message"`
-		Properties map[string]string `json:"properties,omitempty"`
-		Traces     []string          `json:"trace,omitempty"`
+		Level      string         `json:"level"`
+		Time       string         `json:"time"`
+		Message    string         `json:"message"`
+		Properties map[string]any `json:"properties,omitempty"`
+		Traces     []string       `json:"trace,omitempty"`
 	}{
 		Level:      level.String(),
 		Time:       time.Now().Format(time.RFC3339),
