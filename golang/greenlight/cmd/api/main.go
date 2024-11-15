@@ -10,6 +10,7 @@ import (
 	"greenlight/internal/common"
 	"greenlight/internal/data"
 	"greenlight/internal/jsonlog"
+	"greenlight/internal/mailer"
 	approot "greenlight/internal/projectroot"
 	"greenlight/internal/validator"
 	"io"
@@ -45,6 +46,11 @@ func main() {
 	flag.IntVar(&cfg.Limiter.Burst, "limiter-burst", 4, "rate limiter maximum burst")
 	flag.BoolVar(&cfg.Limiter.Enabled, "limiter-enabled", true, "enable rate limiter")
 	flag.BoolVar(&cfg.Debug, "debug-enabled", false, "verbose api response")
+	flag.StringVar(&cfg.SMTP.Host, "smtp-host", "sandbox.smtp.mailtrap.io", "SMTP host")
+	flag.IntVar(&cfg.SMTP.Port, "smtp-port", 2525, "SMTP port")
+	flag.StringVar(&cfg.SMTP.Username, "smtp-username", "placeholder", "SMTP username")
+	flag.StringVar(&cfg.SMTP.Password, "smtp-password", "placeholder", "SMTP password")
+	flag.StringVar(&cfg.SMTP.Sender, "smtp-sender", "greenlight-admin@example.com", "SMTP sender")
 	flag.Parse()
 
 	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
@@ -65,6 +71,7 @@ func main() {
 		config: cfg,
 		logger: logger,
 		models: data.NewModels(db),
+		mailer: mailer.New(cfg.SMTP.Host, cfg.SMTP.Port, cfg.SMTP.Username, cfg.SMTP.Password, cfg.SMTP.Sender),
 	}
 
 	if err := app.serve(); err != nil {
@@ -79,6 +86,7 @@ type config struct {
 	DB      dbConfig      `json:"db"`
 	Limiter limiterConfig `json:"limiter"`
 	Debug   bool          `json:"debug"`
+	SMTP    smtp          `json:"smtp"`
 }
 
 type dbConfig struct {
@@ -94,10 +102,19 @@ type limiterConfig struct {
 	Enabled bool    `json:"enabled"`
 }
 
+type smtp struct {
+	Host     string `json:"host"`
+	Port     int    `json:"port"`
+	Username string `json:"-"`
+	Password string `json:"-"`
+	Sender   string `json:"sender"`
+}
+
 type application struct {
 	config config
 	logger *jsonlog.Logger
 	models data.Models
+	mailer mailer.Mailer
 }
 
 func (app *application) routes() *http.ServeMux {
@@ -754,6 +771,18 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 
 		return
 	}
+
+	app.logger.PrintInfo("sending email start", nil)
+	t := time.Now()
+
+	if err := app.mailer.Send(user.Email, "user_welcome.tmpl", user); err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+	app.logger.PrintInfo("sending email done.", map[string]string{
+		"duration": time.Since(t).String(),
+	})
 
 	if err := app.writeJSON(w, http.StatusCreated, envelope{"user": user}, nil); err != nil {
 		app.serverErrorResponse(w, r, err)
