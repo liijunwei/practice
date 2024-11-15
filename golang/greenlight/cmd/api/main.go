@@ -7,6 +7,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"greenlight/internal/common"
 	"greenlight/internal/data"
 	"greenlight/internal/jsonlog"
 	approot "greenlight/internal/projectroot"
@@ -478,7 +479,7 @@ func (app *application) serverErrorResponse(w http.ResponseWriter, r *http.Reque
 		details := map[string]any{
 			"message": message,
 			"error":   err.Error(),
-			"traces":  strings.Split(string(debug.Stack()), "\n"),
+			"traces":  sanitizedDebugTraces(),
 		}
 
 		app.errorResponse(w, r, http.StatusServiceUnavailable, details)
@@ -486,6 +487,23 @@ func (app *application) serverErrorResponse(w http.ResponseWriter, r *http.Reque
 	}
 
 	app.errorResponse(w, r, http.StatusServiceUnavailable, message)
+}
+
+// use `debug.PrintStack()` when necessary
+func sanitizedDebugTraces() []string {
+	rawTraces := strings.Split(string(debug.Stack()), "\n")
+	result := make([]string, 0, len(rawTraces))
+	prefixToTrim := fmt.Sprintf("%s/", approot.Root)
+
+	for _, trace := range rawTraces {
+		if strings.Contains(trace, approot.Root) {
+			fields := strings.Fields(trace) // ["/approot/foo.go:10", "+0x2d4"]
+			common.Assert(len(fields) == 2)
+			result = append(result, strings.TrimPrefix(fields[0], prefixToTrim))
+		}
+	}
+
+	return result
 }
 
 func (app *application) notFoundResponse(w http.ResponseWriter, r *http.Request) {
