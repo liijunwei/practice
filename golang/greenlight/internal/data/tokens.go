@@ -59,14 +59,14 @@ func (m TokenModel) New(userID int64, ttl time.Duration, scope string) (*Token, 
 		return nil, err
 	}
 
-	if err := m.Insert(token); err != nil {
+	if err := m.Create(token); err != nil {
 		return nil, err
 	}
 
 	return token, nil
 }
 
-func (m TokenModel) Insert(token *Token) error {
+func (m TokenModel) Create(token *Token) error {
 	query := `insert into tokens(hash,user_id,expire_at,scope)
 	values($1,$2,$3,$4)
 	`

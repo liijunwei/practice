@@ -93,7 +93,7 @@ func ValidatePasswordPlaintext(v *validator.Validator, password string) {
 	v.Check(len(password) <= 72, "password", "length must <= 72")
 }
 
-func (m UserModel) Insert(user *User) error {
+func (m UserModel) Create(user *User) error {
 	query := `insert into users(name,email,password_hash,status)
 	values($1,$2,$3,$4)
 	returning id,created_at,updated_at,version`

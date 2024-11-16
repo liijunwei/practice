@@ -182,7 +182,7 @@ func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	if err := app.models.Movies.Insert(movie); err != nil {
+	if err := app.models.Movies.Create(movie); err != nil {
 		app.serverErrorResponse(w, r, err)
 		return
 	}
@@ -781,7 +781,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if err := app.models.Users.Insert(user); err != nil {
+	if err := app.models.Users.Create(user); err != nil {
 		switch {
 		case errors.Is(err, data.ErrDuplicatedEmail):
 			v.AddError("email", "email already taken") // FIXME: take care of "preventing enumeration attack" when necessary

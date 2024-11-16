@@ -44,7 +44,7 @@ type MovieModel struct {
 	DB *sql.DB
 }
 
-func (m MovieModel) Insert(movie *Movie) error {
+func (m MovieModel) Create(movie *Movie) error {
 	query := `insert into movies(title, year, runtime, genres)
 	values($1, $2, $3, $4)
 	returning id, created_at, version;`

@@ -26,7 +26,7 @@ func NewModels(db *sql.DB) Models {
 }
 
 type Movies interface {
-	Insert(movie *Movie) error
+	Create(movie *Movie) error
 	Get(id int64) (*Movie, error)
 	GetAll(title string, genres []string, filters Filters) ([]*Movie, Metadata, error)
 	Update(movie *Movie) error
@@ -34,7 +34,7 @@ type Movies interface {
 }
 
 type Users interface {
-	Insert(user *User) error
+	Create(user *User) error
 	GetByEmail(email string) (*User, error)
 	Update(user *User) error
 	GetByToken(tokenScope, plaintextToken string) (*User, error)
@@ -42,7 +42,7 @@ type Users interface {
 
 type Tokens interface {
 	New(userID int64, ttl time.Duration, scope string) (*Token, error)
-	Insert(token *Token) error
+	Create(token *Token) error
 	DeleteAllForUser(scope string, userID int64) error
 }
 
