@@ -629,7 +629,7 @@ func (app *application) authenticate(next http.Handler) http.Handler {
 
 // Note: return http.HandlerFunc instead of http.Handler
 // so we can wrap handler func directly(not just router)
-func (app *application) requireActivatedUser(next http.HandlerFunc) http.HandlerFunc {
+func (app *application) requireAuthenticatedUser(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		user := app.contextGetUser(r)
 		if user.IsAnonymous() {
@@ -637,13 +637,23 @@ func (app *application) requireActivatedUser(next http.HandlerFunc) http.Handler
 			return
 		}
 
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (app *application) requireActivatedUser(next http.HandlerFunc) http.HandlerFunc {
+	fn := func(w http.ResponseWriter, r *http.Request) {
+		user := app.contextGetUser(r)
+
 		if !user.Activated() {
 			app.inactiveAccountResponse(w, r)
 			return
 		}
 
 		next.ServeHTTP(w, r)
-	})
+	}
+
+	return app.requireAuthenticatedUser(fn)
 }
 
 func (app *application) serve() error {
