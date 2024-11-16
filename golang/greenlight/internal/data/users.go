@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"crypto/sha256"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -182,4 +183,41 @@ func (m UserModel) Update(user *User) error {
 	}
 
 	return nil
+}
+
+func (m UserModel) GetByToken(tokenScope, plaintextToken string) (*User, error) {
+	tokenHash := sha256.Sum256([]byte(plaintextToken))
+	query := `select u.id,u.created_at,u.name,u.email,u.password_hash,u.status,u.version
+	from users u
+	inner join tokens t
+	on u.id = t.user_id
+	where t.hash = $1
+	and t.scope = $2
+	and t.expire_at > $3` // q: what's difference between using sql now() and go time.Now()?
+
+	args := []any{tokenHash[:], tokenScope, time.Now()}
+
+	var user User
+
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	if err := m.DB.QueryRowContext(ctx, query, args...).Scan(
+		&user.ID,
+		&user.CreatedAt,
+		&user.Name,
+		&user.Email,
+		&user.Password.hash,
+		&user.Status,
+		&user.Version,
+	); err != nil {
+		switch {
+		case errors.Is(err, sql.ErrNoRows):
+			return nil, ErrRecordNotFound
+		default:
+			return nil, err
+		}
+	}
+
+	return &user, nil
 }

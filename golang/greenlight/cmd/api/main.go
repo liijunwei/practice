@@ -130,6 +130,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("DELETE /v1/movies/{id}", app.DeleteMovieHandler)
 	mux.HandleFunc("GET /v1/movies", app.listMovieHandler)
 	mux.HandleFunc("POST /v1/users", app.registerUserHandler)
+	mux.HandleFunc("PUT /v1/users/activated", app.activateUserHandler)
 
 	return mux
 }
@@ -769,4 +770,57 @@ func configStructToMap(config config) map[string]any {
 	assert.Assert(err == nil)
 
 	return configMap
+}
+
+func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Request) {
+	var input struct {
+		TokenPlaintext string `json:"token"`
+	}
+
+	if err := app.readJSON(w, r, &input); err != nil {
+		app.badRequestResponse(w, r, err)
+		return
+	}
+
+	v := validator.New()
+
+	if data.ValidateTokenPlaintext(v, input.TokenPlaintext); !v.Valid() {
+		app.failedValidationResponse(w, r, v.Errors)
+		return
+	}
+
+	user, err := app.models.Users.GetByToken(data.ScopeActivation, input.TokenPlaintext)
+	if err != nil {
+		switch {
+		case errors.Is(err, data.ErrRecordNotFound):
+			v.AddError("token", "invalid or expired activation token")
+			app.failedValidationResponse(w, r, v.Errors)
+		default:
+			app.serverErrorResponse(w, r, err)
+		}
+
+		return
+	}
+
+	user.Status = "activated"
+
+	if err := app.models.Users.Update(user); err != nil {
+		switch {
+		case errors.Is(err, data.ErrStaleObject):
+			app.editStaleRecordResponse(w, r)
+		default:
+			app.serverErrorResponse(w, r, err)
+		}
+
+		return
+	}
+
+	if err := app.models.Tokens.DeleteAllForUser(data.ScopeActivation, user.ID); err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+	if err := app.writeJSON(w, http.StatusOK, envelope{"user": user}, nil); err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
 }

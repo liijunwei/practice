@@ -9,26 +9,6 @@ import (
 var ErrRecordNotFound = errors.New("record not found")
 var ErrStaleObject = errors.New("trying to update stale object")
 
-type Movies interface {
-	Insert(movie *Movie) error
-	Get(id int64) (*Movie, error)
-	GetAll(title string, genres []string, filters Filters) ([]*Movie, Metadata, error)
-	Update(movie *Movie) error
-	Delete(id int64) error
-}
-
-type Users interface {
-	Insert(user *User) error
-	GetByEmail(email string) (*User, error)
-	Update(user *User) error
-}
-
-type Tokens interface {
-	New(userID int64, ttl time.Duration, scope string) (*Token, error)
-	Insert(token *Token) error
-	DeleteAllForUser(scope string, userID int64) error
-}
-
 type Models struct {
 	Movies Movies
 	Users  Users
@@ -41,4 +21,25 @@ func NewModels(db *sql.DB) Models {
 		Users:  UserModel{DB: db},
 		Tokens: TokenModel{DB: db},
 	}
+}
+
+type Movies interface {
+	Insert(movie *Movie) error
+	Get(id int64) (*Movie, error)
+	GetAll(title string, genres []string, filters Filters) ([]*Movie, Metadata, error)
+	Update(movie *Movie) error
+	Delete(id int64) error
+}
+
+type Users interface {
+	Insert(user *User) error
+	GetByEmail(email string) (*User, error)
+	Update(user *User) error
+	GetByToken(tokenScope, plaintextToken string) (*User, error)
+}
+
+type Tokens interface {
+	New(userID int64, ttl time.Duration, scope string) (*Token, error)
+	Insert(token *Token) error
+	DeleteAllForUser(scope string, userID int64) error
 }
