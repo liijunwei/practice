@@ -53,6 +53,10 @@ func main() {
 	flag.StringVar(&cfg.SMTP.Sender, "smtp-sender", "greenlight-admin@example.com", "SMTP sender")
 	flag.Parse()
 
+	run(cfg)
+}
+
+func run(cfg config) {
 	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
 
 	db, err := openDB(cfg)
