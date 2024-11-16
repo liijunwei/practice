@@ -5,6 +5,8 @@ import (
 	"database/sql"
 	"greenlight/internal/assert"
 	"time"
+
+	"github.com/lib/pq"
 )
 
 type Permissions []string
@@ -59,4 +61,18 @@ func (m PermissinModel) GetAllForUser(userID int64) (Permissions, error) {
 	}
 
 	return permissions, nil
+}
+
+func (m PermissinModel) AddForUser(userID int64, codes ...string) error {
+	query := `insert into user_permissions
+	select $1,permissions.id from permissions where permissions.code = ANY($2)`
+
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	if _, err := m.DB.ExecContext(ctx, query, userID, pq.Array(codes)); err != nil {
+		return err
+	}
+
+	return nil
 }
