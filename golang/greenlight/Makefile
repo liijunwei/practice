@@ -33,6 +33,9 @@ db-migrate:
 	@echo "done pgdump"
 	@echo
 
+db-dump-example-data:
+	pg_dump --data-only --inserts --table users --no-comments ${GREENLIGHT_DB_DSN}
+
 db-reset-add-seed: db-reset db-migrate db-seed
 
 show-pg-config-file:

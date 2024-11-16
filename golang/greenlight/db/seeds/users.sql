@@ -1,6 +1,7 @@
-insert into users(name, email, password_hash, status, version) values
-('name1', 'email1@example.com', 'kajsfks1', 'pending', 1),
-('name2', 'email2@example.com', 'kajsfks2', 'pending', 1),
-('name3', 'email3@example.com', 'kajsfks3', 'activated', 1),
-('name4', 'email4@example.com', 'kajsfks4', 'activated', 1),
-('name5', 'email5@example.com', 'kajsfks5', 'pending', 1);
+-- pa55word
+INSERT INTO public.users VALUES (2, 'Danielle Gaylord', 'Enrique75@example.com', '\x24326124313224727a79376572486e44774b5a733030784e3961525a65364f367364784653476e432f6a483446323761656535476c6a336641503861', 'pending', 1, '2024-11-16 18:40:12+08', '2024-11-16 18:40:12+08');
+INSERT INTO public.users VALUES (4, 'Laura Larkin', 'Reagan60@example.com', '\x243261243132244c6c5257715574766c6571397971745776326c53504f79337034353938474463524c792f6d7639624c7045356c74385367704e396d', 'pending', 1, '2024-11-16 18:40:15+08', '2024-11-16 18:40:15+08');
+INSERT INTO public.users VALUES (5, 'Elbert Volkman', 'Deondre.Hessel@example.net', '\x243261243132244979485334394c4266467931547348334e4765585775307256756c6b79526d4363665054544b494d5837685846434675386759522e', 'pending', 1, '2024-11-16 18:40:17+08', '2024-11-16 18:40:17+08');
+INSERT INTO public.users VALUES (6, 'Robert Morar', 'Augustus.Halvorson@example.net', '\x2432612431322446313337486a746838675265556e62474d6d33484e75375061774734354a69626961336253456457615a35656e5a59484b686c3479', 'pending', 1, '2024-11-16 18:40:18+08', '2024-11-16 18:40:18+08');
+INSERT INTO public.users VALUES (1, 'Ms. Gloria Kshlerin', 'Emiliano_Cruickshank@example.com', '\x243261243132246f38422f552e394a46753953714630754f2f2e324865384d413142342f6a336b6d6c663475776a5a34692f326f46342e5563696f69', 'activated', 2, '2024-11-16 18:40:10+08', '2024-11-16 18:40:46+08');
+INSERT INTO public.users VALUES (3, 'Jody Beier', 'Elenor.Kling35@example.com', '\x243261243132244757574a39717a396f70682f6e427761784f547473756c6d5139556241687565516e53776a304e546f7770746d3671424166486171', 'activated', 2, '2024-11-16 18:40:14+08', '2024-11-16 18:40:56+08');

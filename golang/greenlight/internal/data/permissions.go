@@ -28,7 +28,7 @@ type PermissinModel struct {
 
 func (m PermissinModel) GetAllForUser(userID int64) (Permissions, error) {
 	query := `select perm.code
-	from permissions
+	from permissions perm
 	inner join user_permissions user_perm on user_perm.permission_id = perm.id
 	inner join users u on user_perm.user_id = u.id
 	where u.id = $1`

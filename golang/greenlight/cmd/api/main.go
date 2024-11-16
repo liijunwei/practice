@@ -128,11 +128,11 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("/", app.notFoundResponse)
 
 	mux.HandleFunc("GET /v1/healthcheck", app.healthcheckHandler)
-	mux.HandleFunc("POST /v1/movies", app.requireActivatedUser(app.createMovieHandler))
-	mux.HandleFunc("GET /v1/movies/{id}", app.requireActivatedUser(app.showMovieHandler))
-	mux.HandleFunc("PUT /v1/movies/{id}", app.requireActivatedUser(app.updateMovieHandler))
-	mux.HandleFunc("DELETE /v1/movies/{id}", app.requireActivatedUser(app.DeleteMovieHandler))
-	mux.HandleFunc("GET /v1/movies", app.requireActivatedUser(app.listMovieHandler))
+	mux.HandleFunc("POST /v1/movies", app.requirePermission("movies:write", app.createMovieHandler))
+	mux.HandleFunc("GET /v1/movies/{id}", app.requirePermission("movies:read", app.showMovieHandler))
+	mux.HandleFunc("PUT /v1/movies/{id}", app.requirePermission("movies:write", app.updateMovieHandler))
+	mux.HandleFunc("DELETE /v1/movies/{id}", app.requirePermission("movies:write", app.DeleteMovieHandler))
+	mux.HandleFunc("GET /v1/movies", app.requirePermission("movies:read", app.listMovieHandler))
 	mux.HandleFunc("POST /v1/users", app.registerUserHandler)
 	mux.HandleFunc("PUT /v1/users/activated", app.activateUserHandler)
 	mux.HandleFunc("POST /v1/tokens/authentication", app.createAuthenticationTokenHandler)
@@ -642,7 +642,7 @@ func (app *application) requireAuthenticatedUser(next http.HandlerFunc) http.Han
 }
 
 func (app *application) requireActivatedUser(next http.HandlerFunc) http.HandlerFunc {
-	fn := func(w http.ResponseWriter, r *http.Request) {
+	fn := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		user := app.contextGetUser(r)
 
 		if !user.Activated() {
@@ -651,9 +651,30 @@ func (app *application) requireActivatedUser(next http.HandlerFunc) http.Handler
 		}
 
 		next.ServeHTTP(w, r)
-	}
+	})
 
 	return app.requireAuthenticatedUser(fn)
+}
+
+func (app *application) requirePermission(code string, next http.HandlerFunc) http.HandlerFunc {
+	fn := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		user := app.contextGetUser(r)
+
+		permissions, err := app.models.Permissions.GetAllForUser(user.ID)
+		if err != nil {
+			app.serverErrorResponse(w, r, err)
+			return
+		}
+
+		if !permissions.Include(code) {
+			app.notPermittedResponse(w, r)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+
+	return app.requireActivatedUser(fn)
 }
 
 func (app *application) serve() error {
@@ -969,5 +990,10 @@ func (app *application) authenticationRequiredResponse(w http.ResponseWriter, r 
 
 func (app *application) inactiveAccountResponse(w http.ResponseWriter, r *http.Request) {
 	message := "you user account must be activated to access this resource"
+	app.errorResponse(w, r, http.StatusForbidden, message)
+}
+
+func (app *application) notPermittedResponse(w http.ResponseWriter, r *http.Request) {
+	message := "you user account doesn't have necessary permissions to access this resource"
 	app.errorResponse(w, r, http.StatusForbidden, message)
 }
