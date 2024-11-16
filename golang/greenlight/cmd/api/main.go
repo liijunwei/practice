@@ -80,6 +80,10 @@ func run(cfg config) {
 	}
 }
 
+type contextKey string
+
+const userContextKey = contextKey("user")
+
 type config struct {
 	IP      string        `json:"ip"`
 	Port    int           `json:"port"`
@@ -507,19 +511,6 @@ func (app *application) readInt(qs url.Values, key string, defaultVal int, v *va
 
 func (app *application) recoverPanic(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		now := time.Now()
-
-		app.logger.PrintInfo("request start", map[string]any{
-			"request_method": r.Method,
-			"request_url":    r.URL.String(),
-		})
-
-		defer func() {
-			app.logger.PrintInfo("request end", map[string]any{
-				"duration": time.Since(now).String(),
-			})
-		}()
-
 		defer func() {
 			if err := recover(); err != nil {
 				w.Header().Set("Connection", "close")
@@ -593,12 +584,59 @@ func (app *application) rateLimit(next http.Handler) http.Handler {
 	})
 }
 
+func (app *application) authenticate(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// TODO this is new to me, learn more
+		// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary
+		w.Header().Add("Vary", "Authorization")
+
+		authorizationHeader := r.Header.Get("Authorization")
+		if authorizationHeader == "" {
+			r = app.contextSetUser(r, data.AnonymousUser)
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		headerParts := strings.Split(authorizationHeader, " ")
+		if len(headerParts) != 2 || headerParts[0] != "Bearer" {
+			app.invalidAuthenticationTokenResponse(w, r)
+			return
+		}
+
+		token := headerParts[1]
+		v := validator.New()
+
+		if data.ValidateTokenPlaintext(v, token); !v.Valid() {
+			app.invalidAuthenticationTokenResponse(w, r)
+			return
+		}
+
+		user, err := app.models.Users.GetByToken(data.ScopeAuthentication, token)
+		if err != nil {
+			switch {
+			case errors.Is(err, data.ErrRecordNotFound):
+				app.failedValidationResponse(w, r, v.Errors)
+			default:
+				app.serverErrorResponse(w, r, err)
+			}
+
+			return
+		}
+
+		r = app.contextSetUser(r, user)
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 func (app *application) serve() error {
 	mux := app.routes()
 
 	var handler http.Handler = mux
 
 	// the middlewares order matters
+	handler = app.authenticate(handler)
+
 	if app.config.Limiter.Enabled {
 		handler = app.rateLimit(handler)
 	}
@@ -877,4 +915,22 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 func (app *application) invlidCredentialsResponse(w http.ResponseWriter, r *http.Request) {
 	message := "invalid authentication credentials"
 	app.errorResponse(w, r, http.StatusUnauthorized, message)
+}
+
+func (app *application) invalidAuthenticationTokenResponse(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("WWW-Authenticate", "Bearer")
+	message := "invalid or missing authentication token"
+	app.errorResponse(w, r, http.StatusUnauthorized, message)
+}
+
+func (app *application) contextSetUser(r *http.Request, user *data.User) *http.Request {
+	ctx := context.WithValue(r.Context(), userContextKey, user)
+	return r.WithContext(ctx)
+}
+
+func (app *application) contextGetUser(r *http.Request) *data.User {
+	user, ok := r.Context().Value(userContextKey).(*data.User)
+	assert.Assert(ok, "user must present in request context")
+
+	return user
 }

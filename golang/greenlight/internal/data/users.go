@@ -16,6 +16,8 @@ import (
 var ErrDuplicatedEmail = errors.New("duplicated email")
 var duplicatedEmailMessage = `pq: duplicate key value violates unique constraint "users_email_key"`
 
+var AnonymousUser = &User{}
+
 type UserModel struct {
 	DB *sql.DB
 }
@@ -220,4 +222,8 @@ func (m UserModel) GetByToken(tokenScope, plaintextToken string) (*User, error) 
 	}
 
 	return &user, nil
+}
+
+func (u *User) IsAnonymous() bool {
+	return u == AnonymousUser
 }
