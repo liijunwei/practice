@@ -191,7 +191,7 @@ func (m UserModel) GetByToken(tokenScope, plaintextToken string) (*User, error) 
 	from users u
 	inner join tokens t
 	on u.id = t.user_id
-	where t.hash = $1
+	where t.hash = $1 -- <- this is vulnerable to a timing attack
 	and t.scope = $2
 	and t.expire_at > $3` // q: what's difference between using sql now() and go time.Now()?
 
