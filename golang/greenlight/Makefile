@@ -15,15 +15,23 @@ db-console:
 	PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight
 
 db-seed:
-	PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight -a -f db/seeds/*.sql
+	ls db/seeds/*.sql | xargs -I {} sh -c 'PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight --quiet -f {} && echo "seed {}"'
+	@echo "done seed"
+	@echo
 
 db-reset:
 	migrate -path=./db/migrations -database=${GREENLIGHT_DB_DSN} down -all
+	@echo "done reset"
+	@echo
 
 db-migrate:
 	migrate -path=./db/migrations -database=${GREENLIGHT_DB_DSN} up
+	@echo "done migrate"
+	@echo
 	rm ./db/structure.sql
 	pg_dump --schema-only ${GREENLIGHT_DB_DSN} --file ./db/structure.sql
+	@echo "done pgdump"
+	@echo
 
 db-reset-add-seed: db-reset db-migrate db-seed
 

@@ -78,6 +78,41 @@ ALTER SEQUENCE public.movies_id_seq OWNED BY public.movies.id;
 
 
 --
+-- Name: permissions; Type: TABLE; Schema: public; Owner: greenlight
+--
+
+CREATE TABLE public.permissions (
+    id bigint NOT NULL,
+    code text NOT NULL,
+    created_at timestamp(0) with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(0) with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.permissions OWNER TO greenlight;
+
+--
+-- Name: permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: greenlight
+--
+
+CREATE SEQUENCE public.permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.permissions_id_seq OWNER TO greenlight;
+
+--
+-- Name: permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: greenlight
+--
+
+ALTER SEQUENCE public.permissions_id_seq OWNED BY public.permissions.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: greenlight
 --
 
@@ -104,6 +139,20 @@ CREATE TABLE public.tokens (
 
 
 ALTER TABLE public.tokens OWNER TO greenlight;
+
+--
+-- Name: user_permissions; Type: TABLE; Schema: public; Owner: greenlight
+--
+
+CREATE TABLE public.user_permissions (
+    user_id bigint NOT NULL,
+    permission_id bigint NOT NULL,
+    created_at timestamp(0) with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(0) with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.user_permissions OWNER TO greenlight;
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: greenlight
@@ -152,6 +201,13 @@ ALTER TABLE ONLY public.movies ALTER COLUMN id SET DEFAULT nextval('public.movie
 
 
 --
+-- Name: permissions id; Type: DEFAULT; Schema: public; Owner: greenlight
+--
+
+ALTER TABLE ONLY public.permissions ALTER COLUMN id SET DEFAULT nextval('public.permissions_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: greenlight
 --
 
@@ -164,6 +220,14 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 ALTER TABLE ONLY public.movies
     ADD CONSTRAINT movies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: permissions permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: greenlight
+--
+
+ALTER TABLE ONLY public.permissions
+    ADD CONSTRAINT permissions_pkey PRIMARY KEY (id);
 
 
 --
@@ -180,6 +244,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.tokens
     ADD CONSTRAINT tokens_pkey PRIMARY KEY (hash);
+
+
+--
+-- Name: user_permissions user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: greenlight
+--
+
+ALTER TABLE ONLY public.user_permissions
+    ADD CONSTRAINT user_permissions_pkey PRIMARY KEY (user_id, permission_id);
 
 
 --
@@ -218,6 +290,22 @@ CREATE INDEX movies_title_idx ON public.movies USING gin (to_tsvector('english':
 
 ALTER TABLE ONLY public.tokens
     ADD CONSTRAINT tokens_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: user_permissions user_permissions_permission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: greenlight
+--
+
+ALTER TABLE ONLY public.user_permissions
+    ADD CONSTRAINT user_permissions_permission_id_fkey FOREIGN KEY (permission_id) REFERENCES public.permissions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: user_permissions user_permissions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: greenlight
+--
+
+ALTER TABLE ONLY public.user_permissions
+    ADD CONSTRAINT user_permissions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
