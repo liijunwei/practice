@@ -129,21 +129,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("PUT /v1/movies/{id}", app.updateMovieHandler)
 	mux.HandleFunc("DELETE /v1/movies/{id}", app.DeleteMovieHandler)
 	mux.HandleFunc("GET /v1/movies", app.listMovieHandler)
-
 	mux.HandleFunc("POST /v1/users", app.registerUserHandler)
-
-	// borrowed from: https://github.com/benhoyt/go-routing/blob/master/stdlib/route.go
-	mux.HandleFunc("GET /{$}", home)
-	mux.HandleFunc("GET /contact", contact)
-	mux.HandleFunc("GET /api/widgets", apiGetWidgets)
-	mux.HandleFunc("POST /api/widgets", apiCreateWidget)
-	mux.HandleFunc("POST /api/widgets/{slug}", apiUpdateWidget)
-	mux.HandleFunc("POST /api/widgets/{slug}/parts", apiCreateWidgetPart)
-	mux.HandleFunc("POST /api/widgets/{slug}/parts/{id}/update", apiUpdateWidgetPart)
-	mux.HandleFunc("POST /api/widgets/{slug}/parts/{id}/delete", apiDeleteWidgetPart)
-	mux.HandleFunc("GET /{slug}", widgetGet)
-	mux.HandleFunc("GET /{slug}/admin", widgetAdmin)
-	mux.HandleFunc("POST /{slug}/image", widgetImage)
 
 	return mux
 }
@@ -344,67 +330,6 @@ func (app *application) readIDParam(r *http.Request) (int64, error) {
 	}
 
 	return id, nil
-}
-
-func home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "home\n")
-}
-
-func contact(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "contact\n")
-}
-
-func apiGetWidgets(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "apiGetWidgets\n")
-}
-
-func apiCreateWidget(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "apiCreateWidget\n")
-}
-
-func apiUpdateWidget(w http.ResponseWriter, r *http.Request) {
-	slug := r.PathValue("slug")
-	fmt.Fprintf(w, "apiUpdateWidget %s\n", slug)
-}
-
-func apiCreateWidgetPart(w http.ResponseWriter, r *http.Request) {
-	slug := r.PathValue("slug")
-	fmt.Fprintf(w, "apiCreateWidgetPart %s\n", slug)
-}
-
-func apiUpdateWidgetPart(w http.ResponseWriter, r *http.Request) {
-	slug := r.PathValue("slug")
-	id, err := strconv.Atoi(r.PathValue("id"))
-	if err != nil {
-		http.NotFound(w, r)
-		return
-	}
-	fmt.Fprintf(w, "apiUpdateWidgetPart %s %d\n", slug, id)
-}
-
-func apiDeleteWidgetPart(w http.ResponseWriter, r *http.Request) {
-	slug := r.PathValue("slug")
-	id, err := strconv.Atoi(r.PathValue("id"))
-	if err != nil {
-		http.NotFound(w, r)
-		return
-	}
-	fmt.Fprintf(w, "apiDeleteWidgetPart %s %d\n", slug, id)
-}
-
-func widgetGet(w http.ResponseWriter, r *http.Request) {
-	slug := r.PathValue("slug")
-	fmt.Fprintf(w, "widget %s\n", slug)
-}
-
-func widgetAdmin(w http.ResponseWriter, r *http.Request) {
-	slug := r.PathValue("slug")
-	fmt.Fprintf(w, "widgetAdmin %s\n", slug)
-}
-
-func widgetImage(w http.ResponseWriter, r *http.Request) {
-	slug := r.PathValue("slug")
-	fmt.Fprintf(w, "widgetImage %s\n", slug)
 }
 
 func openDB(cfg config) (*sql.DB, error) {
