@@ -227,3 +227,7 @@ func (m UserModel) GetByToken(tokenScope, plaintextToken string) (*User, error) 
 func (u *User) IsAnonymous() bool {
 	return u == AnonymousUser
 }
+
+func (u *User) Activated() bool {
+	return u.Status == "activated"
+}

@@ -128,11 +128,11 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("/", app.notFoundResponse)
 
 	mux.HandleFunc("GET /v1/healthcheck", app.healthcheckHandler)
-	mux.HandleFunc("POST /v1/movies", app.createMovieHandler)
-	mux.HandleFunc("GET /v1/movies/{id}", app.showMovieHandler)
-	mux.HandleFunc("PUT /v1/movies/{id}", app.updateMovieHandler)
-	mux.HandleFunc("DELETE /v1/movies/{id}", app.DeleteMovieHandler)
-	mux.HandleFunc("GET /v1/movies", app.listMovieHandler)
+	mux.HandleFunc("POST /v1/movies", app.requireActivatedUser(app.createMovieHandler))
+	mux.HandleFunc("GET /v1/movies/{id}", app.requireActivatedUser(app.showMovieHandler))
+	mux.HandleFunc("PUT /v1/movies/{id}", app.requireActivatedUser(app.updateMovieHandler))
+	mux.HandleFunc("DELETE /v1/movies/{id}", app.requireActivatedUser(app.DeleteMovieHandler))
+	mux.HandleFunc("GET /v1/movies", app.requireActivatedUser(app.listMovieHandler))
 	mux.HandleFunc("POST /v1/users", app.registerUserHandler)
 	mux.HandleFunc("PUT /v1/users/activated", app.activateUserHandler)
 	mux.HandleFunc("POST /v1/tokens/authentication", app.createAuthenticationTokenHandler)
@@ -537,8 +537,6 @@ func (app *application) rateLimit(next http.Handler) http.Handler {
 		for range ticker.C {
 			mu.Lock()
 
-			app.logger.PrintInfo("checking client map...", nil)
-
 			for ip, client := range clients {
 				if time.Since(client.lastSeen) > 3*time.Minute {
 					delete(clients, ip)
@@ -624,6 +622,25 @@ func (app *application) authenticate(next http.Handler) http.Handler {
 		}
 
 		r = app.contextSetUser(r, user)
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+// Note: return http.HandlerFunc instead of http.Handler
+// so we can wrap handler func directly(not just router)
+func (app *application) requireActivatedUser(next http.HandlerFunc) http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		user := app.contextGetUser(r)
+		if user.IsAnonymous() {
+			app.authenticationRequiredResponse(w, r)
+			return
+		}
+
+		if !user.Activated() {
+			app.inactiveAccountResponse(w, r)
+			return
+		}
 
 		next.ServeHTTP(w, r)
 	})
@@ -933,4 +950,14 @@ func (app *application) contextGetUser(r *http.Request) *data.User {
 	assert.Assert(ok, "user must present in request context")
 
 	return user
+}
+
+func (app *application) authenticationRequiredResponse(w http.ResponseWriter, r *http.Request) {
+	message := "you must be authenticated to access this resource"
+	app.errorResponse(w, r, http.StatusUnauthorized, message)
+}
+
+func (app *application) inactiveAccountResponse(w http.ResponseWriter, r *http.Request) {
+	message := "you user account must be activated to access this resource"
+	app.errorResponse(w, r, http.StatusForbidden, message)
 }
