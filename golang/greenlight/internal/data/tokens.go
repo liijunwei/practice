@@ -6,7 +6,7 @@ import (
 	"crypto/sha256"
 	"database/sql"
 	"encoding/base32"
-	"greenlight/internal/common"
+	"greenlight/internal/assert"
 	"greenlight/internal/validator"
 	"time"
 )
@@ -46,7 +46,7 @@ func generateToken(userID int64, ttl time.Duration, scope string) (*Token, error
 }
 
 func ValidateTokenPlaintext(v *validator.Validator, plaintext string) {
-	common.Assert(v != nil)
+	assert.Assert(v != nil)
 
 	v.Check(plaintext != "", "token", "must present")
 	v.Check(len(plaintext) == 26, "token", "length must be 26")

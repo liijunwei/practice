@@ -7,7 +7,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"greenlight/internal/common"
+	"greenlight/internal/assert"
 	"greenlight/internal/data"
 	"greenlight/internal/jsonlog"
 	"greenlight/internal/mailer"
@@ -513,7 +513,7 @@ func sanitizedDebugTraces() []string {
 	for _, trace := range rawTraces {
 		if strings.Contains(trace, approot.Root) {
 			fields := strings.Fields(trace) // ["/approot/foo.go:10", "+0x2d4"]
-			common.Assert(len(fields) == 2)
+			assert.Assert(len(fields) == 2)
 			result = append(result, strings.TrimPrefix(fields[0], prefixToTrim))
 		}
 	}
@@ -833,11 +833,11 @@ func (app *application) runInBackground(fn func()) {
 // struct -> []byte -> map
 func configStructToMap(config config) map[string]any {
 	configInfo, err := json.Marshal(config)
-	common.Assert(err == nil)
+	assert.Assert(err == nil)
 
 	configMap := make(map[string]any)
 	err = json.Unmarshal(configInfo, &configMap)
-	common.Assert(err == nil)
+	assert.Assert(err == nil)
 
 	return configMap
 }

@@ -1,7 +1,7 @@
 package data
 
 import (
-	"greenlight/internal/common"
+	"greenlight/internal/assert"
 	"greenlight/internal/validator"
 	"math"
 	"strings"
@@ -23,7 +23,7 @@ type Metadata struct {
 }
 
 func ValidateFilters(v *validator.Validator, f Filters) {
-	common.Assert(v != nil, "empty validator")
+	assert.Assert(v != nil, "empty validator")
 
 	v.Check(f.Page > 0, "page", "must be greater than zero")
 	v.Check(f.Page <= 10_000_000, "page", "must be a maximum of 10 million")
@@ -39,7 +39,7 @@ func (f Filters) sortColumn() string {
 		}
 	}
 
-	common.Assert(false, "should not be here")
+	assert.Assert(false, "should not be here")
 	return ""
 }
 

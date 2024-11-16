@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"greenlight/internal/common"
+	"greenlight/internal/assert"
 	"greenlight/internal/validator"
 	"time"
 
@@ -61,8 +61,8 @@ func (p *password) Matches(plaintextPassword string) (bool, error) {
 }
 
 func ValidateUser(v *validator.Validator, user *User) {
-	common.Assert(v != nil)
-	common.Assert(user != nil)
+	assert.Assert(v != nil)
+	assert.Assert(user != nil)
 
 	v.Check(user.Name != "", "name", "must present")
 	v.Check(len(user.Name) < 500, "name", "length must <500")
@@ -72,18 +72,18 @@ func ValidateUser(v *validator.Validator, user *User) {
 		ValidatePasswordPlaintext(v, user.Password.plaintext)
 	}
 
-	common.Assert(user.Password.hash != nil)
+	assert.Assert(user.Password.hash != nil)
 }
 
 func ValidateEmail(v *validator.Validator, email string) {
-	common.Assert(v != nil)
+	assert.Assert(v != nil)
 
 	v.Check(email != "", "email", "must present")
 	v.Check(validator.Match(email, validator.EmailRegexp), "email", "must be a valid email address")
 }
 
 func ValidatePasswordPlaintext(v *validator.Validator, password string) {
-	common.Assert(v != nil)
+	assert.Assert(v != nil)
 
 	v.Check(password != "", "password", "must present")
 	v.Check(len(password) >= 8, "password", "length must >= 8")
@@ -118,7 +118,7 @@ func (m UserModel) Insert(user *User) error {
 }
 
 func (m UserModel) GetByEmail(email string) (*User, error) {
-	common.Assert(email != "")
+	assert.Assert(email != "")
 
 	query := `select id,name,email,password_hash,status,version,created_at,updated_at
 	from users
@@ -151,7 +151,7 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 }
 
 func (m UserModel) Update(user *User) error {
-	common.Assert(user != nil)
+	assert.Assert(user != nil)
 
 	query := `update users
 	set name=$1, email=$2,password_hash=$3,status=$4,version=version+1,updated_at=now()
