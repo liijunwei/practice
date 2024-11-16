@@ -10,16 +10,18 @@ var ErrRecordNotFound = errors.New("record not found")
 var ErrStaleObject = errors.New("trying to update stale object")
 
 type Models struct {
-	Movies Movies
-	Users  Users
-	Tokens Tokens
+	Movies      Movies
+	Users       Users
+	Tokens      Tokens
+	Permissions PermissionsDB
 }
 
 func NewModels(db *sql.DB) Models {
 	return Models{
-		Movies: MovieModel{DB: db},
-		Users:  UserModel{DB: db},
-		Tokens: TokenModel{DB: db},
+		Movies:      MovieModel{DB: db},
+		Users:       UserModel{DB: db},
+		Tokens:      TokenModel{DB: db},
+		Permissions: PermissinModel{DB: db},
 	}
 }
 
@@ -42,4 +44,8 @@ type Tokens interface {
 	New(userID int64, ttl time.Duration, scope string) (*Token, error)
 	Insert(token *Token) error
 	DeleteAllForUser(scope string, userID int64) error
+}
+
+type PermissionsDB interface {
+	GetAllForUser(userID int64) (Permissions, error)
 }
