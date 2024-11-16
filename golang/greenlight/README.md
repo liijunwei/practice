@@ -10,9 +10,13 @@ and after it's done, I plan to make this project a "helper" api backend for many
 - api authentication approaches
     - basic authentication
     - stateful token authentication
+        - server manage, can revoke from backend
     - stateless token authentication
+        - client side encode, e.g. JWT token
+        - downside: can't easily be revoked once issued
     - api key authentication
     - OAuth 2.0/ OpenID Connect
+- **it's important to note that API keys themselves should only ever be communicated to users over a secure channel**, and you should treat them with the same level of care that you would a user's password
 
 ### TODOs
 
