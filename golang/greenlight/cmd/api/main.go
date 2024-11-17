@@ -509,6 +509,14 @@ func (app *application) readInt(qs url.Values, key string, defaultVal int, v *va
 	return defaultVal
 }
 
+func (app *application) enableCORS(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 func (app *application) recoverPanic(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
@@ -688,6 +696,7 @@ func (app *application) serve() error {
 	if app.config.Limiter.Enabled {
 		handler = app.rateLimit(handler)
 	}
+	handler = app.enableCORS(handler)
 	handler = app.recoverPanic(handler)
 
 	srv := &http.Server{
