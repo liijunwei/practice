@@ -52,7 +52,13 @@ func main() {
 	flag.StringVar(&cfg.SMTP.Password, "smtp-password", "placeholder", "SMTP password")
 	flag.StringVar(&cfg.SMTP.Sender, "smtp-sender", "greenlight-admin@example.com", "SMTP sender")
 	flag.Func("cors-trusted-origins", "Trusted CORS origins(space separated)", func(val string) error {
-		cfg.CORS.TrustedOrigins = strings.Fields(val)
+		origins := strings.Fields(val)
+		for _, o := range origins {
+			assert.Assert(o != "null", "should not trusted null origin")
+		}
+
+		cfg.CORS.TrustedOrigins = origins
+
 		return nil
 	})
 
@@ -522,17 +528,33 @@ func (app *application) readInt(qs url.Values, key string, defaultVal int, v *va
 func (app *application) enableCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Vary", "Origin")
+		w.Header().Add("Vary", "Access-Control-Request-Method")
+
 		origin := r.Header.Get("Origin")
+
+		// TODO figure out whether checking origin!="" is required
 
 		for _, o := range app.config.CORS.TrustedOrigins {
 			if o == origin {
 				w.Header().Set("Access-Control-Allow-Origin", o)
+
+				if isPreflightRequest(r) {
+					w.Header().Add("Access-Control-Request-Methods", "OPTIONS, PUT, PATCH, DELETE")
+					w.Header().Add("Access-Control-Allow-Headers", "Authorization, Content-Type")
+					w.WriteHeader(http.StatusOK)
+					return
+				}
+
 				break
 			}
 		}
 
 		next.ServeHTTP(w, r)
 	})
+}
+
+func isPreflightRequest(r *http.Request) bool {
+	return r.Method == http.MethodOptions && r.Header.Get("Access-Control-Request-Method") != ""
 }
 
 func (app *application) recoverPanic(next http.Handler) http.Handler {

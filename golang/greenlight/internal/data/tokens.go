@@ -19,7 +19,7 @@ type Token struct {
 	Hash      []byte    `json:"-"`
 	UserId    int64     `json:"-"`
 	Scope     string    `json:"-"`
-	ExpireAt  time.Time `json:"expire_at"`
+	ExpireAt  time.Time `json:"expire_at"` // expect format: RFC3339
 }
 
 type TokenModel struct {
