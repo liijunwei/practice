@@ -536,6 +536,24 @@ func (app *application) readInt(qs url.Values, key string, defaultVal int, v *va
 	return defaultVal
 }
 
+func (app *application) collectMetrics(next http.Handler) http.Handler {
+	// concurrent safe
+	totalRequestsReceived := expvar.NewInt("total_requestes_received")
+	totalResponseSent := expvar.NewInt("total_response_sent")
+	totalProcessingTimeInMilliseconds := expvar.NewInt("total_processing_time_ms")
+
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		totalRequestsReceived.Add(1)
+
+		next.ServeHTTP(w, r)
+
+		totalResponseSent.Add(1)
+		duration := time.Since(start).Milliseconds()
+		totalProcessingTimeInMilliseconds.Add(duration)
+	})
+}
+
 func (app *application) enableCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Vary", "Origin")
@@ -744,6 +762,7 @@ func (app *application) serve() error {
 	}
 	handler = app.enableCORS(handler)
 	handler = app.recoverPanic(handler)
+	handler = app.collectMetrics(handler)
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf("%s:%d", app.config.IP, app.config.Port),
