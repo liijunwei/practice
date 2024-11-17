@@ -52,12 +52,15 @@ func main() {
 	flag.StringVar(&cfg.SMTP.Password, "smtp-password", "placeholder", "SMTP password")
 	flag.StringVar(&cfg.SMTP.Sender, "smtp-sender", "greenlight-admin@example.com", "SMTP sender")
 	flag.Func("cors-trusted-origins", "Trusted CORS origins(space separated)", func(val string) error {
+		originsSet := make(map[string]struct{})
 		origins := strings.Fields(val)
 		for _, o := range origins {
+			assert.Assert(o != "", "should not trusted empty origin")
 			assert.Assert(o != "null", "should not trusted null origin")
+			originsSet[o] = struct{}{}
 		}
 
-		cfg.CORS.TrustedOrigins = origins
+		cfg.CORS.TrustedOrigins = originsSet
 
 		return nil
 	})
@@ -128,7 +131,7 @@ type smtp struct {
 }
 
 type cors struct {
-	TrustedOrigins []string `json:"trusted_origins"`
+	TrustedOrigins map[string]struct{} `json:"trusted_origins"`
 }
 
 type application struct {
@@ -532,20 +535,15 @@ func (app *application) enableCORS(next http.Handler) http.Handler {
 
 		origin := r.Header.Get("Origin")
 
-		// TODO figure out whether checking origin!="" is required
+		_, ok := app.config.CORS.TrustedOrigins[origin]
+		if origin != "" && ok {
+			w.Header().Set("Access-Control-Allow-Origin", origin)
 
-		for _, o := range app.config.CORS.TrustedOrigins {
-			if o == origin {
-				w.Header().Set("Access-Control-Allow-Origin", o)
-
-				if isPreflightRequest(r) {
-					w.Header().Add("Access-Control-Request-Methods", "OPTIONS, PUT, PATCH, DELETE")
-					w.Header().Add("Access-Control-Allow-Headers", "Authorization, Content-Type")
-					w.WriteHeader(http.StatusOK)
-					return
-				}
-
-				break
+			if isPreflightRequest(r) {
+				w.Header().Add("Access-Control-Request-Methods", "OPTIONS, PUT, PATCH, DELETE")
+				w.Header().Add("Access-Control-Allow-Headers", "Authorization, Content-Type")
+				w.WriteHeader(http.StatusOK)
+				return
 			}
 		}
 
