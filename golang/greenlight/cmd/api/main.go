@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"expvar"
 	"flag"
 	"fmt"
 	"greenlight/internal/approot"
@@ -155,6 +156,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("POST /v1/users", app.registerUserHandler)
 	mux.HandleFunc("PUT /v1/users/activated", app.activateUserHandler)
 	mux.HandleFunc("POST /v1/tokens/authentication", app.createAuthenticationTokenHandler)
+	mux.Handle("GET /debug/vars", expvar.Handler())
 
 	return mux
 }
