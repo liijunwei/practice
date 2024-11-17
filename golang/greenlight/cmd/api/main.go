@@ -21,6 +21,7 @@ import (
 	"net/url"
 	"os"
 	"os/signal"
+	"runtime"
 	"runtime/debug"
 	"strconv"
 	"strings"
@@ -89,6 +90,11 @@ func run(cfg config) {
 		models: data.NewModels(db),
 		mailer: mailer.New(cfg.SMTP.Host, cfg.SMTP.Port, cfg.SMTP.Username, cfg.SMTP.Password, cfg.SMTP.Sender),
 	}
+
+	expvar.NewString("version").Set(version)
+	expvar.Publish("goroutines", expvar.Func(func() any { return runtime.NumGoroutine() }))
+	expvar.Publish("database", expvar.Func(func() any { return db.Stats() }))
+	expvar.Publish("timestamp", expvar.Func(func() any { return time.Now().Unix() }))
 
 	if err := app.serve(); err != nil {
 		logger.PrintFatal(err, nil)

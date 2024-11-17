@@ -57,3 +57,7 @@ create-migration-file-example:
 
 test-rate-limiter:
 	for i in {1..10}; do curl --location 'http://localhost:4000/v1/healthcheck'; done
+
+BODY='{"email":"Emiliano_Cruickshank@example.com","password":"pa55word"}'
+load-test:
+	hey -d "${BODY}" -m "POST" -z 15s http://localhost:4000/v1/tokens/authentication

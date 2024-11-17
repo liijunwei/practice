@@ -24,3 +24,4 @@ and after it's done, I plan to make this project a "helper" api backend for many
 - TODO try another email package
     - less dependency
     - https://github.com/wneessen/go-mail/wiki/Simple-Mailer-Example
+- TODO use https://github.com/google/wire
