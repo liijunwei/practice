@@ -51,6 +51,11 @@ func main() {
 	flag.StringVar(&cfg.SMTP.Username, "smtp-username", "placeholder", "SMTP username")
 	flag.StringVar(&cfg.SMTP.Password, "smtp-password", "placeholder", "SMTP password")
 	flag.StringVar(&cfg.SMTP.Sender, "smtp-sender", "greenlight-admin@example.com", "SMTP sender")
+	flag.Func("cors-trusted-origins", "Trusted CORS origins(space separated)", func(val string) error {
+		cfg.CORS.TrustedOrigins = strings.Fields(val)
+		return nil
+	})
+
 	flag.Parse()
 
 	run(cfg)
@@ -92,6 +97,7 @@ type config struct {
 	Limiter limiterConfig `json:"limiter"`
 	Debug   bool          `json:"debug"`
 	SMTP    smtp          `json:"smtp"`
+	CORS    cors          `json:"cors"`
 }
 
 type dbConfig struct {
@@ -113,6 +119,10 @@ type smtp struct {
 	Username string `json:"-"`
 	Password string `json:"-"`
 	Sender   string `json:"sender"`
+}
+
+type cors struct {
+	TrustedOrigins []string `json:"trusted_origins"`
 }
 
 type application struct {
@@ -511,7 +521,15 @@ func (app *application) readInt(qs url.Values, key string, defaultVal int, v *va
 
 func (app *application) enableCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Add("Vary", "Origin")
+		origin := r.Header.Get("Origin")
+
+		for _, o := range app.config.CORS.TrustedOrigins {
+			if o == origin {
+				w.Header().Set("Access-Control-Allow-Origin", o)
+				break
+			}
+		}
 
 		next.ServeHTTP(w, r)
 	})
