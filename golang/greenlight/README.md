@@ -17,6 +17,7 @@ and after it's done, I plan to make this project a "helper" api backend for many
     - api key authentication
     - OAuth 2.0/ OpenID Connect
 - **it's important to note that API keys themselves should only ever be communicated to users over a secure channel**, and you should treat them with the same level of care that you would a user's password
+- use https://github.com/direnv/direnv to setup environment variables
 
 ### TODOs
 

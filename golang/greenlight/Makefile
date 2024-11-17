@@ -1,5 +1,10 @@
+include .envrc
+
 help:
 	go run cmd/api/* -h
+
+run/api:
+	source .envrc && go run cmd/api/main.go -limiter-enabled=false -limiter-burst=30 -debug-enabled=true -cors-trusted-origins="http://localhost:9000 http://localhost:9001"
 
 # export PGPASSWORD in shell before `make psql`
 # OR

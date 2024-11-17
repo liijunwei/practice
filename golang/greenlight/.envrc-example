@@ -1,0 +1,4 @@
+export PGPASSWORD=placeholder
+export GREENLIGHT_DB_DSN=placeholder
+export SMTP_USERNAME=placeholder
+export SMTP_PASSWORD=placeholder

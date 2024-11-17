@@ -51,8 +51,8 @@ func main() {
 	flag.BoolVar(&cfg.Debug, "debug-enabled", false, "verbose api response")
 	flag.StringVar(&cfg.SMTP.Host, "smtp-host", "sandbox.smtp.mailtrap.io", "SMTP host")
 	flag.IntVar(&cfg.SMTP.Port, "smtp-port", 2525, "SMTP port")
-	flag.StringVar(&cfg.SMTP.Username, "smtp-username", "placeholder", "SMTP username")
-	flag.StringVar(&cfg.SMTP.Password, "smtp-password", "placeholder", "SMTP password")
+	flag.StringVar(&cfg.SMTP.Username, "smtp-username", os.Getenv("SMTP_USERNAME"), "SMTP username")
+	flag.StringVar(&cfg.SMTP.Password, "smtp-password", os.Getenv("SMTP_PASSWORD"), "SMTP password")
 	flag.StringVar(&cfg.SMTP.Sender, "smtp-sender", "greenlight-admin@example.com", "SMTP sender")
 	flag.Func("cors-trusted-origins", "Trusted CORS origins(space separated)", func(val string) error {
 		originsSet := make(map[string]struct{})
