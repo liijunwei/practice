@@ -60,4 +60,4 @@ test-rate-limiter:
 
 BODY='{"email":"Emiliano_Cruickshank@example.com","password":"pa55word"}'
 load-test:
-	hey -d "${BODY}" -m "POST" -z 15s http://localhost:4000/v1/tokens/authentication
+	hey -d ${BODY} -m "POST" -z 5s http://localhost:4000/v1/tokens/authentication
