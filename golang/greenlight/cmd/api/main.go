@@ -89,7 +89,7 @@ func run(cfg config) {
 		config: cfg,
 		logger: logger,
 		models: data.NewModels(db),
-		mailer: mailer.New(cfg.SMTP.Host, cfg.SMTP.Port, cfg.SMTP.Username, cfg.SMTP.Password, cfg.SMTP.Sender),
+		mailer: mailer.New(cfg.SMTP.Host, cfg.SMTP.Port, cfg.SMTP.Username, cfg.SMTP.Password),
 	}
 
 	expvar.NewString("version").Set(version)
@@ -880,7 +880,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 
 	app.runInBackground(func() {
-		sendEmail(app.logger, app.mailer, user, token)
+		app.sendEmail(user, token)
 	})
 
 	if err := app.writeJSON(w, http.StatusAccepted, envelope{"user": user}, nil); err != nil {
@@ -888,7 +888,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 }
 
-func sendEmail(logger *jsonlog.Logger, mailer mailer.Mailer, user *data.User, token *data.Token) {
+func (app *application) sendEmail(user *data.User, token *data.Token) {
 	detail := map[string]any{
 		"user_id": user.ID,
 	}
@@ -898,17 +898,17 @@ func sendEmail(logger *jsonlog.Logger, mailer mailer.Mailer, user *data.User, to
 		"activationToken": token.Plaintext,
 	}
 
-	logger.PrintInfo("send email: start", detail)
+	app.logger.PrintInfo("send email: start", detail)
 	startTime := time.Now()
 
-	if err := mailer.Send(user.Email, "user_welcome.tmpl", data); err != nil {
+	if err := app.mailer.Send(app.config.SMTP.Sender, user.Email, "user_welcome.tmpl", data); err != nil {
 		detail["error_message"] = "send email: fail"
-		logger.PrintError(err, detail)
+		app.logger.PrintError(err, detail)
 		return
 	}
 
 	detail["duration"] = time.Since(startTime).String()
-	logger.PrintInfo("send email: done", detail)
+	app.logger.PrintInfo("send email: done", detail)
 }
 
 func (app *application) runInBackground(fn func()) {

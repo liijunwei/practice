@@ -21,8 +21,5 @@ and after it's done, I plan to make this project a "helper" api backend for many
 ### TODOs
 
 - TODO practice cursor based pagination
-- TODO try another email package
-    - less dependency
-    - https://github.com/wneessen/go-mail/wiki/Simple-Mailer-Example
 - TODO use https://github.com/google/wire
 - TODO visualizing and analyzing metrics(maybe telegraf+influxdb, and probably uber jaeger)
