@@ -1,8 +1,10 @@
 package data
 
 import (
+	"context"
 	"database/sql"
 	"errors"
+	"greenlight/internal/sqlcdb"
 	"time"
 )
 
@@ -16,37 +18,37 @@ type Models struct {
 	Permissions PermissionsDB
 }
 
-func NewModels(db *sql.DB) Models {
+func NewModels(db *sql.DB, queries *sqlcdb.Queries) Models {
 	return Models{
-		Movies:      MovieModel{DB: db},
-		Users:       UserModel{DB: db},
-		Tokens:      TokenModel{DB: db},
-		Permissions: PermissinModel{DB: db},
+		Movies:      MovieModel{queries: queries},
+		Users:       UserModel{DB: db, queries: queries},
+		Tokens:      TokenModel{DB: db, queries: queries},
+		Permissions: PermissinModel{DB: db, queries: queries},
 	}
 }
 
 type Movies interface {
-	Create(movie *Movie) error
-	Get(id int64) (*Movie, error)
-	GetAll(title string, genres []string, filters Filters) ([]*Movie, Metadata, error)
-	Update(movie *Movie) error
-	Delete(id int64) error
+	Create(ctx context.Context, movie *Movie) error
+	Get(ctx context.Context, id int64) (*Movie, error)
+	GetAll(ctx context.Context, title string, genres []string, filters Filters) ([]*Movie, Metadata, error)
+	Update(ctx context.Context, movie *Movie) error
+	Delete(ctx context.Context, id int64) error
 }
 
 type Users interface {
-	Create(user *User) error
-	GetByEmail(email string) (*User, error)
-	Update(user *User) error
-	GetByToken(tokenScope, plaintextToken string) (*User, error)
+	Create(ctx context.Context, user *User) error
+	GetByEmail(ctx context.Context, email string) (*User, error)
+	Update(ctx context.Context, user *User) error
+	GetByToken(ctx context.Context, tokenScope, plaintextToken string) (*User, error)
 }
 
 type Tokens interface {
-	New(userID int64, ttl time.Duration, scope string) (*Token, error)
-	Create(token *Token) error
-	DeleteAllForUser(scope string, userID int64) error
+	New(ctx context.Context, userID int64, ttl time.Duration, scope string) (*Token, error)
+	Create(ctx context.Context, token *Token) error
+	DeleteAllForUser(ctx context.Context, scope string, userID int64) error
 }
 
 type PermissionsDB interface {
-	GetAllForUser(userID int64) (Permissions, error)
-	AddForUser(userID int64, codes ...string) error
+	GetAllForUser(ctx context.Context, userID int64) (Permissions, error)
+	AddForUser(ctx context.Context, userID int64, codes ...string) error
 }

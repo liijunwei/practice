@@ -12,6 +12,7 @@ import (
 	"greenlight/internal/assert"
 	"greenlight/internal/data"
 	"greenlight/internal/mailer"
+	"greenlight/internal/sqlcdb"
 	"greenlight/internal/validator"
 	"io"
 	"net"
@@ -96,11 +97,14 @@ func run(cfg config) {
 
 	defer db.Close()
 
+	queries := sqlcdb.New(db)
+
 	app := &application{
-		config: cfg,
-		logger: logger,
-		models: data.NewModels(db),
-		mailer: mailer.New(cfg.SMTP.Host, cfg.SMTP.Port, cfg.SMTP.Username, cfg.SMTP.Password),
+		config:  cfg,
+		logger:  logger,
+		models:  data.NewModels(db, queries),
+		queries: queries,
+		mailer:  mailer.New(cfg.SMTP.Host, cfg.SMTP.Port, cfg.SMTP.Username, cfg.SMTP.Password),
 	}
 
 	expvar.NewString("version").Set(version)
@@ -159,11 +163,12 @@ type logConfig struct {
 }
 
 type application struct {
-	config config
-	logger zerolog.Logger
-	models data.Models
-	mailer mailer.Mailer
-	wg     sync.WaitGroup
+	config  config
+	logger  zerolog.Logger
+	models  data.Models
+	queries *sqlcdb.Queries
+	mailer  mailer.Mailer
+	wg      sync.WaitGroup
 }
 
 func (app *application) routes() *http.ServeMux {
@@ -226,7 +231,7 @@ func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	if err := app.models.Movies.Create(movie); err != nil {
+	if err := app.models.Movies.Create(r.Context(), movie); err != nil {
 		app.serverErrorResponse(w, r, err)
 		return
 	}
@@ -246,7 +251,7 @@ func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	movie, err := app.models.Movies.Get(movieID)
+	movie, err := app.models.Movies.Get(r.Context(), movieID)
 	if err != nil {
 		notFoundOrUnknownError(app, err, w, r)
 		return
@@ -264,7 +269,7 @@ func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	movie, err := app.models.Movies.Get(movieID)
+	movie, err := app.models.Movies.Get(r.Context(), movieID)
 	if err != nil {
 		notFoundOrUnknownError(app, err, w, r)
 		return
@@ -293,7 +298,7 @@ func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	if err := app.models.Movies.Update(movie); err != nil {
+	if err := app.models.Movies.Update(r.Context(), movie); err != nil {
 		switch {
 		case errors.Is(err, data.ErrStaleObject):
 			app.editStaleRecordResponse(w, r)
@@ -315,7 +320,7 @@ func (app *application) DeleteMovieHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	if err := app.models.Movies.Delete(movieID); err != nil {
+	if err := app.models.Movies.Delete(r.Context(), movieID); err != nil {
 		notFoundOrUnknownError(app, err, w, r)
 		return
 	}
@@ -352,7 +357,7 @@ func (app *application) listMovieHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	movies, metadata, err := app.models.Movies.GetAll(input.Title, input.Genres, input.Filters)
+	movies, metadata, err := app.models.Movies.GetAll(r.Context(), input.Title, input.Genres, input.Filters)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 		return
@@ -698,7 +703,7 @@ func (app *application) authenticate(next http.Handler) http.Handler {
 			return
 		}
 
-		user, err := app.models.Users.GetByToken(data.ScopeAuthentication, token)
+		user, err := app.models.Users.GetByToken(r.Context(), data.ScopeAuthentication, token)
 		if err != nil {
 			switch {
 			case errors.Is(err, data.ErrRecordNotFound):
@@ -751,7 +756,7 @@ func (app *application) requirePermission(code string, next http.HandlerFunc) ht
 	fn := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		user := app.contextGetUser(r)
 
-		permissions, err := app.models.Permissions.GetAllForUser(user.ID)
+		permissions, err := app.models.Permissions.GetAllForUser(r.Context(), user.ID)
 		if err != nil {
 			app.serverErrorResponse(w, r, err)
 			return
@@ -872,7 +877,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if err := app.models.Users.Create(user); err != nil {
+	if err := app.models.Users.Create(r.Context(), user); err != nil {
 		switch {
 		case errors.Is(err, data.ErrDuplicatedEmail):
 			v.AddError("email", "email already taken") // FIXME: take care of "preventing enumeration attack" when necessary
@@ -884,12 +889,12 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if err := app.models.Permissions.AddForUser(user.ID, "movies:read"); err != nil {
+	if err := app.models.Permissions.AddForUser(r.Context(), user.ID, "movies:read"); err != nil {
 		app.serverErrorResponse(w, r, err)
 		return
 	}
 
-	token, err := app.models.Tokens.New(user.ID, 3*24*time.Hour, data.ScopeActivation)
+	token, err := app.models.Tokens.New(r.Context(), user.ID, 3*24*time.Hour, data.ScopeActivation)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 		return
@@ -968,7 +973,7 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	user, err := app.models.Users.GetByToken(data.ScopeActivation, input.TokenPlaintext)
+	user, err := app.models.Users.GetByToken(r.Context(), data.ScopeActivation, input.TokenPlaintext)
 	if err != nil {
 		switch {
 		case errors.Is(err, data.ErrRecordNotFound):
@@ -983,7 +988,7 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 
 	user.Status = "activated"
 
-	if err := app.models.Users.Update(user); err != nil {
+	if err := app.models.Users.Update(r.Context(), user); err != nil {
 		switch {
 		case errors.Is(err, data.ErrStaleObject):
 			app.editStaleRecordResponse(w, r)
@@ -994,7 +999,7 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if err := app.models.Tokens.DeleteAllForUser(data.ScopeActivation, user.ID); err != nil {
+	if err := app.models.Tokens.DeleteAllForUser(r.Context(), data.ScopeActivation, user.ID); err != nil {
 		app.serverErrorResponse(w, r, err)
 		return
 	}
@@ -1024,7 +1029,8 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 		return
 	}
 
-	user, err := app.models.Users.GetByEmail(input.Email)
+	ctx := r.Context()
+	user, err := app.models.Users.GetByEmail(ctx, input.Email)
 	if err != nil {
 		notFoundOrUnknownError(app, err, w, r)
 		return
@@ -1041,7 +1047,7 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 		return
 	}
 
-	token, err := app.models.Tokens.New(user.ID, 24*time.Hour, data.ScopeAuthentication)
+	token, err := app.models.Tokens.New(r.Context(), user.ID, 24*time.Hour, data.ScopeAuthentication)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 		return

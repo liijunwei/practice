@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"greenlight/internal/assert"
+	"greenlight/internal/sqlcdb"
 	"greenlight/internal/validator"
 	"time"
 
@@ -19,7 +20,8 @@ var duplicatedEmailMessage = `pq: duplicate key value violates unique constraint
 var AnonymousUser = &User{}
 
 type UserModel struct {
-	DB *sql.DB
+	DB      *sql.DB
+	queries *sqlcdb.Queries
 }
 
 type User struct {
@@ -93,7 +95,7 @@ func ValidatePasswordPlaintext(v *validator.Validator, password string) {
 	v.Check(len(password) <= 72, "password", "length must <= 72")
 }
 
-func (m UserModel) Create(user *User) error {
+func (m UserModel) Create(ctx context.Context, user *User) error {
 	query := `insert into users(name,email,password_hash,status)
 	values($1,$2,$3,$4)
 	returning id,created_at,updated_at,version`
@@ -120,7 +122,7 @@ func (m UserModel) Create(user *User) error {
 	return nil
 }
 
-func (m UserModel) GetByEmail(email string) (*User, error) {
+func (m UserModel) GetByEmail(ctx context.Context, email string) (*User, error) {
 	assert.Assert(email != "")
 
 	query := `select id,name,email,password_hash,status,version,created_at,updated_at
@@ -153,7 +155,7 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 	return &user, nil
 }
 
-func (m UserModel) Update(user *User) error {
+func (m UserModel) Update(ctx context.Context, user *User) error {
 	assert.Assert(user != nil)
 
 	query := `update users
@@ -187,7 +189,7 @@ func (m UserModel) Update(user *User) error {
 	return nil
 }
 
-func (m UserModel) GetByToken(tokenScope, plaintextToken string) (*User, error) {
+func (m UserModel) GetByToken(ctx context.Context, tokenScope, plaintextToken string) (*User, error) {
 	tokenHash := sha256.Sum256([]byte(plaintextToken))
 	query := `select u.id,u.created_at,u.name,u.email,u.password_hash,u.status,u.version
 	from users u

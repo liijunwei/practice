@@ -4,11 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
+	"greenlight/internal/sqlcdb"
 	"greenlight/internal/validator"
 	"time"
-
-	"github.com/lib/pq"
 )
 
 type Movie struct {
@@ -41,75 +39,70 @@ func ValidateMovie(v *validator.Validator, movie *Movie) {
 var _ Movies = &MovieModel{}
 
 type MovieModel struct {
-	DB *sql.DB
+	queries *sqlcdb.Queries
 }
 
-func (m MovieModel) Create(movie *Movie) error {
-	query := `insert into movies(title, year, runtime, genres)
-	values($1, $2, $3, $4)
-	returning id, created_at, version;`
-
-	args := []any{movie.Title, movie.Year, movie.Runtime, pq.Array(movie.Genres)}
-
+// TODO return new instance instead of mutating input variable
+func (m MovieModel) Create(ctx context.Context, movie *Movie) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	return m.DB.QueryRowContext(ctx, query, args...).Scan(&movie.ID, &movie.CreatedAt, &movie.Version)
+	row, err := m.queries.CreateMovie(ctx, sqlcdb.CreateMovieParams{
+		movie.Title,
+		movie.Year,
+		int32(movie.Runtime),
+		movie.Genres,
+	})
+
+	if err != nil {
+		return err
+	}
+
+	movie.ID = row.ID
+	movie.CreatedAt = row.CreatedAt
+	movie.Version = row.Version
+
+	return nil
 }
 
-func (m MovieModel) GetAll(title string, genres []string, filters Filters) ([]*Movie, Metadata, error) {
-	// window function in pg
-	query := fmt.Sprintf(`select count(*) over(),id,created_at,title,year,runtime,genres,version
-	from movies
-	where (to_tsvector('english', title) @@ plainto_tsquery('english', $1) OR $1 = '')
-	AND (genres @> $2 OR $2 = '{}')
-	order by %s %s, id asc
-	limit $3 offset $4`, filters.sortColumn(), filters.sortDirection())
-
+func (m MovieModel) GetAll(ctx context.Context, title string, genres []string, filters Filters) ([]*Movie, Metadata, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	rows, err := m.DB.QueryContext(ctx, query, title, pq.Array(genres), filters.limit(), filters.offset())
+	rows, err := m.queries.GetAllMovies(ctx)
 	if err != nil {
 		return nil, emptyMetadata(), err
 	}
 
-	defer rows.Close()
+	movies := make([]*Movie, 0, len(rows))
 
-	var totalRecords int
-	movies := make([]*Movie, 0, 20)
-
-	for rows.Next() {
-		var movie Movie
-
-		if err := rows.Scan(&totalRecords, &movie.ID, &movie.CreatedAt, &movie.Title, &movie.Year, &movie.Runtime, pq.Array(&movie.Genres), &movie.Version); err != nil {
-			return nil, emptyMetadata(), err
-		}
-		movies = append(movies, &movie)
+	for _, row := range rows {
+		movies = append(movies, &Movie{
+			ID:        row.ID,
+			CreatedAt: row.CreatedAt,
+			Title:     row.Title,
+			Year:      row.Year,
+			Runtime:   Runtime(row.Runtime),
+			Genres:    row.Genres,
+			Version:   row.Version,
+		})
 	}
 
-	if err := rows.Err(); err != nil {
-		return nil, emptyMetadata(), err
-	}
-
-	metadata := getMetadata(totalRecords, filters.Page, filters.limit())
+	metadata := getMetadata(len(rows), filters.Page, filters.limit())
 
 	return movies, metadata, nil
 }
 
-func (m MovieModel) Get(id int64) (*Movie, error) {
+func (m MovieModel) Get(ctx context.Context, id int64) (*Movie, error) {
 	if id < 1 {
 		return nil, ErrRecordNotFound
 	}
 
-	query := `select id,created_at,title,year,runtime,genres,version from movies where id = $1`
-
-	var movie Movie
-
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	if err := m.DB.QueryRowContext(ctx, query, id).Scan(&movie.ID, &movie.CreatedAt, &movie.Title, &movie.Year, &movie.Runtime, pq.Array(&movie.Genres), &movie.Version); err != nil {
+	row, err := m.queries.GetMovieByID(ctx, id)
+	if err != nil {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
 			return nil, ErrRecordNotFound
@@ -118,23 +111,33 @@ func (m MovieModel) Get(id int64) (*Movie, error) {
 		}
 	}
 
+	movie := Movie{
+		ID:        row.ID,
+		CreatedAt: row.CreatedAt,
+		Title:     row.Title,
+		Year:      row.Year,
+		Runtime:   Runtime(row.Runtime),
+		Genres:    row.Genres,
+		Version:   row.Version,
+	}
+
 	return &movie, nil
 }
 
-func (m MovieModel) Update(movie *Movie) error {
-	query := `update movies set title = $1, year = $2, runtime = $3, genres = $4, version = version+1, updated_at = now()
-	where id = $5 and version = $6
-	returning version;`
-
-	args := []any{movie.Title, movie.Year, movie.Runtime, pq.Array(movie.Genres), movie.ID, movie.Version}
-
-	// fmt.Println("version:", movie.Version)
-	// time.Sleep(3 * time.Second) // to mock concurrent update
-
+func (m MovieModel) Update(ctx context.Context, movie *Movie) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	if err := m.DB.QueryRowContext(ctx, query, args...).Scan(&movie.Version); err != nil {
+	err := m.queries.UpdateMovie(ctx, sqlcdb.UpdateMovieParams{
+		Title:   movie.Title,
+		Year:    movie.Year,
+		Runtime: int32(movie.Runtime),
+		Genres:  movie.Genres,
+		ID:      movie.ID,
+		Version: movie.Version,
+	})
+
+	if err != nil {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
 			return ErrStaleObject
@@ -146,28 +149,14 @@ func (m MovieModel) Update(movie *Movie) error {
 	return nil
 }
 
-func (m MovieModel) Delete(id int64) error {
-	if id < 1 {
-		return ErrRecordNotFound
-	}
-
-	query := `DELETE from movies where id = $1;`
-
+func (m MovieModel) Delete(ctx context.Context, id int64) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	result, err := m.DB.ExecContext(ctx, query, id)
-	if err != nil {
+	// note: DELETE from movies where id = 9; does not return error even record is not found
+	// TODO maybe optimze by `DELETE from movies where id = 9 returning id;`
+	if err := m.queries.DeleteMovie(ctx, id); err != nil {
 		return err
-	}
-
-	rowsAffected, err := result.RowsAffected()
-	if err != nil {
-		return err
-	}
-
-	if rowsAffected == 0 {
-		return ErrRecordNotFound
 	}
 
 	return nil

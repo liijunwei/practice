@@ -7,6 +7,7 @@ import (
 	"database/sql"
 	"encoding/base32"
 	"greenlight/internal/assert"
+	"greenlight/internal/sqlcdb"
 	"greenlight/internal/validator"
 	"time"
 )
@@ -23,7 +24,8 @@ type Token struct {
 }
 
 type TokenModel struct {
-	DB *sql.DB
+	DB      *sql.DB
+	queries *sqlcdb.Queries
 }
 
 func generateToken(userID int64, ttl time.Duration, scope string) (*Token, error) {
@@ -53,20 +55,20 @@ func ValidateTokenPlaintext(v *validator.Validator, plaintext string) {
 	v.Check(len(plaintext) == 26, "token", "length must be 26")
 }
 
-func (m TokenModel) New(userID int64, ttl time.Duration, scope string) (*Token, error) {
+func (m TokenModel) New(ctx context.Context, userID int64, ttl time.Duration, scope string) (*Token, error) {
 	token, err := generateToken(userID, ttl, scope)
 	if err != nil {
 		return nil, err
 	}
 
-	if err := m.Create(token); err != nil {
+	if err := m.Create(ctx, token); err != nil {
 		return nil, err
 	}
 
 	return token, nil
 }
 
-func (m TokenModel) Create(token *Token) error {
+func (m TokenModel) Create(ctx context.Context, token *Token) error {
 	query := `insert into tokens(hash,user_id,expire_at,scope)
 	values($1,$2,$3,$4)
 	`
@@ -83,7 +85,7 @@ func (m TokenModel) Create(token *Token) error {
 	return nil
 }
 
-func (m TokenModel) DeleteAllForUser(scope string, userID int64) error {
+func (m TokenModel) DeleteAllForUser(ctx context.Context, scope string, userID int64) error {
 	query := `delete from tokens where scope = $1 and user_id = $2`
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)

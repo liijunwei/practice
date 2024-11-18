@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"greenlight/internal/assert"
+	"greenlight/internal/sqlcdb"
 	"time"
 
 	"github.com/lib/pq"
@@ -25,10 +26,11 @@ func (p Permissions) Include(code string) bool {
 }
 
 type PermissinModel struct {
-	DB *sql.DB
+	DB      *sql.DB
+	queries *sqlcdb.Queries
 }
 
-func (m PermissinModel) GetAllForUser(userID int64) (Permissions, error) {
+func (m PermissinModel) GetAllForUser(ctx context.Context, userID int64) (Permissions, error) {
 	query := `select perm.code
 	from permissions perm
 	inner join user_permissions user_perm on user_perm.permission_id = perm.id
@@ -63,7 +65,7 @@ func (m PermissinModel) GetAllForUser(userID int64) (Permissions, error) {
 	return permissions, nil
 }
 
-func (m PermissinModel) AddForUser(userID int64, codes ...string) error {
+func (m PermissinModel) AddForUser(ctx context.Context, userID int64, codes ...string) error {
 	query := `insert into user_permissions
 	select $1,permissions.id from permissions where permissions.code = ANY($2)`
 
