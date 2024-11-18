@@ -50,6 +50,7 @@ show-pg-config-file:
 install-tools:
 	brew install postgres
 	brew install golang-migrate
+	go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 
 create-migration-file-example:
 	@echo "migrate create -seq -ext=.sql -dir=./db/migrations create_movies_table"
@@ -66,3 +67,6 @@ test-rate-limiter:
 BODY='{"email":"Emiliano_Cruickshank@example.com","password":"pa55word"}'
 load-test:
 	hey -d ${BODY} -m "POST" -z 5s http://localhost:4000/v1/tokens/authentication
+
+sqlc:
+	sqlc generate -f db/sqlc.yaml

@@ -1,0 +1,11 @@
+version: "2"
+sql:
+  - schema: "./migrations"
+    queries: "./queries"
+    engine: "postgresql"
+    strict_function_checks: true
+    gen:
+      go:
+        package: "sqlcdb"
+        out: "../internal/sqlcdb"
+        sql_package: "database/sql"
