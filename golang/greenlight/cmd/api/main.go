@@ -11,11 +11,9 @@ import (
 	"greenlight/internal/approot"
 	"greenlight/internal/assert"
 	"greenlight/internal/data"
-	"greenlight/internal/jsonlog"
 	"greenlight/internal/mailer"
 	"greenlight/internal/validator"
 	"io"
-	"log"
 	"net"
 	"net/http"
 	"net/url"
@@ -31,6 +29,8 @@ import (
 
 	"github.com/felixge/httpsnoop"
 	_ "github.com/lib/pq"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"golang.org/x/time/rate"
 )
 
@@ -67,6 +67,7 @@ func main() {
 
 		return nil
 	})
+	flag.StringVar(&cfg.LogConfig.Level, "log-level", "debug", "log level")
 
 	flag.Parse()
 
@@ -74,14 +75,24 @@ func main() {
 }
 
 func run(cfg config) {
-	logger := jsonlog.New(os.Stdout, jsonlog.LevelInfo)
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+
+	logger := log.Logger.With().Str("service", "greenlight-api").Logger()
+
+	level, err := zerolog.ParseLevel(cfg.LogConfig.Level)
+	assert.Assert(err == nil)
+	assert.Assert(level != zerolog.NoLevel)
+
+	zerolog.SetGlobalLevel(level)
+	logger.Level(level)
+
+	ctx := context.Background()
+	ctx = logger.WithContext(ctx)
 
 	db, err := openDB(cfg)
-	if err != nil {
-		logger.PrintFatal(err, nil)
-	}
+	assert.Assert(err == nil)
 
-	logger.PrintInfo("database connection pool established", nil)
+	zerolog.Ctx(ctx).Info().Msg("database connection pool established")
 
 	defer db.Close()
 
@@ -98,7 +109,7 @@ func run(cfg config) {
 	expvar.Publish("timestamp", expvar.Func(func() any { return time.Now().Unix() }))
 
 	if err := app.serve(); err != nil {
-		logger.PrintFatal(err, nil)
+		logger.Fatal().Err(err).Msg("unexpected server error")
 	}
 }
 
@@ -107,14 +118,15 @@ type contextKey string
 const userContextKey = contextKey("user")
 
 type config struct {
-	IP      string        `json:"ip"`
-	Port    int           `json:"port"`
-	Env     string        `json:"env"`
-	DB      dbConfig      `json:"db"`
-	Limiter limiterConfig `json:"limiter"`
-	Debug   bool          `json:"debug"`
-	SMTP    smtp          `json:"smtp"`
-	CORS    cors          `json:"cors"`
+	IP        string        `json:"ip"`
+	Port      int           `json:"port"`
+	Env       string        `json:"env"`
+	DB        dbConfig      `json:"db"`
+	Limiter   limiterConfig `json:"limiter"`
+	Debug     bool          `json:"debug"`
+	SMTP      smtp          `json:"smtp"`
+	CORS      cors          `json:"cors"`
+	LogConfig logConfig     `json:"log_config"`
 }
 
 type dbConfig struct {
@@ -142,9 +154,13 @@ type cors struct {
 	TrustedOrigins map[string]struct{} `json:"trusted_origins"`
 }
 
+type logConfig struct {
+	Level string `json:"level"`
+}
+
 type application struct {
 	config config
-	logger *jsonlog.Logger
+	logger zerolog.Logger
 	models data.Models
 	mailer mailer.Mailer
 	wg     sync.WaitGroup
@@ -435,10 +451,10 @@ func (app *application) readJSON(_ http.ResponseWriter, r *http.Request, dst any
 }
 
 func (app *application) logError(r *http.Request, err error) {
-	app.logger.PrintError(err, map[string]any{
-		"request_method": r.Method,
-		"request_url":    r.URL.String(),
-	})
+	app.logger.Error().Err(err).
+		Str("request_method", r.Method).
+		Str("request_url", r.URL.String()).
+		Send()
 }
 
 func (app *application) errorResponse(w http.ResponseWriter, r *http.Request, status int, message any) {
@@ -638,11 +654,11 @@ func (app *application) rateLimit(next http.Handler) http.Handler {
 		if !clients[ip].limiter.Allow() {
 			mu.Unlock()
 
-			app.logger.PrintInfo("rate_limit triggered", map[string]any{
-				"request_method": r.Method,
-				"request_url":    r.URL.String(),
-				"user_agent":     r.UserAgent(),
-			})
+			app.logger.Info().
+				Str("request_method", r.Method).
+				Str("request_url", r.URL.String()).
+				Str("user_agent", r.UserAgent()).
+				Msg("rate_limit triggered")
 
 			app.rateLimitExceededResponse(w, r)
 
@@ -686,10 +702,12 @@ func (app *application) authenticate(next http.Handler) http.Handler {
 		if err != nil {
 			switch {
 			case errors.Is(err, data.ErrRecordNotFound):
-				app.failedValidationResponse(w, r, v.Errors)
+				app.notFoundResponse(w, r)
 			default:
 				app.serverErrorResponse(w, r, err)
 			}
+
+			app.logger.Warn().Err(err).Msg("failed to find user by auth token")
 
 			return
 		}
@@ -768,7 +786,6 @@ func (app *application) serve() error {
 	srv := &http.Server{
 		Addr:         fmt.Sprintf("%s:%d", app.config.IP, app.config.Port),
 		Handler:      handler,
-		ErrorLog:     log.New(app.logger, "", 0),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
@@ -783,10 +800,10 @@ func (app *application) serve() error {
 
 		s := <-quit // block until signal received
 
-		app.logger.PrintInfo("shutting down", map[string]any{
-			"service_type": "api server",
-			"signal":       s.String(),
-		})
+		app.logger.Info().
+			Str("signal", s.String()).
+			Str("service_type", "api server").
+			Msg("shutting down")
 
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
@@ -795,21 +812,20 @@ func (app *application) serve() error {
 			shutdownError <- srv.Shutdown(ctx)
 		}
 
-		app.logger.PrintInfo("completing background tasks", map[string]any{
-			"addr": srv.Addr,
-		})
+		app.logger.Info().Str("address", srv.Addr).Msg("completing background tasks")
 
 		app.wg.Wait()
 
 		shutdownError <- nil
 	}()
 
-	app.logger.PrintInfo("server started", map[string]any{
-		"env":     app.config.Env,
-		"address": srv.Addr,
-		"config":  configStructToMap(app.config),
-		"approot": approot.Root,
-	})
+	app.logger.Info().
+		Str("service_type", "api server").
+		Str("env", app.config.Env).
+		Str("address", srv.Addr).
+		Str("approot", approot.Root).
+		Interface("config", configStructToMap(app.config)).
+		Msg("server started")
 
 	if err := srv.ListenAndServe(); err != nil {
 		if !errors.Is(err, http.ErrServerClosed) {
@@ -820,7 +836,7 @@ func (app *application) serve() error {
 			return err
 		}
 
-		app.logger.PrintInfo("server shutdown", nil)
+		app.logger.Info().Msg("server shutdown")
 	}
 
 	return nil
@@ -889,26 +905,22 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 }
 
 func (app *application) sendEmail(user *data.User, token *data.Token) {
-	detail := map[string]any{
-		"user_id": user.ID,
-	}
+	logger := app.logger.With().Int64("user_id", user.ID).Logger()
 
 	data := map[string]any{
 		"userID":          user.ID,
 		"activationToken": token.Plaintext,
 	}
 
-	app.logger.PrintInfo("send email: start", detail)
+	logger.Info().Msg("send email start")
 	startTime := time.Now()
 
 	if err := app.mailer.Send(app.config.SMTP.Sender, user.Email, "user_welcome.tmpl", data); err != nil {
-		detail["error_message"] = "send email: fail"
-		app.logger.PrintError(err, detail)
+		logger.Error().Err(err).Msg("send email failed")
 		return
 	}
 
-	detail["duration"] = time.Since(startTime).String()
-	app.logger.PrintInfo("send email: done", detail)
+	logger.Info().Str("duration", time.Since(startTime).String()).Msg("send email done")
 }
 
 func (app *application) runInBackground(fn func()) {
@@ -919,7 +931,7 @@ func (app *application) runInBackground(fn func()) {
 
 		defer func() {
 			if err := recover(); err != nil {
-				app.logger.PrintError(fmt.Errorf("%s", err), nil)
+				app.logger.Error().Err(fmt.Errorf("%s", err)).Msg("recover panic failed")
 			}
 		}()
 
