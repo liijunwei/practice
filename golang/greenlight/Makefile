@@ -20,21 +20,21 @@ db-console:
 	PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight
 
 db-seed:
-	ls db/seeds/*.sql | xargs -I {} sh -c 'PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight --quiet -f {} && echo "seed {}"'
+	ls ./database/seeds/*.sql | xargs -I {} sh -c 'PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight --quiet -f {} && echo "seed {}"'
 	@echo "done seed"
 	@echo
 
 db-reset:
-	migrate -path=./db/migrations -database=${GREENLIGHT_DB_DSN} down -all
+	migrate -path=./database/migrations -database=${GREENLIGHT_DB_DSN} down -all
 	@echo "done reset"
 	@echo
 
 db-migrate:
-	migrate -path=./db/migrations -database=${GREENLIGHT_DB_DSN} up
+	migrate -path=./database/migrations -database=${GREENLIGHT_DB_DSN} up
 	@echo "done migrate"
 	@echo
-	rm ./db/structure.sql
-	pg_dump --schema-only ${GREENLIGHT_DB_DSN} --file ./db/structure.sql
+	rm ./database/structure.sql
+	pg_dump --schema-only ${GREENLIGHT_DB_DSN} --file ./database/structure.sql
 	@echo "done pgdump"
 	@echo
 
@@ -53,7 +53,7 @@ install-tools:
 	go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 
 create-migration-file-example:
-	@echo "migrate create -seq -ext=.sql -dir=./db/migrations create_movies_table"
+	@echo "migrate create -seq -ext=.sql -dir=./database/migrations create_movies_table"
 
 # test-optimistic-locking
 # xargs -I % -P8 curl --location --request PUT 'http://localhost:4000/v1/movies/9' --header 'Content-Type: application/json' --data '{"title":"movie4","year":2007,"runtime":1500,"genres":["crime","war","sci-fi"]}' < <(printf '%s\n' {1..8})
