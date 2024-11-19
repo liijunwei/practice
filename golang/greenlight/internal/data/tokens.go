@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/rand"
 	"crypto/sha256"
-	"database/sql"
 	"encoding/base32"
 	"greenlight/internal/assert"
 	"greenlight/internal/sqlcdb"
@@ -24,7 +23,6 @@ type Token struct {
 }
 
 type TokenModel struct {
-	DB      *sql.DB
 	queries *sqlcdb.Queries
 }
 
@@ -69,16 +67,15 @@ func (m TokenModel) New(ctx context.Context, userID int64, ttl time.Duration, sc
 }
 
 func (m TokenModel) Create(ctx context.Context, token *Token) error {
-	query := `insert into tokens(hash,user_id,expire_at,scope)
-	values($1,$2,$3,$4)
-	`
-
-	args := []any{token.Hash, token.UserId, token.ExpireAt, token.Scope}
-
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	if _, err := m.DB.ExecContext(ctx, query, args...); err != nil {
+	if err := m.queries.CreateScopedUserToken(ctx, sqlcdb.CreateScopedUserTokenParams{
+		Hash:     token.Hash,
+		UserID:   token.UserId,
+		ExpireAt: token.ExpireAt,
+		Scope:    token.Scope,
+	}); err != nil {
 		return err
 	}
 
@@ -86,12 +83,13 @@ func (m TokenModel) Create(ctx context.Context, token *Token) error {
 }
 
 func (m TokenModel) DeleteAllForUser(ctx context.Context, scope string, userID int64) error {
-	query := `delete from tokens where scope = $1 and user_id = $2`
-
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	if _, err := m.DB.ExecContext(ctx, query, scope, userID); err != nil {
+	if err := m.queries.DeleteScopedUserTokens(ctx, sqlcdb.DeleteScopedUserTokensParams{
+		Scope:  scope,
+		UserID: userID,
+	}); err != nil {
 		return err
 	}
 
