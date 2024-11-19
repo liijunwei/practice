@@ -21,7 +21,7 @@ type Models struct {
 func NewModels(db *sql.DB, queries *sqlcdb.Queries) Models {
 	return Models{
 		Movies:      MovieModel{queries: queries},
-		Users:       UserModel{DB: db, queries: queries},
+		Users:       UserModel{queries: queries},
 		Tokens:      TokenModel{queries: queries},
 		Permissions: PermissinModel{queries: queries},
 	}

@@ -20,7 +20,6 @@ var duplicatedEmailMessage = `pq: duplicate key value violates unique constraint
 var AnonymousUser = &User{}
 
 type UserModel struct {
-	DB      *sql.DB
 	queries *sqlcdb.Queries
 }
 
@@ -96,21 +95,17 @@ func ValidatePasswordPlaintext(v *validator.Validator, password string) {
 }
 
 func (m UserModel) Create(ctx context.Context, user *User) error {
-	query := `insert into users(name,email,password_hash,status)
-	values($1,$2,$3,$4)
-	returning id,created_at,updated_at,version`
-
-	args := []any{user.Name, user.Email, user.Password.hash, user.Status}
-
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	if err := m.DB.QueryRowContext(ctx, query, args...).Scan(
-		&user.ID,
-		&user.CreatedAt,
-		&user.UpdatedAt,
-		&user.Version,
-	); err != nil {
+	row, err := m.queries.CreateUser(ctx, sqlcdb.CreateUserParams{
+		Name:         user.Name,
+		Email:        user.Email,
+		PasswordHash: user.Password.hash,
+		Status:       user.Status,
+	})
+
+	if err != nil {
 		switch {
 		case err.Error() == duplicatedEmailMessage:
 			return ErrDuplicatedEmail
@@ -119,31 +114,22 @@ func (m UserModel) Create(ctx context.Context, user *User) error {
 		}
 	}
 
+	user.ID = row.ID
+	user.CreatedAt = row.CreatedAt
+	user.UpdatedAt = row.UpdatedAt
+	user.Version = int64(row.Version)
+
 	return nil
 }
 
 func (m UserModel) GetByEmail(ctx context.Context, email string) (*User, error) {
 	assert.Assert(email != "")
 
-	query := `select id,name,email,password_hash,status,version,created_at,updated_at
-	from users
-	where email = $1`
-
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	var user User
-
-	if err := m.DB.QueryRowContext(ctx, query, email).Scan(
-		&user.ID,
-		&user.Name,
-		&user.Email,
-		&user.Password.hash,
-		&user.Status,
-		&user.Version,
-		&user.CreatedAt,
-		&user.UpdatedAt,
-	); err != nil {
+	row, err := m.queries.GetUserByEmail(ctx, email)
+	if err != nil {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
 			return nil, ErrRecordNotFound
@@ -152,30 +138,37 @@ func (m UserModel) GetByEmail(ctx context.Context, email string) (*User, error) 
 		}
 	}
 
+	user := User{
+		ID:    row.ID,
+		Name:  row.Name,
+		Email: row.Email,
+		Password: password{
+			hash: row.PasswordHash,
+		},
+		Status:    row.Status,
+		Version:   int64(row.Version),
+		CreatedAt: row.CreatedAt,
+		UpdatedAt: row.UpdatedAt,
+	}
+
 	return &user, nil
 }
 
 func (m UserModel) Update(ctx context.Context, user *User) error {
 	assert.Assert(user != nil)
 
-	query := `update users
-	set name=$1, email=$2,password_hash=$3,status=$4,version=version+1,updated_at=now()
-	where id=$5 and version=$6
-	returning version`
-
-	args := []any{
-		user.Name,
-		user.Email,
-		user.Password.hash,
-		user.Status,
-		user.ID,
-		user.Version,
-	}
-
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	if err := m.DB.QueryRowContext(ctx, query, args...).Scan(&user.Version); err != nil {
+	newVersion, err := m.queries.UpdateUser(ctx, sqlcdb.UpdateUserParams{
+		Name:         user.Name,
+		Email:        user.Email,
+		PasswordHash: user.Password.hash,
+		Status:       user.Status,
+		ID:           user.ID,
+		Version:      int32(user.Version),
+	})
+	if err != nil {
 		switch {
 		case err.Error() == duplicatedEmailMessage:
 			return ErrDuplicatedEmail
@@ -186,41 +179,40 @@ func (m UserModel) Update(ctx context.Context, user *User) error {
 		}
 	}
 
+	user.Version = int64(newVersion)
+
 	return nil
 }
 
 func (m UserModel) GetByToken(ctx context.Context, tokenScope, plaintextToken string) (*User, error) {
 	tokenHash := sha256.Sum256([]byte(plaintextToken))
-	query := `select u.id,u.created_at,u.name,u.email,u.password_hash,u.status,u.version
-	from users u
-	inner join tokens t
-	on u.id = t.user_id
-	where t.hash = $1 -- <- this is vulnerable to a timing attack
-	and t.scope = $2
-	and t.expire_at > $3` // q: what's difference between using sql now() and go time.Now()?
-
-	args := []any{tokenHash[:], tokenScope, time.Now()}
-
-	var user User
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	if err := m.DB.QueryRowContext(ctx, query, args...).Scan(
-		&user.ID,
-		&user.CreatedAt,
-		&user.Name,
-		&user.Email,
-		&user.Password.hash,
-		&user.Status,
-		&user.Version,
-	); err != nil {
+	row, err := m.queries.GetUserByToken(ctx, sqlcdb.GetUserByTokenParams{
+		Hash:  tokenHash[:],
+		Scope: tokenScope,
+	})
+	if err != nil {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
 			return nil, ErrRecordNotFound
 		default:
 			return nil, err
 		}
+	}
+
+	user := User{
+		ID:    row.ID,
+		Name:  row.Name,
+		Email: row.Email,
+		Password: password{
+			hash: row.PasswordHash,
+		},
+		Version:   int64(row.Version),
+		CreatedAt: row.CreatedAt,
+		Status:    row.Status,
 	}
 
 	return &user, nil
