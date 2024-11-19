@@ -23,7 +23,7 @@ func NewModels(db *sql.DB, queries *sqlcdb.Queries) Models {
 		Movies:      MovieModel{queries: queries},
 		Users:       UserModel{DB: db, queries: queries},
 		Tokens:      TokenModel{DB: db, queries: queries},
-		Permissions: PermissinModel{DB: db, queries: queries},
+		Permissions: PermissinModel{queries: queries},
 	}
 }
 
