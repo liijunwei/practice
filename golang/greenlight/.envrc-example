@@ -1,4 +1,4 @@
 export PGPASSWORD=placeholder
-export GREENLIGHT_DB_DSN=placeholder
-export SMTP_USERNAME=placeholder
+export GREENLIGHT_DB_DSN="postgres://username:password@localhost/greenlight?sslmode=disable&application_name=greenlight-api"
+# https://mailtrap.io/inboxes
 export SMTP_PASSWORD=placeholder
