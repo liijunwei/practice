@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-	"database/sql"
 	"errors"
 	"greenlight/internal/sqlcdb"
 	"time"
@@ -18,7 +17,7 @@ type Models struct {
 	Permissions PermissionsDB
 }
 
-func NewModels(db *sql.DB, queries *sqlcdb.Queries) Models {
+func NewModels(queries *sqlcdb.Queries) Models {
 	return Models{
 		Movies:      MovieModel{queries: queries},
 		Users:       UserModel{queries: queries},

@@ -102,7 +102,7 @@ func run(cfg config) {
 	app := &application{
 		config:  cfg,
 		logger:  logger,
-		models:  data.NewModels(db, queries),
+		models:  data.NewModels(queries),
 		queries: queries,
 		mailer:  mailer.New(cfg.SMTP.Host, cfg.SMTP.Port, cfg.SMTP.Username, cfg.SMTP.Password),
 	}
