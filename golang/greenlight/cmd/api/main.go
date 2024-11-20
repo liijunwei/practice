@@ -19,7 +19,6 @@ import (
 	"greenlight/internal/rest/userfacing/tokensapi"
 	"greenlight/internal/rest/userfacing/usersapi"
 	"greenlight/internal/sqlcdb"
-	"greenlight/internal/validator"
 	"net/http"
 	"os"
 	"os/signal"
@@ -291,101 +290,4 @@ func (app *application) serve() error {
 	}
 
 	return nil
-}
-
-func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Request) {
-	var input struct {
-		Name     string `json:"name"`
-		Email    string `json:"email"`
-		Password string `json:"password"`
-	}
-
-	if err := common.ReadJSON(w, r, &input); err != nil {
-		common.RenderBadRequest(w, r, err)
-		return
-	}
-
-	user := &data.User{
-		Name:   input.Name,
-		Email:  input.Email,
-		Status: "pending",
-	}
-
-	if err := user.Password.Set(input.Password); err != nil {
-		common.RenderInternalServerError(w, r, err)
-		return
-	}
-
-	v := validator.New()
-
-	if data.ValidateUser(v, user); !v.Valid() {
-		common.RenderFailedValidation(w, r, v.Errors)
-		return
-	}
-
-	if err := app.models.Users.Create(r.Context(), user); err != nil {
-		switch {
-		case errors.Is(err, data.ErrDuplicatedEmail):
-			v.AddError("email", "email already taken") // FIXME: take care of "preventing enumeration attack" when necessary
-			common.RenderFailedValidation(w, r, v.Errors)
-		default:
-			common.RenderInternalServerError(w, r, err)
-		}
-
-		return
-	}
-
-	if err := app.models.Permissions.AddForUser(r.Context(), user.ID, "movies:read"); err != nil {
-		common.RenderInternalServerError(w, r, err)
-		return
-	}
-
-	token, err := app.models.Tokens.New(r.Context(), user.ID, 3*24*time.Hour, data.ScopeActivation)
-	if err != nil {
-		common.RenderInternalServerError(w, r, err)
-		return
-	}
-
-	app.runInBackground(func() {
-		app.sendEmail(user, token)
-	})
-
-	if err := common.WriteResponseJSON(w, http.StatusAccepted, common.Envelope{"user": user}, nil); err != nil {
-		common.RenderInternalServerError(w, r, err)
-	}
-}
-
-func (app *application) sendEmail(user *data.User, token *data.Token) {
-	logger := app.logger.With().Int64("user_id", user.ID).Logger()
-
-	data := map[string]any{
-		"userID":          user.ID,
-		"activationToken": token.Plaintext,
-	}
-
-	logger.Info().Msg("send email start")
-	startTime := time.Now()
-
-	if err := app.mailer.Send(app.config.SMTP.Sender, user.Email, "user_welcome.tmpl", data); err != nil {
-		logger.Error().Err(err).Msg("send email failed")
-		return
-	}
-
-	logger.Info().Str("duration", time.Since(startTime).String()).Msg("send email done")
-}
-
-func (app *application) runInBackground(fn func()) {
-	app.wg.Add(1)
-
-	go func() {
-		defer app.wg.Done()
-
-		defer func() {
-			if err := recover(); err != nil {
-				app.logger.Error().Err(fmt.Errorf("%s", err)).Msg("recover panic failed")
-			}
-		}()
-
-		fn()
-	}()
 }
