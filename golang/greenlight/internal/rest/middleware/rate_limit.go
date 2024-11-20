@@ -47,7 +47,7 @@ func RateLimit(next http.Handler, enabled bool, rps float64, burst int) http.Han
 
 		ip, _, err := net.SplitHostPort(r.RemoteAddr)
 		if err != nil {
-			common.ServerErrorResponse(w, r, err, true)
+			common.RenderInternalServerError(w, r, err, true)
 			return
 		}
 
@@ -68,7 +68,7 @@ func RateLimit(next http.Handler, enabled bool, rps float64, burst int) http.Han
 			// 	Str("user_agent", r.UserAgent()).
 			// 	Msg("rate_limit triggered")
 
-			common.RateLimitExceededResponse(w, r)
+			common.RenderRateLimitExceeded(w, r)
 
 			return
 		}

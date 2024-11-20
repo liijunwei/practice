@@ -14,7 +14,7 @@ import (
 
 type Envelope map[string]any
 
-func WriteJSON(w http.ResponseWriter, status int, data Envelope, headers http.Header) error {
+func WriteResponseJSON(w http.ResponseWriter, status int, data Envelope, headers http.Header) error {
 	js, err := json.Marshal(data)
 	if err != nil {
 		return err
@@ -30,20 +30,20 @@ func WriteJSON(w http.ResponseWriter, status int, data Envelope, headers http.He
 	return nil
 }
 
-func NotFoundResponse(w http.ResponseWriter, r *http.Request) {
+func RenderNotFound(w http.ResponseWriter, r *http.Request) {
 	message := "resource not found"
-	ErrorResponse(w, r, http.StatusNotFound, message)
+	RenderError(w, r, http.StatusNotFound, message)
 }
 
-func ErrorResponse(w http.ResponseWriter, r *http.Request, status int, message any) {
+func RenderError(w http.ResponseWriter, r *http.Request, status int, message any) {
 	env := Envelope{"error": message}
-	if err := WriteJSON(w, status, env, nil); err != nil {
+	if err := WriteResponseJSON(w, status, env, nil); err != nil {
 		// app.logError(r, err)
 		w.WriteHeader(500)
 	}
 }
 
-func ServerErrorResponse(w http.ResponseWriter, r *http.Request, err error, debug bool) {
+func RenderInternalServerError(w http.ResponseWriter, r *http.Request, err error, debug bool) {
 	// app.logError(r, err)
 	message := "server failed unexpectedly"
 
@@ -54,11 +54,11 @@ func ServerErrorResponse(w http.ResponseWriter, r *http.Request, err error, debu
 			"traces":  sanitizedDebugTraces(),
 		}
 
-		ErrorResponse(w, r, http.StatusServiceUnavailable, details)
+		RenderError(w, r, http.StatusServiceUnavailable, details)
 		return
 	}
 
-	ErrorResponse(w, r, http.StatusServiceUnavailable, message)
+	RenderError(w, r, http.StatusServiceUnavailable, message)
 }
 
 func sanitizedDebugTraces() []string {
@@ -81,25 +81,25 @@ type contextKey string
 
 const userContextKey = contextKey("user")
 
-func ContextSetUser(r *http.Request, user *data.User) *http.Request {
+func SetUserToContext(r *http.Request, user *data.User) *http.Request {
 	ctx := context.WithValue(r.Context(), userContextKey, user)
 	return r.WithContext(ctx)
 }
 
-func ContextGetUser(r *http.Request) *data.User {
+func GetUserFromContext(r *http.Request) *data.User {
 	user, ok := r.Context().Value(userContextKey).(*data.User)
 	assert.Assert(ok, "user must present in request context")
 
 	return user
 }
 
-func InvalidAuthenticationTokenResponse(w http.ResponseWriter, r *http.Request) {
+func RenderInvalidAuthenticationToken(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("WWW-Authenticate", "Bearer")
 	message := "invalid or missing authentication token"
-	ErrorResponse(w, r, http.StatusUnauthorized, message)
+	RenderError(w, r, http.StatusUnauthorized, message)
 }
 
-func RateLimitExceededResponse(w http.ResponseWriter, r *http.Request) {
+func RenderRateLimitExceeded(w http.ResponseWriter, r *http.Request) {
 	message := "rate limit exceeded"
-	ErrorResponse(w, r, http.StatusTooManyRequests, message)
+	RenderError(w, r, http.StatusTooManyRequests, message)
 }

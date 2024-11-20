@@ -17,14 +17,14 @@ func Authenticate(next http.Handler, models data.Models, debug bool) http.Handle
 
 		authorizationHeader := r.Header.Get("Authorization")
 		if authorizationHeader == "" {
-			r = common.ContextSetUser(r, data.AnonymousUser)
+			r = common.SetUserToContext(r, data.AnonymousUser)
 			next.ServeHTTP(w, r)
 			return
 		}
 
 		headerParts := strings.Split(authorizationHeader, " ")
 		if len(headerParts) != 2 || headerParts[0] != "Bearer" {
-			common.InvalidAuthenticationTokenResponse(w, r)
+			common.RenderInvalidAuthenticationToken(w, r)
 			return
 		}
 
@@ -32,7 +32,7 @@ func Authenticate(next http.Handler, models data.Models, debug bool) http.Handle
 		v := validator.New()
 
 		if data.ValidateTokenPlaintext(v, token); !v.Valid() {
-			common.InvalidAuthenticationTokenResponse(w, r)
+			common.RenderInvalidAuthenticationToken(w, r)
 			return
 		}
 
@@ -40,9 +40,9 @@ func Authenticate(next http.Handler, models data.Models, debug bool) http.Handle
 		if err != nil {
 			switch {
 			case errors.Is(err, data.ErrRecordNotFound):
-				common.NotFoundResponse(w, r)
+				common.RenderNotFound(w, r)
 			default:
-				common.ServerErrorResponse(w, r, err, debug)
+				common.RenderInternalServerError(w, r, err, debug)
 			}
 
 			// app.logger.Warn().Err(err).Msg("failed to find user by auth token")
@@ -50,7 +50,7 @@ func Authenticate(next http.Handler, models data.Models, debug bool) http.Handle
 			return
 		}
 
-		r = common.ContextSetUser(r, user)
+		r = common.SetUserToContext(r, user)
 
 		next.ServeHTTP(w, r)
 	})

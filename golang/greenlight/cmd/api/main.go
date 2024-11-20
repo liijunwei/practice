@@ -552,7 +552,7 @@ func (app *application) readInt(qs url.Values, key string, defaultVal int, v *va
 // so we can wrap handler func directly(not just router)
 func (app *application) requireAuthenticatedUser(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		user := common.ContextGetUser(r)
+		user := common.GetUserFromContext(r)
 		if user.IsAnonymous() {
 			app.authenticationRequiredResponse(w, r)
 			return
@@ -564,7 +564,7 @@ func (app *application) requireAuthenticatedUser(next http.HandlerFunc) http.Han
 
 func (app *application) requireActivatedUser(next http.HandlerFunc) http.HandlerFunc {
 	fn := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		user := common.ContextGetUser(r)
+		user := common.GetUserFromContext(r)
 
 		if !user.Activated() {
 			app.inactiveAccountResponse(w, r)
@@ -579,7 +579,7 @@ func (app *application) requireActivatedUser(next http.HandlerFunc) http.Handler
 
 func (app *application) requirePermission(code string, next http.HandlerFunc) http.HandlerFunc {
 	fn := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		user := common.ContextGetUser(r)
+		user := common.GetUserFromContext(r)
 
 		permissions, err := app.models.Permissions.GetAllForUser(r.Context(), user.ID)
 		if err != nil {
