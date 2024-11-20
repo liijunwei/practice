@@ -139,7 +139,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("DELETE /v1/movies/{id}", app.requirePermission("movies:write", moviesapi.DeleteMovieHandler(app.models)))
 	mux.HandleFunc("GET /v1/movies", app.requirePermission("movies:read", moviesapi.GetMovieList(app.models)))
 	mux.HandleFunc("POST /v1/users", usersapi.CreateUserHandler(app.models, app.mailer, app.config.SMTP.Sender))
-	mux.HandleFunc("PUT /v1/users/activated", app.activateUserHandler)
+	mux.HandleFunc("PUT /v1/users/activated", usersapi.ActivateUserHandler(app.models))
 	mux.HandleFunc("POST /v1/tokens/authentication", app.createAuthenticationTokenHandler)
 	mux.Handle("GET /debug/vars", expvar.Handler())
 
@@ -387,59 +387,6 @@ func (app *application) runInBackground(fn func()) {
 
 		fn()
 	}()
-}
-
-func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Request) {
-	var input struct {
-		TokenPlaintext string `json:"token"`
-	}
-
-	if err := common.ReadJSON(w, r, &input); err != nil {
-		common.RenderBadRequest(w, r, err)
-		return
-	}
-
-	v := validator.New()
-
-	if data.ValidateTokenPlaintext(v, input.TokenPlaintext); !v.Valid() {
-		common.RenderFailedValidation(w, r, v.Errors)
-		return
-	}
-
-	user, err := app.models.Users.GetByToken(r.Context(), data.ScopeActivation, input.TokenPlaintext)
-	if err != nil {
-		switch {
-		case errors.Is(err, data.ErrRecordNotFound):
-			v.AddError("token", "invalid or expired activation token")
-			common.RenderFailedValidation(w, r, v.Errors)
-		default:
-			common.RenderInternalServerError(w, r, err)
-		}
-
-		return
-	}
-
-	user.Status = "activated"
-
-	if err := app.models.Users.Update(r.Context(), user); err != nil {
-		switch {
-		case errors.Is(err, data.ErrStaleObject):
-			common.RenderEditStaleRecord(w, r)
-		default:
-			common.RenderInternalServerError(w, r, err)
-		}
-
-		return
-	}
-
-	if err := app.models.Tokens.DeleteAllForUser(r.Context(), data.ScopeActivation, user.ID); err != nil {
-		common.RenderInternalServerError(w, r, err)
-		return
-	}
-
-	if err := common.WriteResponseJSON(w, http.StatusOK, common.Envelope{"user": user}, nil); err != nil {
-		common.RenderInternalServerError(w, r, err)
-	}
 }
 
 func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, r *http.Request) {
