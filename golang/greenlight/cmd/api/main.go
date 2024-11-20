@@ -548,7 +548,7 @@ func (app *application) serve() error {
 		Str("env", app.config.Env).
 		Str("address", srv.Addr).
 		Str("approot", approot.Root).
-		Interface("config", configStructToMap(app.config)).
+		Interface("appconfig", app.config).
 		Msg("server started")
 
 	if err := srv.ListenAndServe(); err != nil {
@@ -661,18 +661,6 @@ func (app *application) runInBackground(fn func()) {
 
 		fn()
 	}()
-}
-
-// struct -> []byte -> map
-func configStructToMap(cfg config.Config) map[string]any {
-	configInfo, err := json.Marshal(cfg)
-	assert.Assert(err == nil)
-
-	configMap := make(map[string]any)
-	err = json.Unmarshal(configInfo, &configMap)
-	assert.Assert(err == nil)
-
-	return configMap
 }
 
 func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Request) {
