@@ -14,6 +14,7 @@ import (
 	"greenlight/internal/config"
 	"greenlight/internal/data"
 	"greenlight/internal/mailer"
+	"greenlight/internal/rest"
 	"greenlight/internal/rest/middleware"
 	"greenlight/internal/sqlcdb"
 	"greenlight/internal/validator"
@@ -135,7 +136,7 @@ func (app *application) routes() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", app.notFoundResponse)
 
-	mux.HandleFunc("GET /v1/healthcheck", app.healthcheckHandler)
+	mux.HandleFunc("GET /v1/healthcheck", rest.HealthcheckHandler(app.config.Env, version))
 	mux.HandleFunc("POST /v1/movies", app.requirePermission("movies:write", app.createMovieHandler))
 	mux.HandleFunc("GET /v1/movies/{id}", app.requirePermission("movies:read", app.showMovieHandler))
 	mux.HandleFunc("PUT /v1/movies/{id}", app.requirePermission("movies:write", app.updateMovieHandler))
@@ -147,22 +148,6 @@ func (app *application) routes() *http.ServeMux {
 	mux.Handle("GET /debug/vars", expvar.Handler())
 
 	return mux
-}
-
-func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	env := envelope{
-		"status": "available",
-		"system_info": map[string]any{
-			"environment": app.config.Env,
-			"version":     version,
-		},
-	}
-
-	if err := app.writeJSON(w, http.StatusOK, env, nil); err != nil {
-		app.serverErrorResponse(w, r, err)
-	}
 }
 
 func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Request) {
