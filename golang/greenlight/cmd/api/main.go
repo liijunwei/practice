@@ -504,7 +504,7 @@ func (app *application) requireAuthenticatedUser(next http.HandlerFunc) http.Han
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		user := common.GetUserFromContext(r)
 		if user.IsAnonymous() {
-			app.authenticationRequiredResponse(w, r)
+			common.RenderAuthenticationRequired(w, r)
 			return
 		}
 
@@ -517,7 +517,7 @@ func (app *application) requireActivatedUser(next http.HandlerFunc) http.Handler
 		user := common.GetUserFromContext(r)
 
 		if !user.Activated() {
-			app.inactiveAccountResponse(w, r)
+			common.RenderInactiveAccount(w, r)
 			return
 		}
 
@@ -538,7 +538,7 @@ func (app *application) requirePermission(code string, next http.HandlerFunc) ht
 		}
 
 		if !permissions.Include(code) {
-			app.notPermittedResponse(w, r)
+			common.RenderNotPermitted(w, r)
 			return
 		}
 
@@ -815,7 +815,7 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 	}
 
 	if !match {
-		app.invlidCredentialsResponse(w, r)
+		common.RenderInvlidCredentials(w, r)
 		return
 	}
 
@@ -828,30 +828,4 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 	if err := app.writeJSON(w, http.StatusCreated, envelope{"authentication_token": token}, nil); err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
-}
-
-func (app *application) invlidCredentialsResponse(w http.ResponseWriter, r *http.Request) {
-	message := "invalid authentication credentials"
-	app.errorResponse(w, r, http.StatusUnauthorized, message)
-}
-
-func (app *application) invalidAuthenticationTokenResponse(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("WWW-Authenticate", "Bearer")
-	message := "invalid or missing authentication token"
-	app.errorResponse(w, r, http.StatusUnauthorized, message)
-}
-
-func (app *application) authenticationRequiredResponse(w http.ResponseWriter, r *http.Request) {
-	message := "you must be authenticated to access this resource"
-	app.errorResponse(w, r, http.StatusUnauthorized, message)
-}
-
-func (app *application) inactiveAccountResponse(w http.ResponseWriter, r *http.Request) {
-	message := "you user account must be activated to access this resource"
-	app.errorResponse(w, r, http.StatusForbidden, message)
-}
-
-func (app *application) notPermittedResponse(w http.ResponseWriter, r *http.Request) {
-	message := "you user account doesn't have necessary permissions to access this resource"
-	app.errorResponse(w, r, http.StatusForbidden, message)
 }

@@ -103,3 +103,23 @@ func RenderRateLimitExceeded(w http.ResponseWriter, r *http.Request) {
 	message := "rate limit exceeded"
 	RenderError(w, r, http.StatusTooManyRequests, message)
 }
+
+func RenderInvlidCredentials(w http.ResponseWriter, r *http.Request) {
+	message := "invalid authentication credentials"
+	RenderError(w, r, http.StatusUnauthorized, message)
+}
+
+func RenderAuthenticationRequired(w http.ResponseWriter, r *http.Request) {
+	message := "you must be authenticated to access this resource"
+	RenderError(w, r, http.StatusUnauthorized, message)
+}
+
+func RenderInactiveAccount(w http.ResponseWriter, r *http.Request) {
+	message := "you user account must be activated to access this resource"
+	RenderError(w, r, http.StatusForbidden, message)
+}
+
+func RenderNotPermitted(w http.ResponseWriter, r *http.Request) {
+	message := "you user account doesn't have necessary permissions to access this resource"
+	RenderError(w, r, http.StatusForbidden, message)
+}
