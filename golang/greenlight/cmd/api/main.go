@@ -133,11 +133,11 @@ func (app *application) routes() *http.ServeMux {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /v1/healthcheck", rest.HealthcheckHandler(app.config.Env, version))
-	mux.HandleFunc("POST /v1/movies", app.requirePermission("movies:write", moviesapi.CreateMovieHandler(app.models)))
-	mux.HandleFunc("GET /v1/movies/{id}", app.requirePermission("movies:read", moviesapi.GetMovieDetailHandler(app.models)))
-	mux.HandleFunc("PUT /v1/movies/{id}", app.requirePermission("movies:write", moviesapi.UpdateMovieDetailHandler(app.models)))
-	mux.HandleFunc("DELETE /v1/movies/{id}", app.requirePermission("movies:write", moviesapi.DeleteMovieHandler(app.models)))
-	mux.HandleFunc("GET /v1/movies", app.requirePermission("movies:read", moviesapi.GetMovieList(app.models)))
+	mux.HandleFunc("POST /v1/movies", requirePermission(app.models, "movies:write", moviesapi.CreateMovieHandler(app.models)))
+	mux.HandleFunc("GET /v1/movies/{id}", requirePermission(app.models, "movies:read", moviesapi.GetMovieDetailHandler(app.models)))
+	mux.HandleFunc("PUT /v1/movies/{id}", requirePermission(app.models, "movies:write", moviesapi.UpdateMovieDetailHandler(app.models)))
+	mux.HandleFunc("DELETE /v1/movies/{id}", requirePermission(app.models, "movies:write", moviesapi.DeleteMovieHandler(app.models)))
+	mux.HandleFunc("GET /v1/movies", requirePermission(app.models, "movies:read", moviesapi.GetMovieList(app.models)))
 	mux.HandleFunc("POST /v1/users", usersapi.CreateUserHandler(app.models, app.mailer, app.config.SMTP.Sender))
 	mux.HandleFunc("PUT /v1/users/activated", usersapi.ActivateUserHandler(app.models))
 	mux.HandleFunc("POST /v1/tokens/authentication", tokensapi.CreateAuthenticationTokenHandler(app.models))
@@ -171,9 +171,11 @@ func openDB(cfg config.Config) (*sql.DB, error) {
 	return db, nil
 }
 
+// TODO maybe use chirouter is more obvious
+//
 // Note: return http.HandlerFunc instead of http.Handler
 // so we can wrap handler func directly(not just router)
-func (app *application) requireAuthenticatedUser(next http.HandlerFunc) http.HandlerFunc {
+func requireAuthenticatedUser(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		user := common.GetUserFromContext(r)
 		if user.IsAnonymous() {
@@ -185,7 +187,7 @@ func (app *application) requireAuthenticatedUser(next http.HandlerFunc) http.Han
 	})
 }
 
-func (app *application) requireActivatedUser(next http.HandlerFunc) http.HandlerFunc {
+func requireActivatedUser(next http.HandlerFunc) http.HandlerFunc {
 	fn := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		user := common.GetUserFromContext(r)
 
@@ -197,14 +199,14 @@ func (app *application) requireActivatedUser(next http.HandlerFunc) http.Handler
 		next.ServeHTTP(w, r)
 	})
 
-	return app.requireAuthenticatedUser(fn)
+	return requireAuthenticatedUser(fn)
 }
 
-func (app *application) requirePermission(code string, next http.HandlerFunc) http.HandlerFunc {
+func requirePermission(models data.Models, code string, next http.HandlerFunc) http.HandlerFunc {
 	fn := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		user := common.GetUserFromContext(r)
 
-		permissions, err := app.models.Permissions.GetAllForUser(r.Context(), user.ID)
+		permissions, err := models.Permissions.GetAllForUser(r.Context(), user.ID)
 		if err != nil {
 			common.RenderInternalServerError(w, r, err)
 			return
@@ -218,7 +220,7 @@ func (app *application) requirePermission(code string, next http.HandlerFunc) ht
 		next.ServeHTTP(w, r)
 	})
 
-	return app.requireActivatedUser(fn)
+	return requireActivatedUser(fn)
 }
 
 func (app *application) serve() error {
