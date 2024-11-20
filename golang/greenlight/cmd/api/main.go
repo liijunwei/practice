@@ -11,6 +11,7 @@ import (
 	"greenlight/internal/approot"
 	"greenlight/internal/assert"
 	"greenlight/internal/common"
+	"greenlight/internal/config"
 	"greenlight/internal/data"
 	"greenlight/internal/mailer"
 	"greenlight/internal/rest/middleware"
@@ -37,7 +38,12 @@ import (
 const version = "1.0.0"
 
 func main() {
-	var cfg config
+	cfg := appconfig()
+	run(cfg)
+}
+
+func appconfig() config.Config {
+	var cfg config.Config
 	flag.StringVar(&cfg.Env, "env", "development", "environment(development|staging|production)")
 	flag.StringVar(&cfg.IP, "ip", "localhost", "the server ip address")
 	flag.IntVar(&cfg.Port, "port", 4000, "api server port")
@@ -71,10 +77,10 @@ func main() {
 
 	flag.Parse()
 
-	run(cfg)
+	return cfg
 }
 
-func run(cfg config) {
+func run(cfg config.Config) {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 
 	logger := log.Logger.With().Str("service", "greenlight-api").Logger()
@@ -116,49 +122,8 @@ func run(cfg config) {
 	}
 }
 
-type config struct {
-	IP        string        `json:"ip"`
-	Port      int           `json:"port"`
-	Env       string        `json:"env"`
-	DB        dbConfig      `json:"db"`
-	Limiter   limiterConfig `json:"limiter"`
-	Debug     bool          `json:"debug"`
-	SMTP      smtp          `json:"smtp"`
-	CORS      cors          `json:"cors"`
-	LogConfig logConfig     `json:"log_config"`
-}
-
-type dbConfig struct {
-	DSN          string `json:"-"` // Data Source Name (DSN)
-	MaxOpenConns int    `json:"max_open_conns"`
-	MaxIdleConns int    `json:"max_idle_conns"`
-	MaxIdleTime  string `json:"max_idle_time"`
-}
-
-type limiterConfig struct {
-	RPS     float64 `json:"rps"`
-	Burst   int     `json:"burst"`
-	Enabled bool    `json:"enabled"`
-}
-
-type smtp struct {
-	Host     string `json:"host"`
-	Port     int    `json:"port"`
-	Username string `json:"-"`
-	Password string `json:"-"`
-	Sender   string `json:"sender"`
-}
-
-type cors struct {
-	TrustedOrigins map[string]struct{} `json:"trusted_origins"`
-}
-
-type logConfig struct {
-	Level string `json:"level"`
-}
-
 type application struct {
-	config  config
+	config  config.Config
 	logger  zerolog.Logger
 	models  data.Models
 	queries *sqlcdb.Queries
@@ -382,7 +347,7 @@ func (app *application) readIDParam(r *http.Request) (int64, error) {
 	return id, nil
 }
 
-func openDB(cfg config) (*sql.DB, error) {
+func openDB(cfg config.Config) (*sql.DB, error) {
 	db, err := sql.Open("postgres", cfg.DB.DSN)
 	if err != nil {
 		return nil, err
@@ -767,8 +732,8 @@ func (app *application) runInBackground(fn func()) {
 }
 
 // struct -> []byte -> map
-func configStructToMap(config config) map[string]any {
-	configInfo, err := json.Marshal(config)
+func configStructToMap(cfg config.Config) map[string]any {
+	configInfo, err := json.Marshal(cfg)
 	assert.Assert(err == nil)
 
 	configMap := make(map[string]any)
