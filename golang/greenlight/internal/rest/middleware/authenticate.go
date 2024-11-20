@@ -42,7 +42,7 @@ func Authenticate(next http.Handler, models data.Models, debug bool) http.Handle
 			case errors.Is(err, data.ErrRecordNotFound):
 				common.RenderNotFound(w, r)
 			default:
-				common.RenderInternalServerError(w, r, err, debug)
+				common.RenderInternalServerError(w, r, err)
 			}
 
 			// app.logger.Warn().Err(err).Msg("failed to find user by auth token")

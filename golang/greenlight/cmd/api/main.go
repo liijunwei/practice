@@ -134,7 +134,6 @@ type application struct {
 
 func (app *application) routes() *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", app.notFoundResponse)
 
 	mux.HandleFunc("GET /v1/healthcheck", rest.HealthcheckHandler(app.config.Env, version))
 	mux.HandleFunc("POST /v1/movies", app.requirePermission("movies:write", app.createMovieHandler))
@@ -159,7 +158,7 @@ func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Reques
 	}
 
 	if err := app.readJSON(w, r, &input); err != nil {
-		app.badRequestResponse(w, r, err)
+		common.RenderBadRequest(w, r, err)
 		return
 	}
 
@@ -172,12 +171,12 @@ func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Reques
 
 	v := validator.New()
 	if data.ValidateMovie(v, movie); !v.Valid() {
-		app.failedValidationResponse(w, r, v.Errors)
+		common.RenderFailedValidation(w, r, v.Errors)
 		return
 	}
 
 	if err := app.models.Movies.Create(r.Context(), movie); err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 		return
 	}
 
@@ -185,14 +184,14 @@ func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Reques
 	headers.Set("Location", fmt.Sprintf("/v1/movies/%d", movie.ID))
 
 	if err := app.writeJSON(w, http.StatusCreated, envelope{"movie": movie}, headers); err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 	}
 }
 
 func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
 	movieID, err := app.readIDParam(r)
 	if err != nil {
-		app.notFoundResponse(w, r)
+		common.RenderNotFound(w, r)
 		return
 	}
 
@@ -203,14 +202,14 @@ func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request)
 	}
 
 	if err := app.writeJSON(w, http.StatusOK, envelope{"movies": movie}, nil); err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 	}
 }
 
 func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Request) {
 	movieID, err := app.readIDParam(r)
 	if err != nil {
-		app.notFoundResponse(w, r)
+		common.RenderNotFound(w, r)
 		return
 	}
 
@@ -228,7 +227,7 @@ func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Reques
 	}
 
 	if err := app.readJSON(w, r, &input); err != nil {
-		app.badRequestResponse(w, r, err)
+		common.RenderBadRequest(w, r, err)
 		return
 	}
 
@@ -239,29 +238,29 @@ func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Reques
 
 	v := validator.New()
 	if data.ValidateMovie(v, movie); !v.Valid() {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 		return
 	}
 
 	if err := app.models.Movies.Update(r.Context(), movie); err != nil {
 		switch {
 		case errors.Is(err, data.ErrStaleObject):
-			app.editStaleRecordResponse(w, r)
+			common.RenderEditStaleRecord(w, r)
 		default:
-			app.serverErrorResponse(w, r, err)
+			common.RenderInternalServerError(w, r, err)
 		}
 		return
 	}
 
 	if err := app.writeJSON(w, http.StatusOK, envelope{"movie": movie}, nil); err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 	}
 }
 
 func (app *application) DeleteMovieHandler(w http.ResponseWriter, r *http.Request) {
 	movieID, err := app.readIDParam(r)
 	if err != nil {
-		app.notFoundResponse(w, r)
+		common.RenderNotFound(w, r)
 		return
 	}
 
@@ -271,7 +270,7 @@ func (app *application) DeleteMovieHandler(w http.ResponseWriter, r *http.Reques
 	}
 
 	if err := app.writeJSON(w, http.StatusOK, envelope{"movie": "movie deleted"}, nil); err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 	}
 }
 
@@ -285,40 +284,40 @@ func (app *application) listMovieHandler(w http.ResponseWriter, r *http.Request)
 	v := validator.New()
 	qs := r.URL.Query()
 
-	input.Title = app.readString(qs, "title", "")
+	input.Title = common.ReadString(qs, "title", "")
 	input.Genres = app.readCSV(qs, "genres", []string{})
 	input.Filters.Page = app.readInt(qs, "page", 1, v)
 	input.Filters.PageSize = app.readInt(qs, "page_size", 20, v)
-	input.Filters.Sort = app.readString(qs, "sort", "id")
+	input.Filters.Sort = common.ReadString(qs, "sort", "id")
 	input.Filters.SortSafelist = []string{"id", "title", "year", "runtime", "-id", "-title", "-year", "-runtime"}
 
 	if data.ValidateFilters(v, input.Filters); !v.Valid() {
-		app.failedValidationResponse(w, r, v.Errors)
+		common.RenderFailedValidation(w, r, v.Errors)
 		return
 	}
 
 	if !v.Valid() {
-		app.failedValidationResponse(w, r, v.Errors)
+		common.RenderFailedValidation(w, r, v.Errors)
 		return
 	}
 
 	movies, metadata, err := app.models.Movies.GetAll(r.Context(), input.Title, input.Genres, input.Filters)
 	if err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 		return
 	}
 
 	if err := app.writeJSON(w, http.StatusOK, envelope{"movies": movies, "metadata": metadata}, nil); err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 	}
 }
 
 func notFoundOrUnknownError(app *application, err error, w http.ResponseWriter, r *http.Request) {
 	switch {
 	case errors.Is(err, data.ErrRecordNotFound):
-		app.notFoundResponse(w, r)
+		common.RenderNotFound(w, r)
 	default:
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 	}
 }
 
@@ -407,32 +406,6 @@ func (app *application) logError(r *http.Request, err error) {
 		Send()
 }
 
-func (app *application) errorResponse(w http.ResponseWriter, r *http.Request, status int, message any) {
-	env := envelope{"error": message}
-	if err := app.writeJSON(w, status, env, nil); err != nil {
-		app.logError(r, err)
-		w.WriteHeader(500)
-	}
-}
-
-func (app *application) serverErrorResponse(w http.ResponseWriter, r *http.Request, err error) {
-	// app.logError(r, err)
-	message := "server failed unexpectedly"
-
-	if app.config.Debug {
-		details := map[string]any{
-			"message": message,
-			"error":   err.Error(),
-			"traces":  sanitizedDebugTraces(),
-		}
-
-		app.errorResponse(w, r, http.StatusServiceUnavailable, details)
-		return
-	}
-
-	app.errorResponse(w, r, http.StatusServiceUnavailable, message)
-}
-
 // use `debug.PrintStack()` when necessary
 func sanitizedDebugTraces() []string {
 	rawTraces := strings.Split(string(debug.Stack()), "\n")
@@ -448,32 +421,6 @@ func sanitizedDebugTraces() []string {
 	}
 
 	return result
-}
-
-func (app *application) notFoundResponse(w http.ResponseWriter, r *http.Request) {
-	message := "resource not found"
-	app.errorResponse(w, r, http.StatusNotFound, message)
-}
-
-func (app *application) badRequestResponse(w http.ResponseWriter, r *http.Request, err error) {
-	app.errorResponse(w, r, http.StatusBadRequest, err.Error())
-}
-
-func (app *application) failedValidationResponse(w http.ResponseWriter, r *http.Request, errors map[string]string) {
-	app.errorResponse(w, r, http.StatusUnprocessableEntity, errors)
-}
-
-func (app *application) editStaleRecordResponse(w http.ResponseWriter, r *http.Request) {
-	message := "unable to update a stale object, please try again"
-	app.errorResponse(w, r, http.StatusConflict, message)
-}
-
-func (app *application) readString(qs url.Values, key string, defaultVal string) string {
-	if s := qs.Get(key); s != "" {
-		return s
-	}
-
-	return defaultVal
 }
 
 func (app *application) readCSV(qs url.Values, key string, defaultVal []string) []string {
@@ -533,7 +480,7 @@ func (app *application) requirePermission(code string, next http.HandlerFunc) ht
 
 		permissions, err := app.models.Permissions.GetAllForUser(r.Context(), user.ID)
 		if err != nil {
-			app.serverErrorResponse(w, r, err)
+			common.RenderInternalServerError(w, r, err)
 			return
 		}
 
@@ -627,7 +574,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 
 	if err := app.readJSON(w, r, &input); err != nil {
-		app.badRequestResponse(w, r, err)
+		common.RenderBadRequest(w, r, err)
 		return
 	}
 
@@ -638,14 +585,14 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 
 	if err := user.Password.Set(input.Password); err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 		return
 	}
 
 	v := validator.New()
 
 	if data.ValidateUser(v, user); !v.Valid() {
-		app.failedValidationResponse(w, r, v.Errors)
+		common.RenderFailedValidation(w, r, v.Errors)
 		return
 	}
 
@@ -653,22 +600,22 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		switch {
 		case errors.Is(err, data.ErrDuplicatedEmail):
 			v.AddError("email", "email already taken") // FIXME: take care of "preventing enumeration attack" when necessary
-			app.failedValidationResponse(w, r, v.Errors)
+			common.RenderFailedValidation(w, r, v.Errors)
 		default:
-			app.serverErrorResponse(w, r, err)
+			common.RenderInternalServerError(w, r, err)
 		}
 
 		return
 	}
 
 	if err := app.models.Permissions.AddForUser(r.Context(), user.ID, "movies:read"); err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 		return
 	}
 
 	token, err := app.models.Tokens.New(r.Context(), user.ID, 3*24*time.Hour, data.ScopeActivation)
 	if err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 		return
 	}
 
@@ -677,7 +624,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	})
 
 	if err := app.writeJSON(w, http.StatusAccepted, envelope{"user": user}, nil); err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 	}
 }
 
@@ -734,14 +681,14 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 
 	if err := app.readJSON(w, r, &input); err != nil {
-		app.badRequestResponse(w, r, err)
+		common.RenderBadRequest(w, r, err)
 		return
 	}
 
 	v := validator.New()
 
 	if data.ValidateTokenPlaintext(v, input.TokenPlaintext); !v.Valid() {
-		app.failedValidationResponse(w, r, v.Errors)
+		common.RenderFailedValidation(w, r, v.Errors)
 		return
 	}
 
@@ -750,9 +697,9 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 		switch {
 		case errors.Is(err, data.ErrRecordNotFound):
 			v.AddError("token", "invalid or expired activation token")
-			app.failedValidationResponse(w, r, v.Errors)
+			common.RenderFailedValidation(w, r, v.Errors)
 		default:
-			app.serverErrorResponse(w, r, err)
+			common.RenderInternalServerError(w, r, err)
 		}
 
 		return
@@ -763,21 +710,21 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 	if err := app.models.Users.Update(r.Context(), user); err != nil {
 		switch {
 		case errors.Is(err, data.ErrStaleObject):
-			app.editStaleRecordResponse(w, r)
+			common.RenderEditStaleRecord(w, r)
 		default:
-			app.serverErrorResponse(w, r, err)
+			common.RenderInternalServerError(w, r, err)
 		}
 
 		return
 	}
 
 	if err := app.models.Tokens.DeleteAllForUser(r.Context(), data.ScopeActivation, user.ID); err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 		return
 	}
 
 	if err := app.writeJSON(w, http.StatusOK, envelope{"user": user}, nil); err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 	}
 }
 
@@ -788,7 +735,7 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 	}
 
 	if err := app.readJSON(w, r, &input); err != nil {
-		app.badRequestResponse(w, r, err)
+		common.RenderBadRequest(w, r, err)
 		return
 	}
 
@@ -797,7 +744,7 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 	data.ValidatePasswordPlaintext(v, input.Password)
 
 	if !v.Valid() {
-		app.failedValidationResponse(w, r, v.Errors)
+		common.RenderFailedValidation(w, r, v.Errors)
 		return
 	}
 
@@ -810,7 +757,7 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 
 	match, err := user.Password.Matches(input.Password)
 	if err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 		return
 	}
 
@@ -821,11 +768,11 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 
 	token, err := app.models.Tokens.New(r.Context(), user.ID, 24*time.Hour, data.ScopeAuthentication)
 	if err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 		return
 	}
 
 	if err := app.writeJSON(w, http.StatusCreated, envelope{"authentication_token": token}, nil); err != nil {
-		app.serverErrorResponse(w, r, err)
+		common.RenderInternalServerError(w, r, err)
 	}
 }

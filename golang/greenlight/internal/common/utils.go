@@ -8,6 +8,7 @@ import (
 	"greenlight/internal/assert"
 	"greenlight/internal/data"
 	"net/http"
+	"net/url"
 	"runtime/debug"
 	"strings"
 )
@@ -30,6 +31,14 @@ func WriteResponseJSON(w http.ResponseWriter, status int, data Envelope, headers
 	return nil
 }
 
+func ReadString(qs url.Values, key string, defaultVal string) string {
+	if s := qs.Get(key); s != "" {
+		return s
+	}
+
+	return defaultVal
+}
+
 func RenderNotFound(w http.ResponseWriter, r *http.Request) {
 	message := "resource not found"
 	RenderError(w, r, http.StatusNotFound, message)
@@ -43,22 +52,17 @@ func RenderError(w http.ResponseWriter, r *http.Request, status int, message any
 	}
 }
 
-func RenderInternalServerError(w http.ResponseWriter, r *http.Request, err error, debug bool) {
+func RenderInternalServerError(w http.ResponseWriter, r *http.Request, err error) {
 	// app.logError(r, err)
 	message := "server failed unexpectedly"
 
-	if debug {
-		details := map[string]any{
-			"message": message,
-			"error":   err.Error(),
-			"traces":  sanitizedDebugTraces(),
-		}
-
-		RenderError(w, r, http.StatusServiceUnavailable, details)
-		return
+	details := map[string]any{
+		"message": message,
+		"error":   err.Error(),
+		"traces":  sanitizedDebugTraces(),
 	}
 
-	RenderError(w, r, http.StatusServiceUnavailable, message)
+	RenderError(w, r, http.StatusServiceUnavailable, details)
 }
 
 func sanitizedDebugTraces() []string {
@@ -122,4 +126,17 @@ func RenderInactiveAccount(w http.ResponseWriter, r *http.Request) {
 func RenderNotPermitted(w http.ResponseWriter, r *http.Request) {
 	message := "you user account doesn't have necessary permissions to access this resource"
 	RenderError(w, r, http.StatusForbidden, message)
+}
+
+func RenderBadRequest(w http.ResponseWriter, r *http.Request, err error) {
+	RenderError(w, r, http.StatusBadRequest, err.Error())
+}
+
+func RenderFailedValidation(w http.ResponseWriter, r *http.Request, errors map[string]string) {
+	RenderError(w, r, http.StatusUnprocessableEntity, errors)
+}
+
+func RenderEditStaleRecord(w http.ResponseWriter, r *http.Request) {
+	message := "unable to update a stale object, please try again"
+	RenderError(w, r, http.StatusConflict, message)
 }

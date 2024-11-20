@@ -18,7 +18,7 @@ func HealthcheckHandler(environment, version string) http.HandlerFunc {
 		}
 
 		if err := common.WriteResponseJSON(w, http.StatusOK, env, nil); err != nil {
-			common.RenderInternalServerError(w, r, err, true)
+			common.RenderInternalServerError(w, r, err)
 		}
 	}
 }
