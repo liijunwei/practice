@@ -201,3 +201,12 @@ func RenderEditStaleRecord(w http.ResponseWriter, r *http.Request) {
 	message := "unable to update a stale object, please try again"
 	RenderError(w, r, http.StatusConflict, message)
 }
+
+func RenderNotFoundOrUnknownError(err error, w http.ResponseWriter, r *http.Request) {
+	switch {
+	case errors.Is(err, data.ErrRecordNotFound):
+		RenderNotFound(w, r)
+	default:
+		RenderInternalServerError(w, r, err)
+	}
+}

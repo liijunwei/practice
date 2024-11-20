@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"database/sql"
-	"encoding/json"
 	"errors"
 	"expvar"
 	"flag"
@@ -179,7 +178,7 @@ func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Reques
 	headers := make(http.Header)
 	headers.Set("Location", fmt.Sprintf("/v1/movies/%d", movie.ID))
 
-	if err := app.writeJSON(w, http.StatusCreated, envelope{"movie": movie}, headers); err != nil {
+	if err := common.WriteResponseJSON(w, http.StatusCreated, common.Envelope{"movie": movie}, headers); err != nil {
 		common.RenderInternalServerError(w, r, err)
 	}
 }
@@ -193,11 +192,11 @@ func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request)
 
 	movie, err := app.models.Movies.Get(r.Context(), movieID)
 	if err != nil {
-		notFoundOrUnknownError(app, err, w, r)
+		common.RenderNotFoundOrUnknownError(err, w, r)
 		return
 	}
 
-	if err := app.writeJSON(w, http.StatusOK, envelope{"movies": movie}, nil); err != nil {
+	if err := common.WriteResponseJSON(w, http.StatusOK, common.Envelope{"movies": movie}, nil); err != nil {
 		common.RenderInternalServerError(w, r, err)
 	}
 }
@@ -211,7 +210,7 @@ func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Reques
 
 	movie, err := app.models.Movies.Get(r.Context(), movieID)
 	if err != nil {
-		notFoundOrUnknownError(app, err, w, r)
+		common.RenderNotFoundOrUnknownError(err, w, r)
 		return
 	}
 
@@ -248,7 +247,7 @@ func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	if err := app.writeJSON(w, http.StatusOK, envelope{"movie": movie}, nil); err != nil {
+	if err := common.WriteResponseJSON(w, http.StatusOK, common.Envelope{"movie": movie}, nil); err != nil {
 		common.RenderInternalServerError(w, r, err)
 	}
 }
@@ -261,11 +260,11 @@ func (app *application) DeleteMovieHandler(w http.ResponseWriter, r *http.Reques
 	}
 
 	if err := app.models.Movies.Delete(r.Context(), movieID); err != nil {
-		notFoundOrUnknownError(app, err, w, r)
+		common.RenderNotFoundOrUnknownError(err, w, r)
 		return
 	}
 
-	if err := app.writeJSON(w, http.StatusOK, envelope{"movie": "movie deleted"}, nil); err != nil {
+	if err := common.WriteResponseJSON(w, http.StatusOK, common.Envelope{"movie": "movie deleted"}, nil); err != nil {
 		common.RenderInternalServerError(w, r, err)
 	}
 }
@@ -303,16 +302,7 @@ func (app *application) listMovieHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	if err := app.writeJSON(w, http.StatusOK, envelope{"movies": movies, "metadata": metadata}, nil); err != nil {
-		common.RenderInternalServerError(w, r, err)
-	}
-}
-
-func notFoundOrUnknownError(app *application, err error, w http.ResponseWriter, r *http.Request) {
-	switch {
-	case errors.Is(err, data.ErrRecordNotFound):
-		common.RenderNotFound(w, r)
-	default:
+	if err := common.WriteResponseJSON(w, http.StatusOK, common.Envelope{"movies": movies, "metadata": metadata}, nil); err != nil {
 		common.RenderInternalServerError(w, r, err)
 	}
 }
@@ -340,24 +330,6 @@ func openDB(cfg config.Config) (*sql.DB, error) {
 	}
 
 	return db, nil
-}
-
-type envelope map[string]any
-
-func (app *application) writeJSON(w http.ResponseWriter, status int, data envelope, headers http.Header) error {
-	js, err := json.Marshal(data)
-	if err != nil {
-		return err
-	}
-	for key, value := range headers {
-		w.Header()[key] = value
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(status)
-	w.Write(js)
-	w.Write([]byte("\n"))
-
-	return nil
 }
 
 // Note: return http.HandlerFunc instead of http.Handler
@@ -538,7 +510,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		app.sendEmail(user, token)
 	})
 
-	if err := app.writeJSON(w, http.StatusAccepted, envelope{"user": user}, nil); err != nil {
+	if err := common.WriteResponseJSON(w, http.StatusAccepted, common.Envelope{"user": user}, nil); err != nil {
 		common.RenderInternalServerError(w, r, err)
 	}
 }
@@ -626,7 +598,7 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if err := app.writeJSON(w, http.StatusOK, envelope{"user": user}, nil); err != nil {
+	if err := common.WriteResponseJSON(w, http.StatusOK, common.Envelope{"user": user}, nil); err != nil {
 		common.RenderInternalServerError(w, r, err)
 	}
 }
@@ -654,7 +626,7 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 	ctx := r.Context()
 	user, err := app.models.Users.GetByEmail(ctx, input.Email)
 	if err != nil {
-		notFoundOrUnknownError(app, err, w, r)
+		common.RenderNotFoundOrUnknownError(err, w, r)
 		return
 	}
 
@@ -675,7 +647,7 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 		return
 	}
 
-	if err := app.writeJSON(w, http.StatusCreated, envelope{"authentication_token": token}, nil); err != nil {
+	if err := common.WriteResponseJSON(w, http.StatusCreated, common.Envelope{"authentication_token": token}, nil); err != nil {
 		common.RenderInternalServerError(w, r, err)
 	}
 }
