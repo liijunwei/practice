@@ -10,8 +10,10 @@ import (
 	"fmt"
 	"greenlight/internal/approot"
 	"greenlight/internal/assert"
+	"greenlight/internal/common"
 	"greenlight/internal/data"
 	"greenlight/internal/mailer"
+	"greenlight/internal/rest/middleware"
 	"greenlight/internal/sqlcdb"
 	"greenlight/internal/validator"
 	"io"
@@ -116,10 +118,6 @@ func run(cfg config) {
 		logger.Fatal().Err(err).Msg("unexpected server error")
 	}
 }
-
-type contextKey string
-
-const userContextKey = contextKey("user")
 
 type config struct {
 	IP        string        `json:"ip"`
@@ -471,7 +469,7 @@ func (app *application) errorResponse(w http.ResponseWriter, r *http.Request, st
 }
 
 func (app *application) serverErrorResponse(w http.ResponseWriter, r *http.Request, err error) {
-	app.logError(r, err)
+	// app.logError(r, err)
 	message := "server failed unexpectedly"
 
 	if app.config.Debug {
@@ -676,58 +674,11 @@ func (app *application) rateLimit(next http.Handler) http.Handler {
 	})
 }
 
-func (app *application) authenticate(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// TODO this is new to me, learn more
-		// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary
-		w.Header().Add("Vary", "Authorization")
-
-		authorizationHeader := r.Header.Get("Authorization")
-		if authorizationHeader == "" {
-			r = app.contextSetUser(r, data.AnonymousUser)
-			next.ServeHTTP(w, r)
-			return
-		}
-
-		headerParts := strings.Split(authorizationHeader, " ")
-		if len(headerParts) != 2 || headerParts[0] != "Bearer" {
-			app.invalidAuthenticationTokenResponse(w, r)
-			return
-		}
-
-		token := headerParts[1]
-		v := validator.New()
-
-		if data.ValidateTokenPlaintext(v, token); !v.Valid() {
-			app.invalidAuthenticationTokenResponse(w, r)
-			return
-		}
-
-		user, err := app.models.Users.GetByToken(r.Context(), data.ScopeAuthentication, token)
-		if err != nil {
-			switch {
-			case errors.Is(err, data.ErrRecordNotFound):
-				app.notFoundResponse(w, r)
-			default:
-				app.serverErrorResponse(w, r, err)
-			}
-
-			app.logger.Warn().Err(err).Msg("failed to find user by auth token")
-
-			return
-		}
-
-		r = app.contextSetUser(r, user)
-
-		next.ServeHTTP(w, r)
-	})
-}
-
 // Note: return http.HandlerFunc instead of http.Handler
 // so we can wrap handler func directly(not just router)
 func (app *application) requireAuthenticatedUser(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		user := app.contextGetUser(r)
+		user := common.ContextGetUser(r)
 		if user.IsAnonymous() {
 			app.authenticationRequiredResponse(w, r)
 			return
@@ -739,7 +690,7 @@ func (app *application) requireAuthenticatedUser(next http.HandlerFunc) http.Han
 
 func (app *application) requireActivatedUser(next http.HandlerFunc) http.HandlerFunc {
 	fn := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		user := app.contextGetUser(r)
+		user := common.ContextGetUser(r)
 
 		if !user.Activated() {
 			app.inactiveAccountResponse(w, r)
@@ -754,7 +705,7 @@ func (app *application) requireActivatedUser(next http.HandlerFunc) http.Handler
 
 func (app *application) requirePermission(code string, next http.HandlerFunc) http.HandlerFunc {
 	fn := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		user := app.contextGetUser(r)
+		user := common.ContextGetUser(r)
 
 		permissions, err := app.models.Permissions.GetAllForUser(r.Context(), user.ID)
 		if err != nil {
@@ -779,7 +730,7 @@ func (app *application) serve() error {
 	var handler http.Handler = mux
 
 	// the middlewares order matters
-	handler = app.authenticate(handler)
+	handler = middleware.Authenticate(handler, app.models, app.config.Debug)
 
 	if app.config.Limiter.Enabled {
 		handler = app.rateLimit(handler)
@@ -1067,18 +1018,6 @@ func (app *application) invalidAuthenticationTokenResponse(w http.ResponseWriter
 	w.Header().Set("WWW-Authenticate", "Bearer")
 	message := "invalid or missing authentication token"
 	app.errorResponse(w, r, http.StatusUnauthorized, message)
-}
-
-func (app *application) contextSetUser(r *http.Request, user *data.User) *http.Request {
-	ctx := context.WithValue(r.Context(), userContextKey, user)
-	return r.WithContext(ctx)
-}
-
-func (app *application) contextGetUser(r *http.Request) *data.User {
-	user, ok := r.Context().Value(userContextKey).(*data.User)
-	assert.Assert(ok, "user must present in request context")
-
-	return user
 }
 
 func (app *application) authenticationRequiredResponse(w http.ResponseWriter, r *http.Request) {
