@@ -134,7 +134,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("GET /v1/healthcheck", rest.HealthcheckHandler(app.config.Env, version))
 	mux.HandleFunc("POST /v1/movies", app.requirePermission("movies:write", moviesapi.CreateMovieHandler(app.models)))
 	mux.HandleFunc("GET /v1/movies/{id}", app.requirePermission("movies:read", moviesapi.GetMovieDetailHandler(app.models)))
-	mux.HandleFunc("PUT /v1/movies/{id}", app.requirePermission("movies:write", app.updateMovieHandler))
+	mux.HandleFunc("PUT /v1/movies/{id}", app.requirePermission("movies:write", moviesapi.UpdateMovieDetailHandler(app.models)))
 	mux.HandleFunc("DELETE /v1/movies/{id}", app.requirePermission("movies:write", app.DeleteMovieHandler))
 	mux.HandleFunc("GET /v1/movies", app.requirePermission("movies:read", app.listMovieHandler))
 	mux.HandleFunc("POST /v1/users", app.registerUserHandler)
@@ -143,61 +143,6 @@ func (app *application) routes() *http.ServeMux {
 	mux.Handle("GET /debug/vars", expvar.Handler())
 
 	return mux
-}
-
-func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
-
-}
-
-func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Request) {
-	movieID, err := common.ReadIDParam(r)
-	if err != nil {
-		common.RenderNotFound(w, r)
-		return
-	}
-
-	movie, err := app.models.Movies.Get(r.Context(), movieID)
-	if err != nil {
-		common.RenderNotFoundOrUnknownError(err, w, r)
-		return
-	}
-
-	var input struct {
-		Title   string       `json:"title"`
-		Year    int32        `json:"year"`
-		Runtime data.Runtime `json:"runtime"`
-		Genres  []string     `json:"genres"`
-	}
-
-	if err := common.ReadJSON(w, r, &input); err != nil {
-		common.RenderBadRequest(w, r, err)
-		return
-	}
-
-	movie.Title = input.Title
-	movie.Year = input.Year
-	movie.Runtime = input.Runtime
-	movie.Genres = input.Genres
-
-	v := validator.New()
-	if data.ValidateMovie(v, movie); !v.Valid() {
-		common.RenderInternalServerError(w, r, err)
-		return
-	}
-
-	if err := app.models.Movies.Update(r.Context(), movie); err != nil {
-		switch {
-		case errors.Is(err, data.ErrStaleObject):
-			common.RenderEditStaleRecord(w, r)
-		default:
-			common.RenderInternalServerError(w, r, err)
-		}
-		return
-	}
-
-	if err := common.WriteResponseJSON(w, http.StatusOK, common.Envelope{"movie": movie}, nil); err != nil {
-		common.RenderInternalServerError(w, r, err)
-	}
 }
 
 func (app *application) DeleteMovieHandler(w http.ResponseWriter, r *http.Request) {
