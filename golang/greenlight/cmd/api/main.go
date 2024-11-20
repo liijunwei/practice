@@ -567,33 +567,6 @@ func (app *application) collectMetrics(next http.Handler) http.Handler {
 	})
 }
 
-func (app *application) enableCORS(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Add("Vary", "Origin")
-		w.Header().Add("Vary", "Access-Control-Request-Method")
-
-		origin := r.Header.Get("Origin")
-
-		_, ok := app.config.CORS.TrustedOrigins[origin]
-		if origin != "" && ok {
-			w.Header().Set("Access-Control-Allow-Origin", origin)
-
-			if isPreflightRequest(r) {
-				w.Header().Add("Access-Control-Request-Methods", "OPTIONS, PUT, PATCH, DELETE")
-				w.Header().Add("Access-Control-Allow-Headers", "Authorization, Content-Type")
-				w.WriteHeader(http.StatusOK)
-				return
-			}
-		}
-
-		next.ServeHTTP(w, r)
-	})
-}
-
-func isPreflightRequest(r *http.Request) bool {
-	return r.Method == http.MethodOptions && r.Header.Get("Access-Control-Request-Method") != ""
-}
-
 func (app *application) recoverPanic(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
@@ -668,7 +641,7 @@ func (app *application) serve() error {
 	if app.config.Limiter.Enabled {
 		handler = middleware.RateLimit(handler, app.config.Limiter.RPS, app.config.Limiter.Burst)
 	}
-	handler = app.enableCORS(handler)
+	handler = middleware.EnableCORS(handler, app.config.CORS.TrustedOrigins)
 	handler = app.recoverPanic(handler)
 	handler = app.collectMetrics(handler)
 
