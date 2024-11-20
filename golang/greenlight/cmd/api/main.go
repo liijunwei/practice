@@ -18,14 +18,10 @@ import (
 	"greenlight/internal/rest/middleware"
 	"greenlight/internal/sqlcdb"
 	"greenlight/internal/validator"
-	"io"
 	"net/http"
-	"net/url"
 	"os"
 	"os/signal"
 	"runtime"
-	"runtime/debug"
-	"strconv"
 	"strings"
 	"sync"
 	"syscall"
@@ -157,7 +153,7 @@ func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Reques
 		Genres  []string `json:"genres"`
 	}
 
-	if err := app.readJSON(w, r, &input); err != nil {
+	if err := common.ReadJSON(w, r, &input); err != nil {
 		common.RenderBadRequest(w, r, err)
 		return
 	}
@@ -189,7 +185,7 @@ func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Reques
 }
 
 func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
-	movieID, err := app.readIDParam(r)
+	movieID, err := common.ReadIDParam(r)
 	if err != nil {
 		common.RenderNotFound(w, r)
 		return
@@ -207,7 +203,7 @@ func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request)
 }
 
 func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Request) {
-	movieID, err := app.readIDParam(r)
+	movieID, err := common.ReadIDParam(r)
 	if err != nil {
 		common.RenderNotFound(w, r)
 		return
@@ -226,7 +222,7 @@ func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Reques
 		Genres  []string     `json:"genres"`
 	}
 
-	if err := app.readJSON(w, r, &input); err != nil {
+	if err := common.ReadJSON(w, r, &input); err != nil {
 		common.RenderBadRequest(w, r, err)
 		return
 	}
@@ -258,7 +254,7 @@ func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Reques
 }
 
 func (app *application) DeleteMovieHandler(w http.ResponseWriter, r *http.Request) {
-	movieID, err := app.readIDParam(r)
+	movieID, err := common.ReadIDParam(r)
 	if err != nil {
 		common.RenderNotFound(w, r)
 		return
@@ -285,9 +281,9 @@ func (app *application) listMovieHandler(w http.ResponseWriter, r *http.Request)
 	qs := r.URL.Query()
 
 	input.Title = common.ReadString(qs, "title", "")
-	input.Genres = app.readCSV(qs, "genres", []string{})
-	input.Filters.Page = app.readInt(qs, "page", 1, v)
-	input.Filters.PageSize = app.readInt(qs, "page_size", 20, v)
+	input.Genres = common.ReadCSV(qs, "genres", []string{})
+	input.Filters.Page = common.ReadInt(qs, "page", 1, v)
+	input.Filters.PageSize = common.ReadInt(qs, "page_size", 20, v)
 	input.Filters.Sort = common.ReadString(qs, "sort", "id")
 	input.Filters.SortSafelist = []string{"id", "title", "year", "runtime", "-id", "-title", "-year", "-runtime"}
 
@@ -319,16 +315,6 @@ func notFoundOrUnknownError(app *application, err error, w http.ResponseWriter, 
 	default:
 		common.RenderInternalServerError(w, r, err)
 	}
-}
-
-func (app *application) readIDParam(r *http.Request) (int64, error) {
-	str := r.PathValue("id")
-	id, err := strconv.ParseInt(str, 10, 64)
-	if err != nil || id < 1 {
-		return 0, errors.New("invalid id param")
-	}
-
-	return id, nil
 }
 
 func openDB(cfg config.Config) (*sql.DB, error) {
@@ -372,77 +358,6 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data envelo
 	w.Write([]byte("\n"))
 
 	return nil
-}
-
-func (app *application) readJSON(_ http.ResponseWriter, r *http.Request, dst any) error {
-	if err := json.NewDecoder(r.Body).Decode(dst); err != nil {
-		var syntaxError *json.SyntaxError
-		var unmarshalTypeError *json.UnmarshalTypeError
-		var invalidUnmarshalError *json.InvalidUnmarshalError
-
-		switch {
-		case errors.As(err, &syntaxError):
-			return fmt.Errorf("json SyntaxError at char %d", syntaxError.Offset)
-		case errors.Is(err, io.ErrUnexpectedEOF):
-			return fmt.Errorf("UnexpectedEOF")
-		case errors.As(err, &unmarshalTypeError):
-			return fmt.Errorf("body contains incorrect json type")
-		case errors.Is(err, io.EOF):
-			return fmt.Errorf("body must not be empty")
-		case errors.As(err, &invalidUnmarshalError):
-			panic(err)
-		default:
-			return fmt.Errorf("no error handler %w", err)
-		}
-	}
-
-	return nil
-}
-
-func (app *application) logError(r *http.Request, err error) {
-	app.logger.Error().Err(err).
-		Str("request_method", r.Method).
-		Str("request_url", r.URL.String()).
-		Send()
-}
-
-// use `debug.PrintStack()` when necessary
-func sanitizedDebugTraces() []string {
-	rawTraces := strings.Split(string(debug.Stack()), "\n")
-	result := make([]string, 0, len(rawTraces))
-	prefixToTrim := fmt.Sprintf("%s/", approot.Root)
-
-	for _, trace := range rawTraces {
-		if strings.Contains(trace, approot.Root) {
-			fields := strings.Fields(trace) // ["/approot/foo.go:10", "+0x2d4"]
-			assert.Assert(len(fields) == 2)
-			result = append(result, strings.TrimPrefix(fields[0], prefixToTrim))
-		}
-	}
-
-	return result
-}
-
-func (app *application) readCSV(qs url.Values, key string, defaultVal []string) []string {
-	if s := qs.Get(key); s != "" {
-		return strings.Split(s, ",")
-	}
-
-	return defaultVal
-}
-
-func (app *application) readInt(qs url.Values, key string, defaultVal int, v *validator.Validator) int {
-	if s := qs.Get(key); s != "" {
-		i, err := strconv.Atoi(s)
-		if err != nil {
-			v.AddError(key, "must be an integer value")
-			return defaultVal
-		}
-
-		return i
-	}
-
-	return defaultVal
 }
 
 // Note: return http.HandlerFunc instead of http.Handler
@@ -573,7 +488,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		Password string `json:"password"`
 	}
 
-	if err := app.readJSON(w, r, &input); err != nil {
+	if err := common.ReadJSON(w, r, &input); err != nil {
 		common.RenderBadRequest(w, r, err)
 		return
 	}
@@ -668,7 +583,7 @@ func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Reque
 		TokenPlaintext string `json:"token"`
 	}
 
-	if err := app.readJSON(w, r, &input); err != nil {
+	if err := common.ReadJSON(w, r, &input); err != nil {
 		common.RenderBadRequest(w, r, err)
 		return
 	}
@@ -722,7 +637,7 @@ func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, 
 		Password string `json:"password"`
 	}
 
-	if err := app.readJSON(w, r, &input); err != nil {
+	if err := common.ReadJSON(w, r, &input); err != nil {
 		common.RenderBadRequest(w, r, err)
 		return
 	}

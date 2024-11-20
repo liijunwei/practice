@@ -3,13 +3,17 @@ package common
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"greenlight/internal/approot"
 	"greenlight/internal/assert"
 	"greenlight/internal/data"
+	"greenlight/internal/validator"
+	"io"
 	"net/http"
 	"net/url"
 	"runtime/debug"
+	"strconv"
 	"strings"
 )
 
@@ -31,12 +35,69 @@ func WriteResponseJSON(w http.ResponseWriter, status int, data Envelope, headers
 	return nil
 }
 
+func ReadJSON(_ http.ResponseWriter, r *http.Request, dst any) error {
+	if err := json.NewDecoder(r.Body).Decode(dst); err != nil {
+		var syntaxError *json.SyntaxError
+		var unmarshalTypeError *json.UnmarshalTypeError
+		var invalidUnmarshalError *json.InvalidUnmarshalError
+
+		switch {
+		case errors.As(err, &syntaxError):
+			return fmt.Errorf("json SyntaxError at char %d", syntaxError.Offset)
+		case errors.Is(err, io.ErrUnexpectedEOF):
+			return fmt.Errorf("UnexpectedEOF")
+		case errors.As(err, &unmarshalTypeError):
+			return fmt.Errorf("body contains incorrect json type")
+		case errors.Is(err, io.EOF):
+			return fmt.Errorf("body must not be empty")
+		case errors.As(err, &invalidUnmarshalError):
+			panic(err)
+		default:
+			return fmt.Errorf("no error handler %w", err)
+		}
+	}
+
+	return nil
+}
+
 func ReadString(qs url.Values, key string, defaultVal string) string {
 	if s := qs.Get(key); s != "" {
 		return s
 	}
 
 	return defaultVal
+}
+
+func ReadCSV(qs url.Values, key string, defaultVal []string) []string {
+	if s := qs.Get(key); s != "" {
+		return strings.Split(s, ",")
+	}
+
+	return defaultVal
+}
+
+func ReadInt(qs url.Values, key string, defaultVal int, v *validator.Validator) int {
+	if s := qs.Get(key); s != "" {
+		i, err := strconv.Atoi(s)
+		if err != nil {
+			v.AddError(key, "must be an integer value")
+			return defaultVal
+		}
+
+		return i
+	}
+
+	return defaultVal
+}
+
+func ReadIDParam(r *http.Request) (int64, error) {
+	str := r.PathValue("id")
+	id, err := strconv.ParseInt(str, 10, 64)
+	if err != nil || id < 1 {
+		return 0, errors.New("invalid id param")
+	}
+
+	return id, nil
 }
 
 func RenderNotFound(w http.ResponseWriter, r *http.Request) {
