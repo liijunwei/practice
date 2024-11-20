@@ -29,7 +29,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/felixge/httpsnoop"
 	_ "github.com/lib/pq"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -549,37 +548,6 @@ func (app *application) readInt(qs url.Values, key string, defaultVal int, v *va
 	return defaultVal
 }
 
-func (app *application) collectMetrics(next http.Handler) http.Handler {
-	// concurrent safe
-	totalRequestsReceived := expvar.NewInt("total_requestes_received")
-	totalResponseSent := expvar.NewInt("total_response_sent")
-	totalProcessingTimeInMilliseconds := expvar.NewInt("total_processing_time_ms")
-	totalResponseSentByStatus := expvar.NewMap("total_response_sent_by_status")
-
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		totalRequestsReceived.Add(1)
-
-		metrics := httpsnoop.CaptureMetrics(next, w, r)
-
-		totalResponseSent.Add(1)
-		totalProcessingTimeInMilliseconds.Add(metrics.Duration.Milliseconds())
-		totalResponseSentByStatus.Add(strconv.Itoa(metrics.Code), 1)
-	})
-}
-
-func (app *application) recoverPanic(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		defer func() {
-			if err := recover(); err != nil {
-				w.Header().Set("Connection", "close")
-				app.serverErrorResponse(w, r, fmt.Errorf("%s", err))
-			}
-		}()
-
-		next.ServeHTTP(w, r)
-	})
-}
-
 // Note: return http.HandlerFunc instead of http.Handler
 // so we can wrap handler func directly(not just router)
 func (app *application) requireAuthenticatedUser(next http.HandlerFunc) http.HandlerFunc {
@@ -642,8 +610,8 @@ func (app *application) serve() error {
 		handler = middleware.RateLimit(handler, app.config.Limiter.RPS, app.config.Limiter.Burst)
 	}
 	handler = middleware.EnableCORS(handler, app.config.CORS.TrustedOrigins)
-	handler = app.recoverPanic(handler)
-	handler = app.collectMetrics(handler)
+	handler = middleware.RecoverPanic(handler)
+	handler = middleware.CollectMetrics(handler)
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf("%s:%d", app.config.IP, app.config.Port),
