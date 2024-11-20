@@ -92,3 +92,14 @@ func ContextGetUser(r *http.Request) *data.User {
 
 	return user
 }
+
+func InvalidAuthenticationTokenResponse(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("WWW-Authenticate", "Bearer")
+	message := "invalid or missing authentication token"
+	ErrorResponse(w, r, http.StatusUnauthorized, message)
+}
+
+func RateLimitExceededResponse(w http.ResponseWriter, r *http.Request) {
+	message := "rate limit exceeded"
+	ErrorResponse(w, r, http.StatusTooManyRequests, message)
+}

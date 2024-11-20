@@ -24,7 +24,7 @@ func Authenticate(next http.Handler, models data.Models, debug bool) http.Handle
 
 		headerParts := strings.Split(authorizationHeader, " ")
 		if len(headerParts) != 2 || headerParts[0] != "Bearer" {
-			invalidAuthenticationTokenResponse(w, r)
+			common.InvalidAuthenticationTokenResponse(w, r)
 			return
 		}
 
@@ -32,7 +32,7 @@ func Authenticate(next http.Handler, models data.Models, debug bool) http.Handle
 		v := validator.New()
 
 		if data.ValidateTokenPlaintext(v, token); !v.Valid() {
-			invalidAuthenticationTokenResponse(w, r)
+			common.InvalidAuthenticationTokenResponse(w, r)
 			return
 		}
 
@@ -54,17 +54,4 @@ func Authenticate(next http.Handler, models data.Models, debug bool) http.Handle
 
 		next.ServeHTTP(w, r)
 	})
-}
-
-func invalidAuthenticationTokenResponse(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("WWW-Authenticate", "Bearer")
-	message := "invalid or missing authentication token"
-	errorResponse(w, r, http.StatusUnauthorized, message)
-}
-
-func errorResponse(w http.ResponseWriter, r *http.Request, status int, message any) {
-	env := common.Envelope{"error": message}
-	if err := common.WriteJSON(w, status, env, nil); err != nil {
-		w.WriteHeader(500)
-	}
 }

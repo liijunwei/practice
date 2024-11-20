@@ -10,13 +10,6 @@ import (
 	"golang.org/x/time/rate"
 )
 
-// TODO move to config
-type limiterConfig struct {
-	RPS     float64 `json:"rps"`
-	Burst   int     `json:"burst"`
-	Enabled bool    `json:"enabled"`
-}
-
 func RateLimit(next http.Handler, enabled bool, rps float64, burst int) http.Handler {
 	type client struct {
 		limiter  *rate.Limiter
@@ -75,7 +68,7 @@ func RateLimit(next http.Handler, enabled bool, rps float64, burst int) http.Han
 			// 	Str("user_agent", r.UserAgent()).
 			// 	Msg("rate_limit triggered")
 
-			rateLimitExceededResponse(w, r)
+			common.RateLimitExceededResponse(w, r)
 
 			return
 		}
@@ -84,9 +77,4 @@ func RateLimit(next http.Handler, enabled bool, rps float64, burst int) http.Han
 
 		next.ServeHTTP(w, r)
 	})
-}
-
-func rateLimitExceededResponse(w http.ResponseWriter, r *http.Request) {
-	message := "rate limit exceeded"
-	common.ErrorResponse(w, r, http.StatusTooManyRequests, message)
 }
