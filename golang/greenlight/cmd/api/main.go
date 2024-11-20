@@ -16,6 +16,7 @@ import (
 	"greenlight/internal/rest"
 	"greenlight/internal/rest/middleware"
 	"greenlight/internal/rest/userfacing/moviesapi"
+	"greenlight/internal/rest/userfacing/tokensapi"
 	"greenlight/internal/rest/userfacing/usersapi"
 	"greenlight/internal/sqlcdb"
 	"greenlight/internal/validator"
@@ -140,7 +141,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("GET /v1/movies", app.requirePermission("movies:read", moviesapi.GetMovieList(app.models)))
 	mux.HandleFunc("POST /v1/users", usersapi.CreateUserHandler(app.models, app.mailer, app.config.SMTP.Sender))
 	mux.HandleFunc("PUT /v1/users/activated", usersapi.ActivateUserHandler(app.models))
-	mux.HandleFunc("POST /v1/tokens/authentication", app.createAuthenticationTokenHandler)
+	mux.HandleFunc("POST /v1/tokens/authentication", tokensapi.CreateAuthenticationTokenHandler(app.models))
 	mux.Handle("GET /debug/vars", expvar.Handler())
 
 	return mux
@@ -387,53 +388,4 @@ func (app *application) runInBackground(fn func()) {
 
 		fn()
 	}()
-}
-
-func (app *application) createAuthenticationTokenHandler(w http.ResponseWriter, r *http.Request) {
-	var input struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
-	}
-
-	if err := common.ReadJSON(w, r, &input); err != nil {
-		common.RenderBadRequest(w, r, err)
-		return
-	}
-
-	v := validator.New()
-	data.ValidateEmail(v, input.Email)
-	data.ValidatePasswordPlaintext(v, input.Password)
-
-	if !v.Valid() {
-		common.RenderFailedValidation(w, r, v.Errors)
-		return
-	}
-
-	ctx := r.Context()
-	user, err := app.models.Users.GetByEmail(ctx, input.Email)
-	if err != nil {
-		common.RenderNotFoundOrUnknownError(err, w, r)
-		return
-	}
-
-	match, err := user.Password.Matches(input.Password)
-	if err != nil {
-		common.RenderInternalServerError(w, r, err)
-		return
-	}
-
-	if !match {
-		common.RenderInvlidCredentials(w, r)
-		return
-	}
-
-	token, err := app.models.Tokens.New(r.Context(), user.ID, 24*time.Hour, data.ScopeAuthentication)
-	if err != nil {
-		common.RenderInternalServerError(w, r, err)
-		return
-	}
-
-	if err := common.WriteResponseJSON(w, http.StatusCreated, common.Envelope{"authentication_token": token}, nil); err != nil {
-		common.RenderInternalServerError(w, r, err)
-	}
 }
