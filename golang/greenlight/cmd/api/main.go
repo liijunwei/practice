@@ -133,7 +133,7 @@ func (app *application) routes() *http.ServeMux {
 
 	mux.HandleFunc("GET /v1/healthcheck", rest.HealthcheckHandler(app.config.Env, version))
 	mux.HandleFunc("POST /v1/movies", app.requirePermission("movies:write", moviesapi.CreateMovieHandler(app.models)))
-	mux.HandleFunc("GET /v1/movies/{id}", app.requirePermission("movies:read", app.showMovieHandler))
+	mux.HandleFunc("GET /v1/movies/{id}", app.requirePermission("movies:read", moviesapi.GetMovieDetailHandler(app.models)))
 	mux.HandleFunc("PUT /v1/movies/{id}", app.requirePermission("movies:write", app.updateMovieHandler))
 	mux.HandleFunc("DELETE /v1/movies/{id}", app.requirePermission("movies:write", app.DeleteMovieHandler))
 	mux.HandleFunc("GET /v1/movies", app.requirePermission("movies:read", app.listMovieHandler))
@@ -146,21 +146,7 @@ func (app *application) routes() *http.ServeMux {
 }
 
 func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
-	movieID, err := common.ReadIDParam(r)
-	if err != nil {
-		common.RenderNotFound(w, r)
-		return
-	}
 
-	movie, err := app.models.Movies.Get(r.Context(), movieID)
-	if err != nil {
-		common.RenderNotFoundOrUnknownError(err, w, r)
-		return
-	}
-
-	if err := common.WriteResponseJSON(w, http.StatusOK, common.Envelope{"movies": movie}, nil); err != nil {
-		common.RenderInternalServerError(w, r, err)
-	}
 }
 
 func (app *application) updateMovieHandler(w http.ResponseWriter, r *http.Request) {
