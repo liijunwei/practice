@@ -135,7 +135,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("POST /v1/movies", app.requirePermission("movies:write", moviesapi.CreateMovieHandler(app.models)))
 	mux.HandleFunc("GET /v1/movies/{id}", app.requirePermission("movies:read", moviesapi.GetMovieDetailHandler(app.models)))
 	mux.HandleFunc("PUT /v1/movies/{id}", app.requirePermission("movies:write", moviesapi.UpdateMovieDetailHandler(app.models)))
-	mux.HandleFunc("DELETE /v1/movies/{id}", app.requirePermission("movies:write", app.DeleteMovieHandler))
+	mux.HandleFunc("DELETE /v1/movies/{id}", app.requirePermission("movies:write", moviesapi.DeleteMovieHandler(app.models)))
 	mux.HandleFunc("GET /v1/movies", app.requirePermission("movies:read", app.listMovieHandler))
 	mux.HandleFunc("POST /v1/users", app.registerUserHandler)
 	mux.HandleFunc("PUT /v1/users/activated", app.activateUserHandler)
@@ -143,23 +143,6 @@ func (app *application) routes() *http.ServeMux {
 	mux.Handle("GET /debug/vars", expvar.Handler())
 
 	return mux
-}
-
-func (app *application) DeleteMovieHandler(w http.ResponseWriter, r *http.Request) {
-	movieID, err := common.ReadIDParam(r)
-	if err != nil {
-		common.RenderNotFound(w, r)
-		return
-	}
-
-	if err := app.models.Movies.Delete(r.Context(), movieID); err != nil {
-		common.RenderNotFoundOrUnknownError(err, w, r)
-		return
-	}
-
-	if err := common.WriteResponseJSON(w, http.StatusOK, common.Envelope{"movie": "movie deleted"}, nil); err != nil {
-		common.RenderInternalServerError(w, r, err)
-	}
 }
 
 func (app *application) listMovieHandler(w http.ResponseWriter, r *http.Request) {
