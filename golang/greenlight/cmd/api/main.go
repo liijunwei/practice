@@ -136,51 +136,13 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("GET /v1/movies/{id}", app.requirePermission("movies:read", moviesapi.GetMovieDetailHandler(app.models)))
 	mux.HandleFunc("PUT /v1/movies/{id}", app.requirePermission("movies:write", moviesapi.UpdateMovieDetailHandler(app.models)))
 	mux.HandleFunc("DELETE /v1/movies/{id}", app.requirePermission("movies:write", moviesapi.DeleteMovieHandler(app.models)))
-	mux.HandleFunc("GET /v1/movies", app.requirePermission("movies:read", app.listMovieHandler))
+	mux.HandleFunc("GET /v1/movies", app.requirePermission("movies:read", moviesapi.GetMovieList(app.models)))
 	mux.HandleFunc("POST /v1/users", app.registerUserHandler)
 	mux.HandleFunc("PUT /v1/users/activated", app.activateUserHandler)
 	mux.HandleFunc("POST /v1/tokens/authentication", app.createAuthenticationTokenHandler)
 	mux.Handle("GET /debug/vars", expvar.Handler())
 
 	return mux
-}
-
-func (app *application) listMovieHandler(w http.ResponseWriter, r *http.Request) {
-	var input struct {
-		Title   string
-		Genres  []string
-		Filters data.Filters
-	}
-
-	v := validator.New()
-	qs := r.URL.Query()
-
-	input.Title = common.ReadString(qs, "title", "")
-	input.Genres = common.ReadCSV(qs, "genres", []string{})
-	input.Filters.Page = common.ReadInt(qs, "page", 1, v)
-	input.Filters.PageSize = common.ReadInt(qs, "page_size", 20, v)
-	input.Filters.Sort = common.ReadString(qs, "sort", "id")
-	input.Filters.SortSafelist = []string{"id", "title", "year", "runtime", "-id", "-title", "-year", "-runtime"}
-
-	if data.ValidateFilters(v, input.Filters); !v.Valid() {
-		common.RenderFailedValidation(w, r, v.Errors)
-		return
-	}
-
-	if !v.Valid() {
-		common.RenderFailedValidation(w, r, v.Errors)
-		return
-	}
-
-	movies, metadata, err := app.models.Movies.GetAll(r.Context(), input.Title, input.Genres, input.Filters)
-	if err != nil {
-		common.RenderInternalServerError(w, r, err)
-		return
-	}
-
-	if err := common.WriteResponseJSON(w, http.StatusOK, common.Envelope{"movies": movies, "metadata": metadata}, nil); err != nil {
-		common.RenderInternalServerError(w, r, err)
-	}
 }
 
 func openDB(cfg config.Config) (*sql.DB, error) {
