@@ -17,7 +17,6 @@ import (
 	"greenlight/internal/sqlcdb"
 	"greenlight/internal/validator"
 	"io"
-	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -34,7 +33,6 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"golang.org/x/time/rate"
 )
 
 const version = "1.0.0"
@@ -521,11 +519,6 @@ func (app *application) editStaleRecordResponse(w http.ResponseWriter, r *http.R
 	app.errorResponse(w, r, http.StatusConflict, message)
 }
 
-func (app *application) rateLimitExceededResponse(w http.ResponseWriter, r *http.Request) {
-	message := "rate limit exceeded"
-	app.errorResponse(w, r, http.StatusTooManyRequests, message)
-}
-
 func (app *application) readString(qs url.Values, key string, defaultVal string) string {
 	if s := qs.Get(key); s != "" {
 		return s
@@ -614,66 +607,6 @@ func (app *application) recoverPanic(next http.Handler) http.Handler {
 	})
 }
 
-func (app *application) rateLimit(next http.Handler) http.Handler {
-	type client struct {
-		limiter  *rate.Limiter
-		lastSeen time.Time
-	}
-
-	var mu sync.Mutex
-	var clients = make(map[string]*client) // works for single machine
-
-	go func() {
-		ticker := time.NewTicker(1 * time.Minute)
-
-		for range ticker.C {
-			mu.Lock()
-
-			for ip, client := range clients {
-				if time.Since(client.lastSeen) > 3*time.Minute {
-					delete(clients, ip)
-				}
-			}
-
-			mu.Unlock()
-		}
-	}()
-
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ip, _, err := net.SplitHostPort(r.RemoteAddr)
-		if err != nil {
-			app.serverErrorResponse(w, r, err)
-			return
-		}
-
-		mu.Lock()
-
-		if _, ok := clients[ip]; !ok {
-			clients[ip] = &client{limiter: rate.NewLimiter(rate.Limit(app.config.Limiter.RPS), app.config.Limiter.Burst)}
-		}
-
-		clients[ip].lastSeen = time.Now()
-
-		if !clients[ip].limiter.Allow() {
-			mu.Unlock()
-
-			app.logger.Info().
-				Str("request_method", r.Method).
-				Str("request_url", r.URL.String()).
-				Str("user_agent", r.UserAgent()).
-				Msg("rate_limit triggered")
-
-			app.rateLimitExceededResponse(w, r)
-
-			return
-		}
-
-		mu.Unlock()
-
-		next.ServeHTTP(w, r)
-	})
-}
-
 // Note: return http.HandlerFunc instead of http.Handler
 // so we can wrap handler func directly(not just router)
 func (app *application) requireAuthenticatedUser(next http.HandlerFunc) http.HandlerFunc {
@@ -733,7 +666,7 @@ func (app *application) serve() error {
 	handler = middleware.Authenticate(handler, app.models, app.config.Debug)
 
 	if app.config.Limiter.Enabled {
-		handler = app.rateLimit(handler)
+		handler = middleware.RateLimit(handler, app.config.Limiter.RPS, app.config.Limiter.Burst)
 	}
 	handler = app.enableCORS(handler)
 	handler = app.recoverPanic(handler)
