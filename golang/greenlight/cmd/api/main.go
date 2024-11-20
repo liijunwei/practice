@@ -15,6 +15,7 @@ import (
 	"greenlight/internal/mailer"
 	"greenlight/internal/rest"
 	"greenlight/internal/rest/middleware"
+	"greenlight/internal/rest/userfacing/moviesapi"
 	"greenlight/internal/sqlcdb"
 	"greenlight/internal/validator"
 	"net/http"
@@ -131,7 +132,7 @@ func (app *application) routes() *http.ServeMux {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /v1/healthcheck", rest.HealthcheckHandler(app.config.Env, version))
-	mux.HandleFunc("POST /v1/movies", app.requirePermission("movies:write", app.createMovieHandler))
+	mux.HandleFunc("POST /v1/movies", app.requirePermission("movies:write", moviesapi.CreateMovieHandler(app.models)))
 	mux.HandleFunc("GET /v1/movies/{id}", app.requirePermission("movies:read", app.showMovieHandler))
 	mux.HandleFunc("PUT /v1/movies/{id}", app.requirePermission("movies:write", app.updateMovieHandler))
 	mux.HandleFunc("DELETE /v1/movies/{id}", app.requirePermission("movies:write", app.DeleteMovieHandler))
@@ -142,45 +143,6 @@ func (app *application) routes() *http.ServeMux {
 	mux.Handle("GET /debug/vars", expvar.Handler())
 
 	return mux
-}
-
-func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Request) {
-	var input struct {
-		Title   string   `json:"title"`
-		Year    int32    `json:"year"`
-		Runtime int32    `json:"runtime"`
-		Genres  []string `json:"genres"`
-	}
-
-	if err := common.ReadJSON(w, r, &input); err != nil {
-		common.RenderBadRequest(w, r, err)
-		return
-	}
-
-	movie := &data.Movie{
-		Title:   input.Title,
-		Year:    input.Year,
-		Runtime: data.Runtime(input.Runtime),
-		Genres:  input.Genres,
-	}
-
-	v := validator.New()
-	if data.ValidateMovie(v, movie); !v.Valid() {
-		common.RenderFailedValidation(w, r, v.Errors)
-		return
-	}
-
-	if err := app.models.Movies.Create(r.Context(), movie); err != nil {
-		common.RenderInternalServerError(w, r, err)
-		return
-	}
-
-	headers := make(http.Header)
-	headers.Set("Location", fmt.Sprintf("/v1/movies/%d", movie.ID))
-
-	if err := common.WriteResponseJSON(w, http.StatusCreated, common.Envelope{"movie": movie}, headers); err != nil {
-		common.RenderInternalServerError(w, r, err)
-	}
 }
 
 func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
