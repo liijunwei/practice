@@ -20,6 +20,9 @@ and after it's done, I plan to make this project a "helper" api backend for many
 
 ### TODOs
 
-- TODO practice cursor based pagination
+- TODO originaze project structure
 - TODO use https://github.com/google/wire
+- TODO add event sourcing framework
+- TODO add SSE framework
 - TODO visualizing and analyzing metrics(maybe telegraf+influxdb, and probably uber jaeger)
+- TODO practice cursor based pagination
