@@ -16,6 +16,7 @@ import (
 	"greenlight/internal/rest"
 	"greenlight/internal/rest/middleware"
 	"greenlight/internal/rest/userfacing/moviesapi"
+	"greenlight/internal/rest/userfacing/usersapi"
 	"greenlight/internal/sqlcdb"
 	"greenlight/internal/validator"
 	"net/http"
@@ -137,7 +138,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("PUT /v1/movies/{id}", app.requirePermission("movies:write", moviesapi.UpdateMovieDetailHandler(app.models)))
 	mux.HandleFunc("DELETE /v1/movies/{id}", app.requirePermission("movies:write", moviesapi.DeleteMovieHandler(app.models)))
 	mux.HandleFunc("GET /v1/movies", app.requirePermission("movies:read", moviesapi.GetMovieList(app.models)))
-	mux.HandleFunc("POST /v1/users", app.registerUserHandler)
+	mux.HandleFunc("POST /v1/users", usersapi.CreateUserHandler(app.models, app.mailer, app.config.SMTP.Sender))
 	mux.HandleFunc("PUT /v1/users/activated", app.activateUserHandler)
 	mux.HandleFunc("POST /v1/tokens/authentication", app.createAuthenticationTokenHandler)
 	mux.Handle("GET /debug/vars", expvar.Handler())

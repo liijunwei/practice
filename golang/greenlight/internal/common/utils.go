@@ -8,6 +8,7 @@ import (
 	"greenlight/internal/approot"
 	"greenlight/internal/assert"
 	"greenlight/internal/data"
+	"greenlight/internal/mailer"
 	"greenlight/internal/validator"
 	"io"
 	"net/http"
@@ -15,6 +16,10 @@ import (
 	"runtime/debug"
 	"strconv"
 	"strings"
+	"sync"
+	"time"
+
+	"github.com/rs/zerolog"
 )
 
 type Envelope map[string]any
@@ -209,4 +214,39 @@ func RenderNotFoundOrUnknownError(err error, w http.ResponseWriter, r *http.Requ
 	default:
 		RenderInternalServerError(w, r, err)
 	}
+}
+
+func RunInBackground(ctx context.Context, wg *sync.WaitGroup, fn func()) {
+	wg.Add(1)
+
+	go func() {
+		defer wg.Done()
+
+		defer func() {
+			if err := recover(); err != nil {
+				zerolog.Ctx(ctx).Error().Err(fmt.Errorf("%s", err)).Msg("recover panic failed")
+			}
+		}()
+
+		fn()
+	}()
+}
+
+func SendEmail(ctx context.Context, user *data.User, token *data.Token, mailer mailer.Mailer, sender string) {
+	logger := zerolog.Ctx(ctx).With().Int64("user_id", user.ID).Logger()
+
+	data := map[string]any{
+		"userID":          user.ID,
+		"activationToken": token.Plaintext,
+	}
+
+	logger.Info().Msg("send email start")
+	startTime := time.Now()
+
+	if err := mailer.Send(sender, user.Email, "user_welcome.tmpl", data); err != nil {
+		logger.Error().Err(err).Msg("send email failed")
+		return
+	}
+
+	logger.Info().Str("duration", time.Since(startTime).String()).Msg("send email done")
 }
