@@ -17,7 +17,7 @@ type limiterConfig struct {
 	Enabled bool    `json:"enabled"`
 }
 
-func RateLimit(next http.Handler, rps float64, burst int) http.Handler {
+func RateLimit(next http.Handler, enabled bool, rps float64, burst int) http.Handler {
 	type client struct {
 		limiter  *rate.Limiter
 		lastSeen time.Time
@@ -27,6 +27,10 @@ func RateLimit(next http.Handler, rps float64, burst int) http.Handler {
 	var clients = make(map[string]*client) // works for single machine
 
 	go func() {
+		if !enabled {
+			return
+		}
+
 		ticker := time.NewTicker(1 * time.Minute)
 
 		for range ticker.C {
@@ -43,6 +47,11 @@ func RateLimit(next http.Handler, rps float64, burst int) http.Handler {
 	}()
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if !enabled {
+			next.ServeHTTP(w, r)
+			return
+		}
+
 		ip, _, err := net.SplitHostPort(r.RemoteAddr)
 		if err != nil {
 			common.ServerErrorResponse(w, r, err, true)

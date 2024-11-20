@@ -605,10 +605,7 @@ func (app *application) serve() error {
 
 	// the middlewares order matters
 	handler = middleware.Authenticate(handler, app.models, app.config.Debug)
-
-	if app.config.Limiter.Enabled {
-		handler = middleware.RateLimit(handler, app.config.Limiter.RPS, app.config.Limiter.Burst)
-	}
+	handler = middleware.RateLimit(handler, app.config.Limiter.Enabled, app.config.Limiter.RPS, app.config.Limiter.Burst)
 	handler = middleware.EnableCORS(handler, app.config.CORS.TrustedOrigins)
 	handler = middleware.RecoverPanic(handler)
 	handler = middleware.CollectMetrics(handler)
