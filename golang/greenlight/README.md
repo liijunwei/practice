@@ -20,7 +20,7 @@ and after it's done, I plan to make this project a "helper" api backend for many
 
 ### TODOs
 
-- TODO originaze project structure
+- TODO re-organize project structure
 - TODO use https://github.com/google/wire
 - TODO add event sourcing framework
 - TODO add SSE framework
