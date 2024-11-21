@@ -4,23 +4,23 @@
 //go:build !wireinject
 // +build !wireinject
 
-package greenlight
+package data
 
 import (
 	"greenlight/internal/config"
-	"greenlight/internal/data"
 	"greenlight/internal/dbconn"
 	"greenlight/internal/sqlcdb"
 )
 
 // Injectors from wire.go:
 
-func SetupModels(cfg config.Config) (data.Models, error) {
+//go:generate wire
+func SetupModels(cfg config.Config) (Models, error) {
 	db, err := dbconn.NewDB(cfg)
 	if err != nil {
-		return data.Models{}, err
+		return Models{}, err
 	}
 	queries := sqlcdb.New(db)
-	models := data.NewModels(queries)
+	models := NewModels(queries)
 	return models, nil
 }

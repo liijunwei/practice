@@ -6,7 +6,6 @@ import (
 	"expvar"
 	"flag"
 	"fmt"
-	"greenlight"
 	"greenlight/internal/approot"
 	"greenlight/internal/assert"
 	"greenlight/internal/common"
@@ -101,7 +100,7 @@ func run(cfg config.Config) {
 
 	queries := sqlcdb.New(db)
 
-	models, err := greenlight.SetupModels(cfg)
+	models, err := data.SetupModels(cfg)
 	assert.NoError(err)
 
 	app := &application{
