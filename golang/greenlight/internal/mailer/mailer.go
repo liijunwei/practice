@@ -3,6 +3,7 @@ package mailer
 import (
 	"bytes"
 	"embed"
+	"greenlight/internal/config"
 	"log"
 	"text/template"
 	"time"
@@ -19,13 +20,13 @@ type Mailer struct {
 	client *mail.Client
 }
 
-func New(host string, port int, username, password string) Mailer {
+func New(smtp config.SMTP) Mailer {
 	client, err := mail.NewClient(
-		host,
-		mail.WithPort(port),
+		smtp.Host,
+		mail.WithPort(smtp.Port),
 		mail.WithSMTPAuth(mail.SMTPAuthPlain),
-		mail.WithUsername(username),
-		mail.WithPassword(password),
+		mail.WithUsername(smtp.Username),
+		mail.WithPassword(smtp.Password),
 		mail.WithTimeout(5*time.Second),
 	)
 	if err != nil {

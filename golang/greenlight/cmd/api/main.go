@@ -18,7 +18,6 @@ import (
 	"greenlight/internal/rest/userfacing/moviesapi"
 	"greenlight/internal/rest/userfacing/tokensapi"
 	"greenlight/internal/rest/userfacing/usersapi"
-	"greenlight/internal/sqlcdb"
 	"net/http"
 	"os"
 	"os/signal"
@@ -93,22 +92,18 @@ func run(cfg config.Config) {
 
 	db, err := dbconn.NewDB(cfg)
 	assert.NoError(err, "foo", "bar")
-
-	zerolog.Ctx(ctx).Info().Msg("database connection pool established")
-
 	defer db.Close()
 
-	queries := sqlcdb.New(db)
+	zerolog.Ctx(ctx).Info().Msg("database connection pool established")
 
 	models, err := data.SetupModels(cfg)
 	assert.NoError(err)
 
 	app := &application{
-		config:  cfg,
-		logger:  logger,
-		models:  models,
-		queries: queries,
-		mailer:  mailer.New(cfg.SMTP.Host, cfg.SMTP.Port, cfg.SMTP.Username, cfg.SMTP.Password),
+		config: cfg,
+		logger: logger,
+		models: models,
+		mailer: mailer.SetupMailer(cfg.SMTP),
 	}
 
 	expvar.NewString("version").Set(version)
@@ -122,12 +117,11 @@ func run(cfg config.Config) {
 }
 
 type application struct {
-	config  config.Config
-	logger  zerolog.Logger
-	models  data.Models
-	queries *sqlcdb.Queries
-	mailer  mailer.Mailer
-	wg      sync.WaitGroup
+	config config.Config
+	logger zerolog.Logger
+	models data.Models
+	mailer mailer.Mailer
+	wg     sync.WaitGroup
 }
 
 func (app *application) routes() *http.ServeMux {
