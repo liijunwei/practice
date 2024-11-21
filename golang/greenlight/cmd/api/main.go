@@ -101,7 +101,6 @@ func run(cfg config.Config) {
 
 	app := &application{
 		config: cfg,
-		logger: logger,
 		models: models,
 		mailer: mailer.SetupMailer(cfg.SMTP),
 	}
@@ -111,14 +110,13 @@ func run(cfg config.Config) {
 	expvar.Publish("database", expvar.Func(func() any { return db.Stats() }))
 	expvar.Publish("timestamp", expvar.Func(func() any { return time.Now().Unix() }))
 
-	if err := app.serve(); err != nil {
+	if err := app.serve(ctx); err != nil {
 		logger.Fatal().Err(err).Msg("unexpected server error")
 	}
 }
 
 type application struct {
 	config config.Config
-	logger zerolog.Logger
 	models data.Models
 	mailer mailer.Mailer
 	wg     sync.WaitGroup
@@ -193,7 +191,7 @@ func requirePermission(models data.Models, code string, next http.HandlerFunc) h
 	return requireActivatedUser(fn)
 }
 
-func (app *application) serve() error {
+func (app *application) serve(ctx context.Context) error {
 	mux := app.routes()
 
 	var handler http.Handler = mux
@@ -222,7 +220,7 @@ func (app *application) serve() error {
 
 		s := <-quit // block until signal received
 
-		app.logger.Info().
+		zerolog.Ctx(ctx).Info().
 			Str("signal", s.String()).
 			Str("service_type", "api server").
 			Msg("shutting down")
@@ -234,14 +232,14 @@ func (app *application) serve() error {
 			shutdownError <- srv.Shutdown(ctx)
 		}
 
-		app.logger.Info().Str("address", srv.Addr).Msg("completing background tasks")
+		zerolog.Ctx(ctx).Info().Str("address", srv.Addr).Msg("completing background tasks")
 
 		app.wg.Wait()
 
 		shutdownError <- nil
 	}()
 
-	app.logger.Info().
+	zerolog.Ctx(ctx).Info().
 		Str("service_type", "api server").
 		Str("env", app.config.Env).
 		Str("address", srv.Addr).
@@ -258,7 +256,7 @@ func (app *application) serve() error {
 			return err
 		}
 
-		app.logger.Info().Msg("server shutdown")
+		zerolog.Ctx(ctx).Info().Msg("server shutdown")
 	}
 
 	return nil
