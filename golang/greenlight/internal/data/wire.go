@@ -14,7 +14,7 @@ import (
 //go:generate wire
 func SetupModels(cfg config.Config, db *sql.DB) (Models, error) {
 	wire.Build(
-		NewModels,
+		newModels,
 		sqlcdb.New,
 		wire.Bind(new(sqlcdb.DBTX), new(*sql.DB)),
 	)

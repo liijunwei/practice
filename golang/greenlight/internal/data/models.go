@@ -17,7 +17,7 @@ type Models struct {
 	Permissions PermissionsDB
 }
 
-func NewModels(queries *sqlcdb.Queries) Models {
+func newModels(queries *sqlcdb.Queries) Models {
 	return Models{
 		Movies:      MovieModel{queries: queries},
 		Users:       UserModel{queries: queries},
