@@ -7,19 +7,15 @@
 package data
 
 import (
+	"database/sql"
 	"greenlight/internal/config"
-	"greenlight/internal/dbconn"
 	"greenlight/internal/sqlcdb"
 )
 
 // Injectors from wire.go:
 
 //go:generate wire
-func SetupModels(cfg config.Config) (Models, error) {
-	db, err := dbconn.NewDB(cfg)
-	if err != nil {
-		return Models{}, err
-	}
+func SetupModels(cfg config.Config, db *sql.DB) (Models, error) {
 	queries := sqlcdb.New(db)
 	models := NewModels(queries)
 	return models, nil

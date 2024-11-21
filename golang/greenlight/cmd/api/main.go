@@ -96,7 +96,7 @@ func run(cfg config.Config) {
 
 	zerolog.Ctx(ctx).Info().Msg("database connection pool established")
 
-	models, err := data.SetupModels(cfg)
+	models, err := data.SetupModels(cfg, db)
 	assert.NoError(err)
 
 	app := &application{
