@@ -72,4 +72,8 @@ load-test: ## dummy load test
 	hey -d ${BODY} -m "POST" -z 5s http://localhost:4000/v1/tokens/authentication
 
 sqlc: ## generate go files from sql
-	sqlc generate -f db/sqlc.yaml
+	sqlc generate -f database/sqlc.yaml
+
+# first wire_gen.go needs to cd to specific director and run wire
+generate: sqlc ## regenerate wire/sqlc...
+	go generate ./...
