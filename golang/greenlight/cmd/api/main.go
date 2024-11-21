@@ -2,16 +2,17 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"errors"
 	"expvar"
 	"flag"
 	"fmt"
+	"greenlight"
 	"greenlight/internal/approot"
 	"greenlight/internal/assert"
 	"greenlight/internal/common"
 	"greenlight/internal/config"
 	"greenlight/internal/data"
+	"greenlight/internal/dbconn"
 	"greenlight/internal/mailer"
 	"greenlight/internal/rest"
 	"greenlight/internal/rest/middleware"
@@ -91,7 +92,7 @@ func run(cfg config.Config) {
 	ctx := context.Background()
 	ctx = logger.WithContext(ctx)
 
-	db, err := openDB(cfg)
+	db, err := dbconn.NewDB(cfg)
 	assert.NoError(err, "foo", "bar")
 
 	zerolog.Ctx(ctx).Info().Msg("database connection pool established")
@@ -100,10 +101,13 @@ func run(cfg config.Config) {
 
 	queries := sqlcdb.New(db)
 
+	models, err := greenlight.SetupModels(cfg)
+	assert.NoError(err)
+
 	app := &application{
 		config:  cfg,
 		logger:  logger,
-		models:  data.NewModels(queries),
+		models:  models,
 		queries: queries,
 		mailer:  mailer.New(cfg.SMTP.Host, cfg.SMTP.Port, cfg.SMTP.Username, cfg.SMTP.Password),
 	}
@@ -142,31 +146,6 @@ func (app *application) routes() *http.ServeMux {
 	mux.Handle("GET /debug/vars", expvar.Handler())
 
 	return mux
-}
-
-func openDB(cfg config.Config) (*sql.DB, error) {
-	db, err := sql.Open("postgres", cfg.DB.DSN)
-	if err != nil {
-		return nil, err
-	}
-
-	db.SetMaxOpenConns(cfg.DB.MaxOpenConns)
-	db.SetMaxIdleConns(cfg.DB.MaxIdleConns)
-	duration, err := time.ParseDuration(cfg.DB.MaxIdleTime)
-	if err != nil {
-		return nil, err
-	}
-
-	db.SetConnMaxIdleTime(duration)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	if err := db.PingContext(ctx); err != nil {
-		return nil, err
-	}
-
-	return db, nil
 }
 
 // TODO maybe use chirouter is more obvious
