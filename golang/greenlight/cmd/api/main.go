@@ -79,12 +79,10 @@ func appconfig() config.Config {
 }
 
 func run(cfg config.Config) {
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
-
 	logger := log.Logger.With().Str("service", "greenlight-api").Logger()
 
 	level, err := zerolog.ParseLevel(cfg.LogConfig.Level)
-	assert.Assert(err == nil)
+	assert.NoError(err)
 	assert.Assert(level != zerolog.NoLevel)
 
 	zerolog.SetGlobalLevel(level)
@@ -94,7 +92,7 @@ func run(cfg config.Config) {
 	ctx = logger.WithContext(ctx)
 
 	db, err := openDB(cfg)
-	assert.Assert(err == nil)
+	assert.NoError(err, "foo", "bar")
 
 	zerolog.Ctx(ctx).Info().Msg("database connection pool established")
 

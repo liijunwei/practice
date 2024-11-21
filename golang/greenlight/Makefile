@@ -1,10 +1,13 @@
 include .envrc
 
-help:
-	go run cmd/api/* -h
+help: ## show this help
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z0-9_-]+:.*?## / {sub("\\\\n",sprintf("\n%22c"," "), $$2);printf "\033[36m%-25s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-run/api:
-	source .envrc && go run cmd/api/main.go -limiter-enabled=false -limiter-burst=30 -debug-enabled=true -cors-trusted-origins="http://localhost:9000 http://localhost:9001"
+confirm: ## confirm before proceed
+	@echo -n 'Are you sure? [y/N] ' && read ans && [ $${ans:-N} = y ]
+
+run-api: ## start api process
+	source .envrc && go run cmd/api/main.go -limiter-enabled=true -limiter-burst=30 -debug-enabled=true -cors-trusted-origins="http://localhost:9000 http://localhost:9001"
 
 # export PGPASSWORD in shell before `make psql`
 # OR
@@ -16,20 +19,20 @@ run/api:
 # run with postgres user
 # GRANT ALL PRIVILEGES ON DATABASE greenlight TO greenlight; # run with postgres user
 # GRANT ALL ON SCHEMA public TO greenlight;
-db-console:
+db-console: ## start database console
 	PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight
 
-db-seed:
+db-seed: ## seed database
 	ls ./database/seeds/*.sql | xargs -I {} sh -c 'PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight --quiet -f {} && echo "seed {}"'
 	@echo "done seed"
 	@echo
 
-db-reset:
+db-reset: ## reset database
 	migrate -path=./database/migrations -database=${GREENLIGHT_DB_DSN} down -all
 	@echo "done reset"
 	@echo
 
-db-migrate:
+db-migrate: ## run database migration
 	migrate -path=./database/migrations -database=${GREENLIGHT_DB_DSN} up
 	@echo "done migrate"
 	@echo
@@ -38,21 +41,21 @@ db-migrate:
 	@echo "done pgdump"
 	@echo
 
-db-dump-example-data:
+db-dump-example-data: ## dump users table data
 	pg_dump --data-only --inserts --table users --no-comments ${GREENLIGHT_DB_DSN}
 
-db-reset-add-seed: db-reset db-migrate db-seed
+db-reset-add-seed: db-reset db-migrate db-seed ## reset and seed database(WARN)
 
-show-pg-config-file:
+show-pg-config-file: ## check postgres configuration file
 	sudo -u postgres psql -c 'show config_file;'
 	# /Library/PostgreSQL/17/data/postgresql.conf
 
-install-tools:
+install-tools: ## install 3rd tools
 	brew install postgres
 	brew install golang-migrate
 	go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 
-create-migration-file-example:
+golang-migrate-example: ## show example of using golang-migrate
 	@echo "migrate create -seq -ext=.sql -dir=./database/migrations create_movies_table"
 
 # test-optimistic-locking
@@ -61,12 +64,12 @@ create-migration-file-example:
 # test timeout with `select pg_sleep(3)`
 # curl --write-out '\nTime: %{time_total}s \n' http://localhost:4000/v1/movies/9
 
-test-rate-limiter:
+test-rate-limiter: ## test rate limiter
 	for i in {1..10}; do curl --location 'http://localhost:4000/v1/healthcheck'; done
 
 BODY='{"email":"Emiliano_Cruickshank@example.com","password":"pa55word"}'
-load-test:
+load-test: ## dummy load test
 	hey -d ${BODY} -m "POST" -z 5s http://localhost:4000/v1/tokens/authentication
 
-sqlc:
+sqlc: ## generate go files from sql
 	sqlc generate -f db/sqlc.yaml
