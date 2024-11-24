@@ -77,3 +77,6 @@ sqlc: ## generate go files from sql
 # first wire_gen.go needs to cd to specific director and run wire
 generate: sqlc ## regenerate wire/sqlc...
 	go generate ./...
+
+sse-example: ## run sse api example
+	go run internal/sse/example/main.go
