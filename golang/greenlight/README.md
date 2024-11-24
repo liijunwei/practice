@@ -20,7 +20,6 @@ and after it's done, I plan to make this project a "helper" api backend for many
 
 ### TODOs
 
-- WIP add SSE framework
 - TODO add event sourcing framework
 - HOLD use https://github.com/google/wire
     - need deeper understanding
