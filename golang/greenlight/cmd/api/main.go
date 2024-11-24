@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"expvar"
 	"flag"
@@ -18,6 +19,7 @@ import (
 	"greenlight/internal/rest/userfacing/moviesapi"
 	"greenlight/internal/rest/userfacing/tokensapi"
 	"greenlight/internal/rest/userfacing/usersapi"
+	"greenlight/internal/sse"
 	"net/http"
 	"os"
 	"os/signal"
@@ -110,7 +112,7 @@ func run(cfg config.Config) {
 	expvar.Publish("database", expvar.Func(func() any { return db.Stats() }))
 	expvar.Publish("timestamp", expvar.Func(func() any { return time.Now().Unix() }))
 
-	if err := app.serve(ctx); err != nil {
+	if err := app.serve(ctx, db); err != nil {
 		logger.Fatal().Err(err).Msg("unexpected server error")
 	}
 }
@@ -122,10 +124,11 @@ type application struct {
 	wg     sync.WaitGroup
 }
 
-func (app *application) routes() *http.ServeMux {
+func (app *application) routes(db *sql.DB) *http.ServeMux {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /v1/healthcheck", rest.HealthcheckHandler(app.config.Env, version))
+	mux.HandleFunc("GET /v1/dbstat", sse.HandlerWrapper(rest.DatabaseStatStream(db)))
 	mux.HandleFunc("POST /v1/movies", requirePermission(app.models, "movies:write", moviesapi.CreateMovieHandler(app.models)))
 	mux.HandleFunc("GET /v1/movies/{id}", requirePermission(app.models, "movies:read", moviesapi.GetMovieDetailHandler(app.models)))
 	mux.HandleFunc("PUT /v1/movies/{id}", requirePermission(app.models, "movies:write", moviesapi.UpdateMovieDetailHandler(app.models)))
@@ -191,8 +194,8 @@ func requirePermission(models data.Models, code string, next http.HandlerFunc) h
 	return requireActivatedUser(fn)
 }
 
-func (app *application) serve(ctx context.Context) error {
-	mux := app.routes()
+func (app *application) serve(ctx context.Context, db *sql.DB) error {
+	mux := app.routes(db)
 
 	var handler http.Handler = mux
 
