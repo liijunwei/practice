@@ -250,3 +250,19 @@ func SendEmail(ctx context.Context, user *data.User, token *data.Token, mailer m
 
 	logger.Info().Str("duration", time.Since(startTime).String()).Msg("send email done")
 }
+
+func MustToJSON(data any) string {
+	js, err := json.Marshal(data)
+	assert.NoError(err)
+
+	return string(js)
+}
+
+func ToJSON(data any) (string, error) {
+	js, err := json.Marshal(data)
+	if err != nil {
+		return "", fmt.Errorf("failed to marshal data to json: %w", err)
+	}
+
+	return string(js), nil
+}
