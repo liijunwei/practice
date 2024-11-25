@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// TODO revise the api to return a cancel function
 func Tick[T any](
 	ctx context.Context,
 	interval time.Duration,
