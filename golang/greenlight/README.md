@@ -21,6 +21,8 @@ and after it's done, I plan to make this project a "helper" api backend for many
 ### TODOs
 
 - TODO add event sourcing framework
+- TODO add golangci-lint
+    - https://github.com/golangci/golangci-lint
 - HOLD use https://github.com/google/wire
     - need deeper understanding
 - TODO visualizing and analyzing metrics(maybe telegraf+influxdb, and probably uber jaeger)
