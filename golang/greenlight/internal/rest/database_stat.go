@@ -16,7 +16,7 @@ func DatabaseStatStream(db *sql.DB) sse.TypedHandler[sql.DBStats] {
 		})
 
 		return &sse.Response[sql.DBStats]{
-			Name:    "msg",
+			Name:    "database_statistics",
 			DataCh:  dataCh,
 			ErrorCh: errorCh,
 		}, nil
