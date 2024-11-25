@@ -18,8 +18,8 @@ func main() {
 	logger := zerolog.New(os.Stdout)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /api/single", sse.HandlerWrapper(singleEvent()))
-	mux.HandleFunc("GET /api/echo", sse.HandlerWrapper(echoStream()))
+	mux.HandleFunc("GET /api/single", sse.Wrap(singleEvent()))
+	mux.HandleFunc("GET /api/echo", sse.Wrap(echoStream()))
 	mux.Handle("GET /api/debug", expvar.Handler())
 
 	addr := "127.0.0.1:3000"
@@ -31,8 +31,7 @@ func main() {
 		Str("example4", "curl 'http://localhost:3000/api/debug'").
 		Msg("http server started")
 
-	err := http.ListenAndServe(addr, mux)
-	if err != nil {
+	if err := http.ListenAndServe(addr, mux); err != nil {
 		logger.Fatal().Err(err).Msg("http server error")
 	}
 }
@@ -44,7 +43,7 @@ func singleEvent() sse.TypedHandler[string] {
 		close(dataCh)
 
 		return &sse.Response[string]{
-			Name:   "msg",
+			Name:   "single",
 			DataCh: dataCh,
 		}, nil
 	}
@@ -70,7 +69,7 @@ func echoStream() sse.TypedHandler[string] {
 		})
 
 		return &sse.Response[string]{
-			Name:    "msg",
+			Name:    "echo",
 			DataCh:  dataCh,
 			ErrorCh: errorCh,
 		}, nil

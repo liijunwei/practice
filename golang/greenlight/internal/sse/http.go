@@ -11,10 +11,8 @@ import (
 )
 
 const (
-	Timeout               = 30 * time.Minute
-	HeartbeatInterval     = 15 * time.Second
-	RequestCanceled       = "request canceled"
-	StatusRequestCanceled = 499
+	Timeout           = 30 * time.Minute
+	HeartbeatInterval = 15 * time.Second // TODO add heartbeat event
 )
 
 type Response[T any] struct {
@@ -25,12 +23,8 @@ type Response[T any] struct {
 
 type TypedHandler[T any] func(r *http.Request) (*Response[T], error)
 
-var sseMetrics metrics = newMetrics()
-
-func HandlerWrapper[T any](handler TypedHandler[T]) http.HandlerFunc {
+func Wrap[T any](handler TypedHandler[T]) http.HandlerFunc {
 	return func(respW http.ResponseWriter, req *http.Request) {
-		defer sseMetrics.record()()
-
 		ctx := req.Context()
 
 		ctx, cancel := context.WithTimeout(ctx, Timeout)
@@ -45,6 +39,8 @@ func HandlerWrapper[T any](handler TypedHandler[T]) http.HandlerFunc {
 
 			return
 		}
+
+		defer sseMetrics.record(sseResp.Name)()
 
 		writer := newEventWriter[T](respW)
 		writeHeader(writer.respW)

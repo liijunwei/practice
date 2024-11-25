@@ -128,7 +128,7 @@ func (app *application) routes(db *sql.DB) *http.ServeMux {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /v1/healthcheck", rest.HealthcheckHandler(app.config.Env, version))
-	mux.HandleFunc("GET /v1/dbstat", sse.HandlerWrapper(rest.DatabaseStatStream(db)))
+	mux.HandleFunc("GET /v1/dbstat", sse.Wrap(rest.StreamDatabaseStatHandler(db)))
 	mux.HandleFunc("POST /v1/movies", requirePermission(app.models, "movies:write", moviesapi.CreateMovieHandler(app.models)))
 	mux.HandleFunc("GET /v1/movies/{id}", requirePermission(app.models, "movies:read", moviesapi.GetMovieDetailHandler(app.models)))
 	mux.HandleFunc("PUT /v1/movies/{id}", requirePermission(app.models, "movies:write", moviesapi.UpdateMovieDetailHandler(app.models)))

@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func DatabaseStatStream(db *sql.DB) sse.TypedHandler[sql.DBStats] {
+func StreamDatabaseStatHandler(db *sql.DB) sse.TypedHandler[sql.DBStats] {
 	return func(req *http.Request) (*sse.Response[sql.DBStats], error) {
 		ctx := req.Context()
 		dataCh, errorCh := common.Tick(ctx, time.Second, func() (sql.DBStats, error) {
