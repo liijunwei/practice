@@ -22,15 +22,15 @@ func newEventWriter[T any](respW http.ResponseWriter) *sseWriter[T] {
 }
 
 // write required SSE headers
-func (w *sseWriter[T]) writeHeader() {
-	w.respW.Header().Set("Content-Type", "text/event-stream")
-	w.respW.Header().Set("Cache-Control", "no-store")
-	w.respW.Header().Set("X-Accel-Buffering", "no")
-	w.respW.Header().Set("Connection", "keep-alive")
-	w.respW.WriteHeader(http.StatusOK)
+func writeHeader(respW http.ResponseWriter) {
+	respW.Header().Set("Content-Type", "text/event-stream")
+	respW.Header().Set("Cache-Control", "no-store")
+	respW.Header().Set("X-Accel-Buffering", "no")
+	respW.Header().Set("Connection", "keep-alive")
+	respW.WriteHeader(http.StatusOK)
 }
 
-func (w *sseWriter[T]) writeMessage(data T) error {
+func writeMessage(respW http.ResponseWriter, buffer *bytes.Buffer, data any) error {
 	dataB, err := json.Marshal(data)
 	if err != nil {
 		return fmt.Errorf("failed to encode data: %w", err)
@@ -41,39 +41,35 @@ func (w *sseWriter[T]) writeMessage(data T) error {
 		Data: dataB,
 	}
 
-	return w.writeEvent(event)
+	return writeEvent(respW, buffer, event)
 }
 
 // write an error event to response
-func (w *sseWriter[T]) writeError(err error) error {
-	dataB, encodeErr := []byte(err.Error()), error(nil)
-
-	if encodeErr != nil {
-		return fmt.Errorf("error encode data:%w", err)
-	}
+func writeError(respW http.ResponseWriter, buffer *bytes.Buffer, err error) error {
+	data := []byte(err.Error())
 
 	event := &Event{
-		Type: "error", // TODO check further for SSE spec
-		Data: dataB,
+		Type: "error",
+		Data: data,
 	}
 
-	return w.writeEvent(event)
+	return writeEvent(respW, buffer, event)
 }
 
 // encode and write an event to response
-func (w *sseWriter[T]) writeEvent(event *Event) error {
-	w.buffer.Reset()
+func writeEvent(respW http.ResponseWriter, buffer *bytes.Buffer, event *Event) error {
+	buffer.Reset()
 
-	if err := event.encode(w.buffer); err != nil {
+	if err := event.encode(buffer); err != nil {
 		return fmt.Errorf("failed to encode SSE event, event: %s: error: %w", event, err)
 	}
 
-	_, err := w.respW.Write(w.buffer.Bytes())
+	_, err := respW.Write(buffer.Bytes())
 	if err != nil {
 		return fmt.Errorf("failed to write SSE event to response, event: %s: error: %w: ", event, err)
 	}
 
-	if f, ok := w.respW.(http.Flusher); ok {
+	if f, ok := respW.(http.Flusher); ok {
 		f.Flush()
 	}
 

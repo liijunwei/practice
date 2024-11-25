@@ -47,7 +47,7 @@ func HandlerWrapper[T any](handler TypedHandler[T]) http.HandlerFunc {
 		}
 
 		writer := newEventWriter[T](respW)
-		writer.writeHeader()
+		writeHeader(writer.respW)
 
 		if err := handleSSE(ctx, writer, sseResp); err != nil {
 			zerolog.Ctx(ctx).Error().Str("name", sseResp.Name).Err(err).Msg("sse error")
@@ -74,7 +74,7 @@ func handleSSE[T any](
 				return nil
 			}
 
-			if err := writer.writeError(err); err != nil {
+			if err := writeError(writer.respW, writer.buffer, err); err != nil {
 				return fmt.Errorf("failed to write event error: %w", err)
 			}
 
@@ -85,7 +85,7 @@ func handleSSE[T any](
 				return nil
 			}
 
-			if err := writer.writeMessage(data); err != nil {
+			if err := writeMessage(writer.respW, writer.buffer, data); err != nil {
 				return fmt.Errorf("failed to write event data: %w", err)
 			}
 
