@@ -70,7 +70,7 @@ func (w *sseWriter[T]) writeEvent(event *Event) error {
 
 	_, err := w.respW.Write(w.buffer.Bytes())
 	if err != nil {
-		return fmt.Errorf("failed to write SSE event to response, event: %s: error: %w: %w", event, err)
+		return fmt.Errorf("failed to write SSE event to response, event: %s: error: %w: ", event, err)
 	}
 
 	if f, ok := w.respW.(http.Flusher); ok {
