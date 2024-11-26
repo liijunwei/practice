@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 
-	"knockout/internal/eventsourcing"
-	"knockout/internal/eventsourcing/db"
-	"knockout/internal/eventsourcing/example/sqlcquery"
+	"greenlight/internal/eventsourcing"
+	"greenlight/internal/eventsourcing/db"
+	"greenlight/internal/eventsourcing/example/sqlcquery"
 
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )

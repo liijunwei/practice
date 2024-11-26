@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"time"
 
-	"knockout/internal/eventsourcing"
+	"greenlight/internal/eventsourcing"
 
 	"github.com/ericlagergren/decimal"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 // Define your Aggregate struct that match your domain.

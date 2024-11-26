@@ -3,10 +3,10 @@ package main
 import (
 	"time"
 
-	"knockout/internal/eventsourcing"
+	"greenlight/internal/eventsourcing"
 
 	"github.com/ericlagergren/decimal"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 type Account struct {

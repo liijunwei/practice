@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"knockout/internal/eventsourcing/db"
+	"greenlight/internal/eventsourcing/db"
 
 	"github.com/ericlagergren/decimal"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )

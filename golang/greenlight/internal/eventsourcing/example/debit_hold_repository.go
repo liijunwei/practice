@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"knockout/internal/eventsourcing/db"
+	"greenlight/internal/eventsourcing/db"
 
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 

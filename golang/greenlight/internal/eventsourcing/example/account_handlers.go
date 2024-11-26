@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/ericlagergren/decimal"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 )
 

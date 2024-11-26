@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"knockout/internal/config"
-	"knockout/internal/postgres"
+	"greenlight/internal/config"
+	"greenlight/internal/postgres"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog"

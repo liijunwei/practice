@@ -1,7 +1,7 @@
 package main
 
 import (
-	"knockout/internal/eventsourcing"
+	"greenlight/internal/eventsourcing"
 
 	"github.com/ericlagergren/decimal"
 )

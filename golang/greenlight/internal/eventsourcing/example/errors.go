@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"knockout/internal/eventsourcing"
+	"greenlight/internal/eventsourcing"
 )
 
 type UnsupportedEventError struct {
