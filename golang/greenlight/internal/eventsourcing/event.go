@@ -18,12 +18,8 @@ type Event interface {
 	SetVersion(int)
 	GetCreatedAt() time.Time
 	SetCreatedAt(time.Time)
-	// Validate() error // TODO
 }
 
-// BaseEvent implements common functionality for Event interface.
-//
-// It doesn't implement EventType method.
 type BaseEvent struct {
 	ID          uuid.UUID
 	AggregateID uuid.UUID
@@ -69,7 +65,3 @@ func (be *BaseEvent) GetCreatedAt() time.Time {
 func (be *BaseEvent) SetCreatedAt(createdAt time.Time) {
 	be.CreatedAt = createdAt
 }
-
-// func (be *BaseEvent) Validate() error {
-// 	return nil // no validation by default
-// }
