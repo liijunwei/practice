@@ -110,7 +110,7 @@ func NewDebitHold(accountID uuid.UUID, amount *decimal.Big) (*DebitHold, error) 
 	event := &DebitHoldCreated{
 		Amount: amount,
 	}
-	requestID := uuid.Must(uuid.NewV4())
+	requestID := uuid.Must(uuid.NewV7())
 	// fill base event data
 	event.SetAggregateID(requestID)
 	event.SetParentID(accountID)

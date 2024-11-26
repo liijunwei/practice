@@ -89,7 +89,7 @@ func NewAccount(initBalance *decimal.Big) (*Account, error) {
 		InitialBalance: initBalance,
 	}
 
-	accountID := uuid.Must(uuid.NewV4())
+	accountID := uuid.Must(uuid.NewV7())
 	// fill base event data
 	event.SetAggregateID(accountID)
 	event.SetVersion(1)

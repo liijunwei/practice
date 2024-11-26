@@ -27,10 +27,8 @@ func NewAccountRepository(dbPool *pgxpool.Pool) *AccountRepository {
 	}
 
 	return &AccountRepository{
-		dbPool: dbPool,
-		repo: db.NewAggregateRepository(&Account{}, dbPool,
-			db.WithAggregateLoader(loaderSaver), db.WithAggregateSaver(loaderSaver),
-		),
+		dbPool:  dbPool,
+		repo:    db.NewAggregateRepository(&Account{}, dbPool, loaderSaver, loaderSaver),
 		queries: sqlcquery.New(dbPool),
 	}
 }

@@ -54,7 +54,7 @@ func getAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 			return
 		}
 
-		accountID, err := uuid.FromString(idString)
+		accountID, err := uuid.FromBytes([]byte(idString))
 		if err != nil {
 			respWriter.WriteHeader(http.StatusBadRequest)
 

@@ -6,9 +6,6 @@ import (
 	"net/http"
 	"os"
 
-	"greenlight/internal/config"
-	"greenlight/internal/postgres"
-
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -27,15 +24,8 @@ func run() error {
 	logger := zerolog.New(os.Stdout)
 	ctx = logger.With().Str("project", "event-sourcing-example").Logger().WithContext(ctx)
 
-	cfg, err := config.LoadWithEnv(ctx, configPath)
-	if err != nil {
-		log.Fatal().Err(err).Msg("load general config failed")
-	}
-
-	pgxPool, err := postgres.NewConnPool(ctx, &cfg.DB)
-	if err != nil {
-		return fmt.Errorf("connect to postgres failed: %w", err)
-	}
+	// TODO
+	pgxPool, err := postgres.NewConnPool(ctx)
 
 	// Create repositories
 	accountRepo := NewAccountRepository(pgxPool)
