@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"runtime"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/require"
 )
@@ -35,20 +34,6 @@ func TestEvent(t *testing.T) {
 			expectErr:  nil,
 		},
 		{
-			name: "happy path: comment only",
-			event: Event{
-				Comment: "comment",
-			},
-			expectData: ":comment\n\n",
-			expectErr:  nil,
-		},
-		{
-			name:       "happy path: only retry",
-			event:      Event{Retry: time.Second},
-			expectData: "retry:1000\n\n",
-			expectErr:  nil,
-		},
-		{
 			name: "happy path: type and data",
 			event: Event{
 				Type: "testevent",
@@ -56,24 +41,6 @@ func TestEvent(t *testing.T) {
 			},
 			expectData: "event:testevent\ndata:testdata\n\n",
 			expectErr:  nil,
-		},
-		{
-			name: "happy path: all field",
-			event: Event{
-				Type:    "testevent",
-				ID:      "1",
-				Comment: "comment",
-				Data:    []byte("testdata"),
-				Retry:   time.Millisecond * 20,
-			},
-			expectData: "event:testevent\ndata:testdata\nid:1\nretry:20\n:comment\n\n",
-			expectErr:  nil,
-		},
-		{
-			name:       "unhappy path: only id",
-			event:      Event{ID: "123"},
-			expectData: "",
-			expectErr:  &InvalidEventError{},
 		},
 	}
 

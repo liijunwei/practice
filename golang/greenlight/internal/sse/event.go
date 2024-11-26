@@ -4,16 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"greenlight/internal/assert"
-	"strconv"
-	"time"
 )
 
 type Event struct {
-	Type    string        `json:"type,omitempty"`
-	ID      string        `json:"id,omitempty"`
-	Comment string        `json:"comment,omitempty"`
-	Data    []byte        `json:"data,omitempty"`
-	Retry   time.Duration `json:"retry,omitempty"`
+	Type string `json:"type,omitempty"`
+	Data []byte `json:"data,omitempty"`
 }
 
 func (e *Event) encode(buf *bytes.Buffer) error {
@@ -29,27 +24,9 @@ func (e *Event) encode(buf *bytes.Buffer) error {
 		buf.WriteByte('\n')
 	}
 
-	if len(e.ID) > 0 {
-		buf.WriteString("id:")
-		buf.WriteString(e.ID)
-		buf.WriteByte('\n')
-	}
-
-	if e.Retry > 0 {
-		buf.WriteString("retry:")
-		buf.WriteString(strconv.FormatInt(e.Retry.Milliseconds(), 10))
-		buf.WriteByte('\n')
-	}
-
-	if e.Comment != "" {
-		buf.WriteString(":")
-		buf.WriteString(e.Comment)
-		buf.WriteByte('\n')
-	}
-
 	buf.WriteByte('\n')
 
-	if e.Type == "" && len(e.Data) == 0 && e.Comment == "" && e.Retry == 0 {
+	if e.Type == "" && len(e.Data) == 0 {
 		return &InvalidEventError{msg: "at least one non zero field required"}
 	}
 
