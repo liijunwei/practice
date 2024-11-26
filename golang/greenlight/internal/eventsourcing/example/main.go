@@ -14,9 +14,13 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-const (
-	configPath = "../../../config/api"
-)
+func main() {
+	if err := run(); err != nil {
+		log.Error().Err(err).Msg("api failed with an error")
+
+		os.Exit(1)
+	}
+}
 
 func run() error {
 	ctx := context.Background()
@@ -53,12 +57,4 @@ func run() error {
 	}
 
 	return nil
-}
-
-func main() {
-	if err := run(); err != nil {
-		log.Error().Err(err).Msg("api failed with an error")
-
-		os.Exit(1)
-	}
 }
