@@ -42,13 +42,6 @@ func run() error {
 	router.Post("/api/account", createAccountHandler(accountRepo))
 	router.Get("/api/account", getAccountHandler(accountRepo))
 	router.Post("/api/debit-hold", createDebitHoldHandler(connPool, accountRepo, debitHoldRepo))
-	// router.With()
-
-	re, err := connPool.Exec(ctx, "select count(*) from events")
-	if err != nil {
-		return err
-	}
-	fmt.Printf("re.String(): %v\n", re.String())
 
 	fmt.Println("server started")
 
