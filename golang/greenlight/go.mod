@@ -5,7 +5,7 @@ go 1.22.6
 require github.com/lib/pq v1.10.9
 
 require (
-	github.com/ericlagergren/decimal v0.0.0-20240411145413-00de7ca16731
+	github.com/ericlagergren/decimal v0.0.0-20240305081647-93d586550569
 	github.com/felixge/httpsnoop v1.0.4
 	github.com/go-chi/chi/v5 v5.1.0
 	github.com/gofrs/uuid v4.4.0+incompatible
