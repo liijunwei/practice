@@ -21,16 +21,22 @@ type createDebitHoldRequest struct {
 func createDebitHoldHandler(
 	dbPool *pgxpool.Pool, accountRepo *AccountRepository, debitHoldRepo *DebitHoldRepository,
 ) http.HandlerFunc {
-	return func(respWriter http.ResponseWriter, req *http.Request) {
-		ctx := req.Context()
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		ctx := r.Context()
 
 		// parse json payload
 		var data createDebitHoldRequest
-		if err := json.NewDecoder(req.Body).Decode(&data); err != nil {
-			respWriter.WriteHeader(http.StatusUnprocessableEntity)
+		if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			w.Write([]byte(err.Error()))
+			w.Write([]byte("\n"))
 
 			return
 		}
+
+		var debitHold *DebitHold
 
 		err := db.Transaction(ctx, dbPool, func(ctx context.Context, _ pgx.Tx) error {
 			// load account, locked for update
@@ -47,7 +53,7 @@ func createDebitHoldHandler(
 			}
 
 			// create a debit hold
-			debitHold, err := NewDebitHold(account.ID, data.Amount)
+			debitHold, err = NewDebitHold(account.ID, data.Amount)
 			if err != nil {
 				return err
 			}
@@ -63,15 +69,28 @@ func createDebitHoldHandler(
 				return err
 			}
 
-			err = accountRepo.Save(ctx, account)
+			// err = accountRepo.Save(ctx, account)
 
-			return err
+			return nil
 		})
 
 		if err != nil {
-			respWriter.WriteHeader(http.StatusBadRequest)
-		} else {
-			respWriter.WriteHeader(http.StatusCreated)
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte(err.Error()))
+			w.Write([]byte("\n"))
+			return
 		}
+
+		resp, err := json.Marshal(debitHold)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
+			w.Write([]byte("\n"))
+			return
+		}
+
+		w.WriteHeader(http.StatusCreated)
+		w.Write(resp)
+		w.Write([]byte("\n"))
 	}
 }
