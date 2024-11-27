@@ -39,7 +39,6 @@ func (acc *Account) Apply(event eventsourcing.Event) error {
 		acc.CreatedAt = event.CreatedAt
 		acc.UpdatedAt = event.CreatedAt
 		acc.SetAggregateID(event.AggregateID)
-
 	case *BalanceChanged:
 		acc.Available.Add(&acc.Available, event.AvailableDelta)
 		acc.Pending.Add(&acc.Pending, event.PendingDelta)

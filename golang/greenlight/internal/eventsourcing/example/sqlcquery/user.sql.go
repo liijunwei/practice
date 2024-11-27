@@ -13,6 +13,34 @@ import (
 	"github.com/gofrs/uuid"
 )
 
+const CreateAccount = `-- name: CreateAccount :exec
+INSERT into account (id, balance, available, pending, version, updated_at, created_at)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
+`
+
+type CreateAccountParams struct {
+	ID        uuid.UUID
+	Balance   decimal.Big
+	Available decimal.Big
+	Pending   decimal.Big
+	Version   int32
+	UpdatedAt time.Time
+	CreatedAt time.Time
+}
+
+func (q *Queries) CreateAccount(ctx context.Context, arg *CreateAccountParams) error {
+	_, err := q.db.Exec(ctx, CreateAccount,
+		arg.ID,
+		arg.Balance,
+		arg.Available,
+		arg.Pending,
+		arg.Version,
+		arg.UpdatedAt,
+		arg.CreatedAt,
+	)
+	return err
+}
+
 const GetAccountByID = `-- name: GetAccountByID :one
 SELECT id, balance, available, pending, created_at, updated_at, version from account where id = $1
 `
@@ -49,32 +77,4 @@ func (q *Queries) GetAccountByIDLocked(ctx context.Context, id uuid.UUID) (*Acco
 		&i.Version,
 	)
 	return &i, err
-}
-
-const Save = `-- name: Save :exec
-INSERT into account (id, balance, available, pending, version, updated_at, created_at)
-VALUES ($1, $2, $3, $4, $5, $6, $7)
-`
-
-type SaveParams struct {
-	ID        uuid.UUID
-	Balance   decimal.Big
-	Available decimal.Big
-	Pending   decimal.Big
-	Version   int32
-	UpdatedAt time.Time
-	CreatedAt time.Time
-}
-
-func (q *Queries) Save(ctx context.Context, arg *SaveParams) error {
-	_, err := q.db.Exec(ctx, Save,
-		arg.ID,
-		arg.Balance,
-		arg.Available,
-		arg.Pending,
-		arg.Version,
-		arg.UpdatedAt,
-		arg.CreatedAt,
-	)
-	return err
 }
