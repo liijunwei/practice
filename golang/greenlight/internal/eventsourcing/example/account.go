@@ -5,6 +5,7 @@ import (
 
 	"greenlight/internal/eventsourcing"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/ericlagergren/decimal"
 	"github.com/gofrs/uuid"
 )
@@ -50,6 +51,8 @@ func (acc *Account) Apply(event eventsourcing.Event) error {
 	}
 
 	acc.Version = event.GetVersion()
+
+	spew.Dump(acc)
 
 	return nil
 }

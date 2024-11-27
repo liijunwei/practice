@@ -58,7 +58,6 @@ func getAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 
 		ctx := r.Context()
 
-		// parse query
 		idString := r.URL.Query().Get("id")
 		if idString == "" {
 			log.Error().Msg("no id provided")
@@ -66,8 +65,6 @@ func getAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 
 			return
 		}
-
-		// log.Info().Str("google_uuid", uuid.NewV7().String).Msg("not valid id")
 
 		accountID, err := uuid.FromString(idString)
 		if err != nil {
@@ -79,7 +76,6 @@ func getAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 			return
 		}
 
-		// load it from database
 		account, err := accountRepo.Load(ctx, accountID)
 		log.Error().Err(err).Msg("account not found")
 
@@ -91,13 +87,18 @@ func getAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 			return
 		}
 
-		// write response
 		w.WriteHeader(http.StatusCreated)
 
-		if err := json.NewEncoder(w).Encode(account); err != nil {
-			log.Warn().Err(err).
-				Str("account_id", account.ID.String()).
-				Msg("failed to write response")
+		data, err := json.Marshal(account)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
+			w.Write([]byte("\n"))
+
+			return
 		}
+
+		w.Write(data)
+		w.Write([]byte("\n"))
 	}
 }

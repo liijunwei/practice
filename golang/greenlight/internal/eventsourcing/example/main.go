@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	ericlagergren "greenlight/internal/ext"
 	"net/http"
 	"os"
 
@@ -10,6 +11,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -26,11 +28,18 @@ func run() error {
 	logger := zerolog.New(os.Stdout)
 	ctx = logger.With().Str("project", "event-sourcing-example").Logger().WithContext(ctx)
 
-	connPool, err := pgxpool.New(ctx, os.Getenv("GREENLIGHT_DB_DSN"))
+	conf, err := pgxpool.ParseConfig(os.Getenv("GREENLIGHT_DB_DSN"))
 	if err != nil {
 		return err
 	}
 
+	conf.AfterConnect = func(ctx context.Context, conn *pgx.Conn) error {
+		ericlagergren.Register(conn.TypeMap())
+
+		return nil
+	}
+
+	connPool, err := pgxpool.NewWithConfig(ctx, conf)
 	if err := connPool.Ping(ctx); err != nil {
 		return err
 	}

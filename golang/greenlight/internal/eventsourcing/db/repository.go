@@ -6,6 +6,7 @@ import (
 
 	"greenlight/internal/eventsourcing"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/gofrs/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -101,6 +102,8 @@ func (ar *AggregateRepository) Save(ctx context.Context, aggregate eventsourcing
 		}
 
 		if ar.aggregateSaver != nil {
+			spew.Dump(aggregate)
+
 			if err := ar.aggregateSaver.Save(ctx, aggregate); err != nil {
 				return AggregateSaverError{
 					err:       err,

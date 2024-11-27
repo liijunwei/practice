@@ -7,6 +7,7 @@ import (
 
 	"greenlight/internal/eventsourcing"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/gofrs/uuid"
 	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx/v5"
@@ -142,7 +143,9 @@ func (es *EventStore) Append(ctx context.Context, events []eventsourcing.Event) 
 					Str("event_type", string(event.EventType())).
 					Msg("insert event error")
 
-				return fmt.Errorf("insert event %t error %w", event, err)
+				spew.Dump(event)
+
+				return fmt.Errorf("insert event<<< %t error %w", event, err)
 			}
 		}
 
