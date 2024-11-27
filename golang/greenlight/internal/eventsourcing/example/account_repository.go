@@ -52,7 +52,7 @@ func (ar *AccountRepository) Load(ctx context.Context, id uuid.UUID) (*Account, 
 func (ar *AccountRepository) Save(ctx context.Context, account *Account) error {
 	err := ar.repo.Save(ctx, account)
 	if err != nil {
-		return fmt.Errorf("failed to load account: %w", err)
+		return fmt.Errorf("failed to save account: %w", err)
 	}
 
 	return nil
