@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/ericlagergren/decimal"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 	"github.com/rs/zerolog/log"
 )
 
@@ -19,6 +19,8 @@ func createAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 		// create account
 		account, err := NewAccount(initialBalance)
 		if err != nil {
+			log.Error().Err(err).Msg("NewAccount error")
+
 			respWriter.WriteHeader(http.StatusInternalServerError)
 
 			return
@@ -26,6 +28,8 @@ func createAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 
 		// save it to database
 		if err := accountRepo.Save(ctx, account); err != nil {
+			log.Error().Err(err).Msg("save account error")
+
 			respWriter.WriteHeader(http.StatusInternalServerError)
 
 			return
@@ -49,13 +53,17 @@ func getAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 		// parse query
 		idString := req.URL.Query().Get("id")
 		if idString == "" {
+			log.Error().Msg("no id provided")
 			respWriter.WriteHeader(http.StatusBadRequest)
 
 			return
 		}
 
-		accountID, err := uuid.FromBytes([]byte(idString))
+		// log.Info().Str("google_uuid", uuid.NewV7().String).Msg("not valid id")
+
+		accountID, err := uuid.FromString(idString)
 		if err != nil {
+			log.Error().Err(err).Msg("not valid id")
 			respWriter.WriteHeader(http.StatusBadRequest)
 
 			return
@@ -63,6 +71,8 @@ func getAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 
 		// load it from database
 		account, err := accountRepo.Load(ctx, accountID)
+		log.Error().Err(err).Msg("account not found")
+
 		if err != nil {
 			respWriter.WriteHeader(http.StatusNotFound)
 

@@ -5,7 +5,7 @@ import (
 
 	"greenlight/internal/eventsourcing"
 
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 )
 
 type AggregateNotFoundError struct {

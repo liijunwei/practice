@@ -6,7 +6,7 @@ import (
 
 	"greenlight/internal/eventsourcing/db"
 
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 

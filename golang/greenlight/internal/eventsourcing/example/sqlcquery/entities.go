@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/ericlagergren/decimal"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 )
 
 type Account struct {

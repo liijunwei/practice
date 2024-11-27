@@ -31,6 +31,10 @@ func run() error {
 		return err
 	}
 
+	if err := connPool.Ping(ctx); err != nil {
+		return err
+	}
+
 	accountRepo := NewAccountRepository(connPool)
 	debitHoldRepo := NewDebitHoldRepository(connPool)
 
@@ -38,6 +42,15 @@ func run() error {
 	router.Post("/api/account", createAccountHandler(accountRepo))
 	router.Get("/api/account", getAccountHandler(accountRepo))
 	router.Post("/api/debit-hold", createDebitHoldHandler(connPool, accountRepo, debitHoldRepo))
+	// router.With()
+
+	re, err := connPool.Exec(ctx, "select count(*) from events")
+	if err != nil {
+		return err
+	}
+	fmt.Printf("re.String(): %v\n", re.String())
+
+	fmt.Println("server started")
 
 	if err := http.ListenAndServe("127.0.0.1:3000", router); err != nil {
 		return fmt.Errorf("http server error: %w", err)

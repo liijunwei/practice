@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/ericlagergren/decimal"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 )
 
 const GetAccountByID = `-- name: GetAccountByID :one

@@ -8,7 +8,7 @@ require (
 	github.com/ericlagergren/decimal v0.0.0-20240411145413-00de7ca16731
 	github.com/felixge/httpsnoop v1.0.4
 	github.com/go-chi/chi/v5 v5.1.0
-	github.com/google/uuid v1.6.0
+	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/google/wire v0.6.0
 	github.com/jackc/pgerrcode v0.0.0-20240316143900-6e2875d9b438
 	github.com/jackc/pgx/v5 v5.7.1

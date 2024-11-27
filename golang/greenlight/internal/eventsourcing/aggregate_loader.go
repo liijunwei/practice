@@ -3,7 +3,7 @@ package eventsourcing
 import (
 	"context"
 
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 )
 
 // AggregateLoader loads a aggregate by id.

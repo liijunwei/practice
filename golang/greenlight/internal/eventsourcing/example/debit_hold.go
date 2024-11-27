@@ -7,7 +7,7 @@ import (
 	"greenlight/internal/eventsourcing"
 
 	"github.com/ericlagergren/decimal"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 )
 
 // Define your Aggregate struct that match your domain.

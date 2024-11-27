@@ -1,6 +1,6 @@
 package eventsourcing
 
-import "github.com/google/uuid"
+import "github.com/gofrs/uuid"
 
 type Aggregate interface {
 	Apply(event Event) error

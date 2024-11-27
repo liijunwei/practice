@@ -8,7 +8,7 @@ import (
 	"greenlight/internal/eventsourcing/db"
 	"greenlight/internal/eventsourcing/example/sqlcquery"
 
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
