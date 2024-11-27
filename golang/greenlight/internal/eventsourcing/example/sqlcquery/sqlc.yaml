@@ -16,8 +16,10 @@ sql:
         emit_all_enum_values: true
         output_models_file_name: "entities.go"
         overrides:
-          - go_type: "github.com/ericlagergren/decimal.Big"
-            db_type: "pg_catalog.numeric"
+          - db_type: "pg_catalog.numeric"
+            go_type:
+              import: "github.com/ericlagergren/decimal"
+              type: "Big"
           - go_type: "github.com/gofrs/uuid.UUID"
             db_type: "uuid"
           - go_type: "time.Time"
