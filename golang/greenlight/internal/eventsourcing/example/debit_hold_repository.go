@@ -19,7 +19,7 @@ type DebitHoldRepository struct {
 
 func NewDebitHoldRepository(dbPool *pgxpool.Pool) *DebitHoldRepository {
 	return &DebitHoldRepository{
-		repo: db.NewAggregateRepository(&DebitHold{}, dbPool),
+		repo: db.NewAggregateRepository(&DebitHold{}, dbPool, nil, nil),
 	}
 }
 
