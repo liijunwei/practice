@@ -18,7 +18,7 @@ func Transaction(ctx context.Context, dbPool *pgxpool.Pool, txFunc func(ctx cont
 	if ok { // already inside a transaction, start nested transaction
 		tx, err := pgtx.Begin(ctx)
 		if err != nil {
-			return &TransactionError{err: err, msg: "transaction error"}
+			return &TransactionError{err: err}
 		}
 
 		defer tx.Rollback(ctx)
@@ -37,7 +37,7 @@ func Transaction(ctx context.Context, dbPool *pgxpool.Pool, txFunc func(ctx cont
 		return txFunc(ctx, tx)
 	})
 	if err != nil {
-		return &TransactionError{err: err, msg: "transaction error"}
+		return &TransactionError{err: err}
 	}
 
 	return nil

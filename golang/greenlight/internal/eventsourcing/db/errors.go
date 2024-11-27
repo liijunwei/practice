@@ -6,6 +6,7 @@ import (
 	"greenlight/internal/eventsourcing"
 
 	"github.com/gofrs/uuid"
+	"github.com/rs/zerolog/log"
 )
 
 type AggregateNotFoundError struct {
@@ -60,8 +61,13 @@ type AggregateSaverError struct {
 }
 
 func (ale AggregateSaverError) Error() string {
-	return fmt.Sprintf("failed to save aggregate: %s (aggregate_id %s)",
-		ale.err, ale.aggregate.GetAggregateID().String())
+	log.Error().
+		Interface("changes", ale.aggregate.GetChanges()).
+		Str("aggregate_id", ale.aggregate.GetAggregateID().String()).
+		Msg("failed on AggregateSaverError")
+
+	return fmt.Sprintf("failed to save aggregate, aggregate_id: %s, error: %s",
+		ale.aggregate.GetAggregateID().String(), ale.err)
 }
 
 func (ale AggregateSaverError) Unwrap() error {
@@ -84,11 +90,10 @@ func (ale AggregateLoaderError) Error() string {
 
 type TransactionError struct {
 	err error
-	msg string
 }
 
 func (te TransactionError) Error() string {
-	return fmt.Sprintf("transaction error %s: %v", te.msg, te.err)
+	return fmt.Sprintf("transaction error: %v", te.err)
 }
 
 func (te TransactionError) Unwrap() error {

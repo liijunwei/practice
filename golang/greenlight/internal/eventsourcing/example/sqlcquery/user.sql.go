@@ -33,7 +33,7 @@ func (q *Queries) GetAccountByID(ctx context.Context, id uuid.UUID) (*Account, e
 }
 
 const GetAccountByIDLocked = `-- name: GetAccountByIDLocked :one
-SELECT id, balance, available, pending, created_at, updated_at, version from account where id = $1 for update
+SELECT id, balance, available, pending, created_at, updated_at, version from account where id = $1
 `
 
 func (q *Queries) GetAccountByIDLocked(ctx context.Context, id uuid.UUID) (*Account, error) {
@@ -52,10 +52,8 @@ func (q *Queries) GetAccountByIDLocked(ctx context.Context, id uuid.UUID) (*Acco
 }
 
 const Save = `-- name: Save :exec
-INSERT into account
-  (id, balance, available, pending, version, updated_at, created_at)
-  VALUES ($1, $2, $3, $4, $5, $6, $7)
-  ON CONFLICT (id) DO UPDATE SET balance = $2, available = $3, pending = $4, version = $5, updated_at = $6
+INSERT into account (id, balance, available, pending, version, updated_at, created_at)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
 `
 
 type SaveParams struct {

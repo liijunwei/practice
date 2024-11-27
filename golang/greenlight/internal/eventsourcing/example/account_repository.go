@@ -87,9 +87,9 @@ func (ar *AccountRepository) LoadLocked(ctx context.Context, accountID uuid.UUID
 
 func fromSQLCAccount(sqlcAccount *sqlcquery.Account) *Account {
 	account := &Account{
-		Balance:   &sqlcAccount.Balance,
-		Available: &sqlcAccount.Available,
-		Pending:   &sqlcAccount.Pending,
+		Balance:   sqlcAccount.Balance,
+		Available: sqlcAccount.Available,
+		Pending:   sqlcAccount.Pending,
 		CreatedAt: sqlcAccount.CreatedAt,
 		UpdatedAt: sqlcAccount.UpdatedAt,
 	}
@@ -139,9 +139,9 @@ func (alc *AccountLoaderSaver) Save(ctx context.Context, aggregate eventsourcing
 
 	err := queries.Save(ctx, &sqlcquery.SaveParams{
 		ID:        account.ID,
-		Balance:   *account.Balance,
-		Available: *account.Available,
-		Pending:   *account.Pending,
+		Balance:   account.Balance,
+		Available: account.Available,
+		Pending:   account.Pending,
 		Version:   int32(account.Version),
 		UpdatedAt: account.UpdatedAt,
 		CreatedAt: account.CreatedAt,

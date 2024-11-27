@@ -10,9 +10,9 @@ import (
 )
 
 type Account struct {
-	Balance   *decimal.Big // Balance = Available + Pending
-	Available *decimal.Big
-	Pending   *decimal.Big
+	Balance   decimal.Big // Balance = Available + Pending
+	Available decimal.Big
+	Pending   decimal.Big
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -29,23 +29,23 @@ func (acc *Account) EventTable() string {
 func (acc *Account) Apply(event eventsourcing.Event) error {
 	switch event := event.(type) {
 	case *AccountCreated:
-		acc.Balance = &decimal.Big{}
-		acc.Available = &decimal.Big{}
-		acc.Pending = &decimal.Big{}
+		acc.Balance = decimal.Big{}
+		acc.Available = decimal.Big{}
+		acc.Pending = decimal.Big{}
 
-		acc.Balance = acc.Balance.Copy(event.InitialBalance)
-		acc.Available = acc.Available.Copy(event.InitialBalance)
+		acc.Balance = *acc.Balance.Copy(event.InitialBalance)
+		acc.Available = *acc.Available.Copy(event.InitialBalance)
 
 		acc.CreatedAt = event.CreatedAt
 		acc.UpdatedAt = event.CreatedAt
 		acc.SetAggregateID(event.AggregateID)
 
 	case *BalanceChanged:
-		acc.Available.Add(acc.Available, event.AvailableDelta)
-		acc.Pending.Add(acc.Pending, event.PendingDelta)
+		acc.Available.Add(&acc.Available, event.AvailableDelta)
+		acc.Pending.Add(&acc.Pending, event.PendingDelta)
 
-		acc.Balance.Add(acc.Balance, event.AvailableDelta)
-		acc.Balance.Add(acc.Balance, event.PendingDelta)
+		acc.Balance.Add(&acc.Balance, event.AvailableDelta)
+		acc.Balance.Add(&acc.Balance, event.PendingDelta)
 	default:
 		return &UnsupportedEventError{event: event}
 	}

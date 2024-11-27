@@ -1,8 +1,8 @@
 CREATE TABLE account (
   id         uuid PRIMARY KEY,
-  balance    numeric not null,
-  available  numeric not null,
-  pending    numeric not null,
+  balance    numeric(50,32)  not null,
+  available  numeric(50,32)  not null,
+  pending    numeric(50,32)  not null,
   created_at timestamp not null,
   updated_at timestamp not null,
   version    int not null
