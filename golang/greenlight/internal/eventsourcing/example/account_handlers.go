@@ -10,8 +10,10 @@ import (
 )
 
 func createAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
-	return func(respWriter http.ResponseWriter, req *http.Request) {
-		ctx := req.Context()
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		ctx := r.Context()
 
 		// parse query
 		initialBalance := decimal.New(10000, 0) //nolint: mnd // example
@@ -21,7 +23,9 @@ func createAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 		if err != nil {
 			log.Error().Err(err).Msg("NewAccount error")
 
-			respWriter.WriteHeader(http.StatusInternalServerError)
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
+			w.Write([]byte("\n"))
 
 			return
 		}
@@ -30,15 +34,17 @@ func createAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 		if err := accountRepo.Save(ctx, account); err != nil {
 			log.Error().Err(err).Msg("save account error")
 
-			respWriter.WriteHeader(http.StatusInternalServerError)
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
+			w.Write([]byte("\n"))
 
 			return
 		}
 
 		// write response
-		respWriter.WriteHeader(http.StatusCreated)
+		w.WriteHeader(http.StatusCreated)
 
-		if err := json.NewEncoder(respWriter).Encode(account); err != nil {
+		if err := json.NewEncoder(w).Encode(account); err != nil {
 			log.Warn().Err(err).
 				Str("account_id", account.ID.String()).
 				Msg("failed to write response")
@@ -47,14 +53,16 @@ func createAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 }
 
 func getAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
-	return func(respWriter http.ResponseWriter, req *http.Request) {
-		ctx := req.Context()
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+
+		ctx := r.Context()
 
 		// parse query
-		idString := req.URL.Query().Get("id")
+		idString := r.URL.Query().Get("id")
 		if idString == "" {
 			log.Error().Msg("no id provided")
-			respWriter.WriteHeader(http.StatusBadRequest)
+			w.WriteHeader(http.StatusBadRequest)
 
 			return
 		}
@@ -64,7 +72,9 @@ func getAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 		accountID, err := uuid.FromString(idString)
 		if err != nil {
 			log.Error().Err(err).Msg("not valid id")
-			respWriter.WriteHeader(http.StatusBadRequest)
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte(err.Error()))
+			w.Write([]byte("\n"))
 
 			return
 		}
@@ -74,15 +84,17 @@ func getAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 		log.Error().Err(err).Msg("account not found")
 
 		if err != nil {
-			respWriter.WriteHeader(http.StatusNotFound)
+			w.WriteHeader(http.StatusNotFound)
+			w.Write([]byte(err.Error()))
+			w.Write([]byte("\n"))
 
 			return
 		}
 
 		// write response
-		respWriter.WriteHeader(http.StatusCreated)
+		w.WriteHeader(http.StatusCreated)
 
-		if err := json.NewEncoder(respWriter).Encode(account); err != nil {
+		if err := json.NewEncoder(w).Encode(account); err != nil {
 			log.Warn().Err(err).
 				Str("account_id", account.ID.String()).
 				Msg("failed to write response")
