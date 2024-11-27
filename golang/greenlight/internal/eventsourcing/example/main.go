@@ -9,6 +9,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func main() {
@@ -24,25 +26,20 @@ func run() error {
 	logger := zerolog.New(os.Stdout)
 	ctx = logger.With().Str("project", "event-sourcing-example").Logger().WithContext(ctx)
 
-	// TODO
-	pgxPool, err := postgres.NewConnPool(ctx)
+	connPool, err := pgxpool.New(ctx, os.Getenv("GREENLIGHT_DB_DSN"))
+	if err != nil {
+		return err
+	}
 
-	// Create repositories
-	accountRepo := NewAccountRepository(pgxPool)
-	debitHoldRepo := NewDebitHoldRepository(pgxPool)
+	accountRepo := NewAccountRepository(connPool)
+	debitHoldRepo := NewDebitHoldRepository(connPool)
 
-	// router
 	router := chi.NewRouter()
-
-	// create account
 	router.Post("/api/account", createAccountHandler(accountRepo))
-	// get account
 	router.Get("/api/account", getAccountHandler(accountRepo))
+	router.Post("/api/debit-hold", createDebitHoldHandler(connPool, accountRepo, debitHoldRepo))
 
-	// create debit hold
-	router.Post("/api/debit-hold", createDebitHoldHandler(pgxPool, accountRepo, debitHoldRepo))
-
-	if err := http.ListenAndServe("127.0.0.1:3000", router); err != nil { //nolint:gosec // this is just an example
+	if err := http.ListenAndServe("127.0.0.1:3000", router); err != nil {
 		return fmt.Errorf("http server error: %w", err)
 	}
 
