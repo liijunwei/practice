@@ -1,4 +1,4 @@
-CREATE TABLE account (
+CREATE TABLE IF NOT EXISTS account (
   id         uuid PRIMARY KEY,
   balance    numeric(50,32)  not null,
   available  numeric(50,32)  not null,

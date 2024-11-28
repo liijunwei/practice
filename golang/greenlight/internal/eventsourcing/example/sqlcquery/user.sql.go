@@ -16,6 +16,8 @@ import (
 const CreateAccount = `-- name: CreateAccount :exec
 INSERT into account (id, balance, available, pending, version, updated_at, created_at)
 VALUES ($1, $2, $3, $4, $5, $6, $7)
+ON CONFLICT (id)
+DO UPDATE SET balance = $2, available = $3, pending = $4, version = $5, updated_at = $6
 `
 
 type CreateAccountParams struct {
@@ -28,6 +30,7 @@ type CreateAccountParams struct {
 	CreatedAt time.Time
 }
 
+// upsert
 func (q *Queries) CreateAccount(ctx context.Context, arg *CreateAccountParams) error {
 	_, err := q.db.Exec(ctx, CreateAccount,
 		arg.ID,
@@ -61,7 +64,7 @@ func (q *Queries) GetAccountByID(ctx context.Context, id uuid.UUID) (*Account, e
 }
 
 const GetAccountByIDLocked = `-- name: GetAccountByIDLocked :one
-SELECT id, balance, available, pending, created_at, updated_at, version from account where id = $1
+SELECT id, balance, available, pending, created_at, updated_at, version from account where id = $1 for update
 `
 
 func (q *Queries) GetAccountByIDLocked(ctx context.Context, id uuid.UUID) (*Account, error) {

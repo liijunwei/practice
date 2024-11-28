@@ -1,4 +1,4 @@
-CREATE TABLE debit_hold_event (
+CREATE TABLE IF NOT EXISTS events (
   aggregate_id uuid NOT NULL,
   version int NOT NULL,
   parent_id uuid NOT NULL,

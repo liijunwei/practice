@@ -22,15 +22,6 @@ type Account struct {
 	Version   int32
 }
 
-type AccountEvent struct {
-	AggregateID uuid.UUID
-	Version     int32
-	ParentID    uuid.UUID
-	EventType   sql.NullString
-	Payload     []byte
-	CreatedAt   time.Time
-}
-
 type DebitHoldEvent struct {
 	AggregateID uuid.UUID
 	Version     int32

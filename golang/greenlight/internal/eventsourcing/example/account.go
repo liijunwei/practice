@@ -5,7 +5,6 @@ import (
 
 	"greenlight/internal/eventsourcing"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/ericlagergren/decimal"
 	"github.com/gofrs/uuid"
 )
@@ -19,11 +18,6 @@ type Account struct {
 	UpdatedAt time.Time
 
 	eventsourcing.BaseAggregate
-}
-
-// EventTable return the event table name.
-func (acc *Account) EventTable() string {
-	return "account_event"
 }
 
 // Apply updates the aggregate according to a event.
@@ -51,19 +45,16 @@ func (acc *Account) Apply(event eventsourcing.Event) error {
 	}
 
 	acc.Version = event.GetVersion()
-
-	spew.Dump(acc)
+	// spew.Dump(acc)
 
 	return nil
 }
 
-// Define state machine
 const (
 	accountInitState    eventsourcing.State = ""
 	accountCreatedState eventsourcing.State = "created"
 )
 
-// GetStates returns all possible state transitions
 func (acc *Account) GetTransitions() []eventsourcing.Transition {
 	return []eventsourcing.Transition{
 		{
@@ -110,7 +101,6 @@ func NewAccount(initBalance *decimal.Big) (*Account, error) {
 // MoveAvailableToPending moves balance from available state to pending state.
 // It doesn't change total balance.
 func (acc *Account) MoveAvailableToPending(amount *decimal.Big) error {
-	// create a event
 	pendingDelta := &decimal.Big{}
 	availableDelta := &decimal.Big{}
 
@@ -118,16 +108,15 @@ func (acc *Account) MoveAvailableToPending(amount *decimal.Big) error {
 		AvailableDelta: availableDelta.Sub(availableDelta, amount),
 		PendingDelta:   pendingDelta.Add(pendingDelta, amount),
 	}
-	// fill base event data
+
 	event.SetAggregateID(acc.GetAggregateID())
 	event.SetVersion(acc.Version + 1)
 	event.SetCreatedAt(time.Now())
 
-	// apply the event
 	if err := acc.Apply(event); err != nil {
 		return err
 	}
-	// record uncommitted events
+
 	acc.AppendChanges(event)
 
 	return nil
