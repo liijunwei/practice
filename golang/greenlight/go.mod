@@ -5,9 +5,9 @@ go 1.22.6
 require github.com/lib/pq v1.10.9
 
 require (
+	github.com/davecgh/go-spew v1.1.1
 	github.com/ericlagergren/decimal v0.0.0-20240305081647-93d586550569
 	github.com/felixge/httpsnoop v1.0.4
-	github.com/go-chi/chi/v5 v5.1.0
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/google/wire v0.6.0
 	github.com/jackc/pgerrcode v0.0.0-20240316143900-6e2875d9b438
@@ -20,7 +20,6 @@ require (
 )
 
 require (
-	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/puddle/v2 v2.2.2 // indirect

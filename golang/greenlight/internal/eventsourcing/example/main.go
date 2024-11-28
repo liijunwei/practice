@@ -3,13 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
-	ericlagergren "greenlight/internal/ext"
+	"greenlight/internal/ericlagergren"
 	"net/http"
 	"os"
 
-	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -17,9 +15,7 @@ import (
 
 func main() {
 	if err := run(); err != nil {
-		log.Error().Err(err).Msg("api failed with an error")
-
-		os.Exit(1)
+		panic(err)
 	}
 }
 
@@ -47,15 +43,15 @@ func run() error {
 	accountRepo := NewAccountRepository(connPool)
 	debitHoldRepo := NewDebitHoldRepository(connPool)
 
-	router := chi.NewRouter()
-	router.Post("/api/account", createAccountHandler(accountRepo))
-	router.Get("/api/account", getAccountHandler(accountRepo))
-	router.Post("/api/debit-hold", createDebitHoldHandler(connPool, accountRepo, debitHoldRepo))
+	mux := http.NewServeMux()
+	mux.HandleFunc("POST /api/account", createAccountHandler(accountRepo))
+	mux.HandleFunc("GET /api/account", getAccountHandler(accountRepo))
+	mux.HandleFunc("POST /api/debit-hold", createDebitHoldHandler(connPool, accountRepo, debitHoldRepo))
 
 	fmt.Println("server started")
 
-	if err := http.ListenAndServe("127.0.0.1:3000", router); err != nil {
-		return fmt.Errorf("http server error: %w", err)
+	if err := http.ListenAndServe("127.0.0.1:3000", mux); err != nil {
+		return err
 	}
 
 	return nil
