@@ -17,7 +17,12 @@ const CreateAccount = `-- name: CreateAccount :exec
 INSERT into account (id, balance, available, pending, version, updated_at, created_at)
 VALUES ($1, $2, $3, $4, $5, $6, $7)
 ON CONFLICT (id)
-DO UPDATE SET balance = $2, available = $3, pending = $4, version = $5, updated_at = $6
+DO UPDATE SET
+  balance    = EXCLUDED.balance,
+  available  = EXCLUDED.available,
+  pending    = EXCLUDED.pending,
+  version    = EXCLUDED.version,
+  updated_at = EXCLUDED.updated_at
 `
 
 type CreateAccountParams struct {

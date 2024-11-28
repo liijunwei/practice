@@ -22,7 +22,7 @@ type Account struct {
 	Version   int32
 }
 
-type DebitHoldEvent struct {
+type Event struct {
 	AggregateID uuid.UUID
 	Version     int32
 	ParentID    uuid.UUID
