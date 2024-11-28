@@ -5,7 +5,7 @@ run: ## start api
 	go run .
 
 sqlc: ## regenerate sqlc changes
-	sqlc generate -f sqlcquery/sqlc.yaml
+	sqlc generate -f ./sqlc.yaml
 
 example-db-start: example-db-stop ## start example db and admin web
 	docker system prune -f --volumes && docker-compose up -d

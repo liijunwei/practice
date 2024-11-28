@@ -8,7 +8,7 @@ sql:
       go:
         package: "sqlcquery"
         sql_package: "pgx/v5"
-        out: "."
+        out: "./sqlcquery"
         emit_exported_queries: true
         emit_result_struct_pointers: true
         emit_params_struct_pointers: true
