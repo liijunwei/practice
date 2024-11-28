@@ -27,3 +27,4 @@ and after it's done, I plan to make this project a "helper" api backend for many
     - need deeper understanding
 - TODO visualizing and analyzing metrics(maybe telegraf+influxdb, and probably uber jaeger)
 - SKIP practice cursor based pagination
+- TODO implemente maintenance window
