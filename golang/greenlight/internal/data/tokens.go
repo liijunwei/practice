@@ -70,7 +70,7 @@ func (m TokenModel) Create(ctx context.Context, token *Token) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	if err := m.queries.CreateScopedUserToken(ctx, sqlcdb.CreateScopedUserTokenParams{
+	if err := m.queries.CreateScopedUserToken(ctx, &sqlcdb.CreateScopedUserTokenParams{
 		Hash:     token.Hash,
 		UserID:   token.UserId,
 		ExpireAt: token.ExpireAt,
@@ -86,7 +86,7 @@ func (m TokenModel) DeleteAllForUser(ctx context.Context, scope string, userID i
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	if err := m.queries.DeleteScopedUserTokens(ctx, sqlcdb.DeleteScopedUserTokensParams{
+	if err := m.queries.DeleteScopedUserTokens(ctx, &sqlcdb.DeleteScopedUserTokensParams{
 		Scope:  scope,
 		UserID: userID,
 	}); err != nil {

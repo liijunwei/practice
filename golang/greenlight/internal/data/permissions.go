@@ -42,7 +42,7 @@ func (m PermissinModel) AddForUser(ctx context.Context, userID int64, codes ...s
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	if err := m.queries.AddForUser(ctx, sqlcdb.AddForUserParams{
+	if err := m.queries.AddForUser(ctx, &sqlcdb.AddForUserParams{
 		UserID: userID,
 		Codes:  codes,
 	}); err != nil {

@@ -98,7 +98,7 @@ func (m UserModel) Create(ctx context.Context, user *User) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	row, err := m.queries.CreateUser(ctx, sqlcdb.CreateUserParams{
+	row, err := m.queries.CreateUser(ctx, &sqlcdb.CreateUserParams{
 		Name:         user.Name,
 		Email:        user.Email,
 		PasswordHash: user.Password.hash,
@@ -160,7 +160,7 @@ func (m UserModel) Update(ctx context.Context, user *User) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	newVersion, err := m.queries.UpdateUser(ctx, sqlcdb.UpdateUserParams{
+	newVersion, err := m.queries.UpdateUser(ctx, &sqlcdb.UpdateUserParams{
 		Name:         user.Name,
 		Email:        user.Email,
 		PasswordHash: user.Password.hash,
@@ -190,7 +190,7 @@ func (m UserModel) GetByToken(ctx context.Context, tokenScope, plaintextToken st
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	row, err := m.queries.GetUserByToken(ctx, sqlcdb.GetUserByTokenParams{
+	row, err := m.queries.GetUserByToken(ctx, &sqlcdb.GetUserByTokenParams{
 		Hash:  tokenHash[:],
 		Scope: tokenScope,
 	})

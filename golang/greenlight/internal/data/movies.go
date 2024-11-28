@@ -47,7 +47,7 @@ func (m MovieModel) Create(ctx context.Context, movie *Movie) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	row, err := m.queries.CreateMovie(ctx, sqlcdb.CreateMovieParams{
+	row, err := m.queries.CreateMovie(ctx, &sqlcdb.CreateMovieParams{
 		movie.Title,
 		movie.Year,
 		int32(movie.Runtime),
@@ -128,7 +128,7 @@ func (m MovieModel) Update(ctx context.Context, movie *Movie) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	err := m.queries.UpdateMovie(ctx, sqlcdb.UpdateMovieParams{
+	err := m.queries.UpdateMovie(ctx, &sqlcdb.UpdateMovieParams{
 		Title:   movie.Title,
 		Year:    movie.Year,
 		Runtime: int32(movie.Runtime),
