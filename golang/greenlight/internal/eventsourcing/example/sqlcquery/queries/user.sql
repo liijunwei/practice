@@ -5,7 +5,7 @@ SELECT * from account where id = @id;
 SELECT * from account where id = @id for update;
 
 -- upsert
--- name: CreateAccount :exec
+-- name: UpsertAccount :exec
 INSERT into account (id, balance, available, pending, version, updated_at, created_at)
 VALUES (@id, @balance, @available, @pending, @version, @updated_at, @created_at)
 ON CONFLICT (id)

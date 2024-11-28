@@ -13,42 +13,6 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-const CreateAccount = `-- name: CreateAccount :exec
-INSERT into account (id, balance, available, pending, version, updated_at, created_at)
-VALUES ($1, $2, $3, $4, $5, $6, $7)
-ON CONFLICT (id)
-DO UPDATE SET
-  balance    = EXCLUDED.balance,
-  available  = EXCLUDED.available,
-  pending    = EXCLUDED.pending,
-  version    = EXCLUDED.version,
-  updated_at = EXCLUDED.updated_at
-`
-
-type CreateAccountParams struct {
-	ID        uuid.UUID
-	Balance   decimal.Big
-	Available decimal.Big
-	Pending   decimal.Big
-	Version   int32
-	UpdatedAt time.Time
-	CreatedAt time.Time
-}
-
-// upsert
-func (q *Queries) CreateAccount(ctx context.Context, arg *CreateAccountParams) error {
-	_, err := q.db.Exec(ctx, CreateAccount,
-		arg.ID,
-		arg.Balance,
-		arg.Available,
-		arg.Pending,
-		arg.Version,
-		arg.UpdatedAt,
-		arg.CreatedAt,
-	)
-	return err
-}
-
 const GetAccountByID = `-- name: GetAccountByID :one
 SELECT id, balance, available, pending, created_at, updated_at, version from account where id = $1
 `
@@ -85,4 +49,40 @@ func (q *Queries) GetAccountByIDLocked(ctx context.Context, id uuid.UUID) (*Acco
 		&i.Version,
 	)
 	return &i, err
+}
+
+const UpsertAccount = `-- name: UpsertAccount :exec
+INSERT into account (id, balance, available, pending, version, updated_at, created_at)
+VALUES ($1, $2, $3, $4, $5, $6, $7)
+ON CONFLICT (id)
+DO UPDATE SET
+  balance    = EXCLUDED.balance,
+  available  = EXCLUDED.available,
+  pending    = EXCLUDED.pending,
+  version    = EXCLUDED.version,
+  updated_at = EXCLUDED.updated_at
+`
+
+type UpsertAccountParams struct {
+	ID        uuid.UUID
+	Balance   decimal.Big
+	Available decimal.Big
+	Pending   decimal.Big
+	Version   int32
+	UpdatedAt time.Time
+	CreatedAt time.Time
+}
+
+// upsert
+func (q *Queries) UpsertAccount(ctx context.Context, arg *UpsertAccountParams) error {
+	_, err := q.db.Exec(ctx, UpsertAccount,
+		arg.ID,
+		arg.Balance,
+		arg.Available,
+		arg.Pending,
+		arg.Version,
+		arg.UpdatedAt,
+		arg.CreatedAt,
+	)
+	return err
 }

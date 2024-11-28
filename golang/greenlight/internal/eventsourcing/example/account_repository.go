@@ -137,7 +137,7 @@ func (alc *AccountLoaderSaver) Save(ctx context.Context, aggregate eventsourcing
 		}
 	}
 
-	err := queries.CreateAccount(ctx, &sqlcquery.CreateAccountParams{
+	err := queries.UpsertAccount(ctx, &sqlcquery.UpsertAccountParams{
 		ID:        account.ID,
 		Balance:   account.Balance,
 		Available: account.Available,
