@@ -1,3 +1,5 @@
+.PHONY: help confirm run-api db-console db-seed db-reset db-migrate db-dump-example-data show-pg-config-file install-tools golang-migrate-example test-rate-limiter load-test sqlc sse-example
+
 include .envrc
 
 help: ## show this help
