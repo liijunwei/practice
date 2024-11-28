@@ -7,14 +7,10 @@ run: ## start api
 sqlc: ## regenerate sqlc changes
 	sqlc generate -f sqlcquery/sqlc.yaml
 
-create-db-user:
-	PGPASSWORD=${PGPASSWORD} createuser --username=postgres --pwprompt es-testuser
+example-db-start: example-db-stop ## start example db and admin web
+	docker system prune -f --volumes && docker-compose up -d
+	@echo "export GREENLIGHT_DB_DSN='postgres://greenlight:123@localhost:5439/greenlight?sslmode=disable&application_name=greenlight-api'"
+	@echo 'open http://localhost:8080'
 
-create-db:
-	PGPASSWORD=${PGPASSWORD} createuser --username=postgres es-testuser
-	PGPASSWORD=${PGPASSWORD} createdb --username=es-testuser --owner=es-test-user es-test-db
-
-# manually copy migration in psql console to do migration(for now)
-# TODO use dedicated example database
-# prepare-db-dsn:
-# export GREENLIGHT_DB_DSN="postgres://greenlight:${PGPASSWORD}@localhost/greenlight?sslmode=disable&application_name=greenlight-api"
+example-db-stop: ## stop example db and admin web
+	docker compose down
