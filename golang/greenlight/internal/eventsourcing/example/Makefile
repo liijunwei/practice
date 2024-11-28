@@ -14,3 +14,18 @@ example-db-start: example-db-stop ## start example db and admin web
 
 example-db-stop: ## stop example db and admin web
 	docker compose down
+
+db-reset: ## reset database
+	migrate -path=./migrations -database='${GREENLIGHT_DB_DSN}' down -all
+	@echo "done reset"
+	@echo
+
+# make sure run `make example-db-start` first
+db-migrate: db-reset ## reset and run database migration
+	migrate -path=./migrations -database='${GREENLIGHT_DB_DSN}' up
+	@echo "done migrate"
+	@echo
+	rm -f ./migrations/structure.sql
+	pg_dump --schema-only '${GREENLIGHT_DB_DSN}' --file ./migrations/structure.sql
+	@echo "done pgdump"
+	@echo

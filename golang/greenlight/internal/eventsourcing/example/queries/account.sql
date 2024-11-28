@@ -1,12 +1,12 @@
 -- name: GetAccountByID :one
-SELECT * from account where id = @id;
+SELECT * from accounts where id = @id;
 
 -- name: GetAccountByIDLocked :one
-SELECT * from account where id = @id for update;
+SELECT * from accounts where id = @id for update;
 
 -- upsert
 -- name: UpsertAccount :exec
-INSERT into account (id, balance, available, pending, version, updated_at, created_at)
+INSERT into accounts (id, balance, available, pending, version, updated_at, created_at)
 VALUES (@id, @balance, @available, @pending, @version, @updated_at, @created_at)
 ON CONFLICT (id)
 DO UPDATE SET
