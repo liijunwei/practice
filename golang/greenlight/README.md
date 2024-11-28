@@ -28,3 +28,4 @@ and after it's done, I plan to make this project a "helper" api backend for many
 - TODO visualizing and analyzing metrics(maybe telegraf+influxdb, and probably uber jaeger)
 - SKIP practice cursor based pagination
 - TODO implemente maintenance window
+- TODO try to solve some problem with rule engine
