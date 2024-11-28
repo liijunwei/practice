@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const createUser = `-- name: CreateUser :one
+const CreateUser = `-- name: CreateUser :one
 insert into users(name, email, password_hash, status)
 values($1, $2, $3, $4)
 returning id, created_at, updated_at, version
@@ -30,8 +30,8 @@ type CreateUserRow struct {
 	Version   int32
 }
 
-func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (CreateUserRow, error) {
-	row := q.db.QueryRowContext(ctx, createUser,
+func (q *Queries) CreateUser(ctx context.Context, arg *CreateUserParams) (*CreateUserRow, error) {
+	row := q.db.QueryRowContext(ctx, CreateUser,
 		arg.Name,
 		arg.Email,
 		arg.PasswordHash,
@@ -44,15 +44,15 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (CreateU
 		&i.UpdatedAt,
 		&i.Version,
 	)
-	return i, err
+	return &i, err
 }
 
-const getUserByEmail = `-- name: GetUserByEmail :one
+const GetUserByEmail = `-- name: GetUserByEmail :one
 select id, name, email, password_hash, status, version, created_at, updated_at from users where email = $1
 `
 
-func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error) {
-	row := q.db.QueryRowContext(ctx, getUserByEmail, email)
+func (q *Queries) GetUserByEmail(ctx context.Context, email string) (*User, error) {
+	row := q.db.QueryRowContext(ctx, GetUserByEmail, email)
 	var i User
 	err := row.Scan(
 		&i.ID,
@@ -64,10 +64,10 @@ func (q *Queries) GetUserByEmail(ctx context.Context, email string) (User, error
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
-	return i, err
+	return &i, err
 }
 
-const getUserByToken = `-- name: GetUserByToken :one
+const GetUserByToken = `-- name: GetUserByToken :one
 select u.id, u.created_at, u.name, u.email, u.password_hash::bytea password_hash, u.status, u.version
 from users u
 inner join tokens t on u.id = t.user_id
@@ -92,8 +92,8 @@ type GetUserByTokenRow struct {
 	Version      int32
 }
 
-func (q *Queries) GetUserByToken(ctx context.Context, arg GetUserByTokenParams) (GetUserByTokenRow, error) {
-	row := q.db.QueryRowContext(ctx, getUserByToken, arg.Hash, arg.Scope)
+func (q *Queries) GetUserByToken(ctx context.Context, arg *GetUserByTokenParams) (*GetUserByTokenRow, error) {
+	row := q.db.QueryRowContext(ctx, GetUserByToken, arg.Hash, arg.Scope)
 	var i GetUserByTokenRow
 	err := row.Scan(
 		&i.ID,
@@ -104,10 +104,10 @@ func (q *Queries) GetUserByToken(ctx context.Context, arg GetUserByTokenParams) 
 		&i.Status,
 		&i.Version,
 	)
-	return i, err
+	return &i, err
 }
 
-const updateUser = `-- name: UpdateUser :one
+const UpdateUser = `-- name: UpdateUser :one
 update users
 set name=$1, email=$2, password_hash=$3, status=$4, version=version+1, updated_at=now()
 where id=$5 and version=$6
@@ -123,8 +123,8 @@ type UpdateUserParams struct {
 	Version      int32
 }
 
-func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (int32, error) {
-	row := q.db.QueryRowContext(ctx, updateUser,
+func (q *Queries) UpdateUser(ctx context.Context, arg *UpdateUserParams) (int32, error) {
+	row := q.db.QueryRowContext(ctx, UpdateUser,
 		arg.Name,
 		arg.Email,
 		arg.PasswordHash,

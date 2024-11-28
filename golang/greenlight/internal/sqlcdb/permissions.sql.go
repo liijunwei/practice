@@ -11,7 +11,7 @@ import (
 	"github.com/lib/pq"
 )
 
-const addForUser = `-- name: AddForUser :exec
+const AddForUser = `-- name: AddForUser :exec
 insert into user_permissions(user_id, permission_id)
 select $1, permissions.id from permissions where permissions.code = ANY($2::text[])
 `
@@ -21,12 +21,12 @@ type AddForUserParams struct {
 	Codes  []string
 }
 
-func (q *Queries) AddForUser(ctx context.Context, arg AddForUserParams) error {
-	_, err := q.db.ExecContext(ctx, addForUser, arg.UserID, pq.Array(arg.Codes))
+func (q *Queries) AddForUser(ctx context.Context, arg *AddForUserParams) error {
+	_, err := q.db.ExecContext(ctx, AddForUser, arg.UserID, pq.Array(arg.Codes))
 	return err
 }
 
-const getAllForUser = `-- name: GetAllForUser :many
+const GetAllForUser = `-- name: GetAllForUser :many
 select perm.code
 from permissions perm
 inner join user_permissions user_perm on user_perm.permission_id = perm.id
@@ -35,7 +35,7 @@ where u.id = $1
 `
 
 func (q *Queries) GetAllForUser(ctx context.Context, userID int64) ([]string, error) {
-	rows, err := q.db.QueryContext(ctx, getAllForUser, userID)
+	rows, err := q.db.QueryContext(ctx, GetAllForUser, userID)
 	if err != nil {
 		return nil, err
 	}

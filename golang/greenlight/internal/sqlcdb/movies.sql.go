@@ -12,7 +12,7 @@ import (
 	"github.com/lib/pq"
 )
 
-const createMovie = `-- name: CreateMovie :one
+const CreateMovie = `-- name: CreateMovie :one
 insert into
   movies(title, year, runtime, genres)
 values
@@ -34,8 +34,8 @@ type CreateMovieRow struct {
 	Version   int32
 }
 
-func (q *Queries) CreateMovie(ctx context.Context, arg CreateMovieParams) (CreateMovieRow, error) {
-	row := q.db.QueryRowContext(ctx, createMovie,
+func (q *Queries) CreateMovie(ctx context.Context, arg *CreateMovieParams) (*CreateMovieRow, error) {
+	row := q.db.QueryRowContext(ctx, CreateMovie,
 		arg.Title,
 		arg.Year,
 		arg.Runtime,
@@ -43,19 +43,19 @@ func (q *Queries) CreateMovie(ctx context.Context, arg CreateMovieParams) (Creat
 	)
 	var i CreateMovieRow
 	err := row.Scan(&i.ID, &i.CreatedAt, &i.Version)
-	return i, err
+	return &i, err
 }
 
-const deleteMovie = `-- name: DeleteMovie :exec
+const DeleteMovie = `-- name: DeleteMovie :exec
 DELETE from movies where id = $1
 `
 
 func (q *Queries) DeleteMovie(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteMovie, id)
+	_, err := q.db.ExecContext(ctx, DeleteMovie, id)
 	return err
 }
 
-const getAllMovies = `-- name: GetAllMovies :many
+const GetAllMovies = `-- name: GetAllMovies :many
 select
   count(*) over(),
   id,
@@ -81,13 +81,13 @@ type GetAllMoviesRow struct {
 }
 
 // TODO add pagination and filtering back
-func (q *Queries) GetAllMovies(ctx context.Context) ([]GetAllMoviesRow, error) {
-	rows, err := q.db.QueryContext(ctx, getAllMovies)
+func (q *Queries) GetAllMovies(ctx context.Context) ([]*GetAllMoviesRow, error) {
+	rows, err := q.db.QueryContext(ctx, GetAllMovies)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetAllMoviesRow
+	var items []*GetAllMoviesRow
 	for rows.Next() {
 		var i GetAllMoviesRow
 		if err := rows.Scan(
@@ -102,7 +102,7 @@ func (q *Queries) GetAllMovies(ctx context.Context) ([]GetAllMoviesRow, error) {
 		); err != nil {
 			return nil, err
 		}
-		items = append(items, i)
+		items = append(items, &i)
 	}
 	if err := rows.Close(); err != nil {
 		return nil, err
@@ -113,7 +113,7 @@ func (q *Queries) GetAllMovies(ctx context.Context) ([]GetAllMoviesRow, error) {
 	return items, nil
 }
 
-const getMovieByID = `-- name: GetMovieByID :one
+const GetMovieByID = `-- name: GetMovieByID :one
 select id,created_at,title,year,runtime,genres,version from movies where id = $1
 `
 
@@ -127,8 +127,8 @@ type GetMovieByIDRow struct {
 	Version   int32
 }
 
-func (q *Queries) GetMovieByID(ctx context.Context, id int64) (GetMovieByIDRow, error) {
-	row := q.db.QueryRowContext(ctx, getMovieByID, id)
+func (q *Queries) GetMovieByID(ctx context.Context, id int64) (*GetMovieByIDRow, error) {
+	row := q.db.QueryRowContext(ctx, GetMovieByID, id)
 	var i GetMovieByIDRow
 	err := row.Scan(
 		&i.ID,
@@ -139,10 +139,10 @@ func (q *Queries) GetMovieByID(ctx context.Context, id int64) (GetMovieByIDRow, 
 		pq.Array(&i.Genres),
 		&i.Version,
 	)
-	return i, err
+	return &i, err
 }
 
-const updateMovie = `-- name: UpdateMovie :exec
+const UpdateMovie = `-- name: UpdateMovie :exec
 update movies
 set title = $1, year = $2, runtime = $3, genres = $4, version = version+1, updated_at = now()
 where id = $5 and version = $6
@@ -158,8 +158,8 @@ type UpdateMovieParams struct {
 	Version int32
 }
 
-func (q *Queries) UpdateMovie(ctx context.Context, arg UpdateMovieParams) error {
-	_, err := q.db.ExecContext(ctx, updateMovie,
+func (q *Queries) UpdateMovie(ctx context.Context, arg *UpdateMovieParams) error {
+	_, err := q.db.ExecContext(ctx, UpdateMovie,
 		arg.Title,
 		arg.Year,
 		arg.Runtime,
