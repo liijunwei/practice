@@ -1,4 +1,4 @@
-package main
+package domain
 
 import (
 	"time"
@@ -20,7 +20,6 @@ type Account struct {
 	eventsourcing.BaseAggregate
 }
 
-// Apply updates the aggregate according to a event.
 func (acc *Account) Apply(event eventsourcing.Event) error {
 	switch event := event.(type) {
 	case *AccountCreated:
@@ -45,7 +44,6 @@ func (acc *Account) Apply(event eventsourcing.Event) error {
 	}
 
 	acc.Version = event.GetVersion()
-	// spew.Dump(acc)
 
 	return nil
 }

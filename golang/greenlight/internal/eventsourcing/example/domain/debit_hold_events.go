@@ -1,4 +1,4 @@
-package main
+package domain
 
 import (
 	"greenlight/internal/eventsourcing"
@@ -8,7 +8,7 @@ import (
 
 // Define other events
 type DebitHoldCreated struct {
-	Amount *decimal.Big
+	Amount *decimal.Big `json:"amount"`
 
 	eventsourcing.BaseEvent
 }

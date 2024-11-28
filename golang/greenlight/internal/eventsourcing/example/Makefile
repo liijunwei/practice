@@ -1,7 +1,7 @@
 help: ## show this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z0-9_-]+:.*?## / {sub("\\\\n",sprintf("\n%22c"," "), $$2);printf "\033[36m%-25s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-run: ## start api
+run-api: ## run api server
 	go run .
 
 sqlc: ## regenerate sqlc changes
@@ -25,7 +25,7 @@ db-migrate: db-reset ## reset and run database migration
 	migrate -path=./migrations -database='${GREENLIGHT_DB_DSN}' up
 	@echo "done migrate"
 	@echo
-	rm -f ./migrations/structure.sql
-	pg_dump --schema-only '${GREENLIGHT_DB_DSN}' --file ./migrations/structure.sql
+	rm -f ./structure.sql
+	pg_dump --schema-only '${GREENLIGHT_DB_DSN}' --file ./structure.sql
 	@echo "done pgdump"
 	@echo
