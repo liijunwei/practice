@@ -1,4 +1,4 @@
-package main
+package domain
 
 import (
 	"greenlight/internal/eventsourcing"
@@ -7,20 +7,18 @@ import (
 )
 
 type AccountCreated struct {
-	InitialBalance *decimal.Big
+	InitialBalance *decimal.Big `json:"initial_balance"`
 
-	// BaseEvent provides common event fields and functionality like Get/SetVersion
 	eventsourcing.BaseEvent
 }
 
-// EventType returns the name of event
 func (ace *AccountCreated) EventType() eventsourcing.EventType {
 	return "account.created"
 }
 
 type BalanceChanged struct {
-	AvailableDelta *decimal.Big
-	PendingDelta   *decimal.Big
+	AvailableDelta *decimal.Big `json:"available_delta"`
+	PendingDelta   *decimal.Big `json:"pending_delta"`
 
 	eventsourcing.BaseEvent
 }

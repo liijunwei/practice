@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"greenlight/internal/ericlagergren"
 	"greenlight/internal/eventsourcing/db"
+	"greenlight/internal/eventsourcing/example/domain"
 	"net/http"
 	"os"
 
@@ -45,8 +46,8 @@ func run() error {
 		return err
 	}
 
-	accountRepo := NewAccountRepository(connPool)
-	debitHoldRepo := NewDebitHoldRepository(connPool)
+	accountRepo := domain.NewAccountRepository(connPool)
+	debitHoldRepo := domain.NewDebitHoldRepository(connPool)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /api/account", createAccountHandler(accountRepo))
@@ -62,14 +63,14 @@ func run() error {
 	return nil
 }
 
-func createAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
+func createAccountHandler(accountRepo *domain.AccountRepository) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
 		ctx := r.Context()
 
 		initialBalance := decimal.New(10000, 0) //nolint: mnd // example
-		account, err := NewAccount(initialBalance)
+		account, err := domain.NewAccount(initialBalance)
 		if err != nil {
 			zerolog.Ctx(ctx).Error().Err(err).Msg("NewAccount error")
 
@@ -102,7 +103,7 @@ func createAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
 	}
 }
 
-func getAccountHandler(accountRepo *AccountRepository) http.HandlerFunc {
+func getAccountHandler(accountRepo *domain.AccountRepository) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
@@ -159,7 +160,7 @@ type createDebitHoldRequest struct {
 }
 
 func createDebitHoldHandler(
-	dbPool *pgxpool.Pool, accountRepo *AccountRepository, debitHoldRepo *DebitHoldRepository,
+	dbPool *pgxpool.Pool, accountRepo *domain.AccountRepository, debitHoldRepo *domain.DebitHoldRepository,
 ) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -176,7 +177,7 @@ func createDebitHoldHandler(
 			return
 		}
 
-		var debitHold *DebitHold
+		var debitHold *domain.DebitHold
 
 		err := db.Transaction(ctx, dbPool, func(ctx context.Context, _ pgx.Tx) error {
 			// load account, locked for update
@@ -187,13 +188,13 @@ func createDebitHoldHandler(
 
 			// check balance
 			if account.Available.Cmp(data.Amount) <= 0 {
-				err := &NotEnoughBalanceError{}
+				err := &domain.NotEnoughBalanceError{}
 
 				return err
 			}
 
 			// create a debit hold
-			debitHold, err = NewDebitHold(account.ID, data.Amount)
+			debitHold, err = domain.NewDebitHold(account.ID, data.Amount)
 			if err != nil {
 				return err
 			}
