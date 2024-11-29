@@ -20,6 +20,7 @@ and after it's done, I plan to make this project a "helper" api backend for many
 
 ### TODOs
 
+- TODO add domain_type to events table
 - TODO Revise eventsourcing API, and maybe just use [github.com/hallgren/eventsourcing](https://github.com/hallgren/eventsourcing/blob/288b4f2c9c2efcc5c65f206fd185517a6e7fd976/example/main.go)
 - TODO add golangci-lint
     - https://github.com/golangci/golangci-lint

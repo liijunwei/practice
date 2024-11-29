@@ -36,6 +36,22 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: events; Type: TABLE; Schema: public; Owner: greenlight
+--
+
+CREATE TABLE public.events (
+    aggregate_id uuid NOT NULL,
+    version integer NOT NULL,
+    parent_id uuid NOT NULL,
+    event_type character varying(50),
+    payload jsonb NOT NULL,
+    created_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.events OWNER TO greenlight;
+
+--
 -- Name: movies; Type: TABLE; Schema: public; Owner: greenlight
 --
 
@@ -212,6 +228,14 @@ ALTER TABLE ONLY public.permissions ALTER COLUMN id SET DEFAULT nextval('public.
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: greenlight
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (aggregate_id, version);
 
 
 --
