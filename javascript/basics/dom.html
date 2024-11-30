@@ -6,14 +6,17 @@
 
   <style>
     button {
-      padding: 15px 32px;
-      font-size: 20px;
+      padding: 15px 35px;
+      font-size: 18px;
     }
 
     .css-subscribe-button {
       border: none;
       background-color: black;
       color: white;
+      font-weight: bold;
+      border-radius: 40px;
+      cursor: pointer;
     }
   </style>
 
@@ -34,6 +37,7 @@
 
       if (btn.innerText === 'Subscribe') {
         btn.innerText = 'Subscribed';
+        btn.classList.add('.is-subscribed');
       } else {
         btn.innerText = 'Subscribe';
       }
