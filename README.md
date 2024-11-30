@@ -17,7 +17,7 @@ tig working-with-unix-processes/
 ## [auto commit](https://github.com/liijunwei/omz-git/blob/4c85c101e11ef9fd660f4378c8f51ca60b26fbdc/aliases.sh#L19)
 
 ```bash
-alias git-setup-auto-commit="watch -n 120 \"git pull && git add . && git commit -m 'Commit automatically by watch.'\""
+watch -n 300 "git pull && git add . && git commit -m 'watch commit'"
 ```
 
 ## vm for c programs
