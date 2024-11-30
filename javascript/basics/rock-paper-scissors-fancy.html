@@ -14,7 +14,7 @@
 
   button {
     padding: 15px 32px;
-    font-size: 40px;
+    font-size: 25px;
   }
 
 
@@ -35,15 +35,24 @@
     height: 120px;
     cursor: pointer;
   }
+
+  .result {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 50px;
+  }
 </style>
 
-<!-- https://supersimple.dev/projects/rock-paper-scissors/ -->
+
 <p class="title">rock paper scissors</p>
 
 <body>
+  <!-- image asset: https://supersimple.dev/projects/rock-paper-scissors/ -->
   <button onclick="playGame('rock')" class="move-button"><img src="./rock-emoji.png" class="move-icon"></button>
   <button onclick="playGame('paper')" class="move-button"><img src="./paper-emoji.png" class="move-icon"></button>
   <button onclick="playGame('scissors')" class="move-button"><img src="./scissors-emoji.png" class="move-icon"></button>
+  <p class="js-result result"></p>
+  <p class="js-moves"></p>
   <p class="js-scores"></p>
   <button onclick="resetScores()">reset</button>
   <div id="js-table-container"></div>
@@ -120,13 +129,6 @@
     }
 
     updateScores(result)
-
-    let summary = {
-      description: 'current score board',
-      ...detail, ...getScores()
-    }
-
-    console.log(JSON.stringify(summary))
   }
 
   function updateScores(gameResult) {
@@ -152,12 +154,8 @@
   }
 
   function updateScoreElement() {
-    document.querySelector('.js-scores').innerHTML = getRawScores()
-
-    setTimeout(() => {
-      data = JSON.parse(localStorage.getItem('game_logs')) || []
-      renderTable(data)
-    })
+    document.querySelector('.js-scores').innerHTML = getRawScores();
+    document.querySelector('.js-result result').innerHTML = gameResult;
   }
 
   // global state... unsafe here
