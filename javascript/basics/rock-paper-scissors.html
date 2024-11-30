@@ -29,12 +29,11 @@
     }
 
     function resetScores() {
-      scores = {
-        wins: 0,
-        loses: 0,
-        ties: 0,
-        win_rate: 0,
-      }
+      scores.wins = 0
+      scores.loses = 0
+      scores.ties = 0
+      scores.win_rate = 0
+      console.log("reset scores")
     }
 
     function getComputerMove() {
