@@ -95,6 +95,15 @@
         result: result,
       }
 
+      let game_logs = localStorage.getItem('game_logs') || [];
+      console.log('-----',game_logs)
+      game_logs.push({ key: 'value' });
+      localStorage.setItem('game_logs', game_logs);
+
+      let data = JSON.parse(localStorage.getItem('myData')) || [];
+      data.push(detail);
+      localStorage.setItem('myData', JSON.stringify(data));
+
       updateScores(result)
 
       let summary = {
