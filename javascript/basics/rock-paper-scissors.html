@@ -24,6 +24,7 @@
       wins: 0,
       loses: 0,
       ties: 0,
+      win_rate: 0,
     }
 
     function getComputerMove() {
@@ -85,7 +86,9 @@
         result: result,
       }
 
-      console.log(detail)
+      console.log('game detail', detail)
+      updateScores(result)
+      console.log('current score board', scores)
     }
 
     function updateScores(gameResult) {
@@ -94,12 +97,13 @@
       if (gameResult == 'win') {
         scores.wins += 1
       } else if (gameResult == 'lose') {
-        scores.lose += 1
+        scores.loses += 1
       } else if (gameResult == 'tie') {
         scores.ties += 1
       }
 
-      console.log(`current score board: ${scores}`)
+      let tmp = scores.wins / (scores.win+scores.loses+scores.ties)
+      scores.win_rate =
     }
   </script>
 </html>
