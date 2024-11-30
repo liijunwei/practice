@@ -17,6 +17,7 @@
     <button onclick="playGame('rock')">rock</button>
     <button onclick="playGame('paper')">paper</button>
     <button onclick="playGame('scissors')">scissors</button>
+    <button onclick="resetScores()">reset scores</button>
   </body>
 
   <script>
@@ -25,6 +26,15 @@
       loses: 0,
       ties: 0,
       win_rate: 0,
+    }
+
+    function resetScores() {
+      scores = {
+        wins: 0,
+        loses: 0,
+        ties: 0,
+        win_rate: 0,
+      }
     }
 
     function getComputerMove() {
@@ -86,9 +96,8 @@
         result: result,
       }
 
-      console.log('game detail', detail)
       updateScores(result)
-      console.log('current score board', scores)
+      console.log('current score board', detail, scores)
     }
 
     function updateScores(gameResult) {
@@ -102,8 +111,8 @@
         scores.ties += 1
       }
 
-      let tmp = scores.wins / (scores.win+scores.loses+scores.ties)
-      scores.win_rate =
+      let winRate = (scores.wins / (scores.wins+scores.loses+scores.ties)).toFixed(2)
+      scores.win_rate = winRate
     }
   </script>
 </html>
