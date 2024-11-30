@@ -12,13 +12,13 @@
   }
 
   table {
-    width: 100%;
+    width: 50%;
     border-collapse: collapse;
   }
 
   th,
   td {
-    border: 1px solid black;
+    border: 2px solid black;
     padding: 8px;
     text-align: left;
   }
@@ -38,9 +38,8 @@
       downloadGameLogsFromLocalStorage('rock_paper_scissors_game_logs1.json')
       ">download game logs</button>
   <p class="js-scores"></p>
-  <p class="js-game-logs"></p>
-  <div id="js-table-container"></div>
   <button onclick="resetScores()">reset</button>
+  <div id="js-table-container"></div>
 </body>
 
 <script>
@@ -226,6 +225,9 @@
 
     const table = document.createElement('table');
     table.setAttribute('border', '1');
+
+    // sort by created_at desc
+    data.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
 
     const headerRow = document.createElement('tr');
     Object.keys(data[0]).forEach(key => {
