@@ -7,63 +7,9 @@
   <p>rock paper scissors</p>
 
   <body>
-    <button onclick="
-      const computerMove = getComputerMove()
-      let result = ''
-
-      if (computerMove == 'rock') {
-        result = 'tie';
-      } else if (computerMove == 'paper') {
-        result = 'lose';
-      } else if (computerMove == 'scissors') {
-        result = 'win';
-      }
-
-      detail = {
-        you: 'rock',
-        computer: computerMove,
-        result: result,
-      }
-      console.log(detail)
-    ">rock</button>
-    <button onclick="
-      const computerMove = getComputerMove()
-      let result = ''
-
-      if (computerMove == 'rock') {
-        result = 'win';
-      } else if (computerMove == 'paper') {
-        result = 'tie';
-      } else if (computerMove == 'scissors') {
-        result = 'lose';
-      }
-
-      detail = {
-        you: 'paper',
-        computer: computerMove,
-        result: result,
-      }
-      console.log(detail)
-    ">paper</button>
-    <button onclick="
-      const computerMove = getComputerMove()
-      let result = ''
-
-      if (computerMove == 'rock') {
-        result = 'lose';
-      } else if (computerMove == 'paper') {
-        result = 'win';
-      } else if (computerMove == 'scissors') {
-        result = 'tie';
-      }
-
-      detail = {
-        you: 'scissors',
-        computer: computerMove,
-        result: result,
-      }
-      console.log(detail)
-    ">scissors</button>
+    <button onclick="playGame('rock')">rock</button>
+    <button onclick="playGame('paper')">paper</button>
+    <button onclick="playGame('scissors')">scissors</button>
   </body>
 
   <script>
@@ -88,7 +34,6 @@
       const computerMove = getComputerMove()
       let result = ''
 
-
       if (playerMove == 'rock') {
         if (computerMove == 'rock') {
           result = 'tie';
@@ -105,9 +50,17 @@
         } else if (computerMove == 'scissors') {
           result = 'lose';
         }
-      } else if (playerMove == 'scissors'){
-
+      } else if (playerMove == 'scissors') {
+        if (computerMove == 'rock') {
+          result = 'lose';
+        } else if (computerMove == 'paper') {
+          result = 'win';
+        } else if (computerMove == 'scissors') {
+          result = 'tie';
+        }
       }
+
+      console.assert(result != '')
 
       let detail = {
         you: playerMove,
