@@ -34,6 +34,11 @@
   th {
     background-color: #f2f2f2;
   }
+
+  .js-cost-input {
+    font-size: 20px;
+    padding: 15px 32px;
+  }
 </style>
 
 <h2>rock paper scissors</h2>
@@ -53,7 +58,7 @@
   <br />
 
   <h2>Calculator</h2>
-  <p>rule: it add extra $10 fee if the cost is less than $40</p>
+  <p>rule: order over $40 = FREE shipping</p>
   <input class="js-cost-input" placeholder="cost of the order" onkeydown="handleCostKeydown(event)">
   <button onclick="handleCalculateTotal()">Calculate</button>
   <p class="js-total-cost"></p>
