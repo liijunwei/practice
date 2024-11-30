@@ -12,12 +12,6 @@
     font-family: Arial;
   }
 
-  button {
-    padding: 15px 32px;
-    font-size: 25px;
-  }
-
-
   .title {
     font-size: 30px;
     font-weight: bold;
@@ -43,7 +37,15 @@
   }
 
   .score {
-    margin-top: 70px;
+    margin-top: 50px;
+  }
+
+  .reset-score-button {
+    background-color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 25px;
+    cursor: pointer;
   }
 </style>
 
@@ -56,14 +58,9 @@
   <button onclick="playGame('paper')" class="move-button"><img src="./paper-emoji.png" class="move-icon"></button>
   <button onclick="playGame('scissors')" class="move-button"><img src="./scissors-emoji.png" class="move-icon"></button>
   <p class="js-result result"></p>
-  <p class="js-moves">
-    You
-    <img src="./rock-emoji.png" class="move-icon">
-    <img src="./rock-emoji.png" class="move-icon">
-    Computer
-  </p>
+  <p class="js-moves"></p>
   <p class="js-scores score"></p>
-  <button onclick="resetScores()">reset</button>
+  <button onclick="resetScores()" class="reset-score-button">reset</button>
   <div id="js-table-container"></div>
 
 </body>
@@ -160,7 +157,12 @@
     localStorage.setItem('scores', data)
 
     updateScoreElement()
-    document.querySelector('.js-result').innerHTML = gameResult;
+    document.querySelector('.js-result').innerHTML = `You ${gameResult}.`;
+    document.querySelector('.js-moves').innerHTML = `
+      You
+      <img src="./rock-emoji.png" class="move-icon">
+      <img src="./rock-emoji.png" class="move-icon">
+      Computer`;
   }
 
   function updateScoreElement() {
