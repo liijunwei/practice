@@ -25,9 +25,18 @@
 
       if (computer_move == 'rock') {
         result = 'tie';
+      } else if (computer_move == 'paper') {
+        result = 'lose';
+      } else if (computer_move == 'scissors') {
+        result = 'win';
       }
 
-      console.log(computer_move)
+      detail = {
+        you: 'rock',
+        computer: computer_move,
+        result: result,
+      }
+      console.log(detail)
     ">rock</button>
     <button onclick="
       // todo
