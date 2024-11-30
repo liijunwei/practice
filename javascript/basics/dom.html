@@ -11,6 +11,7 @@
 
   <body>
     <button>button1</button>
+    <button class="js-button">button2</button>
   </body>
 
   <script>
@@ -27,8 +28,14 @@
     }
 
     function practice2() {
+      // select by DOM element type
       console.log(document.querySelector('button').innerHTML)
       document.querySelector('button').innerHTML = "boom"
+
+      // select by class
+      const btnElement = document.querySelector('.js-button')
+      console.log(btnElement)
+      btnElement
     }
 
     // practice1()
