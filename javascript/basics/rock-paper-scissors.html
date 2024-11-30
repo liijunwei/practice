@@ -148,8 +148,10 @@
   function updateScoreElement() {
     document.querySelector('.js-scores').innerHTML = getRawScores()
 
-    data = JSON.parse(localStorage.getItem('game_logs')) || []
-    renderTable(data)
+    setTimeout(()=> {
+      data = JSON.parse(localStorage.getItem('game_logs')) || []
+      renderTable(data)
+    })
   }
 
   // global state... unsafe here
@@ -211,12 +213,16 @@
   // objectPlayground()
 
   function renderTable(data) {
+    let container = document.querySelector('#js-table-container');
+    container.innerHTML = '';
+
     if (data.length == 0) {
       console.log("skip rendering table as no elememt exist")
       return
     }
 
     console.assert(data.length > 0)
+    console.assert(container.innerHTML == '')
 
     const table = document.createElement('table');
     table.setAttribute('border', '1');
@@ -239,12 +245,7 @@
       table.appendChild(row);
     });
 
-    console.dir(table);
-
-    let container = document.querySelector('#js-table-container')
-    container.remove()
     container.appendChild(table);
-    // container.replaceChild(container.childNodes, table)
   }
 </script>
 
