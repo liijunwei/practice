@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>dom xxx</title>
+    <title>DOM practice</title>
   </head>
 
   <style>
   </style>
 
-  <h2>dom practice</h2>
+  <h2>DOM practice</h2>
 
   <body>
-    <button onclick="foo()">boom</button>
+    <button>button1</button>
   </body>
 
   <script>
@@ -18,15 +18,21 @@
       return new Date().toISOString()
     }
 
-    function foo() {
-      console.log(now(), "hi")
+    function practice1() {
+      console.log(document.title)
+      console.log(document.body)
+      console.log(typeof document.body)
+      console.log(document.body.innerHTML)
+      document.body.innerHTML = "changed - -"
     }
 
-    // document.body.innerHTML = "hooo"
-    // document.title = "heyyy"
-    console.log(document.title)
-    console.log(document.body)
-    console.log(typeof document.body)
-    console.log(document.body.innerHTML)
+    function practice2() {
+      console.log(document.querySelector('button').innerHTML)
+      document.querySelector('button').innerHTML = "boom"
+    }
+
+    // practice1()
+    practice2()
+
   </script>
 </html>
