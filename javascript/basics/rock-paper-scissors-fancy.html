@@ -12,6 +12,12 @@
     font-family: Arial;
   }
 
+  button {
+    padding: 15px 32px;
+    font-size: 40px;
+  }
+
+
   .title {
     font-size: 30px;
     font-weight: bold;
@@ -20,15 +26,24 @@
   .move-icon {
     height: 50px;
   }
+
+  .move-button {
+    background-color: transparent;
+    border: 3px solid white;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+  }
 </style>
 
 <!-- https://supersimple.dev/projects/rock-paper-scissors/ -->
 <p class="title">rock paper scissors</p>
 
 <body>
-  <button onclick="playGame('rock')"><img src="./rock-emoji.png" class="move-icon"></button>
-  <button onclick="playGame('paper')"><img src="./paper-emoji.png" class="move-icon"></button>
-  <button onclick="playGame('scissors')"><img src="./scissors-emoji.png" class="move-icon"></button>
+  <button onclick="playGame('rock')" class="move-button"><img src="./rock-emoji.png" class="move-icon"></button>
+  <button onclick="playGame('paper')" class="move-button"><img src="./paper-emoji.png" class="move-icon"></button>
+  <button onclick="playGame('scissors')" class="move-button"><img src="./scissors-emoji.png" class="move-icon"></button>
   <p class="js-scores"></p>
   <button onclick="resetScores()">reset</button>
   <div id="js-table-container"></div>
