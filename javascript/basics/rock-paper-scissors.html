@@ -6,6 +6,11 @@
 </head>
 
 <style>
+  .fixTableHead {
+      /* overflow-y: auto; */
+      /* height: 110px; */
+  }
+
   button {
     padding: 15px 32px;
     font-size: 20px;
@@ -39,7 +44,7 @@
       ">download game logs</button>
   <p class="js-scores"></p>
   <button onclick="resetScores()">reset</button>
-  <div id="js-table-container"></div>
+  <div id="js-table-container" class="fixTableHead"></div>
 </body>
 
 <script>
