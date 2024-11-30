@@ -33,7 +33,6 @@
       win_rate: 0,
     }
 
-    document.querySelector('.js-scores').innerHTML = JSON.stringify(scores,0,2)
 
 
     function resetScores() {
@@ -128,6 +127,10 @@
 
       let winRate = (scores.wins / (scores.wins+scores.loses+scores.ties)).toFixed(2)
       scores.win_rate = winRate
+
+      data = JSON.stringify(scores)
+      localStorage.setItem('scores', data)
+      document.querySelector('.js-scores').innerHTML = data
     }
 
     function updateLocalStorage(gameDetail) {
