@@ -1,73 +1,85 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>DOM practice</title>
-  </head>
 
-  <style>
-    button {
-      padding: 15px 35px;
-      font-size: 18px;
-    }
+<head>
+  <title>DOM practice</title>
+</head>
 
-    .css-subscribe-button {
-      border: none;
-      background-color: black;
-      color: white;
-      font-weight: bold;
-      border-radius: 40px;
-      cursor: pointer;
-    }
-  </style>
+<style>
+  body {
+    font-family: Arial;
+  }
+
+  button {
+    padding: 15px 35px;
+    font-size: 18px;
+  }
+
+  .css-subscribe-button {
+    border: none;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border-radius: 40px;
+    cursor: pointer;
+  }
+
+  .is-subscribed {
+    background-color: rgb(240, 240, 240);
+    color: black;
+  }
+</style>
 
 <body>
-    <h2>DOM practice</h2>
-    <button>button1</button>
-    <button class="js-button">button2</button>
-    <br/>
-    <br/>
+  <p>DOM practice</p>
+  <button>button1</button>
+  <button class="js-button">button2</button>
+  <br />
+  <br />
 
-    <h2>Subscribe Button</h2>
-    <button class="js-subscribe-button css-subscribe-button" onclick="handleSubscribe()">Subscribe</button>
-  </body>
+  <p>Subscribe Button</p>
+  <button class="js-subscribe-button css-subscribe-button" onclick="handleSubscribe()">Subscribe</button>
+</body>
 
-  <script>
-    function handleSubscribe(){
-      const btn = document.querySelector('.js-subscribe-button');
+<script>
+  function handleSubscribe() {
+    const btn = document.querySelector('.js-subscribe-button');
 
-      if (btn.innerText === 'Subscribe') {
-        btn.innerText = 'Subscribed';
-        btn.classList.add('.is-subscribed');
-      } else {
-        btn.innerText = 'Subscribe';
-      }
+    if (btn.innerText === 'Subscribe') {
+      btn.innerText = 'Subscribed';
+      btn.classList.add('is-subscribed');
+    } else {
+      btn.innerText = 'Subscribe';
+      btn.classList.remove('is-subscribed');
     }
+  }
 
-    function now() {
-      return new Date().toISOString()
-    }
+  function now() {
+    return new Date().toISOString()
+  }
 
-    function practice1() {
-      console.log(document.title)
-      console.log(document.body)
-      console.log(typeof document.body)
-      console.log(document.body.innerHTML)
-      document.body.innerHTML = "changed - -"
-    }
+  function practice1() {
+    console.log(document.title)
+    console.log(document.body)
+    console.log(typeof document.body)
+    console.log(document.body.innerHTML)
+    document.body.innerHTML = "changed - -"
+  }
 
-    function practice2() {
-      // select by DOM element type
-      console.log(document.querySelector('button').innerHTML)
-      document.querySelector('button').innerHTML = "boom"
+  function practice2() {
+    // select by DOM element type
+    console.log(document.querySelector('button').innerHTML)
+    document.querySelector('button').innerHTML = "boom"
 
-      // select by class
-      const btnElement = document.querySelector('.js-button')
-      console.log(btnElement)
-    }
+    // select by class
+    const btnElement = document.querySelector('.js-button')
+    console.log(btnElement)
+  }
 
-    // practice1()
-    // practice2()
+  // practice1()
+  // practice2()
 
-    // https://supersimple.dev/projects/dom/
-  </script>
+  // https://supersimple.dev/projects/dom/
+</script>
+
 </html>
