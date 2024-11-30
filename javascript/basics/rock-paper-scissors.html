@@ -239,7 +239,10 @@
       table.appendChild(row);
     });
 
-    document.body.appendChild(table);
+    let container = document.querySelector('#js-table-container')
+    container.replaceChild(table,container.body)
+    // document.body.appendChild(table);
+    // document.body.replaceChild(table)
   }
 </script>
 
