@@ -8,58 +8,58 @@
 
   <body>
     <button onclick="
-      let computer_move = getComputerMove()
+      const computerMove = getComputerMove()
       let result = ''
 
-      if (computer_move == 'rock') {
+      if (computerMove == 'rock') {
         result = 'tie';
-      } else if (computer_move == 'paper') {
+      } else if (computerMove == 'paper') {
         result = 'lose';
-      } else if (computer_move == 'scissors') {
+      } else if (computerMove == 'scissors') {
         result = 'win';
       }
 
       detail = {
         you: 'rock',
-        computer: computer_move,
+        computer: computerMove,
         result: result,
       }
       console.log(detail)
     ">rock</button>
     <button onclick="
-      let computer_move = getComputerMove()
+      const computerMove = getComputerMove()
       let result = ''
 
-      if (computer_move == 'rock') {
+      if (computerMove == 'rock') {
         result = 'win';
-      } else if (computer_move == 'paper') {
+      } else if (computerMove == 'paper') {
         result = 'tie';
-      } else if (computer_move == 'scissors') {
+      } else if (computerMove == 'scissors') {
         result = 'lose';
       }
 
       detail = {
         you: 'paper',
-        computer: computer_move,
+        computer: computerMove,
         result: result,
       }
       console.log(detail)
     ">paper</button>
     <button onclick="
-      let computer_move = getComputerMove()
+      const computerMove = getComputerMove()
       let result = ''
 
-      if (computer_move == 'rock') {
+      if (computerMove == 'rock') {
         result = 'lose';
-      } else if (computer_move == 'paper') {
+      } else if (computerMove == 'paper') {
         result = 'win';
-      } else if (computer_move == 'scissors') {
+      } else if (computerMove == 'scissors') {
         result = 'tie';
       }
 
       detail = {
         you: 'scissors',
-        computer: computer_move,
+        computer: computerMove,
         result: result,
       }
       console.log(detail)
@@ -69,19 +69,22 @@
   <script>
     function getComputerMove() {
       const num = Math.random()
-      let computer_move = ''
+      let computerMove = ''
 
       if (num >= 0 && num < 1/3) {
-        computer_move = 'rock';
+        computerMove = 'rock';
       } else if (num >= 1/3 && num < 2/3) {
-        computer_move = 'paper';
+        computerMove = 'paper';
       } else if (num >= 2/3 && num < 1) {
-        computer_move = 'scissors';
+        computerMove = 'scissors';
       }
 
-      console.assert(computer_move != '')
+      console.assert(computerMove != '')
 
-      return computer_move;
+      return computerMove;
+    }
+
+    function playGame(playerMove) {
     }
   </script>
 </html>
