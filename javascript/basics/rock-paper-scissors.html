@@ -6,7 +6,7 @@
 </head>
 
 <style>
-  .fixTableHead {
+  .fixTableHead { /* not sure how this works */
     position: sticky;
     top: 0;
     z-index: 9999;
@@ -46,6 +46,12 @@
   <p class="js-scores"></p>
   <button onclick="resetScores()">reset</button>
   <div id="js-table-container" class="fixTableHead"></div>
+  <br/>
+  <br/>
+  <br/>
+
+  <h2>Calculator</h2>
+
 </body>
 
 <script>
@@ -236,15 +242,12 @@
     data.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
 
     const thead = document.createElement('thead');
-    thead.className = '.fixTableHead'
     table.appendChild(thead);
 
     const tbody = document.createElement('tbody');
     table.appendChild(tbody);
 
     const headerRow = document.createElement('tr');
-    thead.appendChild(headerRow)
-
     Object.keys(data[0]).forEach(key => {
       const th = document.createElement('th');
       th.appendChild(document.createTextNode(key));
@@ -259,7 +262,7 @@
         td.appendChild(document.createTextNode(value));
         row.appendChild(td);
       });
-      table.appendChild(row);
+      tbody.appendChild(row);
     });
 
     container.appendChild(table);
