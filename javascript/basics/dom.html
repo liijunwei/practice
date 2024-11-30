@@ -5,13 +5,23 @@
   </head>
 
   <style>
+    button {
+      padding: 15px 32px;
+      font-size: 20px;
+    }
   </style>
 
-  <h2>DOM practice</h2>
-
-  <body>
+<body>
+    <h2>DOM practice</h2>
     <button>button1</button>
     <button class="js-button">button2</button>
+    <br/>
+    <br/>
+
+    <h2>Subscribe Button</h2>
+    <button class="js-subscribe-button" onclick="
+      document.querySelector('.js-subscribe-button').innerHTML = 'Subscribe'
+    ">Subscribe</button>
   </body>
 
   <script>
@@ -35,11 +45,11 @@
       // select by class
       const btnElement = document.querySelector('.js-button')
       console.log(btnElement)
-      btnElement
     }
 
     // practice1()
-    practice2()
+    // practice2()
 
+    // https://supersimple.dev/projects/dom/
   </script>
 </html>
