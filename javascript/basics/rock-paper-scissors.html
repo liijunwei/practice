@@ -36,10 +36,7 @@
       ">download game logs</button>
     <p class="js-scores"></p>
     <p class="js-game-logs"></p>
-    <table id="data-table">
-      <tbody>
-      </tbody>
-    </table>
+    <div id="js-table-container"></div>
     <button onclick="resetScores()">reset</button>
   </body>
 
@@ -148,8 +145,6 @@
     function updateScoreElement() {
       document.querySelector('.js-scores').innerHTML = getRawScores()
 
-      // TODO render table
-      // document.querySelector('.js-game-logs').innerHTML = localStorage.getItem('game_logs')
       data = JSON.parse(localStorage.getItem('game_logs')) || []
       renderTable(data)
     }
@@ -213,19 +208,16 @@
     // objectPlayground()
 
     function renderTable(data) {
-      const table = document.querySelector('#data-table');
-      // console.log("table",table)
-      const tableBody = table.querySelector('tbody');
-
-      // Clear existing rows
-      // table.innerHTML = '';
+      const container = document.querySelector('#js-table-container');
+      const table = container.createElement('table')
 
       if (data.length == 0) {
-        table.style.display = 'none';
+        table.innerHTML = '';
         return
       }
 
       console.assert(data.length > 0)
+      console.log("render table")
 
       // Render table header
       const headerRow = document.createElement('tr');
