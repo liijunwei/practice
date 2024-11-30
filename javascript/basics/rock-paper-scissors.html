@@ -21,6 +21,7 @@
   </body>
 
   <script>
+    localStorage.removeItem('game_logs')
     const scores = {
       wins: 0,
       loses: 0,
@@ -95,16 +96,8 @@
         result: result,
       }
 
-      let game_logs = localStorage.getItem('game_logs') || [];
-      console.log('-----',game_logs)
-      game_logs.push({ key: 'value' });
-      localStorage.setItem('game_logs', game_logs);
-
-      let data = JSON.parse(localStorage.getItem('myData')) || [];
-      data.push(detail);
-      localStorage.setItem('myData', JSON.stringify(data));
-
       updateScores(result)
+      updateLocalStorage(detail)
 
       let summary = {
         description: 'current score board',
@@ -127,6 +120,12 @@
 
       let winRate = (scores.wins / (scores.wins+scores.loses+scores.ties)).toFixed(2)
       scores.win_rate = winRate
+    }
+
+    function updateLocalStorage(gameDetail) {
+      let logs = JSON.parse(localStorage.getItem('game_logs')) || [];
+      logs.push(gameDetail);
+      localStorage.setItem('game_logs', JSON.stringify(logs));
     }
   </script>
 </html>
