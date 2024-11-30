@@ -17,14 +17,10 @@
     <button onclick="playGame('rock')">rock</button>
     <button onclick="playGame('paper')">paper</button>
     <button onclick="playGame('scissors')">scissors</button>
-    <button onclick="resetScores()">reset scores</button>
     <button onclick="
       downloadGameLogsFromLocalStorage('rock_paper_scissors_game_logs1.json')
       ">download game logs</button>
-    <button onclick="tryFileSaver()">file-saver</button>
   </body>
-
-  <script src="https://cdn.jsdelivr.net/npm/file-saver"></script>
 
   <script>
     localStorage.removeItem('game_logs')
@@ -148,13 +144,5 @@
       a.click();
       URL.revokeObjectURL(url);
     }
-
-    function tryFileSaver() {
-      const localStorageData = JSON.stringify(localStorage);
-      const blob = new Blob([localStorageData], { type: 'application/json' });
-      const fileName = 'localStorageData.json';
-      saveAs(blob, fileName, { conflictAction: 'replace' });
-    }
-    // saveAs(blob, fileName, { conflictAction: 'replace' });
   </script>
 </html>
