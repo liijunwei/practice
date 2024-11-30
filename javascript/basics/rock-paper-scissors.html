@@ -150,6 +150,8 @@
 
       // TODO render table
       // document.querySelector('.js-game-logs').innerHTML = localStorage.getItem('game_logs')
+      data = JSON.parse(localStorage.getItem('game_logs')) || []
+      renderTable(data)
     }
 
     // global state... unsafe here
@@ -212,10 +214,11 @@
 
     function renderTable(data) {
       const table = document.querySelector('#data-table');
+      // console.log("table",table)
       const tableBody = table.querySelector('tbody');
 
       // Clear existing rows
-      tableBody.innerHTML = '';
+      // table.innerHTML = '';
 
       if (data.length == 0) {
         table.style.display = 'none';
