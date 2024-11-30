@@ -129,16 +129,20 @@
 
     const detail = {
       created_at: new Date().toISOString(),
-      you: playerMove,
-      computer: computerMove,
+      playerMove: playerMove,
+      computerMove: computerMove,
       result: result,
     }
 
-    updateScores(result)
+    updateScores(detail)
   }
 
-  function updateScores(gameResult) {
+  function updateScores(detail) {
+    let gameResult = detail.result
     console.assert(gameResult == 'win' || gameResult == 'lose' || gameResult == 'tie')
+
+    let playerMove = detail.playerMove;
+    let computerMove = detail.computerMove;
 
     let scores = getScores()
 
@@ -160,8 +164,8 @@
     document.querySelector('.js-result').innerHTML = `You ${gameResult}.`;
     document.querySelector('.js-moves').innerHTML = `
       You
-      <img src="./rock-emoji.png" class="move-icon">
-      <img src="./rock-emoji.png" class="move-icon">
+      <img src="./${playerMove}-emoji.png" class="move-icon">
+      <img src="./${computerMove}-emoji.png" class="move-icon">
       Computer`;
   }
 
