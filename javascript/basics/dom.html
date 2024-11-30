@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>dom practice</title>
+  </head>
+
+  <style>
+  </style>
+
+  <h2>dom practice</h2>
+
+  <body>
+    <button onclick="foo()">boom</button>
+  </body>
+
+  <script>
+    function now() {
+      return new Date().toISOString()
+    }
+
+    function foo() {
+      console.log(now(), "hi")
+    }
+
+    document.body.innerHTML = "hooo"
+    document.title = "heyyy"
+  </script>
+</html>
