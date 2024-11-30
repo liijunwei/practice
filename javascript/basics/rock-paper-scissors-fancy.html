@@ -11,14 +11,24 @@
     color: white;
     font-family: Arial;
   }
+
+  .title {
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  .move-icon {
+    height: 50px;
+  }
 </style>
 
-<h2>rock paper scissors</h2>
+<!-- https://supersimple.dev/projects/rock-paper-scissors/ -->
+<p class="title">rock paper scissors</p>
 
 <body>
-  <button onclick="playGame('rock')">rock</button>
-  <button onclick="playGame('paper')">paper</button>
-  <button onclick="playGame('scissors')">scissors</button>
+  <button onclick="playGame('rock')"><img src="./rock-emoji.png" class="move-icon"></button>
+  <button onclick="playGame('paper')"><img src="./paper-emoji.png" class="move-icon"></button>
+  <button onclick="playGame('scissors')"><img src="./scissors-emoji.png" class="move-icon"></button>
   <p class="js-scores"></p>
   <button onclick="resetScores()">reset</button>
   <div id="js-table-container"></div>
