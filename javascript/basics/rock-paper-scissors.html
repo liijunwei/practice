@@ -96,7 +96,13 @@
       }
 
       updateScores(result)
-      console.log('current score board', detail, scores)
+
+      let summary = {
+        description: 'current score board',
+        ...detail, ...scores
+      }
+
+      console.log(JSON.stringify(summary))
     }
 
     function updateScores(gameResult) {
