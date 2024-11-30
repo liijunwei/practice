@@ -41,6 +41,10 @@
     font-weight: bold;
     margin-top: 50px;
   }
+
+  .score {
+    margin-top: 70px;
+  }
 </style>
 
 
@@ -52,8 +56,13 @@
   <button onclick="playGame('paper')" class="move-button"><img src="./paper-emoji.png" class="move-icon"></button>
   <button onclick="playGame('scissors')" class="move-button"><img src="./scissors-emoji.png" class="move-icon"></button>
   <p class="js-result result"></p>
-  <p class="js-moves"></p>
-  <p class="js-scores"></p>
+  <p class="js-moves">
+    You
+    <img src="./rock-emoji.png" class="move-icon">
+    <img src="./rock-emoji.png" class="move-icon">
+    Computer
+  </p>
+  <p class="js-scores score"></p>
   <button onclick="resetScores()">reset</button>
   <div id="js-table-container"></div>
 
@@ -151,11 +160,11 @@
     localStorage.setItem('scores', data)
 
     updateScoreElement()
+    document.querySelector('.js-result').innerHTML = gameResult;
   }
 
   function updateScoreElement() {
-    document.querySelector('.js-scores').innerHTML = getRawScores();
-    document.querySelector('.js-result result').innerHTML = gameResult;
+    document.querySelector('.js-scores').innerHTML = getRawScores()
   }
 
   // global state... unsafe here
