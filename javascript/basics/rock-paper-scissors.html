@@ -9,7 +9,17 @@
   <body>
     <button onclick="
       const num = Math.random()
-      console.log(num);
+      var computer_move
+
+      if (num >= 0 && num < 1/3) {
+        computer_move = 'rock';
+      } else if (num >= 1/3 && num < 2/3) {
+        computer_move = 'paper';
+      } else if (num >= 2/3 && num < 1) {
+        computer_move = 'scissors';
+      }
+
+      console.log(computer_move)
     ">rock</button>
     <button onclick="
       // todo
