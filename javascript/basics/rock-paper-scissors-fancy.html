@@ -6,48 +6,10 @@
 </head>
 
 <style>
-  .fixTableHead {
-    /* not sure how this works */
-    position: sticky;
-    top: 0;
-    z-index: 9999;
-  }
-
-  button,
-  input {
-    padding: 15px 32px;
-    font-size: 20px;
-  }
-
-  table {
-    width: 50%;
-    border-collapse: collapse;
-  }
-
-  th,
-  td {
-    border: 2px solid black;
-    padding: 8px;
-    text-align: left;
-  }
-
-  th {
-    background-color: #f2f2f2;
-  }
-
-  .js-cost-input {
-    font-size: 20px;
-    padding: 15px 32px;
-  }
-
-  .calculate-button {
-    background-color: green;
+  body {
+    background-color: black;
     color: white;
-    border: none;
-    font-size: 20px;
-    border-radius: 10px;
-    padding: 17px 32px;
-    cursor: pointer;
+    font-family: Arial;
   }
 </style>
 
@@ -57,25 +19,10 @@
   <button onclick="playGame('rock')">rock</button>
   <button onclick="playGame('paper')">paper</button>
   <button onclick="playGame('scissors')">scissors</button>
-  <button onclick="
-      downloadGameLogsFromLocalStorage('rock_paper_scissors_game_logs1.json')
-      ">download game logs</button>
   <p class="js-scores"></p>
   <button onclick="resetScores()">reset</button>
-  <br />
-  <br />
-  <div id="js-table-container" class="fixTableHead"></div>
-  <br />
-  <br />
-  <br />
+  <div id="js-table-container"></div>
 
-  <h2>Calculator</h2>
-  <p>rule: order over $40 = FREE shipping</p>
-  <input class="js-cost-input" placeholder="cost of the order" onkeydown="handleCostKeydown(event)">
-  <button class="calculate-button" onclick="handleCalculateTotal()">Calculate</button>
-  <p class="js-total-cost"></p>
-
-  <!-- https://supersimple.dev/projects/dom-with-css/ -->
 </body>
 
 <script>
@@ -148,7 +95,6 @@
     }
 
     updateScores(result)
-    appendGameLogsToLocalStorage(detail)
 
     let summary = {
       description: 'current score board',
@@ -204,111 +150,6 @@
       loses: 0,
       ties: 0,
       win_rate: 0,
-    }
-  }
-
-  function appendGameLogsToLocalStorage(gameDetail) {
-    let logs = JSON.parse(localStorage.getItem('game_logs')) || [];
-    logs.push(gameDetail);
-    localStorage.setItem('game_logs', JSON.stringify(logs));
-  }
-
-  // From GPT
-  function downloadGameLogsFromLocalStorage(filename) {
-    const data = localStorage.getItem('game_logs');;
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  function objectPlayground() {
-    let bar = 'yooo'
-    const demo = {
-      // message: '123'
-      bar,
-      fizz1: function (buzz) {
-        console.log("fizz1", buzz)
-      },
-      fizz2() {
-        console.log("fizz2")
-      }
-    }
-
-    console.log(demo)
-    console.log(demo.fizz1('coool'))
-    console.log(demo.fizz2())
-    console.log(demo.fizz2)
-
-    // window.alert()
-  }
-
-  // objectPlayground()
-
-  function renderTable(data) {
-    let container = document.querySelector('#js-table-container');
-    container.innerHTML = '';
-
-    if (data.length == 0) {
-      return
-    }
-
-    console.assert(data.length > 0)
-    console.assert(container.innerHTML == '')
-
-    const table = document.createElement('table');
-    table.setAttribute('border', '1');
-
-    // sort by created_at desc
-    data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-
-    const thead = document.createElement('thead');
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    table.appendChild(tbody);
-
-    const headerRow = document.createElement('tr');
-    Object.keys(data[0]).forEach(key => {
-      const th = document.createElement('th');
-      th.appendChild(document.createTextNode(key));
-      headerRow.appendChild(th);
-    });
-    thead.appendChild(headerRow);
-
-    data.forEach(item => {
-      const row = document.createElement('tr');
-      Object.values(item).forEach(value => {
-        const td = document.createElement('td');
-        td.appendChild(document.createTextNode(value));
-        row.appendChild(td);
-      });
-      tbody.appendChild(row);
-    });
-
-    container.appendChild(table);
-  }
-
-  function handleCalculateTotal() {
-    const inputElement = document.querySelector('.js-cost-input');
-    let cost = Number(inputElement.value);
-    console.assert(cost >= 0)
-
-    if (cost < 40) {
-      cost += 10;
-    }
-
-    document.querySelector('.js-total-cost').innerHTML = `$${cost}`
-  }
-
-  function handleCostKeydown(event) {
-    // console.log(event)
-    if (event.key === 'Enter') {
-      handleCalculateTotal()
     }
   }
 </script>
