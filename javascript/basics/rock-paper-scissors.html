@@ -4,6 +4,16 @@
     <title>rock paper scissors</title>
   </head>
 
+  <style>
+    button {
+      border: none;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+    }
+  </style>
   <p>rock paper scissors</p>
 
   <body>
@@ -25,13 +35,17 @@
         computerMove = 'scissors';
       }
 
-      console.assert(computerMove != '')
+      console.assert(computerMove == 'rock' || computerMove == 'paper' || computerMove == 'scissors')
 
       return computerMove;
     }
 
     function playGame(playerMove) {
+      console.assert(playerMove == 'rock' || playerMove == 'paper' || playerMove == 'scissors')
+
       const computerMove = getComputerMove()
+      console.assert(computerMove == 'rock' || computerMove == 'paper' || computerMove == 'scissors')
+
       let result = ''
 
       if (playerMove == 'rock') {
@@ -60,9 +74,9 @@
         }
       }
 
-      console.assert(result != '')
+      console.assert(result == 'win' || result == 'lose' || result == 'tie')
 
-      let detail = {
+      const detail = {
         you: playerMove,
         computer: computerMove,
         result: result,
