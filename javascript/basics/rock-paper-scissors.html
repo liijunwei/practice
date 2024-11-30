@@ -239,10 +239,12 @@
       table.appendChild(row);
     });
 
+    console.dir(table);
+
     let container = document.querySelector('#js-table-container')
-    container.replaceChild(table,container.body)
-    // document.body.appendChild(table);
-    // document.body.replaceChild(table)
+    container.remove()
+    container.appendChild(table);
+    // container.replaceChild(container.childNodes, table)
   }
 </script>
 
