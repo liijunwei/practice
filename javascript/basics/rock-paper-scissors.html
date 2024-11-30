@@ -20,17 +20,21 @@
     <button onclick="
       downloadGameLogsFromLocalStorage('rock_paper_scissors_game_logs1.json')
       ">download game logs</button>
+    <p class="js-scores"></p>
   </body>
 
   <script>
     localStorage.removeItem('game_logs')
 
-    const scores = {
+    let scores = JSON.parse(localStorage.getItem('scores')) || {
       wins: 0,
       loses: 0,
       ties: 0,
       win_rate: 0,
     }
+
+    document.querySelector('.js-scores').innerHTML = JSON.stringify(scores,0,2)
+
 
     function resetScores() {
       scores.wins = 0
@@ -164,6 +168,6 @@
       console.log(demo.fizz2)
     }
 
-    objectPlayground()
+    // objectPlayground()
   </script>
 </html>
