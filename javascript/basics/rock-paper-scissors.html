@@ -144,5 +144,26 @@
       a.click();
       URL.revokeObjectURL(url);
     }
+
+    function objectPlayground(){
+      let bar = 'yooo'
+      const demo = {
+        // message: '123'
+        bar,
+        fizz1: function(buzz){
+          console.log("fizz1",buzz)
+        },
+        fizz2() {
+          console.log("fizz2")
+        }
+      }
+
+      console.log(demo)
+      console.log(demo.fizz1('coool'))
+      console.log(demo.fizz2())
+      console.log(demo.fizz2)
+    }
+
+    objectPlayground()
   </script>
 </html>
