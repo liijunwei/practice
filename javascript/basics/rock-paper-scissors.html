@@ -12,7 +12,7 @@
     z-index: 9999;
   }
 
-  button {
+  button,input {
     padding: 15px 32px;
     font-size: 20px;
   }
@@ -51,7 +51,8 @@
   <br/>
 
   <h2>Calculator</h2>
-
+  <input placeholder="cost of the order">
+  <button class="js-cost-input" onclick="handleCalculateTotal()">Calculate</button>
 </body>
 
 <script>
@@ -266,6 +267,11 @@
     });
 
     container.appendChild(table);
+  }
+
+  function handleCalculateTotal() {
+    const inputElement = document.querySelector('.js-cost-input')
+    console.log(inputElement.value)
   }
 </script>
 
