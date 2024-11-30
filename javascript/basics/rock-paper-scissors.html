@@ -7,7 +7,6 @@
 
 <style>
   .fixTableHead {
-    /* background-color: #ddd; */
     position: sticky;
     top: 0;
     z-index: 9999;
@@ -236,13 +235,22 @@
     // sort by created_at desc
     data.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
 
+    const thead = document.createElement('thead');
+    thead.className = '.fixTableHead'
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+
     const headerRow = document.createElement('tr');
+    thead.appendChild(headerRow)
+
     Object.keys(data[0]).forEach(key => {
       const th = document.createElement('th');
       th.appendChild(document.createTextNode(key));
       headerRow.appendChild(th);
     });
-    table.appendChild(headerRow);
+    thead.appendChild(headerRow);
 
     data.forEach(item => {
       const row = document.createElement('tr');
