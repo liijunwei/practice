@@ -6,13 +6,15 @@
 </head>
 
 <style>
-  .fixTableHead { /* not sure how this works */
+  .fixTableHead {
+    /* not sure how this works */
     position: sticky;
     top: 0;
     z-index: 9999;
   }
 
-  button,input {
+  button,
+  input {
     padding: 15px 32px;
     font-size: 20px;
   }
@@ -46,12 +48,13 @@
   <p class="js-scores"></p>
   <button onclick="resetScores()">reset</button>
   <div id="js-table-container" class="fixTableHead"></div>
-  <br/>
-  <br/>
-  <br/>
+  <br />
+  <br />
+  <br />
 
   <h2>Calculator</h2>
-  <input class="js-cost-input" placeholder="cost of the order">
+  <p>rule: it add extra $10 fee if the cost is less than $40</p>
+  <input class="js-cost-input" placeholder="cost of the order" onkeydown="handleCostKeydown(event)">
   <button onclick="handleCalculateTotal()">Calculate</button>
   <p class="js-total-cost"></p>
 </body>
@@ -161,7 +164,7 @@
   function updateScoreElement() {
     document.querySelector('.js-scores').innerHTML = getRawScores()
 
-    setTimeout(()=> {
+    setTimeout(() => {
       data = JSON.parse(localStorage.getItem('game_logs')) || []
       renderTable(data)
     })
@@ -240,7 +243,7 @@
     table.setAttribute('border', '1');
 
     // sort by created_at desc
-    data.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
+    data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
 
     const thead = document.createElement('thead');
     table.appendChild(thead);
@@ -272,12 +275,20 @@
   function handleCalculateTotal() {
     const inputElement = document.querySelector('.js-cost-input');
     let cost = Number(inputElement.value);
+    console.assert(cost >= 0)
 
     if (cost < 40) {
       cost += 10;
     }
 
     document.querySelector('.js-total-cost').innerHTML = `$${cost}`
+  }
+
+  function handleCostKeydown(event) {
+    // console.log(event)
+    if (event.key === 'Enter') {
+      handleCalculateTotal()
+    }
   }
 </script>
 
