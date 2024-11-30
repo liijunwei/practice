@@ -17,32 +17,22 @@
     <button onclick="playGame('rock')">rock</button>
     <button onclick="playGame('paper')">paper</button>
     <button onclick="playGame('scissors')">scissors</button>
-    <button onclick="resetScores()">reset</button>
     <button onclick="
       downloadGameLogsFromLocalStorage('rock_paper_scissors_game_logs1.json')
       ">download game logs</button>
     <p class="js-scores"></p>
+    <button onclick="resetScores()">reset</button>
   </body>
 
   <script>
     localStorage.removeItem('game_logs')
 
-    let scores = JSON.parse(localStorage.getItem('scores')) || getEmptyScores()
+    let scores = JSON.parse(getScores())
     updateScoreElement()
 
     function resetScores() {
-      data = getEmptyScores()
-      localStorage.setItem('scores', JSON.stringify(data))
+      localStorage.removeItem('scores')
       updateScoreElement()
-    }
-
-    function getEmptyScores(){
-      return {
-        wins: 0,
-        loses: 0,
-        ties: 0,
-        win_rate: 0,
-      }
     }
 
     function getComputerMove() {
@@ -106,7 +96,7 @@
       }
 
       updateScores(result)
-      updateLocalStorage(detail)
+      appendGameLogsToLocalStorage(detail)
 
       let summary = {
         description: 'current score board',
@@ -137,10 +127,23 @@
     }
 
     function updateScoreElement() {
-      document.querySelector('.js-scores').innerHTML = localStorage.getItem('scores')
+      document.querySelector('.js-scores').innerHTML = getScores()
     }
 
-    function updateLocalStorage(gameDetail) {
+    function getScores() {
+      return localStorage.getItem('scores') || JSON.stringify(getEmptyScores())
+    }
+
+    function getEmptyScores() {
+      return {
+        wins: 0,
+        loses: 0,
+        ties: 0,
+        win_rate: 0,
+      }
+    }
+
+    function appendGameLogsToLocalStorage(gameDetail) {
       let logs = JSON.parse(localStorage.getItem('game_logs')) || [];
       logs.push(gameDetail);
       localStorage.setItem('game_logs', JSON.stringify(logs));
