@@ -18,7 +18,9 @@
     <button onclick="playGame('paper')">paper</button>
     <button onclick="playGame('scissors')">scissors</button>
     <button onclick="resetScores()">reset scores</button>
-    <button onclick="downloadGameLogsFromLocalStorage()">download game logs</button>
+    <button onclick="
+      downloadGameLogsFromLocalStorage('rock_paper_scissors_game_logs1.json')
+    ">download game logs</button>
   </body>
 
   <script>
@@ -93,6 +95,7 @@
       console.assert(result == 'win' || result == 'lose' || result == 'tie')
 
       const detail = {
+        created_at: new Date().toISOString(),
         you: playerMove,
         computer: computerMove,
         result: result,
@@ -131,15 +134,13 @@
     }
 
     // From GPT
-    function downloadGameLogsFromLocalStorage() {
-      const localStorageData = localStorage.getItem('game_logs');
-      // const data = JSON.stringify(localStorageData, null, 2);
+    function downloadGameLogsFromLocalStorage(filename) {
       const data = localStorage.getItem('game_logs');;
       const blob = new Blob([data], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'rock_paper_scissors_game_logs.json';
+      a.download = filename;
       document.body.appendChild(a);
       a.click();
       URL.revokeObjectURL(url);
