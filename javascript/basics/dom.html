@@ -19,12 +19,20 @@
     <br/>
 
     <h2>Subscribe Button</h2>
-    <button class="js-subscribe-button" onclick="
-      document.querySelector('.js-subscribe-button').innerHTML = 'Subscribe'
-    ">Subscribe</button>
+    <button class="js-subscribe-button" onclick="handleSubscribe()">Subscribe</button>
   </body>
 
   <script>
+    function handleSubscribe(){
+      const btn = document.querySelector('.js-subscribe-button');
+
+      if (btn.innerText === 'Subscribe') {
+        btn.innerText = 'Subscribed';
+      } else {
+        btn.innerText = 'Subscribe';
+      }
+    }
+
     function now() {
       return new Date().toISOString()
     }
