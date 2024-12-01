@@ -1,7 +1,7 @@
-const todoList = [
-  {name: 'task1', dueDate: '2024-11-30'},
-  {name: 'task2', dueDate: '2024-12-1'},
-];
+const todoList = []
+todoList.push({name: 'task1', dueDate: '2024-11-30'})
+todoList.push({name: 'task2', dueDate: '2024-12-1'})
+todoList.push({name: 'task2', dueDate: '2024-12-1'})
 
 setRandomDefaultDueDate()
 renderTodoList()
@@ -54,12 +54,8 @@ function handleDelete(index) {
 
 function setRandomDefaultDueDate() {
   const today = new Date();
-
   const tomorrow = new Date(today);
-
-  const est = getRandomNumber(1,3)
-  console.log(est)
-  tomorrow.setDate(today.getDate() + est);
+  tomorrow.setDate(today.getDate() + getRandomNumber(1,3));
   const defaultDueDate = formatDate(tomorrow);
 
   document.querySelector('.js-due-date-input').value = defaultDueDate

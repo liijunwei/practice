@@ -4,21 +4,15 @@
 <!-- https://supersimple.dev/projects/arrays/ -->
 <head>
   <title>TODO list</title>
+  <link rel="stylesheet" href="./todo-list.css"></link>
 </head>
-
-<style>
-  .css-item {
-    margin-top: 20px;
-  }
-
-</style>
 
 <body>
   <p>todo list</p>
   <input placeholder="todo name" class="js-name-input" onkeydown="handleAddKeydown(event)">
   <input type="date" class="js-due-date-input">
   <button onclick="addTodo()">ADD</button>
-  <div class="js-todo-list"></div>
+  <div class="js-todo-list todo-grid"></div>
   <script src="./todo-list.js"></script>
 </body>
 </html>
