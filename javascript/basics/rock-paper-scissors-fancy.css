@@ -4,6 +4,10 @@ body {
   font-family: Arial;
 }
 
+.content {
+  text-align: center;
+}
+
 .title {
   font-size: 30px;
   font-weight: bold;
@@ -32,7 +36,8 @@ body {
   margin-top: 50px;
 }
 
-.reset-score-button {
+.reset-score-button,
+.auto-play-button {
   background-color: white;
   border: none;
   padding: 8px 15px;

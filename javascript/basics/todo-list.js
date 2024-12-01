@@ -1,7 +1,7 @@
 const todoList = []
-todoList.push({name: 'task1', dueDate: '2024-11-30'})
-todoList.push({name: 'task2', dueDate: '2024-12-01'})
-todoList.push({name: 'task2', dueDate: '2024-12-01'})
+todoList.push({ name: 'task1', dueDate: '2024-11-30' })
+todoList.push({ name: 'task2', dueDate: '2024-12-01' })
+todoList.push({ name: 'task2', dueDate: '2024-12-01' })
 
 setRandomDefaultDueDate()
 renderTodoList()
@@ -17,7 +17,7 @@ function addTodo() {
   const date = dateElememt.value;
 
   if (name !== '' && name.trim() !== '') {
-    todoList.push({name: name, dueDate: date});
+    todoList.push({ name: name, dueDate: date });
   }
 
   console.log(todoList);
@@ -34,7 +34,7 @@ function handleAddKeydown(event) {
 function renderTodoList() {
   let todoHTML = ''
   todoList.forEach((item, index) => {
-    const {name, dueDate} = item;
+    const { name, dueDate } = item;
 
     const html = `
       <div class="grid-item">${name}</div>
@@ -55,7 +55,7 @@ function handleDelete(index) {
 function setRandomDefaultDueDate() {
   const today = new Date();
   const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + getRandomNumber(1,3));
+  tomorrow.setDate(today.getDate() + getRandomNumber(1, 3));
   const defaultDueDate = formatDate(tomorrow);
 
   document.querySelector('.js-due-date-input').value = defaultDueDate
@@ -77,7 +77,7 @@ function getRandomNumber(min, max) {
 
 // playground1()
 function playground1() {
-  const a1 = [1,2,3];
+  const a1 = [1, 2, 3];
   const a2 = a1.slice(); // js shallow copy
   console.log('a1', a1)
   console.log('a1', a2)
@@ -87,15 +87,15 @@ function playground1() {
   console.log('a1', a2)
   console.log("====")
 
-  const [foo,bar,fizz] = ['boo','bar','fizz','buzz'];
-  console.log('foo',foo)
-  console.log('bar',bar)
-  console.log('fizz',fizz)
+  const [foo, bar, fizz] = ['boo', 'bar', 'fizz', 'buzz'];
+  console.log('foo', foo)
+  console.log('bar', bar)
+  console.log('fizz', fizz)
 }
 
 playground2()
 function playground2() {
-  const f1 = function (){ // anonymous function
+  const f1 = function () { // anonymous function
     console.log("func1")
   }
   console.log(f1)
@@ -124,6 +124,9 @@ function playground2() {
   console.log(o2)
   o2.f2()
 
-  setTimeout(()=> console.log("kapoom"), 1000) // async
+  setTimeout(() => console.log("kapoom"), 1000) // async
+  setTimeout(function () { console.log("kapoom") }, 1000) // async
   console.log("fire in the hole")
+
+  setInterval(() => { console.log("ping") }, 3000);
 }

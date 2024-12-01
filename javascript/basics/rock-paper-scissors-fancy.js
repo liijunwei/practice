@@ -122,3 +122,9 @@ function getEmptyScores() {
     win_rate: 0,
   }
 }
+
+function handleAutoplay() {
+  setInterval(() => {
+
+  }, 300); // ms
+}

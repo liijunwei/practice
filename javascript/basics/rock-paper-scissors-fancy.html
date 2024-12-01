@@ -3,21 +3,25 @@
 
 <head>
   <title>rock paper scissors - fancy</title>
-  <link rel="stylesheet" href="./rock-paper-scissors-fancy.css"></link>
+  <link rel="stylesheet" href="./rock-paper-scissors-fancy.css">
+  </link>
 </head>
 
-<p class="title">rock paper scissors</p>
-
 <body>
-  <!-- image asset: https://supersimple.dev/projects/rock-paper-scissors/ -->
-  <button onclick="playGame('rock')" class="move-button"><img src="./rock-emoji.png" class="move-icon"></button>
-  <button onclick="playGame('paper')" class="move-button"><img src="./paper-emoji.png" class="move-icon"></button>
-  <button onclick="playGame('scissors')" class="move-button"><img src="./scissors-emoji.png" class="move-icon"></button>
-  <p class="js-result result"></p>
-  <p class="js-moves"></p>
-  <p class="js-scores score"></p>
-  <button onclick="resetScores()" class="reset-score-button">reset</button>
-  <div id="js-table-container"></div>
+  <div class="content">
+    <p class="title">rock paper scissors - fancy</p>
+    <!-- image asset: https://supersimple.dev/projects/rock-paper-scissors/ -->
+    <button onclick="playGame('rock')" class="move-button"><img src="./rock-emoji.png" class="move-icon"></button>
+    <button onclick="playGame('paper')" class="move-button"><img src="./paper-emoji.png" class="move-icon"></button>
+    <button onclick="playGame('scissors')" class="move-button"><img src="./scissors-emoji.png"
+        class="move-icon"></button>
+    <p class="js-result result"></p>
+    <p class="js-moves"></p>
+    <p class="js-scores score"></p>
+    <button onclick="resetScores()" class="reset-score-button">reset</button>
+    <button onclick="handleAutoplay()" class="auto-play-button">auto play</button>
+    <div id="js-table-container"></div>
+  </div>
 </body>
 
 <script src="./rock-paper-scissors-fancy.js"></script>
