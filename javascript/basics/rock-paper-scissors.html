@@ -301,16 +301,12 @@
     }
 
     document.querySelector('.js-total-cost').innerHTML = `$${cost}`
-    // better user experience
+    // better user experience?
     inputElement.placeholder = cost
     inputElement.value = ''
-    setTimeout(resetPlaceholder, 10000);
-  }
-
-  function resetPlaceholder(defaultPlaceholder) {
-    inputElement = document.querySelector('.js-total-cost').innerHTML = `$${cost}`
-    console.assert(inputElement !== null);
-    inputElement.placeholder = defaultPlaceholder
+    setTimeout(() => {
+      inputElement.placeholder = "cost of the order";
+    }, 3000);
   }
 
   document.querySelector('.js-cost-input').addEventListener('keydown', () => {

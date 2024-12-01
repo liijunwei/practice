@@ -162,3 +162,19 @@ function addEventListenerToDemoButton() {
     console.log("click2");
   })
 }
+
+
+// map/filter for array
+playground4()
+function playground4() {
+  const a1 = [1, 2, 3, 4, 5];
+  const a2 = a1.filter((value, index) => {
+    return value > 2 && index < 3
+  })
+  console.log(a2)
+
+  const a3 = a1.map((value, index) => {
+    return (value + 10) * (index + 1)
+  })
+  console.log(a3)
+}
