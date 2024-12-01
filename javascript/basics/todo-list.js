@@ -128,3 +128,20 @@ function playground2() {
 
   setInterval(() => { console.log("ping") }, 3000);
 }
+
+playground3()
+function playground3() {
+  const f1 = () => {
+    console.log("arraw function")
+  }
+
+  f1()
+
+  const o1 = {
+    m1: () => {
+      console.log('m1')
+    }
+  }
+
+  o1.m1()
+}

@@ -28,7 +28,8 @@ body {
 }
 
 .add-todo-button,
-.delete-todo-button {
+.delete-todo-button,
+.demo-button {
   color: white;
   border: none;
   font-size: 15px;
@@ -42,4 +43,8 @@ body {
 
 .delete-todo-button {
   background-color: darkred;
+}
+
+.demo-button {
+  background-color: gray;
 }
