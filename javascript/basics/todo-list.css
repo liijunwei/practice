@@ -8,10 +8,12 @@ body {
   grid-template-columns: 200px 150px 100px;
   column-gap: 10px;
   row-gap: 10px;
+  align-items: center;
 }
 
 .todo-input-grid {
   margin-bottom: 10px;
+  align-items: stretch;
 }
 
 .name-input,
@@ -29,9 +31,11 @@ body {
 }
 
 .delete-todo-button {
-  background-color: green;
+  background-color: darkred;
   color: white;
   border: none;
   font-size: 15px;
   cursor: pointer;
+  padding: 10px 15px;
+  /* padding-bottom: 10px; */
 }
