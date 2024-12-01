@@ -74,3 +74,21 @@ function formatDate(date) {
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+playground()
+function playground() {
+  const a1 = [1,2,3];
+  const a2 = a1.slice(); // js shallow copy
+  console.log('a1', a1)
+  console.log('a1', a2)
+  console.log("====")
+  a2.push(4)
+  console.log('a1', a1)
+  console.log('a1', a2)
+  console.log("====")
+
+  const [foo,bar,fizz] = ['boo','bar','fizz','buzz'];
+  console.log('foo',foo)
+  console.log('bar',bar)
+  console.log('fizz',fizz)
+}
