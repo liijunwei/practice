@@ -33,9 +33,7 @@ function handleAddKeydown(event) {
 
 function renderTodoList() {
   let todoHTML = ''
-  todoList.forEach((item, index) => {
-    const { name, dueDate } = item;
-
+  todoList.forEach(({ name, dueDate }, index) => {
     const html = `
       <div class="grid-item">${name}</div>
       <div class="grid-item">${dueDate}</div>
@@ -93,7 +91,7 @@ function playground1() {
   console.log('fizz', fizz)
 }
 
-playground2()
+// playground2()
 function playground2() {
   const f1 = function () { // anonymous function
     console.log("func1")

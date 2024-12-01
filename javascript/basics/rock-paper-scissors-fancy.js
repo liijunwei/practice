@@ -1,3 +1,6 @@
+let isAutoPlaying = false;
+let intervalID;
+
 updateScoreElement()
 
 function resetScores() {
@@ -124,7 +127,16 @@ function getEmptyScores() {
 }
 
 function handleAutoplay() {
-  setInterval(() => {
+  if (isAutoPlaying) {
+    clearInterval(intervalID);
+    isAutoPlaying = false;
+    document.querySelector('.auto-play-button').innerHTML = 'Stop Play'
+    return;
+  }
 
-  }, 300); // ms
+  intervalID = setInterval(() => {
+    const playerMove = getComputerMove()
+    playGame(playerMove)
+  }, 100); // ms
+  isAutoPlaying = true
 }
