@@ -149,14 +149,14 @@ function playground3() {
 addEventListenerToDemoButton()
 function addEventListenerToDemoButton() {
   const btn = document.querySelector('.demo-button');
-  console.assert(btn !== null)
+  console.assert(btn !== null);
 
   const listener = () => {
     console.log("click1");
   }
 
-  btn.addEventListener('click', listener)
-  btn.removeEventListener('click', listener)
+  btn.addEventListener('click', listener); // best practice
+  btn.removeEventListener('click', listener);
 
   btn.addEventListener('click', () => {
     console.log("click2");
