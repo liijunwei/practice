@@ -9,9 +9,11 @@
 
 <body>
   <p>todo list</p>
-  <input placeholder="todo name" class="js-name-input" onkeydown="handleAddKeydown(event)">
-  <input type="date" class="js-due-date-input">
-  <button onclick="addTodo()">ADD</button>
+  <div class="todo-input-grid">
+    <input placeholder="todo name" class="js-name-input" onkeydown="handleAddKeydown(event)">
+    <input type="date" class="js-due-date-input">
+    <button onclick="addTodo()">ADD</button>
+  </div>
   <div class="js-todo-list todo-grid"></div>
   <script src="./todo-list.js"></script>
 </body>

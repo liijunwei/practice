@@ -37,10 +37,10 @@ function renderTodoList() {
     const {name, dueDate} = item;
 
     const html = `
-    <p class="css-item">
-      ${name} ${dueDate}
-      <button class="js-delete-button" onclick="handleDelete(${index})">Delete</button>
-    </p>`
+      <div>${name}</div>
+      <div>${dueDate}</div>
+      <div><button class="js-delete-button" onclick="handleDelete(${index})">Delete</button></div>
+    `
     todoHTML += html
   })
 
