@@ -21,12 +21,21 @@ function handleAddKeydown(event) {
   }
 }
 
-function renderTodoList(){
+function renderTodoList() {
   let todoHTML = ''
-  todoList.forEach(item => {
-    const html = `<p class="css-item">${item}</p>`
+  todoList.forEach((item, index) => {
+    const html = `
+    <p class="css-item">
+      ${item}
+      <button class="js-delete-button" onclick="handleDelete(${index})">Delete</button>
+    </p>`
     todoHTML += html
   })
 
   document.querySelector('.js-todo-list').innerHTML = todoHTML
+}
+
+function handleDelete(index) {
+  todoList.splice(index, 1);
+  renderTodoList();
 }
