@@ -1,7 +1,7 @@
 const todoList = []
 todoList.push({name: 'task1', dueDate: '2024-11-30'})
-todoList.push({name: 'task2', dueDate: '2024-12-1'})
-todoList.push({name: 'task2', dueDate: '2024-12-1'})
+todoList.push({name: 'task2', dueDate: '2024-12-01'})
+todoList.push({name: 'task2', dueDate: '2024-12-01'})
 
 setRandomDefaultDueDate()
 renderTodoList()
