@@ -49,6 +49,24 @@ function handleDelete(index) {
   renderTodoList();
 }
 
+getDefaultDueDate()
 function getDefaultDueDate() {
+  const today = new Date();
 
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
+  console.log(formatDate(tomorrow))
+
+  return formatDate(tomorrow);
+}
+
+// Format the date as "yyyy-MM-dd"
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 since months are zero-based
+  const day = String(date.getDate()).padStart(2, '0');
+  const formattedDate = `${year}-${month}-${day}`;
+
+  return formattedDate
 }
