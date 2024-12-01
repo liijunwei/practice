@@ -9,3 +9,9 @@ function addTodo() {
 
   inputElememt.value = ''
 }
+
+function handleAddKeydown(event) {
+  if (event.key === 'Enter') {
+    addTodo()
+  }
+}
