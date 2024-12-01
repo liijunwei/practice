@@ -75,8 +75,8 @@ function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-playground()
-function playground() {
+// playground1()
+function playground1() {
   const a1 = [1,2,3];
   const a2 = a1.slice(); // js shallow copy
   console.log('a1', a1)
@@ -91,4 +91,39 @@ function playground() {
   console.log('foo',foo)
   console.log('bar',bar)
   console.log('fizz',fizz)
+}
+
+playground2()
+function playground2() {
+  const f1 = function (){ // anonymous function
+    console.log("func1")
+  }
+  console.log(f1)
+  console.log(typeof f1)
+  f1()
+
+  const f2 = () => {
+    console.log("func2")
+  }
+  console.log(f2)
+  console.log(typeof f2)
+  f2()
+
+  const o1 = {
+    f1: f1,
+    f2: f2,
+  }
+  console.log(o1)
+  o1.f1()
+
+
+  const o2 = {
+    f1,
+    f2,
+  }
+  console.log(o2)
+  o2.f2()
+
+  setTimeout(()=> console.log("kapoom"), 1000) // async
+  console.log("fire in the hole")
 }
