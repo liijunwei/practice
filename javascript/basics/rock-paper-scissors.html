@@ -69,7 +69,7 @@
 
   <h2>Calculator</h2>
   <p>rule: order over $40 = FREE shipping</p>
-  <input class="js-cost-input" placeholder="cost of the order" onkeydown="handleCostKeydown(event)">
+  <input class="js-cost-input" placeholder="cost of the order">
   <button class="calculate-button" onclick="handleCalculateTotal()">Calculate</button>
   <p class="js-total-cost"></p>
 
@@ -301,7 +301,21 @@
     }
 
     document.querySelector('.js-total-cost').innerHTML = `$${cost}`
+    // better user experience
+    inputElement.placeholder = cost
+    inputElement.value = ''
+    setTimeout(resetPlaceholder, 10000);
   }
+
+  function resetPlaceholder(defaultPlaceholder) {
+    inputElement = document.querySelector('.js-total-cost').innerHTML = `$${cost}`
+    console.assert(inputElement !== null);
+    inputElement.placeholder = defaultPlaceholder
+  }
+
+  document.querySelector('.js-cost-input').addEventListener('keydown', () => {
+    handleCostKeydown(event)
+  })
 
   function handleCostKeydown(event) {
     // console.log(event)
