@@ -23,20 +23,18 @@ body {
 }
 
 .add-todo-button,
-delete-todo-button {
-  background-color: green;
+.delete-todo-button {
   color: white;
   border: none;
   font-size: 15px;
+  padding: 10px 15px;
   cursor: pointer;
+}
+
+.add-todo-button {
+  background-color: green;
 }
 
 .delete-todo-button {
   background-color: darkred;
-  color: white;
-  border: none;
-  font-size: 15px;
-  cursor: pointer;
-  padding: 10px 15px;
-  /* padding-bottom: 10px; */
 }
