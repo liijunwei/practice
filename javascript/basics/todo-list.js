@@ -3,6 +3,7 @@ const todoList = [
   {name: 'task2', dueDate: '2024-12-1'},
 ];
 
+setRandomDefaultDueDate()
 renderTodoList()
 
 // 1. save the data
@@ -13,7 +14,7 @@ function addTodo() {
   const name = nameElememt.value;
 
   const dateElememt = document.querySelector('.js-due-date-input');
-  const date = dateElememt.value || getDefaultDueDate();
+  const date = dateElememt.value;
 
   if (name !== '' && name.trim() !== '') {
     todoList.push({name: name, dueDate: date});
@@ -33,9 +34,11 @@ function handleAddKeydown(event) {
 function renderTodoList() {
   let todoHTML = ''
   todoList.forEach((item, index) => {
+    const {name, dueDate} = item;
+
     const html = `
     <p class="css-item">
-      ${item.name} ${item.dueDate}
+      ${name} ${dueDate}
       <button class="js-delete-button" onclick="handleDelete(${index})">Delete</button>
     </p>`
     todoHTML += html
@@ -49,13 +52,17 @@ function handleDelete(index) {
   renderTodoList();
 }
 
-function getDefaultDueDate() {
+function setRandomDefaultDueDate() {
   const today = new Date();
 
   const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
 
-  return defaultDueDate;
+  const est = getRandomNumber(1,3)
+  console.log(est)
+  tomorrow.setDate(today.getDate() + est);
+  const defaultDueDate = formatDate(tomorrow);
+
+  document.querySelector('.js-due-date-input').value = defaultDueDate
 }
 
 // Format the date as "yyyy-MM-dd"
@@ -66,4 +73,8 @@ function formatDate(date) {
   const formattedDate = `${year}-${month}-${day}`;
 
   return formattedDate
+}
+
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
