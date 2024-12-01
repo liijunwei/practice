@@ -24,7 +24,7 @@ function handleAddKeydown(event) {
 function renderTodoList(){
   let todoHTML = ''
   todoList.forEach(item => {
-    const html = `<p>${item}</p>`
+    const html = `<p class="css-item">${item}</p>`
     todoHTML += html
   })
 
