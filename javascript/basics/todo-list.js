@@ -13,7 +13,7 @@ function addTodo() {
   const name = nameElememt.value;
 
   const dateElememt = document.querySelector('.js-due-date-input');
-  const date = dateElememt.value;
+  const date = dateElememt.value || getDefaultDueDate();
 
   if (name !== '' && name.trim() !== '') {
     todoList.push({name: name, dueDate: date});
@@ -49,16 +49,13 @@ function handleDelete(index) {
   renderTodoList();
 }
 
-getDefaultDueDate()
 function getDefaultDueDate() {
   const today = new Date();
 
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
 
-  console.log(formatDate(tomorrow))
-
-  return formatDate(tomorrow);
+  return defaultDueDate;
 }
 
 // Format the date as "yyyy-MM-dd"
