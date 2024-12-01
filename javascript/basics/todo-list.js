@@ -129,7 +129,7 @@ function playground2() {
   setInterval(() => { console.log("ping") }, 3000);
 }
 
-playground3()
+// playground3()
 function playground3() {
   const f1 = () => {
     console.log("arraw function")
@@ -144,4 +144,21 @@ function playground3() {
   }
 
   o1.m1()
+}
+
+addEventListenerToDemoButton()
+function addEventListenerToDemoButton() {
+  const btn = document.querySelector('.demo-button');
+  console.assert(btn !== null)
+
+  const listener = () => {
+    console.log("click1");
+  }
+
+  btn.addEventListener('click', listener)
+  btn.removeEventListener('click', listener)
+
+  btn.addEventListener('click', () => {
+    console.log("click2");
+  })
 }
