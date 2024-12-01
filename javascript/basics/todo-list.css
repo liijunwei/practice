@@ -22,7 +22,8 @@ body {
   padding: 6px;
 }
 
-.add-todo-button {
+.add-todo-button,
+delete-todo-button {
   background-color: green;
   color: white;
   border: none;
