@@ -101,7 +101,7 @@ func (ar *AggregateRepository) Save(ctx context.Context, aggregate eventsourcing
 	return Transaction(ctx, ar.eventStore.dbPool, func(ctx context.Context, _ pgx.Tx) error {
 		changes := aggregate.GetChanges()
 
-		if err := ar.eventStore.Append(ctx, changes); err != nil {
+		if err := ar.eventStore.Append(ctx, aggregate.DomainName(), changes); err != nil {
 			return err
 		}
 

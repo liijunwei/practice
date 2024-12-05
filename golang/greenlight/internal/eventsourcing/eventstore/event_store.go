@@ -95,14 +95,14 @@ func (es *EventStore) Load(
 }
 
 const insertEvent = `
-INSERT INTO events (aggregate_id, version, parent_id, event_type, payload, created_at) VALUES ($1, $2, $3, $4, $5, $6)
+INSERT INTO events (aggregate_type, aggregate_id, version, parent_id, event_type, payload, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7)
 `
 
-func (es *EventStore) Append(ctx context.Context, events []eventsourcing.Event) error {
+func (es *EventStore) Append(ctx context.Context, domainName string, events []eventsourcing.Event) error {
 	return Transaction(ctx, es.dbPool, func(ctx context.Context, pgtx pgx.Tx) error {
 
 		for _, event := range events {
-			evModel, err := NewEventModelFromEvent(event)
+			evModel, err := buildEventModelFromEventPayload(event)
 			if err != nil {
 				zerolog.Ctx(ctx).Error().Err(err).Msg("failed to marshal event")
 
@@ -110,6 +110,7 @@ func (es *EventStore) Append(ctx context.Context, events []eventsourcing.Event) 
 			}
 
 			_, err = pgtx.Exec(ctx, insertEvent,
+				domainName,
 				evModel.AggregateID,
 				evModel.Version,
 				evModel.ParentID,
@@ -145,10 +146,11 @@ func (es *EventStore) migrate() error {
 
 	const sql = `
 	CREATE TABLE IF NOT EXISTS events (
+		aggregate_type VARCHAR (50) NOT NULL,
 		aggregate_id uuid NOT NULL,
 		version int NOT NULL,
 		parent_id uuid NOT NULL,
-		event_type VARCHAR (50),
+		event_type VARCHAR (50) NOT NULL,
 		payload jsonb NOT NULL,
 		created_at timestamp without time zone NOT NULL,
 		PRIMARY KEY (aggregate_id, version)

@@ -9,6 +9,8 @@ import (
 	"github.com/gofrs/uuid"
 )
 
+var _ eventsourcing.Aggregate = &Account{}
+
 type Account struct {
 	Balance   decimal.Big // Balance = Available + Pending
 	Available decimal.Big
@@ -18,6 +20,10 @@ type Account struct {
 	UpdatedAt time.Time
 
 	eventsourcing.BaseAggregate
+}
+
+func (acc *Account) DomainName() string {
+	return "account"
 }
 
 func (acc *Account) Apply(event eventsourcing.Event) error {

@@ -3,6 +3,7 @@ package eventsourcing
 import "github.com/gofrs/uuid"
 
 type Aggregate interface {
+	DomainName() string
 	Apply(event Event) error
 	GetChanges() []Event
 	AppendChanges(event Event)
@@ -22,7 +23,11 @@ type BaseAggregate struct {
 	uncommittedEvents []Event
 }
 
-var _ Aggregate = (*BaseAggregate)(nil)
+var _ Aggregate = &BaseAggregate{}
+
+func (ba *BaseAggregate) DomainName() string {
+	panic("implement me in derived aggregate")
+}
 
 func (ba *BaseAggregate) GetAggregateID() uuid.UUID {
 	return ba.ID

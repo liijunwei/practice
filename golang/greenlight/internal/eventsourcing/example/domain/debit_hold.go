@@ -10,7 +10,8 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// Define your Aggregate struct that match your domain.
+var _ eventsourcing.Aggregate = &DebitHold{}
+
 type DebitHold struct {
 	AccountID uuid.UUID
 	Amount    *decimal.Big
@@ -19,14 +20,13 @@ type DebitHold struct {
 
 	Status string
 
-	// BaseAggregate provides common functionality.
 	eventsourcing.BaseAggregate
 }
 
-// ensure Account implements Aggregate interface.
-var _ eventsourcing.Aggregate = &DebitHold{}
+func (dh *DebitHold) DomainName() string {
+	return "debit_hold"
+}
 
-// EventTable return the event table name.
 func (dh *DebitHold) EventTable() string {
 	return "debit_hold_event"
 }
@@ -57,20 +57,15 @@ func (dh *DebitHold) Apply(event eventsourcing.Event) error {
 		return &UnsupportedEventError{event: event}
 	}
 
-	// update aggregate version
 	dh.Version = event.GetVersion()
 
 	return nil
 }
 
-// Define StateMachine related method for your aggregate.
-
-// GetCurrentState returns current status
 func (dh *DebitHold) GetCurrentState() eventsourcing.State {
 	return eventsourcing.State(dh.Status)
 }
 
-// Define state constant
 const (
 	initState     eventsourcing.State = ""
 	createdState  eventsourcing.State = "created"
@@ -78,7 +73,6 @@ const (
 	releasedState eventsourcing.State = "released"
 )
 
-// GetStates returns all possible state transitions
 func (dh *DebitHold) GetTransitions() []eventsourcing.Transition {
 	return []eventsourcing.Transition{
 		{
@@ -99,29 +93,22 @@ func (dh *DebitHold) GetTransitions() []eventsourcing.Transition {
 	}
 }
 
-// Define user facing APIs
-
-// NewDebitHold create a uncommitted debit hold.
 func NewDebitHold(accountID uuid.UUID, amount *decimal.Big) (*DebitHold, error) {
-	// create a init account
 	request := &DebitHold{}
 
-	// create a event
 	event := &DebitHoldCreated{
 		Amount: amount,
 	}
 	requestID := uuid.Must(uuid.NewV7())
-	// fill base event data
 	event.SetAggregateID(requestID)
 	event.SetParentID(accountID)
 	event.SetVersion(1)
 	event.SetCreatedAt(time.Now())
 
-	// apply the event
 	if err := request.Apply(event); err != nil {
 		return nil, err
 	}
-	// record uncommitted events
+
 	request.AppendChanges(event)
 
 	return request, nil

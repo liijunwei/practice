@@ -40,10 +40,10 @@ func (ev *EventModel) ToEvent(
 	return event, nil
 }
 
-func NewEventModelFromEvent(event eventsourcing.Event) (*EventModel, error) {
+func buildEventModelFromEventPayload(event eventsourcing.Event) (*EventModel, error) {
 	payload := eventPayload(event)
 
-	payloadBytes, err := json.Marshal(payload)
+	payloadData, err := json.Marshal(payload)
 	if err != nil {
 		return nil, &EventMarshalError{
 			err:   err,
@@ -56,7 +56,7 @@ func NewEventModelFromEvent(event eventsourcing.Event) (*EventModel, error) {
 		Version:     event.GetVersion(),
 		ParentID:    event.GetParentID(),
 		EventType:   string(event.EventType()),
-		Payload:     payloadBytes,
+		Payload:     payloadData,
 		CreatedAt:   event.GetCreatedAt(),
 	}, nil
 }
