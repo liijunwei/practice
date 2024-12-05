@@ -56,6 +56,7 @@ func (es *EventStore) Load(
 	ctx context.Context, aggregateID uuid.UUID, startVersion int,
 ) ([]eventsourcing.Event, error) {
 	events := []eventsourcing.Event{}
+
 	err := Transaction(ctx, es.dbPool, func(ctx context.Context, tx pgx.Tx) error {
 		sql := listEventsByAggregateIDAndVersion
 
