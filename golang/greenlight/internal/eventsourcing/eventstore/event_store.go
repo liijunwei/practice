@@ -39,10 +39,6 @@ WHERE aggregate_id = $1 and version >= $2
 ORDER by version asc
 `
 
-const insertEvent = `
-INSERT INTO events (aggregate_id, version, parent_id, event_type, payload, created_at) VALUES ($1, $2, $3, $4, $5, $6)
-`
-
 type EventStore struct {
 	registry *eventsourcing.EventRegistry
 	dbPool   *pgxpool.Pool
@@ -108,19 +104,22 @@ func (es *EventStore) Load(
 	return events, err
 }
 
+const insertEvent = `
+INSERT INTO events (aggregate_id, version, parent_id, event_type, payload, created_at) VALUES ($1, $2, $3, $4, $5, $6)
+`
+
 func (es *EventStore) Append(ctx context.Context, events []eventsourcing.Event) error {
 	return Transaction(ctx, es.dbPool, func(ctx context.Context, pgtx pgx.Tx) error {
-		sql := insertEvent
 
 		for _, event := range events {
 			evModel, err := NewEventModelFromEvent(event)
 			if err != nil {
-				zerolog.Ctx(ctx).Warn().Err(err).Msg("failed to marshal event")
+				zerolog.Ctx(ctx).Error().Err(err).Msg("failed to marshal event")
 
 				return err
 			}
 
-			_, err = pgtx.Exec(ctx, sql,
+			_, err = pgtx.Exec(ctx, insertEvent,
 				evModel.AggregateID,
 				evModel.Version,
 				evModel.ParentID,
@@ -136,13 +135,13 @@ func (es *EventStore) Append(ctx context.Context, events []eventsourcing.Event) 
 					}
 				}
 
-				zerolog.Ctx(ctx).Warn().Err(err).
-					Str("sql", sql).
+				zerolog.Ctx(ctx).Error().Err(err).
 					Str("aggregate_id", event.GetAggregateID().String()).
 					Str("event_type", string(event.EventType())).
+					Interface("event", event).
 					Msg("insert event error")
 
-				return fmt.Errorf("insert event<<< %t error %w", event, err)
+				return fmt.Errorf("failed to insert eventstore event error: %w", err)
 			}
 		}
 

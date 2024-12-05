@@ -82,3 +82,7 @@ generate: sqlc ## regenerate wire/sqlc...
 
 sse-example: ## run sse api example
 	go run internal/sse/example/main.go
+
+install-tools:
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.62.2
+	go install github.com/sqlc-dev/sqlc/cmd/sqlc@v1.27.0
