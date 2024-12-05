@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"greenlight/internal/ericlagergren"
 	"greenlight/internal/eventsourcing/eventstore"
 	"greenlight/internal/eventsourcing/example/domain"
@@ -53,8 +52,6 @@ func run() error {
 	mux.HandleFunc("POST /api/account", createAccountHandler(accountRepo))
 	mux.HandleFunc("GET /api/account", getAccountHandler(accountRepo))
 	mux.HandleFunc("POST /api/debit-hold", createDebitHoldHandler(connPool, accountRepo, debitHoldRepo))
-
-	fmt.Println("server started")
 
 	if err := http.ListenAndServe("127.0.0.1:3000", mux); err != nil {
 		return err

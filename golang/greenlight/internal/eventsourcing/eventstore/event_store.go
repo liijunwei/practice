@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"greenlight/internal/eventsourcing"
 
@@ -14,18 +15,6 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/rs/zerolog"
 )
-
-const createEventTable = `
-CREATE TABLE events (
-  aggregate_id uuid NOT NULL,
-  version int NOT NULL,
-  parent_id uuid NOT NULL,
-  event_type VARCHAR (50),
-  payload jsonb NOT NULL,
-  created_at timestamp without time zone NOT NULL,
-  PRIMARY KEY (aggregate_id, version)
-);
-`
 
 const listEventsByAggregateIDAndVersion = `
 SELECT aggregate_id,
@@ -44,7 +33,7 @@ type EventStore struct {
 	dbPool   *pgxpool.Pool
 }
 
-func NewEventStore(er *eventsourcing.EventRegistry, dbPool *pgxpool.Pool) EventStore {
+func newEventStore(er *eventsourcing.EventRegistry, dbPool *pgxpool.Pool) EventStore {
 	store := EventStore{}
 	store.registry = er
 	store.dbPool = dbPool
@@ -148,4 +137,29 @@ func (es *EventStore) Append(ctx context.Context, events []eventsourcing.Event) 
 
 		return nil
 	})
+}
+
+func (es *EventStore) migrate() error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	const sql = `
+	CREATE TABLE IF NOT EXISTS events (
+		aggregate_id uuid NOT NULL,
+		version int NOT NULL,
+		parent_id uuid NOT NULL,
+		event_type VARCHAR (50),
+		payload jsonb NOT NULL,
+		created_at timestamp without time zone NOT NULL,
+		PRIMARY KEY (aggregate_id, version)
+	);
+	`
+	_, err := es.dbPool.Exec(ctx, sql)
+	if err != nil {
+		return fmt.Errorf("failed to do event table migration: %w", err)
+	}
+
+	fmt.Println("event table db migration done")
+
+	return nil
 }

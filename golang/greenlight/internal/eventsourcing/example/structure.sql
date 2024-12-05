@@ -39,22 +39,6 @@ CREATE TABLE public.accounts (
 ALTER TABLE public.accounts OWNER TO greenlight;
 
 --
--- Name: events; Type: TABLE; Schema: public; Owner: greenlight
---
-
-CREATE TABLE public.events (
-    aggregate_id uuid NOT NULL,
-    version integer NOT NULL,
-    parent_id uuid NOT NULL,
-    event_type character varying(50),
-    payload jsonb NOT NULL,
-    created_at timestamp without time zone NOT NULL
-);
-
-
-ALTER TABLE public.events OWNER TO greenlight;
-
---
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: greenlight
 --
 
@@ -72,14 +56,6 @@ ALTER TABLE public.schema_migrations OWNER TO greenlight;
 
 ALTER TABLE ONLY public.accounts
     ADD CONSTRAINT accounts_pkey PRIMARY KEY (id);
-
-
---
--- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: greenlight
---
-
-ALTER TABLE ONLY public.events
-    ADD CONSTRAINT events_pkey PRIMARY KEY (aggregate_id, version);
 
 
 --

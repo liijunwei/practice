@@ -25,10 +25,15 @@ func NewAggregateRepository(
 	aggregateSaver eventsourcing.AggregateSaver,
 ) *AggregateRepository {
 	eventRegistry := eventsourcing.NewEventRegistryFromStateMachine(aggregate)
+	eventStore := newEventStore(eventRegistry, dbPool)
+
+	if err := eventStore.migrate(); err != nil {
+		panic(err)
+	}
 
 	repo := &AggregateRepository{
 		aggregateType:   reflect.TypeOf(aggregate).Elem(),
-		eventStore:      NewEventStore(eventRegistry, dbPool),
+		eventStore:      eventStore,
 		aggregateLoader: aggregateLoader,
 		aggregateSaver:  aggregateSaver,
 	}
