@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"greenlight/internal/ericlagergren"
-	"greenlight/internal/eventsourcing/db"
+	"greenlight/internal/eventsourcing/eventstore"
 	"greenlight/internal/eventsourcing/example/domain"
 	"net/http"
 	"os"
@@ -179,7 +179,7 @@ func createDebitHoldHandler(
 
 		var debitHold *domain.DebitHold
 
-		err := db.Transaction(ctx, dbPool, func(ctx context.Context, _ pgx.Tx) error {
+		err := eventstore.Transaction(ctx, dbPool, func(ctx context.Context, _ pgx.Tx) error {
 			// load account, locked for update
 			account, err := accountRepo.LoadLocked(ctx, data.AccountID)
 			if err != nil {

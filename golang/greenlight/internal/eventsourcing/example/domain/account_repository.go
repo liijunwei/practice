@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"greenlight/internal/eventsourcing"
-	"greenlight/internal/eventsourcing/db"
+	"greenlight/internal/eventsourcing/eventstore"
 	"greenlight/internal/eventsourcing/example/sqlcquery"
 
 	"github.com/gofrs/uuid"
@@ -16,7 +16,7 @@ import (
 // AccountRepository is just a wrapper around AggregateRepository.
 type AccountRepository struct {
 	dbPool  *pgxpool.Pool
-	repo    *db.AggregateRepository
+	repo    *eventstore.AggregateRepository
 	queries *sqlcquery.Queries
 }
 
@@ -28,7 +28,7 @@ func NewAccountRepository(dbPool *pgxpool.Pool) *AccountRepository {
 
 	return &AccountRepository{
 		dbPool:  dbPool,
-		repo:    db.NewAggregateRepository(&Account{}, dbPool, loaderSaver, loaderSaver),
+		repo:    eventstore.NewAggregateRepository(&Account{}, dbPool, loaderSaver, loaderSaver),
 		queries: sqlcquery.New(dbPool),
 	}
 }
@@ -67,7 +67,7 @@ func (ar *AccountRepository) LoadLocked(ctx context.Context, accountID uuid.UUID
 	)
 
 	// get existing transaction or start a new one
-	trans, ok := db.GetTx(ctx)
+	trans, ok := eventstore.GetTx(ctx)
 	if !ok {
 		trans, err = ar.dbPool.Begin(ctx)
 		if err != nil {
@@ -109,7 +109,7 @@ func (alc *AccountLoaderSaver) Load( //nolint: ireturn // AggregateLoader interf
 	queries := alc.queries
 
 	// if inside a transaction
-	if trans, ok := db.GetTx(ctx); ok {
+	if trans, ok := eventstore.GetTx(ctx); ok {
 		queries = alc.queries.WithTx(trans)
 	}
 
@@ -125,7 +125,7 @@ func (alc *AccountLoaderSaver) Save(ctx context.Context, aggregate eventsourcing
 	queries := alc.queries
 
 	// if inside a transaction
-	if trans, ok := db.GetTx(ctx); ok {
+	if trans, ok := eventstore.GetTx(ctx); ok {
 		queries = alc.queries.WithTx(trans)
 	}
 

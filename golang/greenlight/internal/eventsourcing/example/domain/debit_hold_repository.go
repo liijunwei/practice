@@ -3,20 +3,19 @@ package domain
 import (
 	"context"
 	"fmt"
-
-	"greenlight/internal/eventsourcing/db"
+	"greenlight/internal/eventsourcing/eventstore"
 
 	"github.com/gofrs/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type DebitHoldRepository struct {
-	repo *db.AggregateRepository
+	repo *eventstore.AggregateRepository
 }
 
 func NewDebitHoldRepository(dbPool *pgxpool.Pool) *DebitHoldRepository {
 	return &DebitHoldRepository{
-		repo: db.NewAggregateRepository(&DebitHold{}, dbPool, nil, nil),
+		repo: eventstore.NewAggregateRepository(&DebitHold{}, dbPool, nil, nil),
 	}
 }
 
