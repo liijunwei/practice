@@ -41,8 +41,6 @@ func NewAggregateRepository(
 	return repo
 }
 
-// TODO support load from event store
-// TODO support load from snapshot(view)
 func (ar *AggregateRepository) Load(
 	ctx context.Context,
 	aggregateID uuid.UUID,

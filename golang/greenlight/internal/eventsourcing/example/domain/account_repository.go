@@ -13,7 +13,6 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-// AccountRepository is just a wrapper around AggregateRepository.
 type AccountRepository struct {
 	dbPool  *pgxpool.Pool
 	repo    *eventstore.AggregateRepository
@@ -21,7 +20,6 @@ type AccountRepository struct {
 }
 
 func NewAccountRepository(dbPool *pgxpool.Pool) *AccountRepository {
-	// aggregate loader && saver
 	loaderSaver := &AccountLoaderSaver{
 		queries: sqlcquery.New(dbPool),
 	}
@@ -33,11 +31,10 @@ func NewAccountRepository(dbPool *pgxpool.Pool) *AccountRepository {
 	}
 }
 
-// Load loads a Account from database.
 func (ar *AccountRepository) Load(ctx context.Context, id uuid.UUID) (*Account, error) {
 	aggregate, err := ar.repo.Load(ctx, id)
 	if err != nil {
-		return nil, err //nolint: wrapcheck // example
+		return nil, err
 	}
 
 	account, ok := aggregate.(*Account)
@@ -48,7 +45,6 @@ func (ar *AccountRepository) Load(ctx context.Context, id uuid.UUID) (*Account, 
 	return account, nil
 }
 
-// Save saves a Account.
 func (ar *AccountRepository) Save(ctx context.Context, account *Account) error {
 	err := ar.repo.Save(ctx, account)
 	if err != nil {
@@ -66,7 +62,6 @@ func (ar *AccountRepository) LoadLocked(ctx context.Context, accountID uuid.UUID
 		err   error
 	)
 
-	// get existing transaction or start a new one
 	trans, ok := eventstore.GetTx(ctx)
 	if !ok {
 		trans, err = ar.dbPool.Begin(ctx)
@@ -79,7 +74,7 @@ func (ar *AccountRepository) LoadLocked(ctx context.Context, accountID uuid.UUID
 
 	account, err := queries.GetAccountByIDLocked(ctx, accountID)
 	if err != nil {
-		return nil, err //nolint: wrapcheck // example
+		return nil, err
 	}
 
 	return fromSQLCAccount(account), nil
@@ -103,19 +98,16 @@ type AccountLoaderSaver struct {
 	queries *sqlcquery.Queries
 }
 
-func (alc *AccountLoaderSaver) Load( //nolint: ireturn // AggregateLoader interface requires it
-	ctx context.Context, accountID uuid.UUID,
-) (eventsourcing.Aggregate, error) {
+func (alc *AccountLoaderSaver) Load(ctx context.Context, accountID uuid.UUID) (eventsourcing.Aggregate, error) {
 	queries := alc.queries
 
-	// if inside a transaction
 	if trans, ok := eventstore.GetTx(ctx); ok {
 		queries = alc.queries.WithTx(trans)
 	}
 
 	account, err := queries.GetAccountByID(ctx, accountID)
 	if err != nil {
-		return nil, err //nolint: wrapcheck // example
+		return nil, err
 	}
 
 	return fromSQLCAccount(account), nil
@@ -124,7 +116,6 @@ func (alc *AccountLoaderSaver) Load( //nolint: ireturn // AggregateLoader interf
 func (alc *AccountLoaderSaver) Save(ctx context.Context, aggregate eventsourcing.Aggregate) error {
 	queries := alc.queries
 
-	// if inside a transaction
 	if trans, ok := eventstore.GetTx(ctx); ok {
 		queries = alc.queries.WithTx(trans)
 	}
@@ -137,7 +128,7 @@ func (alc *AccountLoaderSaver) Save(ctx context.Context, aggregate eventsourcing
 		}
 	}
 
-	err := queries.UpsertAccount(ctx, &sqlcquery.UpsertAccountParams{
+	if err := queries.UpsertAccount(ctx, &sqlcquery.UpsertAccountParams{
 		ID:        account.ID,
 		Balance:   account.Balance,
 		Available: account.Available,
@@ -145,7 +136,9 @@ func (alc *AccountLoaderSaver) Save(ctx context.Context, aggregate eventsourcing
 		Version:   int32(account.Version),
 		UpdatedAt: account.UpdatedAt,
 		CreatedAt: account.CreatedAt,
-	})
+	}); err != nil {
+		return fmt.Errorf("failed to upsert account: %w", err)
+	}
 
-	return err //nolint: wrapcheck // example
+	return nil
 }

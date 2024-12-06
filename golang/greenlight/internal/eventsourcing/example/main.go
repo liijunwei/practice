@@ -164,7 +164,6 @@ func createDebitHoldHandler(
 
 		ctx := r.Context()
 
-		// parse json payload
 		var data createDebitHoldRequest
 		if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
 			w.WriteHeader(http.StatusUnprocessableEntity)
@@ -177,20 +176,17 @@ func createDebitHoldHandler(
 		var debitHold *domain.DebitHold
 
 		err := eventstore.Transaction(ctx, dbPool, func(ctx context.Context, _ pgx.Tx) error {
-			// load account, locked for update
 			account, err := accountRepo.LoadLocked(ctx, data.AccountID)
 			if err != nil {
 				return err
 			}
 
-			// check balance
 			if account.Available.Cmp(data.Amount) <= 0 {
 				err := &domain.NotEnoughBalanceError{}
 
 				return err
 			}
 
-			// create a debit hold
 			debitHold, err = domain.NewDebitHold(account.ID, data.Amount)
 			if err != nil {
 				return err
@@ -201,7 +197,6 @@ func createDebitHoldHandler(
 				return err
 			}
 
-			// change account pending amount
 			err = account.MoveAvailableToPending(data.Amount)
 			if err != nil {
 				return err

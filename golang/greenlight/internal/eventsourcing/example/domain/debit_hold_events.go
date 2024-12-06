@@ -8,7 +8,7 @@ import (
 
 // Define other events
 type DebitHoldCreated struct {
-	Amount *decimal.Big `json:"amount"`
+	Amount *decimal.Big
 
 	eventsourcing.BaseEvent
 }
