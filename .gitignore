@@ -52,7 +52,7 @@ Mkfile.old
 dkms.conf
 *.rdb
 
-tmp/*
+tmp
 tmp.*
 
 javascript/p5js/playground/*

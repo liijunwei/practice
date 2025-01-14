@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>datetime converter</title>
+</head>
+
+<style>
+  button {
+    font-family: "Arial";
+    font-size: 50px;
+    margin: 20px;
+    padding: 2px;
+    background-color: orange;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  /* button:hover {
+    opacity: 50%;
+  } */
+
+  button:active {
+    background-color: green;
+  }
+
+  /* table {
+    border: solid;
+  } */
+
+  table {
+    border-collapse: collapse;
+    border: 2px solid rgb(140 140 140);
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+
+  caption {
+    caption-side: bottom;
+    padding: 10px;
+    font-weight: bold;
+  }
+
+  thead,
+  tfoot {
+    background-color: rgb(228 240 245);
+  }
+
+  th,
+  td {
+    border: 1px solid rgb(160 160 160);
+    padding: 8px 10px;
+  }
+
+  td:last-of-type {
+    text-align: center;
+  }
+
+  tbody>tr:nth-of-type(even) {
+    background-color: rgb(237 238 242);
+  }
+
+  tfoot th {
+    text-align: right;
+  }
+
+  tfoot td {
+    font-weight: bold;
+  }
+</style>
+
+<body>
+  <h2>demo</h2>
+
+  <button>boom1</button>
+  <button>boom2</button>
+  <button>boom3</button>
+  <br />
+
+  <table>
+    <caption>
+      Front-end web developer course 2021
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Person</th>
+        <th scope="col">Most interest in</th>
+        <th scope="col">Age</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Chris</th>
+        <td>HTML tables</td>
+        <td>22</td>
+      </tr>
+      <tr>
+        <th scope="row">Dennis</th>
+        <td>Web accessibility</td>
+        <td>45</td>
+      </tr>
+      <tr>
+        <th scope="row">Sarah</th>
+        <td>JavaScript frameworks</td>
+        <td>29</td>
+      </tr>
+      <tr>
+        <th scope="row">Karen</th>
+        <td>Web performance</td>
+        <td>36</td>
+      </tr>
+      <tr>
+        <th scope="row">date</th>
+        <td class="js-date1">new Date()</td>
+        <td>36</td>
+      </tr>
+      <tr>
+        <th scope="row">date</th>
+        <td class="js-date2">new Date()</td>
+        <td>36</td>
+      </tr>
+      <tr>
+        <th scope="row">date</th>
+        <td class="js-date3">new Date()</td>
+        <td>36</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th scope="row" colspan="2">Average age</th>
+        <td>33</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/date-fns@3.6.0/cdn.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/date-fns@3.6.0/locale/es/cdn.min.js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/date-fns@3.6.0/locale/ru/cdn.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+  <script src="./script.js"></script>
+  <!-- <script type="module"></script> -->
+</body>
+
+</html>
