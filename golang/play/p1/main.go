@@ -101,11 +101,13 @@ func assert(ok bool) {
 }
 
 func play() {
-	var a, b int
+	for {
+		var a, b int
 
-	n, err := fmt.Scan(&a, &b)
-	assert(err == nil)
-	assert(n == 2)
+		if n, _ := fmt.Scan(&a, &b); n == 0 {
+			break
+		}
 
-	fmt.Println(a, b)
+		fmt.Println(a + b)
+	}
 }
