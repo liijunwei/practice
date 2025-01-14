@@ -6,7 +6,6 @@ import (
 	"strings"
 )
 
-// this is so inconvenient in go
 func main() {
 	var count int
 	_, err := fmt.Scan(&count)
