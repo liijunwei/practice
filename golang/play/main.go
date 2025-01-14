@@ -2,6 +2,7 @@ package main
 
 import (
 	"cmp"
+	"fmt"
 
 	"github.com/davecgh/go-spew/spew"
 )
@@ -93,6 +94,18 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	return head.Next
 }
 
-func play() {
+func assert(ok bool) {
+	if !ok {
+		panic("boom")
+	}
+}
 
+func play() {
+	var a, b int
+
+	n, err := fmt.Scan(&a, &b)
+	assert(err == nil)
+	assert(n == 2)
+
+	fmt.Println(a, b)
 }
