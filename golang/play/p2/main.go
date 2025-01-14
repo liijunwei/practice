@@ -12,7 +12,8 @@ func main() {
 	n, _ := fmt.Scan(&count)
 	assert(n == 1)
 
-	for range count {
+	// for range n {
+	for i := 0; i < count; i++ {
 		var a, b int
 
 		if n, _ := fmt.Scan(&a, &b); n == 0 {
