@@ -2,15 +2,13 @@ package main
 
 import (
 	"cmp"
-	"fmt"
 
 	"github.com/davecgh/go-spew/spew"
 )
 
 func main() {
-	// t1()
+	t1()
 	// t2()
-	play()
 }
 
 type ListNode struct {
@@ -92,22 +90,4 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	}
 
 	return head.Next
-}
-
-func assert(ok bool) {
-	if !ok {
-		panic("boom")
-	}
-}
-
-func play() {
-	for {
-		var a, b int
-
-		if n, _ := fmt.Scan(&a, &b); n == 0 {
-			break
-		}
-
-		fmt.Println(a + b)
-	}
 }
