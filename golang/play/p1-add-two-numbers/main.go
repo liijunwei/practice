@@ -8,7 +8,7 @@ import (
 
 func main() {
 	t1()
-	// t2()
+	t2()
 }
 
 type ListNode struct {
@@ -64,8 +64,6 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 			panic("maybe dead loop")
 		}
 
-		println("carry", carry)
-
 		a := cmp.Or(t1, &ListNode{}).Val
 		b := cmp.Or(t2, &ListNode{}).Val
 
@@ -73,8 +71,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		carry = val / 10
 		val = val % 10
 
-		curr.Next = &ListNode{Val: val}
-		curr = curr.Next
+		curr.Val = val
 
 		if t1 != nil {
 			t1 = t1.Next
@@ -83,11 +80,16 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		if t2 != nil {
 			t2 = t2.Next
 		}
+
+		if t1 != nil || t2 != nil {
+			curr.Next = new(ListNode)
+			curr = curr.Next
+		}
 	}
 
 	if carry == 1 {
 		curr.Next = &ListNode{Val: carry}
 	}
 
-	return head.Next
+	return head
 }
