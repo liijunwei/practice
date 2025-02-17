@@ -26,7 +26,7 @@ type User struct {
 	CreatedAt     time.Time `json:"createdAt"`
 }
 
-func main() {
+func e6() {
 	u := &User{
 		Name:      "Sammy the Shark",
 		Password:  "fisharegreat",

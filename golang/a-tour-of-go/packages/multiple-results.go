@@ -10,7 +10,7 @@ func demo(x, y, z string) (string, string, string) {
 	return y, z, x
 }
 
-func main() {
+func e2() {
 	a, b := swap("hello", "world")
 	fmt.Println(a, b)
 

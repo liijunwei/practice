@@ -6,9 +6,10 @@ package main
 
 import (
 	"fmt"
+	"testing"
 )
 
-func fibonacci(n int, c chan int) {
+func fibonacci1(n int, c chan int) {
 	x, y := 0, 1
 	for i := 0; i < n; i++ {
 		c <- x
@@ -17,9 +18,9 @@ func fibonacci(n int, c chan int) {
 	close(c)
 }
 
-func main() {
+func TestE4(t *testing.T) {
 	c := make(chan int, 10)
-	go fibonacci(cap(c), c)
+	go fibonacci1(cap(c), c)
 
 	// The loop for i := range c receives values from the channel repeatedly until it is closed.
 	for i := range c {

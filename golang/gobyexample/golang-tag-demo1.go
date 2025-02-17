@@ -8,16 +8,16 @@ package main
 
 import "fmt"
 
-type User struct {
+type User1 struct {
 	Name string `example:"name"`
 }
 
-func (u *User) String() string {
+func (u *User1) String() string {
 	return fmt.Sprintf("Hi! My name is %s", u.Name)
 }
 
-func main() {
-	u := &User{
+func e5() {
+	u := &User1{
 		Name: "Sammy",
 	}
 

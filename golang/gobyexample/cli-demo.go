@@ -6,7 +6,7 @@ import (
 )
 
 // gofmt -w golang/*.go && go build -o a.out golang/cli-demo.go && ./a.out a b c d 3 f
-func main() {
+func e1() {
 	argsWithProg := os.Args
 	argsWithoutProg := os.Args[1:]
 

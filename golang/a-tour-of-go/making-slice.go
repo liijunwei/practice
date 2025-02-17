@@ -1,8 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
-func main() {
+func TestSlice(t *testing.T) {
 	a := make([]int, 5)
 	printSlice("a", a)
 

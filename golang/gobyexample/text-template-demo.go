@@ -5,7 +5,7 @@ import (
 	"text/template"
 )
 
-func main() {
+func e11() {
 
 	t1 := template.New("t1")
 	t1, err := t1.Parse("Value is {{.}}\n")

@@ -3,13 +3,14 @@ package main
 import (
 	"fmt"
 	"math"
+	"testing"
 )
 
 type Abser interface {
 	Abs() float64
 }
 
-func main() {
+func TestE6(t *testing.T) {
 	var a Abser // 接口类型的值
 	f := MyFloat(-math.Sqrt2)
 	v := Vertex{3, 4}

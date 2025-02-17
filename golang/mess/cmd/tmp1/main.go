@@ -2,17 +2,28 @@ package main
 
 import (
 	"fmt"
-	"reflect"
-	"unsafe"
+	"time"
 )
 
+// go run -gcflags -m cmd/tmp1/main.go
 func main() {
+	done := make(chan bool)
 
-	var s1 []int
-	s2 := make([]int, 0)
-	s4 := make([]int, 0)
+	time.NewTicker(1 * time.Second)
 
-	fmt.Printf("s1 pointer:%+v, s2 pointer:%+v, s4 pointer:%+v, \n", *(*reflect.SliceHeader)(unsafe.Pointer(&s1)), *(*reflect.SliceHeader)(unsafe.Pointer(&s2)), *(*reflect.SliceHeader)(unsafe.Pointer(&s4)))
-	fmt.Printf("%v\n", (*(*reflect.SliceHeader)(unsafe.Pointer(&s1))).Data == (*(*reflect.SliceHeader)(unsafe.Pointer(&s2))).Data)
-	fmt.Printf("%v\n", (*(*reflect.SliceHeader)(unsafe.Pointer(&s2))).Data == (*(*reflect.SliceHeader)(unsafe.Pointer(&s4))).Data)
+	// close(done)
+	go func() {
+		done <- true
+	}()
+
+	fmt.Println(<-done)
+
+	// done <- true
+	f1()
+}
+
+func f1() map[string]string {
+	m := make(map[string]string)
+	m["a"] = "a"
+	return m
 }

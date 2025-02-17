@@ -2,9 +2,12 @@ package main
 
 // buffered channel
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
-func main() {
+func TestE3(t *testing.T) {
 	ch := make(chan int, 2)
 
 	ch <- 1

@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
 type I interface {
 	M()
@@ -21,7 +24,7 @@ func (t *T) M() {
 	fmt.Println(t.S)
 }
 
-func main() {
+func TestE7(t *testing.T) {
 	var i I = &T{"hello"}
 	i.M()
 }

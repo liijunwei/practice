@@ -41,7 +41,7 @@ func measure(g geometry) {
 	fmt.Println(g.perim())
 }
 
-func main() {
+func e7() {
 	r := rect{width: 3, height: 4}
 	measure(r)
 

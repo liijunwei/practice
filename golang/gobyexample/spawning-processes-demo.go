@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-func main() {
+func e10() {
 	dateCmd := exec.Command("date")
 
 	dateOut, err := dateCmd.Output()

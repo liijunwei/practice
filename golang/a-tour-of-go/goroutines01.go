@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"testing"
 	"time"
 )
 
@@ -12,7 +13,7 @@ func say(s string) {
 	}
 }
 
-func main() {
+func TestE5(t *testing.T) {
 	go say("world")
 	say("hello")
 }

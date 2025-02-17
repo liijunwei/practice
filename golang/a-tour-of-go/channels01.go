@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
 func sum(s []int, c chan int) {
 	sum := 0
@@ -10,7 +13,7 @@ func sum(s []int, c chan int) {
 	c <- sum // send sum to c
 }
 
-func main() {
+func TestE2(t *testing.T) {
 	s := []int{7, 2, 8, -9, 4, 0}
 
 	c := make(chan int)
