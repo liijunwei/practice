@@ -27,5 +27,4 @@ func TestSliceBoundary(t *testing.T) {
 
 	s = s[1:]
 	fmt.Println(s)
-
 }

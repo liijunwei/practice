@@ -11,6 +11,7 @@ func fibonacci(c, quit chan int) {
 	for {
 		select {
 		case c <- x:
+			fmt.Println("-----", x, y)
 			x, y = y, x+y
 		case <-quit:
 			fmt.Println("quit")
