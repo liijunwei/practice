@@ -3,9 +3,12 @@ package main
 // The interface type that specifies zero methods is known as the empty interface: `interface{}`
 // An empty interface may hold values of any type
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
-func main() {
+func TestI4(t *testing.T) {
 	var i interface{}
 	describe(i)
 

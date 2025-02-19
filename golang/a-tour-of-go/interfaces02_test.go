@@ -5,11 +5,11 @@ import (
 	"testing"
 )
 
-type I interface {
+type I2 interface {
 	M()
 }
 
-type T struct {
+type T2 struct {
 	S string
 }
 
@@ -20,11 +20,11 @@ type T struct {
 // }
 
 // This method means type *T implements the interface I,
-func (t *T) M() {
+func (t *T2) M() {
 	fmt.Println(t.S)
 }
 
 func TestE7(t *testing.T) {
-	var i I = &T{"hello"}
+	var i I2 = &T2{"hello"}
 	i.M()
 }

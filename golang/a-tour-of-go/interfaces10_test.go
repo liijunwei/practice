@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"testing"
 )
 
-func main() {
+func TestI10(t *testing.T) {
 	// jj "Hello, Reader!".chars.index_by {|c| c.bytes}
 	r := strings.NewReader("Hello, Reader!")
 

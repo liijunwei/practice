@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
+	"testing"
 	"time"
 )
 
-func main() {
+func TestSelect2(t *testing.T) {
 	tick := time.Tick(100 * time.Millisecond)
 	boom := time.After(500 * time.Millisecond)
 	for {

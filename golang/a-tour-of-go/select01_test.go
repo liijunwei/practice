@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
 // 太妙了
 func fibonacci(c, quit chan int) {
@@ -16,7 +19,7 @@ func fibonacci(c, quit chan int) {
 	}
 }
 
-func main() {
+func TestSelect1(t *testing.T) {
 	c := make(chan int)
 	quit := make(chan int)
 	go func() {

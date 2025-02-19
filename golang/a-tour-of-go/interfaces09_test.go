@@ -4,6 +4,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"testing"
 )
 
 func Sqrt(x float64) (float64, error) {
@@ -20,7 +21,7 @@ func (e ErrNegativeSqrt) Error() string {
 	return fmt.Sprintf("cannot Sqrt negative number: %v", float64(e))
 }
 
-func main() {
+func TestI9(t *testing.T) {
 	fmt.Println(Sqrt(2))
 	fmt.Println(Sqrt(-2))
 }

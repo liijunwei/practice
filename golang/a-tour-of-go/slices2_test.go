@@ -4,9 +4,12 @@ package main
 // Changing the elements of a slice modifies the corresponding elements of its underlying array.
 // Other slices that share the same underlying array will see those changes.
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
-func main() {
+func TestSlice2(t *testing.T) {
 	names := [4]string{
 		"John",
 		"Paul",

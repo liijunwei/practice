@@ -1,6 +1,10 @@
 package main
 
-import "golang.org/x/tour/reader"
+import (
+	"testing"
+
+	"golang.org/x/tour/reader"
+)
 
 type MyReader struct{}
 type MyReaderError bool
@@ -18,6 +22,6 @@ func (r MyReader) Read(p []byte) (int, error) {
 	return 1, nil
 }
 
-func main() {
+func TestI11(t *testing.T) {
 	reader.Validate(MyReader{})
 }

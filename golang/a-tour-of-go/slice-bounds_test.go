@@ -10,9 +10,12 @@ package main
 //     a[0:]
 //     a[:]
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
-func main() {
+func TestSliceBoundary(t *testing.T) {
 	s := []int{2, 3, 5, 7, 11, 13}
 	fmt.Println(s)
 

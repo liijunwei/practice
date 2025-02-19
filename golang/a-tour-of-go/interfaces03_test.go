@@ -3,17 +3,18 @@ package main
 import (
 	"fmt"
 	"math"
+	"testing"
 )
 
-type I interface {
+type I3 interface {
 	M()
 }
 
-type T struct {
+type T3 struct {
 	S string
 }
 
-func (t *T) M() {
+func (t *T3) M() {
 	fmt.Println(t.S)
 }
 
@@ -23,10 +24,10 @@ func (f F) M() {
 	fmt.Println(f)
 }
 
-func main() {
-	var i I
+func TestI3(t *testing.T) {
+	var i I3
 
-	i = &T{"Hello"}
+	i = &T3{"Hello"}
 	describe(i)
 	i.M()
 
@@ -35,9 +36,4 @@ func main() {
 	i = F(math.Pi)
 	describe(i)
 	i.M()
-}
-
-// describe 特定的接口
-func describe(i I) {
-	fmt.Printf("(%v, %T)\n", i, i)
 }

@@ -1,8 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
-func main() {
+func TestSliceLiteral(t *testing.T) {
 	q := []int{2, 3, 5, 7, 11, 13}
 	fmt.Println(q)
 	fmt.Println(q[1:3])

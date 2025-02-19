@@ -1,8 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
-func main() {
+func TestSliceLen(t *testing.T) {
 	s := []int{2, 3, 5, 7, 11, 13}
 	printSlice(s) // len=6 cap=6 [2 3 5 7 11 13]
 

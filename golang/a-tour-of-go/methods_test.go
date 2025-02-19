@@ -8,6 +8,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"testing"
 )
 
 type Vertex struct {
@@ -18,7 +19,7 @@ func (v Vertex) Abs() float64 {
 	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
 
-func main() {
+func TestM1(t *testing.T) {
 	v := Vertex{3, 4}
 	fmt.Println(v.Abs())
 

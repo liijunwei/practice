@@ -3,9 +3,12 @@ package main
 // Type assertions
 // https://go.dev/tour/methods/15
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
-func main() {
+func TestI5(t *testing.T) {
 	var i interface{} = "hello"
 
 	s := i.(string)

@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
 var a = 11
 
@@ -9,7 +12,7 @@ func foo(n int) {
 	a += n
 }
 
-func main() {
+func TestShaodowing(t *testing.T) {
 	fmt.Println("a = ", a)
 	foo(5)
 	fmt.Println("after calling foo, a = ", a)

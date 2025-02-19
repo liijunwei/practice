@@ -3,6 +3,7 @@ package main
 // https://go.dev/tour/methods/19
 import (
 	"fmt"
+	"testing"
 	"time"
 )
 
@@ -25,7 +26,7 @@ func run() (int, error) {
 
 }
 
-func main() {
+func TestI8(t *testing.T) {
 	value, err := run()
 	if err != nil {
 		fmt.Println(err)

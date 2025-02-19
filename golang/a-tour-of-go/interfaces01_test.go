@@ -34,10 +34,10 @@ func (f MyFloat) Abs() float64 {
 	return float64(f)
 }
 
-type Vertex struct {
+type Vertex1 struct {
 	X, Y float64
 }
 
-func (v *Vertex) Abs() float64 {
+func (v *Vertex1) Abs() float64 {
 	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
