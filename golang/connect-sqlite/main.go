@@ -86,27 +86,10 @@ func indexHandler(db *sqlcdb.Queries) http.HandlerFunc {
 			})
 		}
 
-		tmpl := template.Must(template.New("index").Parse(`
-		<!DOCTYPE html>
-		<html>
-			<head>
-				<title>Todo List</title>
-			</head>
-			<body>
-				<h1>Todo List</h1>
-				<form action="/create" method="POST">
-					<input type="text" name="title" placeholder="New Todo" required>
-					<button type="submit">Add</button>
-				</form>
-				<ul>
-					{{range .}}
-					<li>{{.Title}} <a href="/delete?id={{.ID}}">Delete</a></li>
-					{{end}}
-				</ul>
-			</body>
-		</html>
-		`))
+		text, err := os.ReadFile(filepath.Join(baseDir(), "index.html"))
+		boom(err, "failed to read schema.sql")
 
+		tmpl := template.Must(template.New("index").Parse(string(text)))
 		tmpl.Execute(w, todos)
 	}
 }
