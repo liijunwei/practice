@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	rpc.RegisterName("HelloService", new(HelloService))
+	rpc.RegisterName("/ns/HelloService", new(HelloService))
 
 	listener, err := net.Listen("tcp", ":1234")
 	if err != nil {

@@ -22,7 +22,7 @@ func main() {
 
 	var reply string
 
-	err = client.Call("HelloService.Hello", msg, &reply)
+	err = client.Call("/ns/HelloService.Hello", msg, &reply)
 	if err != nil {
 		log.Fatal(err)
 	}
