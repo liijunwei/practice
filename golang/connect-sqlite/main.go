@@ -3,31 +3,48 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"golang-practices/connect-sqlite/sqlcdb"
 	"net/http"
+	"os"
+	"path/filepath"
+	"runtime"
+	"strconv"
 	"strings"
+	"sync"
 	"text/template"
 
 	_ "github.com/mattn/go-sqlite3" // SQLite driver
 )
 
-// simple todo app with sqlite3
+var once sync.Once
+
+// simple todo app with sqlite3+sqlc
+//
+// features:
 // 1. create a todo
 // 2. delete a todo
 // 3. list all todos
+//
+// go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+// guide: https://docs.sqlc.dev/en/latest/tutorials/getting-started-sqlite.html
+//
+// rm /tmp/todo-app.db && sqlc generate && go run main.go
 func main() {
 	db := initDB()
 	defer db.Close()
 
-	http.HandleFunc("/", indexHandler(db))
-	http.HandleFunc("/create", createHandler(db))
-	http.HandleFunc("/delete", deleteHandler(db))
+	queries := sqlcdb.New(db)
+
+	http.HandleFunc("GET /", indexHandler(queries))
+	http.HandleFunc("POST /create", createHandler(queries))
+	http.HandleFunc("GET /delete", deleteHandler(queries)) // ideally should be DELETE
 
 	fmt.Println("Server is running at http://localhost:8080")
 	boom(http.ListenAndServe(":8080", nil))
 }
 
-type Todo struct {
-	ID    int
+type todo struct {
+	ID    int64
 	Title string
 }
 
@@ -35,34 +52,38 @@ func initDB() *sql.DB {
 	db, err := sql.Open("sqlite3", "/tmp/todo-app.db")
 	boom(err, "failed to open database")
 
-	sql := `
-	CREATE TABLE IF NOT EXISTS todos (
-		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		title TEXT
-	);`
+	schema, err := os.ReadFile(filepath.Join(baseDir(), "schema.sql"))
+	boom(err, "failed to read schema.sql")
 
-	_, err = db.Exec(sql)
-	boom(err, "failed to create table")
+	_, err = db.Exec(string(schema))
+	boom(err, "failed to execute schema")
 
 	return db
 }
 
-func indexHandler(db *sql.DB) http.HandlerFunc {
+func baseDir() string {
+	var dir string
+
+	once.Do(func() {
+		_, f, _, _ := runtime.Caller(0)
+		dir = filepath.Dir(f)
+	})
+
+	return dir
+}
+
+func indexHandler(db *sqlcdb.Queries) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		rows, err := db.Query("SELECT id, title FROM todos")
-		boom(err, "failed to select todos")
+		entities, err := db.ListTODOs(r.Context())
+		boom(err, "failed to list todos")
 
-		defer rows.Close()
+		todos := make([]todo, 0, len(entities))
 
-		todos := []Todo{}
-
-		for rows.Next() {
-			var todo Todo
-
-			err := rows.Scan(&todo.ID, &todo.Title)
-			boom(err, "failed to scan row")
-
-			todos = append(todos, todo)
+		for _, entity := range entities {
+			todos = append(todos, todo{
+				ID:    entity.ID,
+				Title: entity.Title,
+			})
 		}
 
 		tmpl := template.Must(template.New("index").Parse(`
@@ -90,26 +111,29 @@ func indexHandler(db *sql.DB) http.HandlerFunc {
 	}
 }
 
-func createHandler(db *sql.DB) http.HandlerFunc {
+func createHandler(db *sqlcdb.Queries) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "POST" {
-			title := r.FormValue("title")
-			assert(title != "", "title required")
+		assert(r.Method == "POST", "invalid method")
 
-			_, err := db.Exec("INSERT INTO todos(title) VALUES(?)", title)
-			boom(err, "failed to create todo")
+		title := r.FormValue("title")
+		assert(title != "", "title required")
 
-			http.Redirect(w, r, "/", http.StatusSeeOther)
-		}
+		err := db.CreateTODO(r.Context(), title)
+		boom(err, "failed to create todo")
+
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }
 
-func deleteHandler(db *sql.DB) http.HandlerFunc {
+func deleteHandler(db *sqlcdb.Queries) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		id := r.URL.Query().Get("id")
-		assert(id != "", "id required")
+		idStr := r.URL.Query().Get("id")
+		assert(idStr != "", "id required")
 
-		_, err := db.Exec("DELETE FROM todos WHERE id = ?", id)
+		id, err := strconv.Atoi(idStr)
+		boom(err, "failed to convert id")
+
+		err = db.DeleteTODO(r.Context(), int64(id))
 		boom(err, "failed to delete todo")
 
 		http.Redirect(w, r, "/", http.StatusSeeOther)
