@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"testing"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 func TestE1(t *testing.T) {
@@ -18,4 +20,6 @@ func TestE1(t *testing.T) {
 	primes := [6]int{2, 3, 5, 7, 11, 13}
 	fmt.Println(primes)
 
+	// fix dependency of go-spew
+	spew.Dump(primes)
 }
