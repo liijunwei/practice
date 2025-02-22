@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"testing"
 )
 
 type response1 struct {
@@ -16,7 +17,7 @@ type response2 struct {
 	Fruits []string `json:"fruits"`
 }
 
-func e8() {
+func TestJSON(t *testing.T) {
 
 	bolB, _ := json.Marshal(true)
 	fmt.Println(string(bolB))
