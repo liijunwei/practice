@@ -40,8 +40,8 @@ func main() {
 
 	queries := sqlcdb.New(db)
 
-	http.HandleFunc("GET /", indexHandler(queries))
-	http.HandleFunc("POST /shorturl", createHandler(queries))
+	http.HandleFunc("GET /", indexHandler(queries, db))
+	http.HandleFunc("POST /shorturl", createHandler(queries, db))
 
 	fmt.Println("Server is running at http://localhost:8080")
 	boom(http.ListenAndServe(":8080", nil))
@@ -87,7 +87,7 @@ func baseDir() string {
 	return dir
 }
 
-func indexHandler(db *sqlcdb.Queries) http.HandlerFunc {
+func indexHandler(db *sqlcdb.Queries, _ *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		entities, err := db.ListShorturls(r.Context())
 		boom(err, "failed to list shorturls")
@@ -102,7 +102,7 @@ func indexHandler(db *sqlcdb.Queries) http.HandlerFunc {
 	}
 }
 
-func createHandler(db *sqlcdb.Queries) http.HandlerFunc {
+func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		assert(r.Method == "POST", "invalid method")
 
@@ -113,6 +113,22 @@ func createHandler(db *sqlcdb.Queries) http.HandlerFunc {
 		err := json.NewDecoder(r.Body).Decode(&input)
 		assert(err == nil, "failed to decode json")
 
+		ctx := r.Context()
+
+		tx, err := sqldb.BeginTx(ctx, nil)
+		boom(err)
+		defer tx.Rollback()
+
+		db = db.WithTx(tx)
+
+		result, err := db.OriginalExists(ctx, input.Original)
+		boom(err, "failed to check original exists")
+
+		if exists := result == 1; exists {
+			WriteResponseJSON(w, http.StatusBadRequest, Envelope{"error": "original url exists"}, nil)
+			return
+		}
+
 		created, err := db.CreateShorturl(r.Context(), sqlcdb.CreateShorturlParams{
 			Original: input.Original,
 			Shorturl: genShorturl(input.Original),
@@ -121,9 +137,11 @@ func createHandler(db *sqlcdb.Queries) http.HandlerFunc {
 		if err != nil {
 			fmt.Println("failed to create shorturl", err)
 			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": err.Error()}, nil)
-
 			return
 		}
+
+		err = tx.Commit()
+		boom(err, "failed to commit tx")
 
 		WriteResponseJSON(w, http.StatusOK, Envelope{"shorturl": toShortURL(created)}, nil)
 	}
