@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"runtime"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -64,5 +65,9 @@ func main() {
 }
 
 func boom(err error) {
-	boom(err)
+	if err != nil {
+		_, filename, line, _ := runtime.Caller(1)
+		fmt.Println(filename, line)
+		boom(err)
+	}
 }
