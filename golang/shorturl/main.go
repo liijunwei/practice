@@ -4,8 +4,8 @@ import (
 	"crypto/sha1"
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"golang-practices/shorturl/sqlcdb"
+	"log"
 	"math/big"
 	"net/http"
 	"os"
@@ -43,7 +43,7 @@ func main() {
 	http.HandleFunc("GET /", indexHandler(queries, db))
 	http.HandleFunc("POST /shorturl", createHandler(queries, db))
 
-	fmt.Println("Server is running at http://localhost:8080")
+	log.Println("Server is running at http://localhost:8080")
 	boom(http.ListenAndServe(":8080", nil))
 }
 
@@ -66,6 +66,9 @@ func toShortURL(entity sqlcdb.Shorturl) ShortURL {
 func initDB() *sql.DB {
 	db, err := sql.Open("sqlite3", "/tmp/shorturl-app.db")
 	boom(err, "failed to open database")
+
+	_, err = db.Exec("PRAGMA journal_mode=WAL;")
+	boom(err, "failed to set WAL mode")
 
 	schema, err := os.ReadFile(filepath.Join(baseDir(), "schema.sql"))
 	boom(err, "failed to read schema.sql")
@@ -135,7 +138,7 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 		})
 
 		if err != nil {
-			fmt.Println("failed to create shorturl", err)
+			log.Println("failed to create shorturl:", err)
 			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": err.Error()}, nil)
 			return
 		}
@@ -173,14 +176,16 @@ func base62Encode(num *big.Int) string {
 
 func boom(e error, msg ...string) {
 	if e != nil {
-		fmt.Println(strings.Join(msg, " "), e)
+		_, filename, line, _ := runtime.Caller(1)
+		log.Println(filename, line, strings.Join(msg, " "), e)
+
 		panic(e)
 	}
 }
 
 func assert(ok bool, msg ...string) {
 	if !ok {
-		fmt.Println(strings.Join(msg, " "), "assert failed")
+		log.Println(strings.Join(msg, " "), "assert failed")
 		panic("assert failed")
 	}
 }
