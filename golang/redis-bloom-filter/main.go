@@ -67,7 +67,7 @@ func main() {
 func boom(err error) {
 	if err != nil {
 		_, filename, line, _ := runtime.Caller(1)
-		fmt.Println(filename, line)
-		boom(err)
+		fmt.Println(fmt.Sprintf("raised from: %s:%d", filename, line))
+		panic(err)
 	}
 }
