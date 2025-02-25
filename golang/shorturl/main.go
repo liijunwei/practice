@@ -142,40 +142,52 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 		assert(err == nil, "failed to decode json")
 
 		ctx := r.Context()
-		// ctx, cancel := context.WithTimeout(r.Context(), 3*time.Millisecond)
-		// defer cancel()
 
 		tx, err := sqldb.BeginTx(ctx, nil)
-		boom(err)
-		defer tx.Rollback()
+		if err != nil {
+			log.Println("failed to begin transaction:", err)
+			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": err.Error()}, nil)
+			return
+		}
 
 		db = db.WithTx(tx)
 
 		result, err := db.OriginalExists(ctx, input.Original)
 		if err != nil {
+			if err := tx.Rollback(); err != nil {
+				log.Println("failed to rollback transaction(OriginalExists):", err)
+			}
 			log.Println("failed to check original exists:", err)
 			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": err.Error()}, nil)
 			return
 		}
 
 		if result {
+			if err := tx.Rollback(); err != nil {
+				log.Println("failed to rollback transaction(exists):", err)
+			}
 			WriteResponseJSON(w, http.StatusBadRequest, Envelope{"error": "original url exists"}, nil)
 			return
 		}
 
-		created, err := db.CreateShorturl(r.Context(), sqlcdb.CreateShorturlParams{
+		created, err := db.CreateShorturl(ctx, sqlcdb.CreateShorturlParams{
 			Original: input.Original,
 			Shorturl: genShorturl(input.Original),
 		})
 
 		if err != nil {
+			if err := tx.Rollback(); err != nil {
+				log.Println("failed to rollback transaction(CreateShorturl):", err)
+			}
 			log.Println("failed to create shorturl:", err)
 			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": err.Error()}, nil)
 			return
 		}
 
-		err = tx.Commit()
-		boom(err, "failed to commit tx")
+		if err := tx.Commit(); err != nil {
+			log.Println("failed to commit transaction:", err)
+			return
+		}
 
 		WriteResponseJSON(w, http.StatusOK, Envelope{"shorturl": toShortURL(created)}, nil)
 	}
