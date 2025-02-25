@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"golang-practices/shorturl/sqlcdb"
 	"log"
 	"math/big"
@@ -41,8 +42,9 @@ func main() {
 
 	queries := sqlcdb.New(db)
 
-	http.HandleFunc("GET /", indexHandler(queries, db))
+	// http.HandleFunc("GET /", indexHandler(queries, db))
 	http.HandleFunc("POST /shorturl", createHandler(queries, db))
+	http.HandleFunc("GET /shorturl/{code}", redirectHandler(queries, db))
 
 	log.Println("Server is running at http://localhost:8080")
 	boom(http.ListenAndServe(":8080", nil))
@@ -59,7 +61,7 @@ func toShortURL(entity sqlcdb.Shorturl) ShortURL {
 	return ShortURL{
 		ID:        entity.ID,
 		Original:  entity.Original,
-		Short:     entity.Shorturl,
+		Short:     fmt.Sprintf("http://localhost:8080/shorturl/%s", entity.Shorturl),
 		CreatedAt: entity.CreatedAt.Format(time.RFC3339),
 	}
 }
@@ -173,6 +175,28 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 		}
 
 		WriteResponseJSON(w, http.StatusCreated, Envelope{"shorturl": toShortURL(created)}, nil)
+	}
+}
+
+func redirectHandler(db *sqlcdb.Queries, _ *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		assert(r.Method == "GET", "invalid method")
+
+		code := r.PathValue("code")
+		if code == "" {
+			WriteResponseJSON(w, http.StatusBadRequest, Envelope{"error": "code is required"}, nil)
+			return
+		}
+
+		ctx := r.Context()
+
+		shortURL, err := db.GetOriginalByShort(ctx, code)
+		if err != nil {
+			log.Println("failed to query by short code:", err)
+			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": "failed to query by short code"}, nil)
+		}
+
+		http.Redirect(w, r, shortURL.Original, http.StatusFound)
 	}
 }
 
