@@ -5,6 +5,7 @@ import (
 	"crypto/sha1"
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"golang-practices/shorturl/sqlcdb"
 	"log"
 	"math/big"
@@ -37,15 +38,17 @@ const base62Chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVW
 //
 // rm /tmp/shorturl-app.db*; sqlc generate && go run .
 func main() {
-	// db := initDB()
+	// db := initSqliteDB()
 	// defer db.Close()
 
-	db, err := NewDB(dbConfig{
+	db, err := initPostgresDB(dbConfig{
 		DSN:          os.Getenv("DSN"),
-		MaxOpenConns: 25,
-		MaxIdleConns: 25,
+		MaxOpenConns: 100,
+		MaxIdleConns: 100,
 	})
 	boom(err)
+
+	defer db.Close()
 
 	queries := sqlcdb.New(db)
 
@@ -73,7 +76,7 @@ func toShortURL(entity sqlcdb.Shorturl) ShortURL {
 	}
 }
 
-func initDB() *sql.DB {
+func initSqliteDB() *sql.DB {
 	db, err := sql.Open("sqlite3", "/tmp/shorturl-app.db")
 	boom(err, "failed to open database")
 
@@ -150,22 +153,22 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 			return
 		}
 
+		defer func() {
+			if err := tx.Rollback(); err != nil && !errors.Is(err, sql.ErrTxDone) {
+				log.Println("failed to rollback transaction:", err)
+			}
+		}()
+
 		db = db.WithTx(tx)
 
 		result, err := db.OriginalExists(ctx, input.Original)
 		if err != nil {
-			if err := tx.Rollback(); err != nil {
-				log.Println("failed to rollback transaction(OriginalExists):", err)
-			}
 			log.Println("failed to check original exists:", err)
 			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": err.Error()}, nil)
 			return
 		}
 
 		if result {
-			if err := tx.Rollback(); err != nil {
-				log.Println("failed to rollback transaction(exists):", err)
-			}
 			WriteResponseJSON(w, http.StatusBadRequest, Envelope{"error": "original url exists"}, nil)
 			return
 		}
@@ -174,11 +177,7 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 			Original: input.Original,
 			Shorturl: genShorturl(input.Original),
 		})
-
 		if err != nil {
-			if err := tx.Rollback(); err != nil {
-				log.Println("failed to rollback transaction(CreateShorturl):", err)
-			}
 			log.Println("failed to create shorturl:", err)
 			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": err.Error()}, nil)
 			return
@@ -257,7 +256,7 @@ type dbConfig struct {
 	MaxIdleConns int
 }
 
-func NewDB(cfg dbConfig) (*sql.DB, error) {
+func initPostgresDB(cfg dbConfig) (*sql.DB, error) {
 	db, err := sql.Open("postgres", cfg.DSN)
 	if err != nil {
 		return nil, err
@@ -265,6 +264,15 @@ func NewDB(cfg dbConfig) (*sql.DB, error) {
 
 	db.SetMaxOpenConns(cfg.MaxOpenConns)
 	db.SetMaxIdleConns(cfg.MaxIdleConns)
+	// db.SetConnMaxIdleTime(5 * time.Minute)
+	// db.SetConnMaxLifetime(5 * time.Minute)
+
+	go func() {
+		for range time.Tick(time.Second) {
+			data, _ := json.Marshal(db.Stats())
+			log.Println("db stats:", string(data))
+		}
+	}()
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()

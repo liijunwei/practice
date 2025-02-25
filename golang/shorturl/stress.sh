@@ -13,4 +13,4 @@
 # or use wrk+lua
 
 
-wrk -t5 -c10 -d10s -s ./stress.lua --latency http://localhost:8080/shorturl
+wrk -t1 -c10 -d10s -s ./stress.lua --latency http://localhost:8080/shorturl
