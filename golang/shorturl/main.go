@@ -150,6 +150,7 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 		}
 
 		if exists := result == 1; exists {
+			log.Println("original url exists", input.Original)
 			WriteResponseJSON(w, http.StatusBadRequest, Envelope{"error": "original url exists"}, nil)
 			return
 		}
@@ -171,7 +172,7 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		WriteResponseJSON(w, http.StatusOK, Envelope{"shorturl": toShortURL(created)}, nil)
+		WriteResponseJSON(w, http.StatusCreated, Envelope{"shorturl": toShortURL(created)}, nil)
 	}
 }
 
