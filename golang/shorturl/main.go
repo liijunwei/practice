@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"crypto/sha1"
 	"database/sql"
 	"encoding/json"
@@ -15,7 +16,8 @@ import (
 	"sync"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3" // SQLite driver
+	_ "github.com/lib/pq"
+	// _ "github.com/mattn/go-sqlite3" // SQLite driver
 )
 
 var once sync.Once
@@ -33,14 +35,22 @@ const base62Chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVW
 // go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 // guide: https://docs.sqlc.dev/en/latest/tutorials/getting-started-sqlite.html
 //
-// rm /tmp/shorturl-app.db; sqlc generate && go run .
+// rm /tmp/shorturl-app.db*; sqlc generate && go run .
 func main() {
-	db := initDB()
-	defer db.Close()
+	// db := initDB()
+	// defer db.Close()
+
+	db, err := NewDB(dbConfig{
+		DSN:          os.Getenv("DSN"),
+		MaxOpenConns: 25,
+		MaxIdleConns: 25,
+	})
+	boom(err)
 
 	queries := sqlcdb.New(db)
 
 	http.HandleFunc("GET /", indexHandler(queries, db))
+	http.HandleFunc("GET /detail", detailHandler(queries, db))
 	http.HandleFunc("POST /shorturl", createHandler(queries, db))
 
 	log.Println("Server is running at http://localhost:8080")
@@ -70,11 +80,14 @@ func initDB() *sql.DB {
 	_, err = db.Exec("PRAGMA journal_mode=WAL;")
 	boom(err, "failed to set WAL mode")
 
+	db.SetMaxIdleConns(10)
+	db.SetMaxOpenConns(100)
+
 	schema, err := os.ReadFile(filepath.Join(baseDir(), "schema.sql"))
 	boom(err, "failed to read schema.sql")
 
 	_, err = db.Exec(string(schema))
-	boom(err, "failed to execute schema")
+	// boom(err, "failed to execute schema")
 
 	return db
 }
@@ -105,6 +118,18 @@ func indexHandler(db *sqlcdb.Queries, _ *sql.DB) http.HandlerFunc {
 	}
 }
 
+func detailHandler(db *sqlcdb.Queries, _ *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		query := r.URL.Query()
+		assert(query.Get("short") != "", "short url is required")
+
+		entity, err := db.GetOriginalByShort(r.Context(), query.Get("short"))
+		boom(err, "failed to get shorturl detail")
+
+		WriteResponseJSON(w, http.StatusOK, Envelope{"shorturl": toShortURL(entity)}, nil)
+	}
+}
+
 func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		assert(r.Method == "POST", "invalid method")
@@ -117,6 +142,8 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 		assert(err == nil, "failed to decode json")
 
 		ctx := r.Context()
+		// ctx, cancel := context.WithTimeout(r.Context(), 3*time.Millisecond)
+		// defer cancel()
 
 		tx, err := sqldb.BeginTx(ctx, nil)
 		boom(err)
@@ -125,9 +152,13 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 		db = db.WithTx(tx)
 
 		result, err := db.OriginalExists(ctx, input.Original)
-		boom(err, "failed to check original exists")
+		if err != nil {
+			log.Println("failed to check original exists:", err)
+			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": err.Error()}, nil)
+			return
+		}
 
-		if exists := result == 1; exists {
+		if result {
 			WriteResponseJSON(w, http.StatusBadRequest, Envelope{"error": "original url exists"}, nil)
 			return
 		}
@@ -206,4 +237,35 @@ func WriteResponseJSON(w http.ResponseWriter, status int, data Envelope, headers
 	w.Write([]byte("\n"))
 
 	return nil
+}
+
+type dbConfig struct {
+	DSN          string
+	MaxOpenConns int
+	MaxIdleConns int
+}
+
+func NewDB(cfg dbConfig) (*sql.DB, error) {
+	db, err := sql.Open("postgres", cfg.DSN)
+	if err != nil {
+		return nil, err
+	}
+
+	db.SetMaxOpenConns(cfg.MaxOpenConns)
+	db.SetMaxIdleConns(cfg.MaxIdleConns)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := db.PingContext(ctx); err != nil {
+		return nil, err
+	}
+
+	schema, err := os.ReadFile(filepath.Join(baseDir(), "schema.sql"))
+	boom(err, "failed to read schema.sql")
+
+	_, err = db.Exec(string(schema))
+	boom(err, "failed to execute schema")
+
+	return db, nil
 }

@@ -13,7 +13,7 @@ const createShorturl = `-- name: CreateShorturl :one
 INSERT INTO
   shorturls(original, shorturl)
 VALUES
-  (?1, ?2) RETURNING id, original, shorturl, created_at, updated_at
+  ($1, $2) RETURNING id, original, shorturl, created_at, updated_at
 `
 
 type CreateShorturlParams struct {
@@ -40,7 +40,7 @@ SELECT
 FROM
   shorturls
 WHERE
-  shorturl = ?1
+  shorturl = $1
 `
 
 func (q *Queries) GetOriginalByShort(ctx context.Context, shorturl string) (Shorturl, error) {
@@ -100,14 +100,14 @@ SELECT
     FROM
       shorturls
     WHERE
-      original = ?1
+      original = $1
   )
 `
 
 // TODO try this first, then optimize with bloom filter to see it's performance gain
-func (q *Queries) OriginalExists(ctx context.Context, original string) (int64, error) {
+func (q *Queries) OriginalExists(ctx context.Context, original string) (bool, error) {
 	row := q.db.QueryRowContext(ctx, originalExists, original)
-	var column_1 int64
-	err := row.Scan(&column_1)
-	return column_1, err
+	var exists bool
+	err := row.Scan(&exists)
+	return exists, err
 }
