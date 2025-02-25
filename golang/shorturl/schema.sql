@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS shorturls (
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE UNIQUE INDEX unique_idx_original ON shorturls(original);
+CREATE UNIQUE INDEX IF NOT EXISTS unique_idx_original ON shorturls(original);

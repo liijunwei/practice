@@ -4,6 +4,7 @@ import (
 	"crypto/sha1"
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"golang-practices/shorturl/sqlcdb"
 	"log"
 	"math/big"
@@ -67,6 +68,9 @@ func initDB() *sql.DB {
 	db, err := sql.Open("sqlite3", "/tmp/shorturl-app.db")
 	boom(err, "failed to open database")
 
+	db.SetMaxOpenConns(1)
+	db.SetMaxIdleConns(1)
+
 	_, err = db.Exec("PRAGMA journal_mode=WAL;")
 	boom(err, "failed to set WAL mode")
 
@@ -75,6 +79,15 @@ func initDB() *sql.DB {
 
 	_, err = db.Exec(string(schema))
 	boom(err, "failed to execute schema")
+
+	boom(db.Ping())
+
+	// go func() {
+	// 	for range time.Tick(1 * time.Second) {
+	// 		data, _ := json.Marshal(db.Stats())
+	// 		log.Println("db stats:", string(data))
+	// 	}
+	// }()
 
 	return db
 }
@@ -120,19 +133,28 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 
 		tx, err := sqldb.BeginTx(ctx, nil)
 		boom(err)
-		defer tx.Rollback()
+
+		defer func() {
+			if err := tx.Rollback(); err != nil && !errors.Is(err, sql.ErrTxDone) {
+				log.Println("failed to rollback tx:", err)
+			}
+		}()
 
 		db = db.WithTx(tx)
 
 		result, err := db.OriginalExists(ctx, input.Original)
-		boom(err, "failed to check original exists")
+		if err != nil {
+			log.Println("failed to check original url exists:", err)
+			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": err.Error()}, nil)
+			return
+		}
 
 		if exists := result == 1; exists {
 			WriteResponseJSON(w, http.StatusBadRequest, Envelope{"error": "original url exists"}, nil)
 			return
 		}
 
-		created, err := db.CreateShorturl(r.Context(), sqlcdb.CreateShorturlParams{
+		created, err := db.CreateShorturl(ctx, sqlcdb.CreateShorturlParams{
 			Original: input.Original,
 			Shorturl: genShorturl(input.Original),
 		})
@@ -143,8 +165,11 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		err = tx.Commit()
-		boom(err, "failed to commit tx")
+		if err = tx.Commit(); err != nil {
+			log.Println("failed to commit tx:", err)
+			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": err.Error()}, nil)
+			return
+		}
 
 		WriteResponseJSON(w, http.StatusOK, Envelope{"shorturl": toShortURL(created)}, nil)
 	}

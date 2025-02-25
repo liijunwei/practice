@@ -13,4 +13,5 @@
 # or use wrk+lua
 
 
-wrk -t12 -c100 -d10s -s ./stress.lua --latency http://localhost:8080/shorturl
+# for sqlite, 1 connection is enough
+wrk -t1 -c1 -d10s -s ./stress.lua --latency http://localhost:8080/shorturl
