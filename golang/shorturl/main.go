@@ -42,7 +42,7 @@ func main() {
 
 	queries := sqlcdb.New(db)
 
-	// http.HandleFunc("GET /", indexHandler(queries, db))
+	http.HandleFunc("GET /shorturls", indexHandler(queries, db))
 	http.HandleFunc("POST /shorturl", createHandler(queries, db))
 	http.HandleFunc("GET /shorturl/{code}", redirectHandler(queries, db))
 
