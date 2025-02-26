@@ -18,7 +18,10 @@ import (
 	"time"
 
 	_ "github.com/mattn/go-sqlite3" // SQLite driver
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
+
+// https://prometheus.io/docs/tutorials/instrumenting_http_server_in_go/
 
 var once sync.Once
 
@@ -45,6 +48,7 @@ func main() {
 	http.HandleFunc("GET /shorturls", indexHandler(queries, db))
 	http.HandleFunc("POST /shorturl", createHandler(queries, db))
 	http.HandleFunc("GET /shorturl/{code}", redirectHandler(queries, db))
+	http.Handle("/metrics", promhttp.Handler())
 
 	log.Println("Server is running at http://localhost:8080")
 	boom(http.ListenAndServe(":8080", nil))
