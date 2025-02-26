@@ -1,7 +1,9 @@
 wrk.method = "POST"
 wrk.headers["Content-Type"] = "application/json"
 
+math.randomseed(os.clock()^5)
 local random = math.random
+
 local function uuid()
     local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
     return string.gsub(template, '[xy]', function (c)
