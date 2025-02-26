@@ -124,6 +124,7 @@ func indexHandler(db *sqlcdb.Queries, _ *sql.DB) http.HandlerFunc {
 	}
 }
 
+// use toxiproxy to mock the latency
 func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		assert(r.Method == "POST", "invalid method")

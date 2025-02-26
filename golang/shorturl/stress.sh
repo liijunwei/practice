@@ -13,5 +13,20 @@
 # or use wrk+lua
 
 
+# ./stress.sh
+# ./stress.sh 1 1
+# ./stress.sh 1 1 30
+
 # for sqlite, 1 connection is enough
-wrk -t1 -c1 -d10s -s ./stress.lua --latency http://localhost:8080/shorturl
+wrk -t ${1:-1} -c ${2:-1} -d ${3:-10s} -s ./stress.lua --latency http://localhost:8080/shorturl
+
+sqlite3 /tmp/shorturl-app.db "PRAGMA wal_checkpoint(FULL);"
+sqlite3 /tmp/shorturl-app.db "PRAGMA integrity_check;"
+
+# prepare datasource
+sqlite3 /tmp/shorturl-app-backup.db <<EOF
+.mode csv
+.output /tmp/shorturls.csv
+SELECT * FROM shorturls;
+.output stdout
+EOF
