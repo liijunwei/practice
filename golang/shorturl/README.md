@@ -47,3 +47,10 @@ too slow, possible reasons:
     - improvement is quite limited
 
 - separate read and write looks ok, yet still limited
+
+### TODOs
+
+- TODO try replace check existense with redis bloom filter to see whether it improves create performance
+- TODO think about how to scale the app with go + sqlite
+- TODO try replace sqlite with postgres
+- TODO practice more about prometheus+grafana and report custom metrics
