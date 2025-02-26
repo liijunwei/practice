@@ -40,14 +40,17 @@ const base62Chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVW
 //
 // rm /tmp/shorturl-app.db; sqlc generate && go run .
 func main() {
-	db := initDB()
+	db := initWriteMostDB()
 	defer db.Close()
+
+	rodb := initReadonlyDB()
+	defer rodb.Close()
 
 	queries := sqlcdb.New(db)
 
-	http.HandleFunc("GET /shorturls", indexHandler(queries, db))
+	http.HandleFunc("GET /shorturls", indexHandler(queries, rodb))
 	http.HandleFunc("POST /shorturl", createHandler(queries, db))
-	http.HandleFunc("GET /shorturl/{code}", redirectHandler(queries, db))
+	http.HandleFunc("GET /shorturl/{code}", redirectHandler(queries, rodb))
 	http.Handle("/metrics", promhttp.Handler())
 
 	log.Println("Server is running at http://localhost:8080")
@@ -70,8 +73,8 @@ func toShortURL(entity sqlcdb.Shorturl) ShortURL {
 	}
 }
 
-func initDB() *sql.DB {
-	db, err := sql.Open("sqlite3", "/tmp/shorturl-app.db")
+func initWriteMostDB() *sql.DB {
+	db, err := sql.Open("sqlite3", dbFilename())
 	boom(err, "failed to open database")
 
 	db.SetMaxOpenConns(1)
@@ -96,6 +99,27 @@ func initDB() *sql.DB {
 	// }()
 
 	return db
+}
+
+func initReadonlyDB() *sql.DB {
+	dsn := fmt.Sprintf("file:%s?mode=ro", dbFilename())
+
+	db, err := sql.Open("sqlite3", dsn)
+	boom(err, "failed to open database")
+
+	db.SetMaxOpenConns(100)
+	db.SetMaxIdleConns(100)
+
+	boom(db.Ping())
+
+	_, err = db.Exec("INSERT INTO shorturls(original, shorturl) VALUES ('a', 'b')")
+	assert(err.Error() == "attempt to write a readonly database")
+
+	return db
+}
+
+func dbFilename() string {
+	return "/tmp/shorturl-app.db"
 }
 
 func baseDir() string {

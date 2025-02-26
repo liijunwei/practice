@@ -24,7 +24,8 @@ sqlite3 /tmp/shorturl-app.db "PRAGMA wal_checkpoint(FULL);"
 sqlite3 /tmp/shorturl-app.db "PRAGMA integrity_check;"
 
 # prepare datasource
-sqlite3 /tmp/shorturl-app-backup.db <<EOF
+# sqlite3 /tmp/shorturl-app-backup.db <<EOF
+sqlite3 /tmp/shorturl-app.db <<EOF
 .mode csv
 .output /tmp/shorturls.csv
 SELECT * FROM shorturls;

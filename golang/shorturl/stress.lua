@@ -14,6 +14,7 @@ end
 
 request = function()
     local randomUUID = uuid()
-    local body = string.format('{"original": "http://example.com/%s"}', randomUUID)
+    -- apply latency with toxiproxy later
+    local body = string.format('{"original": "http://localhost:8080/metrics?query=%s"}', randomUUID)
     return wrk.format(nil, nil, nil, body)
 end
