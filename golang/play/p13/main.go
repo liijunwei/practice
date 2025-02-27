@@ -6,15 +6,21 @@ import (
 	"math/big"
 )
 
-func toBase62(s string) string {
+func toBase62_1(s string) string {
 	var i big.Int
 	i.SetBytes([]byte(s))
 	return i.Text(62)
 }
 
-func toBase62_1(s []byte) string {
+func toBase62_2(s []byte) string {
 	var i big.Int
 	i.SetBytes(s)
+	return i.Text(62)
+}
+
+func toBase62_3(s int) string {
+	var i big.Int
+	i.SetUint64(uint64(s))
 	return i.Text(62)
 }
 
@@ -27,8 +33,12 @@ func main() {
 
 	fmt.Println([]byte("61"))
 	fmt.Println([]byte{61})
-	fmt.Println(toBase62("61"))
-	fmt.Println(toBase62_1([]byte{0}))
-	fmt.Println(toBase62_1([]byte{1}))
-	fmt.Println(toBase62_1([]byte{61}))
+	fmt.Println(toBase62_1("61"))
+	fmt.Println(toBase62_2([]byte{0}))
+	fmt.Println(toBase62_2([]byte{1}))
+	fmt.Println(toBase62_2([]byte{61}))
+	fmt.Println(toBase62_3(0))
+	fmt.Println(toBase62_3(1))
+	fmt.Println(toBase62_3(61))
+	fmt.Println(toBase62_3(62))
 }
