@@ -37,6 +37,8 @@ func main() {
 	fmt.Println(toBase62_2([]byte{0}))
 	fmt.Println(toBase62_2([]byte{1}))
 	fmt.Println(toBase62_2([]byte{61}))
+
+	fmt.Println("toBase62_3")
 	fmt.Println(toBase62_3(0))
 	fmt.Println(toBase62_3(1))
 	fmt.Println(toBase62_3(61))
