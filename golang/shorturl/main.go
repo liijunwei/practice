@@ -229,6 +229,7 @@ func redirectHandler(db *sqlcdb.Queries, _ *sql.DB) http.HandlerFunc {
 	}
 }
 
+// string -> hash -> base62 encode
 func genShorturl(original string) string {
 	h := sha1.New()
 	h.Write([]byte(original))
