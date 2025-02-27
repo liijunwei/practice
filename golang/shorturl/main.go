@@ -231,27 +231,9 @@ func redirectHandler(db *sqlcdb.Queries, _ *sql.DB) http.HandlerFunc {
 
 // string -> hash -> base62 encode
 func genShorturl(original string) string {
-	h := sha1.New()
-	h.Write([]byte(original))
-	bs := h.Sum(nil)
-	num := new(big.Int).SetBytes(bs)
+	checksum := sha1.Sum([]byte(original))
 
-	return base62Encode(num)[:8]
-}
-
-// TODO verify its correctness
-func base62Encode(num *big.Int) string {
-	base := big.NewInt(62)
-	zero := big.NewInt(0)
-	encoded := ""
-
-	for num.Cmp(zero) > 0 {
-		mod := new(big.Int)
-		num.DivMod(num, base, mod)
-		encoded = string(base62Chars[mod.Int64()]) + encoded
-	}
-
-	return encoded
+	return new(big.Int).SetBytes(checksum[:]).Text(62)[:8] // TODO think about how to handle this flawed logic
 }
 
 func boom(e error, msg ...string) {
