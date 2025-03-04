@@ -1,14 +1,12 @@
 package ttlcache1
 
 import (
-	"fmt"
-	"runtime"
 	"sync"
 	"time"
 )
 
 type Item struct {
-	sync.RWMutex
+	mu        sync.RWMutex
 	data      string
 	expiresAt time.Time
 	ttl       time.Duration
@@ -23,15 +21,15 @@ func NewItem(data string, ttl time.Duration) *Item {
 }
 
 func (i *Item) touch() {
-	i.Lock()
-	defer i.Unlock()
+	i.mu.Lock()
+	defer i.mu.Unlock()
 
 	i.expiresAt = time.Now().Add(i.ttl)
 }
 
 func (i *Item) isExpired() bool {
-	i.RLock()
-	defer i.RUnlock()
+	i.mu.RLock()
+	defer i.mu.RUnlock()
 
 	assert(!i.expiresAt.IsZero())
 
@@ -40,8 +38,6 @@ func (i *Item) isExpired() bool {
 
 func assert(ok bool) {
 	if !ok {
-		_, filename, line, _ := runtime.Caller(1)
-		msg := fmt.Sprintf("assertion fails: %s:%d", filename, line)
-		panic(msg)
+		panic("assertion fails")
 	}
 }

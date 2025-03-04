@@ -6,7 +6,7 @@ import (
 )
 
 type Cache struct {
-	sync.RWMutex
+	mu       sync.RWMutex
 	ttl      time.Duration // items ttl
 	interval time.Duration // cleanup interval
 	items    map[string]*Item
@@ -48,15 +48,15 @@ func WithInterval(interval time.Duration) CacheOption {
 }
 
 func (c *Cache) Set(key, value string) {
-	c.Lock()
-	defer c.Unlock()
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	item := NewItem(value, c.ttl)
 	c.items[key] = item
 }
 
 func (c *Cache) Get(key string) (data string, ok bool) {
-	c.RLock()
-	defer c.RUnlock()
+	c.mu.RLock()
+	defer c.mu.RUnlock()
 
 	item, ok := c.items[key]
 	if !ok || item.isExpired() {
@@ -69,8 +69,8 @@ func (c *Cache) Get(key string) (data string, ok bool) {
 }
 
 func (c *Cache) Count() int {
-	c.RLock()
-	defer c.RUnlock()
+	c.mu.RLock()
+	defer c.mu.RUnlock()
 
 	return len(c.items)
 }
@@ -84,8 +84,8 @@ func (c *Cache) backgroundCleanup() {
 }
 
 func (c *Cache) cleanup() {
-	c.Lock()
-	defer c.Unlock()
+	c.mu.Lock()
+	defer c.mu.Unlock()
 
 	for key, item := range c.items {
 		if item.isExpired() {
