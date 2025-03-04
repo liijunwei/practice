@@ -6,6 +6,9 @@ import (
 
 // TODO support thread safety
 // TODO generic key/value?
+// TODO practice implemente a doubly linked list
+// TODO practice implemente a thread safe doubly linked list
+// TODO support expirable LRU cache
 
 // ttl + lru cache, remove the oldest item when at capacity
 type Cache struct {
