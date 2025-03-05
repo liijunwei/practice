@@ -20,7 +20,7 @@ func NewItem(data string, ttl time.Duration) *Item {
 	}
 }
 
-func (i *Item) touch() {
+func (i *Item) renewTTL() {
 	i.mu.Lock()
 	defer i.mu.Unlock()
 

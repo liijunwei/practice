@@ -15,7 +15,7 @@ type Cache struct {
 type CacheOption func(c *Cache)
 
 // TODO it's better to limit the items count
-// assume cleanup interval >= 500ms
+// TODO support item level ttl
 func New(options ...CacheOption) *Cache {
 	c := &Cache{
 		ttl:      5 * time.Second,
@@ -28,7 +28,7 @@ func New(options ...CacheOption) *Cache {
 	}
 
 	assert(c.ttl > 0)
-	assert(c.interval >= 500*time.Millisecond)
+	assert(c.interval > 0)
 
 	go c.backgroundCleanup()
 
@@ -63,7 +63,7 @@ func (c *Cache) Get(key string) (data string, ok bool) {
 		return "", false
 	}
 
-	item.touch()
+	item.renewTTL()
 
 	return item.data, true
 }

@@ -41,3 +41,22 @@ func TestExpiration(t *testing.T) {
 	require.False(t, ok)
 	assert.Equal(t, 0, c.Count())
 }
+
+func TestTTLRenewal(t *testing.T) {
+	c := ttlcache1.New(ttlcache1.WithTTL(50*time.Millisecond), ttlcache1.WithInterval(10*time.Millisecond))
+
+	c.Set("a", "foo")
+
+	v, ok := c.Get("a")
+	require.True(t, ok)
+	assert.Equal(t, "foo", v)
+	assert.Equal(t, 1, c.Count())
+
+	<-time.After(45 * time.Millisecond)
+	_, ok = c.Get("a")
+	require.True(t, ok)
+
+	<-time.After(10 * time.Millisecond)
+	_, ok = c.Get("a")
+	require.True(t, ok)
+}
