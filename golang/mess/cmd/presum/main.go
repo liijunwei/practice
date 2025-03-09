@@ -20,16 +20,13 @@ func print(input []int) {
 }
 
 func presum(input []int) []int {
-	prefix := make([]int, len(input))
+	prefix := make([]int, len(input)+1)
 
-	sum := 0
-
-	for i := 0; i < len(input); i++ {
-		sum += input[i]
-		prefix[i] = sum
+	for i := range len(input) {
+		prefix[i+1] = prefix[i] + input[i]
 	}
 
-	return prefix
+	return prefix[1:]
 }
 
 func parse(input string) []int {
