@@ -1,10 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
 
 func main() {
 	print([]int{1, 1, 1, 1, 1})
 	print([]int{1, 2, 3, 4, 5})
+	print(parse(os.Args[1]))
 }
 
 func print(input []int) {
@@ -24,4 +30,16 @@ func presum(input []int) []int {
 	}
 
 	return prefix
+}
+
+func parse(input string) []int {
+	strs := strings.Split(input, ",")
+	nums := make([]int, 0, len(strs))
+
+	for _, str := range strs {
+		num, _ := strconv.Atoi(str)
+		nums = append(nums, num)
+	}
+
+	return nums
 }
