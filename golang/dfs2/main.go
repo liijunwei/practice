@@ -38,25 +38,31 @@ func topoSort(m map[string][]string) []string {
 	var order []string
 	seen := make(map[string]bool)
 
-	var dfs func(items []string)
+	// Define DFS function that takes graph and current vertex
+	var dfs func(g map[string][]string, v string)
 
-	dfs = func(items []string) {
-		for _, item := range items {
-			if !seen[item] {
-				seen[item] = true
-				dfs(m[item])
-				order = append(order, item)
+	dfs = func(g map[string][]string, v string) {
+		if !seen[v] {
+			seen[v] = true
+			// Visit all prerequisites (adjacent vertices)
+			for _, prereq := range g[v] {
+				dfs(g, prereq)
 			}
+			order = append(order, v)
 		}
 	}
 
+	// Get all courses (vertices)
 	var keys []string
 	for key := range m {
 		keys = append(keys, key)
 	}
-
 	sort.Strings(keys)
-	dfs(keys)
+
+	// Call DFS on each course
+	for _, key := range keys {
+		dfs(m, key)
+	}
 
 	return order
 }
