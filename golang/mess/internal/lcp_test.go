@@ -25,6 +25,7 @@ func longestCommonPrefix(strs []string) string {
 	}
 
 	s0 := strs[0]
+	// 一列一列遍历
 	for j := range s0 {
 		for _, s := range strs[1:] {
 			fmt.Println("loop", "s0", s0, "j", j, "s", s)
