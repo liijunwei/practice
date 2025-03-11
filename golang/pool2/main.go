@@ -10,18 +10,18 @@ func main() {
 	startTime := time.Now()
 
 	concurrency := 5
-	jobCount := 100
+	jobCount := 10
 	tasks := make(chan int)
 	results := make(chan int)
 
 	var wg sync.WaitGroup
 	wg.Add(concurrency)
 
-	for i := 0; i < concurrency; i++ {
-		go func(id int) {
+	for id := range concurrency {
+		go func() {
 			worker(id+1, tasks, results)
 			wg.Done()
-		}(i)
+		}()
 	}
 
 	go func() {
