@@ -2,6 +2,7 @@ package internal
 
 import (
 	"fmt"
+	"testing"
 
 	"github.com/tidwall/tinyqueue"
 )
@@ -10,7 +11,7 @@ import (
 
 // http://bookshadow.com/weblog/2015/02/05/find-kth-smallest-element-in-the-union-of-two-sorted-arrays/
 
-func TestFindKthMin() {
+func TestFindKthMin(t *testing.T) {
 	a1 := []int{1, 2, 3, 4, 5, 6}
 	a2 := []int{6, 7, 8, 9, 10, 11, 12}
 
@@ -19,6 +20,7 @@ func TestFindKthMin() {
 	fmt.Println("----")
 	pqFind(a1, a2, k)
 	fmt.Println("----")
+	v3Find(a1, a2, k)
 }
 
 type intval int
@@ -84,4 +86,42 @@ func merge(a1, a2 []int) []int {
 	}
 
 	return a1
+}
+
+func v3Find(A, B []int, k int) {
+	result := okSolution(A, B, k)
+	fmt.Printf("%dth min is %d\n", k, result)
+}
+
+// unclear yet
+func okSolution(A, B []int, k int) int {
+	a_offset := 0
+	b_offset := 0
+
+	if len(A)+len(B) < k {
+		panic("should not happen")
+	}
+
+	for {
+		if a_offset < len(A) {
+			for b_offset == len(B) || (a_offset < len(A) && A[a_offset] <= B[b_offset]) {
+				fmt.Println("a_offset", a_offset)
+				a_offset++
+
+				if a_offset+b_offset == k {
+					return A[a_offset]
+				}
+			}
+		}
+
+		if b_offset < len(B) {
+			for a_offset == len(A) || A[a_offset] >= B[b_offset] {
+				b_offset++
+
+				if a_offset+b_offset == k {
+					return B[b_offset]
+				}
+			}
+		}
+	}
 }
