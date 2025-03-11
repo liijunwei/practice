@@ -7,9 +7,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// TODO fix this
+// https://leetcode.cn/problems/trapping-rain-water/?envType=study-plan-v2&envId=top-100-liked
 func TestTrap(t *testing.T) {
 	height := []int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}
 	assert.Equal(t, 6, solution(height))
+	assert.Equal(t, 9, solution([]int{4, 2, 0, 3, 2, 5}))
 }
 
 func solution(height []int) int {
@@ -24,8 +27,8 @@ func solution(height []int) int {
 		right[i] = max(right[i+1], height[i])
 	}
 
-	fmt.Println(left)
-	fmt.Println(right)
+	fmt.Println("left", left)
+	fmt.Println("right", right)
 
 	result := 0
 
