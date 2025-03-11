@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"os"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -17,9 +20,11 @@ func main() {
 
 	start := time.Now()
 
-	pool := NewPool(tasks, 100)
+	n, _ := strconv.Atoi(os.Args[1])
+	pool := NewPool(tasks, n)
 	pool.Run()
-	println("all done, elapsed:", time.Since(start).String())
+
+	fmt.Println("all done, elapsed:", time.Since(start).String())
 }
 
 type Task interface {
@@ -71,13 +76,13 @@ func (p *Pool) runOne(task Task) {
 type t1 struct{}
 
 func (t *t1) Run() {
-	println("working on t1")
+	fmt.Println("working on t1", 100*time.Millisecond)
 	time.Sleep(100 * time.Millisecond)
 }
 
 type t2 struct{}
 
 func (t *t2) Run() {
-	println("working on t2")
+	fmt.Println("working on t2", 10*time.Millisecond)
 	time.Sleep(10 * time.Millisecond)
 }
