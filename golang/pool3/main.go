@@ -46,6 +46,8 @@ func (p *Pool) Run() {
 		go p.startWorker()
 	}
 
+	p.wg.Add(len(p.Tasks))
+
 	for _, task := range p.Tasks {
 		p.taskChannel <- task
 	}
@@ -61,7 +63,6 @@ func (p *Pool) startWorker() {
 }
 
 func (p *Pool) runOne(task Task) {
-	p.wg.Add(1)
 	defer p.wg.Done()
 
 	task.Run()
