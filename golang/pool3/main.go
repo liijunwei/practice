@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"slices"
 	"strconv"
 	"sync"
 	"time"
@@ -12,16 +13,15 @@ func main() {
 	tasks := []Task{
 		&t1{},
 		&t2{},
-		&t1{},
-		&t2{},
-		&t1{},
-		&t2{},
 	}
+
+	n, _ := strconv.Atoi(os.Args[1])
+	tasks = slices.Repeat(tasks, n)
 
 	start := time.Now()
 
-	n, _ := strconv.Atoi(os.Args[1])
-	pool := NewPool(tasks, n)
+	c, _ := strconv.Atoi(os.Args[1])
+	pool := NewPool(tasks, c)
 	pool.Run()
 
 	fmt.Println("all done, elapsed:", time.Since(start).String())
