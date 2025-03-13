@@ -7,6 +7,12 @@ import (
 	"strings"
 )
 
+// e.g.
+// go run mess/cmd/presum/main.go 1,2,3,4,9 1 4
+//
+// raw:    [1 2 3 4 9]
+// presum: [1 3 6 10 19]
+// sum(1,4) = prefix[4] - prefix[1-1] = prefix[4] - prefix[0] = 18
 func main() {
 	print([]int{1, 1, 1, 1, 1})
 	print([]int{1, 2, 3, 4, 5})
