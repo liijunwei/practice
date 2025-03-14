@@ -3,7 +3,9 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"strings"
@@ -39,7 +41,6 @@ func main() {
 		}
 
 		go s.newClient(conn)
-
 	}
 }
 
@@ -82,6 +83,11 @@ func (c *client) readInput() {
 	for {
 		msg, err := bufio.NewReader(c.conn).ReadString('\n')
 		if err != nil {
+			if errors.Is(err, io.EOF) {
+				log.Printf("client disconnected: %s", c.conn.RemoteAddr().String())
+				return
+			}
+
 			log.Printf("failed to read from client: %v", err)
 			return
 		}
