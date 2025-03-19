@@ -227,7 +227,24 @@ func redirectHandler(db *sqlcdb.Queries, _ *sql.DB) http.HandlerFunc {
 func genShorturl(original string) string {
 	checksum := sha1.Sum([]byte(original))
 
-	return new(big.Int).SetBytes(checksum[:]).Text(62)[:8] // TODO think about how to handle this flawed logic
+	demo := new(big.Int).SetBytes(checksum[:]).Int64()
+	assert(demo > 0, "checksum is less than 0")
+	return convertToBase62(demo)
+
+	// return new(big.Int).SetBytes(checksum[:]).Text(62)[:8] // TODO think about how to handle this flawed logic
+}
+
+// https://en.wikipedia.org/wiki/Base62
+const base62Digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+func convertToBase62(number int64) string {
+	base62 := ""
+	for number > 0 {
+		remainder := number % 62
+		base62 = string(base62Digits[remainder]) + base62
+		number /= 62
+	}
+	return base62
 }
 
 func boom(e error, msg ...string) {
