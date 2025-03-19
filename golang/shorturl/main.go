@@ -150,7 +150,12 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 		ctx := r.Context()
 
 		tx, err := sqldb.BeginTx(ctx, nil)
-		boom(err)
+		if err != nil {
+			log.Println("failed to begin tx:", err)
+			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": "failed to begin tx"}, nil)
+
+			return
+		}
 
 		defer func() {
 			if err := tx.Rollback(); err != nil && !errors.Is(err, sql.ErrTxDone) {
