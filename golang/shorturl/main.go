@@ -160,16 +160,18 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 
 		db = db.WithTx(tx)
 
-		result, err := db.OriginalExists(ctx, input.Original)
-		if err != nil {
-			log.Println("failed to check original url exists:", err)
-			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": err.Error()}, nil)
+		// TODO this is suboptimal as original might be very long
+		result, err := db.CheckOriginalExists(ctx, input.Original)
+		if err == nil {
+			WriteResponseJSON(w, http.StatusOK, Envelope{"shorturl": toShortURL(result)}, nil)
+
 			return
 		}
 
-		if exists := result == 1; exists {
-			log.Println("original url exists", input.Original)
-			WriteResponseJSON(w, http.StatusBadRequest, Envelope{"error": "original url exists"}, nil)
+		if !errors.Is(err, sql.ErrNoRows) {
+			log.Println("failed to check original url exists:", err)
+			WriteResponseJSON(w, http.StatusInternalServerError, Envelope{"error": err.Error()}, nil)
+
 			return
 		}
 

@@ -19,13 +19,10 @@ WHERE
   shorturl = @shorturl;
 
 -- TODO try this first, then optimize with bloom filter to see it's performance gain
--- name: OriginalExists :one
+-- name: CheckOriginalExists :one
 SELECT
-  EXISTS(
-    SELECT
-      1
-    FROM
-      shorturls
-    WHERE
-      original = @original
-  );
+  *
+FROM
+  shorturls
+WHERE
+  original = @original;

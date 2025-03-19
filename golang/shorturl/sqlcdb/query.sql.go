@@ -9,6 +9,29 @@ import (
 	"context"
 )
 
+const checkOriginalExists = `-- name: CheckOriginalExists :one
+SELECT
+  id, original, shorturl, created_at, updated_at
+FROM
+  shorturls
+WHERE
+  original = ?1
+`
+
+// TODO try this first, then optimize with bloom filter to see it's performance gain
+func (q *Queries) CheckOriginalExists(ctx context.Context, original string) (Shorturl, error) {
+	row := q.db.QueryRowContext(ctx, checkOriginalExists, original)
+	var i Shorturl
+	err := row.Scan(
+		&i.ID,
+		&i.Original,
+		&i.Shorturl,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
 const createShorturl = `-- name: CreateShorturl :one
 INSERT INTO
   shorturls(original, shorturl)
@@ -90,24 +113,4 @@ func (q *Queries) ListShorturls(ctx context.Context) ([]Shorturl, error) {
 		return nil, err
 	}
 	return items, nil
-}
-
-const originalExists = `-- name: OriginalExists :one
-SELECT
-  EXISTS(
-    SELECT
-      1
-    FROM
-      shorturls
-    WHERE
-      original = ?1
-  )
-`
-
-// TODO try this first, then optimize with bloom filter to see it's performance gain
-func (q *Queries) OriginalExists(ctx context.Context, original string) (int64, error) {
-	row := q.db.QueryRowContext(ctx, originalExists, original)
-	var column_1 int64
-	err := row.Scan(&column_1)
-	return column_1, err
 }
