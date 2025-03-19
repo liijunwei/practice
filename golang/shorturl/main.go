@@ -1,6 +1,7 @@
 package main
 
 import (
+	"cmp"
 	"crypto/sha1"
 	"database/sql"
 	"encoding/json"
@@ -21,22 +22,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-// https://prometheus.io/docs/tutorials/instrumenting_http_server_in_go/
-
 var once sync.Once
 
-// simple shorturl app with sqlite3+sqlc
-//
-// features:
-// 1. create short url
-// 2. redirect to original url
-// 3. analyse short url access
-// 4. test single sqlite3 db max qps(HOW?)
-//
-// go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
-// guide: https://docs.sqlc.dev/en/latest/tutorials/getting-started-sqlite.html
-//
-// rm /tmp/shorturl-app.db; sqlc generate && go run .
 func main() {
 	db := initWriteMostDB()
 	defer db.Close()
@@ -119,7 +106,7 @@ func initReadonlyDB() *sql.DB {
 }
 
 func dbFilename() string {
-	return "/tmp/shorturl-app.db"
+	return cmp.Or(os.Getenv("SHORTURL_DB"), "/tmp/shorturl-app.db")
 }
 
 func baseDir() string {

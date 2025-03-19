@@ -1,3 +1,21 @@
+### get started
+
+simple shorturl app with sqlite3+sqlc
+
+features:
+1. create short url
+2. redirect to original url
+3. analyse short url access
+4. test single sqlite3 db max qps(HOW?)
+
+go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+guide: https://docs.sqlc.dev/en/latest/tutorials/getting-started-sqlite.html
+metrics: https://prometheus.io/docs/tutorials/instrumenting_http_server_in_go
+
+```sh
+rm /tmp/shorturl-app.db; sqlc generate && go run .
+```
+
 ### shorturl stat - create
 
 - golang + sqlite3(1 connection)
