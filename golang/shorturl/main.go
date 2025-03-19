@@ -77,6 +77,7 @@ func initWriteMostDB() *sql.DB {
 
 	db.SetMaxOpenConns(1)
 	db.SetMaxIdleConns(1)
+	db.SetConnMaxLifetime(time.Minute * 5)
 
 	_, err = db.Exec("PRAGMA journal_mode=WAL;")
 	boom(err, "failed to set WAL mode")
@@ -107,6 +108,7 @@ func initReadonlyDB() *sql.DB {
 
 	db.SetMaxOpenConns(100)
 	db.SetMaxIdleConns(100)
+	db.SetConnMaxLifetime(time.Minute * 5)
 
 	boom(db.Ping())
 
