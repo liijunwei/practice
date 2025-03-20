@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/hex"
 	"fmt"
 	"io"
 	"log"
@@ -48,49 +49,22 @@ func proxy(conn net.Conn) error {
 
 	defer pgConn.Close()
 
-	// Data flow from client to postgres
-	go func() {
-		// Use custom data capture function
-		if err := copyAndCapture(pgConn, conn, "[client -> postgres]"); err != nil {
-			log.Println("client -> postgres err:", err)
-		}
-	}()
-
-	if err := copyAndCapture(conn, pgConn, "[postgres -> client]"); err != nil {
-		log.Println("postgres -> client err:", err)
-	}
+	go spy(pgConn, conn, "pg client->server")
+	spy(conn, pgConn, "pg server->client")
 
 	return nil
 }
 
-// copyAndCapture copies data while capturing and analyzing traffic
-func copyAndCapture(dst io.Writer, src io.Reader, direction string) error {
-	buf := make([]byte, 4096)
-	for {
-		// Read data
-		nr, err := src.Read(buf)
-		if nr > 0 {
-			capturePacket(buf[:nr], direction)
-
-			// Write to destination, maintaining normal flow
-			nw, err := dst.Write(buf[:nr])
-			if err != nil {
-				return err
-			}
-			if nr != nw {
-				return io.ErrShortWrite
-			}
-		}
-		if err != nil {
-			if err == io.EOF {
-				return nil
-			}
-			return err
-		}
-	}
+func spy(dst io.Writer, src io.Reader, connDesc string) {
+	hexer := logHexer(connDesc)
+	teeReader := io.TeeReader(src, hexer)
+	io.Copy(dst, teeReader)
 }
 
-// capturePacket analyzes captured packets
-func capturePacket(data []byte, direction string) {
-	log.Println(direction, "size =", len(data), "bytes", string(data))
+// https://gist.github.com/dustin/5478818
+type logHexer string
+
+func (lh logHexer) Write(b []byte) (int, error) {
+	log.Printf("%v packet:\n%v\n", string(lh), hex.Dump(b))
+	return len(b), nil
 }
