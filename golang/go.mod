@@ -3,6 +3,7 @@ module golang-practices
 go 1.23.4
 
 require (
+	github.com/bwmarrin/snowflake v0.3.0
 	github.com/davecgh/go-spew v1.1.1
 	github.com/lib/pq v1.10.9
 	github.com/mattn/go-sqlite3 v1.14.24

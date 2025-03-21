@@ -2,14 +2,12 @@ package main
 
 import (
 	"cmp"
-	"crypto/sha1"
 	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"golang-practices/shorturl/sqlcdb"
 	"log"
-	"math/big"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -17,6 +15,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/bwmarrin/snowflake"
 
 	_ "github.com/mattn/go-sqlite3" // SQLite driver
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -33,8 +33,11 @@ func main() {
 
 	queries := sqlcdb.New(db)
 
+	node, err := snowflake.NewNode(1)
+	assert(err == nil)
+
 	http.HandleFunc("GET /shorturls", indexHandler(queries, rodb))
-	http.HandleFunc("POST /shorturl", createHandler(queries, db))
+	http.HandleFunc("POST /shorturl", createHandler(queries, db, node))
 	http.HandleFunc("GET /shorturl/{code}", redirectHandler(queries, rodb))
 	http.Handle("/metrics", promhttp.Handler())
 
@@ -136,7 +139,7 @@ func indexHandler(db *sqlcdb.Queries, _ *sql.DB) http.HandlerFunc {
 }
 
 // use toxiproxy to mock the latency
-func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
+func createHandler(db *sqlcdb.Queries, sqldb *sql.DB, node *snowflake.Node) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		assert(r.Method == "POST", "invalid method")
 
@@ -182,7 +185,7 @@ func createHandler(db *sqlcdb.Queries, sqldb *sql.DB) http.HandlerFunc {
 
 		created, err := db.CreateShorturl(ctx, sqlcdb.CreateShorturlParams{
 			Original: input.Original,
-			Shorturl: genShorturl(input.Original),
+			Shorturl: genShorturl(node),
 		})
 
 		if err != nil {
@@ -223,11 +226,8 @@ func redirectHandler(db *sqlcdb.Queries, _ *sql.DB) http.HandlerFunc {
 	}
 }
 
-// string -> hash -> base62 encode
-func genShorturl(original string) string {
-	checksum := sha1.Sum([]byte(original))
-
-	return new(big.Int).SetBytes(checksum[:]).Text(62)[:8] // TODO think about how to handle this flawed logic
+func genShorturl(node *snowflake.Node) string {
+	return node.Generate().Base58()
 }
 
 func boom(e error, msg ...string) {
