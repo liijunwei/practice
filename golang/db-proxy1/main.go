@@ -65,6 +65,6 @@ func spy(dst io.Writer, src io.Reader, connDesc string) {
 type logHexer string
 
 func (lh logHexer) Write(b []byte) (int, error) {
-	log.Printf("%v packet:\n%v\n", string(lh), hex.Dump(b))
+	log.Printf("%v packet(%d bytes):\n%v\n", string(lh), len(b), hex.Dump(b))
 	return len(b), nil
 }
