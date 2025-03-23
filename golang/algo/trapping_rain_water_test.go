@@ -1,4 +1,4 @@
-package internal
+package algo
 
 import (
 	"fmt"
@@ -7,17 +7,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// TODO fix this
 // https://leetcode.cn/problems/trapping-rain-water/?envType=study-plan-v2&envId=top-100-liked
 func TestTrap(t *testing.T) {
-	height := []int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}
-	assert.Equal(t, 6, solution(height))
+	assert.Equal(t, 6, solution([]int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}))
 	assert.Equal(t, 9, solution([]int{4, 2, 0, 3, 2, 5}))
 }
 
 func solution(height []int) int {
 	left := make([]int, len(height))
 	right := make([]int, len(height))
+
+	left[0] = height[0]
+	right[len(height)-1] = height[len(height)-1]
 
 	for i := 1; i < len(height); i++ {
 		left[i] = max(left[i-1], height[i])
@@ -30,13 +31,24 @@ func solution(height []int) int {
 	fmt.Println("left", left)
 	fmt.Println("right", right)
 
-	result := 0
+	resultArr := make([]int, len(height))
+	resultArr[0] = 0
+	resultArr[len(height)-1] = 0
 
+	// head and tail are not included, because they are not trapped
 	for i := 1; i < len(height)-1; i++ {
-		result += min(left[i], right[i]) - height[i]
+		resultArr[i] = min(left[i], right[i]) - height[i]
 	}
 
-	fmt.Println(result)
+	fmt.Println("resultArr", resultArr)
+
+	result := 0
+	for i := 0; i < len(resultArr); i++ {
+		result += resultArr[i]
+	}
+
+	fmt.Println("result", result)
+	fmt.Println()
 
 	return result
 }
