@@ -14,6 +14,10 @@ metrics: https://prometheus.io/docs/tutorials/instrumenting_http_server_in_go
 
 ```sh
 rm /tmp/shorturl-app.db; sqlc generate && go run .
+./stress.sh 1 1 60
+watch -d -n1 sqlite3 /tmp/shorturl-app.db '"select * from shorturls order by id desc limit 1;"'
+
+go tool pprof -http :8888 http://localhost:6060/debug/pprof/profile?seconds=30
 ```
 
 ### shorturl stat - create

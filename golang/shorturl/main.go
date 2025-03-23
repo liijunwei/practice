@@ -9,6 +9,7 @@ import (
 	"golang-practices/shorturl/sqlcdb"
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -17,7 +18,6 @@ import (
 	"time"
 
 	"github.com/bwmarrin/snowflake"
-
 	_ "github.com/mattn/go-sqlite3" // SQLite driver
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -25,6 +25,10 @@ import (
 var once sync.Once
 
 func main() {
+	go func() {
+		log.Println(http.ListenAndServe("localhost:6060", nil))
+	}()
+
 	db := initWriteMostDB()
 	defer db.Close()
 
