@@ -29,7 +29,7 @@ func findLongestPath(root *TreeNode) []int {
 	var dfs func(*TreeNode)
 
 	path := []int{}
-	longestPath := path
+	longestPath := []int{}
 	seen := make(map[int]bool)
 
 	dfs = func(node *TreeNode) {
@@ -50,17 +50,19 @@ func findLongestPath(root *TreeNode) []int {
 			if len(path) > len(longestPath) {
 				longestPath = make([]int, len(path))
 				copy(longestPath, path)
+				// fmt.Println(longestPath)
 			}
-			path = []int{}
 		}
 
 		dfs(node.Left)
 		dfs(node.Right)
-		// fmt.Println("visiting", node.Val)
 
+		// 回溯：移除当前节点
+		path = path[:len(path)-1]
+		seen[node.Val] = false
 	}
 
 	dfs(root)
 
-	return path
+	return longestPath
 }
