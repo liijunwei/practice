@@ -73,6 +73,10 @@ func (c *LRUCache) Put(key, value string) {
 	c.addToHead(node)
 }
 
+func (c *LRUCache) Len() int {
+	return len(c.store)
+}
+
 func (c *LRUCache) moveToHead(node *Node) {
 	c.removeNode(node)
 	c.addToHead(node)
