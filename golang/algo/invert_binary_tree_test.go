@@ -33,12 +33,6 @@ func TestInvertBinaryTree(t *testing.T) {
 	fmt.Println("invertedRoot3", treeToArray(invertedRoot3))
 }
 
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
-
 func invertTree(root *TreeNode) *TreeNode {
 	if root == nil {
 		return nil
@@ -50,32 +44,4 @@ func invertTree(root *TreeNode) *TreeNode {
 	root.Right = left
 
 	return root
-}
-
-// treeToArray converts a binary tree to an array representation
-// using level-order traversal (BFS)
-func treeToArray(root *TreeNode) []int {
-	if root == nil {
-		return []int{}
-	}
-
-	result := []int{}
-	queue := []*TreeNode{root}
-
-	for len(queue) > 0 {
-		node := queue[0]
-		queue = queue[1:]
-
-		result = append(result, node.Val)
-
-		if node.Left != nil {
-			queue = append(queue, node.Left)
-		}
-
-		if node.Right != nil {
-			queue = append(queue, node.Right)
-		}
-	}
-
-	return result
 }

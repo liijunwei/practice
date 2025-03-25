@@ -16,7 +16,7 @@ func Test_appendStr(t *testing.T) {
 	assert.Equal(t, "Hello World Gopher", b("Gopher"))
 }
 
-func appendStr() func(a string) string {
+func appendStr() func(string) string {
 	t := "Hello"
 
 	f := func(b string) string {
