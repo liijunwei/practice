@@ -15,6 +15,7 @@ func TestTreeIteration(t *testing.T) {
 	assertEqual(t, root1.InOrder(), []int{1, 2, 3, 4})
 	assertEqual(t, root1.InOrder(), inorderTraversal(root1))
 	assertEqual(t, root1.PostOrder(), []int{1, 4, 3, 2})
+	assertEqual(t, root1.LevelOrder(), []int{2, 1, 3, 4})
 
 	//   5
 	//  3  7
@@ -25,6 +26,7 @@ func TestTreeIteration(t *testing.T) {
 	assertEqual(t, root2.InOrder(), []int{2, 3, 5, 6, 7, 8})
 	assertEqual(t, root2.InOrder(), inorderTraversal(root2))
 	assertEqual(t, root2.PostOrder(), []int{2, 3, 6, 8, 7, 5})
+	assertEqual(t, root2.LevelOrder(), []int{5, 3, 7, 2, 6, 8})
 }
 
 func assertEqual(t *testing.T, a, b any) {

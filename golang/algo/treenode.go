@@ -124,6 +124,34 @@ func (root *TreeNode) PostOrder() []int {
 	return result
 }
 
+// LevelOrder traverses the tree in level order (breadth-first)
+// and returns an array of values
+func (root *TreeNode) LevelOrder() []int {
+	if root == nil {
+		return []int{}
+	}
+
+	result := []int{}
+	queue := []*TreeNode{root}
+
+	for len(queue) > 0 {
+		node := queue[0]
+		queue = queue[1:]
+
+		result = append(result, node.Val)
+
+		if node.Left != nil {
+			queue = append(queue, node.Left)
+		}
+
+		if node.Right != nil {
+			queue = append(queue, node.Right)
+		}
+	}
+
+	return result
+}
+
 func (root *TreeNode) Remove(val int) *TreeNode {
 	panic("TODO")
 }
