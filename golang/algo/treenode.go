@@ -152,10 +152,16 @@ func (root *TreeNode) LevelOrder() []int {
 	return result
 }
 
+// https://www.hello-algo.com/chapter_tree/array_representation_of_tree/#732
+func BuildTreeFromLevelOrder(arr []int, nullValue int) *TreeNode {
+	panic("TODO")
+}
+
 func (root *TreeNode) Remove(val int) *TreeNode {
 	panic("TODO")
 }
 
+// Implement the Search function that was marked as TODO
 func (root *TreeNode) Search(val int) bool {
 	panic("TODO")
 }
