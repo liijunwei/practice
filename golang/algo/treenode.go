@@ -47,3 +47,59 @@ func boom(ok bool) {
 		panic("should not happen")
 	}
 }
+
+func (root *TreeNode) Insert(val int) *TreeNode {
+	if root == nil {
+		return &TreeNode{Val: val}
+	}
+
+	if val < root.Val {
+		root.Left = root.Left.Insert(val)
+	} else {
+		root.Right = root.Right.Insert(val)
+	}
+
+	return root
+}
+
+// root -> left -> right
+func (root *TreeNode) PreOrder() []int {
+	if root == nil {
+		return []int{}
+	}
+
+	result := []int{}
+	result = append(result, root.Val)
+	result = append(result, root.Left.PreOrder()...)
+	result = append(result, root.Right.PreOrder()...)
+
+	return result
+}
+
+// left -> root -> right
+func (root *TreeNode) InOrder() []int {
+	if root == nil {
+		return []int{}
+	}
+
+	result := []int{}
+	result = append(result, root.Left.InOrder()...)
+	result = append(result, root.Val)
+	result = append(result, root.Right.InOrder()...)
+
+	return result
+}
+
+// left -> right -> root
+func (root *TreeNode) PostOrder() []int {
+	if root == nil {
+		return []int{}
+	}
+
+	result := []int{}
+	result = append(result, root.Left.PostOrder()...)
+	result = append(result, root.Right.PostOrder()...)
+	result = append(result, root.Val)
+
+	return result
+}
