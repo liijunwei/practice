@@ -90,6 +90,26 @@ func (root *TreeNode) InOrder() []int {
 	return result
 }
 
+func inorderTraversal(root *TreeNode) []int {
+	// left->root->right
+	var traverse func(root *TreeNode) []int
+
+	traverse = func(root *TreeNode) []int {
+		if root == nil {
+			return nil
+		}
+
+		result := make([]int, 0, 100)
+		result = append(result, traverse(root.Left)...)
+		result = append(result, root.Val)
+		result = append(result, traverse(root.Right)...)
+
+		return result
+	}
+
+	return traverse(root)
+}
+
 // left -> right -> root
 func (root *TreeNode) PostOrder() []int {
 	if root == nil {
