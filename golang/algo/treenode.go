@@ -103,3 +103,11 @@ func (root *TreeNode) PostOrder() []int {
 
 	return result
 }
+
+func (root *TreeNode) Remove(val int) *TreeNode {
+	panic("TODO")
+}
+
+func (root *TreeNode) Search(val int) bool {
+	panic("TODO")
+}
