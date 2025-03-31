@@ -18,12 +18,15 @@ func TestBinarySearch(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got := binarySearch(tt.nums, tt.target)
-		assert.Equal(t, tt.want, got)
+		got1 := binarySearch1(tt.nums, tt.target)
+		assert.Equal(t, tt.want, got1)
+
+		got2 := binarySearch2(tt.nums, tt.target)
+		assert.Equal(t, tt.want, got2)
 	}
 }
 
-func binarySearch(nums []int, target int) int {
+func binarySearch1(nums []int, target int) int {
 	var rank func(nums []int, lo, hi int) int
 
 	rank = func(nums []int, lo, hi int) int {
@@ -44,4 +47,22 @@ func binarySearch(nums []int, target int) int {
 	}
 
 	return rank(nums, 0, len(nums)-1)
+}
+
+// assmume nums are sorted in ascending order
+func binarySearch2(nums []int, target int) int {
+	lo, hi := 0, len(nums)-1
+
+	for lo <= hi {
+		mid := lo + (hi-lo)/2
+		if nums[mid] > target {
+			hi = mid - 1
+		} else if nums[mid] < target {
+			lo = mid + 1
+		} else {
+			return mid
+		}
+	}
+
+	return -1
 }
