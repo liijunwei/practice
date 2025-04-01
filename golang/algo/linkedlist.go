@@ -40,3 +40,14 @@ func BuildCycledLinkedListFromArray(a []int) *Node {
 
 	return head
 }
+
+func LinkedListToArray(head *Node) []int {
+	arr := make([]int, 0, 100)
+
+	curr := head
+	for curr.Next != nil && curr.Next != curr {
+		arr = append(arr, curr.Val)
+	}
+
+	return arr
+}
