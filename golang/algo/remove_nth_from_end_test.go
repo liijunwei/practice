@@ -65,11 +65,6 @@ func removeNthFromEnd1(n int, head *Node) *Node {
 	return head
 }
 
-type Node struct {
-	Val  int
-	Next *Node
-}
-
 func printLinkedList(head *Node) {
 	curr := head
 
