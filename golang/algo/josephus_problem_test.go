@@ -37,7 +37,6 @@ func JosephusProblemSolution1(list *Node, n int) ([]int, int) {
 	curr := &Node{Next: list}
 	deleteArr := []int{}
 
-	counter := 0
 	for curr.Next != nil && curr.Next != curr {
 		for range n {
 			curr = curr.Next
@@ -45,12 +44,6 @@ func JosephusProblemSolution1(list *Node, n int) ([]int, int) {
 		// fmt.Println("deleting", curr.Next.Val)
 		deleteArr = append(deleteArr, curr.Next.Val)
 		curr.Next = curr.Next.Next
-
-		// detect dead loop
-		counter++
-		if counter > 500 {
-			break
-		}
 	}
 
 	return deleteArr, list.Val
