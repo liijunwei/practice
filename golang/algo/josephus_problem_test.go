@@ -13,8 +13,8 @@ func TestJosephusProblem1(t *testing.T) {
 	head := BuildCycledLinkedListFromArray([]int{1, 2, 3, 4, 5, 6})
 	require.True(t, head != nil)
 
-	// arr := LinkedListToArray(list)
-	// assert.Equal(t, []int{1, 2, 3, 4, 5, 6}, arr)
+	arr := LinkedListToArray(head)
+	assert.Equal(t, []int{1, 2, 3, 4, 5, 6}, arr)
 
 	fmt.Println("The Last of Us", JosephusProblemSolution1(head, 2))
 	assert.Equal(t, 1, head.Val)
