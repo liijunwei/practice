@@ -21,8 +21,7 @@ func TestJosephusProblem1(t *testing.T) {
 }
 
 func JosephusProblemSolution1(list *Node, n int) int {
-	dummy := &Node{Next: list}
-	curr := dummy
+	curr := &Node{Next: list}
 
 	counter := 0
 	for curr.Next != nil && curr.Next != curr {
