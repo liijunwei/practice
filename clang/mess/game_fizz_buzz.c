@@ -31,6 +31,7 @@ int main() {
   assert(strcmp("buzz", fizzbuzz(5)) == 0);
   assert(strcmp("fizz", fizzbuzz(6)) == 0);
   assert(strcmp("fizz buzz", fizzbuzz(15)) == 0);
+  printf("ok\n");
 
   return 0;
 }
