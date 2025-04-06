@@ -4,7 +4,7 @@
 // 编译器知道自己该去哪里去找标准库的头文件
 // 环境变量 和 编译器命令行参数可以指定寻找头文件的目录
 
-int main(int argc, char const *argv[]) {
+int main() {
   int a = 5;
   int b = 6;
 
