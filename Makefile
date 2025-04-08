@@ -20,3 +20,12 @@ setup_arts_folder: clean_arts_folder
 
 clean_arts_folder:
 	@rm -rf $(ARTS_DATE_DIR)
+
+setup_db:
+	docker-compose up -d --remove-orphans
+	docker-compose ps
+	@echo "psql --host localhost --port 55432 -U postgres"
+	@echo "mysql -h 127.0.0.1 -P 33060 -u root --ssl-mode DISABLED -p" # empty password
+
+clean:
+	find . -name a.out | xargs -I {} rm {}

@@ -1,21 +1,14 @@
 #include <stdio.h>
 
 // https://www.runoob.com/cprogramming/c-structures.html
-struct Book {
+struct Books {
   char title[50];
   char author[50];
   char subject[100];
   int book_id;
-};
+} book = {"C 语言", "RUNOOB", "编程语言", 123456};
 
 int main() {
-  struct Book book = {
-    title: "C 语言",
-    author: "RUNOOB",
-    subject: "编程语言",
-    book_id: 123456
-  };
-
   printf("title:   %s\n", book.title);
   printf("author:  %s\n", book.author);
   printf("subject: %s\n", book.subject);
