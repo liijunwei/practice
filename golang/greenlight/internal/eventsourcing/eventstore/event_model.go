@@ -2,7 +2,6 @@ package eventstore
 
 import (
 	"encoding/json"
-	"reflect"
 	"time"
 
 	"greenlight/internal/eventsourcing"
@@ -41,9 +40,7 @@ func (ev *EventModel) ToEvent(
 }
 
 func buildEventModelFromEventPayload(event eventsourcing.Event) (*EventModel, error) {
-	payload := eventPayload(event)
-
-	payloadData, err := json.Marshal(payload)
+	payloadData, err := json.Marshal(event)
 	if err != nil {
 		return nil, &EventMarshalError{
 			err:   err,
@@ -59,23 +56,4 @@ func buildEventModelFromEventPayload(event eventsourcing.Event) (*EventModel, er
 		Payload:     payloadData,
 		CreatedAt:   event.GetCreatedAt(),
 	}, nil
-}
-
-func eventPayload(event eventsourcing.Event) map[string]any {
-	payload := make(map[string]any)
-
-	eventType := reflect.TypeOf(event).Elem()
-	value := reflect.ValueOf(event).Elem()
-
-	for i := 0; i < eventType.NumField(); i++ {
-		field := eventType.Field(i)
-
-		if field.Name == "BaseEvent" && field.Type.Kind() == reflect.Struct {
-			continue
-		}
-
-		payload[field.Name] = value.FieldByName(field.Name).Interface()
-	}
-
-	return payload
 }

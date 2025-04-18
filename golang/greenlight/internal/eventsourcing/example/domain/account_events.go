@@ -7,7 +7,7 @@ import (
 )
 
 type AccountCreated struct {
-	InitialBalance *decimal.Big
+	InitialBalance *decimal.Big `json:"initial_balance"`
 
 	eventsourcing.BaseEvent
 }
@@ -17,8 +17,8 @@ func (ace *AccountCreated) EventType() eventsourcing.EventType {
 }
 
 type BalanceChanged struct {
-	AvailableDelta *decimal.Big
-	PendingDelta   *decimal.Big
+	AvailableDelta *decimal.Big `json:"available_delta"`
+	PendingDelta   *decimal.Big `json:"pending_delta"`
 
 	eventsourcing.BaseEvent
 }

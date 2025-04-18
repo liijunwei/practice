@@ -21,11 +21,11 @@ type Event interface {
 }
 
 type BaseEvent struct {
-	ID          uuid.UUID
-	AggregateID uuid.UUID
-	ParentID    uuid.UUID
-	Version     int
-	CreatedAt   time.Time
+	ID          uuid.UUID `json:"-"`
+	AggregateID uuid.UUID `json:"-"`
+	ParentID    uuid.UUID `json:"-"`
+	Version     int       `json:"-"`
+	CreatedAt   time.Time `json:"-"`
 }
 
 var _ Event = (*BaseEvent)(nil)
