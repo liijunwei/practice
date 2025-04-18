@@ -3,9 +3,9 @@
 int main(int argc, char const *argv[]) {
   int d = 2;
 
-  printf("please enter a number: \n");
+  printf("please enter a number: ");
 
-  scanf("%d", & d);
+  scanf("%d", d);
 
   printf("you gave me a: %d \n", d);
 

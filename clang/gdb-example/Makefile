@@ -4,7 +4,7 @@ install-debug-info:
 build-demo01:
 	gcc demo01.c
 
-run-demo01: build-demo01
+run-demo01: build
 	echo 1 | ./a.out # Segmentation fault
 
 debug-demo01:
