@@ -1,31 +1,26 @@
-.PHONY: help confirm run-api db-console db-seed db-reset db-migrate db-dump-example-data show-pg-config-file install-tools golang-migrate-example test-rate-limiter load-test sqlc sse-example
+.PHONY: help run-api db-console db-seed db-reset db-migrate db-dump-example-data show-pg-config-file install-tools golang-migrate-example test-rate-limiter load-test sqlc sse-example
 
 include .envrc
+
+GREENLIGHT_DB_DSN="postgres://greenlight:123@localhost:55432/greenlight?sslmode=disable&application_name=greenlight-api"
 
 help: ## show this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z0-9_-]+:.*?## / {sub("\\\\n",sprintf("\n%22c"," "), $$2);printf "\033[36m%-25s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-confirm: ## confirm before proceed
-	@echo -n 'Are you sure? [y/N] ' && read ans && [ $${ans:-N} = y ]
+# steps:
+# make docker-compose
+# make run-api
+docker-compose: ## start docker compose
+	docker-compose down -v && docker-compose up -d && sleep 3 && make db-reset-add-seed && psql ${GREENLIGHT_DB_DSN} -c '\d+'
 
 run-api: ## start api process
-	source .envrc && go run cmd/api/main.go -limiter-enabled=true -limiter-burst=30 -debug-enabled=true -cors-trusted-origins="http://localhost:9000 http://localhost:9001"
+	source .envrc && GREENLIGHT_DB_DSN=${GREENLIGHT_DB_DSN} go run cmd/api/main.go -limiter-enabled=true -limiter-burst=30 -debug-enabled=true -cors-trusted-origins="http://localhost:9000 http://localhost:9001"
 
-# export PGPASSWORD in shell before `make db-console`
-# OR
-# psql $GREENLIGHT_DB_DSN
-# create database greenlight;
-# \c greenlight;
-# create role greenlight with login password '{password}';
-# create extension if not exists citext;
-# run with postgres user
-# GRANT ALL PRIVILEGES ON DATABASE greenlight TO greenlight; # run with postgres user
-# GRANT ALL ON SCHEMA public TO greenlight;
 db-console: ## start database console
-	PGPASSWORD=${PGPASSWORD} psql ${GREENLIGHT_DB_DSN} -U greenlight -d greenlight
+	PGPASSWORD=${PGPASSWORD} psql ${GREENLIGHT_DB_DSN}
 
 db-seed: ## seed database
-	ls ./database/seeds/*.sql | xargs -I {} sh -c 'PGPASSWORD=${PGPASSWORD} psql ${GREENLIGHT_DB_DSN} -U greenlight -d greenlight --quiet -f {} && echo "seed {}"'
+	ls ./database/seeds/*.sql | xargs -I {} sh -c 'PGPASSWORD=${PGPASSWORD} psql ${GREENLIGHT_DB_DSN} --quiet -f {} && echo "seed {}"'
 	@echo "done seed"
 	@echo
 

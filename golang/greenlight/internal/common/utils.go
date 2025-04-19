@@ -13,6 +13,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 	"runtime/debug"
 	"strconv"
 	"strings"
@@ -233,6 +234,12 @@ func RunInBackground(ctx context.Context, wg *sync.WaitGroup, fn func()) {
 }
 
 func SendEmail(ctx context.Context, user *data.User, token *data.Token, mailer mailer.Mailer, sender string) {
+	if os.Getenv("ENABLE_SEND_EMAIL") != "1" {
+		zerolog.Ctx(ctx).Info().Msg("send email disabled")
+
+		return
+	}
+
 	logger := zerolog.Ctx(ctx).With().Int64("user_id", user.ID).Logger()
 
 	data := map[string]any{

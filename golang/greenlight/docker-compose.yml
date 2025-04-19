@@ -1,0 +1,22 @@
+# https://github.com/rails/solid_queue/blob/9161da0e7efc4923d99db4248b5fc823bccfaa42/docker-compose.yml#L1-L18
+# example docker-compose file for database
+
+volumes:
+  pgdb: {}
+
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      # POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_USER: "greenlight"
+      POSTGRES_PASSWORD: "123"
+      POSTGRES_DB: "greenlight"
+    volumes:
+      - pgdb:/var/lib/postgres
+      - ./scripts:/docker-entrypoint-initdb.d
+    ports:
+      - 55432:5432
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB'" ]

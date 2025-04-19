@@ -7,6 +7,7 @@ import (
 	"greenlight/internal/mailer"
 	"greenlight/internal/validator"
 	"net/http"
+	"os"
 	"sync"
 	"time"
 )
@@ -73,7 +74,15 @@ func CreateUserHandler(models data.Models, mailer mailer.Mailer, sender string) 
 			common.SendEmail(ctx, user, token, mailer, sender)
 		})
 
-		if err := common.WriteResponseJSON(w, http.StatusAccepted, common.Envelope{"user": user}, nil); err != nil {
+		respData := common.Envelope{
+			"user": user,
+		}
+
+		if os.Getenv("ENABLE_SEND_EMAIL") != "1" {
+			respData["activation_token"] = token.Plaintext
+		}
+
+		if err := common.WriteResponseJSON(w, http.StatusAccepted, respData, nil); err != nil {
 			common.RenderInternalServerError(w, r, err)
 		}
 	}
