@@ -156,9 +156,9 @@ func (es *EventStore) migrate() error {
 		PRIMARY KEY (aggregate_id, version)
 	);
 	`
-	_, err := es.dbPool.Exec(ctx, sql)
-	if err != nil {
-		return fmt.Errorf("failed to do event table migration: %w", err)
+
+	if _, err := es.dbPool.Exec(ctx, sql); err != nil {
+		return fmt.Errorf("failed to create event table: %w", err)
 	}
 
 	fmt.Println("event table db migration done")

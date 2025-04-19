@@ -11,10 +11,10 @@ confirm: ## confirm before proceed
 run-api: ## start api process
 	source .envrc && go run cmd/api/main.go -limiter-enabled=true -limiter-burst=30 -debug-enabled=true -cors-trusted-origins="http://localhost:9000 http://localhost:9001"
 
-# export PGPASSWORD in shell before `make psql`
+# export PGPASSWORD in shell before `make db-console`
 # OR
 # psql $GREENLIGHT_DB_DSN
-# create database greenlight
+# create database greenlight;
 # \c greenlight;
 # create role greenlight with login password '{password}';
 # create extension if not exists citext;
@@ -22,10 +22,10 @@ run-api: ## start api process
 # GRANT ALL PRIVILEGES ON DATABASE greenlight TO greenlight; # run with postgres user
 # GRANT ALL ON SCHEMA public TO greenlight;
 db-console: ## start database console
-	PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight
+	PGPASSWORD=${PGPASSWORD} psql ${GREENLIGHT_DB_DSN} -U greenlight -d greenlight
 
 db-seed: ## seed database
-	ls ./database/seeds/*.sql | xargs -I {} sh -c 'PGPASSWORD=${PGPASSWORD} psql -U greenlight -d greenlight --quiet -f {} && echo "seed {}"'
+	ls ./database/seeds/*.sql | xargs -I {} sh -c 'PGPASSWORD=${PGPASSWORD} psql ${GREENLIGHT_DB_DSN} -U greenlight -d greenlight --quiet -f {} && echo "seed {}"'
 	@echo "done seed"
 	@echo
 
@@ -52,10 +52,11 @@ show-pg-config-file: ## check postgres configuration file
 	sudo -u postgres psql -c 'show config_file;'
 	# /Library/PostgreSQL/17/data/postgresql.conf
 
-install-tools: ## install 3rd tools
+install-tools: ## install 3rd party tools
 	brew install postgres
 	brew install golang-migrate
-	go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.62.2
+	go install github.com/sqlc-dev/sqlc/cmd/sqlc@v1.27.0
 
 golang-migrate-example: ## show example of using golang-migrate
 	@echo "migrate create -seq -ext=.sql -dir=./database/migrations create_movies_table"
@@ -82,7 +83,3 @@ generate: sqlc ## regenerate wire/sqlc...
 
 sse-example: ## run sse api example
 	go run internal/sse/example/main.go
-
-install-tools:
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.62.2
-	go install github.com/sqlc-dev/sqlc/cmd/sqlc@v1.27.0
