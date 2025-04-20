@@ -2,11 +2,13 @@ package eventstore
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"greenlight/internal/eventsourcing"
 
 	"github.com/gofrs/uuid"
+	"github.com/rs/zerolog/log"
 )
 
 type EventModel struct {
@@ -39,13 +41,12 @@ func (ev *EventModel) ToEvent(
 	return event, nil
 }
 
-func buildEventModelFromEventPayload(event eventsourcing.Event) (*EventModel, error) {
+func buildEventModel(event eventsourcing.Event) (*EventModel, error) {
 	payloadData, err := json.Marshal(event)
 	if err != nil {
-		return nil, &EventMarshalError{
-			err:   err,
-			event: event,
-		}
+		log.Error().Err(err).Interface("event", event).Msg("failed to marshal event")
+
+		return nil, fmt.Errorf("failed to marshal event: %w", err)
 	}
 
 	return &EventModel{

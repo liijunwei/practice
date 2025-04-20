@@ -62,12 +62,14 @@ func (es *EventStore) Load(
 		for rows.Next() {
 			var evModel EventModel
 
-			if err := rows.Scan(&evModel.AggregateID,
+			if err := rows.Scan(
+				&evModel.AggregateID,
 				&evModel.Version,
 				&evModel.ParentID,
 				&evModel.EventType,
 				&evModel.Payload,
-				&evModel.CreatedAt); err != nil {
+				&evModel.CreatedAt,
+			); err != nil {
 				zerolog.Ctx(ctx).Warn().Err(err).
 					Str("aggregate_id", aggregateID.String()).
 					Int("start_version", startVersion).
@@ -78,11 +80,7 @@ func (es *EventStore) Load(
 
 			event, err := evModel.ToEvent(es.registry)
 			if err != nil {
-				zerolog.Ctx(ctx).Warn().Err(err).
-					Str("event_type", evModel.EventType).
-					Msg("failed converting event model to event")
-
-				return err
+				return fmt.Errorf("failed to convert event model to event: %w", err)
 			}
 
 			events = append(events, event)
@@ -102,10 +100,8 @@ func (es *EventStore) Append(ctx context.Context, domainName string, events []ev
 	return Transaction(ctx, es.dbPool, func(ctx context.Context, pgtx pgx.Tx) error {
 
 		for _, event := range events {
-			evModel, err := buildEventModelFromEventPayload(event)
+			evModel, err := buildEventModel(event)
 			if err != nil {
-				zerolog.Ctx(ctx).Error().Err(err).Msg("failed to marshal event")
-
 				return err
 			}
 
@@ -116,7 +112,8 @@ func (es *EventStore) Append(ctx context.Context, domainName string, events []ev
 				evModel.ParentID,
 				evModel.EventType,
 				evModel.Payload,
-				evModel.CreatedAt)
+				evModel.CreatedAt,
+			)
 			if err != nil {
 				var pgErr *pgconn.PgError
 				if errors.As(err, &pgErr) && pgErr.Code == pgerrcode.UniqueViolation {

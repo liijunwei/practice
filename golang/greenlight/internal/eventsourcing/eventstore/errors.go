@@ -110,16 +110,6 @@ func (eue EventUnmarshalError) Error() string {
 		eue.err, eue.eventModel.EventType, eue.eventModel.AggregateID)
 }
 
-type EventMarshalError struct {
-	err   error
-	event eventsourcing.Event
-}
-
-func (eue EventMarshalError) Error() string {
-	return fmt.Sprintf("failed to marshal event: %s (event type %s, aggregate_id %s)",
-		eue.err, eue.event.EventType(), eue.event.GetAggregateID())
-}
-
 type EventVersionConflictError struct {
 	err   error
 	event eventsourcing.Event
