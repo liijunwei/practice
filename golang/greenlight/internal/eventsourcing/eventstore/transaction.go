@@ -31,12 +31,11 @@ func Transaction(ctx context.Context, dbPool *pgxpool.Pool, txFunc func(ctx cont
 	}
 
 	// start a new transaction
-	err = pgx.BeginTxFunc(ctx, dbPool, pgx.TxOptions{}, func(tx pgx.Tx) error {
+	if err = pgx.BeginTxFunc(ctx, dbPool, pgx.TxOptions{}, func(tx pgx.Tx) error {
 		ctx = WithTx(ctx, tx)
 
 		return txFunc(ctx, tx)
-	})
-	if err != nil {
+	}); err != nil {
 		return &TransactionError{err: err}
 	}
 
