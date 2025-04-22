@@ -14,8 +14,6 @@ type Cache struct {
 
 type CacheOption func(c *Cache)
 
-// TODO it's better to limit the items count
-// TODO support item level ttl
 func New(options ...CacheOption) *Cache {
 	c := &Cache{
 		ttl:      5 * time.Second,

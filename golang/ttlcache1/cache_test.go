@@ -66,10 +66,13 @@ func TestTTLRenewal(t *testing.T) {
 }
 
 func TestConcurrentAccess(t *testing.T) {
-	c := ttlcache1.New(ttlcache1.WithTTL(3*time.Millisecond), ttlcache1.WithInterval(1*time.Millisecond))
+	c := ttlcache1.New(
+		ttlcache1.WithTTL(10*time.Millisecond),
+		ttlcache1.WithInterval(1*time.Millisecond),
+	)
 
 	var wg sync.WaitGroup
-	numWorkers := 100000
+	numWorkers := 1000000
 	keys := []string{"k1", "k2", "k3"}
 
 	wg.Add(numWorkers)
