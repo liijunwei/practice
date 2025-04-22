@@ -1,6 +1,9 @@
 package ringbuffer1
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
 // https://medium.com/checker-engineering/a-practical-guide-to-implementing-a-generic-ring-buffer-in-go-866d27ec1a05
 
@@ -27,8 +30,12 @@ func (b *RingBuffer[T]) Add(value T) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 
+	old := b.write
 	b.buffer[b.write] = value
-	b.write = (b.write + 1) % b.size
+	b.write = (b.write + 1) % b.size // a cycle
+
+	new := b.write
+	fmt.Println("old:", old, "new:", new, "count:", b.count)
 
 	if b.count < b.size {
 		b.count++
