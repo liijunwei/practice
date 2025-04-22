@@ -1,8 +1,11 @@
 package ttlcache2_test
 
 import (
+	"encoding/json"
+	"fmt"
 	"golang-practices/ttlcache2"
 	"math/rand/v2"
+	"sync"
 	"testing"
 	"time"
 
@@ -19,7 +22,7 @@ func TestGetSet(t *testing.T) {
 		ctx := t.Context()
 
 		// default ttl is 3s
-		cache := ttlcache2.NewMemCache[string, int]()
+		cache := ttlcache2.New[string, int]()
 		cache.Set(ctx, "key", 1)
 
 		item, ok := cache.Get(ctx, "key")
@@ -37,7 +40,7 @@ func TestGetSet(t *testing.T) {
 		ctx := t.Context()
 
 		// default ttl is 3s
-		cache := ttlcache2.NewMemCache[string, int]()
+		cache := ttlcache2.New[string, int]()
 		cache.Set(ctx, "key", 1)
 
 		item, ok := cache.Get(ctx, "key")
@@ -54,7 +57,7 @@ func TestGetSet(t *testing.T) {
 
 		ctx := t.Context()
 
-		cache := ttlcache2.NewMemCache[string, int]()
+		cache := ttlcache2.New[string, int]()
 		_, ok := cache.Get(ctx, "key")
 		require.False(t, ok)
 
@@ -73,7 +76,7 @@ func TestGetSet(t *testing.T) {
 func BenchmarkFetch(b *testing.B) {
 	ctx := b.Context()
 
-	cache := ttlcache2.NewMemCache[string, int32]()
+	cache := ttlcache2.New[string, int32]()
 	b.ResetTimer()
 
 	for b.Loop() {
@@ -83,4 +86,37 @@ func BenchmarkFetch(b *testing.B) {
 		})
 		require.NoError(b, err)
 	}
+}
+
+func TestConcurrentAccess(t *testing.T) {
+	cache := ttlcache2.New[string, string]()
+
+	ctx := t.Context()
+
+	var wg sync.WaitGroup
+	numWorkers := 1000000
+	keys := []string{"k1", "k2", "k3", "k4", "k5"}
+
+	wg.Add(numWorkers)
+
+	for id := range numWorkers {
+		go func() {
+			defer wg.Done()
+
+			key := keys[id%len(keys)]
+
+			_, err := cache.Fetch(ctx, key, func() (string, error) {
+				return fmt.Sprintf("value-%d", id), nil
+			})
+			if err != nil {
+				t.Log("unexpected error:", err)
+			}
+		}()
+	}
+
+	wg.Wait()
+
+	data, err := json.Marshal(cache.MetricStat())
+	require.NoError(t, err)
+	t.Log("cache stat", string(data))
 }
