@@ -25,7 +25,9 @@ func TestManager(t *testing.T) {
 		conn := prepareDB(t)
 		txmanager := New(conn)
 
-		txFunc := func(tx *sql.Tx) error {
+		txFunc := func(ctx context.Context) error {
+			tx := MustGetTx(ctx)
+
 			_, err := tx.ExecContext(ctx, "insert into t1 (name) values ('t1')")
 			require.NoError(t, err)
 
@@ -35,10 +37,29 @@ func TestManager(t *testing.T) {
 			return nil
 		}
 
-		err := txmanager.WithinTransaction(ctx, txFunc)
+		err := txmanager.ExecTx(ctx, txFunc)
 		require.NoError(t, err)
 
 		verifyCount(t, conn, 2)
+	})
+
+	t.Run("panic on not within db transaction", func(t *testing.T) {
+		t.Parallel()
+
+		ctx := t.Context()
+		conn := prepareDB(t)
+
+		txFunc := func(ctx context.Context) error {
+			tx := MustGetTx(ctx)
+
+			_, err := tx.ExecContext(ctx, "insert into t1 (name) values ('t1')")
+			require.NoError(t, err)
+
+			return errors.New("simulated error")
+		}
+
+		assert.Panics(t, func() { txFunc(ctx) })
+		verifyCount(t, conn, 0)
 	})
 
 	t.Run("rollback on error", func(t *testing.T) {
@@ -48,14 +69,16 @@ func TestManager(t *testing.T) {
 		conn := prepareDB(t)
 		txmanager := New(conn)
 
-		txFunc := func(tx *sql.Tx) error {
+		txFunc := func(ctx context.Context) error {
+			tx := MustGetTx(ctx)
+
 			_, err := tx.ExecContext(ctx, "insert into t1 (name) values ('t1')")
 			require.NoError(t, err)
 
 			return errors.New("simulated error")
 		}
 
-		err := txmanager.WithinTransaction(ctx, txFunc)
+		err := txmanager.ExecTx(ctx, txFunc)
 		require.Error(t, err)
 		verifyCount(t, conn, 0)
 	})
@@ -70,7 +93,9 @@ func TestManager(t *testing.T) {
 		ctx, cancel := context.WithTimeout(ctx, 10*time.Millisecond)
 		defer cancel()
 
-		err := txmanager.WithinTransaction(ctx, func(tx *sql.Tx) error {
+		err := txmanager.ExecTx(ctx, func(ctx context.Context) error {
+			tx := MustGetTx(ctx)
+
 			_, err := tx.ExecContext(ctx, "insert into t1 (name) values ('t1')")
 			require.NoError(t, err)
 
