@@ -53,6 +53,7 @@ func (b *RingBuffer[T]) Get() []T {
 
 	for i := range b.count {
 		index := (b.write + b.size - b.count + i) % b.size
+		fmt.Println("index", index)
 		items = append(items, b.buffer[index])
 	}
 
