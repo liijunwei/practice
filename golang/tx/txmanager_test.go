@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"errors"
 	"testing"
+	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	_ "github.com/lib/pq"
 	"github.com/peterldowns/pgtestdb"
 	"github.com/stretchr/testify/assert"
@@ -25,7 +25,7 @@ func TestManager(t *testing.T) {
 		conn := prepareDB(t)
 		txmanager := New(conn)
 
-		updateFunc := func(ctx context.Context, tx *sql.Tx) error {
+		txFunc := func(tx *sql.Tx) error {
 			_, err := tx.ExecContext(ctx, "insert into t1 (name) values ('t1')")
 			require.NoError(t, err)
 
@@ -35,7 +35,7 @@ func TestManager(t *testing.T) {
 			return nil
 		}
 
-		err := txmanager.WithinTransaction(ctx, updateFunc)
+		err := txmanager.WithinTransaction(ctx, txFunc)
 		require.NoError(t, err)
 
 		verifyCount(t, conn, 2)
@@ -48,16 +48,39 @@ func TestManager(t *testing.T) {
 		conn := prepareDB(t)
 		txmanager := New(conn)
 
-		updateFunc := func(ctx context.Context, tx *sql.Tx) error {
+		txFunc := func(tx *sql.Tx) error {
 			_, err := tx.ExecContext(ctx, "insert into t1 (name) values ('t1')")
 			require.NoError(t, err)
 
 			return errors.New("simulated error")
 		}
 
-		err := txmanager.WithinTransaction(ctx, updateFunc)
+		err := txmanager.WithinTransaction(ctx, txFunc)
 		require.Error(t, err)
-		spew.Dump(err.Error())
+		verifyCount(t, conn, 0)
+	})
+
+	t.Run("rollback on timeout", func(t *testing.T) {
+		t.Parallel()
+
+		ctx := t.Context()
+		conn := prepareDB(t)
+		txmanager := New(conn)
+
+		ctx, cancel := context.WithTimeout(ctx, 10*time.Millisecond)
+		defer cancel()
+
+		err := txmanager.WithinTransaction(ctx, func(tx *sql.Tx) error {
+			_, err := tx.ExecContext(ctx, "insert into t1 (name) values ('t1')")
+			require.NoError(t, err)
+
+			// simulate slow query
+			<-time.After(100 * time.Millisecond)
+
+			_, err = tx.ExecContext(ctx, "insert into t1 (name) values ('t1')")
+			return err
+		})
+		assert.Error(t, err)
 		verifyCount(t, conn, 0)
 	})
 }
