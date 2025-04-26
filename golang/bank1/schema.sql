@@ -1,0 +1,41 @@
+CREATE TABLE IF NOT EXISTS users (
+  id TEXT PRIMARY KEY,
+  username TEXT NOT NULL,
+  password TEXT NOT NULL,
+  email TEXT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email ON users(email);
+
+CREATE TABLE IF NOT EXISTS accounts (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  currency TEXT NOT NULL,
+  available NUMERIC NOT NULL,
+  lock_version INTEGER DEFAULT 1 NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_accounts_user_currency ON accounts(user_id, currency);
+
+CREATE TABLE IF NOT EXISTS account_events (
+  id TEXT PRIMARY KEY,
+  account_id TEXT NOT NULL,
+  -- signed number, positive for credit, negative for debit
+  amount NUMERIC NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS transactions (
+  id TEXT PRIMARY KEY,
+  from_account_id TEXT NOT NULL,
+  to_account_id TEXT NOT NULL,
+  amount NUMERIC NOT NULL,
+  description TEXT NOT NULL,
+  kind TEXT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+);

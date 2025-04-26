@@ -5,6 +5,7 @@ go 1.24.0
 require (
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/davecgh/go-spew v1.1.1
+	github.com/google/uuid v1.6.0
 	github.com/lib/pq v1.10.9
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/peterldowns/pgtestdb v0.1.1
