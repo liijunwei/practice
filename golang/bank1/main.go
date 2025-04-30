@@ -226,7 +226,7 @@ func internalTransferHandler(service *AccountService) http.HandlerFunc {
 
 		ctx := r.Context()
 
-		errR := retry(5, 500*time.Millisecond, func() error {
+		errR := retry(5, 100*time.Millisecond, func() error {
 			return service.Transfer(ctx, req.FromAccountID, req.ToAccountID, req.Amount)
 		})
 		if errR != nil {

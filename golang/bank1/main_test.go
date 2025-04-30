@@ -2,31 +2,33 @@ package main
 
 import (
 	"bytes"
-	"cmp"
 	"context"
 	"encoding/json"
+	"flag"
 	"io"
 	"net/http"
 	"os"
-	"strconv"
 	"sync"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 )
 
-// go clean -testcache && CONCURRENCY=100  go test -v .
-// go clean -testcache && CONCURRENCY=1000 go test -v .
+func TestMain(m *testing.M) {
+	flag.Parse()
+	os.Exit(m.Run())
+}
+
+var concurrency = flag.Int("concurrency", 100, "the concurrency of transfer request")
+
+// go clean -testcache && CONCURRENCY=100  go test -v -concurrency 100 .
+// go clean -testcache && CONCURRENCY=1000 go test -v -concurrency 1000 .
 func TestConcurrentTransferAtoB(t *testing.T) {
 	var wg sync.WaitGroup
 
-	concurrencyStr := cmp.Or(os.Getenv("CONCURRENCY"), "100")
-	concurrency, err := strconv.Atoi(concurrencyStr)
-	boom(err)
+	wg.Add(*concurrency)
 
-	wg.Add(concurrency)
-
-	for i := range concurrency {
+	for i := range *concurrency {
 		go doTransfer(t, i, &wg)
 	}
 
