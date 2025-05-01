@@ -34,13 +34,26 @@ func main() {
 	queries := sqlcdb.New(db)
 	service := NewAccountService(db)
 
-	http.HandleFunc("GET /", indexHandler(queries))
 	http.HandleFunc("POST /register", registerUserHandler(service))
 	http.HandleFunc("POST /transfer", internalTransferHandler(service))
 
 	go func() {
 		log.Println("start pprof server", "http://localhost:6060/debug/pprof")
 		log.Println(http.ListenAndServe("localhost:6060", nil))
+	}()
+
+	go func() {
+		ctx := context.Background()
+		for {
+			accounts, err := queries.GetAllAccounts(ctx)
+			if err == nil {
+				for _, account := range accounts {
+					log.Println("account", account.AccountID, "balance", account.Available)
+				}
+			}
+
+			time.Sleep(1000 * time.Millisecond)
+		}
 	}()
 
 	log.Println("start bank server", "http://localhost:8080")
@@ -87,56 +100,6 @@ func baseDir() string {
 	})
 
 	return dir
-}
-
-func indexHandler(db *sqlcdb.Queries) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := r.Context()
-
-		accounts, err := db.GetAllAccounts(ctx)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("Failed to list accounts: %v", err), http.StatusInternalServerError)
-			return
-		}
-
-		html := `<h1>XXX Bank</h1>
-		<h2>All Accounts</h2>
-		<table border="1" style="border-collapse: collapse; width: 80%;">
-			<thead>
-				<tr>
-					<th>Account ID</th>
-					<th>User Email</th>
-					<th>Currency</th>
-					<th>Available Balance</th>
-					<th>Created At</th>
-				</tr>
-			</thead>
-			<tbody>`
-
-		for _, account := range accounts {
-			html += fmt.Sprintf(`
-				<tr>
-					<td>%s</td>
-					<td>%s</td>
-					<td>%s</td>
-					<td>%.2f</td>
-					<td>%s</td>
-				</tr>`,
-				account.AccountID,
-				account.Email,
-				account.Currency,
-				account.Available,
-				account.CreatedAt.Format(time.RFC3339),
-			)
-		}
-
-		html += `
-			</tbody>
-		</table>`
-
-		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		w.Write([]byte(html))
-	}
 }
 
 func registerUserHandler(service *AccountService) http.HandlerFunc {
