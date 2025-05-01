@@ -8,6 +8,8 @@ package sqlcdb
 import (
 	"context"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 const createAccount = `-- name: CreateAccount :one
@@ -20,18 +22,18 @@ insert into
   )
 values
   (
-    ?1,
-    ?2,
-    ?3,
-    ?4
+    $1,
+    $2,
+    $3,
+    $4
   ) returning id, user_id, currency, available, lock_version, created_at, updated_at
 `
 
 type CreateAccountParams struct {
-	ID        string  `json:"id"`
-	UserID    string  `json:"user_id"`
-	Currency  string  `json:"currency"`
-	Available float64 `json:"available"`
+	ID        uuid.UUID `json:"id"`
+	UserID    uuid.UUID `json:"user_id"`
+	Currency  string    `json:"currency"`
+	Available string    `json:"available"`
 }
 
 func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (Account, error) {
@@ -58,13 +60,13 @@ const createAccountEvent = `-- name: CreateAccountEvent :exec
 insert into
   account_events(id, account_id, amount)
 values
-  (?1, ?2, ?3)
+  ($1, $2, $3)
 `
 
 type CreateAccountEventParams struct {
-	ID        string  `json:"id"`
-	AccountID string  `json:"account_id"`
-	Amount    float64 `json:"amount"`
+	ID        uuid.UUID `json:"id"`
+	AccountID uuid.UUID `json:"account_id"`
+	Amount    string    `json:"amount"`
 }
 
 func (q *Queries) CreateAccountEvent(ctx context.Context, arg CreateAccountEventParams) error {
@@ -84,22 +86,22 @@ insert into
   )
 values
   (
-    ?1,
-    ?2,
-    ?3,
-    ?4,
-    ?5,
-    ?6
+    $1,
+    $2,
+    $3,
+    $4,
+    $5,
+    $6
   ) returning id, from_account_id, to_account_id, amount, description, kind, created_at, updated_at
 `
 
 type CreateTransactionParams struct {
-	ID            string  `json:"id"`
-	FromAccountID string  `json:"from_account_id"`
-	ToAccountID   string  `json:"to_account_id"`
-	Amount        float64 `json:"amount"`
-	Description   string  `json:"description"`
-	Kind          string  `json:"kind"`
+	ID            uuid.UUID `json:"id"`
+	FromAccountID uuid.UUID `json:"from_account_id"`
+	ToAccountID   uuid.UUID `json:"to_account_id"`
+	Amount        string    `json:"amount"`
+	Description   string    `json:"description"`
+	Kind          string    `json:"kind"`
 }
 
 func (q *Queries) CreateTransaction(ctx context.Context, arg CreateTransactionParams) (Transaction, error) {
@@ -135,18 +137,18 @@ insert into
   )
 values
   (
-    ?1,
-    ?2,
-    ?3,
-    ?4
+    $1,
+    $2,
+    $3,
+    $4
   ) returning id, username, password, email, created_at, updated_at
 `
 
 type CreateUserParams struct {
-	ID       string `json:"id"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Email    string `json:"email"`
+	ID       uuid.UUID `json:"id"`
+	Username string    `json:"username"`
+	Password string    `json:"password"`
+	Email    string    `json:"email"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -172,17 +174,17 @@ const creditAccount = `-- name: CreditAccount :one
 update
   accounts
 set
-  available = available + ?1,
+  available = available + $1,
   lock_version = lock_version + 1
 where
-  id = ?2
-  and lock_version = ?3 returning id, user_id, currency, available, lock_version, created_at, updated_at
+  id = $2
+  and lock_version = $3 returning id, user_id, currency, available, lock_version, created_at, updated_at
 `
 
 type CreditAccountParams struct {
-	Amount      float64 `json:"amount"`
-	ID          string  `json:"id"`
-	LockVersion int64   `json:"lock_version"`
+	Amount      string    `json:"amount"`
+	ID          uuid.UUID `json:"id"`
+	LockVersion int32     `json:"lock_version"`
 }
 
 func (q *Queries) CreditAccount(ctx context.Context, arg CreditAccountParams) (Account, error) {
@@ -204,17 +206,17 @@ const debitAccount = `-- name: DebitAccount :one
 update
   accounts
 set
-  available = available - ?1,
+  available = available - $1,
   lock_version = lock_version + 1
 where
-  id = ?2
-  and lock_version = ?3 returning id, user_id, currency, available, lock_version, created_at, updated_at
+  id = $2
+  and lock_version = $3 returning id, user_id, currency, available, lock_version, created_at, updated_at
 `
 
 type DebitAccountParams struct {
-	Amount      float64 `json:"amount"`
-	ID          string  `json:"id"`
-	LockVersion int64   `json:"lock_version"`
+	Amount      string    `json:"amount"`
+	ID          uuid.UUID `json:"id"`
+	LockVersion int32     `json:"lock_version"`
 }
 
 func (q *Queries) DebitAccount(ctx context.Context, arg DebitAccountParams) (Account, error) {
@@ -238,12 +240,12 @@ select
 from
   accounts
 where
-  id = ?1
+  id = $1
 limit
   1
 `
 
-func (q *Queries) GetAccount(ctx context.Context, id string) (Account, error) {
+func (q *Queries) GetAccount(ctx context.Context, id uuid.UUID) (Account, error) {
 	row := q.db.QueryRowContext(ctx, getAccount, id)
 	var i Account
 	err := row.Scan(
@@ -278,12 +280,12 @@ order by
 `
 
 type GetAllAccountsRow struct {
-	AccountID   string    `json:"account_id"`
+	AccountID   uuid.UUID `json:"account_id"`
 	Username    string    `json:"username"`
 	Email       string    `json:"email"`
 	Currency    string    `json:"currency"`
-	Available   float64   `json:"available"`
-	LockVersion int64     `json:"lock_version"`
+	Available   string    `json:"available"`
+	LockVersion int32     `json:"lock_version"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }

@@ -57,6 +57,9 @@ func initDB(dsn string) *sql.DB {
 
 	boom(db.PingContext(ctx))
 
+	_, err = db.Exec("drop table accounts, account_events, transactions, users;")
+	boom(err, "failed to drop tables")
+
 	schema, err := os.ReadFile(filepath.Join(baseDir(), "schema.sql"))
 	boom(err, "failed to read schema.sql")
 

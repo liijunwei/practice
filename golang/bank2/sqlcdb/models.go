@@ -6,30 +6,32 @@ package sqlcdb
 
 import (
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type Account struct {
-	ID          string    `json:"id"`
-	UserID      string    `json:"user_id"`
+	ID          uuid.UUID `json:"id"`
+	UserID      uuid.UUID `json:"user_id"`
 	Currency    string    `json:"currency"`
-	Available   float64   `json:"available"`
-	LockVersion int64     `json:"lock_version"`
+	Available   string    `json:"available"`
+	LockVersion int32     `json:"lock_version"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
 type AccountEvent struct {
-	ID        string    `json:"id"`
-	AccountID string    `json:"account_id"`
-	Amount    float64   `json:"amount"`
+	ID        uuid.UUID `json:"id"`
+	AccountID uuid.UUID `json:"account_id"`
+	Amount    string    `json:"amount"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
 type Transaction struct {
-	ID            string    `json:"id"`
-	FromAccountID string    `json:"from_account_id"`
-	ToAccountID   string    `json:"to_account_id"`
-	Amount        float64   `json:"amount"`
+	ID            uuid.UUID `json:"id"`
+	FromAccountID uuid.UUID `json:"from_account_id"`
+	ToAccountID   uuid.UUID `json:"to_account_id"`
+	Amount        string    `json:"amount"`
 	Description   string    `json:"description"`
 	Kind          string    `json:"kind"`
 	CreatedAt     time.Time `json:"created_at"`
@@ -37,7 +39,7 @@ type Transaction struct {
 }
 
 type User struct {
-	ID        string    `json:"id"`
+	ID        uuid.UUID `json:"id"`
 	Username  string    `json:"username"`
 	Password  string    `json:"password"`
 	Email     string    `json:"email"`
