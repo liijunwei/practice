@@ -54,9 +54,9 @@ select
 from
   accounts
 where
-  id = @id
-limit
-  1;
+  id = @id for
+update
+;
 
 -- name: CreditAccount :one
 update
@@ -65,8 +65,7 @@ set
   available = available + @amount,
   lock_version = lock_version + 1
 where
-  id = @id
-  and lock_version = @lock_version returning *;
+  id = @id returning *;
 
 -- name: DebitAccount :one
 update
@@ -75,8 +74,7 @@ set
   available = available - @amount,
   lock_version = lock_version + 1
 where
-  id = @id
-  and lock_version = @lock_version returning *;
+  id = @id returning *;
 
 -- name: CreateAccountEvent :exec
 insert into

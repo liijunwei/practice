@@ -80,46 +80,41 @@ func (s *AccountService) Transfer(
 
 	assert(amount > 0)
 
-	fromAccount, err := s.queries.GetAccount(ctx, fromAccountID)
-	if err != nil {
-		return fmt.Errorf("failed to get from_account: %w", err)
-	}
-
-	toAccount, err := s.queries.GetAccount(ctx, toAccountID)
-	if err != nil {
-		return fmt.Errorf("failed to get to_account: %w", err)
-	}
-
-	if fromAccount.Currency != toAccount.Currency {
-		return fmt.Errorf("currency mismatch: %s vs %s", fromAccount.Currency, toAccount.Currency)
-	}
-
-	if fromAccount.Available <= 0 {
-		return fmt.Errorf("balance in from_account <= 0 (account_id: %s)", fromAccount.ID)
-	}
-
-	if toAccount.Available <= 0 {
-		return fmt.Errorf("balance in to_account <= 0 (account_id: %s)", toAccount.ID)
-	}
-
-	assert(fromAccount.Available >= 0)
-	assert(toAccount.Available >= 0)
-
-	if fromAccount.Available < amount {
-		return fmt.Errorf("insufficient available balance in from_account(%s): %f < %f", fromAccount.ID, fromAccount.Available, amount)
-	}
-
 	errT := s.store.WithTx(ctx, func(q *sqlcdb.Queries) error {
+		fromAccount, err := s.queries.GetAccount(ctx, fromAccountID)
+		if err != nil {
+			return fmt.Errorf("failed to get from_account: %w", err)
+		}
+
+		toAccount, err := s.queries.GetAccount(ctx, toAccountID)
+		if err != nil {
+			return fmt.Errorf("failed to get to_account: %w", err)
+		}
+
+		if fromAccount.Currency != toAccount.Currency {
+			return fmt.Errorf("currency mismatch: %s vs %s", fromAccount.Currency, toAccount.Currency)
+		}
+
+		if fromAccount.Available <= 0 {
+			return fmt.Errorf("balance in from_account <= 0 (account_id: %s)", fromAccount.ID)
+		}
+
+		if toAccount.Available <= 0 {
+			return fmt.Errorf("balance in to_account <= 0 (account_id: %s)", toAccount.ID)
+		}
+
+		assert(fromAccount.Available >= 0)
+		assert(toAccount.Available >= 0)
+
+		if fromAccount.Available < amount {
+			return fmt.Errorf("insufficient available balance in from_account(%s): %f < %f", fromAccount.ID, fromAccount.Available, amount)
+		}
+
 		_, err = q.DebitAccount(ctx, sqlcdb.DebitAccountParams{
-			ID:          fromAccount.ID,
-			Amount:      amount,
-			LockVersion: fromAccount.LockVersion,
+			ID:     fromAccount.ID,
+			Amount: amount,
 		})
 		if err != nil {
-			if isStaleObjectError(err) {
-				return ErrStaleObject
-			}
-
 			return fmt.Errorf("failed to debit from_account: %w", err)
 		}
 
@@ -133,15 +128,10 @@ func (s *AccountService) Transfer(
 		}
 
 		_, err = q.CreditAccount(ctx, sqlcdb.CreditAccountParams{
-			ID:          toAccount.ID,
-			Amount:      amount,
-			LockVersion: toAccount.LockVersion,
+			ID:     toAccount.ID,
+			Amount: amount,
 		})
 		if err != nil {
-			if isStaleObjectError(err) {
-				return ErrStaleObject
-			}
-
 			return fmt.Errorf("failed to credit to_account: %w", err)
 		}
 

@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"golang-practices/bank2/sqlcdb"
 	"log"
@@ -52,6 +51,8 @@ var _ sqlcdb.DBTX = &sql.DB{}
 func initDB(dsn string) *sql.DB {
 	db, err := sql.Open("postgres", dsn)
 	boom(err, "failed to open db connection")
+
+	db.SetMaxOpenConns(10)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -217,9 +218,7 @@ func internalTransferHandler(service *AccountService) http.HandlerFunc {
 
 		ctx := r.Context()
 
-		errR := retry(5, 100*time.Millisecond, func() error {
-			return service.Transfer(ctx, req.FromAccountID, req.ToAccountID, req.Amount)
-		})
+		errR := service.Transfer(ctx, req.FromAccountID, req.ToAccountID, req.Amount)
 		if errR != nil {
 			http.Error(w, fmt.Sprintf("Failed to transfer: %v", errR), http.StatusInternalServerError)
 			log.Println("Failed to transfer after retry:", errR.Error())
@@ -257,24 +256,4 @@ func assert(condition bool, msg ...string) {
 		fmt.Println(strings.Join(msg, " "), "assert failed")
 		panic("assert failed")
 	}
-}
-
-func retry(attempts int, sleep time.Duration, f func() error) (err error) {
-	for i := range attempts {
-		if i > 0 {
-			log.Println("retrying after error:", err)
-			time.Sleep(sleep)
-			sleep *= 2
-		}
-
-		if err = f(); err == nil {
-			return nil
-		}
-
-		if !errors.Is(err, ErrStaleObject) {
-			return err
-		}
-	}
-
-	return fmt.Errorf("after %d attempts, last error: %s", attempts, err)
 }

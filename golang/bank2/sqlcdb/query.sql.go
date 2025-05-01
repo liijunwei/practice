@@ -177,18 +177,16 @@ set
   available = available + $1,
   lock_version = lock_version + 1
 where
-  id = $2
-  and lock_version = $3 returning id, user_id, currency, available, lock_version, created_at, updated_at
+  id = $2 returning id, user_id, currency, available, lock_version, created_at, updated_at
 `
 
 type CreditAccountParams struct {
-	Amount      float64   `json:"amount"`
-	ID          uuid.UUID `json:"id"`
-	LockVersion int32     `json:"lock_version"`
+	Amount float64   `json:"amount"`
+	ID     uuid.UUID `json:"id"`
 }
 
 func (q *Queries) CreditAccount(ctx context.Context, arg CreditAccountParams) (Account, error) {
-	row := q.db.QueryRowContext(ctx, creditAccount, arg.Amount, arg.ID, arg.LockVersion)
+	row := q.db.QueryRowContext(ctx, creditAccount, arg.Amount, arg.ID)
 	var i Account
 	err := row.Scan(
 		&i.ID,
@@ -209,18 +207,16 @@ set
   available = available - $1,
   lock_version = lock_version + 1
 where
-  id = $2
-  and lock_version = $3 returning id, user_id, currency, available, lock_version, created_at, updated_at
+  id = $2 returning id, user_id, currency, available, lock_version, created_at, updated_at
 `
 
 type DebitAccountParams struct {
-	Amount      float64   `json:"amount"`
-	ID          uuid.UUID `json:"id"`
-	LockVersion int32     `json:"lock_version"`
+	Amount float64   `json:"amount"`
+	ID     uuid.UUID `json:"id"`
 }
 
 func (q *Queries) DebitAccount(ctx context.Context, arg DebitAccountParams) (Account, error) {
-	row := q.db.QueryRowContext(ctx, debitAccount, arg.Amount, arg.ID, arg.LockVersion)
+	row := q.db.QueryRowContext(ctx, debitAccount, arg.Amount, arg.ID)
 	var i Account
 	err := row.Scan(
 		&i.ID,
@@ -240,9 +236,8 @@ select
 from
   accounts
 where
-  id = $1
-limit
-  1
+  id = $1 for
+update
 `
 
 func (q *Queries) GetAccount(ctx context.Context, id uuid.UUID) (Account, error) {
