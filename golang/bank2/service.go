@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"golang-practices/bank1/sqlcdb"
+	"golang-practices/bank2/sqlcdb"
 
 	"strings"
 
@@ -37,7 +37,7 @@ func (s *AccountService) Register(
 
 	errT := s.store.WithTx(ctx, func(q *sqlcdb.Queries) error {
 		user, err = q.CreateUser(ctx, sqlcdb.CreateUserParams{
-			ID:       uuid.New().String(),
+			ID:       uuid.New(),
 			Username: username,
 			Password: password,
 			Email:    email,
@@ -48,7 +48,7 @@ func (s *AccountService) Register(
 
 		for _, currency := range currencies {
 			_, err := q.CreateAccount(ctx, sqlcdb.CreateAccountParams{
-				ID:        uuid.New().String(),
+				ID:        uuid.New(),
 				UserID:    user.ID,
 				Currency:  currency,
 				Available: initialBalanceBalance,
@@ -71,7 +71,7 @@ func (s *AccountService) Register(
 // TODO use decimal
 func (s *AccountService) Transfer(
 	ctx context.Context,
-	fromAccountID, toAccountID string,
+	fromAccountID, toAccountID uuid.UUID,
 	amount float64,
 ) error {
 	if amount <= 0 {
@@ -124,7 +124,7 @@ func (s *AccountService) Transfer(
 		}
 
 		err = q.CreateAccountEvent(ctx, sqlcdb.CreateAccountEventParams{
-			ID:        uuid.New().String(),
+			ID:        uuid.New(),
 			AccountID: fromAccount.ID,
 			Amount:    -amount,
 		})
@@ -146,7 +146,7 @@ func (s *AccountService) Transfer(
 		}
 
 		err = q.CreateAccountEvent(ctx, sqlcdb.CreateAccountEventParams{
-			ID:        uuid.New().String(),
+			ID:        uuid.New(),
 			AccountID: toAccount.ID,
 			Amount:    amount,
 		})
@@ -155,7 +155,7 @@ func (s *AccountService) Transfer(
 		}
 
 		_, err = q.CreateTransaction(ctx, sqlcdb.CreateTransactionParams{
-			ID:            uuid.New().String(),
+			ID:            uuid.New(),
 			FromAccountID: fromAccount.ID,
 			ToAccountID:   toAccount.ID,
 			Amount:        amount,

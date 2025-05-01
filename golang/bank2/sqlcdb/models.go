@@ -14,7 +14,7 @@ type Account struct {
 	ID          uuid.UUID `json:"id"`
 	UserID      uuid.UUID `json:"user_id"`
 	Currency    string    `json:"currency"`
-	Available   string    `json:"available"`
+	Available   float64   `json:"available"`
 	LockVersion int32     `json:"lock_version"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
@@ -23,7 +23,7 @@ type Account struct {
 type AccountEvent struct {
 	ID        uuid.UUID `json:"id"`
 	AccountID uuid.UUID `json:"account_id"`
-	Amount    string    `json:"amount"`
+	Amount    float64   `json:"amount"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -31,7 +31,7 @@ type Transaction struct {
 	ID            uuid.UUID `json:"id"`
 	FromAccountID uuid.UUID `json:"from_account_id"`
 	ToAccountID   uuid.UUID `json:"to_account_id"`
-	Amount        string    `json:"amount"`
+	Amount        float64   `json:"amount"`
 	Description   string    `json:"description"`
 	Kind          string    `json:"kind"`
 	CreatedAt     time.Time `json:"created_at"`

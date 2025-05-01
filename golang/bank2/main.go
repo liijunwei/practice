@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"golang-practices/bank1/sqlcdb"
+	"golang-practices/bank2/sqlcdb"
 	"log"
 	"net/http"
 	_ "net/http/pprof"
@@ -17,6 +17,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/google/uuid"
 	_ "github.com/lib/pq"
 )
 
@@ -193,9 +194,9 @@ func internalTransferHandler(service *AccountService) http.HandlerFunc {
 		}
 
 		type TransferRequest struct {
-			FromAccountID string  `json:"from_account_id"`
-			ToAccountID   string  `json:"to_account_id"`
-			Amount        float64 `json:"amount"`
+			FromAccountID uuid.UUID `json:"from_account_id"`
+			ToAccountID   uuid.UUID `json:"to_account_id"`
+			Amount        float64   `json:"amount"`
 		}
 
 		var req TransferRequest

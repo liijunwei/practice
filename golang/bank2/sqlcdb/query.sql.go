@@ -33,7 +33,7 @@ type CreateAccountParams struct {
 	ID        uuid.UUID `json:"id"`
 	UserID    uuid.UUID `json:"user_id"`
 	Currency  string    `json:"currency"`
-	Available string    `json:"available"`
+	Available float64   `json:"available"`
 }
 
 func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (Account, error) {
@@ -66,7 +66,7 @@ values
 type CreateAccountEventParams struct {
 	ID        uuid.UUID `json:"id"`
 	AccountID uuid.UUID `json:"account_id"`
-	Amount    string    `json:"amount"`
+	Amount    float64   `json:"amount"`
 }
 
 func (q *Queries) CreateAccountEvent(ctx context.Context, arg CreateAccountEventParams) error {
@@ -99,7 +99,7 @@ type CreateTransactionParams struct {
 	ID            uuid.UUID `json:"id"`
 	FromAccountID uuid.UUID `json:"from_account_id"`
 	ToAccountID   uuid.UUID `json:"to_account_id"`
-	Amount        string    `json:"amount"`
+	Amount        float64   `json:"amount"`
 	Description   string    `json:"description"`
 	Kind          string    `json:"kind"`
 }
@@ -182,7 +182,7 @@ where
 `
 
 type CreditAccountParams struct {
-	Amount      string    `json:"amount"`
+	Amount      float64   `json:"amount"`
 	ID          uuid.UUID `json:"id"`
 	LockVersion int32     `json:"lock_version"`
 }
@@ -214,7 +214,7 @@ where
 `
 
 type DebitAccountParams struct {
-	Amount      string    `json:"amount"`
+	Amount      float64   `json:"amount"`
 	ID          uuid.UUID `json:"id"`
 	LockVersion int32     `json:"lock_version"`
 }
@@ -284,7 +284,7 @@ type GetAllAccountsRow struct {
 	Username    string    `json:"username"`
 	Email       string    `json:"email"`
 	Currency    string    `json:"currency"`
-	Available   string    `json:"available"`
+	Available   float64   `json:"available"`
 	LockVersion int32     `json:"lock_version"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`

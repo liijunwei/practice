@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS accounts (
   id UUID PRIMARY KEY,
   user_id UUID NOT NULL,
   currency VARCHAR(256) NOT NULL,
-  available NUMERIC(50, 32) NOT NULL,
+  available DOUBLE PRECISION NOT NULL,
   lock_version INTEGER DEFAULT 1 NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS account_events (
   id UUID PRIMARY KEY,
   account_id UUID NOT NULL,
   -- signed number, positive for credit, negative for debit
-  amount NUMERIC(50, 32) NOT NULL,
+  amount DOUBLE PRECISION NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS transactions (
   id UUID PRIMARY KEY,
   from_account_id UUID NOT NULL,
   to_account_id UUID NOT NULL,
-  amount NUMERIC(50, 32) NOT NULL,
+  amount DOUBLE PRECISION NOT NULL,
   description VARCHAR(256) NOT NULL,
   kind VARCHAR(256) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
