@@ -24,6 +24,7 @@ var once sync.Once
 
 // simple bank app with pg+sqlc
 // rm /tmp/bank2-app.db; sqlc generate && go run .
+// go clean -testcache && go test . -v -concurrency 9
 func main() {
 	dsn := "postgres://postgres:123@192.168.31.50:5432/demo?sslmode=disable&application_name=bank2"
 
