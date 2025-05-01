@@ -54,9 +54,7 @@ select
 from
   accounts
 where
-  id = @id for
-update
-;
+  id = @id;
 
 -- name: CreditAccount :one
 update

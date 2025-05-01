@@ -236,8 +236,7 @@ select
 from
   accounts
 where
-  id = $1 for
-update
+  id = $1
 `
 
 func (q *Queries) GetAccount(ctx context.Context, id uuid.UUID) (Account, error) {

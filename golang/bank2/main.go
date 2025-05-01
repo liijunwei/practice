@@ -66,7 +66,7 @@ func initDB(dsn string) *sql.DB {
 	db, err := sql.Open("postgres", dsn)
 	boom(err, "failed to open db connection")
 
-	db.SetMaxOpenConns(10)
+	db.SetMaxOpenConns(50)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
