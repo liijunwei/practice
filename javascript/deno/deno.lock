@@ -15,6 +15,11 @@
       "integrity": "fc66e846d8d38a47cffd274d80d2ca3f0de71040f855783724bb6b87f60891f5"
     }
   },
+  "remote": {
+    "https://deno.land/std@0.91.0/datetime/formatter.ts": "bf7befcd2c55c3060be199ebc10e40f9c33aef6141c20f7c781d03beef25a49e",
+    "https://deno.land/std@0.91.0/datetime/mod.ts": "c62a2c7e9d364f8d007f0f2496a4850a0f0790adb529de1988359d8d54f6103c",
+    "https://deno.land/std@0.91.0/datetime/tokenizer.ts": "492bb6251e75e0c03d5a89a66bd2b03e08e9cbc298d51e002cf59378aaa32c48"
+  },
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@^1.0.13"
