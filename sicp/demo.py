@@ -52,24 +52,31 @@ print("area_square", area_square(1))
 print("are_circle", are_circle(1))
 print("are_hexagon", are_hexagon(1))
 
-# python3 -m doctest demo.py
+# python3 -m doctest -v demo.py
 # generalizing over computational processes
+
+def summation(n, term):
+  total, k = 0, 1
+  while k<=n:
+    total, k = total+term(k), k+1
+  return total
+
+def identity(x):
+  return x
+
+def cube(x):
+  return pow(x, 3)
+
 def sum_naturals(n):
   """sum of the first N natural numbers
   >>> sum_naturals(5)
   15
   """
-  total, k = 0, 1
-  while k<=n:
-    total, k = total+k, k+1
-  return total
+  return summation(n, identity)
 
 def sum_cubes(n):
   """
   >>> sum_cubes(5)
   225.0
   """
-  total, k = 0, 1
-  while k<=n:
-    total, k = total+pow(k,3), k+1
-  return total
+  return summation(n, cube)
