@@ -35,17 +35,18 @@ print(b(10))
 
 # shift+enter
 
-def area_square(r):
+def area(r, shape_constant):
   assert r>0
-  return r*r
+  return r*r*shape_constant
+
+def area_square(r):
+  return area(r, 1)
 
 def are_circle(r):
-  assert r>0
-  return r*r*pi
+  return area(r, pi)
 
 def are_hexagon(r):
-  assert r>0
-  return r*r*3*sqrt(3)/2
+  return area(r, 3*sqrt(3)/2)
 
 print("area_square", area_square(1))
 print("are_circle", are_circle(1))
