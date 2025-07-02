@@ -61,22 +61,16 @@ def summation(n, term):
     total, k = total+term(k), k+1
   return total
 
-def identity(x):
-  return x
-
-def cube(x):
-  return pow(x, 3)
-
 def sum_naturals(n):
   """sum of the first N natural numbers
   >>> sum_naturals(5)
   15
   """
-  return summation(n, identity)
+  return summation(n, lambda x: x)
 
 def sum_cubes(n):
   """
   >>> sum_cubes(5)
   225.0
   """
-  return summation(n, cube)
+  return summation(n, lambda x: pow(x, 3))
