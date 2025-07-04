@@ -45,15 +45,20 @@ def rational(n, d):
   a representation of the rational number N/D
   """
   a = gcd(n, d)
-  return [n//a, d//a] # Floor Division
+  def select(o):
+    if o=='n':
+      return n//a # floor division
+    elif o=='d':
+      return d//a
+    else:
+      assert False, "should not be here"
+  return select
 
 def numer(x):
-  assert len(x) == 2
-  return x[0]
+  return x('n')
 
 def denom(x):
-  assert len(x) == 2
-  return x[1]
+  return x('d')
 
 print_rational(rational(10,20))
 print_rational(add_rational(rational(1,4), rational(1,4)))
