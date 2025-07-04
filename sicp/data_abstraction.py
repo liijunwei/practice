@@ -1,7 +1,6 @@
 #!/usr/local/bin/python3
 
-import sys
-from math import pi,sqrt,pow
+from math import gcd
 
 # exact representation as fractions
 # a pair of integers
@@ -45,7 +44,8 @@ def rational(n, d):
   """
   a representation of the rational number N/D
   """
-  return [n, d]
+  a = gcd(n, d)
+  return [n//a, d//a] # Floor Division
 
 def numer(x):
   assert len(x) == 2
