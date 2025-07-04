@@ -57,3 +57,9 @@ def denom(x):
 
 print_rational(rational(10,20))
 print_rational(add_rational(rational(1,4), rational(1,4)))
+
+# !!! avoid violating abstraction barriers !!!
+# e.g.
+# add_rational([1,2], [1, 1])
+# def divide_rational(x, y):
+#   return [x[0]*y[1], x[1]*y[0]]
