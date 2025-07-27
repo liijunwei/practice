@@ -1,3 +1,4 @@
+# https://www.bilibili.com/video/BV1nJ41157p6?t=1.9&p=18
 # tree abstraction
 # tree, branches, leaf
 def tree(label, branches=[]):
@@ -41,8 +42,24 @@ def fib_tree(n):
   """
   >>> fib_tree(5)
   [5, [2, [1], [1, [0], [1]]], [3, [1, [0], [1]], [2, [1], [1, [0], [1]]]]]
+  >>> print_tree(fib_tree(5))
+  5
+  ....2
+  ........1
+  ........1
+  ............0
+  ............1
+  ....3
+  ........1
+  ............0
+  ............1
+  ........2
+  ............1
+  ............1
+  ................0
+  ................1
   """
-  if n==0 or n == 1:
+  if n==0 or n==1:
     return tree(n)
   else:
     left, right = fib_tree(n-2), fib_tree(n-1)
@@ -62,10 +79,39 @@ def collect_leaves(t):
 
 def print_tree(t, indent=0):
   if is_leaf(t):
-    print('....'*indent+label(t))
+    print('....'*indent+str(label(t)))
   else:
-    print('....'*indent+label(t))
+    print('....'*indent+str(label(t)))
     [print_tree(b, indent+1) for b in branches(t)]
 
 ex3 = tree('D', [tree('B', [tree('A'), tree('C')]), tree('F', [tree('E', [tree('M'), tree('N')]), tree('H', [tree('G'), tree('I')])])])
-print_tree(ex3)
+# print_tree(ex3)
+
+def print_calls(name, f):
+  def new_f(t):
+    print("Name: ", name)
+    print("Inputted Tree: ")
+    print_tree(t)
+    # input()
+    ret = f(t)
+    print("Returned: ", ret)
+    return ret
+  return new_f
+
+collect_leaves = print_calls('collect_leaves', collect_leaves)
+# collect_leaves(ex3)
+
+def square_tree(t):
+  """
+  >>> square_tree(tree(2))
+  [4]
+  >>> demo = tree(2, [tree(3, [tree(1), tree(1)])])
+  >>> square_tree(demo)
+  [4, [9, [1], [1]]]
+  """
+  if is_leaf(t):
+    return tree(label(t)**2)
+  lst = []
+  for b in branches(t):
+    lst += [square_tree(b)]
+  return tree(label(t)**2, lst)
