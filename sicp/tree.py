@@ -54,7 +54,5 @@ def collect_leaves(t):
   """
   if is_leaf(t):
     return [label(t)]
-  lst = []
-  for b in branches(t):
-    lst += collect_leaves(b)
-  return lst
+  lst = [collect_leaves(b) for b in branches(t)]
+  return sum(lst, [])
