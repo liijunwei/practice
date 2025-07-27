@@ -59,3 +59,13 @@ def collect_leaves(t):
     return [label(t)]
   lst = [collect_leaves(b) for b in branches(t)]
   return sum(lst, [])
+
+def print_tree(t, indent=0):
+  if is_leaf(t):
+    print('....'*indent+label(t))
+  else:
+    print('....'*indent+label(t))
+    [print_tree(b, indent+1) for b in branches(t)]
+
+ex3 = tree('D', [tree('B', [tree('A'), tree('C')]), tree('F', [tree('E', [tree('M'), tree('N')]), tree('H', [tree('G'), tree('I')])])])
+print_tree(ex3)
