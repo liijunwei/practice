@@ -34,10 +34,8 @@ def count_nodes(t):
   >>> count_nodes(demo)
   5
   """
-  if is_leaf(t):
-    return 1
   lst = [count_nodes(b) for b in branches(t)]
-  return sum(lst)+1
+  return sum(lst, 1)
 
 def fib_tree(n):
   """
