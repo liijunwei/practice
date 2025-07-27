@@ -27,12 +27,17 @@ def is_leaf(t):
   return not branches(t)
 
 def count_nodes(t):
+  """
+  >>> demo = tree(3, [tree(1), tree(2, [tree(1), tree(1)])])
+  >>> demo
+  [3, [1], [2, [1], [1]]]
+  >>> count_nodes(demo)
+  5
+  """
   if is_leaf(t):
     return 1
-  total = 0
-  for b in branches(t):
-    total += count_nodes(b)
-  return total+1
+  lst = [count_nodes(b) for b in branches(t)]
+  return sum(lst)+1
 
 def fib_tree(n):
   """
