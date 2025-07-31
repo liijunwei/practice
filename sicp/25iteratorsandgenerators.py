@@ -13,6 +13,6 @@ def fib_iter(n):
   index = 2
   while index < n:
     prev, curr = curr, prev+curr
-    lst += [curr]
+    lst.append(curr)
     index += 1
   return iter(lst)
