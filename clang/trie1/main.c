@@ -5,7 +5,6 @@
 
 typedef struct Node Node;
 struct Node {
-  // char x;
   Node *children[MAX_CHILDREN_COUNT];
 };
 
