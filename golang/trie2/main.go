@@ -117,7 +117,7 @@ func (t *Trie) DumpGraph(filename string) {
 			_, err := fmt.Fprintf(file, "    %d [label=%s, shape=%s];\n", child.id, label, shape)
 			boom(err)
 
-			_, err = fmt.Fprintf(file, "    %d -> %d;\n", node.id, child.id)
+			_, err = fmt.Fprintf(file, "    %d -> %d [label=%s];\n", node.id, child.id, label)
 			boom(err)
 
 			err = traverse(child)
