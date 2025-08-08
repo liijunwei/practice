@@ -11,7 +11,8 @@ func main() {
 
 	trie.Insert("今天")
 	trie.Insert("今天心情不错")
-	trie.Insert("🤣")
+	trie.Insert("今天心情不错")
+	trie.Insert("🤣☀️🌿🐦🌸🐝✨💧🌈🌼🦋")
 	for _, word := range samples {
 		trie.Insert(word)
 	}
