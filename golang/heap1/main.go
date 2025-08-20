@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"math/rand/v2"
+	"math/rand"
 	"os"
 	"os/exec"
 	"sort"
@@ -14,8 +14,11 @@ func main() {
 	const N = 20
 	lst := make([]int, 0, N)
 	deleted := make([]int, 0, N)
+	var seed int64 = 2026
+	gen := rand.New(rand.NewSource(seed))
+
 	for range N {
-		num := rand.IntN(1000)
+		num := gen.Intn(1000)
 		lst = append(lst, num)
 		h.Insert(num)
 	}
@@ -123,7 +126,7 @@ func (h *MaxHeap) Dump(filename string) {
 		content.WriteString(fmt.Sprintf("    node%d [label=\"%d\"];\n", i, val))
 	}
 
-	for i := 0; i < len(h.array); i++ {
+	for i := range h.array {
 		if idx := left(i); idx < len(h.array) {
 			content.WriteString(fmt.Sprintf("    node%d -> node%d;\n", i, idx))
 		}
@@ -132,10 +135,10 @@ func (h *MaxHeap) Dump(filename string) {
 			content.WriteString(fmt.Sprintf("    node%d -> node%d;\n", i, idx))
 		}
 	}
-
 	content.WriteString("}\n")
-	boom(os.WriteFile(filename, []byte(content.String()), 0644))
+
 	svgfilename := strings.ReplaceAll(filename, ".dot", ".svg")
+	boom(os.WriteFile(filename, []byte(content.String()), 0644))
 	boom(exec.Command("dot", "-Tsvg", filename, "-o", svgfilename).Run())
 	boom(exec.Command("open", svgfilename).Run())
 	fmt.Println(svgfilename)
