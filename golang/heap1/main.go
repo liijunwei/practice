@@ -115,33 +115,29 @@ func (h *MaxHeap) last() int {
 }
 
 func (h *MaxHeap) Dump(filename string) {
-	content := "digraph heap {\n"
-	content += "    node [shape=circle];\n"
+	var content strings.Builder
+	content.WriteString("digraph heap {\n")
+	content.WriteString("    node [shape=circle];\n")
 
 	for i, val := range h.array {
-		content += fmt.Sprintf("    node%d [label=\"%d\"];\n", i, val)
+		content.WriteString(fmt.Sprintf("    node%d [label=\"%d\"];\n", i, val))
 	}
 
 	for i := 0; i < len(h.array); i++ {
-		leftIdx := left(i)
-		if leftIdx < len(h.array) {
-			content += fmt.Sprintf("    node%d -> node%d;\n", i, leftIdx)
+		if idx := left(i); idx < len(h.array) {
+			content.WriteString(fmt.Sprintf("    node%d -> node%d;\n", i, idx))
 		}
 
-		rightIdx := right(i)
-		if rightIdx < len(h.array) {
-			content += fmt.Sprintf("    node%d -> node%d;\n", i, rightIdx)
+		if idx := right(i); idx < len(h.array) {
+			content.WriteString(fmt.Sprintf("    node%d -> node%d;\n", i, idx))
 		}
 	}
 
-	content += "}\n"
-	boom(os.WriteFile(filename, []byte(content), 0644))
-
+	content.WriteString("}\n")
+	boom(os.WriteFile(filename, []byte(content.String()), 0644))
 	svgfilename := strings.ReplaceAll(filename, ".dot", ".svg")
-	err := exec.Command("dot", "-Tsvg", filename, "-o", svgfilename).Run()
-	boom(err)
-	err = exec.Command("open", svgfilename).Run()
-	boom(err)
+	boom(exec.Command("dot", "-Tsvg", filename, "-o", svgfilename).Run())
+	boom(exec.Command("open", svgfilename).Run())
 	fmt.Println(svgfilename)
 }
 
