@@ -117,7 +117,7 @@ func (h *MaxHeap) last() int {
 	return len(h.array) - 1
 }
 
-func (h *MaxHeap) Dump(filename string) {
+func (h *MaxHeap) Dump(dotfilename string) {
 	var content strings.Builder
 	content.WriteString("digraph heap {\n")
 	content.WriteString("    node [shape=circle];\n")
@@ -137,10 +137,11 @@ func (h *MaxHeap) Dump(filename string) {
 	}
 	content.WriteString("}\n")
 
-	svgfilename := strings.ReplaceAll(filename, ".dot", ".svg")
-	boom(os.WriteFile(filename, []byte(content.String()), 0644))
-	boom(exec.Command("dot", "-Tsvg", filename, "-o", svgfilename).Run())
+	svgfilename := strings.ReplaceAll(dotfilename, ".dot", ".svg")
+	boom(os.WriteFile(dotfilename, []byte(content.String()), 0644))
+	boom(exec.Command("dot", "-Tsvg", dotfilename, "-o", svgfilename).Run())
 	boom(exec.Command("open", svgfilename).Run())
+	fmt.Println(dotfilename)
 	fmt.Println(svgfilename)
 }
 
