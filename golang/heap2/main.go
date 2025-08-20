@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"os"
@@ -9,7 +10,6 @@ import (
 	"strings"
 )
 
-// TODO fix panic issue
 func main() {
 	h := NewMaxHeap()
 	const N = 20
@@ -23,18 +23,25 @@ func main() {
 		lst = append(lst, num)
 		h.Insert(num)
 	}
-	fmt.Println(h)
 	h.Dump("/tmp/max_heap.dot")
 
 	for range N {
 		deleted = append(deleted, h.DeleteMax())
 	}
+	println("lst raw   ", dump(lst))
 	sort.Slice(lst, func(i, j int) bool {
 		return lst[i] > lst[j]
 	})
+	println("lst sorted", dump(lst))
+	println("deleted   ", dump(deleted))
 	assert(equal(lst, deleted))
-	fmt.Println(h)
-	fmt.Println("pass")
+	println("pass")
+}
+
+func dump(lst any) string {
+	data, err := json.Marshal(lst)
+	boom(err)
+	return string(data)
 }
 
 func NewMaxHeap() *MaxHeap {
@@ -50,19 +57,19 @@ type MaxHeap struct {
 
 func (h *MaxHeap) Insert(key int) {
 	h.array = append(h.array, key)
-	h.swim(h.len() - 1)
+	h.swim(h.N())
+	// h.Dump(fmt.Sprintf("fooo-%d.dot", key))
 }
 
 func (h *MaxHeap) DeleteMax() int {
 	max := h.array[1] //ignore the first array element
-	h.swap(1, h.len()-1)
+	h.swap(1, h.N())
 	h.array = h.array[:h.len()-1]
 	h.sink(1)
 	return max
 }
 
 func (h *MaxHeap) swim(k int) {
-	fmt.Println("k > 0 && k <= len(h.array)", k > 0 && k <= len(h.array))
 	assert(k >= 0 && k <= h.len())
 	for k > 1 && h.less(parent(k), k) {
 		h.swap(parent(k), k)
@@ -70,17 +77,22 @@ func (h *MaxHeap) swim(k int) {
 	}
 }
 
-// TODO unclear yet
+// 下沉操作, 将元素向下移动以维护堆的性质
 func (h *MaxHeap) sink(k int) {
-	for left(k) <= h.len() {
+	for left(k) <= h.N() {
+		// 左子节点
 		j := left(k)
-		if j < h.len() && h.less(j, j+1) {
+		// 选择两个子节点中中较大的一个
+		if j < h.N() && h.less(j, j+1) {
 			j++
 		}
+		// 如果当前节点大于等于子节点, 则可以停止sink
 		if !h.less(k, j) {
 			break
 		}
+		// 交换
 		h.swap(k, j)
+		// 继续迭代
 		k = j
 	}
 }
@@ -90,7 +102,13 @@ func (h *MaxHeap) swap(i, j int) {
 }
 
 func (h *MaxHeap) len() int {
+	assert(len(h.array) >= 1)
+	assert(len(h.array) == h.N()+1)
 	return len(h.array)
+}
+
+func (h *MaxHeap) N() int {
+	return len(h.array) - 1
 }
 
 func (h *MaxHeap) less(i, j int) bool {
@@ -139,8 +157,8 @@ func (h *MaxHeap) Dump(dotfilename string) {
 	boom(os.WriteFile(dotfilename, []byte(content.String()), 0644))
 	boom(exec.Command("dot", "-Tsvg", dotfilename, "-o", svgfilename).Run())
 	boom(exec.Command("open", svgfilename).Run())
-	fmt.Println(dotfilename)
-	fmt.Println(svgfilename)
+	println(dotfilename)
+	println(svgfilename)
 }
 
 func boom(err error) {
