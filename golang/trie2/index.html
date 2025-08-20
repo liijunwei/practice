@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>前缀搜索</title>
+        <style>
+            body {
+                font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }
+            .search-container {
+                position: relative;
+                margin-top: 50px;
+            }
+            .search-input {
+                width: 100%;
+                padding: 12px 15px;
+                font-size: 16px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                outline: none;
+                transition: all 0.3s;
+            }
+            .search-input:focus {
+                border-color: #4285f4;
+                box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+            }
+            .results-container {
+                position: absolute;
+                width: 100%;
+                max-height: 300px;
+                overflow-y: auto;
+                background: white;
+                border: 1px solid #ddd;
+                border-top: none;
+                border-radius: 0 0 4px 4px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                z-index: 10;
+                display: none;
+            }
+            .result-item {
+                padding: 10px 15px;
+                border-bottom: 1px solid #eee;
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
+            .result-item:hover {
+                background-color: #f0f7ff;
+            }
+            .result-item:last-child {
+                border-bottom: none;
+            }
+            .result-count {
+                padding: 10px 15px;
+                background-color: #f5f5f5;
+                color: #666;
+                font-size: 14px;
+                border-bottom: 1px solid #eee;
+            }
+            .highlight {
+                font-weight: bold;
+                color: #4285f4;
+            }
+            .loading {
+                text-align: center;
+                padding: 10px;
+                color: #666;
+            }
+            h1 {
+                color: #333;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>前缀搜索</h1>
+        <div class="search-container">
+            <input
+                type="text"
+                class="search-input"
+                placeholder="输入前缀搜索..."
+                autocomplete="off"
+            >
+            <div class="results-container">
+                <div class="loading" style="display: none">搜索中...</div>
+                <div class="result-count"></div>
+                <div class="results-list"></div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener(
+                "DOMContentLoaded",
+                function () {
+                    const searchInput = document.querySelector(
+                        ".search-input",
+                    );
+                    const resultsContainer = document
+                        .querySelector(".results-container");
+                    const resultsList = document.querySelector(
+                        ".results-list",
+                    );
+                    const resultCount = document.querySelector(
+                        ".result-count",
+                    );
+                    const loading = document.querySelector(
+                        ".loading",
+                    );
+
+                    let debounceTimer;
+
+                    // 输入事件监听
+                    searchInput.addEventListener(
+                        "input",
+                        function () {
+                            const query = this.value.trim();
+
+                            // 清除之前的定时器
+                            clearTimeout(debounceTimer);
+
+                            if (query.length === 0) {
+                                resultsContainer.style.display =
+                                    "none";
+                                return;
+                            }
+
+                            // 设置新的定时器，100ms后执行搜索
+                            debounceTimer = setTimeout(() => {
+                                searchPrefix(query);
+                            }, 100);
+                        },
+                    );
+
+                    // 点击文档其他地方关闭结果框
+                    document.addEventListener(
+                        "click",
+                        function (e) {
+                            if (
+                                !searchInput.contains(
+                                    e.target,
+                                ) &&
+                                !resultsContainer.contains(
+                                    e.target,
+                                )
+                            ) {
+                                resultsContainer.style.display =
+                                    "none";
+                            }
+                        },
+                    );
+
+                    // 搜索前缀
+                    function searchPrefix(prefix) {
+                        // 显示加载状态
+                        resultsContainer.style.display =
+                            "block";
+                        resultsList.innerHTML = "";
+                        resultCount.style.display = "none";
+                        loading.style.display = "block";
+
+                        fetch(
+                            `http://localhost:8080/search?prefix=${
+                                encodeURIComponent(prefix)
+                            }`,
+                        )
+                            .then((response) => {
+                                if (!response.ok) {
+                                    throw new Error(
+                                        "网络请求失败",
+                                    );
+                                }
+                                return response.json();
+                            })
+                            .then((data) => {
+                                loading.style.display = "none";
+
+                                // 显示结果数量
+                                resultCount.textContent =
+                                    `找到 ${data.count} 个匹配结果`;
+                                resultCount.style.display =
+                                    "block";
+
+                                if (data.matches.length === 0) {
+                                    resultsList.innerHTML =
+                                        '<div class="result-item">没有找到匹配结果</div>';
+                                    return;
+                                }
+
+                                // 渲染结果列表
+                                data.matches.forEach(
+                                    (match) => {
+                                        const item = document
+                                            .createElement(
+                                                "div",
+                                            );
+                                        item.className =
+                                            "result-item";
+
+                                        // 高亮显示前缀部分
+                                        const highlightedText =
+                                            highlightPrefix(
+                                                match,
+                                                prefix,
+                                            );
+                                        item.innerHTML =
+                                            highlightedText;
+
+                                        // 点击结果项填充到输入框
+                                        item.addEventListener(
+                                            "click",
+                                            function () {
+                                                searchInput
+                                                    .value =
+                                                        match;
+                                                resultsContainer
+                                                    .style
+                                                    .display =
+                                                        "none";
+                                            },
+                                        );
+
+                                        resultsList.appendChild(
+                                            item,
+                                        );
+                                    },
+                                );
+                            })
+                            .catch((error) => {
+                                loading.style.display = "none";
+                                resultCount.style.display =
+                                    "none";
+                                resultsList.innerHTML =
+                                    `<div class="result-item">搜索出错: ${error.message}</div>`;
+                            });
+                    }
+
+                    // 高亮显示前缀
+                    function highlightPrefix(text, prefix) {
+                        if (
+                            !prefix || prefix.length === 0
+                        ) return text;
+
+                        const prefixLength = prefix.length;
+                        return `<span class="highlight">${
+                            text.substring(0, prefixLength)
+                        }</span>${
+                            text.substring(prefixLength)
+                        }`;
+                    }
+                },
+            );
+        </script>
+    </body>
+</html>

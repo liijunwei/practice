@@ -1,232 +1,90 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"os"
-	"os/exec"
+	"log"
+	"net/http"
 )
 
-func main() {
+func buildTrie() *Trie {
+	// 初始化字典树
 	trie := NewTrie()
 
 	trie.Insert("今天")
 	trie.Insert("今天心情不错")
 	trie.Insert("今天心情不错")
 	trie.Insert("🤣☀️🌿🐦🌸🐝✨💧🌈🌼🦋")
-	for _, word := range samples {
+	for _, word := range readSamples() {
 		trie.Insert(word)
 	}
+	fmt.Println("trie is ready")
 
-	dotfilename := "/tmp/trie.dot"
-	trie.DumpGraph(dotfilename)
-	fmt.Println("dot file generated", dotfilename)
+	// 生成可视化图
+	// dotfilename := "/tmp/trie.dot"
+	// trie.DumpGraph(dotfilename)
+	// fmt.Println("dot file generated", dotfilename)
 
-	svgfilename := "/tmp/trie.svg"
-	err := exec.Command("dot", "-Tsvg", dotfilename, "-o", svgfilename).Run()
-	boom(err)
-	fmt.Println("svg file generated", svgfilename)
-	err = exec.Command("open", svgfilename).Run()
-	boom(err)
+	// svgfilename := "/tmp/trie.svg"
+	// err := exec.Command("dot", "-Tsvg", dotfilename, "-o", svgfilename).Run()
+	// boom(err)
+	// fmt.Println("svg file generated", svgfilename)
+	return trie
 }
 
-func boom(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
-type Node struct {
-	children map[rune]*Node
-	isEnd    bool
-	id       int
-}
-
-func NewNode(id int) *Node {
-	return &Node{
-		children: make(map[rune]*Node),
-		isEnd:    false,
-		id:       id,
-	}
-}
-
-type Trie struct {
-	root   *Node
-	nextID int
-}
-
-func NewTrie() *Trie {
-	return &Trie{
-		root:   NewNode(0),
-		nextID: 1,
-	}
-}
-
-func (t *Trie) Insert(word string) {
-	curr := t.root
-	for _, c := range word {
-		if _, ok := curr.children[c]; !ok {
-			curr.children[c] = NewNode(t.nextID)
-			t.nextID++
+func searchHandler(trie *Trie) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// 只接受GET请求
+		if r.Method != http.MethodGet {
+			http.Error(w, "只支持GET请求", http.StatusMethodNotAllowed)
+			return
 		}
-		curr = curr.children[c]
-	}
-	curr.isEnd = true
-}
 
-func (t *Trie) Search(word string) bool {
-	curr := t.root
-	for _, c := range word {
-		if _, ok := curr.children[c]; !ok {
-			return false
+		// 设置CORS头，允许前端页面访问
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		// 获取prefix参数
+		prefix := r.URL.Query().Get("prefix")
+		if prefix == "" {
+			http.Error(w, "请提供prefix参数", http.StatusBadRequest)
+			return
 		}
-		curr = curr.children[c]
+
+		// 查找匹配的字符串
+		matches := trie.FindPrefix(prefix)
+
+		// 返回JSON格式的结果
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]interface{}{
+			"prefix":  prefix,
+			"matches": matches,
+			"count":   len(matches),
+		})
 	}
-	return curr.isEnd
 }
 
-func (t *Trie) StartsWith(prefix string) bool {
-	curr := t.root
-	for _, c := range prefix {
-		if _, ok := curr.children[c]; !ok {
-			return false
+func main() {
+	// 初始化字典树
+	trie := buildTrie()
+
+	// 注册处理函数
+	http.HandleFunc("/search", searchHandler(trie))
+
+	// 提供静态文件服务
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/" {
+			http.ServeFile(w, r, "index.html")
+		} else {
+			http.NotFound(w, r)
 		}
-		curr = curr.children[c]
-	}
-	return true
-}
+	})
 
-func (t *Trie) DumpGraph(filename string) {
-	file, err := os.Create(filename)
-	boom(err)
-	defer file.Close()
-
-	_, err = file.WriteString("digraph Trie {\n")
-	boom(err)
-
-	_, err = fmt.Fprintf(file, "    %d [label=\"root\", shape=circle];\n", t.root.id)
-	boom(err)
-
-	var traverse func(node *Node) error
-	traverse = func(node *Node) error {
-		for char, child := range node.children {
-			shape := "circle"
-			if child.isEnd {
-				shape = "doublecircle"
-			}
-
-			label := fmt.Sprintf("%q", string(char)) // whitespace
-			_, err := fmt.Fprintf(file, "    %d [label=%s, shape=%s];\n", child.id, label, shape)
-			boom(err)
-
-			_, err = fmt.Fprintf(file, "    %d -> %d [label=%s];\n", node.id, child.id, label)
-			boom(err)
-
-			err = traverse(child)
-			boom(err)
-		}
-		return nil
-	}
-
-	err = traverse(t.root)
-	boom(err)
-
-	_, err = file.WriteString("}\n")
-	boom(err)
-}
-
-// steal from: https://gitlab.com/tsoding/trie/-/blob/main/fruits.h?ref_type=heads
-var samples = []string{
-	"Apple",
-	"Apricot",
-	"Avocado",
-	"Banana",
-	"Bilberry",
-	"Blackberry",
-	"Blackcurrant",
-	"Blueberry",
-	"Boysenberry",
-	"Currant",
-	"Cherry",
-	"Cherimoya",
-	"Chico fruit",
-	"Cloudberry",
-	"Coconut",
-	"Cranberry",
-	"Cucumber",
-	"Custard apple",
-	"Damson",
-	"Date",
-	"Dragonfruit",
-	"Durian",
-	"Elderberry",
-	"Feijoa",
-	"Fig",
-	"Goji berry",
-	"Gooseberry",
-	"Grape",
-	"Raisin",
-	"Grapefruit",
-	"Guava",
-	"Honeyberry",
-	"Huckleberry",
-	"Jabuticaba",
-	"Jackfruit",
-	"Jambul",
-	"Jujube",
-	"Juniper berry",
-	"Kiwano",
-	"Kiwifruit",
-	"Kumquat",
-	"Lemon",
-	"Lime",
-	"Loquat",
-	"Longan",
-	"Lychee",
-	"Mango",
-	"Mangosteen",
-	"Marionberry",
-	"Melon",
-	"Cantaloupe",
-	"Honeydew",
-	"Watermelon",
-	"Miracle fruit",
-	"Mulberry",
-	"Nectarine",
-	"Nance",
-	"Olive",
-	"Orange",
-	"Blood orange",
-	"Clementine",
-	"Mandarine",
-	"Tangerine",
-	"Papaya",
-	"Passionfruit",
-	"Peach",
-	"Pear",
-	"Persimmon",
-	"Physalis",
-	"Plantain",
-	"Plum",
-	"Prune",
-	"Pineapple",
-	"Plumcot",
-	"Pomegranate",
-	"Pomelo",
-	"Purple mangosteen",
-	"Quince",
-	"Raspberry",
-	"Salmonberry",
-	"Rambutan",
-	"Redcurrant",
-	"Salal berry",
-	"Salak",
-	"Satsuma",
-	"Soursop",
-	"Star fruit",
-	"Solanum quitoense",
-	"Strawberry",
-	"Tamarillo",
-	"Tamarind",
-	"Ugli fruit",
-	"Yuzu",
+	// 启动HTTP服务
+	port := ":8080"
+	fmt.Printf("服务已启动，监听端口%s\n", port)
+	fmt.Printf("可以通过 http://localhost%s 访问前缀搜索页面\n", port)
+	fmt.Printf("API接口: http://localhost%s/search?prefix=你的前缀\n", port)
+	log.Fatal(http.ListenAndServe(port, nil))
 }
