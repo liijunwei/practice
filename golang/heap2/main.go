@@ -1,13 +1,8 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"math/rand"
-	"os"
-	"os/exec"
 	"sort"
-	"strings"
 )
 
 func main() {
@@ -23,48 +18,42 @@ func main() {
 		lst = append(lst, num)
 		h.Insert(num)
 	}
-	h.Dump("/tmp/max_heap.dot")
+	dumpgraph(h, "/tmp/max_heap.dot")
 
 	for range N {
-		deleted = append(deleted, h.DeleteMax())
+		deleted = append(deleted, h.DelMax())
 	}
-	println("lst raw   ", dump(lst))
+	println("lst raw   ", dumpdata(lst))
 	sort.Slice(lst, func(i, j int) bool {
 		return lst[i] > lst[j]
 	})
-	println("lst sorted", dump(lst))
-	println("deleted   ", dump(deleted))
+	println("lst sorted", dumpdata(lst))
+	println("deleted   ", dumpdata(deleted))
 	assert(equal(lst, deleted))
 	println("pass")
-}
-
-func dump(lst any) string {
-	data, err := json.Marshal(lst)
-	boom(err)
-	return string(data)
 }
 
 func NewMaxHeap() *MaxHeap {
 	arr := []int{-1} //ignore first element
 	return &MaxHeap{
-		array: arr,
+		pq: arr,
 	}
 }
 
 type MaxHeap struct {
-	array []int
+	pq []int
 }
 
-func (h *MaxHeap) Insert(key int) {
-	h.array = append(h.array, key)
+func (h *MaxHeap) Insert(v int) {
+	h.pq = append(h.pq, v)
 	h.swim(h.N())
-	// h.Dump(fmt.Sprintf("fooo-%d.dot", key))
+	// h.Dump(fmt.Sprintf("tmp/fooo-%d.dot", key))
 }
 
-func (h *MaxHeap) DeleteMax() int {
-	max := h.array[1] //ignore the first array element
+func (h *MaxHeap) DelMax() int {
+	max := h.pq[1] //ignore the first array element
 	h.swap(1, h.N())
-	h.array = h.array[:h.len()-1]
+	h.pq = h.pq[:h.len()-1]
 	h.sink(1)
 	return max
 }
@@ -98,21 +87,21 @@ func (h *MaxHeap) sink(k int) {
 }
 
 func (h *MaxHeap) swap(i, j int) {
-	h.array[i], h.array[j] = h.array[j], h.array[i]
+	h.pq[i], h.pq[j] = h.pq[j], h.pq[i]
 }
 
 func (h *MaxHeap) len() int {
-	assert(len(h.array) >= 1)
-	assert(len(h.array) == h.N()+1)
-	return len(h.array)
+	assert(len(h.pq) >= 1)
+	assert(len(h.pq) == h.N()+1)
+	return len(h.pq)
 }
 
 func (h *MaxHeap) N() int {
-	return len(h.array) - 1
+	return len(h.pq) - 1
 }
 
 func (h *MaxHeap) less(i, j int) bool {
-	return h.array[i] < h.array[j]
+	return h.pq[i] < h.pq[j]
 }
 
 //		 k/2
@@ -131,56 +120,4 @@ func left(k int) int {
 
 func right(k int) int {
 	return 2*k + 1
-}
-
-func (h *MaxHeap) Dump(dotfilename string) {
-	var content strings.Builder
-	content.WriteString("digraph heap {\n")
-	content.WriteString("    node [shape=circle];\n")
-
-	for i, val := range h.array {
-		content.WriteString(fmt.Sprintf("    node%d [label=\"%d\"];\n", i, val))
-	}
-
-	for i := range h.array {
-		if idx := left(i); idx < len(h.array) {
-			content.WriteString(fmt.Sprintf("    node%d -> node%d;\n", i, idx))
-		}
-
-		if idx := right(i); idx < len(h.array) {
-			content.WriteString(fmt.Sprintf("    node%d -> node%d;\n", i, idx))
-		}
-	}
-	content.WriteString("}\n")
-
-	svgfilename := strings.ReplaceAll(dotfilename, ".dot", ".svg")
-	boom(os.WriteFile(dotfilename, []byte(content.String()), 0644))
-	boom(exec.Command("dot", "-Tsvg", dotfilename, "-o", svgfilename).Run())
-	boom(exec.Command("open", svgfilename).Run())
-	println(dotfilename)
-	println(svgfilename)
-}
-
-func boom(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
-func assert(ok bool) {
-	if !ok {
-		panic("ASSERTION FAILED")
-	}
-}
-
-func equal(a, b []int) bool {
-	if len(a) != len(b) {
-		return false
-	}
-	for i := range a {
-		if a[i] != b[i] {
-			return false
-		}
-	}
-	return true
 }
