@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>堆构建可视化</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+        }
+        .heap-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            overflow: auto;
+        }
+        .heap-tree {
+            position: relative;
+            width: 100%;
+            height: 500px;
+        }
+        .node {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.5s ease;
+        }
+        .edge {
+            position: absolute;
+            background-color: #333;
+            height: 2px;
+            transform-origin: 0 0;
+            transition: all 0.5s ease;
+        }
+        .highlight {
+            background-color: #ff5722;
+            transform: scale(1.2);
+        }
+        .array-view {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .array-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+        .array-item.highlight {
+            background-color: #ff5722;
+            color: white;
+        }
+        .info-panel {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .step-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .build-method {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .stats {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .comparison-chart {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            display: none;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+        .chart-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .bar {
+            width: 60px;
+            background-color: #4CAF50;
+            margin-bottom: 5px;
+            text-align: center;
+            color: white;
+            transition: height 0.5s ease;
+        }
+        .bar-label {
+            font-size: 12px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>堆构建可视化</h1>
+
+        <div class="controls">
+            <input type="text" id="input-array" placeholder="输入数组，用逗号分隔，例如: 10,20,30,40,50" value="888,403,907,349,639,372,371,409,127,735,137,896,185,361,177,703,806,393,786,148">
+            <div class="build-method">
+                <button id="build-heap-top-down">从上到下构建堆</button>
+                <button id="build-heap-bottom-up">从下到上构建堆</button>
+                <button id="compare-methods">比较两种方法</button>
+            </div>
+            <button id="reset">重置</button>
+        </div>
+
+        <div class="step-controls">
+            <button id="prev-step" disabled>上一步</button>
+            <button id="next-step" disabled>下一步</button>
+            <button id="auto-play">自动播放</button>
+        </div>
+
+        <div class="info-panel" id="info-panel">
+            准备就绪，请输入数组并选择构建堆的方法。
+        </div>
+
+        <div class="stats" id="stats-panel">
+            统计信息: 比较次数: 0, 交换次数: 0
+        </div>
+
+        <div class="comparison-chart" id="comparison-chart">
+            <h3>两种方法效率比较</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>构建方法</th>
+                        <th>比较次数</th>
+                        <th>交换次数</th>
+                        <th>总操作次数</th>
+                        <th>构建时间(ms)</th>
+                    </tr>
+                </thead>
+                <tbody id="comparison-table">
+                    <!-- 数据将通过JavaScript填充 -->
+                </tbody>
+            </table>
+            <div class="chart-container">
+                <div class="chart-bar">
+                    <div id="top-down-compare-bar" class="bar" style="height: 0px;">0</div>
+                    <div class="bar-label">从上到下比较次数</div>
+                </div>
+                <div class="chart-bar">
+                    <div id="bottom-up-compare-bar" class="bar" style="height: 0px;">0</div>
+                    <div class="bar-label">从下到上比较次数</div>
+                </div>
+                <div class="chart-bar">
+                    <div id="top-down-swap-bar" class="bar" style="height: 0px;">0</div>
+                    <div class="bar-label">从上到下交换次数</div>
+                </div>
+                <div class="chart-bar">
+                    <div id="bottom-up-swap-bar" class="bar" style="height: 0px;">0</div>
+                    <div class="bar-label">从下到上交换次数</div>
+                </div>
+                <div class="chart-bar">
+                    <div id="top-down-total-bar" class="bar" style="height: 0px;">0</div>
+                    <div class="bar-label">从上到下总操作</div>
+                </div>
+                <div class="chart-bar">
+                    <div id="bottom-up-total-bar" class="bar" style="height: 0px;">0</div>
+                    <div class="bar-label">从下到上总操作</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="array-view" id="array-view"></div>
+
+        <div class="heap-container">
+            <div class="heap-tree" id="heap-tree"></div>
+        </div>
+    </div>
+
+    <script>
+        class MaxHeap {
+            constructor(maxN) {
+                this.pq = new Array(maxN + 1).fill(0);
+                this.size = 0;
+                this.history = [];
+                this.compareCount = 0;
+                this.swapCount = 0;
+                this.buildTime = 0;
+                this.saveState('初始化堆');
+            }
+
+            // 从上到下构建堆（逐个插入）
+            buildTopDown(arr) {
+                const startTime = performance.now();
+                for (const num of arr) {
+                    this.insert(num);
+                }
+                this.buildTime = performance.now() - startTime;
+            }
+
+            // 从下到上构建堆（先构建完整数组，再进行堆化）
+            buildBottomUp(arr) {
+                const startTime = performance.now();
+
+                // 先将数组复制到堆中
+                for (let i = 0; i < arr.length; i++) {
+                    this.size++;
+                    this.pq[this.size] = arr[i];
+                }
+                this.saveState('初始化数组');
+
+                // 从最后一个非叶子节点开始，自下而上进行堆化
+                for (let k = Math.floor(this.size / 2); k >= 1; k--) {
+                    this.saveState(`开始处理节点 ${this.pq[k]} (索引 ${k})`);
+                    this.sink(k);
+                }
+
+                this.buildTime = performance.now() - startTime;
+            }
+
+            insert(v) {
+                this.size++;
+                this.pq[this.size] = v;
+                this.saveState(`插入元素 ${v}`);
+                this.swim(this.size);
+            }
+
+            swim(k) {
+                while (k > 1 && this.less(this.parent(k), k)) {
+                    this.compareCount++;
+                    this.saveState(`上浮: 比较节点 ${this.pq[this.parent(k)]} 和 ${this.pq[k]}`);
+                    this.exch(this.parent(k), k);
+                    this.saveState(`上浮: 交换节点 ${this.pq[k]} 和 ${this.pq[this.parent(k)]}`);
+                    k = this.parent(k);
+                }
+
+                if (k > 1) {
+                    this.compareCount++;
+                    this.saveState(`上浮: 比较节点 ${this.pq[this.parent(k)]} 和 ${this.pq[k]}, 不需要交换`);
+                }
+            }
+
+            sink(k) {
+                while (this.left(k) <= this.size) {
+                    // 左子节点
+                    let j = this.left(k);
+
+                    // 找到更大的子节点
+                    if (j < this.size) {
+                        this.compareCount++;
+                        this.saveState(`下沉: 比较子节点 ${this.pq[j]} 和 ${this.pq[j+1]}`);
+                        if (this.less(j, j+1)) {
+                            j++;
+                        }
+                    }
+
+                    // 当前节点大于等于任意子节点时停止
+                    this.compareCount++;
+                    this.saveState(`下沉: 比较节点 ${this.pq[k]} 和 ${this.pq[j]}`);
+                    if (!this.less(k, j)) {
+                        this.saveState(`下沉: 节点 ${this.pq[k]} 已经大于等于子节点 ${this.pq[j]}, 停止下沉`);
+                        break;
+                    }
+
+                    // 当前节点小于子节点时交换，并继续下次迭代
+                    this.exch(k, j);
+                    this.saveState(`下沉: 交换节点 ${this.pq[k]} 和 ${this.pq[j]}`);
+                    k = j;
+                }
+            }
+
+            less(i, j) {
+                return this.pq[i] < this.pq[j];
+            }
+
+            exch(i, j) {
+                this.swapCount++;
+                const temp = this.pq[i];
+                this.pq[i] = this.pq[j];
+                this.pq[j] = temp;
+            }
+
+            parent(k) {
+                return Math.floor(k / 2);
+            }
+
+            left(k) {
+                return 2 * k;
+            }
+
+            right(k) {
+                return 2 * k + 1;
+            }
+
+            saveState(message) {
+                this.history.push({
+                    pq: [...this.pq],
+                    size: this.size,
+                    message: message,
+                    compareCount: this.compareCount,
+                    swapCount: this.swapCount
+                });
+            }
+
+            getStats() {
+                return {
+                    compareCount: this.compareCount,
+                    swapCount: this.swapCount,
+                    totalOperations: this.compareCount + this.swapCount,
+                    buildTime: this.buildTime.toFixed(2)
+                };
+            }
+        }
+
+        // 全局变量
+        let heap;
+        let currentStep = 0;
+        let autoPlayInterval = null;
+        let comparisonResults = {
+            topDown: null,
+            bottomUp: null
+        };
+
+        // DOM 元素
+        const inputArray = document.getElementById('input-array');
+        const buildHeapTopDownBtn = document.getElementById('build-heap-top-down');
+        const buildHeapBottomUpBtn = document.getElementById('build-heap-bottom-up');
+        const compareMethodsBtn = document.getElementById('compare-methods');
+        const resetBtn = document.getElementById('reset');
+        const prevStepBtn = document.getElementById('prev-step');
+        const nextStepBtn = document.getElementById('next-step');
+        const autoPlayBtn = document.getElementById('auto-play');
+        const infoPanel = document.getElementById('info-panel');
+        const statsPanel = document.getElementById('stats-panel');
+        const arrayView = document.getElementById('array-view');
+        const heapTree = document.getElementById('heap-tree');
+        const comparisonChart = document.getElementById('comparison-chart');
+        const comparisonTable = document.getElementById('comparison-table');
+
+        // 事件监听
+        buildHeapTopDownBtn.addEventListener('click', () => buildHeap('top-down'));
+        buildHeapBottomUpBtn.addEventListener('click', () => buildHeap('bottom-up'));
+        compareMethodsBtn.addEventListener('click', compareHeapMethods);
+        resetBtn.addEventListener('click', reset);
+        prevStepBtn.addEventListener('click', prevStep);
+        nextStepBtn.addEventListener('click', nextStep);
+        autoPlayBtn.addEventListener('click', toggleAutoPlay);
+
+        // 初始化
+        function init() {
+            reset();
+        }
+
+        // 构建堆
+        function buildHeap(method) {
+            const input = inputArray.value.trim();
+            if (!input) {
+                alert('请输入数组');
+                return;
+            }
+
+            const arr = input.split(',').map(item => parseInt(item.trim()));
+            if (arr.some(isNaN)) {
+                alert('输入格式不正确，请使用逗号分隔的数字');
+                return;
+            }
+
+            heap = new MaxHeap(arr.length);
+
+            if (method === 'top-down') {
+                heap.buildTopDown(arr);
+                comparisonResults.topDown = heap.getStats();
+            } else {
+                heap.buildBottomUp(arr);
+                comparisonResults.bottomUp = heap.getStats();
+            }
+
+            currentStep = 0;
+            updateUI();
+
+            prevStepBtn.disabled = true;
+            nextStepBtn.disabled = false;
+            buildHeapTopDownBtn.disabled = true;
+            buildHeapBottomUpBtn.disabled = true;
+            compareMethodsBtn.disabled = true;
+
+            // 隐藏比较图表
+            comparisonChart.style.display = 'none';
+        }
+
+        // 比较两种堆构建方法
+        function compareHeapMethods() {
+            const input = inputArray.value.trim();
+            if (!input) {
+                alert('请输入数组');
+                return;
+            }
+
+            const arr = input.split(',').map(item => parseInt(item.trim()));
+            if (arr.some(isNaN)) {
+                alert('输入格式不正确，请使用逗号分隔的数字');
+                return;
+            }
+
+            // 从上到下构建堆
+            let topDownHeap = new MaxHeap(arr.length);
+            topDownHeap.buildTopDown([...arr]);
+            comparisonResults.topDown = topDownHeap.getStats();
+
+            // 从下到上构建堆
+            let bottomUpHeap = new MaxHeap(arr.length);
+            bottomUpHeap.buildBottomUp([...arr]);
+            comparisonResults.bottomUp = bottomUpHeap.getStats();
+
+            // 显示比较结果
+            updateComparisonChart();
+            comparisonChart.style.display = 'block';
+
+            // 使用从下到上的方法作为当前可视化的堆
+            heap = bottomUpHeap;
+            currentStep = 0;
+            updateUI();
+
+            prevStepBtn.disabled = true;
+            nextStepBtn.disabled = false;
+            buildHeapTopDownBtn.disabled = true;
+            buildHeapBottomUpBtn.disabled = true;
+            compareMethodsBtn.disabled = true;
+
+            infoPanel.textContent = '已比较两种构建堆的方法，当前显示从下到上构建的堆。';
+        }
+
+        // 更新比较图表
+        function updateComparisonChart() {
+            if (!comparisonResults.topDown || !comparisonResults.bottomUp) return;
+
+            // 更新表格
+            comparisonTable.innerHTML = `
+                <tr>
+                    <td>从上到下</td>
+                    <td>${comparisonResults.topDown.compareCount}</td>
+                    <td>${comparisonResults.topDown.swapCount}</td>
+                    <td>${comparisonResults.topDown.totalOperations}</td>
+                    <td>${comparisonResults.topDown.buildTime}</td>
+                </tr>
+                <tr>
+                    <td>从下到上</td>
+                    <td>${comparisonResults.bottomUp.compareCount}</td>
+                    <td>${comparisonResults.bottomUp.swapCount}</td>
+                    <td>${comparisonResults.bottomUp.totalOperations}</td>
+                    <td>${comparisonResults.bottomUp.buildTime}</td>
+                </tr>
+            `;
+
+            // 计算最大值用于图表缩放
+            const maxCompare = Math.max(comparisonResults.topDown.compareCount, comparisonResults.bottomUp.compareCount);
+            const maxSwap = Math.max(comparisonResults.topDown.swapCount, comparisonResults.bottomUp.swapCount);
+            const maxTotal = Math.max(comparisonResults.topDown.totalOperations, comparisonResults.bottomUp.totalOperations);
+
+            // 更新柱状图
+            const topDownCompareBar = document.getElementById('top-down-compare-bar');
+            const bottomUpCompareBar = document.getElementById('bottom-up-compare-bar');
+            const topDownSwapBar = document.getElementById('top-down-swap-bar');
+            const bottomUpSwapBar = document.getElementById('bottom-up-swap-bar');
+            const topDownTotalBar = document.getElementById('top-down-total-bar');
+            const bottomUpTotalBar = document.getElementById('bottom-up-total-bar');
+
+            // 设置柱状图高度和文本
+            topDownCompareBar.style.height = `${(comparisonResults.topDown.compareCount / maxCompare) * 200}px`;
+            topDownCompareBar.textContent = comparisonResults.topDown.compareCount;
+
+            bottomUpCompareBar.style.height = `${(comparisonResults.bottomUp.compareCount / maxCompare) * 200}px`;
+            bottomUpCompareBar.textContent = comparisonResults.bottomUp.compareCount;
+
+            topDownSwapBar.style.height = `${(comparisonResults.topDown.swapCount / maxSwap) * 200}px`;
+            topDownSwapBar.textContent = comparisonResults.topDown.swapCount;
+
+            bottomUpSwapBar.style.height = `${(comparisonResults.bottomUp.swapCount / maxSwap) * 200}px`;
+            bottomUpSwapBar.textContent = comparisonResults.bottomUp.swapCount;
+
+            topDownTotalBar.style.height = `${(comparisonResults.topDown.totalOperations / maxTotal) * 200}px`;
+            topDownTotalBar.textContent = comparisonResults.topDown.totalOperations;
+
+            bottomUpTotalBar.style.height = `${(comparisonResults.bottomUp.totalOperations / maxTotal) * 200}px`;
+            bottomUpTotalBar.textContent = comparisonResults.bottomUp.totalOperations;
+        }
+
+        // 重置
+        function reset() {
+            heap = null;
+            currentStep = 0;
+
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+                autoPlayBtn.textContent = '自动播放';
+            }
+
+            heapTree.innerHTML = '';
+            arrayView.innerHTML = '';
+            infoPanel.textContent = '准备就绪，请输入数组并选择构建堆的方法。';
+            statsPanel.textContent = '统计信息: 比较次数: 0, 交换次数: 0';
+            comparisonChart.style.display = 'none';
+
+            prevStepBtn.disabled = true;
+            nextStepBtn.disabled = true;
+            buildHeapTopDownBtn.disabled = false;
+            buildHeapBottomUpBtn.disabled = false;
+            compareMethodsBtn.disabled = false;
+        }
+
+        // 上一步
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateUI();
+                nextStepBtn.disabled = false;
+
+                if (currentStep === 0) {
+                    prevStepBtn.disabled = true;
+                }
+            }
+        }
+
+        // 下一步
+        function nextStep() {
+            if (heap && currentStep < heap.history.length - 1) {
+                currentStep++;
+                updateUI();
+                prevStepBtn.disabled = false;
+
+                if (currentStep === heap.history.length - 1) {
+                    nextStepBtn.disabled = true;
+                    if (autoPlayInterval) {
+                        clearInterval(autoPlayInterval);
+                        autoPlayInterval = null;
+                        autoPlayBtn.textContent = '自动播放';
+                    }
+                }
+            }
+        }
+
+        // 自动播放
+        function toggleAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+                autoPlayBtn.textContent = '自动播放';
+            } else if (heap && currentStep < heap.history.length - 1) {
+                autoPlayBtn.textContent = '暂停';
+                autoPlayInterval = setInterval(() => {
+                    if (currentStep < heap.history.length - 1) {
+                        nextStep();
+                    } else {
+                        clearInterval(autoPlayInterval);
+                        autoPlayInterval = null;
+                        autoPlayBtn.textContent = '自动播放';
+                    }
+                }, 1000);
+            }
+        }
+
+        // 更新UI
+        function updateUI() {
+            if (!heap || currentStep >= heap.history.length) return;
+
+            const state = heap.history[currentStep];
+            infoPanel.textContent = `步骤 ${currentStep + 1}/${heap.history.length}: ${state.message}`;
+            statsPanel.textContent = `统计信息: 比较次数: ${state.compareCount}, 交换次数: ${state.swapCount}`;
+
+            // 更新数组视图
+            updateArrayView(state);
+
+            // 更新堆树视图
+            updateHeapTreeView(state);
+        }
+
+        // 更新数组视图
+        function updateArrayView(state) {
+            arrayView.innerHTML = '';
+
+            for (let i = 1; i <= state.size; i++) {
+                const item = document.createElement('div');
+                item.className = 'array-item';
+                item.textContent = state.pq[i];
+
+                // 高亮显示当前操作的元素
+                if (state.message.includes(`元素 ${state.pq[i]}`) ||
+                    state.message.includes(`节点 ${state.pq[i]}`) ||
+                    state.message.includes(`索引 ${i}`)) {
+                    item.classList.add('highlight');
+                }
+
+                arrayView.appendChild(item);
+            }
+        }
+
+        // 更新堆树视图
+        function updateHeapTreeView(state) {
+            heapTree.innerHTML = '';
+
+            // 计算树的层数
+            const levels = Math.floor(Math.log2(state.size)) + 1;
+            const treeWidth = Math.pow(2, levels - 1) * 80;
+
+            // 创建节点和边
+            for (let i = 1; i <= state.size; i++) {
+                // 创建节点
+                const node = document.createElement('div');
+                node.className = 'node';
+                node.textContent = state.pq[i];
+
+                // 计算节点位置
+                const level = Math.floor(Math.log2(i)) + 1;
+                const position = i - Math.pow(2, level - 1) + 1;
+                const totalNodesInLevel = Math.pow(2, level - 1);
+                const horizontalSpacing = treeWidth / totalNodesInLevel;
+
+                const left = (position - 0.5) * horizontalSpacing;
+                const top = (level - 1) * 80 + 20;
+
+                node.style.left = `${left}px`;
+                node.style.top = `${top}px`;
+
+                // 高亮显示当前操作的节点
+                if (state.message.includes(`元素 ${state.pq[i]}`) ||
+                    state.message.includes(`节点 ${state.pq[i]}`) ||
+                    state.message.includes(`索引 ${i}`)) {
+                    node.classList.add('highlight');
+                }
+
+                heapTree.appendChild(node);
+
+                // 创建到父节点的边
+                if (i > 1) {
+                    const parentIndex = Math.floor(i / 2);
+                    const parentLevel = Math.floor(Math.log2(parentIndex)) + 1;
+                    const parentPosition = parentIndex - Math.pow(2, parentLevel - 1) + 1;
+                    const parentHorizontalSpacing = treeWidth / Math.pow(2, parentLevel - 1);
+
+                    const parentLeft = (parentPosition - 0.5) * parentHorizontalSpacing + 20;
+                    const parentTop = (parentLevel - 1) * 80 + 40;
+
+                    const edge = document.createElement('div');
+                    edge.className = 'edge';
+
+                    // 计算边的长度和角度
+                    const dx = left + 20 - parentLeft;
+                    const dy = top - parentTop;
+                    const length = Math.sqrt(dx * dx + dy * dy);
+                    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+                    edge.style.width = `${length}px`;
+                    edge.style.left = `${parentLeft}px`;
+                    edge.style.top = `${parentTop}px`;
+                    edge.style.transform = `rotate(${angle}deg)`;
+
+                    heapTree.appendChild(edge);
+                }
+            }
+        }
+
+        // 初始化页面
+        init();
+    </script>
+</body>
+</html>

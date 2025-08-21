@@ -1,6 +1,9 @@
 package main
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 // TODO use quickcheck test
 // TODO build heap from top to bottom
@@ -12,7 +15,6 @@ func main() {
 	for _, n := range lst {
 		h.Insert(n)
 	}
-	dumpgraph(h, "/tmp/heap3.dot")
 }
 
 type MaxHeap struct {
@@ -30,6 +32,7 @@ func (h *MaxHeap) Insert(v int) {
 	h.size++
 	h.pq[h.size] = v
 	h.swim(h.size)
+	dumpgraph(h, fmt.Sprintf("tmp/heap-%d.dot", h.size))
 }
 
 func (h *MaxHeap) DelMax() int {
