@@ -7,6 +7,12 @@ import (
 	"unicode"
 )
 
+// TODO try
+// https://github.com/yanyiwu/gojieba
+// https://github.com/huichen/sego
+// https://github.com/go-ego/gse
+// https://github.com/go-ego/riot
+
 // 倒排索引结构：键为单词，值为包含该单词的文档ID列表
 type InvertedIndex map[string][]int
 
@@ -95,7 +101,7 @@ func main() {
 	}
 
 	// 测试检索功能
-	testWords := []string{"go", "google", "programming", "python", "language", "hiiii"}
+	testWords := []string{"go", "google", "programming", "python", "language", "hiiii", "simple and"}
 	for _, word := range testWords {
 		docs := index.Search(word)
 		fmt.Printf("包含单词 '%s' 的文档ID: %v\n", word, dumpjson(findDocs(docs)))
