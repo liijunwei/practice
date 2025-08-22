@@ -41,6 +41,10 @@ func (h *MaxHeap) DelMax() int {
 	return max
 }
 
+func (h *MaxHeap) Size() int {
+	return h.size
+}
+
 func (h *MaxHeap) swim(k int) {
 	for k > 1 && h.less(parent(k), k) {
 		h.exch(parent(k), k)
