@@ -38,7 +38,6 @@ func dumpgraph(heap *MaxHeap, dotfilename string) {
 	boom(os.WriteFile(dotfilename, []byte(content.String()), 0644))
 	boom(exec.Command("dot", "-Tsvg", dotfilename, "-o", svgfilename).Run())
 	boom(exec.Command("open", svgfilename).Run())
-	println(dotfilename)
 	println(svgfilename)
 }
 

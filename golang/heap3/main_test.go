@@ -31,11 +31,12 @@ func TestHeapProperty1(t *testing.T) {
 		for range size {
 			heap.Insert(rand.Intn(100))
 		}
+		//dumpgraph(heap, fmt.Sprintf("/tmp/heap%d.dot", size))
 		return heap.Size() == size
 	}
 
 	err := quick.Check(checkHeapSize, &quick.Config{
-		MaxCount: 100000,
+		MaxCount: 10_0000,
 		Values:   valueGen,
 	})
 
