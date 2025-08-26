@@ -1,10 +1,5 @@
 package main
 
-import (
-	"fmt"
-	"math"
-)
-
 // TODO use quickcheck test
 // TODO build heap from top to bottom
 // TODO build heap from bottom to top
@@ -32,13 +27,12 @@ func (h *MaxHeap) Insert(v int) {
 	h.size++
 	h.pq[h.size] = v
 	h.swim(h.size)
-	dumpgraph(h, fmt.Sprintf("tmp/heap-%d.dot", h.size))
+	// dumpgraph(h, fmt.Sprintf("tmp/heap-%d.dot", h.size))
 }
 
 func (h *MaxHeap) DelMax() int {
 	max := h.pq[1]
 	h.exch(1, h.size)
-	h.pq[h.size+1] = int(math.Inf(-1))
 	h.size--
 	h.sink(1)
 	return max
@@ -46,6 +40,10 @@ func (h *MaxHeap) DelMax() int {
 
 func (h *MaxHeap) Size() int {
 	return h.size
+}
+
+func (h *MaxHeap) Empty() bool {
+	return h.Size() == 0
 }
 
 func (h *MaxHeap) swim(k int) {
