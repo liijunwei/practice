@@ -18,6 +18,51 @@ func TestFoo(t *testing.T) {
 
 // TODO add more property tests
 
+func TestLevelOrder(t *testing.T) {
+	h := NewMaxHeap(10)
+
+	// 测试空堆
+	result := h.LevelOrder()
+	require.Empty(t, result)
+
+	// 插入一些元素
+	values := []int{10, 5, 15, 3, 7, 12, 20}
+	for _, v := range values {
+		h.Insert(v)
+	}
+
+	// 获取层序遍历结果
+	levelOrder := h.LevelOrder()
+
+	// 验证结果长度
+	require.Equal(t, len(values), len(levelOrder))
+
+	// 验证堆性质：父节点应该大于等于子节点
+	for i := 1; i <= len(levelOrder)/2; i++ {
+		parent := levelOrder[i-1]
+
+		// 检查左子节点
+		leftChild := 2 * i
+		if leftChild <= len(levelOrder) {
+			require.GreaterOrEqual(t, parent, levelOrder[leftChild-1],
+				"父节点 %d 应该大于等于左子节点 %d", parent, levelOrder[leftChild-1])
+		}
+
+		// 检查右子节点
+		rightChild := 2*i + 1
+		if rightChild <= len(levelOrder) {
+			require.GreaterOrEqual(t, parent, levelOrder[rightChild-1],
+				"父节点 %d 应该大于等于右子节点 %d", parent, levelOrder[rightChild-1])
+		}
+	}
+
+	// 验证根节点是最大值
+	maxVal := levelOrder[0]
+	for _, v := range levelOrder {
+		require.LessOrEqual(t, v, maxVal, "根节点应该是最大值")
+	}
+}
+
 func TestHeapProperty1(t *testing.T) {
 	skipCount := 0
 	passCount := 0

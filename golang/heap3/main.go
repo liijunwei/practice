@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // TODO use quickcheck test
 // TODO build heap from top to bottom
 // TODO build heap from bottom to top
@@ -10,6 +12,10 @@ func main() {
 	for _, n := range lst {
 		h.Insert(n)
 	}
+
+	// 演示 LevelOrder 方法
+	fmt.Println("堆的层序遍历结果:", h.LevelOrder())
+	// dumpgraph(h, fmt.Sprintf("tmp/heap-%d.dot", h.size))
 }
 
 type MaxHeap struct {
@@ -44,6 +50,19 @@ func (h *MaxHeap) Size() int {
 
 func (h *MaxHeap) Empty() bool {
 	return h.Size() == 0
+}
+
+// LevelOrder 返回堆的层序遍历结果
+func (h *MaxHeap) LevelOrder() []int {
+	if h.Empty() {
+		return []int{}
+	}
+
+	result := make([]int, h.size)
+	for i := 1; i <= h.size; i++ {
+		result[i-1] = h.pq[i]
+	}
+	return result
 }
 
 func (h *MaxHeap) swim(k int) {
