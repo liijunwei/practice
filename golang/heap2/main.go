@@ -58,6 +58,10 @@ func (h *MaxHeap) DelMax() int {
 	return max
 }
 
+func (h *MaxHeap) Empty() bool {
+	return len(h.pq) == 1
+}
+
 func (h *MaxHeap) swim(k int) {
 	assert(k >= 0 && k <= h.len())
 	for k > 1 && h.less(parent(k), k) {
