@@ -5,12 +5,15 @@ go 1.24.0
 require (
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/davecgh/go-spew v1.1.1
+	github.com/google/uuid v1.6.0
 	github.com/lib/pq v1.10.9
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/peterldowns/pgtestdb v0.1.1
 	github.com/prometheus/client_golang v1.21.0
 	github.com/redis/go-redis/v9 v9.7.1
+	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.10.0
+	github.com/tidwall/tinyqueue v0.1.1
 	golang.org/x/sync v0.8.0
 	golang.org/x/tour v0.1.0
 )
