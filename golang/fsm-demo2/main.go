@@ -34,9 +34,14 @@ func newOrderPayment() *orderPayment {
 	payment.AddTransition("completed", "refund", "refunded")
 
 	och := NewOrchestrator()
+
+	// 当 order 触发 pay 时，让 payment 执行 process
 	och.Wire("order", "pay", "payment", "process", nil)
+	// 当 payment 触发 succeed 时，让 order 执行 ship
 	och.Wire("payment", "succeed", "order", "ship", nil)
+	// 当 payment 触发 fail 时，让 order 执行 cancel
 	och.Wire("payment", "fail", "order", "cancel", nil)
+	// 当 order 触发 cancel 时，让 payment 执行 refund — 但仅在 payment 已完成时
 	och.Wire("order", "cancel", "payment", "refund", func() bool {
 		return payment.Current() == "completed"
 	})
@@ -95,8 +100,15 @@ func NewOrchestrator() *Orchestrator {
 	return &Orchestrator{fsms: map[string]*FSM{}}
 }
 
-// Wire registers a cross-FSM trigger: when srcFSM fires srcEvent,
-// dstFSM receives dstEvent. An optional guard can veto the trigger.
+// Wire 注册一条跨 FSM 的连线:
+//
+//	Wire(srcFSM, srcEvent, dstFSM, dstEvent, guard)
+//	     ↑       ↑         ↑       ↑        ↑
+//	   当这个   触发      这个    执行    可选条件
+//	   FSM    该事件      FSM    该事件
+//
+// 读作: 当 srcFSM 触发 srcEvent 时，让 dstFSM 执行 dstEvent。
+// guard 返回 false 则跳过。
 func (o *Orchestrator) Wire(srcFSM string, srcEvent Event, dstFSM string, dstEvent Event, guard func() bool) {
 	o.wires = append(o.wires, wire{srcFSM, srcEvent, dstFSM, dstEvent, guard})
 }
@@ -124,8 +136,8 @@ func (o *Orchestrator) AddFSM(name string, fsm *FSM) {
 	})
 }
 
-// Mermaid returns a mermaid stateDiagram-v2 showing all FSMs and cross-FSM wires.
-// Copy the output into any mermaid renderer.
+// Mermaid returns a mermaid stateDiagram-v2 showing each FSM in its own
+// composite-state box, with cross-FSM wires between boxes.
 func (o *Orchestrator) Mermaid() string {
 	var b strings.Builder
 	b.WriteString("```mermaid\n")
