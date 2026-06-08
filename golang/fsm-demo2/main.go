@@ -59,9 +59,9 @@ func orchestrated() {
 	fmt.Println("--- Orchestrated: Order + Payment ---")
 
 	// Happy path
-	fmt.Println("= Happy path =")
 	op := newOrderPayment()
 	fmt.Print(op.och.Mermaid())
+	fmt.Println("= Happy path =")
 	fmt.Printf("  order=%-10s payment=%s\n", op.order.Current(), op.payment.Current())
 	op.order.Trigger("pay")
 	fmt.Printf("  order=%-10s payment=%s\n", op.order.Current(), op.payment.Current())
