@@ -9,7 +9,8 @@ type fakeClock struct {
 	t time.Time
 }
 
-func (fc *fakeClock) Now() time.Time { return fc.t }
+func (fc *fakeClock) Now() time.Time            { return fc.t }
+func (fc *fakeClock) Add(d time.Duration)   { fc.t = fc.t.Add(d) }
 
 func TestRateLimiter_Allow(t *testing.T) {
 	clock := &fakeClock{t: time.Unix(0, 0)}
@@ -27,8 +28,8 @@ func TestRateLimiter_Allow(t *testing.T) {
 		t.Fatal("4th request should be denied")
 	}
 
-	// Advance past the window so old timestamps expire.
-	clock.t = time.Unix(2, 0)
+	// Add past the window so old timestamps expire.
+	clock.Add(2 * time.Second)
 	if !rl.Allow() {
 		t.Fatal("request after window should be allowed")
 	}

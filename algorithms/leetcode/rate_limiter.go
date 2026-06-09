@@ -8,11 +8,13 @@ import (
 // Clock is an interface for getting the current time, making RateLimiter testable.
 type Clock interface {
 	Now() time.Time
+	Add(d time.Duration)
 }
 
 type realClock struct{}
 
-func (realClock) Now() time.Time { return time.Now() }
+func (realClock) Now() time.Time           { return time.Now() }
+func (realClock) Add(time.Duration) {} // no-op: can't advance real time
 
 // RateLimiter implements a sliding-window rate limiter.
 type RateLimiter struct {
