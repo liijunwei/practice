@@ -15,29 +15,28 @@ func TestRateLimiter_Allow(t *testing.T) {
 	clock := &fakeClock{t: time.Unix(0, 0)}
 	rl := NewRateLimiter(3, time.Second, clock)
 
-	// First 3 requests should be allowed
-	for i := range 3 {
+	// Fill the window.
+	for range 3 {
 		if !rl.Allow() {
-			t.Errorf("request %d should be allowed", i)
+			t.Fatal("first 3 requests should be allowed")
 		}
 	}
 
-	// 4th request should be denied
+	// Window full.
 	if rl.Allow() {
-		t.Error("4th request should be denied")
+		t.Fatal("4th request should be denied")
 	}
 
-	// Advance clock past the window so old timestamps expire.
+	// Advance past the window so old timestamps expire.
 	clock.t = time.Unix(2, 0)
 	if !rl.Allow() {
-		t.Error("request in new window should be allowed")
+		t.Fatal("request after window should be allowed")
 	}
 }
 
 func TestRateLimiter_NilClockDefaults(t *testing.T) {
 	rl := NewRateLimiter(5, time.Second, nil)
-	// Should not panic, uses real clock
 	if !rl.Allow() {
-		t.Error("first request with real clock should be allowed")
+		t.Fatal("first request with real clock should be allowed")
 	}
 }
