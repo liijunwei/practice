@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 1 — An Index Turns a Scan Into a Lookup</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <span class="eyebrow">MySQL Indexes · Lesson 1</span>
+  <h1>An index turns a scan into a lookup</h1>
+  <p class="lede">The single most useful mental model in MySQL performance: without an index a query reads <em>every</em> row; with one it jumps straight to the rows it needs. Today you'll prove that with your own <code>EXPLAIN</code>.</p>
+
+  <div class="win">
+    <span class="label">The win</span>
+    <p>By the end you'll be able to (1)&nbsp;read the <code>type</code> column of an <code>EXPLAIN</code>, and (2)&nbsp;watch a query go from <code>type=ALL</code> (full table scan) to <code>type=ref</code> (index lookup) by adding a single index.</p>
+  </div>
+
+  <h2 id="model">The mental model</h2>
+  <p>A table is just a pile of rows in no particular order. To find every row where <code>name = 'person_50000'</code>, MySQL with no index has one option: start at the first row and check every single row to the end. That's a <strong>full table scan</strong> — in <code>EXPLAIN</code>, <code>type = ALL</code>. The work grows in proportion to the table size.</p>
+  <p>An <a href="../reference/glossary.html"><strong>index</strong></a> is a separate, <em>sorted</em> copy of one (or more) columns, where each entry points back to the rows holding that value. Because it's sorted, MySQL can jump straight to the matching entries and follow their pointers — an <strong>index lookup</strong> (a "seek"). In <code>EXPLAIN</code> that's <code>type = ref</code>, or <code>type = const</code> when the match is on a primary key / unique column and returns exactly one row.</p>
+  <p>The <code>type</code> column is your scoreboard. Roughly, best to worst:</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>type</th><th>What it means</th></tr>
+      <tr><td class="hl-good">const</td><td>Exact match on a <code>PRIMARY KEY</code> / <code>UNIQUE</code> — one row, read once.</td></tr>
+      <tr><td class="hl-good">ref</td><td>Index lookup on a non-unique index — all rows with that value.</td></tr>
+      <tr><td>range</td><td>A span of the index (<code>&gt;</code>, <code>&lt;</code>, <code>BETWEEN</code>, <code>IN</code>).</td></tr>
+      <tr><td class="hl-bad">ALL</td><td>Full table scan — read every row. Usually the thing you're fixing.</td></tr>
+    </table>
+  </div>
+
+  <p class="note"><span class="label">Why this matters</span>When a production query is slow, the first thing you ask is: "what's the <code>type</code>?" If it says <code>ALL</code>, you've usually found the problem. <a href="https://dev.mysql.com/doc/refman/8.0/en/mysql-indexes.html">MySQL docs — "How MySQL Uses Indexes"</a></p>
+
+  <h2 id="do-it">Do it on your machine</h2>
+  <p>Run each block in your <code>mysql</code> client. We'll make a table with <strong>100,000</strong> rows, query it with no index, then add one and watch the plan change.</p>
+
+  <h3>1. Create the table</h3>
+<pre><code>CREATE TABLE people (
+  id   INT UNSIGNED     NOT NULL AUTO_INCREMENT,
+  name VARCHAR(50)      NOT NULL,
+  age  TINYINT UNSIGNED NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB;</code></pre>
+
+  <h3>2. Fill it with 100,000 rows</h3>
+<pre><code>SET SESSION cte_max_recursion_depth = 1000000;
+
+INSERT INTO people (name, age)
+WITH RECURSIVE seq (n) AS (
+  SELECT 1
+  UNION ALL
+  SELECT n + 1 FROM seq WHERE n &lt; 100000
+)
+SELECT CONCAT('person_', n), (n % 80) + 1
+FROM seq;</code></pre>
+
+  <h3>3. Query a column that has no index</h3>
+  <p><code>name</code> has no index (only <code>id</code>, the primary key, does). Predict what <code>type</code> will be, then check:</p>
+<pre><code>EXPLAIN SELECT * FROM people WHERE name = 'person_50000';</code></pre>
+
+  <p>You should see <code>type = ALL</code>, <code>key = NULL</code>, and <code>rows ≈ 100000</code>. MySQL has no shortcut — it will read the whole table to find one row.</p>
+
+  <h3>4. Give it an index, then re-check</h3>
+<pre><code>CREATE INDEX idx_name ON people (name);
+
+EXPLAIN SELECT * FROM people WHERE name = 'person_50000';</code></pre>
+
+  <p>Now the plan flips. Expected:</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th></th><th>type</th><th>key</th><th>rows</th></tr>
+      <tr><td>no index</td><td class="hl-bad">ALL</td><td>NULL</td><td>~100000</td></tr>
+      <tr><td>with index</td><td class="hl-good">ref</td><td>idx_name</td><td>1</td></tr>
+    </table>
+  </div>
+
+  <p>Same query, same answer — but now MySQL reads one row instead of 100,000.</p>
+
+  <h3>5. Compare with the primary key</h3>
+<pre><code>EXPLAIN SELECT * FROM people WHERE id = 50000;</code></pre>
+  <p>This returns <code>type = const</code>: a unique, exact match on the primary key — the fastest lookup there is. That's your reference point for "optimal."</p>
+
+  <p class="note"><span class="label">Optional: see real timing</span>On MySQL 8.0.18+ run <code>EXPLAIN ANALYZE SELECT * FROM people WHERE name = 'person_50000';</code> before and after the index. It prints <em>actual</em> time and rows, not estimates.</p>
+
+  <h2 id="check">Self-check</h2>
+  <p>Answer from memory — don't scroll up.</p>
+
+  <div class="quiz">
+    <div class="question" data-correct="a">
+      <p class="q">Without an index, a query that filters on one column does a…</p>
+      <button class="option" data-value="a">full table scan</button>
+      <button class="option" data-value="b">primary key lookup</button>
+      <button class="option" data-value="c">covering index read</button>
+      <button class="option" data-value="d">range index scan</button>
+      <p class="expl">Right — no index means MySQL reads every row start to finish: a <strong>full table scan</strong> (<code>type=ALL</code>).</p>
+    </div>
+
+    <div class="question" data-correct="a">
+      <p class="q">In EXPLAIN, the <code>type</code> value meaning "exact match on a unique / primary-key column" is…</p>
+      <button class="option" data-value="a">const</button>
+      <button class="option" data-value="b">ref</button>
+      <button class="option" data-value="c">range</button>
+      <button class="option" data-value="d">ALL</button>
+      <p class="expl"><code>const</code> = one row, read once, from a <code>PRIMARY KEY</code>/<code>UNIQUE</code> equality. <code>ref</code> is the non-unique case.</p>
+    </div>
+  </div>
+
+  <div class="source">
+    <span class="label">Primary source</span>
+    <p>Read <a href="https://dev.mysql.com/doc/refman/8.0/en/mysql-indexes.html">"How MySQL Uses Indexes"</a> in the MySQL 8.0 Reference Manual — it's short and is the ground truth for when an index is used. For the "why" behind everything, Markus Winand's <a href="https://use-the-index-luke.com/">Use The Index, Luke!</a> is the classic.</p>
+  </div>
+
+  <div class="ask">
+    <span class="label">Ask your teacher</span>
+    <p>Stuck, or something surprised you? Ask me anything — that's what I'm here for. Good follow-ups: <em>"Why did my EXPLAIN still show ALL after I added the index?"</em> or <em>"What does the <code>rows</code> estimate actually mean?"</em></p>
+  </div>
+
+  <div class="nav">
+    <a href="../reference/glossary.html">← Glossary</a>
+    <a href="#">Lesson 2 → (coming soon)</a>
+  </div>
+  <p class="foot">MySQL Indexes — a course built around your goal of debugging slow queries.</p>
+
+</div>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

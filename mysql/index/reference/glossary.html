@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glossary — MySQL Indexes</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <span class="eyebrow">Reference</span>
+  <h1>MySQL Indexes — Glossary</h1>
+  <p class="lede">The canonical language for this course. Terms are added only after you've met them in a lesson. Lesson 1 introduces the first five.</p>
+
+  <div class="term">
+    <h3>Index</h3>
+    <p class="def">A separate, sorted copy of one or more columns whose entries point back to the table rows that hold each value, letting MySQL jump straight to matching rows instead of scanning them all.</p>
+    <p class="avoid"><em>Avoid:</em> cache, lookup table</p>
+  </div>
+
+  <div class="term">
+    <h3>Full table scan</h3>
+    <p class="def">Reading every row in a table from first to last to find matches. In <code>EXPLAIN</code> this is <code>type = ALL</code>.</p>
+    <p class="avoid"><em>Avoid:</em> brute-force search</p>
+  </div>
+
+  <div class="term">
+    <h3>Index lookup (seek)</h3>
+    <p class="def">Using a sorted index to jump directly to matching entries and follow their pointers, instead of scanning. In <code>EXPLAIN</code> this is <code>type = ref</code> (non-unique) or <code>const</code> (unique/PK exact match).</p>
+    <p class="avoid"><em>Avoid:</em> fast search, jump</p>
+  </div>
+
+  <div class="term">
+    <h3>EXPLAIN</h3>
+    <p class="def">A statement MySQL provides that prints the query execution plan — how the optimizer intends to access each table and index — without running the query.</p>
+    <p class="avoid"><em>Avoid:</em> plan dump</p>
+  </div>
+
+  <div class="term">
+    <h3>Access type</h3>
+    <p class="def">The <code>type</code> column of <code>EXPLAIN</code>, describing how MySQL reaches the rows. Best to worst: <code>const</code> → <code>ref</code> → <code>range</code> → <code>ALL</code>.</p>
+    <p class="avoid"><em>Avoid:</em> join type</p>
+  </div>
+
+  <div class="nav">
+    <a href="../lessons/0001-index-turns-a-scan-into-a-lookup.html">← Lesson 1</a>
+    <a href="../lessons/0001-index-turns-a-scan-into-a-lookup.html">More lessons →</a>
+  </div>
+
+</div>
+</body>
+</html>
