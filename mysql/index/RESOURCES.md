@@ -14,6 +14,9 @@
 - [Doc: MySQL 8.0 Reference Manual — "Multiple-Column Indexes"](https://dev.mysql.com/doc/refman/8.0/en/multiple-column-indexes.html)
   Leftmost-prefix rules and column ordering for composite indexes. Use for: composite index design.
 
+- [Use The Index, Luke! — "Concatenated keys"](https://use-the-index-luke.com/sql/where-clause/the-equals-operator/concatenated-keys)
+  The classic phone-book intuition for composite indexes and column order. Use for: teaching the *why* behind leftmost prefix.
+
 - [Doc: MySQL 8.0 Reference Manual — "Understanding the Query Execution Plan"](https://dev.mysql.com/doc/refman/8.0/en/execution-plan-information.html)
   How to read `EXPLAIN`. Use for: interpreting plans end to end.
 

@@ -43,9 +43,27 @@
     <p class="avoid"><em>Avoid:</em> join type</p>
   </div>
 
+  <div class="term">
+    <h3>Composite index (multi-column index)</h3>
+    <p class="def">An index on more than one column. Its entries are sorted by the first column, then the second, then the third — like a phone book sorted by last name, then first name.</p>
+    <p class="avoid"><em>Avoid:</em> combined index, concatenated index</p>
+  </div>
+
+  <div class="term">
+    <h3>Leftmost-prefix rule</h3>
+    <p class="def">A composite index <code>(a, b, c)</code> can serve a lookup only if the query's equality conditions use its columns from the left — <code>a</code>, or <code>a,b</code>, or <code>a,b,c</code>. It can never serve <code>b</code> alone, because the entries aren't sorted that way.</p>
+    <p class="avoid"><em>Avoid:</em> column-order rule, prefix matching</p>
+  </div>
+
+  <div class="term">
+    <h3>Filesort</h3>
+    <p class="def">What MySQL does when no index produces rows in the needed order: it collects them and sorts them itself. Shows as <code>Using filesort</code> in <code>EXPLAIN</code>'s <code>Extra</code> column — the thing a well-ordered index eliminates.</p>
+    <p class="avoid"><em>Avoid:</em> disk sort (it often happens in memory)</p>
+  </div>
+
   <div class="nav">
     <a href="../lessons/0001-index-turns-a-scan-into-a-lookup.html">← Lesson 1</a>
-    <a href="../lessons/0001-index-turns-a-scan-into-a-lookup.html">More lessons →</a>
+    <a href="../lessons/0002-the-leftmost-prefix-rule.html">Lesson 2 →</a>
   </div>
 
 </div>

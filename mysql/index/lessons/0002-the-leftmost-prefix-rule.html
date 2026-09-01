@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 2 — The Leftmost-Prefix Rule</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <span class="eyebrow">MySQL Indexes · Lesson 2</span>
+  <h1>A composite index is sorted like a phone book</h1>
+  <p class="lede">An index on <code>(a, b)</code> is sorted by <code>a</code> first, then by <code>b</code> — exactly like a phone book: last name, then first name. That ordering is the whole game. It means you can search from the left, but never skip the left. This is the <strong>leftmost-prefix rule</strong>, and it decides whether your composite index actually helps.</p>
+
+  <div class="win">
+    <span class="label">The win</span>
+    <p>By the end you'll (1)&nbsp;state the leftmost-prefix rule in one sentence, (2)&nbsp;predict which <code>WHERE</code> clauses can use a composite index, and (3)&nbsp;add the index that filters <em>and</em> sorts a query — turning a full scan with a sort into a lookup with none.</p>
+  </div>
+
+  <h2 id="model">The mental model: a phone book</h2>
+  <p>Last lesson an index was a <em>sorted copy of one column</em>. A <strong>composite index</strong> (a <a href="../reference/glossary.html">multi-column index</a>) is a sorted copy of several columns — sorted by the first, then the second, then the third. Picture a phone book:</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>last_name</th><th>first_name</th></tr>
+      <tr><td>Adams</td><td>Alice</td></tr>
+      <tr><td>Adams</td><td>Bob</td></tr>
+      <tr><td>Smith</td><td>Carol</td></tr>
+      <tr><td>Smith</td><td>Dan</td></tr>
+      <tr><td>Smith</td><td>Eve</td></tr>
+      <tr><td>Young</td><td>Frank</td></tr>
+    </table>
+  </div>
+
+  <p>Sorted by <code>last_name</code>; and <em>within</em> the same last name, sorted by <code>first_name</code>. Two consequences fall straight out of this:</p>
+
+  <ul>
+    <li><strong>All the "Smith"s are together</strong> — so you can jump straight to them by last name.</li>
+    <li><strong>The "Smith"s are already in first-name order</strong> — so if you want Smiths sorted by first name, it's free.</li>
+  </ul>
+
+  <p>But notice what you <em>can't</em> do: jump to "everyone named Eve." The book isn't sorted by first name, so Eve lives scattered across Adams, Smith, Young… To find all Eves you'd have to read the whole book.</p>
+
+  <p class="note"><span class="label">The rule</span>A composite index <code>(a, b, c)</code> can serve a lookup only if your equality conditions use its columns <strong>from the left</strong>: <code>a</code>, or <code>a,b</code>, or <code>a,b,c</code>. It can never serve <code>b</code> alone, or <code>b,c</code>, because the entries aren't sorted that way. That's the <strong>leftmost-prefix rule</strong>. <a href="https://dev.mysql.com/doc/refman/8.0/en/multiple-column-indexes.html">MySQL docs — "Multiple-Column Indexes"</a></p>
+
+  <h2 id="table">Which clauses can use it</h2>
+  <p>For an index on <code>(customer_id, created_at)</code>:</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>WHERE clause</th><th>Uses the index?</th></tr>
+      <tr><td><code>customer_id = 7</code></td><td class="hl-good">✓ leftmost prefix</td></tr>
+      <tr><td><code>customer_id = 7 AND created_at = '…'</code></td><td class="hl-good">✓ full prefix</td></tr>
+      <tr><td><code>created_at = '…'</code></td><td class="hl-bad">✗ skips the leftmost</td></tr>
+      <tr><td><code>created_at = '…' AND customer_id = 7</code></td><td class="hl-good">✓ order doesn't matter</td></tr>
+    </table>
+  </div>
+
+  <p>That last row is worth saying out loud: the optimizer doesn't care how you <em>write</em> your equality conditions — it reorders them. What it cares about is whether the leftmost column is <em>present</em>. So <code>WHERE created_at = '…' AND customer_id = 7</code> uses the index just fine, while <code>WHERE created_at = '…'</code> alone cannot.</p>
+
+  <h2 id="payoff">The payoff: filtering and sorting in one shot</h2>
+  <p>Here's the query that makes column order matter in production — "a customer's most recent orders":</p>
+  <pre><code>SELECT * FROM orders
+WHERE customer_id = 7
+ORDER BY created_at DESC
+LIMIT 10;</code></pre>
+
+  <p>With no index, MySQL must (a)&nbsp;read every row to find customer 7's, then (b)&nbsp;<strong>sort</strong> those rows by <code>created_at</code>. That second step shows up in <code>EXPLAIN</code> as <code>Using filesort</code> — the telltale sign of a sort MySQL has to do itself. With an index on <code>(customer_id, created_at)</code>, both steps vanish: it jumps to customer 7's entries, and they're <em>already in <code>created_at</code> order</em>. Same trick as the phone book — the Smiths come pre-sorted by first name.</p>
+
+  <h2 id="do-it">Do it on your machine</h2>
+  <p>Fresh table this time (the <code>people</code> table from last lesson is still around if you want to compare). We'll make <strong>100,000 orders</strong> across 50 customers.</p>
+
+  <h3>1. Create the table</h3>
+<pre><code>CREATE TABLE orders (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  customer_id INT UNSIGNED NOT NULL,
+  created_at  DATETIME     NOT NULL,
+  amount      INT UNSIGNED NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB;</code></pre>
+
+  <h3>2. Fill it with 100,000 rows (2,000 per customer)</h3>
+<pre><code>SET SESSION cte_max_recursion_depth = 1000000;
+
+INSERT INTO orders (customer_id, created_at, amount)
+WITH RECURSIVE seq (n) AS (
+  SELECT 1
+  UNION ALL
+  SELECT n + 1 FROM seq WHERE n &lt; 100000
+)
+SELECT
+  (n % 50) + 1,                                  -- customer_id 1..50
+  TIMESTAMP('2020-01-01') + INTERVAL n MINUTE,   -- spreading dates
+  (n * 7) % 900 + 1
+FROM seq;</code></pre>
+
+  <h3>3. Run the slow query — no index yet</h3>
+<pre><code>EXPLAIN SELECT * FROM orders
+WHERE customer_id = 7
+ORDER BY created_at DESC
+LIMIT 10;</code></pre>
+
+  <p>Expected: <code>type = ALL</code>, <code>key = NULL</code>, and in the <code>Extra</code> column, <code>Using filesort</code>. MySQL reads all 100,000 rows and sorts them to find 10.</p>
+
+  <h3>4. Add the composite index, re-check</h3>
+<pre><code>CREATE INDEX idx_cust_created ON orders (customer_id, created_at);
+
+EXPLAIN SELECT * FROM orders
+WHERE customer_id = 7
+ORDER BY created_at DESC
+LIMIT 10;</code></pre>
+
+  <p>Now the plan flips. Expected:</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th></th><th>type</th><th>key</th><th>Extra</th></tr>
+      <tr><td>no index</td><td class="hl-bad">ALL</td><td>NULL</td><td>Using filesort</td></tr>
+      <tr><td>with index</td><td class="hl-good">ref</td><td>idx_cust_created</td><td><em>(no filesort)</em></td></tr>
+    </table>
+  </div>
+
+  <p>The <code>Using filesort</code> is gone because the index hands back customer 7's rows already ordered by <code>created_at</code>. Same answer, no sort.</p>
+
+  <h3>5. Now test the leftmost-prefix rule</h3>
+  <p>Run each and check the <code>type</code> / <code>key</code>:</p>
+<pre><code>-- full prefix: both columns  → uses idx_cust_created
+EXPLAIN SELECT * FROM orders WHERE customer_id = 7 AND created_at = '2020-01-05';
+
+-- leftmost only: first column  → uses idx_cust_created
+EXPLAIN SELECT * FROM orders WHERE customer_id = 7;
+
+-- skips the leftmost  → type=ALL, ignores the index
+EXPLAIN SELECT * FROM orders WHERE created_at = '2020-01-05';</code></pre>
+
+  <p>The third one is the lesson in miniature: <code>created_at</code> is the second column, so it can't be searched on its own. The index is only sorted by <code>created_at</code> <em>within each customer</em>, never globally. MySQL falls back to a full scan.</p>
+
+  <h2 id="check">Self-check</h2>
+  <p>Answer from memory — don't scroll up.</p>
+
+  <div class="quiz">
+    <div class="question" data-correct="a">
+      <p class="q">An index on <code>(last_name, first_name)</code> is sorted by…</p>
+      <button class="option" data-value="a">last_name, then first_name</button>
+      <button class="option" data-value="b">first_name, then last_name</button>
+      <button class="option" data-value="c">both columns in random order</button>
+      <button class="option" data-value="d">the primary key's sort order</button>
+      <p class="expl">Sorted by the first column; the second is only the tie-breaker — like last name, then first name.</p>
+    </div>
+
+    <div class="question" data-correct="c">
+      <p class="q">With index <code>(customer_id, created_at)</code>, which filter can't use it?</p>
+      <button class="option" data-value="a">WHERE customer_id = 7</button>
+      <button class="option" data-value="b">WHERE customer_id = 7 AND created_at = 'x'</button>
+      <button class="option" data-value="c">WHERE created_at = 'x'</button>
+      <button class="option" data-value="d">WHERE customer_id IN (7, 8)</button>
+      <p class="expl"><code>created_at</code> alone can't be used because it isn't the leftmost column — the index is only sorted by it <em>within</em> each customer.</p>
+    </div>
+
+    <div class="question" data-correct="a">
+      <p class="q">With index <code>(customer_id, created_at)</code>, which query avoids a filesort?</p>
+      <button class="option" data-value="a">WHERE customer_id = 7 ORDER BY created_at</button>
+      <button class="option" data-value="b">WHERE customer_id = 7 ORDER BY amount</button>
+      <button class="option" data-value="c">WHERE created_at &gt; 'x' ORDER BY customer_id</button>
+      <button class="option" data-value="d">WHERE amount &gt; 100 ORDER BY customer_id</button>
+      <p class="expl">Filtering on <code>customer_id</code> and sorting by <code>created_at</code> matches the index order exactly, so rows already come out sorted.</p>
+    </div>
+  </div>
+
+  <div class="source">
+    <span class="label">Primary source</span>
+    <p>Read <a href="https://dev.mysql.com/doc/refman/8.0/en/multiple-column-indexes.html">"Multiple-Column Indexes"</a> in the MySQL 8.0 Reference Manual — it states the leftmost-prefix rule authoritatively. For the "why" and more intuition, Markus Winand's <a href="https://use-the-index-luke.com/sql/where-clause/the-equals-operator/concatenated-keys">"Concatenated keys"</a> chapter in <em>Use The Index, Luke!</em> is the classic.</p>
+  </div>
+
+  <div class="ask">
+    <span class="label">Ask your teacher</span>
+    <p>Stuck, or something surprised you? Ask me anything — that's what I'm here for. Good follow-ups: <em>"What happens if I put <code>created_at</code> first — does the sort still work?"</em> or <em>"Why does <code>IN (7, 8)</code> show <code>type=range</code> instead of <code>ref</code>?"</em></p>
+  </div>
+
+  <div class="nav">
+    <a href="0001-index-turns-a-scan-into-a-lookup.html">← Lesson 1</a>
+    <a href="#">Lesson 3 → (coming soon)</a>
+  </div>
+  <p class="foot">MySQL Indexes — a course built around your goal of debugging slow queries.</p>
+
+</div>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
