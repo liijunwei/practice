@@ -61,9 +61,63 @@
     <p class="avoid"><em>Avoid:</em> disk sort (it often happens in memory)</p>
   </div>
 
+  <div class="term">
+    <h3>Range condition</h3>
+    <p class="def">A comparison that matches a span of the index rather than one value: <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>BETWEEN</code>, <code>LIKE 'x%'</code>, or <code>IN (...)</code>. In a prefix, only equality columns before the first range are used to narrow the search.</p>
+    <p class="avoid"><em>Avoid:</em> inequality</p>
+  </div>
+
+  <div class="term">
+    <h3>key_len</h3>
+    <p class="def">The byte length of the index key actually used, reported in <code>EXPLAIN</code>. Bigger means more prefix columns were consumed — the objective ruler for the leftmost-prefix and range rules.</p>
+    <p class="avoid"><em>Avoid:</em> key size, index width</p>
+  </div>
+
+  <div class="term">
+    <h3>Covering index</h3>
+    <p class="def">An index that contains every column the query needs (in <code>SELECT</code>, <code>WHERE</code>, <code>ORDER BY</code>, <code>GROUP BY</code>), so MySQL answers from the index alone — <code>Using index</code> in <code>EXPLAIN</code> — and never reads the table row.</p>
+    <p class="avoid"><em>Avoid:</em> index-only scan (that's the same idea, vendor-neutral)</p>
+  </div>
+
+  <div class="term">
+    <h3>Index condition pushdown (ICP)</h3>
+    <p class="def">MySQL filtering rows against the index before reading the table row, shown as <code>Using index condition</code> in <code>EXPLAIN</code>. Not the same as covering — ICP still reads the table row for missing columns.</p>
+    <p class="avoid"><em>Avoid:</em> covering index</p>
+  </div>
+
+  <div class="term">
+    <h3>Implicit type conversion</h3>
+    <p class="def">MySQL casting a column's values to match a comparison — e.g. a string column compared to a number literal — which prevents the index from being used. The fix is comparing to a literal of the same type.</p>
+    <p class="avoid"><em>Avoid:</em> silent cast, coercion</p>
+  </div>
+
+  <div class="term">
+    <h3>Cardinality / Selectivity</h3>
+    <p class="def">The number of distinct values in a column, shown as <code>Cardinality</code> in <code>SHOW INDEX</code>. High cardinality means each value matches few rows — a selective, index-worthy filter.</p>
+    <p class="avoid"><em>Avoid:</em> uniqueness</p>
+  </div>
+
+  <div class="term">
+    <h3>Nested-loop join</h3>
+    <p class="def">MySQL's join algorithm: read the driving table one row at a time, and for each row look up the next table by the join key — a lookup that needs an index just like a <code>WHERE</code> column.</p>
+    <p class="avoid"><em>Avoid:</em> loop join</p>
+  </div>
+
+  <div class="term">
+    <h3>Driving table</h3>
+    <p class="def">The first table in a nested-loop join, whose rows are read one at a time while every later table is looked up per row.</p>
+    <p class="avoid"><em>Avoid:</em> outer table</p>
+  </div>
+
+  <div class="term">
+    <h3>eq_ref</h3>
+    <p class="def">An <code>EXPLAIN</code> access type meaning a lookup on a <code>PRIMARY KEY</code>/<code>UNIQUE</code> join key — exactly one row per lookup. The best join access.</p>
+    <p class="avoid"><em>Avoid:</em> unique lookup</p>
+  </div>
+
   <div class="nav">
     <a href="../lessons/0001-index-turns-a-scan-into-a-lookup.html">← Lesson 1</a>
-    <a href="../lessons/0002-the-leftmost-prefix-rule.html">Lesson 2 →</a>
+    <a href="../lessons/0007-joins-and-the-whole-explain.html">Lesson 7 →</a>
   </div>
 
 </div>

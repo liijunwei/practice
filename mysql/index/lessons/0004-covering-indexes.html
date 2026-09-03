@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 4 — Covering Indexes</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <span class="eyebrow">MySQL Indexes · Lesson 4</span>
+  <h1>An index can answer the query by itself</h1>
+  <p class="lede">If the index already holds <em>every</em> column the query needs, MySQL never has to read the table row at all. That's a <strong>covering index</strong> — <code>Using index</code> in <code>EXPLAIN</code>. And in InnoDB, every secondary index secretly carries the primary key, so it covers more than you'd guess.</p>
+
+  <div class="win">
+    <span class="label">The win</span>
+    <p>By the end you'll (1)&nbsp;define a covering index in one sentence, (2)&nbsp;tell <code>Using index</code> from <code>Using index condition</code> in <code>EXPLAIN</code>, and (3)&nbsp;explain why <code>SELECT *</code> defeats coverage.</p>
+  </div>
+
+  <h2 id="model">The model: a phone book with the number printed in it</h2>
+  <p>So far an index points you <em>to</em> a row, then you still go fetch the row. But imagine a phone book where each entry also prints the phone number right there. To look up a number, you never open the main directory — you read the phone book alone.</p>
+
+  <p>A <strong>covering index</strong> is exactly that: an index that contains every column the query needs — across <code>SELECT</code>, <code>WHERE</code>, <code>ORDER BY</code>, and <code>GROUP BY</code>. MySQL can answer the whole query from the index and skip the table entirely. In <code>EXPLAIN</code>'s <code>Extra</code> column, this shows as <code>Using index</code>.</p>
+
+  <p>Here's the part that surprises people: in InnoDB, a <strong>secondary index always stores the primary key</strong> at the end of every entry. An index on <code>(name)</code> is really <code>(name, id)</code> where <code>id</code> is the primary key. So an index "contains" one more column than you declared.</p>
+
+  <p class="note"><span class="label">The trade-off</span>When the query is <em>not</em> covered, MySQL reads the index to find rows, then does a second read of the actual table row for the missing columns. That second read is what covering saves you — it's a real win on wide tables or big result sets. <a href="https://dev.mysql.com/doc/refman/8.0/en/covering-indexes.html">MySQL docs — "Covering Indexes"</a></p>
+
+  <h2 id="do-it">Do it on your machine</h2>
+
+  <h3>1. Create and fill the table</h3>
+<pre><code>CREATE TABLE people (
+  id   INT UNSIGNED     NOT NULL AUTO_INCREMENT,
+  name VARCHAR(50)      NOT NULL,
+  age  TINYINT UNSIGNED NOT NULL,
+  PRIMARY KEY (id),
+  KEY idx_name (name)
+) ENGINE=InnoDB;
+
+SET SESSION cte_max_recursion_depth = 1000000;
+INSERT INTO people (name, age)
+WITH RECURSIVE seq (n) AS (
+  SELECT 1 UNION ALL SELECT n + 1 FROM seq WHERE n &lt; 500
+)
+SELECT CONCAT('person_', n), (n % 80) + 1
+FROM seq;</code></pre>
+
+  <h3>2. Compare three SELECT lists against the same WHERE</h3>
+<pre><code>-- only `name` → everything's in the index
+EXPLAIN SELECT name FROM people WHERE name = 'person_250';
+
+-- `name` + `age` → age is NOT in the index
+EXPLAIN SELECT name, age FROM people WHERE name = 'person_250';
+
+-- `id` + `name` → id is secretly in the index
+EXPLAIN SELECT id, name FROM people WHERE name = 'person_250';</code></pre>
+
+  <p>Expected <code>Extra</code> column:</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>SELECT list</th><th>Extra</th><th>What it means</th></tr>
+      <tr><td><code>name</code></td><td class="hl-good">Using index</td><td>Covered — read the index only, no table row.</td></tr>
+      <tr><td><code>name, age</code></td><td class="hl-bad">Using index condition</td><td>Needs <code>age</code> → must read the table row.</td></tr>
+      <tr><td><code>id, name</code></td><td class="hl-good">Using index</td><td>Covered — <code>id</code> lives in the index too.</td></tr>
+    </table>
+  </div>
+
+  <p>The middle row is the trap: same <code>WHERE</code>, same index — but <code>age</code> isn't in the index, so MySQL has to go read the table row for it. The <code>Extra</code> column flips from <code>Using index</code> to <code>Using index condition</code> (an "index condition pushdown": it filters against the index, then reads the row).</p>
+
+  <p class="gotcha"><span class="label">Why SELECT * hurts</span><code>SELECT *</code> asks for <em>every</em> column, so the index rarely covers it — even if the <code>WHERE</code> is perfect. When a query is slow, a narrower <code>SELECT</code> list (only the columns you actually need) is often what turns it into a covered, table-free read.</p>
+
+  <h2 id="check">Self-check</h2>
+  <p>Answer from memory — don't scroll up.</p>
+
+  <div class="quiz">
+    <div class="question" data-correct="a">
+      <p class="q">A covering index is one that…</p>
+      <button class="option" data-value="a">holds every column the query needs</button>
+      <button class="option" data-value="b">sits on the primary key column</button>
+      <button class="option" data-value="c">has more than three columns</button>
+      <button class="option" data-value="d">is never written to again</button>
+      <p class="expl">Covered means every column the query touches — SELECT, WHERE, ORDER BY, GROUP BY — is present in the index, so no table read is needed.</p>
+    </div>
+
+    <div class="question" data-correct="c">
+      <p class="q">In InnoDB, a secondary index also secretly stores…</p>
+      <button class="option" data-value="a">the table's total row count</button>
+      <button class="option" data-value="b">every other column value</button>
+      <button class="option" data-value="c">the primary key columns</button>
+      <button class="option" data-value="d">the table's foreign keys</button>
+      <p class="expl">Every secondary index entry ends with the primary key, so the PK is available "for free" in every index.</p>
+    </div>
+
+    <div class="question" data-correct="b">
+      <p class="q">Which EXPLAIN Extra value means "covered, no table read"?</p>
+      <button class="option" data-value="a">Using filesort</button>
+      <button class="option" data-value="b">Using index</button>
+      <button class="option" data-value="c">Using where</button>
+      <button class="option" data-value="d">Using temporary</button>
+      <p class="expl"><code>Using index</code> = the index alone answers the query. <code>Using index condition</code> means it still needs the table row.</p>
+    </div>
+  </div>
+
+  <div class="source">
+    <span class="label">Primary source</span>
+    <p>Read <a href="https://dev.mysql.com/doc/refman/8.0/en/covering-indexes.html">"Covering Indexes"</a> in the MySQL 8.0 Reference Manual, and the <a href="https://dev.mysql.com/doc/refman/8.0/en/index-condition-pushdown-optimization.html">"Index Condition Pushdown Optimization"</a> page to see the <code>Using index condition</code> half. Markus Winand's <a href="https://use-the-index-luke.com/sql/clustering/index-only-scan-covering-index">"Index-Only Scan (Covering Index)"</a> is the companion read.</p>
+  </div>
+
+  <div class="ask">
+    <span class="label">Ask your teacher</span>
+    <p>Stuck, or something surprised you? Ask me anything. Good follow-ups: <em>"Why is a covering index faster even though the index is a whole extra structure?"</em> or <em>"Does <code>ORDER BY</code> need its column in the index to be covered?"</em></p>
+  </div>
+
+  <div class="nav">
+    <a href="0003-a-range-stops-the-prefix.html">← Lesson 3</a>
+    <a href="0005-traps-that-disable-an-index.html">Lesson 5 →</a>
+  </div>
+  <p class="foot">MySQL Indexes — a course built around your goal of debugging slow queries.</p>
+
+</div>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

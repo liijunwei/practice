@@ -17,6 +17,21 @@
 - [Use The Index, Luke! — "Concatenated keys"](https://use-the-index-luke.com/sql/where-clause/the-equals-operator/concatenated-keys)
   The classic phone-book intuition for composite indexes and column order. Use for: teaching the *why* behind leftmost prefix.
 
+- [Doc: MySQL 8.0 Reference Manual — "Range Optimization"](https://dev.mysql.com/doc/refman/8.0/en/range-optimization.html)
+  How MySQL evaluates range conditions and when a range uses the index. Use for: the range-stops-the-prefix rule (Lesson 3).
+
+- [Doc: MySQL 8.0 Reference Manual — "Covering Indexes"](https://dev.mysql.com/doc/refman/8.0/en/covering-indexes.html)
+  When an index can answer a query without reading the table. Use for: covering index / `Using index` (Lesson 4).
+
+- [Doc: MySQL 8.0 Reference Manual — "Type Conversion in Expression Evaluation"](https://dev.mysql.com/doc/refman/8.0/en/type-conversion.html)
+  The cast rules behind the string-column-vs-number trap. Use for: implicit type conversion disabling an index (Lesson 5).
+
+- [Doc: MySQL 8.0 Reference Manual — "SHOW INDEX Statement"](https://dev.mysql.com/doc/refman/8.0/en/show-index.html)
+  The `Cardinality` column for judging selectivity. Use for: index design (Lesson 6).
+
+- [Doc: MySQL 8.0 Reference Manual — "Nested-Loop Join Algorithms"](https://dev.mysql.com/doc/refman/8.0/en/nested-loop-joins.html)
+  How MySQL walks a join as a nested loop. Use for: join-key indexing and reading multi-table plans (Lesson 7).
+
 - [Doc: MySQL 8.0 Reference Manual — "Understanding the Query Execution Plan"](https://dev.mysql.com/doc/refman/8.0/en/execution-plan-information.html)
   How to read `EXPLAIN`. Use for: interpreting plans end to end.
 

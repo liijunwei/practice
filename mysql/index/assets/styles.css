@@ -68,7 +68,7 @@ a:hover { color: var(--accent-strong); border-bottom-color: var(--accent-strong)
 strong { font-weight: 650; }
 
 /* ---------- Callouts ---------- */
-.win, .callout, .note, .source, .ask {
+.win, .callout, .note, .source, .ask, .gotcha {
   border: 1px solid var(--rule);
   border-left: 3px solid var(--accent);
   border-radius: 6px;
@@ -80,11 +80,12 @@ strong { font-weight: 650; }
 .note  { border-left-color: var(--warn); }
 .ask   { border-left-color: var(--bad); }
 .source{ border-left-color: var(--accent-strong); }
+.gotcha{ border-left-color: var(--bad); background: #fbefed; }
 
 .win > :first-child, .callout > :first-child, .note > :first-child,
-.source > :first-child, .ask > :first-child { margin-top: 0; }
+.source > :first-child, .ask > :first-child, .gotcha > :first-child { margin-top: 0; }
 .win > :last-child, .callout > :last-child, .note > :last-child,
-.source > :last-child, .ask > :last-child { margin-bottom: 0; }
+.source > :last-child, .ask > :last-child, .gotcha > :last-child { margin-bottom: 0; }
 
 .label {
   display: block;
@@ -177,6 +178,22 @@ th { background: var(--paper-2); font-weight: 600; }
 .term .def { margin: 0; }
 .term .avoid { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.35rem; }
 .avoid em { font-style: italic; color: var(--ink-faint); }
+
+/* ---------- Numbered procedure (decision recipe) ---------- */
+.steps { list-style: none; counter-reset: step; padding: 0; margin: 1.4rem 0; }
+.steps li {
+  counter-increment: step; position: relative;
+  padding-left: 2.4rem; margin: 0 0 0.9rem;
+}
+.steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 0.05rem;
+  width: 1.55rem; height: 1.55rem;
+  background: var(--accent); color: var(--paper);
+  border-radius: 50%;
+  font-family: var(--sans); font-size: 0.8rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
 
 /* ---------- Print ---------- */
 @media print {

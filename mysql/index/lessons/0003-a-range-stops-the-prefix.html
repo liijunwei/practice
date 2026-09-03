@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 3 — A Range Stops the Prefix</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <span class="eyebrow">MySQL Indexes · Lesson 3</span>
+  <h1>A range stops the prefix</h1>
+  <p class="lede">A composite index <code>(a, b)</code> handles equality on <code>a</code>, then a <em>range</em> on <code>b</code> — but once you hit a range, every column after it can no longer narrow the search. The proof is <code>key_len</code>: it tells you exactly how many columns of the index MySQL is actually using.</p>
+
+  <div class="win">
+    <span class="label">The win</span>
+    <p>By the end you'll (1)&nbsp;state the range rule in one sentence, (2)&nbsp;read <code>key_len</code> to count how many index columns a query uses, and (3)&nbsp;predict — before <code>EXPLAIN</code> — whether <code>a &gt; ? AND b = ?</code> uses both columns or just <code>a</code>.</p>
+  </div>
+
+  <h2 id="model">The model: equality first, range second</h2>
+  <p>Back to the phone book, sorted by <code>(last_name, first_name)</code>. Compare two searches:</p>
+
+  <ul>
+    <li><strong>Equality then range</strong> — "every Smith whose first name is from <em>D</em> to <em>M</em>." Jump to Smith, then walk a span from Dan to M. Both columns do real work. ✓</li>
+    <li><strong>Range then equality</strong> — "everyone from <em>A</em> to <em>M</em> whose first name is Eve." You walk a huge span of last names, and inside that span first names aren't in order — so "Eve" can't help you skip anything. Only the last-name range is used. ✗</li>
+  </ul>
+
+  <p>Generalize that and you get the rule. A <a href="../reference/glossary.html">range condition</a> is <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>BETWEEN</code>, <code>LIKE 'x%'</code>, or <code>IN (...)</code> — anything that matches a <em>span</em> of the index rather than one value.</p>
+
+  <p class="note"><span class="label">The rule</span>In a composite index, MySQL can use <strong>equality columns up to the first range</strong>. The range column itself is used; every column <em>after</em> the first range is not used to narrow the search. <a href="https://dev.mysql.com/doc/refman/8.0/en/multiple-column-indexes.html">MySQL docs — "Multiple-Column Indexes"</a></p>
+
+  <h2 id="key-len">key_len: your ruler for the prefix</h2>
+  <p>How do you <em>know</em> how many columns are being used? The <code>key_len</code> column of <code>EXPLAIN</code> reports the length of the index key actually used, in bytes. More columns used → bigger <code>key_len</code>. For <code>INT UNSIGNED NOT NULL</code> each column is 4 bytes, so:</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>key_len</th><th>Meaning for index (store_id, amount)</th></tr>
+      <tr><td>4</td><td>Only <code>store_id</code> is used.</td></tr>
+      <tr><td>8</td><td>Both <code>store_id</code> and <code>amount</code> are used.</td></tr>
+    </table>
+  </div>
+
+  <p><code>key_len</code> is the objective proof of the leftmost-prefix and range rules — no guessing about whether a column "counts."</p>
+
+  <h2 id="do-it">Do it on your machine</h2>
+  <p>Small table this time — <code>EXPLAIN</code> reports the plan regardless of row count, so we don't need 100,000 rows to see the difference.</p>
+
+  <h3>1. Create the table and index</h3>
+<pre><code>CREATE TABLE sales (
+  id       INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  store_id INT UNSIGNED NOT NULL,
+  amount   INT UNSIGNED NOT NULL,
+  PRIMARY KEY (id),
+  KEY idx_store_amount (store_id, amount)
+) ENGINE=InnoDB;</code></pre>
+
+  <h3>2. Fill it with 500 rows</h3>
+<pre><code>SET SESSION cte_max_recursion_depth = 1000000;
+
+INSERT INTO sales (store_id, amount)
+WITH RECURSIVE seq (n) AS (
+  SELECT 1
+  UNION ALL
+  SELECT n + 1 FROM seq WHERE n &lt; 500
+)
+SELECT (n % 10) + 1, (n * 13) % 500 + 1
+FROM seq;</code></pre>
+
+  <h3>3. Watch key_len as you add columns</h3>
+<pre><code>-- equality on the leftmost column only
+EXPLAIN SELECT * FROM sales WHERE store_id = 5;
+
+-- equality, then a range → both columns used
+EXPLAIN SELECT * FROM sales WHERE store_id = 5 AND amount &gt; 100;
+
+-- range, then equality → only store_id is used
+EXPLAIN SELECT * FROM sales WHERE store_id &gt; 5 AND amount = 100;</code></pre>
+
+  <p>Expected:</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>WHERE clause</th><th>type</th><th>key_len</th><th>columns used</th></tr>
+      <tr><td><code>store_id = 5</code></td><td class="hl-good">ref</td><td>4</td><td>store_id</td></tr>
+      <tr><td><code>store_id = 5 AND amount &gt; 100</code></td><td>range</td><td>8</td><td>store_id + amount</td></tr>
+      <tr><td><code>store_id &gt; 5 AND amount = 100</code></td><td>range</td><td class="hl-bad">4</td><td>store_id only</td></tr>
+    </table>
+  </div>
+
+  <p>The third row is the whole lesson: <code>amount = 100</code> is an equality, but it sits <em>after</em> a range on <code>store_id</code>, so MySQL can't use it to narrow the scan. <code>key_len</code> stays at 4. The <code>amount = 100</code> still gets applied — but as a filter on rows already located, not as part of the index seek.</p>
+
+  <p class="note"><span class="label">One nuance: IN</span><code>IN (5, 6, 7)</code> is a range (several values), but it can be followed by more columns — unlike <code>&gt;</code>. So <code>WHERE store_id IN (5,6) AND amount = 100</code> uses both. <code>IN</code> behaves like a multi-value equality, not an open-ended range.</p>
+
+  <h2 id="check">Self-check</h2>
+  <p>Answer from memory — don't scroll up.</p>
+
+  <div class="quiz">
+    <div class="question" data-correct="a">
+      <p class="q">With index <code>(a, b)</code>, <code>WHERE a = 1 AND b &gt; 5</code> uses…</p>
+      <button class="option" data-value="a">both columns, a and b</button>
+      <button class="option" data-value="b">only the column a</button>
+      <button class="option" data-value="c">only the column b</button>
+      <button class="option" data-value="d">neither column at all</button>
+      <p class="expl">Equality on <code>a</code>, then a range on <code>b</code> — both are used, because the range comes <em>after</em> the equality.</p>
+    </div>
+
+    <div class="question" data-correct="b">
+      <p class="q">With index <code>(a, b)</code>, <code>WHERE a &gt; 1 AND b = 5</code> uses…</p>
+      <button class="option" data-value="a">both columns, a and b</button>
+      <button class="option" data-value="b">only the column a</button>
+      <button class="option" data-value="c">only the column b</button>
+      <button class="option" data-value="d">neither column at all</button>
+      <p class="expl"><code>b</code> sits after a range on <code>a</code>, so it can't narrow the seek — it becomes a filter on rows already found.</p>
+    </div>
+
+    <div class="question" data-correct="c">
+      <p class="q">In EXPLAIN, <code>key_len</code> tells you…</p>
+      <button class="option" data-value="a">the size of the table</button>
+      <button class="option" data-value="b">the number of rows read</button>
+      <button class="option" data-value="c">how many index columns are used</button>
+      <button class="option" data-value="d">whether the query sorts</button>
+      <p class="expl"><code>key_len</code> is the byte length of the index key used — the objective count of how many prefix columns the query actually consumed.</p>
+    </div>
+  </div>
+
+  <div class="source">
+    <span class="label">Primary source</span>
+    <p>Read <a href="https://dev.mysql.com/doc/refman/8.0/en/multiple-column-indexes.html">"Multiple-Column Indexes"</a> for the leftmost-prefix + range rules, and <a href="https://dev.mysql.com/doc/refman/8.0/en/range-optimization.html">"Range Optimization"</a> for the range access method. For intuition, Markus Winand's <a href="https://use-the-index-luke.com/sql/where-clause/searching-for-ranges">"Searching for Ranges"</a> chapter is the classic.</p>
+  </div>
+
+  <div class="ask">
+    <span class="label">Ask your teacher</span>
+    <p>Stuck, or something surprised you? Ask me anything. Good follow-ups: <em>"Why does <code>IN</code> behave like an equality but <code>&gt;</code> doesn't?"</em> or <em>"If I add <code>ORDER BY amount</code> to the range-then-equality query, does it sort for free?"</em></p>
+  </div>
+
+  <div class="nav">
+    <a href="0002-the-leftmost-prefix-rule.html">← Lesson 2</a>
+    <a href="0004-covering-indexes.html">Lesson 4 →</a>
+  </div>
+  <p class="foot">MySQL Indexes — a course built around your goal of debugging slow queries.</p>
+
+</div>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

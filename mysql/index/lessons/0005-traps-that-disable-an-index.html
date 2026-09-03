@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 5 — Traps That Disable an Index</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <span class="eyebrow">MySQL Indexes · Lesson 5</span>
+  <h1>Three ways to silently disable an index</h1>
+  <p class="lede">You can have the perfect index and still get <code>type=ALL</code> — because a small change to the <code>WHERE</code> clause hides the column's raw value from the index. Today: the three traps that do this, and the one-line fix for each.</p>
+
+  <div class="win">
+    <span class="label">The win</span>
+    <p>By the end you'll spot and fix, in any <code>WHERE</code> clause: (1)&nbsp;a function on the column, (2)&nbsp;a leading wildcard, and (3)&nbsp;an implicit type conversion — each of which silently turns an index lookup back into a full scan.</p>
+  </div>
+
+  <h2 id="trap1">Trap 1 — a function on the column</h2>
+  <p>The index stores <code>created_at</code>, not <code>YEAR(created_at)</code>. When you wrap the column in a function, the sorted values the index holds no longer match what you're comparing, so MySQL can't use it.</p>
+
+<pre><code>-- no index (function hides the column)
+EXPLAIN SELECT * FROM customers WHERE YEAR(created_at) = 2020;
+
+-- index used (rewrite as a range over the raw column)
+EXPLAIN SELECT * FROM customers
+WHERE created_at &gt;= '2020-01-01' AND created_at &lt; '2021-01-01';</code></pre>
+
+  <p class="gotcha"><span class="label">The fix</span>Move the function to the <em>other side</em> of the comparison: compare the raw column to a computed boundary. Any function — <code>YEAR()</code>, <code>LOWER()</code>, <code>DATE()</code>, arithmetic like <code>price * 2</code> — has the same effect.</p>
+
+  <h2 id="trap2">Trap 2 — a leading wildcard</h2>
+  <p>An index on a string is sorted from the <em>start</em> of the string. So <code>LIKE 'abc%'</code> (prefix) can use it, but <code>LIKE '%abc'</code> or <code>LIKE '%abc%'</code> (leading wildcard) cannot — MySQL has no idea where the match starts.</p>
+
+<pre><code>-- no index (leading wildcard)
+EXPLAIN SELECT * FROM customers WHERE email LIKE '%example.com';
+
+-- index used (prefix match)
+EXPLAIN SELECT * FROM customers WHERE email LIKE 'user%';</code></pre>
+
+  <p class="gotcha"><span class="label">The fix</span>Search a prefix, not a suffix. If you genuinely need to match the <em>end</em> of a string, the usual tricks are a <a href="https://dev.mysql.com/doc/refman/8.0/en/fulltext-search.html">FULLTEXT index</a> or storing a reversed copy of the column — both out of scope for now, but worth knowing exist.</p>
+
+  <h2 id="trap3">Trap 3 — an implicit type conversion</h2>
+  <p>Comparing a string column to a <em>number</em> forces MySQL to convert the column's values to numbers — row by row — so the index is bypassed. This is the sneakiest trap because the query looks fine.</p>
+
+<pre><code>-- no index (VARCHAR column compared to a number)
+EXPLAIN SELECT * FROM customers WHERE phone = 5550000250;
+
+-- index used (compare to a string, matching the column type)
+EXPLAIN SELECT * FROM customers WHERE phone = '5550000250';</code></pre>
+
+  <p class="gotcha"><span class="label">The fix</span>Compare a column to a literal of the <em>same type</em>. A string column gets a quoted string; an integer column gets a number. The danger is only one direction: string column + number literal.</p>
+
+  <h2 id="do-it">Do it on your machine</h2>
+
+  <h3>1. Create and fill the table</h3>
+<pre><code>CREATE TABLE customers (
+  id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  email      VARCHAR(120) NOT NULL,
+  phone      VARCHAR(20)  NOT NULL,
+  created_at DATETIME     NOT NULL,
+  PRIMARY KEY (id),
+  KEY idx_email (email),
+  KEY idx_phone (phone),
+  KEY idx_created (created_at)
+) ENGINE=InnoDB;
+
+SET SESSION cte_max_recursion_depth = 1000000;
+INSERT INTO customers (email, phone, created_at)
+WITH RECURSIVE seq (n) AS (
+  SELECT 1 UNION ALL SELECT n + 1 FROM seq WHERE n &lt; 500
+)
+SELECT
+  CONCAT('user', n, '@example.com'),
+  CONCAT('555', LPAD(n, 7, '0')),
+  TIMESTAMP('2020-01-01') + INTERVAL n HOUR
+FROM seq;</code></pre>
+
+  <h3>2. Trigger each trap, then fix it</h3>
+  <p>Run the six <code>EXPLAIN</code> statements above (two per trap). Check the <code>type</code> and <code>key</code> columns each time:</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>Trap</th><th>Broken (type=ALL)</th><th>Fixed (uses index)</th></tr>
+      <tr><td>function</td><td><code>YEAR(created_at) = 2020</code></td><td><code>created_at &gt;= '2020-01-01' AND &lt; '2021-01-01'</code></td></tr>
+      <tr><td>wildcard</td><td><code>email LIKE '%example.com'</code></td><td><code>email LIKE 'user%'</code></td></tr>
+      <tr><td>type conv.</td><td><code>phone = 5550000250</code></td><td><code>phone = '5550000250'</code></td></tr>
+    </table>
+  </div>
+
+  <p>All three traps produce the exact same symptom you met in Lesson 1: <code>type=ALL</code>, <code>key=NULL</code> — even though a perfectly good index exists. That's why "which index exists?" is only half the question; "does this <code>WHERE</code> let the index see the column?" is the other half.</p>
+
+  <h2 id="check">Self-check</h2>
+  <p>Answer from memory — don't scroll up.</p>
+
+  <div class="quiz">
+    <div class="question" data-correct="b">
+      <p class="q">Which can use an index on <code>created_at</code>?</p>
+      <button class="option" data-value="a">WHERE YEAR(created_at) = 2020</button>
+      <button class="option" data-value="b">WHERE created_at &gt;= '2020-01-01'</button>
+      <button class="option" data-value="c">WHERE DATE(created_at) = '2020-01-01'</button>
+      <button class="option" data-value="d">WHERE created_at + 1 = 2020</button>
+      <p class="expl">Only the raw column on the left of a comparison can use the index; wrapping it in <code>YEAR()</code> or <code>DATE()</code> hides it.</p>
+    </div>
+
+    <div class="question" data-correct="a">
+      <p class="q">Which <code>LIKE</code> can use an index on <code>email</code>?</p>
+      <button class="option" data-value="a">LIKE 'user%'</button>
+      <button class="option" data-value="b">LIKE '%user'</button>
+      <button class="option" data-value="c">LIKE '%user%'</button>
+      <button class="option" data-value="d">LIKE 'user'</button>
+      <p class="expl">A trailing wildcard (<code>'user%'</code>) matches a prefix, which the sorted index can serve. A leading wildcard cannot. (<code>LIKE 'user'</code> also works, as an exact match.)</p>
+    </div>
+
+    <div class="question" data-correct="c">
+      <p class="q">On a <code>VARCHAR</code> phone column, which comparison uses the index?</p>
+      <button class="option" data-value="a">phone = 5550000250</button>
+      <button class="option" data-value="b">phone = 5550000250 + 0</button>
+      <button class="option" data-value="c">phone = '5550000250'</button>
+      <button class="option" data-value="d">phone &gt; 5550000000</button>
+      <p class="expl">Comparing to a quoted string matches the column type, so the index is used. A number forces a per-row cast of the column.</p>
+    </div>
+  </div>
+
+  <div class="source">
+    <span class="label">Primary source</span>
+    <p>Read <a href="https://dev.mysql.com/doc/refman/8.0/en/mysql-indexes.html">"How MySQL Uses Indexes"</a> for the full list of when an index is <em>not</em> used, and <a href="https://dev.mysql.com/doc/refman/8.0/en/type-conversion.html">"Type Conversion in Expression Evaluation"</a> for the cast rules. Markus Winand's <a href="https://use-the-index-luke.com/sql/where-clause/functions/index-functions">"Indexes and Functions"</a> covers trap 1 in depth.</p>
+  </div>
+
+  <div class="ask">
+    <span class="label">Ask your teacher</span>
+    <p>Stuck, or something surprised you? Ask me anything. Good follow-ups: <em>"What about <code>OR</code> across two columns — can that use an index?"</em> or <em>"Is there a way to see the type conversion happen, or just the missing index?"</em></p>
+  </div>
+
+  <div class="nav">
+    <a href="0004-covering-indexes.html">← Lesson 4</a>
+    <a href="0006-choosing-the-index-selectivity-and-order.html">Lesson 6 →</a>
+  </div>
+  <p class="foot">MySQL Indexes — a course built around your goal of debugging slow queries.</p>
+
+</div>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

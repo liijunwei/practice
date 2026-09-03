@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 7 — Joins and the Whole EXPLAIN</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <span class="eyebrow">MySQL Indexes · Lesson 7</span>
+  <h1>A join is many lookups — index the join key</h1>
+  <p class="lede">MySQL joins with a <strong>nested loop</strong>: it reads the first table, and for each row looks up the second table by the join key. If that join key has no index, it scans the second table once <em>per row</em> — and the work multiplies. The same <code>type</code> column you met in Lesson 1 now reads across multiple tables.</p>
+
+  <div class="win">
+    <span class="label">The win</span>
+    <p>By the end you'll (1)&nbsp;read a two-table <code>EXPLAIN</code>, (2)&nbsp;know <code>eq_ref</code>/<code>ref</code> are good and <code>ALL</code> on the inner table is catastrophic, and (3)&nbsp;state that a join key needs an index exactly like a <code>WHERE</code> column does.</p>
+  </div>
+
+  <h2 id="model">The model: a nested loop</h2>
+  <p>Joining <code>customers</code> and <code>orders</code> on <code>orders.customer_id = customers.id</code> is, to MySQL, this loop:</p>
+
+<pre><code>for each row in customers:            -- the "driving" table
+    find every order with customer_id = row.id   -- a lookup</code></pre>
+
+  <p>That inner "find every order" is just a lookup on <code>orders.customer_id</code> — exactly like a <code>WHERE</code> filter. So the join key needs an index for the same reason a filtered column does. Without one, each of the <code>N</code> customers forces a full scan of the <code>M</code> orders → <code>N × M</code> work. With one, it's <code>N</code> cheap lookups.</p>
+
+  <p>The <code>type</code> column now describes each table's access in that loop:</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>type (joined table)</th><th>Meaning</th></tr>
+      <tr><td class="hl-good">eq_ref</td><td>Lookup on a <code>PRIMARY KEY</code> / <code>UNIQUE</code> key — exactly one row per lookup. Best.</td></tr>
+      <tr><td class="hl-good">ref</td><td>Lookup on a non-unique index — several rows per lookup.</td></tr>
+      <tr><td class="hl-bad">ALL</td><td>No index → full scan of that table <em>for every row</em> of the outer one. The thing you're fixing.</td></tr>
+    </table>
+  </div>
+
+  <h2 id="do-it">Do it on your machine</h2>
+
+  <h3>1. Create and fill two tables</h3>
+<pre><code>CREATE TABLE customers (
+  id   INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(50)  NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE orders (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  customer_id INT UNSIGNED NOT NULL,
+  amount      INT UNSIGNED NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+SET SESSION cte_max_recursion_depth = 1000000;
+INSERT INTO customers (name)
+WITH RECURSIVE seq (n) AS (
+  SELECT 1 UNION ALL SELECT n + 1 FROM seq WHERE n &lt; 50
+)
+SELECT CONCAT('customer_', n) FROM seq;
+
+INSERT INTO orders (customer_id, amount)
+WITH RECURSIVE seq (n) AS (
+  SELECT 1 UNION ALL SELECT n + 1 FROM seq WHERE n &lt; 500
+)
+SELECT (n % 50) + 1, (n * 17) % 1000 + 1
+FROM seq;</code></pre>
+
+  <h3>2. Join with no index on the join key</h3>
+<pre><code>EXPLAIN SELECT c.name, o.amount
+FROM customers c
+JOIN orders o ON o.customer_id = c.id;</code></pre>
+
+  <p>Notice the second row (orders) shows <code>type=ALL</code>. Every one of the 50 customers forces a scan of all 500 orders — about 25,000 reads where 500 would do.</p>
+
+  <h3>3. Index the join key, re-check</h3>
+<pre><code>CREATE INDEX idx_cust ON orders (customer_id);
+
+EXPLAIN SELECT c.name, o.amount
+FROM customers c
+JOIN orders o ON o.customer_id = c.id;</code></pre>
+
+  <p>Now <code>orders</code> flips to <code>type=ref</code>, <code>key=idx_cust</code> — a cheap lookup per customer instead of a scan. Same join, no change to the SQL, just the missing index.</p>
+
+  <h3>4. See eq_ref by joining onto the primary key</h3>
+<pre><code>EXPLAIN SELECT o.amount, c.name
+FROM orders o
+JOIN customers c ON c.id = o.customer_id;</code></pre>
+
+  <p>Here the joined table <code>customers</code> is matched on its <code>PRIMARY KEY</code> (<code>c.id</code>), so it shows <code>type=eq_ref</code> — one row per lookup. That's the reference point for an optimal join.</p>
+
+  <p class="note"><span class="label">Reading a plan top to bottom</span>Each row of <code>EXPLAIN</code> is one table in the loop, listed in the order MySQL processes them. Read it as a story: the top table drives, the next table is looked up per row, and so on. The <code>rows</code> column is per-table — multiply across the join to estimate total work. <a href="https://dev.mysql.com/doc/refman/8.0/en/explain-output.html">MySQL docs — "EXPLAIN Output Format"</a></p>
+
+  <h2 id="check">Self-check</h2>
+  <p>Answer from memory — don't scroll up.</p>
+
+  <div class="quiz">
+    <div class="question" data-correct="b">
+      <p class="q">In a join, <code>eq_ref</code> means a lookup on…</p>
+      <button class="option" data-value="a">a non-unique index</button>
+      <button class="option" data-value="b">a primary or unique key</button>
+      <button class="option" data-value="c">no index at all</button>
+      <button class="option" data-value="d">a covering index only</button>
+      <p class="expl"><code>eq_ref</code> = the join key is <code>PRIMARY KEY</code>/<code>UNIQUE</code>, so each lookup returns exactly one row — the best join access.</p>
+    </div>
+
+    <div class="question" data-correct="a">
+      <p class="q">The worst <code>type</code> for a <em>joined</em> table is…</p>
+      <button class="option" data-value="a">ALL</button>
+      <button class="option" data-value="b">ref</button>
+      <button class="option" data-value="c">range</button>
+      <button class="option" data-value="d">const</button>
+      <p class="expl"><code>ALL</code> means a full scan of that table for <em>every</em> row of the outer one — the work multiplies across the loop.</p>
+    </div>
+
+    <div class="question" data-correct="c">
+      <p class="q">To speed up a JOIN, you index the…</p>
+      <button class="option" data-value="a">columns in the SELECT list</button>
+      <button class="option" data-value="b">primary key of each table</button>
+      <button class="option" data-value="c">join key (foreign key) columns</button>
+      <button class="option" data-value="d">largest column in either table</button>
+      <p class="expl">The inner lookup is on the join key, so that's what needs an index — exactly like a filtered column.</p>
+    </div>
+  </div>
+
+  <div class="source">
+    <span class="label">Primary source</span>
+    <p>Read <a href="https://dev.mysql.com/doc/refman/8.0/en/nested-loop-joins.html">"Nested-Loop Join Algorithms"</a> for how MySQL actually walks the loop, and <a href="https://dev.mysql.com/doc/refman/8.0/en/explain-output.html">"EXPLAIN Output Format"</a> for every column you've now met. Markus Winand's <a href="https://use-the-index-luke.com/sql/join">"Joins"</a> chapter ties it together.</p>
+  </div>
+
+  <div class="ask">
+    <span class="label">Ask your teacher</span>
+    <p>Stuck, or something surprised you? Ask me anything. Good follow-ups: <em>"Does the order I write the tables in the <code>JOIN</code> matter?"</em> or <em>"What decides which table is the driving table?"</em> — and when you're ready, the next step is taking a real slow query and walking its plan end to end.</p>
+  </div>
+
+  <div class="nav">
+    <a href="0006-choosing-the-index-selectivity-and-order.html">← Lesson 6</a>
+    <a href="../reference/glossary.html">Glossary →</a>
+  </div>
+  <p class="foot">MySQL Indexes — a course built around your goal of debugging slow queries.</p>
+
+</div>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 6 — Choosing the Index: Selectivity &amp; Order</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <span class="eyebrow">MySQL Indexes · Lesson 6</span>
+  <h1>Design the index: equality, then range, then sort</h1>
+  <p class="lede">You now know how indexes work and how they break. Here's the decision procedure for building one: list your <em>equality</em> columns, then the <em>range</em> column, then the <em>sort</em> column — in that order. And let cardinality tell you which columns are worth indexing at all.</p>
+
+  <div class="win">
+    <span class="label">The win</span>
+    <p>By the end you'll (1)&nbsp;read <code>SHOW INDEX</code> <code>Cardinality</code> to judge a column's selectivity, (2)&nbsp;order a composite index equality→range→sort, and (3)&nbsp;know when one index serves several queries and when you need a second one.</p>
+  </div>
+
+  <h2 id="selectivity">Selectivity: some columns are worth more than others</h2>
+  <p>A column's <strong>selectivity</strong> is how much it narrows the search: a value that matches few rows is selective. It's measured by <strong>cardinality</strong> — the number of distinct values. High cardinality = selective. A <code>status</code> column with 3 values filters nothing useful; a <code>customer_id</code> with 50,000 values filters a lot. MySQL shows its estimate in <code>SHOW INDEX</code>:</p>
+
+<pre><code>SHOW INDEX FROM orders;</code></pre>
+
+  <p>Look at the <code>Cardinality</code> column. For a low-cardinality column (like <code>status</code>), an index is barely better than a full scan — MySQL may even skip it. Save your indexes for columns that actually divide the data.</p>
+
+  <h2 id="recipe">The recipe</h2>
+  <p>Given a query, choose columns in this order:</p>
+
+  <ol class="steps">
+    <li><strong>Equality columns</strong> — every <code>col = ?</code> in the <code>WHERE</code>. Put them first. Among equals, most selective first is a tie-breaker, not a law.</li>
+    <li><strong>The range column</strong> — the single <code>&gt;</code>/<code>&lt;</code>/<code>BETWEEN</code>/<code>LIKE 'x%'</code>. Next, because (Lesson 3) nothing after it can narrow further.</li>
+    <li><strong>The sort columns</strong> — whatever's in <code>ORDER BY</code> / <code>GROUP BY</code>, last, so the rows come out already sorted (Lesson 2).</li>
+    <li><strong>Stop.</strong> Don't add columns used only in <code>SELECT</code> unless they'd make it a cheap covering index (Lesson 4).</li>
+  </ol>
+
+  <h2 id="one-many">One index, many queries</h2>
+  <p>An index's value comes from its <em>prefixes</em>. Index <code>(a, b)</code> already serves <code>WHERE a = ?</code> <em>and</em> <code>WHERE a = ? AND b = ?</code> — so a separate index on <code>(a)</code> alone is redundant. But it can't serve <code>WHERE b = ?</code>. So:</p>
+
+  <div class="tablewrap">
+    <table>
+      <tr><th>You query by…</th><th>Build…</th></tr>
+      <tr><td><code>a</code>, and <code>a,b</code></td><td><code>(a, b)</code> — one index covers both.</td></tr>
+      <tr><td><code>b</code> alone (and not <code>a</code>)</td><td>a second index <code>(b)</code>.</td></tr>
+      <tr><td><code>a</code>, and <code>b</code> alone</td><td><code>(a, b)</code> <em>plus</em> <code>(b)</code>.</td></tr>
+    </table>
+  </div>
+
+  <p class="note"><span class="label">Always verify</span>These are rules of thumb, not guarantees. Design the index, then run <code>EXPLAIN</code> and confirm you see <code>ref</code>/<code>range</code> and no <code>Using filesort</code>. The plan is the truth.</p>
+
+  <h2 id="do-it">Do it on your machine</h2>
+
+  <h3>1. Create and fill an orders table</h3>
+<pre><code>CREATE TABLE orders (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  customer_id INT UNSIGNED NOT NULL,
+  status      VARCHAR(20)  NOT NULL,
+  created_at  DATETIME     NOT NULL,
+  amount      INT UNSIGNED NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+SET SESSION cte_max_recursion_depth = 1000000;
+INSERT INTO orders (customer_id, status, created_at, amount)
+WITH RECURSIVE seq (n) AS (
+  SELECT 1 UNION ALL SELECT n + 1 FROM seq WHERE n &lt; 10000
+)
+SELECT
+  (n % 500) + 1,                                   -- 500 distinct customers
+  ELT((n % 3) + 1, 'paid', 'pending', 'shipped'),  -- only 3 statuses
+  TIMESTAMP('2020-01-01') + INTERVAL n MINUTE,
+  (n * 17) % 1000 + 1
+FROM seq;</code></pre>
+
+  <h3>2. Look at cardinality</h3>
+<pre><code>CREATE INDEX idx_cust_status_created ON orders (customer_id, status, created_at);
+
+SHOW INDEX FROM orders;</code></pre>
+
+  <p>Find <code>idx_cust_status_created</code>. Its <code>Cardinality</code> should read roughly <code>500</code> for <code>customer_id</code>, <code>3</code> for <code>status</code>, and <code>~10000</code> for <code>created_at</code>. That's selectivity in a nutshell: customer_id divides the data, status barely does.</p>
+
+  <h3>3. Apply the recipe to a real query</h3>
+<pre><code>SELECT * FROM orders
+WHERE customer_id = 77 AND status = 'paid'
+ORDER BY created_at DESC
+LIMIT 10;</code></pre>
+
+  <p>Equality: <code>customer_id</code>, <code>status</code>. Sort: <code>created_at</code>. So the index is <code>(customer_id, status, created_at)</code> — exactly what we built. Confirm it:</p>
+
+<pre><code>EXPLAIN SELECT * FROM orders
+WHERE customer_id = 77 AND status = 'paid'
+ORDER BY created_at DESC
+LIMIT 10;</code></pre>
+
+  <p>You should see <code>type=ref</code>, <code>key=idx_cust_status_created</code>, and <strong>no</strong> <code>Using filesort</code> — the rows for customer 77 with status 'paid' come out already ordered by <code>created_at</code>.</p>
+
+  <h2 id="check">Self-check</h2>
+  <p>Answer from memory — don't scroll up.</p>
+
+  <div class="quiz">
+    <div class="question" data-correct="a">
+      <p class="q">For <code>WHERE a = ? AND b &gt; ?</code>, which column goes first?</p>
+      <button class="option" data-value="a">a, the equality column</button>
+      <button class="option" data-value="b">b, the range column</button>
+      <button class="option" data-value="c">whichever is more selective</button>
+      <button class="option" data-value="d">it does not matter</button>
+      <p class="expl">Equality columns always come before the range, so the range can narrow within the equality's slice.</p>
+    </div>
+
+    <div class="question" data-correct="b">
+      <p class="q">High cardinality on a column means…</p>
+      <button class="option" data-value="a">the column is always NULL</button>
+      <button class="option" data-value="b">it has many distinct values</button>
+      <button class="option" data-value="c">it has only a few values</button>
+      <button class="option" data-value="d">the column is rarely queried</button>
+      <p class="expl">Cardinality = count of distinct values. Many distinct values → each value matches few rows → selective.</p>
+    </div>
+
+    <div class="question" data-correct="c">
+      <p class="q">An index <code>(a, b)</code> already serves which query?</p>
+      <button class="option" data-value="a">WHERE b = 1</button>
+      <button class="option" data-value="b">WHERE b = 1 AND c = 2</button>
+      <button class="option" data-value="c">WHERE a = 1</button>
+      <button class="option" data-value="d">WHERE c = 3</button>
+      <p class="expl">The leftmost prefix <code>a</code> is served by <code>(a, b)</code>. Queries on <code>b</code> alone need a separate index.</p>
+    </div>
+  </div>
+
+  <div class="source">
+    <span class="label">Primary source</span>
+    <p>Read <a href="https://dev.mysql.com/doc/refman/8.0/en/show-index.html">"SHOW INDEX Statement"</a> for the <code>Cardinality</code> column, and Markus Winand's <a href="https://use-the-index-luke.com/sql/mysql/index-definition">"Anatomy of an Index"</a> for the column-order thinking. <a href="https://dev.mysql.com/doc/refman/8.0/en/multiple-column-indexes.html">"Multiple-Column Indexes"</a> is the rule reference you already know.</p>
+  </div>
+
+  <div class="ask">
+    <span class="label">Ask your teacher</span>
+    <p>Stuck, or something surprised you? Ask me anything. Good follow-ups: <em>"Is 'most selective first' still true when there's an ORDER BY?"</em> or <em>"How do I know if MySQL actually used the index I just built?"</em></p>
+  </div>
+
+  <div class="nav">
+    <a href="0005-traps-that-disable-an-index.html">← Lesson 5</a>
+    <a href="0007-joins-and-the-whole-explain.html">Lesson 7 →</a>
+  </div>
+  <p class="foot">MySQL Indexes — a course built around your goal of debugging slow queries.</p>
+
+</div>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
