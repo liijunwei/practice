@@ -1,36 +1,33 @@
-from openai import OpenAI
-import os
 import json
-from dotenv import load_dotenv
+import os
+import urllib.request
 
-load_dotenv()
 
-# 初始化DeepSeek客户端
-client = OpenAI(
-    api_key=os.getenv("DEEPSEEK_API_KEY"),
-    base_url="https://api.deepseek.com/v1"
-)
-
-async def main():
-    # 对应截图的 await generateText({model, prompt})
-    response = client.chat.completions.create(
-        model="deepseek-chat", # 可换成 deepseek-reasoner
-        messages=[
-            {"role": "user", "content": "Hello, world!"}
-        ]
+def main() -> None:
+    api_key = os.getenv("DEEPSEEK_API_KEY")
+    payload = {
+        "model": "deepseek-chat",
+        "messages": [{"role": "user", "content": "Hello, world!"}],
+    }
+    request = urllib.request.Request(
+        "https://api.deepseek.com/v1/chat/completions",
+        data=json.dumps(payload).encode(),
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
     )
 
-    # 等价于 anthropicResult.text
-    text = response.choices[0].message.content
-    # 等价于 anthropicResult.usage
-    usage = response.usage
+    with urllib.request.urlopen(request) as response:
+        result = json.load(response)
 
-    print(json.dumps({
-        "model": "deepseek-chat",
-        "text": text,
-        "usage": usage.model_dump() if hasattr(usage, "model_dump") else dict(usage),
-    }, ensure_ascii=False))
+    text = result["choices"][0]["message"]["content"]
+    usage = result["usage"]
+    print(json.dumps(
+        {"model": "deepseek-chat", "text": text, "usage": usage},
+        ensure_ascii=False,
+    ))
+
 
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+    main()

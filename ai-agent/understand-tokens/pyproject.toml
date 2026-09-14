@@ -7,17 +7,7 @@ authors = [
     { name = "me", email = "me@mini" }
 ]
 requires-python = ">=3.14"
-dependencies = [
-    "openai>=3.13.0",
-    "python-dotenv>=1.2.3",
-]
+dependencies = []
 
-[project.scripts]
-understand-tokens = "understand_tokens:main"
-
-[build-system]
-requires = ["uv_build>=0.12.5,<0.13.0"]
-build-backend = "uv_build"
-
-[tool.uv.build-backend]
-module-root = ""
+[tool.uv]
+package = false
