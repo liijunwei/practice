@@ -24,7 +24,14 @@ def main() -> None:
     text = result["choices"][0]["message"]["content"]
     usage = result["usage"]
     print(json.dumps(
-        {"model": "deepseek-chat", "text": text, "usage": usage},
+        {
+            "model": "deepseek-chat",
+            "text": text,
+            "input_tokens": usage["prompt_tokens"],
+            "output_tokens": usage["completion_tokens"],
+            "total_tokens": usage["total_tokens"],
+            "usage": usage,
+        },
         ensure_ascii=False,
     ))
 
