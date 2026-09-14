@@ -7,7 +7,10 @@ authors = [
     { name = "me", email = "me@mini" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "transformers>=5.17.0",
+    "jinja2>=3.1.0",
+]
 
 [tool.uv]
 package = false

@@ -2,12 +2,31 @@ import json
 import os
 import urllib.request
 
+from transformers import AutoTokenizer
+
+
+TOKENIZER_REPO = "deepseek-ai/DeepSeek-V3.1"
+MESSAGES = [{"role": "user", "content": "Hello, world!"}]
+
+
+def count_local_tokens():
+    tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_REPO)
+    prompt = tokenizer.apply_chat_template(
+        MESSAGES,
+        tokenize=False,
+        add_generation_prompt=True,
+    )
+    tokens = tokenizer.encode(prompt)
+    return len(tokens), tokenizer.convert_ids_to_tokens(tokens)
+
 
 def main() -> None:
+    local_prompt_tokens, local_tokens = count_local_tokens()
+
     api_key = os.getenv("DEEPSEEK_API_KEY")
     payload = {
         "model": "deepseek-chat",
-        "messages": [{"role": "user", "content": "Hello, world!"}],
+        "messages": MESSAGES,
     }
     request = urllib.request.Request(
         "https://api.deepseek.com/v1/chat/completions",
@@ -27,6 +46,10 @@ def main() -> None:
         {
             "model": "deepseek-chat",
             "text": text,
+            "local_prompt_tokens": local_prompt_tokens,
+            "local_tokens": local_tokens,
+            "api_prompt_tokens": usage["prompt_tokens"],
+            "match": local_prompt_tokens == usage["prompt_tokens"],
             "input_tokens": usage["prompt_tokens"],
             "output_tokens": usage["completion_tokens"],
             "total_tokens": usage["total_tokens"],
