@@ -1,0 +1,8 @@
+target/
+.lein-*
+.cpcache/
+.clj-kondo/
+.lsp/
+*.class
+.DS_Store
+agent_telemetry.jsonl
