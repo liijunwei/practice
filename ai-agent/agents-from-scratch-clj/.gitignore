@@ -3,6 +3,8 @@ target/
 .cpcache/
 .clj-kondo/
 .lsp/
+.calva/
+.nrepl-port
 *.class
 .DS_Store
 agent_telemetry.jsonl

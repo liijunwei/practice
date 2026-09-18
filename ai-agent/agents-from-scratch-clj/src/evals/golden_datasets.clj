@@ -1,18 +1,35 @@
 (ns evals.golden-datasets
-  (:require [clojure.string :as string]))
+  (:require [clojure.data.json :as json]
+            [clojure.string :as string]))
+
+(defn schema-string
+  [fields example]
+  (str (json/write-str fields)
+       "\n\nExample: "
+       (json/write-str example)))
 
 (def structured-output-golden
   [{:input "Explain quantum computing in one sentence"
-    :schema "{\n  \"topic\": \"the topic name as a string\",\n  \"difficulty\": \"beginner\" or \"intermediate\" or \"advanced\"\n}\n\nExample: {\"topic\": \"machine learning\", \"difficulty\": \"intermediate\"}"
+    :schema (schema-string
+             {"topic" "the topic name as a string"
+              "difficulty" "beginner | intermediate | advanced"}
+             {"topic" "machine learning" "difficulty" "intermediate"})
     :must-have-fields ["topic" "difficulty"]}
    {:input "What is Python in one sentence?"
-    :schema "{\n  \"topic\": \"the topic name as a string\",\n  \"difficulty\": \"beginner\" or \"intermediate\" or \"advanced\"\n}\n\nExample: {\"topic\": \"web development\", \"difficulty\": \"beginner\"}"
+    :schema (schema-string
+             {"topic" "the topic name as a string"
+              "difficulty" "beginner | intermediate | advanced"}
+             {"topic" "web development" "difficulty" "beginner"})
     :must-have-fields ["topic" "difficulty"]}
    {:input "What is the significance of 42?"
-    :schema "{\n  \"answer\": \"your answer as a string\"\n}\n\nExample: {\"answer\": \"It is the meaning of life\"}"
+    :schema (schema-string
+             {"answer" "your answer as a string"}
+             {"answer" "It is the meaning of life"})
     :must-have-fields ["answer"]}
    {:input "What does hello world mean in programming?"
-    :schema "{\n  \"explanation\": \"your explanation as a string\"\n}\n\nExample: {\"explanation\": \"It is a simple test program\"}"
+    :schema (schema-string
+             {"explanation" "your explanation as a string"}
+             {"explanation" "It is a simple test program"})
     :must-have-fields ["explanation"]}])
 
 (def tool-call-golden
@@ -52,20 +69,28 @@
   {"empty_input"
    {:structured
     {:input "Respond with a greeting"
-     :schema "{\"response\": \"your response\"}\n\nExample: {\"response\": \"Hello!\"}"
+     :schema (schema-string
+              {"response" "your response"}
+              {"response" "Hello!"})
      :must-have-fields ["response"]}}
    "very_long_input"
    {:structured
     {:input (str "Summarize: " (string/join " " (repeat 20 "very")) " complex topic")
-     :schema "{\"summary\": \"brief summary\"}\n\nExample: {\"summary\": \"A complex topic\"}"
+     :schema (schema-string
+              {"summary" "brief summary"}
+              {"summary" "A complex topic"})
      :must-have-fields ["summary"]}}
    "unicode_input"
    {:structured
     {:input "What does hello mean in Chinese?"
-     :schema "{\"translation\": \"the translation\"}\n\nExample: {\"translation\": \"你好\"}"
+     :schema (schema-string
+              {"translation" "the translation"}
+              {"translation" "你好"})
      :must-have-fields ["translation"]}}
    "json_in_input"
    {:structured
     {:input "What format is this: key value pairs?"
-     :schema "{\"parsed\": \"your answer\"}\n\nExample: {\"parsed\": \"dictionary\"}"
+     :schema (schema-string
+              {"parsed" "your answer"}
+              {"parsed" "dictionary"})
      :must-have-fields ["parsed"]}}})

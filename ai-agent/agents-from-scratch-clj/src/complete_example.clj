@@ -3,8 +3,7 @@
             [agent.evals :as evals]
             [agent.memory :as memory]
             [agent.telemetry :as telemetry]
-            [evals.golden-datasets :as golden]
-            [clojure.string :as string]))
+            [evals.golden-datasets :as golden]))
 
 (defn- section [title]
   (println "\n" (apply str (repeat 50 "=")))
