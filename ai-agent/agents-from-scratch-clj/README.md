@@ -33,20 +33,20 @@ src/
 
 ### Lesson 对应关系
 
-| Lesson | 能力 | 主要入口 |
-|---|---|---|
-| 01 | 基础文本生成 | `agent/simple-generate` |
-| 02 | system prompt | `agent/generate-with-role` |
-| 03 | 结构化 JSON 输出 | `agent/generate-structured` |
-| 04 | 决策路由 | `agent/decide` |
-| 05 | 工具调用 | `agent/request-tool` |
-| 06 | Agent loop | `agent/run-loop` |
-| 07 | 记忆 | `agent/run-with-memory` |
-| 08 | 计划 | `agent/create-plan` |
-| 09 | 原子动作 | `agent/create-atomic-action` |
-| 10 | AoT 依赖图 | `agent/create-aot-plan` |
-| 11 | Evals | `agent.evals` |
-| 12 | Telemetry | `agent.telemetry` |
+| Lesson | 能力             | 主要入口                     |
+| ------ | ---------------- | ---------------------------- |
+| 01     | 基础文本生成     | `agent/simple-generate`      |
+| 02     | system prompt    | `agent/generate-with-role`   |
+| 03     | 结构化 JSON 输出 | `agent/generate-structured`  |
+| 04     | 决策路由         | `agent/decide`               |
+| 05     | 工具调用         | `agent/request-tool`         |
+| 06     | Agent loop       | `agent/run-loop`             |
+| 07     | 记忆             | `agent/run-with-memory`      |
+| 08     | 计划             | `agent/create-plan`          |
+| 09     | 原子动作         | `agent/create-atomic-action` |
+| 10     | AoT 依赖图       | `agent/create-aot-plan`      |
+| 11     | Evals            | `agent.evals`                |
+| 12     | Telemetry        | `agent.telemetry`            |
 
 ## 环境要求
 
@@ -135,7 +135,7 @@ POST https://api.deepseek.com/chat/completions
 ```json
 {
   "model": "deepseek-v4-pro",
-  "messages": [{"role": "user", "content": "..."}],
+  "messages": [{ "role": "user", "content": "..." }],
   "temperature": 0.0,
   "max_tokens": 4096,
   "stream": false,
