@@ -155,3 +155,7 @@ fabric.properties
 
 __pycache__/
 _tmp
+
+.calva/
+.clj-kondo/
+.lsp/
