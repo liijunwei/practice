@@ -72,6 +72,7 @@
 (mapify (parse (slurp filename)))
 
 (def visitors (atom #{}))
+(def visitors (atom []))
 
 (defn hello
   [name]
@@ -80,5 +81,6 @@
 
 (hello "stu")
 (hello "lee")
-@visitors
+(type @visitors)
+(hello "Rich")
 
