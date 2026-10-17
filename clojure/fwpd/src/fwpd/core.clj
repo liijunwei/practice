@@ -70,3 +70,15 @@
        rows))
 
 (mapify (parse (slurp filename)))
+
+(def visitors (atom #{}))
+
+(defn hello
+  [name]
+  (swap! visitors conj name)
+  (str "hello, " name))
+
+(hello "stu")
+(hello "lee")
+@visitors
+
