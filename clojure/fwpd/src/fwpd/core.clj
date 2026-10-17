@@ -84,3 +84,7 @@
 (type @visitors)
 (hello "Rich")
 
+(require 'clojure.java.io)
+
+(source hello)
+(find-doc "reduce")
