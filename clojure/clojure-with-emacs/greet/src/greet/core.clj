@@ -13,3 +13,5 @@
   (greet "moss"))
 
 ; C-u C-c C-c to debug
+(greet "Roy")
+; C-c C-k
