@@ -1,7 +1,8 @@
 (ns terraria-rdf.core
-  (:gen-class))
+  (:gen-class)
+  (:require [terraria-rdf.solver :as solver]))
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Terraria NPC 晶塔分组求解器入口。"
   [& args]
-  (println "Hello, World!"))
+  (solver/run-solver))

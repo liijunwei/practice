@@ -1,5 +1,6 @@
-(ns terraria-solver
-  (:require [quandary.api :as qa]
+(ns terraria-rdf.solver
+  (:require [clojure.java.io :as io]
+            [quandary.api :as qa]
             [shacl.core :as shacl])
   (:import (org.apache.jena.rdf.model ModelFactory)
            (org.apache.jena.query QueryFactory DatasetFactory QueryExecutionFactory)))
@@ -14,15 +15,19 @@
 (def rdfs "http://www.w3.org/2000/01/rdf-schema#")
 
 ;; ========== 加载 RDF ==========
+(defn load-turtle [model resource-name]
+  (with-open [in (io/input-stream (io/resource resource-name))]
+    (.read model in (str resource-name) "TURTLE")))
+
 (def model
   (doto (ModelFactory/createDefaultModel)
-    (.read "terraria-ontology.ttl" "TURTLE")
-    (.read "terraria-biomes.ttl" "TURTLE")
-    (.read "npc-facts.ttl" "TURTLE")))
+    (load-turtle "terraria-ontology.ttl")
+    (load-turtle "terraria-biomes.ttl")
+    (load-turtle "npc-facts.ttl")))
 
 (def shacl-model
   (doto (ModelFactory/createDefaultModel)
-    (.read "terraria-shacl.ttl" "TURTLE")))
+    (load-turtle "terraria-shacl.ttl")))
 
 (defn run-select [qstr]
   (with-open [qe (QueryExecutionFactory/create
@@ -282,8 +287,3 @@
                 (doseq [i member-is]
                   (println (str " · " (npcs (nth npc-uris i)))))))))))))
 
-(defn -main [& _args]
-  (run-solver))
-
-;; 直接运行
-(run-solver)
