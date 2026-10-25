@@ -1,5 +1,5 @@
-@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix terraria: <https://terraria.example.org/ontology#> .
 
 terraria:Forest a terraria:Biome ;
@@ -18,13 +18,16 @@ terraria:Ocean a terraria:Biome ;
     rdfs:label "海洋"@zh .
 
 terraria:Hallow a terraria:Biome ;
-    rdfs:label "神圣"@zh .
+    rdfs:label "神圣之地"@zh .
+
+terraria:Underground a terraria:Biome ;
+    rdfs:label "地下"@zh .
 
 terraria:Cave a terraria:Biome ;
     rdfs:label "洞穴"@zh .
 
-terraria:Corruption a terraria:Biome ;
-    rdfs:label "腐化"@zh .
+terraria:Hell a terraria:Biome ;
+    rdfs:label "地狱"@zh .
 
-terraria:Crimson a terraria:Biome ;
-    rdfs:label "猩红"@zh .
+terraria:GlowingMushroom a terraria:Biome ;
+    rdfs:label "发光蘑菇地"@zh .

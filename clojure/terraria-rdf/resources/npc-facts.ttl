@@ -1,101 +1,242 @@
-@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix terraria: <https://terraria.example.org/ontology#> .
 
+# 依据 /Users/me/Downloads/terraria_npcs.ttl.zip 校准；
+# 生物群系偏好走 *Biome 属性，邻居偏好走 *Neighbor 属性。
+
 terraria:Guide a terraria:NPC ;
-  rdfs:label "向导"@zh ;
-  terraria:likesNeighbor terraria:Painter ;
-  terraria:dislikesNeighbor terraria:Clothier .
+    rdfs:label "向导"@zh ;
+    terraria:likesBiome terraria:Forest ;
+    terraria:dislikesBiome terraria:Ocean ;
+    terraria:likesNeighbor terraria:Clothier ;
+    terraria:likesNeighbor terraria:Zoologist ;
+    terraria:dislikesNeighbor terraria:Steampunker ;
+    terraria:hatesNeighbor terraria:Painter .
 
 terraria:Merchant a terraria:NPC ;
-  rdfs:label "商人"@zh .
+    rdfs:label "商人"@zh ;
+    terraria:likesBiome terraria:Forest ;
+    terraria:dislikesBiome terraria:Desert ;
+    terraria:likesNeighbor terraria:Golfer ;
+    terraria:likesNeighbor terraria:Nurse ;
+    terraria:dislikesNeighbor terraria:TaxCollector ;
+    terraria:hatesNeighbor terraria:Angler .
 
 terraria:Nurse a terraria:NPC ;
-  rdfs:label "护士"@zh ;
-  terraria:lovesNeighbor terraria:ArmsDealer .
+    rdfs:label "护士"@zh ;
+    terraria:lovesNeighbor terraria:ArmsDealer ;
+    terraria:likesBiome terraria:Hallow ;
+    terraria:likesNeighbor terraria:Wizard ;
+    terraria:dislikesBiome terraria:Snow ;
+    terraria:dislikesNeighbor terraria:PartyGirl ;
+    terraria:dislikesNeighbor terraria:Dryad ;
+    terraria:hatesNeighbor terraria:Zoologist .
 
 terraria:ArmsDealer a terraria:NPC ;
-  rdfs:label "军火商"@zh ;
-  terraria:lovesNeighbor terraria:Nurse .
+    rdfs:label "军火商"@zh ;
+    terraria:lovesNeighbor terraria:Nurse ;
+    terraria:likesBiome terraria:Desert ;
+    terraria:likesNeighbor terraria:Steampunker ;
+    terraria:dislikesBiome terraria:Snow ;
+    terraria:dislikesNeighbor terraria:Golfer ;
+    terraria:hatesNeighbor terraria:Demolitionist .
 
 terraria:DyeTrader a terraria:NPC ;
-  rdfs:label "染料商"@zh .
+    rdfs:label "染料商"@zh ;
+    terraria:likesBiome terraria:Desert ;
+    terraria:likesNeighbor terraria:ArmsDealer ;
+    terraria:likesNeighbor terraria:Painter ;
+    terraria:dislikesBiome terraria:Forest ;
+    terraria:dislikesNeighbor terraria:Steampunker ;
+    terraria:hatesNeighbor terraria:Pirate .
 
 terraria:Dryad a terraria:NPC ;
-  rdfs:label "树妖"@zh ;
-  terraria:lovesNeighbor terraria:WitchDoctor .
+    rdfs:label "树妖"@zh ;
+    terraria:likesBiome terraria:Jungle ;
+    terraria:likesNeighbor terraria:WitchDoctor ;
+    terraria:likesNeighbor terraria:Truffle ;
+    terraria:dislikesBiome terraria:Desert ;
+    terraria:dislikesNeighbor terraria:Angler ;
+    terraria:hatesNeighbor terraria:Golfer .
 
 terraria:WitchDoctor a terraria:NPC ;
-  rdfs:label "巫医"@zh ;
-  terraria:lovesNeighbor terraria:Dryad .
+    rdfs:label "巫医"@zh ;
+    terraria:likesBiome terraria:Jungle ;
+    terraria:likesNeighbor terraria:Dryad ;
+    terraria:likesNeighbor terraria:Guide ;
+    terraria:dislikesBiome terraria:Hallow ;
+    terraria:dislikesNeighbor terraria:Nurse ;
+    terraria:hatesNeighbor terraria:Truffle .
 
 terraria:Painter a terraria:NPC ;
-  rdfs:label "油漆工"@zh .
+    rdfs:label "油漆工"@zh .
 
 terraria:Angler a terraria:NPC ;
-  rdfs:label "渔夫"@zh ;
-  terraria:lovesNeighbor terraria:Pirate .
+    rdfs:label "渔夫"@zh ;
+    terraria:likesBiome terraria:Ocean ;
+    terraria:likesNeighbor terraria:PartyGirl ;
+    terraria:likesNeighbor terraria:Demolitionist ;
+    terraria:likesNeighbor terraria:TaxCollector ;
+    terraria:dislikesBiome terraria:Desert ;
+    terraria:hatesNeighbor terraria:Tavernkeep .
 
 terraria:Pirate a terraria:NPC ;
-  rdfs:label "海盗"@zh ;
-  terraria:lovesNeighbor terraria:Angler .
+    rdfs:label "海盗"@zh ;
+    terraria:lovesNeighbor terraria:Angler ;
+    terraria:likesBiome terraria:Ocean ;
+    terraria:likesNeighbor terraria:Tavernkeep ;
+    terraria:dislikesBiome terraria:Underground ;
+    terraria:dislikesBiome terraria:Cave ;
+    terraria:dislikesBiome terraria:Hell ;
+    terraria:dislikesNeighbor terraria:Stylist ;
+    terraria:hatesNeighbor terraria:Guide .
 
 terraria:Stylist a terraria:NPC ;
-  rdfs:label "发型师"@zh .
+    rdfs:label "发型师"@zh ;
+    terraria:lovesNeighbor terraria:DyeTrader ;
+    terraria:likesBiome terraria:Ocean ;
+    terraria:likesNeighbor terraria:Pirate ;
+    terraria:dislikesBiome terraria:Snow ;
+    terraria:dislikesNeighbor terraria:Tavernkeep ;
+    terraria:hatesNeighbor terraria:GoblinTinkerer .
 
 terraria:Demolitionist a terraria:NPC ;
-  rdfs:label "爆破专家"@zh ;
-  terraria:lovesNeighbor terraria:GoblinTinkerer .
+    rdfs:label "爆破专家"@zh ;
+    terraria:lovesNeighbor terraria:Tavernkeep ;
+    terraria:likesBiome terraria:Underground ;
+    terraria:likesBiome terraria:Cave ;
+    terraria:likesBiome terraria:Hell ;
+    terraria:likesNeighbor terraria:Mechanic ;
+    terraria:dislikesBiome terraria:Ocean ;
+    terraria:dislikesNeighbor terraria:GoblinTinkerer ;
+    terraria:dislikesNeighbor terraria:ArmsDealer .
 
 terraria:GoblinTinkerer a terraria:NPC ;
-  rdfs:label "哥布林工匠"@zh ;
-  terraria:lovesNeighbor terraria:Demolitionist ;
-  terraria:lovesNeighbor terraria:Mechanic .
+    rdfs:label "哥布林工匠"@zh ;
+    terraria:lovesNeighbor terraria:Mechanic ;
+    terraria:likesBiome terraria:Underground ;
+    terraria:likesBiome terraria:Cave ;
+    terraria:likesBiome terraria:Hell ;
+    terraria:likesNeighbor terraria:DyeTrader ;
+    terraria:dislikesBiome terraria:Jungle ;
+    terraria:dislikesNeighbor terraria:Clothier ;
+    terraria:hatesNeighbor terraria:Stylist .
 
 terraria:Mechanic a terraria:NPC ;
-  rdfs:label "机械师"@zh ;
-  terraria:lovesNeighbor terraria:GoblinTinkerer .
+    rdfs:label "机械师"@zh ;
+    terraria:lovesNeighbor terraria:GoblinTinkerer ;
+    terraria:likesBiome terraria:Snow ;
+    terraria:likesNeighbor terraria:Cyborg ;
+    terraria:dislikesBiome terraria:Underground ;
+    terraria:dislikesBiome terraria:Cave ;
+    terraria:dislikesBiome terraria:Hell ;
+    terraria:dislikesNeighbor terraria:ArmsDealer ;
+    terraria:hatesNeighbor terraria:Clothier .
 
 terraria:TaxCollector a terraria:NPC ;
-  rdfs:label "税收官"@zh ;
-  terraria:lovesBiome terraria:Desert ;
-  terraria:likesBiome terraria:Cave ;
-  terraria:dislikesBiome terraria:Snow ;
-  terraria:hatesBiome terraria:Jungle ;
-  terraria:likesNeighbor terraria:Clothier ;
-  terraria:dislikesNeighbor terraria:Nurse ;
-  terraria:hatesNeighbor terraria:PartyGirl .
+    rdfs:label "税收官"@zh ;
+    terraria:lovesNeighbor terraria:Merchant ;
+    terraria:likesBiome terraria:Snow ;
+    terraria:likesNeighbor terraria:PartyGirl ;
+    terraria:dislikesBiome terraria:Hallow ;
+    terraria:dislikesNeighbor terraria:Demolitionist ;
+    terraria:dislikesNeighbor terraria:Mechanic ;
+    terraria:hatesNeighbor terraria:Santa .
 
 terraria:Clothier a terraria:NPC ;
-  rdfs:label "服装商"@zh .
+    rdfs:label "服装商"@zh ;
+    terraria:lovesNeighbor terraria:Truffle ;
+    terraria:likesBiome terraria:Underground ;
+    terraria:likesBiome terraria:Cave ;
+    terraria:likesBiome terraria:Hell ;
+    terraria:likesNeighbor terraria:TaxCollector ;
+    terraria:dislikesBiome terraria:Hallow ;
+    terraria:dislikesNeighbor terraria:Nurse ;
+    terraria:hatesNeighbor terraria:Mechanic .
 
 terraria:Steampunker a terraria:NPC ;
-  rdfs:label "蒸汽朋克人"@zh .
+    rdfs:label "蒸汽朋克人"@zh ;
+    terraria:lovesNeighbor terraria:Cyborg ;
+    terraria:likesBiome terraria:Desert ;
+    terraria:likesNeighbor terraria:Painter ;
+    terraria:dislikesBiome terraria:Jungle ;
+    terraria:dislikesNeighbor terraria:PartyGirl ;
+    terraria:dislikesNeighbor terraria:Wizard ;
+    terraria:dislikesNeighbor terraria:Dryad .
 
 terraria:Cyborg a terraria:NPC ;
-  rdfs:label "机器侠"@zh .
+    rdfs:label "机器侠"@zh ;
+    terraria:likesBiome terraria:Snow ;
+    terraria:likesNeighbor terraria:Stylist ;
+    terraria:likesNeighbor terraria:Steampunker ;
+    terraria:likesNeighbor terraria:Pirate ;
+    terraria:dislikesBiome terraria:Jungle ;
+    terraria:dislikesNeighbor terraria:Zoologist ;
+    terraria:hatesNeighbor terraria:Wizard .
 
 terraria:Wizard a terraria:NPC ;
-  rdfs:label "巫师"@zh .
+    rdfs:label "巫师"@zh ;
+    terraria:lovesNeighbor terraria:Golfer ;
+    terraria:likesBiome terraria:Hallow ;
+    terraria:likesNeighbor terraria:Merchant ;
+    terraria:dislikesBiome terraria:Ocean ;
+    terraria:dislikesNeighbor terraria:WitchDoctor ;
+    terraria:hatesNeighbor terraria:Cyborg .
 
 terraria:PartyGirl a terraria:NPC ;
-  rdfs:label "派对女孩"@zh .
+    rdfs:label "派对女孩"@zh ;
+    terraria:lovesNeighbor terraria:Wizard ;
+    terraria:lovesNeighbor terraria:Zoologist ;
+    terraria:likesBiome terraria:Hallow ;
+    terraria:likesNeighbor terraria:Stylist ;
+    terraria:dislikesBiome terraria:Underground ;
+    terraria:dislikesBiome terraria:Cave ;
+    terraria:dislikesBiome terraria:Hell ;
+    terraria:dislikesNeighbor terraria:Merchant ;
+    terraria:hatesNeighbor terraria:TaxCollector .
 
 terraria:Golfer a terraria:NPC ;
-  rdfs:label "高尔夫球手"@zh .
+    rdfs:label "高尔夫球手"@zh ;
+    terraria:lovesNeighbor terraria:Angler ;
+    terraria:likesBiome terraria:Forest ;
+    terraria:likesNeighbor terraria:Painter ;
+    terraria:likesNeighbor terraria:Zoologist ;
+    terraria:dislikesBiome terraria:Underground ;
+    terraria:dislikesBiome terraria:Cave ;
+    terraria:dislikesBiome terraria:Hell ;
+    terraria:dislikesNeighbor terraria:Pirate ;
+    terraria:hatesNeighbor terraria:Merchant .
 
 terraria:Zoologist a terraria:NPC ;
-  rdfs:label "动物学家"@zh .
+    rdfs:label "动物学家"@zh ;
+    terraria:lovesNeighbor terraria:WitchDoctor ;
+    terraria:likesBiome terraria:Forest ;
+    terraria:likesNeighbor terraria:Golfer ;
+    terraria:dislikesBiome terraria:Desert ;
+    terraria:dislikesNeighbor terraria:Angler ;
+    terraria:hatesNeighbor terraria:ArmsDealer .
 
 terraria:Truffle a terraria:NPC ;
-  rdfs:label "松露人"@zh .
+    rdfs:label "松露人"@zh ;
+    terraria:lovesNeighbor terraria:Guide ;
+    terraria:likesBiome terraria:GlowingMushroom ;
+    terraria:likesNeighbor terraria:Dryad ;
+    terraria:dislikesNeighbor terraria:Clothier ;
+    terraria:hatesNeighbor terraria:WitchDoctor .
 
 terraria:Santa a terraria:NPC ;
-  rdfs:label "圣诞老人"@zh .
+    rdfs:label "圣诞老人"@zh .
 
 terraria:Tavernkeep a terraria:NPC ;
-  rdfs:label "酒馆老板"@zh .
+    rdfs:label "酒馆老板"@zh ;
+    terraria:lovesNeighbor terraria:Demolitionist ;
+    terraria:likesBiome terraria:Hallow ;
+    terraria:likesNeighbor terraria:GoblinTinkerer ;
+    terraria:dislikesBiome terraria:Snow ;
+    terraria:dislikesNeighbor terraria:Guide ;
+    terraria:hatesNeighbor terraria:DyeTrader .
 
 terraria:Princess a terraria:NPC ;
-  rdfs:label "公主"@zh ;
-  rdfs:comment "特殊NPC：所有NPC与她同组自动获得lovesNeighbor 0.88加成，不在RDF写冗余三元组，代码注入"@zh .
+    rdfs:label "公主"@zh ;
+    rdfs:comment "特殊NPC：所有NPC与她同组自动获得lovesNeighbor 0.88加成，不在RDF写冗余三元组，代码注入"@zh .
