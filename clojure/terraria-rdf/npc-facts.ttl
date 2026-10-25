@@ -1,0 +1,75 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix terraria: <https://terraria.example.org/ontology#> .
+
+terraria:Guide a terraria:NPC ; rdfs:label "向导"@zh ;
+  terraria:likesNeighbor terraria:Painter ;
+  terraria:dislikesNeighbor terraria:Clothier .
+
+terraria:Merchant a terraria:NPC ; rdfs:label "商人"@zh .
+
+terraria:Nurse a terraria:NPC ; rdfs:label "护士"@zh ;
+  terraria:lovesNeighbor terraria:ArmsDealer .
+
+terraria:ArmsDealer a terraria:NPC ; rdfs:label "军火商"@zh ;
+  terraria:lovesNeighbor terraria:Nurse .
+
+terraria:DyeTrader a terraria:NPC ; rdfs:label "染料商"@zh .
+
+terraria:Dryad a terraria:NPC ; rdfs:label "树妖"@zh ;
+  terraria:lovesNeighbor terraria:WitchDoctor .
+
+terraria:WitchDoctor a terraria:NPC ; rdfs:label "巫医"@zh ;
+  terraria:lovesNeighbor terraria:Dryad .
+
+terraria:Painter a terraria:NPC ; rdfs:label "油漆工"@zh .
+
+terraria:Angler a terraria:NPC ; rdfs:label "渔夫"@zh ;
+  terraria:lovesNeighbor terraria:Pirate .
+
+terraria:Pirate a terraria:NPC ; rdfs:label "海盗"@zh ;
+  terraria:lovesNeighbor terraria:Angler .
+
+terraria:Stylist a terraria:NPC ; rdfs:label "发型师"@zh .
+
+terraria:Demolitionist a terraria:NPC ; rdfs:label "爆破专家"@zh ;
+  terraria:lovesNeighbor terraria:GoblinTinkerer .
+
+terraria:GoblinTinkerer a terraria:NPC ; rdfs:label "哥布林工匠"@zh ;
+  terraria:lovesNeighbor terraria:Demolitionist ;
+  terraria:lovesNeighbor terraria:Mechanic .
+
+terraria:Mechanic a terraria:NPC ; rdfs:label "机械师"@zh ;
+  terraria:lovesNeighbor terraria:GoblinTinkerer .
+
+terraria:TaxCollector a terraria:NPC ; rdfs:label "税收官"@zh ;
+  terraria:lovesBiome terraria:Desert ;
+  terraria:likesBiome terraria:Cave ;
+  terraria:dislikesBiome terraria:Snow ;
+  terraria:hatesBiome terraria:Jungle ;
+  terraria:likesNeighbor terraria:Clothier ;
+  terraria:dislikesNeighbor terraria:Nurse ;
+  terraria:hatesNeighbor terraria:PartyGirl .
+
+terraria:Clothier a terraria:NPC ; rdfs:label "服装商"@zh .
+
+terraria:Steampunker a terraria:NPC ; rdfs:label "蒸汽朋克人"@zh .
+
+terraria:Cyborg a terraria:NPC ; rdfs:label "机器侠"@zh .
+
+terraria:Wizard a terraria:NPC ; rdfs:label "巫师"@zh .
+
+terraria:PartyGirl a terraria:NPC ; rdfs:label "派对女孩"@zh .
+
+terraria:Golfer a terraria:NPC ; rdfs:label "高尔夫球手"@zh .
+
+terraria:Zoologist a terraria:NPC ; rdfs:label "动物学家"@zh .
+
+terraria:Truffle a terraria:NPC ; rdfs:label "松露人"@zh .
+
+terraria:Santa a terraria:NPC ; rdfs:label "圣诞老人"@zh .
+
+terraria:Tavernkeep a terraria:NPC ; rdfs:label "酒馆老板"@zh .
+
+terraria:Princess a terraria:NPC ; rdfs:label "公主"@zh ;
+  rdfs:comment "特殊NPC：所有NPC与她同组自动获得lovesNeighbor 0.88加成，不在RDF写冗余三元组，代码注入"@zh .

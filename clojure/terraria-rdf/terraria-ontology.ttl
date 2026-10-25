@@ -1,0 +1,27 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix terraria: <https://terraria.example.org/ontology#> .
+
+terraria:NPC rdf:type rdfs:Class ;
+  rdfs:label "NPC"@zh .
+
+terraria:Biome rdf:type rdfs:Class ;
+  rdfs:label "生物群系"@zh .
+
+terraria:lovesBiome rdf:type rdf:Property ;
+  rdfs:label "喜爱该群系"@zh .
+terraria:likesBiome rdf:type rdf:Property ;
+  rdfs:label "喜欢该群系"@zh .
+terraria:dislikesBiome rdf:type rdf:Property ;
+  rdfs:label "不喜欢该群系"@zh .
+terraria:hatesBiome rdf:type rdf:Property ;
+  rdfs:label "厌恶该群系"@zh .
+
+terraria:lovesNeighbor rdf:type rdf:Property ;
+  rdfs:label "喜爱该邻居"@zh .
+terraria:likesNeighbor rdf:type rdf:Property ;
+  rdfs:label "喜欢该邻居"@zh .
+terraria:dislikesNeighbor rdf:type rdf:Property ;
+  rdfs:label "不喜欢该邻居"@zh .
+terraria:hatesNeighbor rdf:type rdf:Property ;
+  rdfs:label "厌恶该邻居（禁止同组）"@zh .

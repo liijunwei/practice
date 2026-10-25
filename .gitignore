@@ -159,3 +159,5 @@ _tmp
 .calva/
 .clj-kondo/
 .lsp/
+.cpcache/
+

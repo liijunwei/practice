@@ -1,0 +1,83 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix terraria: <https://terraria.example.org/ontology#> .
+
+terraria:NPCShape
+    rdf:type sh:NodeShape ;
+    sh:targetClass terraria:NPC ;
+
+    sh:sparql [
+        rdf:type sh:SPARQLConstraint ;
+        sh:select """
+        PREFIX terraria: <https://terraria.example.org/ontology#>
+        SELECT $this ?neighbor WHERE {
+            $this ?p1 ?neighbor .
+            $this ?p2 ?neighbor .
+            VALUES (?p1 ?p2) {
+                (terraria:lovesNeighbor terraria:hatesNeighbor)
+                (terraria:lovesNeighbor terraria:dislikesNeighbor)
+                (terraria:likesNeighbor terraria:hatesNeighbor)
+                (terraria:likesNeighbor terraria:dislikesNeighbor)
+                (terraria:lovesBiome terraria:hatesBiome)
+                (terraria:lovesBiome terraria:dislikesBiome)
+                (terraria:likesBiome terraria:hatesBiome)
+                (terraria:likesBiome terraria:dislikesBiome)
+            }
+            FILTER (?p1 != ?p2)
+        }
+        """ ;
+        sh:message "同一个NPC不能对同一个邻居/生物群系同时存在冲突偏好"@zh ;
+        sh:severity sh:Violation ;
+    ] ;
+
+    sh:property [
+        sh:path terraria:lovesBiome ;
+        sh:class terraria:Biome ;
+        sh:message "lovesBiome 的目标必须是 Biome"@zh ;
+        sh:severity sh:Violation ;
+    ] ;
+    sh:property [
+        sh:path terraria:likesBiome ;
+        sh:class terraria:Biome ;
+        sh:message "likesBiome 的目标必须是 Biome"@zh ;
+        sh:severity sh:Violation ;
+    ] ;
+    sh:property [
+        sh:path terraria:dislikesBiome ;
+        sh:class terraria:Biome ;
+        sh:message "dislikesBiome 的目标必须是 Biome"@zh ;
+        sh:severity sh:Violation ;
+    ] ;
+    sh:property [
+        sh:path terraria:hatesBiome ;
+        sh:class terraria:Biome ;
+        sh:message "hatesBiome 的目标必须是 Biome"@zh ;
+        sh:severity sh:Violation ;
+    ] ;
+
+    sh:property [
+        sh:path terraria:lovesNeighbor ;
+        sh:class terraria:NPC ;
+        sh:message "lovesNeighbor 的目标必须是 NPC"@zh ;
+        sh:severity sh:Violation ;
+    ] ;
+    sh:property [
+        sh:path terraria:likesNeighbor ;
+        sh:class terraria:NPC ;
+        sh:message "likesNeighbor 的目标必须是 NPC"@zh ;
+        sh:severity sh:Violation ;
+    ] ;
+    sh:property [
+        sh:path terraria:dislikesNeighbor ;
+        sh:class terraria:NPC ;
+        sh:message "dislikesNeighbor 的目标必须是 NPC"@zh ;
+        sh:severity sh:Violation ;
+    ] ;
+    sh:property [
+        sh:path terraria:hatesNeighbor ;
+        sh:class terraria:NPC ;
+        sh:message "hatesNeighbor 的目标必须是 NPC"@zh ;
+        sh:severity sh:Violation ;
+    ] .
