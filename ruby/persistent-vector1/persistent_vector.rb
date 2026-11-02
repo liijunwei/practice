@@ -1,26 +1,24 @@
 # frozen_string_literal: true
 
-# 一个「持久化向量」(persistent vector)：不可变、按下标随机访问的序列。
+# 持久化向量（带 tail 优化版，对应 Hypirion 系列第 3 篇）。
 #
-# 核心思想（来自 Hypirion 的系列文章）：
-#   - 不用一整个可变数组，而是用一棵「有序 trie」存元素。
-#   - 每个节点是 32 叉（WIDTH = 32）：内部节点存 32 个子节点，叶子存 32 个值。
-#   - 下标被切成 5 bit 一段（BITS = 5），从高位到低位决定每一步走哪个分支。
-#   - 所有修改都「只复制路径」(path copying)：从根到被改位置的那条链复制一份，
-#     其余节点原样共享，所以旧向量永远不变，新旧向量共享大部分结构。
+# 结构：
+#   - 树：32 叉 bit-partitioned trie，存「前面」的 tail_offset 个元素；所有叶子都是满 32 槽。
+#   - tail：直接挂在向量头部的最后一段（1..32 个元素），不放进树里。
+#   - 查找 / 更新：下标 < tail_offset 走树，否则直接读 tail。
+#   - 追加：tail 没满就只复制 tail；满了才把整片满叶子并进树，新 tail 只放一个新元素。
+#   - 弹出：tail 多于 1 个元素就只复制 tail；只剩 1 个时把树的最右叶子提出来当新 tail。
 #
-# 复杂度：查找 / 更新 / 追加 / 弹出都是 O(log32 n)。深度极小（10 亿元素才 6 层），
-# 所以常被称作「实际上的 O(1)」。
+# 为什么快：每 32 次追加/弹出只有 1 次真正动树，其余 31 次是 O(1) 的小数组复制。
 class PersistentVector
   BITS  = 5
   WIDTH = 1 << BITS   # 32
   MASK  = WIDTH - 1   # 0b11111，取低 5 位
 
-  attr_reader :count, :shift, :root
+  attr_reader :count, :shift, :root, :tail, :tail_offset
 
-  # 空向量。shift 的约定：shift = BITS * (深度 - 1)，0 表示根节点本身就是叶子。
   def self.empty
-    new(0, 0, nil)
+    new(0, 0, nil, nil, 0)
   end
 
   def self.[](*items)
@@ -31,10 +29,12 @@ class PersistentVector
     ary.reduce(empty) { |v, x| v.push(x) }
   end
 
-  def initialize(count, shift, root)
+  def initialize(count, shift, root, tail, tail_offset)
     @count = count
     @shift = shift
-    @root  = root
+    @root = root
+    @tail = tail
+    @tail_offset = tail_offset
     freeze
   end
 
@@ -47,63 +47,85 @@ class PersistentVector
     @count.zero?
   end
 
-  # 按下标查找。沿着 shift 逐层向下，每次取 5 个 bit 决定走哪个分支。
+  # 下标在 tail 里就直接读 tail，否则沿树逐层取 5 个 bit 定位。
   def [](index)
     unless (0...@count).cover?(index)
       raise IndexError, "index #{index} out of bounds for size #{@count}"
     end
 
-    node  = @root
-    level = @shift
-    while level > 0
-      node = node[(index >> level) & MASK]
-      level -= BITS
+    if index >= @tail_offset
+      @tail[index - @tail_offset]
+    else
+      node  = @root
+      level = @shift
+      while level > 0
+        node = node[(index >> level) & MASK]
+        level -= BITS
+      end
+      node[index & MASK]
     end
-    node[index & MASK]
   end
   alias nth []
 
-  # 更新下标 index 处的值，返回新向量；原向量不变。
+  # 更新一个下标；在树里就路径复制，在 tail 里就只复制 tail。
   def assoc(index, value)
     unless (0...@count).cover?(index)
       raise IndexError, "index #{index} out of bounds for size #{@count}"
     end
 
-    PersistentVector.new(@count, @shift, do_assoc(@root, @shift, index, value))
+    if index >= @tail_offset
+      new_tail = @tail.dup
+      new_tail[index - @tail_offset] = value
+      PersistentVector.new(@count, @shift, @root, new_tail.freeze, @tail_offset)
+    else
+      PersistentVector.new(@count, @shift, do_assoc(@root, @shift, index, value),
+                           @tail, @tail_offset)
+    end
   end
 
-  # 在末尾追加一个值，返回新向量；原向量不变。
   def push(value)
-    return PersistentVector.new(1, 0, new_path(0, 0, value)) if @count.zero?
+    return PersistentVector.new(1, 0, nil, [value].freeze, 0) if @count.zero?
 
-    # 根节点已满（元素数 == WIDTH^深度）时，长出一层根，把旧根挂到 0 号子节点。
-    if @count == (1 << (@shift + BITS))
-      grown = Array.new(WIDTH)
-      grown[0] = @root
-      PersistentVector.new(@count + 1, @shift + BITS,
-                           do_assoc(grown, @shift + BITS, @count, value))
-    else
-      PersistentVector.new(@count + 1, @shift,
-                           do_assoc(@root, @shift, @count, value))
+    if @tail.length < WIDTH
+      new_tail = @tail.dup
+      new_tail[@tail.length] = value
+      return PersistentVector.new(@count + 1, @shift, @root, new_tail.freeze, @tail_offset)
     end
+
+    # tail 满了：把这片满叶子并进树，新 tail 只放这一个值。
+    new_root, new_shift = push_tail(@root, @shift, @tail_offset, @tail)
+    PersistentVector.new(@count + 1, new_shift, new_root, [value].freeze,
+                         @tail_offset + WIDTH)
   end
   alias conj push
 
-  # 弹出最后一个元素，返回新向量；原向量不变。
   def pop
     raise IndexError, "pop from empty vector" if @count.zero?
     return PersistentVector.empty if @count == 1
 
-    new_root  = pop_tail(@root, @shift, @count - 1)
-    new_shift = @shift
-
-    # 根只剩一个孩子时，去掉这层根，避免无用的深度。
-    if new_shift > 0 && new_root[1].nil?
-      new_root  = new_root[0]
-      new_shift -= BITS
+    if @tail.length > 1
+      new_tail = @tail[0...-1].freeze
+      return PersistentVector.new(@count - 1, @shift, @root, new_tail, @tail_offset)
     end
 
-    PersistentVector.new(@count - 1, new_shift, new_root)
+    # tail 只剩 1 个：把树的最右叶子提出来当新 tail。
+    if @shift.zero?
+      promoted  = @root
+      new_root  = nil
+      new_shift = 0
+    else
+      new_root, promoted = pop_leaf(@root, @shift, @tail_offset - 1)
+      if new_root.nil?
+        new_shift = 0
+      elsif new_root[1].nil?   # 根只剩一个孩子，剥掉这层根
+        new_root  = new_root[0]
+        new_shift = @shift - BITS
+      else
+        new_shift = @shift
+      end
+    end
+
+    PersistentVector.new(@count - 1, new_shift, new_root, promoted, @tail_offset - WIDTH)
   end
 
   def first
@@ -143,54 +165,77 @@ class PersistentVector
 
   private
 
-  # 从根往下，把 index 路径上的节点都复制一份，在叶子处写入 value。
+  # 树内更新：路径复制到叶子，写入 value。树的叶子都是满的，所以沿路一定非空。
   def do_assoc(node, level, index, value)
     ret = node.dup
     if level.zero?
       ret[index & MASK] = value
     else
       subidx = (index >> level) & MASK
-      ret[subidx] =
-        if node[subidx]
-          do_assoc(node[subidx], level - BITS, index, value)
-        else
-          new_path(level - BITS, index, value)  # 追加时还没建出来的分支
-        end
+      ret[subidx] = do_assoc(node[subidx], level - BITS, index, value)
     end
     ret.freeze
   end
 
-  # 生成一条从当前层到叶子的全新路径（沿路只有 index 这一个元素）。
-  def new_path(level, index, value)
-    ret = Array.new(WIDTH)
-    if level.zero?
-      ret[index & MASK] = value
+  # 把一片满叶子并进树，返回 [新根, 新 shift]。
+  def push_tail(node, shift, index, leaf)
+    return [leaf, 0] if node.nil?
+
+    if index == (1 << (shift + BITS))   # 树满了，先长一层根
+      grown = Array.new(WIDTH)
+      grown[0] = node
+      [push_leaf(grown, shift + BITS, index, leaf), shift + BITS]
     else
-      ret[(index >> level) & MASK] = new_path(level - BITS, index, value)
+      [push_leaf(node, shift, index, leaf), shift]
+    end
+  end
+
+  # 在树的叶子层插入一片满叶子。index 是 32 的倍数，所以直接落到叶槽。
+  def push_leaf(node, level, index, leaf)
+    ret = node.dup
+    subidx = (index >> level) & MASK
+    if level == BITS
+      ret[subidx] = leaf
+    else
+      child = node[subidx] ? push_leaf(node[subidx], level - BITS, index, leaf)
+                           : new_path_node(level - BITS, index, leaf)
+      ret[subidx] = child
     end
     ret.freeze
   end
 
-  # 删除最后一个元素：路径复制到底，叶子清空后向上传播「空节点」。
-  def pop_tail(node, level, index)
+  # 生成一条只含这片叶子的全新路径。
+  def new_path_node(level, index, leaf)
+    ret = Array.new(WIDTH)
+    if level == BITS
+      ret[(index >> level) & MASK] = leaf
+    else
+      ret[(index >> level) & MASK] = new_path_node(level - BITS, index, leaf)
+    end
+    ret.freeze
+  end
+
+  # 从树里摘掉最右叶子，返回 [新根(可能 nil), 被摘出的叶子]。
+  def pop_leaf(node, level, index)
     subidx = (index >> level) & MASK
-    if level.zero?
-      return nil if subidx.zero?          # 这个叶子被删空了
+    if level == BITS
+      leaf = node[subidx]
       ret = node.dup
       ret[subidx] = nil
-      return ret.freeze
+      return [nil, leaf] if subidx.zero?
+      return [ret.freeze, leaf]
     end
 
-    child = pop_tail(node[subidx], level - BITS, index)
+    child, leaf = pop_leaf(node[subidx], level - BITS, index)
     if child.nil?
-      return nil if subidx.zero?          # 整个子树都被删空了
+      return [nil, leaf] if subidx.zero?
       ret = node.dup
       ret[subidx] = nil
-      ret.freeze
+      [ret.freeze, leaf]
     else
       ret = node.dup
       ret[subidx] = child
-      ret.freeze
+      [ret.freeze, leaf]
     end
   end
 end

@@ -142,16 +142,24 @@ class PersistentVectorProperties < Minitest::Test
       v = random_vector(rng, max_len: 2000)
       next if v.empty?
       assert_equal 0, v.shift % BITS
-      assert_operator v.count, :<=, (1 << (v.shift + BITS))
-      assert_operator v.count, :>, (1 << v.shift) if v.shift > 0
+      assert_equal 0, v.tail_offset % PersistentVector::WIDTH
+      assert_equal v.count, v.tail_offset + v.tail.length
+      assert_includes (1..PersistentVector::WIDTH), v.tail.length
+      assert_operator v.tail_offset, :<=, (1 << (v.shift + BITS))
+      if v.shift > 0
+        assert_operator v.tail_offset, :>, (1 << v.shift)
+      else
+        assert_operator v.tail_offset, :<=, (1 << BITS)
+      end
     end
   end
 
   # 性质九：整棵树由冻结的 Array 节点构成，叶子层不再有子节点。
   def test_tree_is_frozen_and_well_formed
-    [1, 2, 31, 32, 33, 100, 1024, 1025].each do |n|
+    [1, 32, 33, 64, 65, 100, 1024, 1025, 1057].each do |n|
       v = PersistentVector.from_a((0...n).to_a)
-      check_node(v.root, v.shift)
+      assert_predicate v.tail, :frozen? unless v.tail.nil?
+      check_node(v.root, v.shift) unless v.root.nil?
     end
   end
 

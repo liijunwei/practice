@@ -28,7 +28,7 @@ class PersistentVectorTest < Minitest::Test
     a = v.pop
     b = v.pop
     assert_equal a, b
-    refute_same a.root, b.root
+    refute_same a.tail, b.tail
   end
 
   def test_pop_empty_raises
@@ -43,11 +43,12 @@ class PersistentVectorTest < Minitest::Test
     assert_same big.root[1], big2.root[1]
   end
 
-  def test_push_grows_new_root_on_overflow
-    v32 = PersistentVector.from_a((0...32).to_a)
-    v33 = v32.push(32)
-    assert_equal 5, v33.shift
-    assert_same v32.root, v33.root[0]
+  def test_push_merges_full_tail_and_grows_root
+    v64 = PersistentVector.from_a((0...64).to_a)
+    v65 = v64.push(64)
+    assert_equal 5, v65.shift
+    assert_same v64.root, v65.root[0]
+    assert_equal [64], v65.tail
   end
 
   def test_vector_and_nodes_are_frozen
