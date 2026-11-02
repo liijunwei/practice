@@ -8,6 +8,8 @@ require_relative "persistent_vector"
 # shortcut: 没有 shrinking（失败时靠 seed/round 重跑定位），也只在有限输入范围里抽样。
 class PersistentVectorProperties < Minitest::Test
   BITS = PersistentVector::BITS
+  # trie 的深度变化都发生在 32 的幂附近，bug 大多藏在这些点上。
+  BOUNDARY_SIZES = [0, 1, 31, 32, 33, 64, 65, 1024, 1025, 1056, 1057, 32_768, 32_800, 32_801]
 
   # 性质一：参考模型一致 —— 随机操作序列下，向量始终等价于 Ruby Array；
   # 且所有历史版本之后都不会被污染（持久化）。
@@ -160,6 +162,110 @@ class PersistentVectorProperties < Minitest::Test
       v = PersistentVector.from_a((0...n).to_a)
       assert_predicate v.tail, :frozen? unless v.tail.nil?
       check_node(v.root, v.shift) unless v.root.nil?
+    end
+  end
+
+  # 性质十：边界尺寸下，随机操作序列仍与 Ruby Array 一致。
+  def test_boundary_sizes_match_array
+    rng = Random.new(20)
+    BOUNDARY_SIZES.each do |n|
+      v = PersistentVector.from_a((0...n).to_a)
+      arr = (0...n).to_a
+      20.times do
+        case rng.rand(4)
+        when 0 # push
+          x = rng.rand(1000)
+          v = v.push(x)
+          arr.push(x)
+        when 1 # assoc
+          next if arr.empty?
+          i = rng.rand(arr.length)
+          x = rng.rand(1000)
+          v = v.assoc(i, x)
+          arr[i] = x
+        when 2 # pop
+          next if arr.empty?
+          v = v.pop
+          arr.pop
+        when 3 # 读
+          next if arr.empty?
+          i = rng.rand(arr.length)
+          assert_equal arr[i], v[i], "size #{n} 读下标 #{i}"
+        end
+        assert_equal arr, v.to_a, "size #{n} 模型不一致"
+      end
+    end
+  end
+
+  # 性质十一：pop 跨过节点边界（tail 合并 / 根剥层）结果仍正确。
+  def test_pop_across_node_boundaries
+    [33, 65, 1057, 32_801].each do |n|
+      v = PersistentVector.from_a((0...n).to_a)
+      assert_equal (0...(n - 2)).to_a, v.pop.pop.to_a, "pop 跨节点边界 #{n}"
+    end
+  end
+
+  # 性质十二：push 到满时会长出新的树层，内容仍正确。
+  def test_push_grows_a_new_tree_level
+    [64, 1056, 32_800].each do |n|
+      v = PersistentVector.from_a((0...n).to_a)
+      w = v.push(n)
+      assert_equal (0..n).to_a, w.to_a
+      assert_operator w.shift, :>, v.shift, "push 后应长出新的树层 #{n}"
+    end
+  end
+
+  # 性质十三：不同构造路径（from_a / 逐次 push）得到同一个值。
+  def test_independent_construction_paths_agree
+    rng = Random.new(21)
+    50.times do
+      arr = Array.new(rng.rand(100)) { rng.rand(1000) }
+      by_push = arr.reduce(PersistentVector.empty) { |v, x| v.push(x) }
+      assert_equal PersistentVector.from_a(arr), by_push
+      assert_equal arr, by_push.to_a
+    end
+  end
+
+  # 性质十四：把 b 逐个 push 到 a 上，等价于数组拼接（Clojure 的 through-transient 类比）。
+  def test_concat_via_append_matches_array_concat
+    rng = Random.new(22)
+    50.times do
+      a = Array.new(rng.rand(50)) { rng.rand(1000) }
+      b = Array.new(rng.rand(50)) { rng.rand(1000) }
+      via_append = b.reduce(PersistentVector.from_a(a)) { |v, x| v.push(x) }
+      assert_equal a + b, via_append.to_a
+    end
+  end
+
+  # 性质十五：相等但构造路径不同的向量，哈希必须一致。
+  def test_hash_consistent_across_construction_paths
+    rng = Random.new(23)
+    50.times do
+      arr = Array.new(rng.rand(100)) { rng.rand(1000) }
+      a = PersistentVector.from_a(arr).hash
+      b = arr.reduce(PersistentVector.empty) { |v, x| v.push(x) }.hash
+      assert_equal a, b
+    end
+  end
+
+  # 性质十六：peek 语义 —— 刚 push 进去的值就是 last。
+  def test_peek_last_consistent
+    rng = Random.new(24)
+    50.times do
+      v = random_vector(rng)
+      x = rng.rand(1000)
+      assert_equal x, v.push(x).last
+      assert_equal v.to_a.first, v.first unless v.empty?
+    end
+  end
+
+  # 性质十七：Enumerable 的 reduce/map 与普通数组一致。
+  def test_enumerable_matches_array
+    rng = Random.new(25)
+    50.times do
+      v = random_vector(rng)
+      assert_equal v.to_a.reduce(0) { |s, x| s + x }, v.reduce(0) { |s, x| s + x }
+      assert_equal v.to_a.map { |x| x * 2 }, v.map { |x| x * 2 }
     end
   end
 
