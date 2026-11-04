@@ -32,6 +32,9 @@
             "deepseek-v4-pro" 1048576}
            (model))))
 
+;; Current conversation memory (input items), inspectable from the REPL.
+(defonce mem (atom []))
+
 ;; ---- HTTP ----
 
 (defn- responses-endpoint [base]
@@ -211,10 +214,11 @@
   [& args]
   (if (seq args)
     (print-result (run-agent (str/join " " args)))
-    (loop [history []]
+    (loop []
       (print "task> ") (flush)
       (when-let [line (read-line)]
         (when-not (contains? #{"quit" "exit" "q"} (str/trim line))
-          (let [result (run-agent line history)]
+          (let [result (run-agent line @mem)]
             (print-result result)
-            (recur (:history result))))))))
+            (reset! mem (:history result))
+            (recur)))))))
