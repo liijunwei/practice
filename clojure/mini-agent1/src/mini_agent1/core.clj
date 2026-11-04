@@ -114,18 +114,30 @@
        (map :text)
        str/join))
 
+(defn assistant-message
+  "A cleaned assistant message item, safe to feed back as input next turn."
+  [text]
+  {:type "message" :role "assistant" :content [{:type "output_text" :text text}]})
+
 (defn react-loop
-  "Run the ReAct cycle. `respond` maps history -> output items; `execute` maps a
-   function_call item -> an observation string. Returns {:answer ... :rounds ...}."
-  [respond execute prompt]
-  (loop [history [{:type "message" :role "user" :content prompt}]
+  "Run the ReAct cycle over `history` (input items). `respond` maps history ->
+   output items; `execute` maps a function_call item -> an observation string.
+   Returns {:answer ... :rounds ... :history ...}, where :history includes this
+   turn's assistant answer so callers can thread it into the next turn."
+  [respond execute history]
+  (loop [history history
          round 0]
     (let [items (respond history)
           calls (vec (function-calls items))]
       (if (empty? calls)
-        {:answer (answer-text items) :rounds round}
+        (let [text (answer-text items)]
+          {:answer text
+           :rounds round
+           :history (if (seq text) (conj history (assistant-message text)) history)})
         (if (>= round max-tool-rounds)
-          {:answer (str "stopped after " max-tool-rounds " tool rounds") :rounds round}
+          {:answer (str "stopped after " max-tool-rounds " tool rounds")
+           :rounds round
+           :history history}
           (let [call-items (map #(select-keys % [:type :name :arguments :call_id]) calls)
                 outputs (map (fn [c] {:type "function_call_output"
                                       :call_id (:call_id c)
@@ -134,23 +146,26 @@
             (recur (into (into history call-items) outputs) (inc round))))))))
 
 (defn run-agent
-  "Run one ReAct turn against the live API. Prints tool activity to stdout."
-  [prompt]
-  (let [key (api-key)]
-    (when-not key
-      (throw (ex-info "No API key: set DEEPSEEK_API_KEY or configure ~/.codex/config.toml" {})))
-    (let [respond (fn [history]
-                    (:output (call-model key (base-url)
-                                         {:model (model)
-                                          :input history
-                                          :tools (tools)
-                                          :max_output_tokens 2048})))
-          execute (fn [call]
-                    (println (format "[tool] %s %s" (:name call) (:arguments call)))
-                    (let [out (execute-tool call)]
-                      (println "[result]" out)
-                      out))]
-      (react-loop respond execute prompt))))
+  "Run one ReAct turn against the live API, optionally continuing `history`
+   from earlier turns. Prints tool activity; returns the updated history."
+  ([prompt] (run-agent prompt []))
+  ([prompt history]
+   (let [key (api-key)]
+     (when-not key
+       (throw (ex-info "No API key: set DEEPSEEK_API_KEY or configure ~/.codex/config.toml" {})))
+     (let [respond (fn [history]
+                     (:output (call-model key (base-url)
+                                          {:model (model)
+                                           :input history
+                                           :tools (tools)
+                                           :max_output_tokens 2048})))
+           execute (fn [call]
+                     (println (format "[tool] %s %s" (:name call) (:arguments call)))
+                     (let [out (execute-tool call)]
+                       (println "[result]" out)
+                       out))]
+       (react-loop respond execute
+                   (conj (vec history) {:type "message" :role "user" :content prompt}))))))
 
 ;; ---- CLI ----
 
@@ -164,9 +179,10 @@
   [& args]
   (if (seq args)
     (print-result (run-agent (str/join " " args)))
-    (loop []
+    (loop [history []]
       (print "task> ") (flush)
       (when-let [line (read-line)]
         (when-not (contains? #{"quit" "exit" "q"} (str/trim line))
-          (print-result (run-agent line))
-          (recur))))))
+          (let [result (run-agent line history)]
+            (print-result result)
+            (recur (:history result))))))))
