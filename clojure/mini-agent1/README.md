@@ -62,4 +62,4 @@ lein run -- "运行 lein test 并告诉我结果"   # 端到端验证
 
 ## License
 
-Copyright © 2026. Distributed under the Eclipse Public License 2.0.
+Copyright © 2026 mini-agent1 contributors. Distributed under the MIT License.
