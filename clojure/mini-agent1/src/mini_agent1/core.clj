@@ -1,0 +1,155 @@
+(ns mini-agent1.core
+  "A minimal ReAct agent on DeepSeek's Responses API, reusing Codex's key/URL."
+  (:require [clojure.data.json :as json]
+            [clojure.string :as str])
+  (:import [java.net.http HttpClient HttpRequest HttpRequest$BodyPublishers HttpResponse$BodyHandlers]
+           [java.net URI]
+           [java.time Duration]))
+
+;; ---- config: env vars override Codex's defaults ----
+
+(defn codex-api-key
+  "Codex's bearer token from ~/.codex/config.toml, used as the key fallback."
+  []
+  (let [f (java.io.File. (str (System/getProperty "user.home") "/.codex/config.toml"))]
+    (when (.isFile f)
+      (second (re-find #"(?m)^experimental_bearer_token\s*=\s*\"([^\"]+)\"" (slurp f))))))
+
+(defn api-key [] (or (not-empty (System/getenv "DEEPSEEK_API_KEY")) (codex-api-key)))
+(defn base-url [] (or (not-empty (System/getenv "DEEPSEEK_BASE_URL")) "https://api.deepseek.com/"))
+(defn model [] (or (not-empty (System/getenv "DEEPSEEK_MODEL")) "deepseek-v4-pro"))
+
+;; ---- HTTP ----
+
+(defn- responses-endpoint [base]
+  (str (str/replace base #"/+$" "") "/responses"))
+
+(defn- call-model
+  "POST one Responses-API request; returns the parsed body map."
+  [key base body]
+  (let [req (-> (HttpRequest/newBuilder)
+                (.uri (URI/create (responses-endpoint base)))
+                (.timeout (Duration/ofSeconds 120))
+                (.header "Content-Type" "application/json")
+                (.header "Authorization" (str "Bearer " key))
+                (.POST (HttpRequest$BodyPublishers/ofString (json/write-str body)))
+                (.build))
+        resp (try
+               (.send (HttpClient/newHttpClient) req (HttpResponse$BodyHandlers/ofString))
+               (catch Exception e
+                 (throw (ex-info (str "API request failed: " (.getMessage e)) {} e))))
+        code (.statusCode resp)
+        text (.body resp)]
+    (if (= 200 code)
+      (json/read-str text :key-fn keyword)
+      (throw (ex-info (str "API HTTP " code ": " text) {:status code :body text})))))
+
+;; ---- tools ----
+
+(defn tools
+  "One tool is enough for a task-capable agent: a sandbox-free bash shell."
+  []
+  [{:type "function"
+    :name "bash"
+    :description (str "Run a shell command (bash -lc) and return merged stdout+stderr and the exit code. "
+                      "Use it to list/read files (ls, cat), run tests, and inspect the project.")
+    :parameters {:type "object"
+                 :properties {:command {:type "string" :description "Shell command to execute."}}
+                 :required ["command"]}}])
+
+(defn run-bash
+  "Run a shell command with a 60s timeout; returns {:output ... :exit-code ...}."
+  [command]
+  (let [p (-> (ProcessBuilder. ["bash" "-lc" command])
+              (.redirectErrorStream true)
+              (.start))
+        out (future (slurp (.getInputStream p)))]
+    (if (= ::timeout (deref out 60000 ::timeout))
+      (do (.destroyForcibly p)
+          {:output "" :exit-code 124})
+      {:output (str/trim @out) :exit-code (do (.waitFor p) (.exitValue p))})))
+
+(defn execute-tool
+  "Run one tool call; returns the observation string fed back to the model."
+  [{:keys [name arguments]}]
+  (try
+    (case name
+      "bash" (let [command (get (json/read-str arguments) "command")]
+               (let [{:keys [output exit-code]} (run-bash command)]
+                 (format "exit code: %d\n%s" exit-code output)))
+      (str "unknown tool: " name))
+    (catch Exception e
+      (str "tool error: " (.getMessage e)))))
+
+;; ---- ReAct loop ----
+
+(def max-tool-rounds
+  "Safety bound on tool-call rounds per run."
+  10)
+
+(defn function-calls
+  "Tool-call items from a Responses-API output (reasoning items are skipped)."
+  [items]
+  (filter #(= "function_call" (:type %)) items))
+
+(defn answer-text
+  "Final answer text from message items (reasoning/encrypted items ignored)."
+  [items]
+  (->> items
+       (filter #(= "message" (:type %)))
+       (mapcat :content)
+       (filter #(= "output_text" (:type %)))
+       (map :text)
+       str/join))
+
+(defn react-loop
+  "Run the ReAct cycle. `respond` maps history -> output items; `execute` maps a
+   function_call item -> an observation string. Returns {:answer ... :rounds ...}."
+  [respond execute prompt]
+  (loop [history [{:type "message" :role "user" :content prompt}]
+         round 0]
+    (let [items (respond history)
+          calls (vec (function-calls items))]
+      (if (empty? calls)
+        {:answer (answer-text items) :rounds round}
+        (if (>= round max-tool-rounds)
+          {:answer (str "stopped after " max-tool-rounds " tool rounds") :rounds round}
+          (let [call-items (map #(select-keys % [:type :name :arguments :call_id]) calls)
+                outputs (map (fn [c] {:type "function_call_output"
+                                      :call_id (:call_id c)
+                                      :output (execute c)})
+                             calls)]
+            (recur (into (into history call-items) outputs) (inc round))))))))
+
+(defn run-agent
+  "Run one ReAct turn against the live API. Prints tool activity to stdout."
+  [prompt]
+  (let [key (api-key)]
+    (when-not key
+      (throw (ex-info "No API key: set DEEPSEEK_API_KEY or configure ~/.codex/config.toml" {})))
+    (let [respond (fn [history]
+                    (:output (call-model key (base-url)
+                                         {:model (model)
+                                          :input history
+                                          :tools (tools)
+                                          :max_output_tokens 2048})))
+          execute (fn [call]
+                    (println (format "[tool] %s %s" (:name call) (:arguments call)))
+                    (let [out (execute-tool call)]
+                      (println "[result]" out)
+                      out))]
+      (react-loop respond execute prompt))))
+
+;; ---- CLI ----
+
+(defn -main
+  "Prompt comes from argv (joined), or interactively from stdin."
+  [& args]
+  (let [prompt (if (seq args)
+                 (str/join " " args)
+                 (do (print "task> ") (flush) (read-line)))]
+    (when prompt
+      (let [{:keys [answer rounds]} (run-agent prompt)]
+        (println "\n=== ANSWER ===")
+        (println answer)
+        (println (str "\n(tool rounds: " rounds ")"))))))
