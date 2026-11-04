@@ -4,7 +4,8 @@
             [clojure.string :as str])
   (:import [java.net.http HttpClient HttpRequest HttpRequest$BodyPublishers HttpResponse$BodyHandlers]
            [java.net URI]
-           [java.time Duration]))
+           [java.time Duration]
+           [java.util.concurrent Executors ThreadFactory]))
 
 ;; ---- config: env vars override Codex's defaults ----
 
@@ -24,6 +25,14 @@
 (defn- responses-endpoint [base]
   (str (str/replace base #"/+$" "") "/responses"))
 
+(def ^:private http-client
+  ;; daemon executor so a finished CLI exits instead of hanging on idle pools
+  (delay (-> (HttpClient/newBuilder)
+             (.executor (Executors/newCachedThreadPool
+                         (reify ThreadFactory
+                           (newThread [_ r] (doto (Thread. r) (.setDaemon true))))))
+             (.build))))
+
 (defn- call-model
   "POST one Responses-API request; returns the parsed body map."
   [key base body]
@@ -35,7 +44,7 @@
                 (.POST (HttpRequest$BodyPublishers/ofString (json/write-str body)))
                 (.build))
         resp (try
-               (.send (HttpClient/newHttpClient) req (HttpResponse$BodyHandlers/ofString))
+               (.send @http-client req (HttpResponse$BodyHandlers/ofString))
                (catch Exception e
                  (throw (ex-info (str "API request failed: " (.getMessage e)) {} e))))
         code (.statusCode resp)
@@ -63,7 +72,10 @@
   (let [p (-> (ProcessBuilder. ["bash" "-lc" command])
               (.redirectErrorStream true)
               (.start))
-        out (future (slurp (.getInputStream p)))]
+        out (promise)
+        _ (doto (Thread. (fn [] (deliver out (slurp (.getInputStream p)))))
+            (.setDaemon true)
+            (.start))]
     (if (= ::timeout (deref out 60000 ::timeout))
       (do (.destroyForcibly p)
           {:output "" :exit-code 124})
@@ -142,14 +154,19 @@
 
 ;; ---- CLI ----
 
+(defn- print-result [{:keys [answer rounds]}]
+  (println "\n=== ANSWER ===")
+  (println answer)
+  (println (str "\n(tool rounds: " rounds ")")))
+
 (defn -main
-  "Prompt comes from argv (joined), or interactively from stdin."
+  "With argv: run one task. Without: loop on stdin until EOF or quit/exit/q."
   [& args]
-  (let [prompt (if (seq args)
-                 (str/join " " args)
-                 (do (print "task> ") (flush) (read-line)))]
-    (when prompt
-      (let [{:keys [answer rounds]} (run-agent prompt)]
-        (println "\n=== ANSWER ===")
-        (println answer)
-        (println (str "\n(tool rounds: " rounds ")"))))))
+  (if (seq args)
+    (print-result (run-agent (str/join " " args)))
+    (loop []
+      (print "task> ") (flush)
+      (when-let [line (read-line)]
+        (when-not (contains? #{"quit" "exit" "q"} (str/trim line))
+          (print-result (run-agent line))
+          (recur))))))

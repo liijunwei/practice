@@ -16,7 +16,7 @@
 
 ```bash
 lein run -- "用 bash 查看 src 目录内容，并总结这个项目做什么"
-lein run          # 不带参数则进入交互式提示符 task>
+lein run          # 不带参数进入交互式循环：每次 task> 输入一个任务，quit/exit/q 或 Ctrl-D 退出
 ```
 
 ## 工作原理
