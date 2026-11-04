@@ -18,7 +18,19 @@
 
 (defn api-key [] (or (not-empty (System/getenv "DEEPSEEK_API_KEY")) (codex-api-key)))
 (defn base-url [] (or (not-empty (System/getenv "DEEPSEEK_BASE_URL")) "https://api.deepseek.com/"))
-(defn model [] (or (not-empty (System/getenv "DEEPSEEK_MODEL")) "deepseek-v4-pro"))
+(defn model [] (or (not-empty (System/getenv "DEEPSEEK_MODEL")) "deepseek-flash"))
+
+(defn context-window
+  "Context window in tokens for the active model; DEEPSEEK_CONTEXT_WINDOW overrides."
+  []
+  (or (when-let [v (not-empty (System/getenv "DEEPSEEK_CONTEXT_WINDOW"))]
+        (try (Long/parseLong v) (catch Exception _ nil)))
+      (get {"deepseek-chat" 131072
+            "deepseek-reasoner" 131072
+            "deepseek-flash" 1048576
+            "deepseek-v4-flash" 1048576
+            "deepseek-v4-pro" 1048576}
+           (model))))
 
 ;; ---- HTTP ----
 
@@ -93,6 +105,16 @@
     (catch Exception e
       (str "tool error: " (.getMessage e)))))
 
+;; ---- token usage ----
+
+(defn- api-usage
+  "Map a Responses-API `usage` object to {:input :output :total} token counts."
+  [u]
+  (when u
+    {:input (long (get u :input_tokens 0))
+     :output (long (get u :output_tokens 0))
+     :total (long (get u :total_tokens 0))}))
+
 ;; ---- ReAct loop ----
 
 (def max-tool-rounds
@@ -153,26 +175,36 @@
    (let [key (api-key)]
      (when-not key
        (throw (ex-info "No API key: set DEEPSEEK_API_KEY or configure ~/.codex/config.toml" {})))
-     (let [respond (fn [history]
-                     (:output (call-model key (base-url)
-                                          {:model (model)
-                                           :input history
-                                           :tools (tools)
-                                           :max_output_tokens 2048})))
+     (let [usage (atom nil)
+           respond (fn [history]
+                     (let [body (call-model key (base-url)
+                                            {:model (model)
+                                             :input history
+                                             :tools (tools)
+                                             :max_output_tokens 2048})]
+                       (reset! usage (api-usage (:usage body)))
+                       (:output body)))
            execute (fn [call]
                      (println (format "[tool] %s %s" (:name call) (:arguments call)))
                      (let [out (execute-tool call)]
                        (println "[result]" out)
                        out))]
-       (react-loop respond execute
-                   (conj (vec history) {:type "message" :role "user" :content prompt}))))))
+       (assoc (react-loop respond execute
+                          (conj (vec history) {:type "message" :role "user" :content prompt}))
+              :usage @usage)))))
 
 ;; ---- CLI ----
 
-(defn- print-result [{:keys [answer rounds]}]
+(defn- print-result [{:keys [answer rounds usage]}]
   (println "\n=== ANSWER ===")
   (println answer)
-  (println (str "\n(tool rounds: " rounds ")")))
+  (println (str "\n(tool rounds: " rounds ")"))
+  (when usage
+    (let [win (context-window)
+          pct (when win (* 100.0 (/ (:input usage) win)))]
+      (println (format "(usage: %d input, %d output, %d total%s)"
+                       (:input usage) (:output usage) (:total usage)
+                       (if pct (format ", %.1f%% context used" pct) ""))))))
 
 (defn -main
   "With argv: run one task. Without: loop on stdin until EOF or quit/exit/q."

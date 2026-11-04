@@ -32,3 +32,8 @@
     (is (= [{:type "message" :role "user" :content "fav color?"}
             {:type "message" :role "assistant" :content [{:type "output_text" :text "blue"}]}]
            (:history result)))))
+
+(deftest usage-mapping
+  (is (= {:input 7 :output 11 :total 18}
+         (#'mini-agent1.core/api-usage {:input_tokens 7 :output_tokens 11 :total_tokens 18})))
+  (is (nil? (#'mini-agent1.core/api-usage nil))))

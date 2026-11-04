@@ -10,7 +10,7 @@
 |----|----------|--------|
 | API Key | `DEEPSEEK_API_KEY` | `~/.codex/config.toml` 的 `experimental_bearer_token` |
 | Base URL | `DEEPSEEK_BASE_URL` | `https://api.deepseek.com/` |
-| 模型 | `DEEPSEEK_MODEL` | `deepseek-v4-pro` |
+| 模型 | `DEEPSEEK_MODEL` | `deepseek-flash` |
 
 ## 启动和使用
 
