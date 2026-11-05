@@ -1,0 +1,5 @@
+/target
+/.lein-*
+/.nrepl-port
+/.mini-agent2/
+/.lsp/
